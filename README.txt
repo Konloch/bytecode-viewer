@@ -17,3 +17,7 @@ Fully Featured Search System.
 A Plugin System With Built In Plugins. (Show All Strings, Malicious Code Scanner, String Decrypters, etc)
 Recent Files.
 And more! Give it a try for yourself!
+
+Are you a Java Reverse Engineer? Do you want to learn?
+Join The Bytecode Club Today!
+http://the.bytecode.club
