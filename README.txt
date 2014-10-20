@@ -1,4 +1,4 @@
-Bytecode Viewer is a Java Bytecode Viewer, GUI FernFlower Java Decompiler, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
+Bytecode Viewer is a Java Bytecode Viewer, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
 It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
 
 Code from various projects has been used, including but not limited to:
@@ -7,9 +7,12 @@ JHexPane by Sam Koivu
 JSynaxPane by Ayman Al
 Commons IO by Apache
 ASM by OW2
+FernFlower by ???
+Procyon by Mstrobel
+CFR by Lee Benfield
 
 Features:
-Java Decompiler - It uses a modified version of FernFlower.
+Java Decompiler - It uses a modified version of FernFlower, Procyon and CFR.
 Bytecode Decompiler - A modified version of J-RET's.
 Hex Viewer - Powered by JHexPane.
 Each Decompiler/Viewer is toggleable.
