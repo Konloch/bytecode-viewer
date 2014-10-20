@@ -115,6 +115,8 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 10/16/2014 - Added Replace Strings plugin.
  * 10/16/2014 - Added a loading icon that displays whenever a background task is being executed.
  * 10/19/2014 - Fixed harcoded \\.
+ * 10/19/2014 - Started importing Procyon and CFR decompilers.
+ * 10/19/2014 - Partially finished importing Procyon and CFR, just need to finish export java files as zip.
  * 
  * @author Konloch
  *
