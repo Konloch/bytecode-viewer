@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
 import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -26,7 +27,10 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.JarUtils;
+import the.bytecode.club.bytecodeviewer.decompilers.bytecode.BytecodeDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.java.CFRDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.java.FernFlowerDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.java.ProcyonDecompiler;
 import the.bytecode.club.bytecodeviewer.plugins.AllatoriStringDecrypter;
 import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugins.ShowAllStrings;
@@ -39,6 +43,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
+
+import javax.swing.JRadioButtonMenuItem;
 
 
 public class MainViewerGUI extends JFrame implements FileChangeNotifier {
@@ -94,7 +100,12 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public JCheckBoxMenuItem chckbxmntmNewCheckItem = new JCheckBoxMenuItem("Allow only ASCII characters in strings");
     private final JMenuItem mntmReplaceStrings = new JMenuItem("Replace Strings");
     private final JMenuItem mntmNewMenuItem_4 = new JMenuItem("");
-	
+    private final JMenu mnNewMenu_2 = new JMenu("Java Decompiler");
+    public final JRadioButtonMenuItem fernflowerDec = new JRadioButtonMenuItem("FernFlower");
+    public final JRadioButtonMenuItem procyonDec = new JRadioButtonMenuItem("Procyon");
+    public final JRadioButtonMenuItem cfrDec = new JRadioButtonMenuItem("CFR");
+	public final ButtonGroup decompilerGroup = new ButtonGroup();
+    
     public void setC(boolean busy) {
     	if(busy) {
     		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -165,8 +176,16 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         
         return image;
     }
-    
+
+    final BytecodeDecompiler bc_dc = new BytecodeDecompiler();
+    final FernFlowerDecompiler ff_dc = new FernFlowerDecompiler();
+    final ProcyonDecompiler proc_dc = new ProcyonDecompiler();
+    final CFRDecompiler cfr_dc = new CFRDecompiler();
 	public MainViewerGUI() {
+		decompilerGroup.add(fernflowerDec);
+		decompilerGroup.add(procyonDec);
+		decompilerGroup.add(cfrDec);
+		decompilerGroup.setSelected(procyonDec.getModel(), true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		rbr.setSelected(true);
 		rsy.setSelected(false);
@@ -271,8 +290,12 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
 					BytecodeViewer.viewer.setC(true);
-	        		FernFlowerDecompiler d = new FernFlowerDecompiler();
-	        		d.decompileToZip(file.getAbsolutePath());
+			        if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.fernflowerDec.getModel()))
+			        	ff_dc.decompileToZip(file.getAbsolutePath());
+			        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.procyonDec.getModel()))
+			        	proc_dc.decompileToZip(file.getAbsolutePath());
+			        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.cfrDec.getModel()))
+			        	cfr_dc.decompileToZip(file.getAbsolutePath());
 					BytecodeViewer.viewer.setC(false);
                 }
         	}
@@ -311,7 +334,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         
         mnView.add(bycSyntax);
         
-        JMenu mnDecompilerSettings = new JMenu("Java Decompiler");
+        menuBar.add(mnNewMenu_2);
+        
+        mnNewMenu_2.add(procyonDec);
+        
+        mnNewMenu_2.add(cfrDec);
+        
+        mnNewMenu_2.add(fernflowerDec);
+        
+        JMenu mnDecompilerSettings = new JMenu("FernFlower");
         menuBar.add(mnDecompilerSettings);
         mnDecompilerSettings.add(rbr);
         mnDecompilerSettings.add(rsy);

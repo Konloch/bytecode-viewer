@@ -35,7 +35,9 @@ import com.jhe.hexed.JHexEditor;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.decompilers.bytecode.BytecodeDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.java.CFRDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.java.FernFlowerDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.java.ProcyonDecompiler;
 
 /**
  * This represents the opened classfile.
@@ -173,17 +175,26 @@ public class ClassViewer extends JPanel {
             sp2 = setDividerLocation(sp2, 1);
         }
     }
-    
+
+    final BytecodeDecompiler bc_dc = new BytecodeDecompiler();
+    final FernFlowerDecompiler ff_dc = new FernFlowerDecompiler();
+    final ProcyonDecompiler proc_dc = new ProcyonDecompiler();
+    final CFRDecompiler cfr_dc = new CFRDecompiler();
     PaneUpdaterThread t;
     public void startPaneUpdater() {
         t = new PaneUpdaterThread(bytecode, decomp) {
+	        String s = "";
 			@Override
 			public void doShit() {
-		        final BytecodeDecompiler bc_dc = new BytecodeDecompiler();
-		        final FernFlowerDecompiler ff_dc = new FernFlowerDecompiler();
 		        
 		        final String b = bc_dc.decompileClassNode(cn);
-		        final String s = ff_dc.decompileClassNode(cn);
+		        
+		        if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.fernflowerDec.getModel()))
+		        	s = ff_dc.decompileClassNode(cn);
+		        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.procyonDec.getModel()))
+		        	s = proc_dc.decompileClassNode(cn);
+		        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.cfrDec.getModel()))
+		        	s = cfr_dc.decompileClassNode(cn);
 		        
 		        SwingUtilities.invokeLater(new Runnable() {
                     public void run() {

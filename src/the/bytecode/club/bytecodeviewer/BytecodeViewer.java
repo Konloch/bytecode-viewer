@@ -114,6 +114,7 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 10/16/2014 - Now if you try search with an empty string, it won't search.
  * 10/16/2014 - Added Replace Strings plugin.
  * 10/16/2014 - Added a loading icon that displays whenever a background task is being executed.
+ * 10/19/2014 - Fixed harcoded \\.
  * 
  * @author Konloch
  *
@@ -130,6 +131,8 @@ public class BytecodeViewer {
     private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	private static int maxRecentFiles = 25;
 	public static String tempDirectory = "bcv_temp";
+	public static  String fs = System.getProperty("file.separator");
+	public static  String nl = System.getProperty("line.separator");
 	
 	public static void main(String[] args) {
 		cleanup();
@@ -313,11 +316,19 @@ public class BytecodeViewer {
 	public static void cleanup() {
 		tempF = new File(tempDirectory);
 		try {
+			Thread.sleep(100);
 			FileUtils.deleteDirectory(tempF);
-		} catch (IOException e) {
-			e.printStackTrace();
+			Thread.sleep(100);
+		} catch (Exception e) {
 		}
-		tempF.mkdir();
+		
+		while(!tempF.exists()) { //keep making dirs
+			try {
+				tempF.mkdir();
+				Thread.sleep(100);
+			} catch (Exception e) {
+			}
+		}
 	}
 	
 	private static String quickConvert(ArrayList<String> a) {

@@ -50,6 +50,23 @@ public class DiskReader {
 	}
 	
 	/**
+	 * Used to load from file
+	 */
+	public synchronized static String loadAsString(String fileName) throws Exception {
+		String s = "";
+
+		BufferedReader reader = new BufferedReader(new FileReader(new File(fileName)));
+		String add;
+			
+		while((add = reader.readLine()) != null)
+			s += add + System.getProperty("line.separator");
+		
+		reader.close();
+		
+		return s;
+	}
+	
+	/**
 	 * Used to load a string via line number
 	 * lineNumber = -1 means random.
 	 */
