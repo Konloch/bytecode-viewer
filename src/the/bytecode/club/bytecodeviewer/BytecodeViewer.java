@@ -129,7 +129,7 @@ public class BytecodeViewer {
     private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
     private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	private static int maxRecentFiles = 25;
-	public static String tempDirectory = "bcv_temp\\";
+	public static String tempDirectory = "bcv_temp";
 	
 	public static void main(String[] args) {
 		cleanup();
@@ -181,7 +181,6 @@ public class BytecodeViewer {
 	                
 	            }
 	            else if (fn.endsWith(".class")) {
-	                
 	                try {
 	                    final ClassNode cn = JarUtils.getNode(JarUtils.getBytes(new FileInputStream(f)));
 	                    BytecodeViewer.loadedClasses.put(cn.name, cn);

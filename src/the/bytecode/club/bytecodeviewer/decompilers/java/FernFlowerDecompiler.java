@@ -30,19 +30,19 @@ public class FernFlowerDecompiler {
 		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempZip.getAbsolutePath());
 
         de.fernflower.main.decompiler.ConsoleDecompiler.main(new String[] {tempZip.getAbsolutePath(), BytecodeViewer.tempDirectory + "./temp/"});
-        File tempZip2 = new File(BytecodeViewer.tempDirectory + "./temp/"+tempZip.getName());
+        File tempZip2 = new File(BytecodeViewer.tempDirectory + System.getProperty("file.separator") + "temp" + System.getProperty("file.separator") +tempZip.getName());
         if(tempZip2.exists())
         	tempZip2.renameTo(new File(zipName));
         
         tempZip.delete();
-        new File(BytecodeViewer.tempDirectory + "./temp/").delete();
+        new File(BytecodeViewer.tempDirectory + System.getProperty("file.separator") + "temp").delete();
 	}
 
     public String decompileClassNode(final ClassNode cn) {
         final ClassWriter cw = new ClassWriter(0);
         cn.accept(cw);
         
-        String fileStart = BytecodeViewer.tempDirectory + "temp";
+        String fileStart = BytecodeViewer.tempDirectory + System.getProperty("file.separator") + "temp";
         int fileNumber = getClassNumber(fileStart, ".class");
         
         final File tempClass = new File(fileStart+fileNumber+".class");
