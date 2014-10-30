@@ -2,9 +2,12 @@ package the.bytecode.club.bytecodeviewer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -44,9 +47,10 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * class loaded in the file system to the execute function, this allows the user to handle it
  * completely using ASM.
  * 
- * Bytecode Decompiler, File Navigation Pane, Search Pane and Work Pane based off of J-RET by WaterWolf - https://github.com/Waterwolf/Java-ReverseEngineeringTool
+ * File Navigation Pane, Search Pane and Work Pane based off of J-RET by WaterWolf - https://github.com/Waterwolf/Java-ReverseEngineeringTool
  * HexViewer pane based off of Re-Java's by Sami Koivu - http://rejava.sourceforge.net/
- * Java Decompiler is a modified version of FernFlower
+ * Java Decompiler is a modified version of FernFlower, Procyon and CFR.
+ * Bytecode Decompiler base & ByteAnalysis lib by Bibl. - 
  * 
  * TODO:
  * Fix the fucking import jar method cause it's a bitch on memory (at the.bytecode.club.bytecodeviewer.JarUtils.getNode(JarUtils.java:83))
@@ -56,6 +60,8 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * Middle mouse click should close tabs
  * http://i.imgur.com/yHaai9D.png
  * 
+ *  
+ * ----Beta 1.0-----:
  * 10/4/2014 - Designed a POC GUI, still needs a lot of work.
  * 10/4/2014 - Started importing J-RET's backend.
  * 10/5/2014 - Finished importing J-RET's backend.
@@ -114,9 +120,23 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 10/16/2014 - Now if you try search with an empty string, it won't search.
  * 10/16/2014 - Added Replace Strings plugin.
  * 10/16/2014 - Added a loading icon that displays whenever a background task is being executed.
+ * ----Beta 1.1-----:
  * 10/19/2014 - Fixed harcoded \\.
+ * ----Beta 1.2-----:
  * 10/19/2014 - Started importing Procyon and CFR decompilers.
  * 10/19/2014 - Partially finished importing Procyon and CFR, just need to finish export java files as zip.
+ * ----Beta 1.3-----:
+ * 10/22/2014 - Imported Bibl's Bytecode Decompiler from CFIDE.
+ * 10/22/2014 - Did some changes to the Bytecode Decompiler.
+ * 10/23/2014 - Added CFR settings.
+ * 10/23/2014 - Updated FernFlower to Intellij's Open Sourced version of FernFlower.
+ * 10/24/2014 - Fixed FernFlower save Java files as zip.
+ * 10/29/2014 - Added version checker.
+ * 10/29/2014 - Added Procyon settings.
+ * 10/29/2014 - When saving as jars or zips, it'll automatically append the file extension if it's not added.
+ * 10/29/2014 - All the built in plugins no longer set the cursor to busy.
+ * 10/29/2014 - Tried to fix the issue with JSyntaxPane by making it create the object in a background thread, it still freezes the UI. Changes kept for later implementation of another syntax highlighter.
+ * 10/29/2014 - Sped up start up time.
  * 
  * @author Konloch
  *
@@ -135,6 +155,7 @@ public class BytecodeViewer {
 	public static String tempDirectory = "bcv_temp";
 	public static  String fs = System.getProperty("file.separator");
 	public static  String nl = System.getProperty("line.separator");
+	public static String version = "Beta 1.3";
 	
 	public static void main(String[] args) {
 		cleanup();
@@ -144,14 +165,32 @@ public class BytecodeViewer {
 				cleanup();
 			}
 		});
+		Thread versionChecker = new Thread() {
+			@Override
+			public void run() {
+				try {
+					HttpURLConnection connection = (HttpURLConnection) new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION").openConnection();
+					connection.setUseCaches(false);
+					connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0");
+					BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+					String version = reader.readLine();
+					reader.close();
+					if(!BytecodeViewer.version.equals(version))
+						showMessage("You're running an outdated version of Bytecode Viewer, current version: " + BytecodeViewer.version + ", latest version: " + version);
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		versionChecker.start();
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		viewer = new MainViewerGUI();
-		viewer.setVisible(true);
 		resetRecentFilesMenu();
+		viewer.setVisible(true);
 	}
 	
 	public static ClassNode getClassNode(String name) {
@@ -180,7 +219,7 @@ public class BytecodeViewer {
 	            if (fn.endsWith(".jar")) {
 	                try {
 	                    JarUtils.put(f, BytecodeViewer.loadedClasses);
-	                } catch (final IOException e) {
+	                } catch (final Exception e) {
 	                    e.printStackTrace();
 	                }
 	                
@@ -223,15 +262,17 @@ public class BytecodeViewer {
 	@SuppressWarnings("deprecation")
 	public static void resetWorkSpace() {
 	    JOptionPane pane = new JOptionPane("Are you sure you want to reset the workspace?\n\rIt will also reset your file navigator and search.");
-	        Object[] options = new String[] { "Yes", "No" };
-	        pane.setOptions(options);
-	        JDialog dialog = pane.createDialog(viewer, "Bytecode Viewer - Reset Workspace");
-	        dialog.show();
-	        Object obj = pane.getValue(); 
-	        int result = -1;
-	        for (int k = 0; k < options.length; k++)
-	          if (options[k].equals(obj))
-	            result = k;
+	    Object[] options = new String[] { "Yes", "No" };
+	    pane.setOptions(options);
+	    JDialog dialog = pane.createDialog(viewer, "Bytecode Viewer - Reset Workspace");
+	    dialog.show();
+	    Object obj = pane.getValue(); 
+	    int result = -1;
+	    for (int k = 0; k < options.length; k++)
+	    	if (options[k].equals(obj))
+	    		result = k;
+	        
+	     
 		if(result == 0) {
 			loadedResources.clear();
     		loadedClasses.clear();
@@ -318,16 +359,14 @@ public class BytecodeViewer {
 	public static void cleanup() {
 		tempF = new File(tempDirectory);
 		try {
-			Thread.sleep(100);
 			FileUtils.deleteDirectory(tempF);
-			Thread.sleep(100);
 		} catch (Exception e) {
 		}
 		
 		while(!tempF.exists()) { //keep making dirs
 			try {
 				tempF.mkdir();
-				Thread.sleep(100);
+				Thread.sleep(1);
 			} catch (Exception e) {
 			}
 		}

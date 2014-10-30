@@ -27,7 +27,6 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.JarUtils;
-import the.bytecode.club.bytecodeviewer.decompilers.bytecode.BytecodeDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.java.CFRDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.java.FernFlowerDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.java.ProcyonDecompiler;
@@ -49,9 +48,12 @@ import javax.swing.JRadioButtonMenuItem;
 
 public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
+    final FernFlowerDecompiler ff_dc = new FernFlowerDecompiler();
+    final ProcyonDecompiler proc_dc = new ProcyonDecompiler();
+    final CFRDecompiler cfr_dc = new CFRDecompiler();
+    
 	private static final long serialVersionUID = 1851409230530948543L;
 	public JCheckBoxMenuItem debugHelpers = new JCheckBoxMenuItem("Debug Helpers");
-	public JCheckBoxMenuItem debugInstructions = new JCheckBoxMenuItem("Debug Instructions");
 	private JSplitPane sp1;
 	private JSplitPane sp2;
     static ArrayList<VisibleComponent> rfComps = new ArrayList<VisibleComponent>();
@@ -105,7 +107,68 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JRadioButtonMenuItem procyonDec = new JRadioButtonMenuItem("Procyon");
     public final JRadioButtonMenuItem cfrDec = new JRadioButtonMenuItem("CFR");
 	public final ButtonGroup decompilerGroup = new ButtonGroup();
-    
+    private final JMenu mnNewMenu_3 = new JMenu("CFR");
+    private final JMenu mnNewMenu_4 = new JMenu("Procyon");
+    public final JCheckBoxMenuItem decodeenumswitch = new JCheckBoxMenuItem("Decode Enum Switch");
+    public final JCheckBoxMenuItem sugarenums = new JCheckBoxMenuItem("SugarEnums");
+    public final JCheckBoxMenuItem decodestringswitch = new JCheckBoxMenuItem("Decode String Switch");
+    public final JCheckBoxMenuItem arrayiter = new JCheckBoxMenuItem("Arrayiter");
+    public final JCheckBoxMenuItem collectioniter = new JCheckBoxMenuItem("Collectioniter");
+    public final JCheckBoxMenuItem innerclasses = new JCheckBoxMenuItem("Inner Classes");
+    public final JCheckBoxMenuItem removeboilerplate = new JCheckBoxMenuItem("Remove Boiler Plate");
+    public final JCheckBoxMenuItem removeinnerclasssynthetics = new JCheckBoxMenuItem("Remove Inner Class Synthetics");
+    public final JCheckBoxMenuItem decodelambdas = new JCheckBoxMenuItem("Decode Lambdas");
+    public final JCheckBoxMenuItem hidebridgemethods = new JCheckBoxMenuItem("Hide Bridge Methods");
+    public final JCheckBoxMenuItem liftconstructorinit = new JCheckBoxMenuItem("Lift  Constructor Init");
+    public final JCheckBoxMenuItem removedeadmethods = new JCheckBoxMenuItem("Remove Dead Methods");
+    public final JCheckBoxMenuItem removebadgenerics = new JCheckBoxMenuItem("Remove Bad Generics");
+    public final JCheckBoxMenuItem sugarasserts = new JCheckBoxMenuItem("Sugar Asserts");
+    public final JCheckBoxMenuItem sugarboxing = new JCheckBoxMenuItem("Sugar Boxing");
+    public final JCheckBoxMenuItem showversion = new JCheckBoxMenuItem("Show Version");
+    public final JCheckBoxMenuItem decodefinally = new JCheckBoxMenuItem("Decode Finally");
+    public final JCheckBoxMenuItem tidymonitors = new JCheckBoxMenuItem("Tidy Monitors");
+    public final JCheckBoxMenuItem lenient = new JCheckBoxMenuItem("Lenient");
+    public final JCheckBoxMenuItem dumpclasspath = new JCheckBoxMenuItem("Dump Classpath");
+    public final JCheckBoxMenuItem comments = new JCheckBoxMenuItem("Comments");
+    public final JCheckBoxMenuItem forcetopsort = new JCheckBoxMenuItem("Force Top Sort");
+    public final JCheckBoxMenuItem forcetopsortaggress = new JCheckBoxMenuItem("Force Top Sort Aggress");
+    public final JCheckBoxMenuItem stringbuffer = new JCheckBoxMenuItem("String Buffer");
+    public final JCheckBoxMenuItem stringbuilder = new JCheckBoxMenuItem("String Builder");
+    public final JCheckBoxMenuItem silent = new JCheckBoxMenuItem("Silent");
+    public final JCheckBoxMenuItem recover = new JCheckBoxMenuItem("Recover");
+    public final JCheckBoxMenuItem eclipse = new JCheckBoxMenuItem("Eclipse");
+    public final JCheckBoxMenuItem override = new JCheckBoxMenuItem("Override");
+    public final JCheckBoxMenuItem showinferrable = new JCheckBoxMenuItem("Show Inferrable");
+    public final JCheckBoxMenuItem aexagg = new JCheckBoxMenuItem("Aexagg");
+    public final JCheckBoxMenuItem forcecondpropagate = new JCheckBoxMenuItem("Force Cond Propagate");
+    public final JCheckBoxMenuItem hideutf = new JCheckBoxMenuItem("Hide UTF");
+    public final JCheckBoxMenuItem hidelongstrings = new JCheckBoxMenuItem("Hide Long Strings");
+    public final JCheckBoxMenuItem commentmonitor = new JCheckBoxMenuItem("Comment Monitors");
+    public final JCheckBoxMenuItem allowcorrecting = new JCheckBoxMenuItem("Allow Correcting");
+    public final JCheckBoxMenuItem labelledblocks = new JCheckBoxMenuItem("Labelled Blocks");
+    public final JCheckBoxMenuItem j14classobj = new JCheckBoxMenuItem("J14ClassOBJ");
+    public final JCheckBoxMenuItem hidelangimports = new JCheckBoxMenuItem("Hide Lang Imports");
+    public final JCheckBoxMenuItem recoverytypeclash = new JCheckBoxMenuItem("Recover Type Clash");
+    public final JCheckBoxMenuItem recoverytypehints = new JCheckBoxMenuItem("Recover Type  Hints");
+    public final JCheckBoxMenuItem forceturningifs = new JCheckBoxMenuItem("Force Returning IFs");
+    public final JCheckBoxMenuItem forloopaggcapture = new JCheckBoxMenuItem("For Loop AGG Capture");
+    public final JCheckBoxMenuItem forceexceptionprune = new JCheckBoxMenuItem("Force Exception Prune");
+    public final JCheckBoxMenuItem chckbxmntmShowDebugLine = new JCheckBoxMenuItem("Show Debug Line Numbers");
+    public final JCheckBoxMenuItem chckbxmntmSimplifyMemberReferences = new JCheckBoxMenuItem("Simplify Member References");
+    public final JCheckBoxMenuItem mnMergeVariables = new JCheckBoxMenuItem("Merge Variables");
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_1 = new JCheckBoxMenuItem("Unicode Output Enabled");
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_2 = new JCheckBoxMenuItem("Retain Pointless Switches");
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_3 = new JCheckBoxMenuItem("Include Line Numbers In Bytecode");
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_4 = new JCheckBoxMenuItem("Include Error Diagnostics");
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_5 = new JCheckBoxMenuItem("Retain Redundant Casts");
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_6 = new JCheckBoxMenuItem("Always Generate Exception Variable For Catch Blocks");
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_7 = new JCheckBoxMenuItem("Show Synthetic Members");
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_8 = new JCheckBoxMenuItem("Force Explicit Type Arguments");
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_9 = new JCheckBoxMenuItem("Force Explicit Imports");
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_10 = new JCheckBoxMenuItem("Flatten Switch Blocks");
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_11 = new JCheckBoxMenuItem("Exclude Nested Types");
+
+	
     public void setC(boolean busy) {
     	if(busy) {
     		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -177,32 +240,21 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         return image;
     }
 
-    final BytecodeDecompiler bc_dc = new BytecodeDecompiler();
-    final FernFlowerDecompiler ff_dc = new FernFlowerDecompiler();
-    final ProcyonDecompiler proc_dc = new ProcyonDecompiler();
-    final CFRDecompiler cfr_dc = new CFRDecompiler();
-	public MainViewerGUI() {
+    public MainViewerGUI() {
 		decompilerGroup.add(fernflowerDec);
 		decompilerGroup.add(procyonDec);
 		decompilerGroup.add(cfrDec);
 		decompilerGroup.setSelected(procyonDec.getModel(), true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//fernflower
 		rbr.setSelected(true);
 		rsy.setSelected(false);
 		din.setSelected(true);
-		dc4.setSelected(true);
 		das.setSelected(true);
-		hes.setSelected(true);
-		hdc.setSelected(true);
 		dgs.setSelected(false);
-		ner.setSelected(true);
 		den.setSelected(true);
-		rgn.setSelected(true);
-		bto.setSelected(true);
-		nns.setSelected(true);
 		uto.setSelected(true);
 		udv.setSelected(true);
-		rer.setSelected(true);
 		fdi.setSelected(true);
 		asc.setSelected(false);
 		srcSyntax.setSelected(true);
@@ -210,6 +262,52 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		debugHelpers.setSelected(true);
 		sourcePane.setSelected(true);
 		bytecodePane.setSelected(true);
+		//cfr
+		decodeenumswitch.setSelected(true);
+		sugarenums.setSelected(true);
+		decodestringswitch.setSelected(true);
+		arrayiter.setSelected(true);
+		collectioniter.setSelected(true);
+		innerclasses.setSelected(true);
+		removeboilerplate.setSelected(true);
+		removeinnerclasssynthetics.setSelected(true);
+		decodelambdas.setSelected(true);
+		hidebridgemethods.setSelected(true);
+		liftconstructorinit.setSelected(true);
+		removedeadmethods.setSelected(true);
+		removebadgenerics.setSelected(true);
+		sugarasserts.setSelected(true);
+		sugarboxing.setSelected(true);
+		showversion.setSelected(true);
+		decodefinally.setSelected(true);
+		tidymonitors.setSelected(true);
+		lenient.setSelected(false);
+		dumpclasspath.setSelected(false);
+		comments.setSelected(true);
+		forcetopsort.setSelected(true);
+		forcetopsortaggress.setSelected(true);
+		forceexceptionprune.setSelected(true);
+		stringbuffer.setSelected(false);
+		stringbuilder.setSelected(true);
+		silent.setSelected(true);
+		recover.setSelected(true);
+		eclipse.setSelected(true);
+		override.setSelected(true);
+		showinferrable.setSelected(true);
+		aexagg.setSelected(true);
+		forcecondpropagate.setSelected(true);
+		hideutf.setSelected(true);
+		hidelongstrings.setSelected(false);
+		commentmonitor.setSelected(false);
+		allowcorrecting.setSelected(true);
+		labelledblocks.setSelected(true);
+		j14classobj.setSelected(false);
+		hidelangimports.setSelected(true);
+		recoverytypeclash.setSelected(true);
+		recoverytypehints.setSelected(true);
+		forceturningifs.setSelected(true);
+		forloopaggcapture.setSelected(true);
+		//procyon
 		
         setJMenuBar(menuBar);
         
@@ -273,7 +371,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 int returnVal = fc.showSaveDialog(MainViewerGUI.this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
-	        		new ExportJar(file.getAbsolutePath()).setVisible(true);
+                    String path = file.getAbsolutePath();
+                    if(!path.endsWith(".jar"))
+                    	path = path + ".jar";
+	        		new ExportJar(path).setVisible(true);
                 }
         	}
         });
@@ -290,12 +391,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
 					BytecodeViewer.viewer.setC(true);
+                    String path = file.getAbsolutePath();
+                    if(!path.endsWith(".zip"))
+                    	path = path + ".zip";
 			        if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.fernflowerDec.getModel()))
-			        	ff_dc.decompileToZip(file.getAbsolutePath());
+			        	ff_dc.decompileToZip(path);
 			        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.procyonDec.getModel()))
-			        	proc_dc.decompileToZip(file.getAbsolutePath());
+			        	proc_dc.decompileToZip(path);
 			        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.cfrDec.getModel()))
-			        	cfr_dc.decompileToZip(file.getAbsolutePath());
+			        	cfr_dc.decompileToZip(path);
 					BytecodeViewer.viewer.setC(false);
                 }
         	}
@@ -342,24 +446,152 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         
         mnNewMenu_2.add(fernflowerDec);
         
+        menuBar.add(mnNewMenu_4);
+        
+        mnNewMenu_4.add(chckbxmntmNewCheckItem_6);
+        
+        mnNewMenu_4.add(chckbxmntmNewCheckItem_11);
+        
+        mnNewMenu_4.add(chckbxmntmShowDebugLine);
+        
+        mnNewMenu_4.add(chckbxmntmNewCheckItem_3);
+        
+        mnNewMenu_4.add(chckbxmntmNewCheckItem_4);
+        
+        mnNewMenu_4.add(chckbxmntmNewCheckItem_7);
+        
+        mnNewMenu_4.add(chckbxmntmSimplifyMemberReferences);
+        
+        mnNewMenu_4.add(mnMergeVariables);
+        
+        mnNewMenu_4.add(chckbxmntmNewCheckItem_8);
+        
+        mnNewMenu_4.add(chckbxmntmNewCheckItem_9);
+        
+        mnNewMenu_4.add(chckbxmntmNewCheckItem_10);
+        
+        mnNewMenu_4.add(chckbxmntmNewCheckItem_2);
+        
+        mnNewMenu_4.add(chckbxmntmNewCheckItem_5);
+        
+        mnNewMenu_4.add(chckbxmntmNewCheckItem_1);
+        
+        menuBar.add(mnNewMenu_3);
+        
+        mnNewMenu_3.add(decodeenumswitch);
+        
+        mnNewMenu_3.add(sugarenums);
+        
+        mnNewMenu_3.add(decodestringswitch);
+        
+        mnNewMenu_3.add(arrayiter);
+        
+        mnNewMenu_3.add(collectioniter);
+        
+        mnNewMenu_3.add(innerclasses);
+        
+        mnNewMenu_3.add(removeboilerplate);
+        
+        mnNewMenu_3.add(removeinnerclasssynthetics);
+        
+        mnNewMenu_3.add(decodelambdas);
+        
+        mnNewMenu_3.add(hidebridgemethods);
+        
+        mnNewMenu_3.add(liftconstructorinit);
+        
+        mnNewMenu_3.add(removedeadmethods);
+        
+        mnNewMenu_3.add(removebadgenerics);
+        
+        mnNewMenu_3.add(sugarasserts);
+        
+        mnNewMenu_3.add(sugarboxing);
+        
+        mnNewMenu_3.add(showversion);
+        
+        mnNewMenu_3.add(decodefinally);
+        
+        mnNewMenu_3.add(tidymonitors);
+        
+        mnNewMenu_3.add(lenient);
+        
+        mnNewMenu_3.add(dumpclasspath);
+        
+        mnNewMenu_3.add(comments);
+        
+        mnNewMenu_3.add(forcetopsort);
+        
+        mnNewMenu_3.add(forcetopsortaggress);
+        
+        mnNewMenu_3.add(forceexceptionprune);
+        
+        mnNewMenu_3.add(stringbuffer);
+        
+        mnNewMenu_3.add(stringbuilder);
+        
+        mnNewMenu_3.add(silent);
+        
+        mnNewMenu_3.add(recover);
+        
+        mnNewMenu_3.add(eclipse);
+        
+        mnNewMenu_3.add(override);
+        
+        mnNewMenu_3.add(showinferrable);
+        
+        mnNewMenu_3.add(aexagg);
+        
+        mnNewMenu_3.add(forcecondpropagate);
+        
+        mnNewMenu_3.add(hideutf);
+        
+        mnNewMenu_3.add(hidelongstrings);
+        
+        mnNewMenu_3.add(commentmonitor);
+        
+        mnNewMenu_3.add(allowcorrecting);
+        
+        mnNewMenu_3.add(labelledblocks);
+        
+        mnNewMenu_3.add(j14classobj);
+        
+        mnNewMenu_3.add(hidelangimports);
+        
+        mnNewMenu_3.add(recoverytypeclash);
+        
+        mnNewMenu_3.add(recoverytypehints);
+        
+        mnNewMenu_3.add(forceturningifs);
+        
+        mnNewMenu_3.add(forloopaggcapture);
+        
         JMenu mnDecompilerSettings = new JMenu("FernFlower");
         menuBar.add(mnDecompilerSettings);
+        dc4.setSelected(true);
+        mnDecompilerSettings.add(dc4);
+        nns.setSelected(true);
+        mnDecompilerSettings.add(nns);
+        ner.setSelected(true);
+        mnDecompilerSettings.add(ner);
+        bto.setSelected(true);
+        mnDecompilerSettings.add(bto);
+        rgn.setSelected(true);
+        mnDecompilerSettings.add(rgn);
+        rer.setSelected(true);
+        mnDecompilerSettings.add(rer);
         mnDecompilerSettings.add(rbr);
         mnDecompilerSettings.add(rsy);
-        mnDecompilerSettings.add(din);
-        mnDecompilerSettings.add(dc4);
-        mnDecompilerSettings.add(das);
+        hes.setSelected(true);
         mnDecompilerSettings.add(hes);
+        hdc.setSelected(true);
         mnDecompilerSettings.add(hdc);
+        mnDecompilerSettings.add(din);
+        mnDecompilerSettings.add(das);
         mnDecompilerSettings.add(dgs);
-        mnDecompilerSettings.add(ner);
         mnDecompilerSettings.add(den);
-        mnDecompilerSettings.add(rgn);
-        mnDecompilerSettings.add(bto);
-        mnDecompilerSettings.add(nns);
         mnDecompilerSettings.add(uto);
         mnDecompilerSettings.add(udv);
-        mnDecompilerSettings.add(rer);
         mnDecompilerSettings.add(fdi);
         mnDecompilerSettings.add(asc);
         
@@ -367,8 +599,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         menuBar.add(mnBytecodeDecompilerSettings);
         
         mnBytecodeDecompilerSettings.add(debugHelpers);
-        
-        mnBytecodeDecompilerSettings.add(debugInstructions);
         
         mnBytecodeDecompilerSettings.add(chckbxmntmNewCheckItem);
         
@@ -445,7 +675,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         });
         
 		setSize(new Dimension(800, 400));
-		setTitle("Bytecode Viewer - http://the.bytecode.club - @Konloch");
+		setTitle("Bytecode Viewer " + BytecodeViewer.version + " - http://the.bytecode.club - @Konloch");
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 		
 		JScrollPane scrollPane = new JScrollPane();

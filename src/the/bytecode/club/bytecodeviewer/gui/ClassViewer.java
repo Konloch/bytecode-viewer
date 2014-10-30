@@ -34,7 +34,7 @@ import org.objectweb.asm.tree.ClassNode;
 import com.jhe.hexed.JHexEditor;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.decompilers.bytecode.BytecodeDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.java.CFRDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.java.FernFlowerDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.java.ProcyonDecompiler;
@@ -94,8 +94,8 @@ public class ClassViewer extends JPanel {
     ClassNode cn;
     JSplitPane sp;
     JSplitPane sp2;
-    JEditorPane bytecode = new JEditorPane(), decomp = new JEditorPane();
-    JScrollPane bcScroll;
+    public JPanel bytePanel = new JPanel(new BorderLayout());
+    public JPanel decompPanel = new JPanel(new BorderLayout());
 
     public ClassViewer(final String name, final ClassNode cn) {
     	sourcePane = BytecodeViewer.viewer.sourcePane.isSelected();
@@ -108,29 +108,7 @@ public class ClassViewer extends JPanel {
         this.setName(name);
         this.setLayout(new BorderLayout());
 
-        final JPanel dcPanel = new JPanel(new BorderLayout());
-        final JScrollPane dcScroll = new JScrollPane(decomp);
-        if(sourcePane) {
-        	dcPanel.add(dcScroll, BorderLayout.CENTER);
-        }
-
-        final JPanel bcPanel = new JPanel(new BorderLayout());
-        if(bytecodePane) {
-        	bcScroll = new JScrollPane(bytecode);
-        } else {
-        	bcScroll = new JScrollPane();
-        }
-        
-        bcPanel.add(bcScroll, BorderLayout.CENTER);
-
-        if(bytecodePane && bytecodeSyntax)
-        	bytecode.setContentType("text/java");
-        
-
-        if(sourcePane && sourcecodeSyntax)
-            decomp.setContentType("text/java");
-
-        this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, dcPanel, bcPanel);
+        this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, decompPanel, bytePanel);
         final ClassWriter cw = new ClassWriter(0);
         cn.accept(cw);
         JHexEditor hex = new JHexEditor(cw.toByteArray());
@@ -148,8 +126,9 @@ public class ClassViewer extends JPanel {
     	hex.setSize(0, Integer.MAX_VALUE);
     	resetDivider();
 		BytecodeViewer.viewer.setIcon(true);
-        bytecode.setText("Decompiling, please wait..");
-        decomp.setText("Decompiling, please wait..");
+		
+		//
+		
         startPaneUpdater();
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
@@ -176,18 +155,16 @@ public class ClassViewer extends JPanel {
         }
     }
 
-    final BytecodeDecompiler bc_dc = new BytecodeDecompiler();
-    final FernFlowerDecompiler ff_dc = new FernFlowerDecompiler();
-    final ProcyonDecompiler proc_dc = new ProcyonDecompiler();
-    final CFRDecompiler cfr_dc = new CFRDecompiler();
+    static FernFlowerDecompiler ff_dc = new FernFlowerDecompiler();
+    static ProcyonDecompiler proc_dc = new ProcyonDecompiler();
+    static CFRDecompiler cfr_dc = new CFRDecompiler();
     PaneUpdaterThread t;
     public void startPaneUpdater() {
-        t = new PaneUpdaterThread(bytecode, decomp) {
+        t = new PaneUpdaterThread() {
 	        String s = "";
 			@Override
 			public void doShit() {
-		        
-		        final String b = bc_dc.decompileClassNode(cn);
+		        final String b = ClassNodeDecompiler.decompile(cn);
 		        
 		        if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.fernflowerDec.getModel()))
 		        	s = ff_dc.decompileClassNode(cn);
@@ -198,12 +175,29 @@ public class ClassViewer extends JPanel {
 		        
 		        SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
+					    JEditorPane
+					    		bytecode = new JEditorPane(),
+					    		decomp = new JEditorPane();
+					    JScrollPane
+				        		bytecodeScroll = new JScrollPane(bytecode),
+				        		decompScroll = new JScrollPane(decomp);
+				        
+				        if(bytecodePane && BytecodeViewer.viewer.bycSyntax.isSelected())
+				        	bytecode.setContentType("text/java");
+				        if(sourcePane && BytecodeViewer.viewer.srcSyntax.isSelected())
+				            decomp.setContentType("text/java");
+				        
                     	if(bytecodePane)
-                    		p1.setText(b);
+                    		bytecode.setText(b);
                     	if(sourcePane)
-                    		p2.setText(s);
-                    	p1.setCaretPosition(0);
-                    	p2.setCaretPosition(0);
+                    		decomp.setText(s);
+                    	
+						bytePanel.add(bytecodeScroll);
+						decompPanel.add(decompScroll);
+						
+                    	bytecode.setCaretPosition(0);
+                    	decomp.setCaretPosition(0);
+                    	
 						BytecodeViewer.viewer.setIcon(false);
                     }
 		        });

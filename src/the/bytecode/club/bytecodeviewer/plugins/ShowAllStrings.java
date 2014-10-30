@@ -9,8 +9,6 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
 /**
  * Simply shows all the non-empty strings in every single class
  * 
@@ -23,7 +21,6 @@ public class ShowAllStrings extends Plugin {
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList) {
 		PluginConsole frame = new PluginConsole("Show All Strings");
-		BytecodeViewer.viewer.setC(true);
 		for(ClassNode classNode : classNodeList) {
 			for(Object o : classNode.fields.toArray()) {
 				FieldNode f = (FieldNode) o;
@@ -57,7 +54,6 @@ public class ShowAllStrings extends Plugin {
 				}
 			}
 		}
-		BytecodeViewer.viewer.setC(false);
 		frame.setVisible(true);
 	}
 

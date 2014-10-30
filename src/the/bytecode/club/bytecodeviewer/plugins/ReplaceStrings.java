@@ -9,8 +9,6 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
 /**
  * Replaces all string and string[] instances with whatever.
  * 
@@ -35,8 +33,6 @@ public class ReplaceStrings extends Plugin {
 	
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList) {
-		BytecodeViewer.viewer.setC(true);
-		
 		if(!className.equals("*")) {
 			for(ClassNode classNode : classNodeList) {
 				if(classNode.name.equals(className))
@@ -47,8 +43,6 @@ public class ReplaceStrings extends Plugin {
 				scanClassNode(classNode);
 			}
 		}
-		
-		BytecodeViewer.viewer.setC(false);
 		frame.setVisible(true);
 	}
 

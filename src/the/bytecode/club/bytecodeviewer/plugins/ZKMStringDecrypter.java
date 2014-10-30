@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.objectweb.asm.tree.ClassNode;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 /**
  * Coming soon.
  * 
@@ -18,6 +20,7 @@ public class ZKMStringDecrypter extends Plugin {
 		for(ClassNode classNode : classNodeList) {
 			
 		}
+		BytecodeViewer.showMessage("This is a planned feature.");
 	}
 
 }

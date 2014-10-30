@@ -4,6 +4,12 @@ import java.io.File;
 
 import org.objectweb.asm.tree.ClassNode;
 
+/**
+ * 
+ * @author Konloch
+ *
+ */
+
 public abstract class JavaDecompiler {
 
 	public abstract String decompileClassNode(ClassNode cn);

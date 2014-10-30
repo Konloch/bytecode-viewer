@@ -13,6 +13,7 @@ import org.objectweb.asm.tree.ClassNode;
 import com.strobel.decompiler.DecompilationOptions;
 import com.strobel.decompiler.DecompilerSettings;
 import com.strobel.decompiler.PlainTextOutput;
+import com.strobel.decompiler.languages.java.JavaFormattingOptions;
 import com.strobel.assembler.InputTypeLoader;
 import com.strobel.assembler.metadata.Buffer;
 import com.strobel.assembler.metadata.ITypeLoader;
@@ -54,6 +55,22 @@ public class ProcyonDecompiler extends JavaDecompiler {
 	        
 
 			DecompilerSettings settings = new DecompilerSettings();
+			settings.setAlwaysGenerateExceptionVariableForCatchBlocks(BytecodeViewer.viewer.chckbxmntmNewCheckItem_6.isSelected());
+			settings.setExcludeNestedTypes(BytecodeViewer.viewer.chckbxmntmNewCheckItem_11.isSelected());
+			settings.setShowDebugLineNumbers(BytecodeViewer.viewer.chckbxmntmShowDebugLine.isSelected());
+			settings.setIncludeLineNumbersInBytecode(BytecodeViewer.viewer.chckbxmntmNewCheckItem_3.isSelected());
+			settings.setIncludeErrorDiagnostics(BytecodeViewer.viewer.chckbxmntmNewCheckItem_4.isSelected());
+			settings.setShowSyntheticMembers(BytecodeViewer.viewer.chckbxmntmNewCheckItem_7.isSelected());
+			settings.setSimplifyMemberReferences(BytecodeViewer.viewer.chckbxmntmSimplifyMemberReferences.isSelected());
+			settings.setMergeVariables(BytecodeViewer.viewer.mnMergeVariables.isSelected());
+			settings.setForceExplicitTypeArguments(BytecodeViewer.viewer.chckbxmntmNewCheckItem_8.isSelected());
+			settings.setForceExplicitImports(BytecodeViewer.viewer.chckbxmntmNewCheckItem_9.isSelected());
+			settings.setFlattenSwitchBlocks(BytecodeViewer.viewer.chckbxmntmNewCheckItem_10.isSelected());
+			settings.setRetainPointlessSwitches(BytecodeViewer.viewer.chckbxmntmNewCheckItem_2.isSelected());
+			settings.setRetainRedundantCasts(BytecodeViewer.viewer.chckbxmntmNewCheckItem_5.isSelected());
+			settings.setUnicodeOutputEnabled(BytecodeViewer.viewer.chckbxmntmNewCheckItem_1.isSelected());
+			settings.setFormattingOptions(JavaFormattingOptions.createDefault());
+			
 			LuytenTypeLoader typeLoader = new LuytenTypeLoader();
 			MetadataSystem metadataSystem = new MetadataSystem(typeLoader);
 			TypeReference type = metadataSystem.lookupType(tempClass.getCanonicalPath());
@@ -120,7 +137,7 @@ public class ProcyonDecompiler extends JavaDecompiler {
         tempZip.delete();
         new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp").delete();*/
 		
-		BytecodeViewer.showMessage("ProcyonDecompiler currently doesn't decompile as zip, please wait till 1.3 of Bytecode Viewer.");
+		BytecodeViewer.showMessage("ProcyonDecompiler currently doesn't decompile as zip, please wait till Beta 1.4 of Bytecode Viewer.");
 		
 	}
 	

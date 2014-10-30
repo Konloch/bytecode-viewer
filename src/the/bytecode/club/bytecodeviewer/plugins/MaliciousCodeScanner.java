@@ -9,8 +9,6 @@ import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
 /**
  * The idea/core was based off of J-RET's Malicious Code Searcher
  * I improved it, and added more stuff to search for.
@@ -47,7 +45,6 @@ public class MaliciousCodeScanner extends Plugin {
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList) {
 		PluginConsole frame = new PluginConsole("Malicious Code Scanner");
-		BytecodeViewer.viewer.setC(true);
 		for(ClassNode classNode : classNodeList) {
 			for(Object o : classNode.methods.toArray()) {
 				MethodNode m = (MethodNode) o;
@@ -81,7 +78,6 @@ public class MaliciousCodeScanner extends Plugin {
 				}
 			}
 		}
-		BytecodeViewer.viewer.setC(false);
 		frame.setVisible(true);
 	}
 
