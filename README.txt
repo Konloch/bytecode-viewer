@@ -14,7 +14,7 @@ FernFlower by Stiver
 Procyon by Mstrobel
 CFR by Lee Benfield
 
-Video of Beta 1.0: https://mediacru.sh/RJUXfW9wd2Tu/direct
+Video of Beta 1.0 (Outdated): https://mediacru.sh/RJUXfW9wd2Tu/direct
 
 Features:
     Java Decompiler - It uses a modified version of FernFlower, Procyon and CFR.
