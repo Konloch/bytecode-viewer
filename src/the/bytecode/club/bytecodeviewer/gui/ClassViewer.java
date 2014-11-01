@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import static javax.swing.ScrollPaneConstants.*;
 
-import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -27,6 +26,9 @@ import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 import javax.swing.text.html.ParagraphView;
 
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
@@ -101,8 +103,6 @@ public class ClassViewer extends JPanel {
     	sourcePane = BytecodeViewer.viewer.sourcePane.isSelected();
     	bytecodePane = BytecodeViewer.viewer.bytecodePane.isSelected();
     	hexPane = BytecodeViewer.viewer.hexPane.isSelected();
-    	boolean bytecodeSyntax = BytecodeViewer.viewer.bycSyntax.isSelected();
-    	boolean sourcecodeSyntax = BytecodeViewer.viewer.srcSyntax.isSelected();
         this.name = name;
         this.cn = cn;
         this.setName(name);
@@ -126,8 +126,6 @@ public class ClassViewer extends JPanel {
     	hex.setSize(0, Integer.MAX_VALUE);
     	resetDivider();
 		BytecodeViewer.viewer.setIcon(true);
-		
-		//
 		
         startPaneUpdater();
         this.addComponentListener(new ComponentAdapter() {
@@ -166,38 +164,39 @@ public class ClassViewer extends JPanel {
 			public void doShit() {
 		        final String b = ClassNodeDecompiler.decompile(cn);
 		        
-		        if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.fernflowerDec.getModel()))
-		        	s = ff_dc.decompileClassNode(cn);
-		        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.procyonDec.getModel()))
-		        	s = proc_dc.decompileClassNode(cn);
-		        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.cfrDec.getModel()))
-		        	s = cfr_dc.decompileClassNode(cn);
+		        if(BytecodeViewer.viewer.sourcePane.isSelected()) {
+			        if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.fernflowerDec.getModel()))
+			        	s = ff_dc.decompileClassNode(cn);
+			        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.procyonDec.getModel()))
+			        	s = proc_dc.decompileClassNode(cn);
+			        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.cfrDec.getModel()))
+			        	s = cfr_dc.decompileClassNode(cn);
+		        }
 		        
 		        SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-					    JEditorPane
-					    		bytecode = new JEditorPane(),
-					    		decomp = new JEditorPane();
-					    JScrollPane
-				        		bytecodeScroll = new JScrollPane(bytecode),
-				        		decompScroll = new JScrollPane(decomp);
-				        
-				        if(bytecodePane && BytecodeViewer.viewer.bycSyntax.isSelected())
-				        	bytecode.setContentType("text/java");
-				        if(sourcePane && BytecodeViewer.viewer.srcSyntax.isSelected())
-				            decomp.setContentType("text/java");
-				        
-                    	if(bytecodePane)
-                    		bytecode.setText(b);
-                    	if(sourcePane)
-                    		decomp.setText(s);
+                        RSyntaxTextArea bytecodeArea = new RSyntaxTextArea();
+                        bytecodeArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        bytecodeArea.setCodeFoldingEnabled(true);
+                        bytecodeArea.setAntiAliasingEnabled(true);
+                        RTextScrollPane bytecodeSPane = new RTextScrollPane(bytecodeArea);
+                        bytecodeArea.setText(b);
                     	
-						bytePanel.add(bytecodeScroll);
-						decompPanel.add(decompScroll);
+                        RSyntaxTextArea sourcecodeArea = new RSyntaxTextArea();
+                        sourcecodeArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        sourcecodeArea.setCodeFoldingEnabled(true);
+                        sourcecodeArea.setAntiAliasingEnabled(true);
+                        RTextScrollPane sourcecodeSPane = new RTextScrollPane(sourcecodeArea);
+                        sourcecodeArea.setText(s);
+
+				        if(BytecodeViewer.viewer.bytecodePane.isSelected())
+				        	bytePanel.add(bytecodeSPane);
+				        if(BytecodeViewer.viewer.sourcePane.isSelected())
+				        	decompPanel.add(sourcecodeSPane);
+
+				        bytecodeArea.setCaretPosition(0);
+				        sourcecodeArea.setCaretPosition(0);
 						
-                    	bytecode.setCaretPosition(0);
-                    	decomp.setCaretPosition(0);
-                    	
 						BytecodeViewer.viewer.setIcon(false);
                     }
 		        });

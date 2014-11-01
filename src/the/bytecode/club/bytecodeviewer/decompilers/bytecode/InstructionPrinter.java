@@ -83,6 +83,7 @@ public class InstructionPrinter {
 	public ArrayList<String> createPrint() {
 		ArrayList<String> info = new ArrayList<String>();
 		ListIterator<?> it = mNode.instructions.iterator();
+		boolean firstLabel = false;
 		while (it.hasNext()) {
 			AbstractInsnNode ain = (AbstractInsnNode) it.next();
 			String line = "";
@@ -103,7 +104,16 @@ public class InstructionPrinter {
 			} else if (ain instanceof LineNumberNode) {
 				line = printLineNumberNode((LineNumberNode) ain, it);
 			} else if (ain instanceof LabelNode) {
+				if(firstLabel && BytecodeViewer.viewer.chckbxmntmAppendBrackets.isSelected())
+					info.add("}");
+				
 				line = printLabelnode((LabelNode) ain);
+				
+				if(BytecodeViewer.viewer.chckbxmntmAppendBrackets.isSelected()) {
+					if(!firstLabel)
+						firstLabel = true;
+					line += " {";
+				}
 			} else if (ain instanceof TypeInsnNode) {
 				line = printTypeInsnNode((TypeInsnNode) ain);
 			} else if (ain instanceof FrameNode) {
@@ -125,6 +135,8 @@ public class InstructionPrinter {
 				info.add(line);
 			}
 		}
+		if(firstLabel && BytecodeViewer.viewer.chckbxmntmAppendBrackets.isSelected())
+			info.add("}");
 		return info;
 	}
 	

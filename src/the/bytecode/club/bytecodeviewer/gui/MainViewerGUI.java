@@ -99,7 +99,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     private final JMenuItem mntmShowMainMethods = new JMenuItem("Show Main Methods");
     private final JMenuItem mntmNewMenuItem_3 = new JMenuItem("Save As Jar..");
     private JMenuBar menuBar = new JMenuBar();
-    public JCheckBoxMenuItem chckbxmntmNewCheckItem = new JCheckBoxMenuItem("Allow only ASCII characters in strings");
+    public JCheckBoxMenuItem chckbxmntmNewCheckItem = new JCheckBoxMenuItem("Allow Only ASCII Characters In Strings");
     private final JMenuItem mntmReplaceStrings = new JMenuItem("Replace Strings");
     private final JMenuItem mntmNewMenuItem_4 = new JMenuItem("");
     private final JMenu mnNewMenu_2 = new JMenu("Java Decompiler");
@@ -167,6 +167,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JCheckBoxMenuItem chckbxmntmNewCheckItem_9 = new JCheckBoxMenuItem("Force Explicit Imports");
     public final JCheckBoxMenuItem chckbxmntmNewCheckItem_10 = new JCheckBoxMenuItem("Flatten Switch Blocks");
     public final JCheckBoxMenuItem chckbxmntmNewCheckItem_11 = new JCheckBoxMenuItem("Exclude Nested Types");
+    public final JCheckBoxMenuItem chckbxmntmAppendBrackets = new JCheckBoxMenuItem("Append Brackets To Labels");
 
 	
     public void setC(boolean busy) {
@@ -308,6 +309,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		forceturningifs.setSelected(true);
 		forloopaggcapture.setSelected(true);
 		//procyon
+		/*none*/
+		//other
+		chckbxmntmAppendBrackets.setSelected(true);
 		
         setJMenuBar(menuBar);
         
@@ -599,6 +603,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         menuBar.add(mnBytecodeDecompilerSettings);
         
         mnBytecodeDecompilerSettings.add(debugHelpers);
+        
+        mnBytecodeDecompilerSettings.add(chckbxmntmAppendBrackets);
         
         mnBytecodeDecompilerSettings.add(chckbxmntmNewCheckItem);
         

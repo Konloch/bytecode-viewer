@@ -108,3 +108,7 @@ Changelog:
 10/29/2014 - All the built in plugins no longer set the cursor to busy.
 10/29/2014 - Tried to fix the issue with JSyntaxPane by making it create the object in a background thread, it still freezes the UI. Changes kept for later implementation of another syntax highlighter.
 10/29/2014 - Sped up start up time
+--- Beta 1.3.1 ---:
+10/29/2014 - Replaced JSyntaxPane with RSyntaxArea, this sadly removes the search feature inside of source/bytecode files, I'll implement a search function soon.
+10/29/2014 - Added a new decompiler option to append brackets to labels.
+10/31/2014 - Fixed an issue with the decompiler still running when the source code pane isn't toggled.
