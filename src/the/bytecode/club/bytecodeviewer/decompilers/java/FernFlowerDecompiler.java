@@ -28,12 +28,12 @@ public class FernFlowerDecompiler extends JavaDecompiler {
 		if(tempZip.exists())
 			tempZip.delete();
 		
-		File f = new File(BytecodeViewer.tempDirectory + "./temp/");
+		File f = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs +"temp" + BytecodeViewer.fs);
 		f.mkdir();
 		
 		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempZip.getAbsolutePath());
 
-		org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(new String[] {tempZip.getAbsolutePath(), BytecodeViewer.tempDirectory + "./temp/"});
+		org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempZip.getAbsolutePath(), BytecodeViewer.tempDirectory + "./temp/"));
         File tempZip2 = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + BytecodeViewer.fs +tempZip.getName());
         if(tempZip2.exists())
         	tempZip2.renameTo(new File(zipName));

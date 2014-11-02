@@ -109,6 +109,12 @@ Changelog:
 10/29/2014 - Tried to fix the issue with JSyntaxPane by making it create the object in a background thread, it still freezes the UI. Changes kept for later implementation of another syntax highlighter.
 10/29/2014 - Sped up start up time
 --- Beta 1.3.1 ---:
-10/29/2014 - Replaced JSyntaxPane with RSyntaxArea, this sadly removes the search feature inside of source/bytecode files, I'll implement a search function soon.
+10/29/2014 - Replaced JSyntaxPane with RSyntaxArea, this sadly removes the search feature inside of source/bytecode files, I'll implement a search function soon. (This also fixes the JRE 1.8 issue)
 10/29/2014 - Added a new decompiler option to append brackets to labels.
 10/31/2014 - Fixed an issue with the decompiler still running when the source code pane isn't toggled.
+--- Beta 1.4 ---:
+11/1/2014 - Fixed FernFlower save Java files on Unix.
+11/1/2014 - FernFlower now uses the settings for save Java files.
+11/1/2014 - Added Procyon save Java files (It uses the settings).
+11/1/2014 - Updated CFR to cfr_0_89.
+11/1/2014 - Added CFR save Java files (It uses the settings), however it relies on the file system, because of this if there is heavy name obfuscation, it could mess up for windows.
