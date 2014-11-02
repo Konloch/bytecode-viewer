@@ -128,9 +128,8 @@ public class SearchingPane extends VisibleComponent {
                 final SearchRadius radius = (SearchRadius) searchRadiusBox.getSelectedItem();
                 final SearchResultNotifier srn = new SearchResultNotifier() {
                     @Override
-                    public void notifyOfResult(final ClassNode clazz,
-                            final MethodNode method, final AbstractInsnNode insn) {
-                        treeRoot.add(new DefaultMutableTreeNode(clazz.name + "." + method.name));
+                    public void notifyOfResult(String debug) {
+                        treeRoot.add(new DefaultMutableTreeNode(debug));
                     }
                 };
                 if (radius == SearchRadius.All_Classes) {

@@ -118,3 +118,8 @@ Changelog:
 11/1/2014 - Added Procyon save Java files (It uses the settings).
 11/1/2014 - Updated CFR to cfr_0_89.
 11/1/2014 - Added CFR save Java files (It uses the settings), however it relies on the file system, because of this if there is heavy name obfuscation, it could mess up for windows.
+--- Beta 1.5 ---:
+11/1/2014 - Updated and improved the search function, it now prints out more useful information.
+11/1/2014 - Fixed a UI issue with the Replace All Strings plugin.
+11/2/2014 - Added search function to the Class Viewer.
+11/2/2014 - Updated Procyon to procyon-decompiler-0.5.27.

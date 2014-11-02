@@ -1,7 +1,11 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.HierarchyEvent;
@@ -10,15 +14,21 @@ import java.util.ArrayList;
 
 import static javax.swing.ScrollPaneConstants.*;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BoxView;
 import javax.swing.text.ComponentView;
+import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Element;
+import javax.swing.text.Highlighter;
 import javax.swing.text.IconView;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.LabelView;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
@@ -96,13 +106,100 @@ public class ClassViewer extends JPanel {
     ClassNode cn;
     JSplitPane sp;
     JSplitPane sp2;
+    public JCheckBox byteCheck = new JCheckBox("Exact");
+    public JPanel bytePanelSearch = new JPanel(new BorderLayout());
+    public JPanel decompPanelSearch = new JPanel(new BorderLayout());
+    public JCheckBox decompCheck = new JCheckBox("Exact");
     public JPanel bytePanel = new JPanel(new BorderLayout());
     public JPanel decompPanel = new JPanel(new BorderLayout());
 
+    public void search(int pane, String search) {
+    	try {
+	    	if(pane == 0) { //bytecode
+	    		for(Component c : bytePanel.getComponents()) {
+	    			if(c instanceof RTextScrollPane) {
+	    				RSyntaxTextArea area = (RSyntaxTextArea) ((RTextScrollPane)c).getViewport().getComponent(0);
+	    				highlight(pane, area, search);
+	    			}
+	    		}
+	    	} else if(pane == 1) { //decomp
+	    		for(Component c : decompPanel.getComponents()) {
+	    			if(c instanceof RTextScrollPane) {
+	    				RSyntaxTextArea area = (RSyntaxTextArea) ((RTextScrollPane)c).getViewport().getComponent(0);
+	    				highlight(pane, area, search);
+	    			}
+	    		}
+	    	}
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    private DefaultHighlighter.DefaultHighlightPainter painter =  new DefaultHighlighter.DefaultHighlightPainter(new Color(255,62,150));
+    
+    public void highlight(int pane, JTextComponent textComp, String pattern) {
+    	if(pattern.isEmpty()) {
+    		textComp.getHighlighter().removeAllHighlights();
+    		return;
+    	}
+    	
+        try {
+            Highlighter hilite = textComp.getHighlighter();
+            hilite.removeAllHighlights();
+            javax.swing.text.Document doc = textComp.getDocument();
+            String text = doc.getText(0, doc.getLength());
+            int pos = 0;
+
+            if((pane == 0 && !byteCheck.isSelected()) || pane == 1 && !decompCheck.isSelected()) {
+            	pattern = pattern.toLowerCase();
+            	text = text.toLowerCase();
+            }
+            
+            // Search for pattern
+            while ((pos = text.indexOf(pattern, pos)) >= 0) {
+                // Create highlighter using private painter and apply around pattern
+                hilite.addHighlight(pos, pos + pattern.length(), painter);
+                pos += pattern.length();
+            }
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+    }
+    
     public ClassViewer(final String name, final ClassNode cn) {
+    	JButton byteSearch = new JButton("Search");
+    	bytePanelSearch.add(byteSearch, BorderLayout.WEST);
+    	final JTextField byteField = new JTextField();
+    	bytePanelSearch.add(byteField, BorderLayout.CENTER);
+    	bytePanelSearch.add(byteCheck, BorderLayout.EAST);
+    	byteSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent arg0) {
+            	search(0,byteField.getText());
+            }
+    	});
+
+    	JButton decompSearch = new JButton("Search");
+    	decompPanelSearch.add(decompSearch, BorderLayout.WEST);
+    	final JTextField decompField = new JTextField();
+    	decompPanelSearch.add(decompField, BorderLayout.CENTER);
+    	decompPanelSearch.add(decompCheck, BorderLayout.EAST);
+    	decompSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent arg0) {
+            	search(1,decompField.getText());
+            }
+    	});
+    	
     	sourcePane = BytecodeViewer.viewer.sourcePane.isSelected();
     	bytecodePane = BytecodeViewer.viewer.bytecodePane.isSelected();
     	hexPane = BytecodeViewer.viewer.hexPane.isSelected();
+    	
+    	if(bytecodePane)
+        	bytePanel.add(bytePanelSearch, BorderLayout.NORTH);
+    	if(sourcePane)
+        	decompPanel.add(decompPanelSearch, BorderLayout.NORTH);
+    	
         this.name = name;
         this.cn = cn;
         this.setName(name);

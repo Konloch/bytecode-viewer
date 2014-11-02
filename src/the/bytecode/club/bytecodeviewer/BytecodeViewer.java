@@ -58,7 +58,7 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * Make the search results clickable
  * Add a tool to build a flowchart of all the classes, and what methods execute what classes, and those method, read chatlog
  * Middle mouse click should close tabs
- * http://i.imgur.com/yHaai9D.png
+ * Add more details on the search results.
  * 
  *  
  * ----Beta 1.0-----:
@@ -147,6 +147,11 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 11/1/2014 - Added Procyon save Java files (It uses the settings).
  * 11/1/2014 - Updated CFR to cfr_0_89.
  * 11/1/2014 - Added CFR save Java files (It uses the settings), however it relies on the file system, because of this if there is heavy name obfuscation, it could mess up for windows.
+ *  ----Beta 1.5-----:
+ * 11/1/2014 - Updated and improved the search function, it now prints out more useful information.
+ * 11/1/2014 - Fixed a UI issue with the Replace All Strings plugin.
+ * 11/2/2014 - Added search function to the Class Viewer.
+ * 11/2/2014 - Updated Procyon to procyon-decompiler-0.5.27.
  * 
  * @author Konloch
  *
@@ -165,7 +170,7 @@ public class BytecodeViewer {
 	public static  String fs = System.getProperty("file.separator");
 	public static  String nl = System.getProperty("line.separator");
 	public static String tempDirectory = "bcv_temp";
-	public static String version = "Beta 1.4";
+	public static String version = "Beta 1.5";
 	
 	public static void main(String[] args) {
 		cleanup();
@@ -385,7 +390,7 @@ public class BytecodeViewer {
 	private static String quickConvert(ArrayList<String> a) {
 		String s = "";
 		for(String r : a)
-			s += r+"\r";
+			s += r+nl;
 		return s;
 	}
 	

@@ -13,6 +13,7 @@ import org.objectweb.asm.tree.MethodNode;
 /**
  * Regex Searching
  * 
+ * @author Konloch
  * @author WaterWolf
  *
  */
@@ -53,7 +54,7 @@ public class RegexSearch implements SearchTypeDetails {
             }
             
             if (regexFinder.find(srchText).length > 0) {
-                srn.notifyOfResult(node, method, null);
+                srn.notifyOfResult(node.name + "." + method.name + method.desc);
             }
             
         }
