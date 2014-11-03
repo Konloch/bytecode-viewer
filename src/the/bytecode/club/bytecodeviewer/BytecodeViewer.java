@@ -54,11 +54,9 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 
  * TODO:
  * Fix the fucking import jar method cause it's a bitch on memory (at the.bytecode.club.bytecodeviewer.JarUtils.getNode(JarUtils.java:83))
- * JSyntaxPane can be horribly slow for really big classfiles, might need to find a work around to this (create the syntaxpane object in the thread, then pass it to the GUI)s
  * Make the search results clickable
  * Add a tool to build a flowchart of all the classes, and what methods execute what classes, and those method, read chatlog
  * Middle mouse click should close tabs
- * Add more details on the search results.
  * 
  *  
  * ----Beta 1.0-----:
@@ -154,6 +152,8 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 11/2/2014 - Updated Procyon to procyon-decompiler-0.5.27.
  *  ----Beta 1.5.1-----:
  * 11/2/2014 - Fixed a CFR issue with packages.
+ *  ----Beta 1.5.2-----:
+ * 11/3/2014 - Fixed Refresh Class.
  * 
  * @author Konloch
  *
@@ -172,7 +172,7 @@ public class BytecodeViewer {
 	public static  String fs = System.getProperty("file.separator");
 	public static  String nl = System.getProperty("line.separator");
 	public static String tempDirectory = "bcv_temp";
-	public static String version = "Beta 1.5.1";
+	public static String version = "Beta 1.5.2";
 	
 	public static void main(String[] args) {
 		cleanup();

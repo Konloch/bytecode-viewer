@@ -125,3 +125,5 @@ Changelog:
 11/2/2014 - Updated Procyon to procyon-decompiler-0.5.27.
 --- Beta 1.5.1 ---:
 11/2/2014 - Fixed a CFR issue with packages.
+--- Beta 1.5.2 ---:
+11/3/2014 - Fixed Refresh Class.
