@@ -55,19 +55,8 @@ public class CFRDecompiler extends JavaDecompiler {
         tempClass.delete();
         
 
-        for(File outputJava : new File(fuckery).listFiles()) {
-        	String s;
-			try {
-				s = DiskReader.loadAsString(outputJava.getAbsolutePath());
-	        	
-	            outputJava.delete();
-	            
-	            return s;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-        }
-        return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
+        return findFile(new File(fuckery).listFiles());
+
 	}
 	
 	Random r = new Random();
@@ -81,6 +70,24 @@ public class CFRDecompiler extends JavaDecompiler {
 		}
 		
 		return null;
+	}
+	
+	public String findFile(File[] fA) {
+		for(File f : fA) {
+			if(f.isDirectory())
+				return findFile(f.listFiles());
+			else {
+				String s = "";
+				try {
+					s = DiskReader.loadAsString(f.getAbsolutePath());
+				} catch(Exception e) {
+					e.printStackTrace();
+					return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
+				}
+				return s;
+			}
+		}
+		return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
 	}
 	
 	public String[] generateMainMethod(String filePath, String outputPath) {

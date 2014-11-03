@@ -123,3 +123,5 @@ Changelog:
 11/1/2014 - Fixed a UI issue with the Replace All Strings plugin.
 11/2/2014 - Added search function to the Class Viewer.
 11/2/2014 - Updated Procyon to procyon-decompiler-0.5.27.
+--- Beta 1.5.1 ---:
+11/2/2014 - Fixed a CFR issue with packages.

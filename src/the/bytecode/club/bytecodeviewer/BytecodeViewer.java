@@ -152,6 +152,8 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 11/1/2014 - Fixed a UI issue with the Replace All Strings plugin.
  * 11/2/2014 - Added search function to the Class Viewer.
  * 11/2/2014 - Updated Procyon to procyon-decompiler-0.5.27.
+ *  ----Beta 1.5.1-----:
+ * 11/2/2014 - Fixed a CFR issue with packages.
  * 
  * @author Konloch
  *
@@ -170,7 +172,7 @@ public class BytecodeViewer {
 	public static  String fs = System.getProperty("file.separator");
 	public static  String nl = System.getProperty("line.separator");
 	public static String tempDirectory = "bcv_temp";
-	public static String version = "Beta 1.5";
+	public static String version = "Beta 1.5.1";
 	
 	public static void main(String[] args) {
 		cleanup();
