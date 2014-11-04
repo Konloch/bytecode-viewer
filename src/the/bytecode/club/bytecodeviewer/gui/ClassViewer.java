@@ -286,15 +286,11 @@ public class ClassViewer extends JPanel {
                         RTextScrollPane sourcecodeSPane = new RTextScrollPane(sourcecodeArea);
                         sourcecodeArea.setText(s);
 
-				        if(BytecodeViewer.viewer.bytecodePane.isSelected()) {
-				        	bytePanel.removeAll();
+				        if(BytecodeViewer.viewer.bytecodePane.isSelected())
 				        	bytePanel.add(bytecodeSPane);
-				        }
-				        
-				        if(BytecodeViewer.viewer.sourcePane.isSelected()) {
-				        	decompPanel.removeAll();
+				        if(BytecodeViewer.viewer.sourcePane.isSelected())
 				        	decompPanel.add(sourcecodeSPane);
-				        }
+
 				        bytecodeArea.setCaretPosition(0);
 				        sourcecodeArea.setCaretPosition(0);
 						

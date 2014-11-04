@@ -684,6 +684,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		setTitle("Bytecode Viewer " + BytecodeViewer.version + " - http://the.bytecode.club - @Konloch");
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setMaximumSize(new Dimension(12000, 32767));
 		//scrollPane.setViewportView(tree);
 		FileNavigationPane cn = new FileNavigationPane(this);
 		cn.setMinimumSize(new Dimension(200, 50));
