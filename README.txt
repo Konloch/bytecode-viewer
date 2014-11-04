@@ -14,7 +14,7 @@ FernFlower by Stiver
 Procyon by Mstrobel
 CFR by Lee Benfield
 
-Video of Beta 1.0 (Outdated): https://mediacru.sh/RJUXfW9wd2Tu/direct
+Video of Beta 1.5.2: http://the.bytecode.club/pages.php?page=bytecode-viewer
 
 Features:
     Java Decompiler - It uses a modified version of FernFlower, Procyon and CFR.
@@ -125,3 +125,5 @@ Changelog:
 11/2/2014 - Updated Procyon to procyon-decompiler-0.5.27.
 --- Beta 1.5.1 ---:
 11/2/2014 - Fixed a CFR issue with packages.
+--- Beta 1.5.2 ---:
+11/3/2014 - Fixed Refresh Class.
