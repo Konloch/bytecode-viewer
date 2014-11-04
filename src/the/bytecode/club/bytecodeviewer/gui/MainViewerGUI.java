@@ -14,7 +14,6 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 
-import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -75,12 +74,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public JCheckBoxMenuItem rer = new JCheckBoxMenuItem("Remove empty exception ranges");
     public JCheckBoxMenuItem fdi = new JCheckBoxMenuItem("Deinline finally structures");
     public JCheckBoxMenuItem asc = new JCheckBoxMenuItem("Allow only ASCII characters in strings");
-    private final JSeparator separator_2 = new JSeparator();
-    public JCheckBoxMenuItem srcSyntax = new JCheckBoxMenuItem("Source Code Syntax");
-    public JCheckBoxMenuItem bycSyntax = new JCheckBoxMenuItem("Bytecode Syntax");
-    JCheckBoxMenuItem sourcePane = new JCheckBoxMenuItem("Source Pane");
-    JCheckBoxMenuItem bytecodePane = new JCheckBoxMenuItem("Bytecode Pane");
-    JCheckBoxMenuItem hexPane = new JCheckBoxMenuItem("Hex Pane");
+    public JCheckBoxMenuItem sourcePane = new JCheckBoxMenuItem("Source Pane");
+    public JCheckBoxMenuItem bytecodePane = new JCheckBoxMenuItem("Bytecode Pane");
+    public JCheckBoxMenuItem hexPane = new JCheckBoxMenuItem("Hex Pane");
     private final JMenuItem mntmNewWorkspace = new JMenuItem("New Workspace");
     public JMenu mnRecentFiles = new JMenu("Recent Files");
     private final JMenuItem mntmNewMenuItem = new JMenuItem("Save Java Files As..");
@@ -168,7 +164,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JCheckBoxMenuItem chckbxmntmNewCheckItem_10 = new JCheckBoxMenuItem("Flatten Switch Blocks");
     public final JCheckBoxMenuItem chckbxmntmNewCheckItem_11 = new JCheckBoxMenuItem("Exclude Nested Types");
     public final JCheckBoxMenuItem chckbxmntmAppendBrackets = new JCheckBoxMenuItem("Append Brackets To Labels");
-
+    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_12 = new JCheckBoxMenuItem("Update Check");
 	
     public void setC(boolean busy) {
     	if(busy) {
@@ -258,8 +254,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		udv.setSelected(true);
 		fdi.setSelected(true);
 		asc.setSelected(false);
-		srcSyntax.setSelected(true);
-		bycSyntax.setSelected(true);
 		debugHelpers.setSelected(true);
 		sourcePane.setSelected(true);
 		bytecodePane.setSelected(true);
@@ -312,6 +306,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		/*none*/
 		//other
 		chckbxmntmAppendBrackets.setSelected(true);
+		chckbxmntmNewCheckItem_12.setSelected(true);
 		
         setJMenuBar(menuBar);
         
@@ -426,6 +421,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         
         mnNewMenu.add(mntmAbout);
         
+        mnNewMenu.add(chckbxmntmNewCheckItem_12);
+        
         JMenuItem mntmExit = new JMenuItem("Exit");
         mnNewMenu.add(mntmExit);
         
@@ -435,12 +432,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         mnView.add(sourcePane);
         mnView.add(bytecodePane);
         mnView.add(hexPane);
-        
-        mnView.add(separator_2);
-        
-        mnView.add(srcSyntax);
-        
-        mnView.add(bycSyntax);
         
         menuBar.add(mnNewMenu_2);
         

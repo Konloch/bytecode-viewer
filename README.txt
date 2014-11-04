@@ -127,3 +127,9 @@ Changelog:
 11/2/2014 - Fixed a CFR issue with packages.
 --- Beta 1.5.2 ---:
 11/3/2014 - Fixed Refresh Class.
+--- Beta 1.5.3 ---:
+11/3/2014 - Settings/Temp file are now in a global directory.
+11/3/2014 - The GUI setttings now save.
+11/3/2014 - Removed the option to disable syntax highlighting (since it's lightweight now).
+11/3/2014 - About window now contains the version number and the BCV directory.
+11/3/2014 - Added an option to toggle to outdated status.

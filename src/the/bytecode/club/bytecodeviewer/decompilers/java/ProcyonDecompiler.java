@@ -103,8 +103,7 @@ public class ProcyonDecompiler extends JavaDecompiler {
 				throw new Exception("Unable to resolve type.");
 			}
 			StringWriter stringwriter = new StringWriter();
-			settings.getLanguage().decompileType(resolvedType,
-					new PlainTextOutput(stringwriter), decompilationOptions);
+			settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(stringwriter), decompilationOptions);
 			String decompiledSource = stringwriter.toString();
 
 	        
@@ -127,13 +126,7 @@ public class ProcyonDecompiler extends JavaDecompiler {
 			doSaveJarDecompiled(tempZip, new File(zipName));
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-        
-        //tempZip.delete();
-        //new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp").delete();
-		
-		//BytecodeViewer.showMessage("ProcyonDecompiler currently doesn't decompile as zip, please wait till Beta 1.4 of Bytecode Viewer.");
-		
+		}		
 	}
 
 	/**
