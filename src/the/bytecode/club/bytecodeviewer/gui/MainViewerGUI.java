@@ -1,12 +1,13 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
@@ -20,7 +21,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JCheckBoxMenuItem;
 
-import org.apache.commons.codec.binary.Base64;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -37,8 +37,6 @@ import the.bytecode.club.bytecodeviewer.plugins.ZKMStringDecrypter;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -209,7 +207,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			    		try {
 				    		mntmNewMenuItem_4.setIcon(new ImageIcon(getClass().getResource("/resources/1.gif")));
 			    		} catch(NullPointerException e) {
-			    			mntmNewMenuItem_4.setIcon(new ImageIcon(b642IMG("R0lGODlhEAALAPQAAP///wAAANra2tDQ0Orq6gcHBwAAAC8vL4KCgmFhYbq6uiMjI0tLS4qKimVlZb6+vicnJwUFBU9PT+bm5tjY2PT09Dk5Odzc3PLy8ra2tqCgoMrKyu7u7gAAAAAAAAAAACH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7"), ""));
+			    			mntmNewMenuItem_4.setIcon(new ImageIcon(BytecodeViewer.b642IMG("R0lGODlhEAALAPQAAP///wAAANra2tDQ0Orq6gcHBwAAAC8vL4KCgmFhYbq6uiMjI0tLS4qKimVlZb6+vicnJwUFBU9PT+bm5tjY2PT09Dk5Odzc3PLy8ra2tqCgoMrKyu7u7gAAAAAAAAAAACH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7"), ""));
 			    		}
 			    	} else
 			    		mntmNewMenuItem_4.setIcon(null);
@@ -217,27 +215,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     		    }
     	  });
     }
-    
-	/**
-	 * Decodes a Base64 String as a BufferedImage
-	 */
-    public BufferedImage b642IMG(String imageString) {
-        BufferedImage image = null;
-        byte[] imageByte;
-        
-        try {
-            imageByte = Base64.decodeBase64(imageString);
-            ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-            image = ImageIO.read(bis);
-            bis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return image;
-    }
 
     public MainViewerGUI() {
+    	this.setIconImages(BytecodeViewer.iconList);
 		decompilerGroup.add(fernflowerDec);
 		decompilerGroup.add(procyonDec);
 		decompilerGroup.add(cfrDec);
@@ -335,7 +315,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 						BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()});
 						BytecodeViewer.viewer.setC(false);
 					} catch (Exception e1) {
-						e1.printStackTrace();
+						new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e1);
 					}
               }
         });
@@ -424,6 +404,26 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         mnNewMenu.add(chckbxmntmNewCheckItem_12);
         
         JMenuItem mntmExit = new JMenuItem("Exit");
+        mntmExit.addActionListener(new ActionListener() {
+        	@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent arg0) {
+        	    JOptionPane pane = new JOptionPane("Are you sure you want to exit?");
+        	    Object[] options = new String[] { "Yes", "No" };
+        	    pane.setOptions(options);
+        	    JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Exit");
+        	    dialog.show();
+        	    Object obj = pane.getValue(); 
+        	    int result = -1;
+        	    for (int k = 0; k < options.length; k++)
+        	    	if (options[k].equals(obj))
+        	    		result = k;
+        	        
+        	     
+        		if(result == 0) {
+        			System.exit(0);
+        		}
+        	}
+        });
         mnNewMenu.add(mntmExit);
         
         JMenu mnView = new JMenu("View");
@@ -611,8 +611,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         	public void actionPerformed(ActionEvent arg0) {
         		if(!BytecodeViewer.loadedClasses.isEmpty())
             		new ReplaceStringsOptions().setVisible(true);
-        		else
+        		else {
         			System.out.println("Plugin not ran, put some classes in first.");
+        			BytecodeViewer.showMessage("Plugin not ran, put some classes in first.");
+        		}
         	}
         });
         
@@ -637,7 +639,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 						BytecodeViewer.startPlugin(fc.getSelectedFile());
 						BytecodeViewer.viewer.setC(false);
 					} catch (Exception e1) {
-						e1.printStackTrace();
+						new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e1);
 					}
         	}
         });
@@ -655,8 +657,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         	public void actionPerformed(ActionEvent e) {
         		if(!BytecodeViewer.loadedClasses.isEmpty())
         			new MaliciousCodeScannerOptions().setVisible(true);
-        		else
+        		else {
         			System.out.println("Plugin not ran, put some classes in first.");
+        			BytecodeViewer.showMessage("Plugin not ran, put some classes in first.");
+        		}
         	}
         });
         mntmShowAllStrings.addActionListener(new ActionListener() {

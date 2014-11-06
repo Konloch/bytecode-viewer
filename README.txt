@@ -1,4 +1,4 @@
-Bytecode Viewer is a Java Bytecode Viewer, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
+Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
 It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
 
 There is also a plugin system that will allow you to interact with the loaded classfiles, for example you can write a String deobfuscator, a malicious code searcher, or something else you can think of.
@@ -15,6 +15,8 @@ Procyon by Mstrobel
 CFR by Lee Benfield
 
 Video of Beta 1.5.2: http://the.bytecode.club/pages.php?page=bytecode-viewer
+
+Download the latest version here: https://github.com/Konloch/bytecode-viewer/releases
 
 Features:
     Java Decompiler - It uses a modified version of FernFlower, Procyon and CFR.
@@ -133,3 +135,16 @@ Changelog:
 11/3/2014 - Removed the option to disable syntax highlighting (since it's lightweight now).
 11/3/2014 - About window now contains the version number and the BCV directory.
 11/3/2014 - Added an option to toggle to outdated status.
+--- 2.0 ---: //Out of beta, WOO
+11/4/2014 - Officially been 1 month of development.
+11/4/2014 - Replaced ""+ with String.valueOf (cheers bibl).
+11/4/2014 - Changed how the temp directory was created.
+11/4/2014 - Put a file.seperator  to the end of tempDirectory.
+11/4/2014 - Made the exit button work.
+11/4/2014 - Added a GUI for all Exception Stack Trace's.
+11/4/2014 - The plugin system now shows a message instead of just printing to the console when it's not going to run a plugin.
+11/4/2014 - Updated the search function, it's now perfect.
+11/5/2014 - Made the Show All Strings plugin instant.
+11/5/2014 - Kinda added middle mouse button closes tab (only if you click the exit button).
+11/5/2014 - Improved the Malicious Code Scanner, also made it instant.
+11/5/2014 - Added icons to the program (cheers Fluke).

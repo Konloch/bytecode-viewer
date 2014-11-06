@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import static javax.swing.ScrollPaneConstants.*;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -113,25 +114,97 @@ public class ClassViewer extends JPanel {
     public JPanel bytePanel = new JPanel(new BorderLayout());
     public JPanel decompPanel = new JPanel(new BorderLayout());
 
-    public void search(int pane, String search) {
+    /**
+     * This was really interesting to write.
+     * 
+     * @author Konloch
+     * 
+     */
+    public void search(int pane, String search, boolean next) {
     	try {
-	    	if(pane == 0) { //bytecode
-	    		for(Component c : bytePanel.getComponents()) {
+    		Component[] com = null;
+	    	if(pane == 0) //bytecode
+	    		com = bytePanel.getComponents();
+	    	else if(pane == 1)
+	    		com = decompPanel.getComponents();
+	    	
+	    	if(com == null) //someone fucked up, lets prevent a nullpointer.
+	    		return;
+	    	
+	    	for(Component c : com) {
 	    			if(c instanceof RTextScrollPane) {
 	    				RSyntaxTextArea area = (RSyntaxTextArea) ((RTextScrollPane)c).getViewport().getComponent(0);
+
+	    				if(search.isEmpty()) {
+		    				highlight(pane, area, "");
+		    				return;
+	    				}
+	    				
+	    				int startLine = area.getDocument().getDefaultRootElement().getElementIndex(area.getCaretPosition())+1;
+	    				int currentLine = 1;
+	    				boolean canSearch = false;
+	    				String[] test = null;
+	    				if(area.getText().split("\n").length >= 2)
+	    					test = area.getText().split("\n");
+	    				else
+	    					test = area.getText().split("\r");
+	    				int lastGoodLine = -1;
+	    				int firstPos = -1;
+	    				boolean found = false;
+	    				
+	    				if(next) {
+		    				for(String s : test) {
+    	    					if(currentLine == startLine) {
+    	    						canSearch = true;
+    	    					} else if(s.contains(search)) {
+    	    							if(canSearch) {
+    		    		    				area.setCaretPosition(area.getDocument()  
+	    		    							.getDefaultRootElement().getElement(currentLine-1)  
+	    		    							.getStartOffset());
+    	    		    	    			canSearch = false;
+    	    		    	    			found = true;
+    	    							}
+	    		    	    			
+	    	    						if(firstPos == -1)
+	    	    							firstPos = currentLine;
+	    		    				}
+    	    					
+    	    					currentLine++;
+		    				}
+    	    				
+	    					if(!found && firstPos != -1) {
+		    					area.setCaretPosition(area.getDocument()  
+		    							.getDefaultRootElement().getElement(firstPos-1)  
+		    							.getStartOffset());
+	    					}
+	    				} else {
+	    					canSearch = true;
+		    				for(String s : test) {
+		    					if(s.contains(search)) {
+    		    	    				if(lastGoodLine != -1 && canSearch)
+        		    						area.setCaretPosition(area.getDocument()  
+        		    								.getDefaultRootElement().getElement(lastGoodLine-1)  
+        		    								.getStartOffset());
+    		    	    				
+    		    	    				lastGoodLine = currentLine;
+	    	    						
+    		    	    				if(currentLine >= startLine)
+    		    	    					canSearch = false;
+    	    					}
+    	    					currentLine++;
+		    				}
+
+		    				if(lastGoodLine != -1 && area.getDocument().getDefaultRootElement().getElementIndex(area.getCaretPosition())+1 == startLine) {
+			    				area.setCaretPosition(area.getDocument()  
+			    						.getDefaultRootElement().getElement(lastGoodLine-1)  
+			    						.getStartOffset());
+		    				}
+	    				}
 	    				highlight(pane, area, search);
 	    			}
 	    		}
-	    	} else if(pane == 1) { //decomp
-	    		for(Component c : decompPanel.getComponents()) {
-	    			if(c instanceof RTextScrollPane) {
-	    				RSyntaxTextArea area = (RSyntaxTextArea) ((RTextScrollPane)c).getViewport().getComponent(0);
-	    				highlight(pane, area, search);
-	    			}
-	    		}
-	    	}
     	} catch(Exception e) {
-    		e.printStackTrace();
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
     	}
     }
     
@@ -162,32 +235,56 @@ public class ClassViewer extends JPanel {
                 pos += pattern.length();
             }
         } catch (Exception e) {
-        	e.printStackTrace();
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
         }
     }
     
     public ClassViewer(final String name, final ClassNode cn) {
-    	JButton byteSearch = new JButton("Search");
-    	bytePanelSearch.add(byteSearch, BorderLayout.WEST);
+    	JButton byteSearchNext = new JButton();
+    	JButton byteSearchPrev = new JButton();
+    	JPanel byteButtonPane = new JPanel(new BorderLayout());
+    	byteButtonPane.add(byteSearchNext, BorderLayout.WEST);
+    	byteButtonPane.add(byteSearchPrev, BorderLayout.EAST);
+    	byteSearchNext.setIcon(new ImageIcon(BytecodeViewer.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYqPBJSG/ZAAAASUlEQVR42mNgwAbS0oAEE4yHyWBmYAzjYDC694OJ4f9+BoY3H0BSbz6A2MxA6VciFyDqGAWQTWVkYEkCUrcOsDD8OwtkvMViMwAb8xEUHlHcFAAAAABJRU5ErkJggg==")));
+    	byteSearchPrev.setIcon(new ImageIcon(BytecodeViewer.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYgKhxpRi1AAAATElEQVR42mNgwAZYHIAEExA7qUAYLApMDmCGEwODCojByM/A8FEAyPi/moFh9QewYjCAM1iA+D2KqYwMrIlA6tUGFoa/Z4GMt1hsBgCe1wuKber+SwAAAABJRU5ErkJggg==")));
+    	bytePanelSearch.add(byteButtonPane, BorderLayout.WEST);
     	final JTextField byteField = new JTextField();
     	bytePanelSearch.add(byteField, BorderLayout.CENTER);
     	bytePanelSearch.add(byteCheck, BorderLayout.EAST);
-    	byteSearch.addActionListener(new ActionListener() {
+    	byteSearchNext.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent arg0) {
-            	search(0,byteField.getText());
+            	search(0,byteField.getText(), true);
+            }
+    	});
+    	byteSearchPrev.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent arg0) {
+            	search(0,byteField.getText(), false);
             }
     	});
 
-    	JButton decompSearch = new JButton("Search");
-    	decompPanelSearch.add(decompSearch, BorderLayout.WEST);
+    	JButton decompSearchNext = new JButton();
+    	JButton decompSearchPrev = new JButton();
+    	JPanel decompButtonPane = new JPanel(new BorderLayout());
+    	decompButtonPane.add(decompSearchNext, BorderLayout.WEST);
+    	decompButtonPane.add(decompSearchPrev, BorderLayout.EAST);
+    	decompSearchNext.setIcon(new ImageIcon(BytecodeViewer.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYqPBJSG/ZAAAASUlEQVR42mNgwAbS0oAEE4yHyWBmYAzjYDC694OJ4f9+BoY3H0BSbz6A2MxA6VciFyDqGAWQTWVkYEkCUrcOsDD8OwtkvMViMwAb8xEUHlHcFAAAAABJRU5ErkJggg==")));
+    	decompSearchPrev.setIcon(new ImageIcon(BytecodeViewer.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYgKhxpRi1AAAATElEQVR42mNgwAZYHIAEExA7qUAYLApMDmCGEwODCojByM/A8FEAyPi/moFh9QewYjCAM1iA+D2KqYwMrIlA6tUGFoa/Z4GMt1hsBgCe1wuKber+SwAAAABJRU5ErkJggg==")));
+    	decompPanelSearch.add(decompButtonPane, BorderLayout.WEST);
     	final JTextField decompField = new JTextField();
     	decompPanelSearch.add(decompField, BorderLayout.CENTER);
     	decompPanelSearch.add(decompCheck, BorderLayout.EAST);
-    	decompSearch.addActionListener(new ActionListener() {
+    	decompSearchNext.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent arg0) {
-            	search(1,decompField.getText());
+            	search(1,decompField.getText(), true);
+            }
+    	});
+    	decompSearchPrev.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent arg0) {
+            	search(1,decompField.getText(), false);
             }
     	});
     	
@@ -363,7 +460,6 @@ public class ClassViewer extends JPanel {
                     return new IconView(elem);
             }
 
-            // default to text display
             return new LabelView(elem);
         }
     }

@@ -13,6 +13,7 @@ import java.awt.Color;
 
 public class AboutWindow extends JFrame {
 	public AboutWindow() {
+    	this.setIconImages(BytecodeViewer.iconList);
 		setSize(new Dimension(446, 374));
 		setType(Type.UTILITY);
 		setTitle("Bytecode Viewer - About");

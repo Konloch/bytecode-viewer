@@ -218,7 +218,7 @@ public class InstructionPrinter {
 		try {
 			return nameOpcode(tin.getOpcode()) + " " + Type.getType(tin.desc).getClassName();
 		} catch(Exception e) {
-			e.printStackTrace();
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
 		}
 		return "//error";
 	}
@@ -295,7 +295,7 @@ public class InstructionPrinter {
 			}
 			bw.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
 		}
 	}
 }

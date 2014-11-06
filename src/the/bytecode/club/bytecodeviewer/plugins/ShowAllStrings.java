@@ -9,6 +9,8 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 /**
  * Simply shows all the non-empty strings in every single class
  * 
@@ -21,6 +23,7 @@ public class ShowAllStrings extends Plugin {
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList) {
 		PluginConsole frame = new PluginConsole("Show All Strings");
+		StringBuilder sb = new StringBuilder();
 		for(ClassNode classNode : classNodeList) {
 			for(Object o : classNode.fields.toArray()) {
 				FieldNode f = (FieldNode) o;
@@ -28,13 +31,13 @@ public class ShowAllStrings extends Plugin {
 				if(v instanceof String) {
 					String s = (String)v;
             		if(!s.isEmpty())
-            			frame.appendText(classNode.name + "." +f.name+""+f.desc+" -> \"" + s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r") + "\"");
+            			sb.append(classNode.name + "." +f.name+""+f.desc+" -> \"" + s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r") + "\""+BytecodeViewer.nl);
 				}
 				if(v instanceof String[]) {
 					for(int i = 0; i < ((String[])v).length; i++) {
 						String s = ((String[])v)[i];
 						if(!s.isEmpty())
-							frame.appendText(classNode.name + "." +f.name+""+f.desc+"["+i+"] -> \"" + s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r") + "\"");
+							sb.append(classNode.name + "." +f.name+""+f.desc+"["+i+"] -> \"" + s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r") + "\""+BytecodeViewer.nl);
 					}
 				}
 			}
@@ -48,12 +51,14 @@ public class ShowAllStrings extends Plugin {
 		            	if(((LdcInsnNode)a).cst instanceof String) {
 		            		final String s = (String) ((LdcInsnNode)a).cst;
 		            		if(!s.isEmpty())
-		            			frame.appendText(classNode.name + "." +m.name+""+m.desc+" -> \"" + s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r") + "\"");
+		            			sb.append(classNode.name + "." +m.name+""+m.desc+" -> \"" + s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r") + "\""+BytecodeViewer.nl);
 		            	}
 		            }
 				}
 			}
 		}
+		
+		frame.appendText(sb.toString());
 		frame.setVisible(true);
 	}
 
