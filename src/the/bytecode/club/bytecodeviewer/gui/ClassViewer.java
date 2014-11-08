@@ -154,6 +154,13 @@ public class ClassViewer extends JPanel {
 	    				
 	    				if(next) {
 		    				for(String s : test) {
+		    					if(pane == 0 && !byteCheck.isSelected() ||
+		    					   pane == 1 && !decompCheck.isSelected())
+		    					{
+		    						s = s.toLowerCase();
+		    						search = search.toLowerCase();
+		    					}
+		    					
     	    					if(currentLine == startLine) {
     	    						canSearch = true;
     	    					} else if(s.contains(search)) {

@@ -148,3 +148,6 @@ Changelog:
 11/5/2014 - Kinda added middle mouse button closes tab (only if you click the exit button).
 11/5/2014 - Improved the Malicious Code Scanner, also made it instant.
 11/5/2014 - Added icons to the program (cheers Fluke).
+--- 2.0.1 ---:
+11/7/2014 - Fixed the search function.
+11/7/2014 - Removed an unused package containing some unused classes.
