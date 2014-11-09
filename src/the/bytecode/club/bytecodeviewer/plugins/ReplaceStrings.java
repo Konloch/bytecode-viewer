@@ -93,13 +93,13 @@ public class ReplaceStrings extends Plugin {
 	    					if(s.contains(originalLDC)) {
 	    						((LdcInsnNode)a).cst = ((String)((LdcInsnNode)a).cst).replaceAll(originalLDC, newLDC);
 	    						String ugh = s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r");
-	                			frame.appendText(classNode.name + "." +m.name+""+m.desc+" -> \"" + ugh + "\" replaced with \"" + s.replaceAll(originalLDC, newLDC) + "\"");
+	                			frame.appendText(classNode.name + "." +m.name+""+m.desc+" -> \"" + ugh + "\" replaced with \"" + s.replaceAll(originalLDC, newLDC).replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r") + "\"");
 	    					}
 	    				} else {
 	    					if(s.equals(originalLDC)) {
 	    						((LdcInsnNode)a).cst = newLDC;
 	    						String ugh = s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r");
-	                			frame.appendText(classNode.name + "." +m.name+""+m.desc+" -> \"" + ugh + "\" replaced with \"" + newLDC + "\"");
+	                			frame.appendText(classNode.name + "." +m.name+""+m.desc+" -> \"" + ugh + "\" replaced with \"" + newLDC.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r") + "\"");
 	    					}
 	    				}
 	            	}

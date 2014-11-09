@@ -27,6 +27,8 @@ public class DiskReader {
 		if(!map.containsKey(fileName)) {
 			try {
 				File file = new File(fileName);
+				if(!file.exists()) //doesnt exist, return empty
+					return array;
 				
 				BufferedReader reader = new BufferedReader(new FileReader(file));
 				String add;

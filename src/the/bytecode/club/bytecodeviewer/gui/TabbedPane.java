@@ -34,7 +34,8 @@ public class TabbedPane extends JPanel {
 	private static final long serialVersionUID = -4774885688297538774L;
 	private final JTabbedPane pane;
     final JButton button = new TabButton();
-
+    private static long zero = System.currentTimeMillis();
+    
     public TabbedPane(final JTabbedPane pane) {
         //unset default FlowLayout' gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -63,46 +64,22 @@ public class TabbedPane extends JPanel {
         add(button);
         //add more space to the top of the component
         setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
-        pane.addMouseListener(new MouseListener() {
+        button.addMouseListener(new MouseListener() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent e) {
+            	if(e.getModifiers() == 8) {
+        			if(System.currentTimeMillis()-zero >= 500) {
+	                	zero = System.currentTimeMillis();
+		            	final int i = pane.indexOfTabComponent(TabbedPane.this);
+		            	if (i != -1)
+		            	   pane.remove(i);
+        			}
+            	}
 			}
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-			}
-			@Override
-			public void mouseReleased(MouseEvent e) {
-	           //final Component component = e.getComponent();
-	           // if(component instanceof JTabbedPane) {
-	            	if(e.getModifiers() == 8) {
-            			for(Component c : pane.getComponents()) {
-                			if(c.getMousePosition() != null && c instanceof JPanel) {
-                				System.out.println("gotten here...");
-                				/*BytecodeViewer.viewer.getComponent(WorkPane.class).tabs.remove(component);
-                	            final int i = BytecodeViewer.viewer.getComponent(WorkPane.class).tabs.indexOfTabComponent(c);
-                	            if (i != -1)
-                	            	BytecodeViewer.viewer.getComponent(WorkPane.class).tabs.remove(i);
-                	            BytecodeViewer.viewer.getComponent(WorkPane.class).tabs.updateUI();
-                	            BytecodeViewer.viewer.getComponent(WorkPane.class).tabs.repaint();
-                				*////if(c.getComponentAt((int)c.getMousePosition().getX(), (int)c.getMousePosition().getY())button.)
-                					//	button.doClick();
-                			}
-            				
-            				//System.out.println(c.getMousePosition() + ":" + e.getX());		
-                			//System.out.println(c.getWidth() + ":" + e.getX());		
-		            		//if( e.getX() >=  &&
-		            		//	 e.getY())
-		            		//	button.doClick();
-            			}
-	            	}
-	            }
-			//}
+			@Override public void mouseEntered(MouseEvent arg0) {}
+			@Override public void mouseExited(MouseEvent arg0) {}
+			@Override public void mousePressed(MouseEvent arg0) {}
+			@Override public void mouseReleased(MouseEvent e) {}
         	
         });
     }

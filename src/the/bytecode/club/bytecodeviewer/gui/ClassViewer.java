@@ -1,7 +1,11 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.HierarchyEvent;
@@ -10,16 +14,22 @@ import java.util.ArrayList;
 
 import static javax.swing.ScrollPaneConstants.*;
 
-import javax.swing.JEditorPane;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BoxView;
 import javax.swing.text.ComponentView;
+import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Element;
+import javax.swing.text.Highlighter;
 import javax.swing.text.IconView;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.LabelView;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
@@ -27,6 +37,9 @@ import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 import javax.swing.text.html.ParagraphView;
 
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
@@ -94,15 +107,203 @@ public class ClassViewer extends JPanel {
     ClassNode cn;
     JSplitPane sp;
     JSplitPane sp2;
+    public JCheckBox byteCheck = new JCheckBox("Exact");
+    public JPanel bytePanelSearch = new JPanel(new BorderLayout());
+    public JPanel decompPanelSearch = new JPanel(new BorderLayout());
+    public JCheckBox decompCheck = new JCheckBox("Exact");
     public JPanel bytePanel = new JPanel(new BorderLayout());
     public JPanel decompPanel = new JPanel(new BorderLayout());
 
+    /**
+     * This was really interesting to write.
+     * 
+     * @author Konloch
+     * 
+     */
+    public void search(int pane, String search, boolean next) {
+    	try {
+    		Component[] com = null;
+	    	if(pane == 0) //bytecode
+	    		com = bytePanel.getComponents();
+	    	else if(pane == 1)
+	    		com = decompPanel.getComponents();
+	    	
+	    	if(com == null) //someone fucked up, lets prevent a nullpointer.
+	    		return;
+	    	
+	    	for(Component c : com) {
+	    			if(c instanceof RTextScrollPane) {
+	    				RSyntaxTextArea area = (RSyntaxTextArea) ((RTextScrollPane)c).getViewport().getComponent(0);
+
+	    				if(search.isEmpty()) {
+		    				highlight(pane, area, "");
+		    				return;
+	    				}
+	    				
+	    				int startLine = area.getDocument().getDefaultRootElement().getElementIndex(area.getCaretPosition())+1;
+	    				int currentLine = 1;
+	    				boolean canSearch = false;
+	    				String[] test = null;
+	    				if(area.getText().split("\n").length >= 2)
+	    					test = area.getText().split("\n");
+	    				else
+	    					test = area.getText().split("\r");
+	    				int lastGoodLine = -1;
+	    				int firstPos = -1;
+	    				boolean found = false;
+	    				
+	    				if(next) {
+		    				for(String s : test) {
+		    					if(pane == 0 && !byteCheck.isSelected() ||
+		    					   pane == 1 && !decompCheck.isSelected())
+		    					{
+		    						s = s.toLowerCase();
+		    						search = search.toLowerCase();
+		    					}
+		    					
+    	    					if(currentLine == startLine) {
+    	    						canSearch = true;
+    	    					} else if(s.contains(search)) {
+    	    							if(canSearch) {
+    		    		    				area.setCaretPosition(area.getDocument()  
+	    		    							.getDefaultRootElement().getElement(currentLine-1)  
+	    		    							.getStartOffset());
+    	    		    	    			canSearch = false;
+    	    		    	    			found = true;
+    	    							}
+	    		    	    			
+	    	    						if(firstPos == -1)
+	    	    							firstPos = currentLine;
+	    		    				}
+    	    					
+    	    					currentLine++;
+		    				}
+    	    				
+	    					if(!found && firstPos != -1) {
+		    					area.setCaretPosition(area.getDocument()  
+		    							.getDefaultRootElement().getElement(firstPos-1)  
+		    							.getStartOffset());
+	    					}
+	    				} else {
+	    					canSearch = true;
+		    				for(String s : test) {
+		    					if(s.contains(search)) {
+    		    	    				if(lastGoodLine != -1 && canSearch)
+        		    						area.setCaretPosition(area.getDocument()  
+        		    								.getDefaultRootElement().getElement(lastGoodLine-1)  
+        		    								.getStartOffset());
+    		    	    				
+    		    	    				lastGoodLine = currentLine;
+	    	    						
+    		    	    				if(currentLine >= startLine)
+    		    	    					canSearch = false;
+    	    					}
+    	    					currentLine++;
+		    				}
+
+		    				if(lastGoodLine != -1 && area.getDocument().getDefaultRootElement().getElementIndex(area.getCaretPosition())+1 == startLine) {
+			    				area.setCaretPosition(area.getDocument()  
+			    						.getDefaultRootElement().getElement(lastGoodLine-1)  
+			    						.getStartOffset());
+		    				}
+	    				}
+	    				highlight(pane, area, search);
+	    			}
+	    		}
+    	} catch(Exception e) {
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+    	}
+    }
+    
+    private DefaultHighlighter.DefaultHighlightPainter painter =  new DefaultHighlighter.DefaultHighlightPainter(new Color(255,62,150));
+    
+    public void highlight(int pane, JTextComponent textComp, String pattern) {
+    	if(pattern.isEmpty()) {
+    		textComp.getHighlighter().removeAllHighlights();
+    		return;
+    	}
+    	
+        try {
+            Highlighter hilite = textComp.getHighlighter();
+            hilite.removeAllHighlights();
+            javax.swing.text.Document doc = textComp.getDocument();
+            String text = doc.getText(0, doc.getLength());
+            int pos = 0;
+
+            if((pane == 0 && !byteCheck.isSelected()) || pane == 1 && !decompCheck.isSelected()) {
+            	pattern = pattern.toLowerCase();
+            	text = text.toLowerCase();
+            }
+            
+            // Search for pattern
+            while ((pos = text.indexOf(pattern, pos)) >= 0) {
+                // Create highlighter using private painter and apply around pattern
+                hilite.addHighlight(pos, pos + pattern.length(), painter);
+                pos += pattern.length();
+            }
+        } catch (Exception e) {
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+        }
+    }
+    
     public ClassViewer(final String name, final ClassNode cn) {
+    	JButton byteSearchNext = new JButton();
+    	JButton byteSearchPrev = new JButton();
+    	JPanel byteButtonPane = new JPanel(new BorderLayout());
+    	byteButtonPane.add(byteSearchNext, BorderLayout.WEST);
+    	byteButtonPane.add(byteSearchPrev, BorderLayout.EAST);
+    	byteSearchNext.setIcon(new ImageIcon(BytecodeViewer.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYqPBJSG/ZAAAASUlEQVR42mNgwAbS0oAEE4yHyWBmYAzjYDC694OJ4f9+BoY3H0BSbz6A2MxA6VciFyDqGAWQTWVkYEkCUrcOsDD8OwtkvMViMwAb8xEUHlHcFAAAAABJRU5ErkJggg==")));
+    	byteSearchPrev.setIcon(new ImageIcon(BytecodeViewer.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYgKhxpRi1AAAATElEQVR42mNgwAZYHIAEExA7qUAYLApMDmCGEwODCojByM/A8FEAyPi/moFh9QewYjCAM1iA+D2KqYwMrIlA6tUGFoa/Z4GMt1hsBgCe1wuKber+SwAAAABJRU5ErkJggg==")));
+    	bytePanelSearch.add(byteButtonPane, BorderLayout.WEST);
+    	final JTextField byteField = new JTextField();
+    	bytePanelSearch.add(byteField, BorderLayout.CENTER);
+    	bytePanelSearch.add(byteCheck, BorderLayout.EAST);
+    	byteSearchNext.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent arg0) {
+            	search(0,byteField.getText(), true);
+            }
+    	});
+    	byteSearchPrev.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent arg0) {
+            	search(0,byteField.getText(), false);
+            }
+    	});
+
+    	JButton decompSearchNext = new JButton();
+    	JButton decompSearchPrev = new JButton();
+    	JPanel decompButtonPane = new JPanel(new BorderLayout());
+    	decompButtonPane.add(decompSearchNext, BorderLayout.WEST);
+    	decompButtonPane.add(decompSearchPrev, BorderLayout.EAST);
+    	decompSearchNext.setIcon(new ImageIcon(BytecodeViewer.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYqPBJSG/ZAAAASUlEQVR42mNgwAbS0oAEE4yHyWBmYAzjYDC694OJ4f9+BoY3H0BSbz6A2MxA6VciFyDqGAWQTWVkYEkCUrcOsDD8OwtkvMViMwAb8xEUHlHcFAAAAABJRU5ErkJggg==")));
+    	decompSearchPrev.setIcon(new ImageIcon(BytecodeViewer.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYgKhxpRi1AAAATElEQVR42mNgwAZYHIAEExA7qUAYLApMDmCGEwODCojByM/A8FEAyPi/moFh9QewYjCAM1iA+D2KqYwMrIlA6tUGFoa/Z4GMt1hsBgCe1wuKber+SwAAAABJRU5ErkJggg==")));
+    	decompPanelSearch.add(decompButtonPane, BorderLayout.WEST);
+    	final JTextField decompField = new JTextField();
+    	decompPanelSearch.add(decompField, BorderLayout.CENTER);
+    	decompPanelSearch.add(decompCheck, BorderLayout.EAST);
+    	decompSearchNext.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent arg0) {
+            	search(1,decompField.getText(), true);
+            }
+    	});
+    	decompSearchPrev.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent arg0) {
+            	search(1,decompField.getText(), false);
+            }
+    	});
+    	
     	sourcePane = BytecodeViewer.viewer.sourcePane.isSelected();
     	bytecodePane = BytecodeViewer.viewer.bytecodePane.isSelected();
     	hexPane = BytecodeViewer.viewer.hexPane.isSelected();
-    	boolean bytecodeSyntax = BytecodeViewer.viewer.bycSyntax.isSelected();
-    	boolean sourcecodeSyntax = BytecodeViewer.viewer.srcSyntax.isSelected();
+    	
+    	if(bytecodePane)
+        	bytePanel.add(bytePanelSearch, BorderLayout.NORTH);
+    	if(sourcePane)
+        	decompPanel.add(decompPanelSearch, BorderLayout.NORTH);
+    	
         this.name = name;
         this.cn = cn;
         this.setName(name);
@@ -126,8 +327,6 @@ public class ClassViewer extends JPanel {
     	hex.setSize(0, Integer.MAX_VALUE);
     	resetDivider();
 		BytecodeViewer.viewer.setIcon(true);
-		
-		//
 		
         startPaneUpdater();
         this.addComponentListener(new ComponentAdapter() {
@@ -166,38 +365,45 @@ public class ClassViewer extends JPanel {
 			public void doShit() {
 		        final String b = ClassNodeDecompiler.decompile(cn);
 		        
-		        if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.fernflowerDec.getModel()))
-		        	s = ff_dc.decompileClassNode(cn);
-		        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.procyonDec.getModel()))
-		        	s = proc_dc.decompileClassNode(cn);
-		        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.cfrDec.getModel()))
-		        	s = cfr_dc.decompileClassNode(cn);
+		        if(BytecodeViewer.viewer.sourcePane.isSelected()) {
+			        if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.fernflowerDec.getModel()))
+			        	s = ff_dc.decompileClassNode(cn);
+			        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.procyonDec.getModel()))
+			        	s = proc_dc.decompileClassNode(cn);
+			        else if(BytecodeViewer.viewer.decompilerGroup.isSelected(BytecodeViewer.viewer.cfrDec.getModel()))
+			        	s = cfr_dc.decompileClassNode(cn);
+		        }
 		        
 		        SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-					    JEditorPane
-					    		bytecode = new JEditorPane(),
-					    		decomp = new JEditorPane();
-					    JScrollPane
-				        		bytecodeScroll = new JScrollPane(bytecode),
-				        		decompScroll = new JScrollPane(decomp);
-				        
-				        if(bytecodePane && BytecodeViewer.viewer.bycSyntax.isSelected())
-				        	bytecode.setContentType("text/java");
-				        if(sourcePane && BytecodeViewer.viewer.srcSyntax.isSelected())
-				            decomp.setContentType("text/java");
-				        
-                    	if(bytecodePane)
-                    		bytecode.setText(b);
-                    	if(sourcePane)
-                    		decomp.setText(s);
+                        RSyntaxTextArea bytecodeArea = new RSyntaxTextArea();
+                        bytecodeArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        bytecodeArea.setCodeFoldingEnabled(true);
+                        bytecodeArea.setAntiAliasingEnabled(true);
+                        RTextScrollPane bytecodeSPane = new RTextScrollPane(bytecodeArea);
+                        bytecodeArea.setText(b);
                     	
-						bytePanel.add(bytecodeScroll);
-						decompPanel.add(decompScroll);
+                        RSyntaxTextArea sourcecodeArea = new RSyntaxTextArea();
+                        sourcecodeArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        sourcecodeArea.setCodeFoldingEnabled(true);
+                        sourcecodeArea.setAntiAliasingEnabled(true);
+                        RTextScrollPane sourcecodeSPane = new RTextScrollPane(sourcecodeArea);
+                        sourcecodeArea.setText(s);
+
+				        if(BytecodeViewer.viewer.bytecodePane.isSelected()) {
+				        	if(bytePanel.getComponents().length == 2)
+				        		bytePanel.remove(1);
+				        	bytePanel.add(bytecodeSPane);
+				        }
+				        
+				        if(BytecodeViewer.viewer.sourcePane.isSelected()) {
+				        	if(decompPanel.getComponents().length == 2)
+				        		decompPanel.remove(1);
+				        	decompPanel.add(sourcecodeSPane);
+				        }
+				        bytecodeArea.setCaretPosition(0);
+				        sourcecodeArea.setCaretPosition(0);
 						
-                    	bytecode.setCaretPosition(0);
-                    	decomp.setCaretPosition(0);
-                    	
 						BytecodeViewer.viewer.setIcon(false);
                     }
 		        });
@@ -261,7 +467,6 @@ public class ClassViewer extends JPanel {
                     return new IconView(elem);
             }
 
-            // default to text display
             return new LabelView(elem);
         }
     }

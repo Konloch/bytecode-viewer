@@ -21,9 +21,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.MethodNode;
 
 import the.bytecode.club.bytecodeviewer.*;
 import the.bytecode.club.bytecodeviewer.searching.*;
@@ -128,9 +126,8 @@ public class SearchingPane extends VisibleComponent {
                 final SearchRadius radius = (SearchRadius) searchRadiusBox.getSelectedItem();
                 final SearchResultNotifier srn = new SearchResultNotifier() {
                     @Override
-                    public void notifyOfResult(final ClassNode clazz,
-                            final MethodNode method, final AbstractInsnNode insn) {
-                        treeRoot.add(new DefaultMutableTreeNode(clazz.name + "." + method.name));
+                    public void notifyOfResult(String debug) {
+                        treeRoot.add(new DefaultMutableTreeNode(debug));
                     }
                 };
                 if (radius == SearchRadius.All_Classes) {

@@ -1,4 +1,4 @@
-Bytecode Viewer is a Java Bytecode Viewer, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
+Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
 It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
 
 There is also a plugin system that will allow you to interact with the loaded classfiles, for example you can write a String deobfuscator, a malicious code searcher, or something else you can think of.
@@ -14,7 +14,9 @@ FernFlower by Stiver
 Procyon by Mstrobel
 CFR by Lee Benfield
 
-Video of Beta 1.0 (Outdated): https://mediacru.sh/RJUXfW9wd2Tu/direct
+Video of Beta 1.5.2: http://the.bytecode.club/pages.php?page=bytecode-viewer
+
+Download the latest version here: https://github.com/Konloch/bytecode-viewer/releases
 
 Features:
     Java Decompiler - It uses a modified version of FernFlower, Procyon and CFR.
@@ -108,3 +110,44 @@ Changelog:
 10/29/2014 - All the built in plugins no longer set the cursor to busy.
 10/29/2014 - Tried to fix the issue with JSyntaxPane by making it create the object in a background thread, it still freezes the UI. Changes kept for later implementation of another syntax highlighter.
 10/29/2014 - Sped up start up time
+--- Beta 1.3.1 ---:
+10/29/2014 - Replaced JSyntaxPane with RSyntaxArea, this sadly removes the search feature inside of source/bytecode files, I'll implement a search function soon. (This also fixes the JRE 1.8 issue)
+10/29/2014 - Added a new decompiler option to append brackets to labels.
+10/31/2014 - Fixed an issue with the decompiler still running when the source code pane isn't toggled.
+--- Beta 1.4 ---:
+11/1/2014 - Fixed FernFlower save Java files on Unix.
+11/1/2014 - FernFlower now uses the settings for save Java files.
+11/1/2014 - Added Procyon save Java files (It uses the settings).
+11/1/2014 - Updated CFR to cfr_0_89.
+11/1/2014 - Added CFR save Java files (It uses the settings), however it relies on the file system, because of this if there is heavy name obfuscation, it could mess up for windows.
+--- Beta 1.5 ---:
+11/1/2014 - Updated and improved the search function, it now prints out more useful information.
+11/1/2014 - Fixed a UI issue with the Replace All Strings plugin.
+11/2/2014 - Added search function to the Class Viewer.
+11/2/2014 - Updated Procyon to procyon-decompiler-0.5.27.
+--- Beta 1.5.1 ---:
+11/2/2014 - Fixed a CFR issue with packages.
+--- Beta 1.5.2 ---:
+11/3/2014 - Fixed Refresh Class.
+--- Beta 1.5.3 ---:
+11/3/2014 - Settings/Temp file are now in a global directory.
+11/3/2014 - The GUI setttings now save.
+11/3/2014 - Removed the option to disable syntax highlighting (since it's lightweight now).
+11/3/2014 - About window now contains the version number and the BCV directory.
+11/3/2014 - Added an option to toggle to outdated status.
+--- 2.0 ---: //Out of beta, WOO
+11/4/2014 - Officially been 1 month of development.
+11/4/2014 - Replaced ""+ with String.valueOf (cheers bibl).
+11/4/2014 - Changed how the temp directory was created.
+11/4/2014 - Put a file.seperator  to the end of tempDirectory.
+11/4/2014 - Made the exit button work.
+11/4/2014 - Added a GUI for all Exception Stack Trace's.
+11/4/2014 - The plugin system now shows a message instead of just printing to the console when it's not going to run a plugin.
+11/4/2014 - Updated the search function, it's now perfect.
+11/5/2014 - Made the Show All Strings plugin instant.
+11/5/2014 - Kinda added middle mouse button closes tab (only if you click the exit button).
+11/5/2014 - Improved the Malicious Code Scanner, also made it instant.
+11/5/2014 - Added icons to the program (cheers Fluke).
+--- 2.0.1 ---:
+11/7/2014 - Fixed the search function.
+11/7/2014 - Removed an unused package containing some unused classes.

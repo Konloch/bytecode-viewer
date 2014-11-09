@@ -1,20 +1,24 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
 import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugins.ReplaceStrings;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JCheckBox;
 
 public class ReplaceStringsOptions extends JFrame {
 	public ReplaceStringsOptions() {
+    	this.setIconImages(BytecodeViewer.iconList);
 		setSize(new Dimension(250, 176));
 		setResizable(false);
 		setTitle("Replace Strings");

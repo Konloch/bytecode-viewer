@@ -8,15 +8,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import eu.bibl.banalysis.asm.desc.OpcodeInfo;
+
 /**
  * Method call searching
  * 
+ * @author Konloch
  * @author WaterWolf
  *
  */
@@ -78,7 +82,7 @@ public class MethodCallSearch implements SearchTypeDetails {
 	                    if (desc != null && !desc.equals(min.desc)) {
 	                        continue;
 	                    }
-	                    srn.notifyOfResult(node, method, insnNode);
+	                    srn.notifyOfResult(node.name + "." + method.name + Type.getType(method.desc) + " > " + OpcodeInfo.OPCODES.get(insnNode.getOpcode()).toLowerCase());
                     } else {
 	                    if (name != null && !name.contains(min.name)) {
 	                        continue;
@@ -89,7 +93,7 @@ public class MethodCallSearch implements SearchTypeDetails {
 	                    if (desc != null && !desc.contains(min.desc)) {
 	                        continue;
 	                    }
-	                    srn.notifyOfResult(node, method, insnNode);
+	                    srn.notifyOfResult(node.name + "." + method.name + Type.getType(method.desc) + " > " + OpcodeInfo.OPCODES.get(insnNode.getOpcode()).toLowerCase());
                     }
                 }
             }

@@ -1,9 +1,17 @@
 package the.bytecode.club.bytecodeviewer.decompilers.java;
 
+import java.io.Closeable;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Random;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import me.konloch.kontainer.io.DiskReader;
 
@@ -11,6 +19,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.JarUtils;
 
 /**
  * 
@@ -37,7 +46,7 @@ public class CFRDecompiler extends JavaDecompiler {
             
             fos.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
         }
 
         String fuckery = fuckery(fileStart);
@@ -46,19 +55,8 @@ public class CFRDecompiler extends JavaDecompiler {
         tempClass.delete();
         
 
-        for(File outputJava : new File(fuckery).listFiles()) {
-        	String s;
-			try {
-				s = DiskReader.loadAsString(outputJava.getAbsolutePath());
-	        	
-	            outputJava.delete();
-	            
-	            return s;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-        }
-        return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
+        return findFile(new File(fuckery).listFiles());
+
 	}
 	
 	Random r = new Random();
@@ -72,6 +70,24 @@ public class CFRDecompiler extends JavaDecompiler {
 		}
 		
 		return null;
+	}
+	
+	public String findFile(File[] fA) {
+		for(File f : fA) {
+			if(f.isDirectory())
+				return findFile(f.listFiles());
+			else {
+				String s = "";
+				try {
+					s = DiskReader.loadAsString(f.getAbsolutePath());
+				} catch(Exception e) {
+					new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+					return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
+				}
+				return s;
+			}
+		}
+		return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
 	}
 	
 	public String[] generateMainMethod(String filePath, String outputPath) {
@@ -168,29 +184,82 @@ public class CFRDecompiler extends JavaDecompiler {
 		};
 	}
 
+	byte[] buffer = new byte[1024];
 	@Override
 	public void decompileToZip(String zipName) {
-		/*
 		File tempZip = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp.jar");
 		if(tempZip.exists())
 			tempZip.delete();
 		
 		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempZip.getAbsolutePath());
-		
 
         String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp";
         
-		
         String fuckery = fuckery(fileStart);
+
         org.benf.cfr.reader.Main.main(generateMainMethod(tempZip.getAbsolutePath(), fuckery));
-
+        
         tempZip.delete();
-
-        for(File f : new File(fuckery).listFiles()) {
-        	//put contents into a zipfile
-        }*/
-		BytecodeViewer.showMessage("CFRDecompiler currently doesn't decompile as zip, please wait till Beta 1.4 of Bytecode Viewer.");
-
+		File fuck = new File(fuckery);
+        
+		try {
+			zip(fuck, new File(zipName));
+		} catch (IOException e) {
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+		}
+        
+		fuck.delete();
 	}
+	
+	@SuppressWarnings("resource")
+	public void zip(File directory, File zipfile) throws IOException {
+		    java.net.URI base = directory.toURI();
+		    Deque<File> queue = new LinkedList<File>();
+		    queue.push(directory);
+		    OutputStream out = new FileOutputStream(zipfile);
+		    Closeable res = out;
+		    try {
+		      ZipOutputStream zout = new ZipOutputStream(out);
+		      res = zout;
+		      while (!queue.isEmpty()) {
+		        directory = queue.pop();
+		        for (File kid : directory.listFiles()) {
+		          String name = base.relativize(kid.toURI()).getPath();
+		          if (kid.isDirectory()) {
+		            queue.push(kid);
+		            name = name.endsWith("/") ? name : name + "/";
+		            zout.putNextEntry(new ZipEntry(name));
+		          } else {
+		            zout.putNextEntry(new ZipEntry(name));
+		            copy(kid, zout);
+		            zout.closeEntry();
+		          }
+		        }
+		      }
+		    } finally {
+		      res.close();
+		      out.close();
+		    }
+		  }
 
+	  private static void copy(InputStream in, OutputStream out) throws IOException {
+		  byte[] buffer = new byte[1024];
+		    while (true) {
+		      int readCount = in.read(buffer);
+		      if (readCount < 0) {
+		        break;
+		      }
+		      out.write(buffer, 0, readCount);
+		    }
+		  }
+
+		  private static void copy(File file, OutputStream out) throws IOException {
+		    InputStream in = new FileInputStream(file);
+		    try {
+		      copy(in, out);
+		    } finally {
+		      in.close();
+		    }
+		  }
+	  
 }

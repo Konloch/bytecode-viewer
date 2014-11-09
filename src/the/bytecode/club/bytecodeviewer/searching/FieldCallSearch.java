@@ -8,15 +8,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodNode;
 
+import eu.bibl.banalysis.asm.desc.OpcodeInfo;
+
 /**
  * Field call searching
  * 
+ * @author Konloch
  * @author Water Wolf
  *
  */
@@ -78,7 +82,7 @@ public class FieldCallSearch implements SearchTypeDetails {
 	                    if (desc != null && !desc.equals(min.desc)) {
 	                        continue;
 	                    }
-	                    srn.notifyOfResult(node, method, insnNode);
+	                    srn.notifyOfResult(node.name + "." + method.name + Type.getType(method.desc) + " > " + OpcodeInfo.OPCODES.get(insnNode.getOpcode()).toLowerCase());
                     } else {
 
                         if (name != null && !name.contains(min.name)) {
@@ -90,7 +94,7 @@ public class FieldCallSearch implements SearchTypeDetails {
                         if (desc != null && !desc.contains(min.desc)) {
                             continue;
                         }
-                        srn.notifyOfResult(node, method, insnNode);
+	                    srn.notifyOfResult(node.name + "." + method.name + Type.getType(method.desc) + " > " + OpcodeInfo.OPCODES.get(insnNode.getOpcode()).toLowerCase());
                     }
                 }
             }

@@ -21,10 +21,12 @@ public abstract class Plugin extends Thread {
 		try {
 			if(!BytecodeViewer.getLoadedClasses().isEmpty())
 				execute(BytecodeViewer.getLoadedClasses());
-			else
+			else {
 				System.out.println("Plugin not ran, put some classes in first.");
+				BytecodeViewer.showMessage("Plugin not ran, put some classes in first.");
+			}
 		} catch(Exception e) {
-			e.printStackTrace();
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
 		} finally {
 			finished = true;
 			BytecodeViewer.viewer.setIcon(false);

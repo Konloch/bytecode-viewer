@@ -3,12 +3,10 @@ package the.bytecode.club.bytecodeviewer.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -16,8 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import jsyntaxpane.DefaultSyntaxKit;
 
 import org.objectweb.asm.tree.ClassNode;
 
@@ -50,17 +46,6 @@ public class WorkPane extends VisibleComponent implements ActionListener {
     public WorkPane(final FileChangeNotifier fcn) {
         super("WorkPanel");
         setTitle("Work Space");
-        
-       DefaultSyntaxKit.initKit();
-       Font defFont = null;
-       try {
-    	   final Field defFontField = DefaultSyntaxKit.class.getDeclaredField("DEFAULT_FONT");
-    	   defFontField.setAccessible(true);
-           defFont = (Font) defFontField.get(null);
-        } catch (final Exception e) {
-        	e.printStackTrace();
-        }
-        SyntaxFontHeight = defFont.getSize();
         
         this.tabs = new JTabbedPane();
         this.fcn = fcn;

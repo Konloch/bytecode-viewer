@@ -223,7 +223,7 @@ public class RegexInsnFinder {
 								"Unknown opcode encountered: "
 										+ ain.getOpcode());
 					} catch (final UnexpectedException e) {
-						e.printStackTrace();
+						new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
 					}
                 }
 				offsets[i] = insnString.length();
@@ -309,7 +309,7 @@ public class RegexInsnFinder {
 			if (regexMatcher.find())
 				return makeResult(regexMatcher.start(), regexMatcher.end());
 		} catch (final PatternSyntaxException ex) {
-			ex.printStackTrace();
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(ex);
 		}
 		return new AbstractInsnNode[0];
 	}
@@ -328,7 +328,7 @@ public class RegexInsnFinder {
                 results.add(makeResult(regexMatcher.start(), regexMatcher.end()));
             }
 		} catch (final PatternSyntaxException ex) {
-			ex.printStackTrace();
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(ex);
 		}
 		return results;
 	}
@@ -350,7 +350,7 @@ public class RegexInsnFinder {
 				return result;
 			}
 		} catch (final PatternSyntaxException ex) {
-			ex.printStackTrace();
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(ex);
 		}
 		return new AbstractInsnNode[0][0];
 	}
@@ -373,7 +373,7 @@ public class RegexInsnFinder {
 				results.add(result);
 			}
 		} catch (final PatternSyntaxException ex) {
-			ex.printStackTrace();
+			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(ex);
 		}
 		return results;
 	}

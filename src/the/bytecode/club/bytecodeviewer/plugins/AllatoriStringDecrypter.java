@@ -17,9 +17,6 @@ public class AllatoriStringDecrypter extends Plugin {
 
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList) {
-		for(ClassNode classNode : classNodeList) {
-			
-		}
 		BytecodeViewer.showMessage("This is a planned feature.");
 	}
 
