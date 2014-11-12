@@ -16,10 +16,10 @@ import java.io.StringWriter;
 
 public class StackTraceUI extends JFrame {
 	
-	public StackTraceUI(Exception e) {
+	public StackTraceUI(Exception e, String author) {
     	this.setIconImages(BytecodeViewer.iconList);
 		setSize(new Dimension(600, 400));
-		setTitle("Bytecode Viewer "+BytecodeViewer.version+" - Stack Trace - Send this to @Konloch.");
+		setTitle("Bytecode Viewer "+BytecodeViewer.version+" - Stack Trace - Send this to @"+author+".");
 		getContentPane().setLayout(new CardLayout(0, 0));
 		
 		JTextArea txtrBytecodeViewerIs = new JTextArea();
