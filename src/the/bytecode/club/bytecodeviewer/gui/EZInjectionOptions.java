@@ -50,13 +50,11 @@ public class EZInjectionOptions extends JFrame {
 		
 		final JCheckBox runtime = new JCheckBox("Sandbox Runtime.exec");
 		runtime.setEnabled(false);
-		runtime.setSelected(true);
 		runtime.setBounds(6, 138, 232, 23);
 		getContentPane().add(runtime);
 		
 		final JCheckBox system = new JCheckBox("Sandbox System.exit");
 		system.setEnabled(false);
-		system.setSelected(true);
 		system.setBounds(6, 164, 232, 23);
 		getContentPane().add(system);
 
