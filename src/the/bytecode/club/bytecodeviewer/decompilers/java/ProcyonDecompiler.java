@@ -84,7 +84,7 @@ public class ProcyonDecompiler extends JavaDecompiler {
 	            
 	            fos.close();
 	        } catch (final IOException e) {
-				new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 	        }
 	        
 
@@ -109,7 +109,7 @@ public class ProcyonDecompiler extends JavaDecompiler {
 	        
 			return decompiledSource;
 		} catch(Exception e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
         return "Procyon error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
 	}
@@ -125,7 +125,7 @@ public class ProcyonDecompiler extends JavaDecompiler {
 	    try {
 			doSaveJarDecompiled(tempZip, new File(zipName));
 		} catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}		
 	}
 

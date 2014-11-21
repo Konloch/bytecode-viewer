@@ -46,7 +46,7 @@ public class CFRDecompiler extends JavaDecompiler {
             
             fos.close();
         } catch (final IOException e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
 
         String fuckery = fuckery(fileStart);
@@ -81,7 +81,7 @@ public class CFRDecompiler extends JavaDecompiler {
 				try {
 					s = DiskReader.loadAsString(f.getAbsolutePath());
 				} catch(Exception e) {
-					new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 					return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
 				}
 				return s;
@@ -205,7 +205,7 @@ public class CFRDecompiler extends JavaDecompiler {
 		try {
 			zip(fuck, new File(zipName));
 		} catch (IOException e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
         
 		fuck.delete();

@@ -59,7 +59,7 @@ public class FernFlowerDecompiler extends JavaDecompiler {
             
             fos.close();
         } catch (final IOException e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
         
         org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClass.getAbsolutePath(), "."));
@@ -76,7 +76,7 @@ public class FernFlowerDecompiler extends JavaDecompiler {
 	            
 	            return s;
 			} catch (Exception e) {
-				new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 			}
         }
         return "FernFlower error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";

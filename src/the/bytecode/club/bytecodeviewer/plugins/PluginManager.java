@@ -8,6 +8,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.Plugin;
 
 /**
  * Supports loading of groovy, python or ruby scripts.
@@ -23,10 +24,10 @@ public class PluginManager {
 	private static Plugin pluginInstance;
 	
 	public static void runPlugin(Plugin newPluginInstance) {
-		if(pluginInstance == null || pluginInstance.finished) {
+		if(pluginInstance == null || pluginInstance.isFinished()) {
 			pluginInstance = newPluginInstance;
 			pluginInstance.start(); //start the thread
-		} else if(!pluginInstance.finished) {
+		} else if(!pluginInstance.isFinished()) {
 			BytecodeViewer.showMessage("There is currently another plugin running right now, please wait for that to finish executing.");
 		}
 	}

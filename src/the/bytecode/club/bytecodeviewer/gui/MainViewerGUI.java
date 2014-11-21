@@ -29,6 +29,9 @@ import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.decompilers.java.CFRDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.java.FernFlowerDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.java.ProcyonDecompiler;
+import the.bytecode.club.bytecodeviewer.obfuscators.RenameClasses;
+import the.bytecode.club.bytecodeviewer.obfuscators.RenameFields;
+import the.bytecode.club.bytecodeviewer.obfuscators.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugins.AllatoriStringDecrypter;
 import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugins.ShowAllStrings;
@@ -163,6 +166,18 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JCheckBoxMenuItem chckbxmntmNewCheckItem_11 = new JCheckBoxMenuItem("Exclude Nested Types");
     public final JCheckBoxMenuItem chckbxmntmAppendBrackets = new JCheckBoxMenuItem("Append Brackets To Labels");
     public final JCheckBoxMenuItem chckbxmntmNewCheckItem_12 = new JCheckBoxMenuItem("Update Check");
+    private final JMenuItem mntmNewMenuItem_5 = new JMenuItem("EZ Inject");
+    private final JMenu mnNewMenu_5 = new JMenu("Obfuscate");
+    private final JMenuItem mntmNewMenuItem_6 = new JMenuItem("Rename Fields");
+    private final JMenuItem mntmNewMenuItem_7 = new JMenuItem("Rename Methods");
+    private final JMenuItem mntmNewMenuItem_8 = new JMenuItem("Move All Classes Into Root Package");
+    private final JMenuItem mntmNewMenuItem_9 = new JMenuItem("Control Flow");
+    private final JMenuItem mntmNewMenuItem_10 = new JMenuItem("Junk Code");
+	public final ButtonGroup obfuscatorGroup = new ButtonGroup();
+    public final JRadioButtonMenuItem strongObf = new JRadioButtonMenuItem("Strong Obfuscation");
+    public final JRadioButtonMenuItem lightObf = new JRadioButtonMenuItem("Light Obfuscation");
+    private final JMenuItem mntmNewMenuItem_11 = new JMenuItem("Rename Classes");
+    private final JSeparator separator_2 = new JSeparator();
 	
     public void setC(boolean busy) {
     	if(busy) {
@@ -222,6 +237,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		decompilerGroup.add(procyonDec);
 		decompilerGroup.add(cfrDec);
 		decompilerGroup.setSelected(procyonDec.getModel(), true);
+		obfuscatorGroup.add(strongObf);
+		obfuscatorGroup.add(lightObf);
+		obfuscatorGroup.setSelected(strongObf.getModel(), true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//fernflower
 		rbr.setSelected(true);
@@ -315,7 +333,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 						BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()});
 						BytecodeViewer.viewer.setC(false);
 					} catch (Exception e1) {
-						new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e1);
+						new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
 					}
               }
         });
@@ -598,6 +616,57 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         mnBytecodeDecompilerSettings.add(chckbxmntmAppendBrackets);
         
         mnBytecodeDecompilerSettings.add(chckbxmntmNewCheckItem);
+        mnNewMenu_5.setVisible(false);
+        
+        menuBar.add(mnNewMenu_5);
+        mntmNewMenuItem_6.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		if(BytecodeViewer.runningObfuscation) {
+            		BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish.");
+            		return;
+            	}
+        		new RenameFields().start();
+        	}
+        });
+        
+        mnNewMenu_5.add(strongObf);
+        
+        mnNewMenu_5.add(lightObf);
+        
+        mnNewMenu_5.add(separator_2);
+        mntmNewMenuItem_8.setEnabled(false);
+        
+        mnNewMenu_5.add(mntmNewMenuItem_8);
+        
+        mnNewMenu_5.add(mntmNewMenuItem_6);
+        mntmNewMenuItem_7.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		if(BytecodeViewer.runningObfuscation) {
+        			BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish.");
+        			return;
+        		}
+        		new RenameMethods().start();
+        	}
+        });
+        
+        mnNewMenu_5.add(mntmNewMenuItem_7);
+        mntmNewMenuItem_11.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		if(BytecodeViewer.runningObfuscation) {
+            		BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish.");
+            		return;
+            	}
+        		new RenameClasses().start();
+        	}
+        });
+        
+        mnNewMenu_5.add(mntmNewMenuItem_11);
+        mntmNewMenuItem_9.setEnabled(false);
+        
+        mnNewMenu_5.add(mntmNewMenuItem_9);
+        mntmNewMenuItem_10.setEnabled(false);
+        
+        mnNewMenu_5.add(mntmNewMenuItem_10);
         
         menuBar.add(mnNewMenu_1);
         mnNewMenu_1.add(mntmStartExternalPlugin);
@@ -621,6 +690,18 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         mnNewMenu_1.add(mntmReplaceStrings);
         mnNewMenu_1.add(mntmNewMenuItem_2);
         mnNewMenu_1.add(mntmStartZkmString);
+        mntmNewMenuItem_5.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		if(!BytecodeViewer.loadedClasses.isEmpty())
+        			new EZInjectionOptions().setVisible(true);
+        		else {
+        			System.out.println("Plugin not ran, put some classes in first.");
+        			BytecodeViewer.showMessage("Plugin not ran, put some classes in first.");
+        		}
+        	}
+        });
+        
+        mnNewMenu_1.add(mntmNewMenuItem_5);
         
         menuBar.add(mntmNewMenuItem_4);
         
@@ -639,7 +720,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 						BytecodeViewer.startPlugin(fc.getSelectedFile());
 						BytecodeViewer.viewer.setC(false);
 					} catch (Exception e1) {
-						new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e1);
+						new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
 					}
         	}
         });

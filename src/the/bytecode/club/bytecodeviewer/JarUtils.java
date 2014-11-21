@@ -101,7 +101,7 @@ public class JarUtils {
 			
 			out.close();
 		} catch (IOException e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
 	}
     
@@ -128,7 +128,7 @@ public class JarUtils {
 			
 			out.close();
 		} catch (IOException e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
 	}
     

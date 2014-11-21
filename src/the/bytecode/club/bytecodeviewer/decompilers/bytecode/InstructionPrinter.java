@@ -218,7 +218,7 @@ public class InstructionPrinter {
 		try {
 			return nameOpcode(tin.getOpcode()) + " " + Type.getType(tin.desc).getClassName();
 		} catch(Exception e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
 		return "//error";
 	}
@@ -267,25 +267,6 @@ public class InstructionPrinter {
 		}
 	}
 	
-	/**
-	 * Creates the print
-	 * @return The print as a string array
-	 */
-	public String[] getLines() {
-		ArrayList<String> lines = createPrint();
-		return lines.toArray(new String[lines.size()]);
-	}
-	
-	/**
-	 * Static method to print
-	 * @param lines To print
-	 */
-	public static void consolePrint(String[] lines) {
-		for(String line : lines) {
-			System.out.println(line);
-		}
-	}
-	
 	public static void saveTo(File file, InstructionPrinter printer) {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
@@ -295,7 +276,7 @@ public class InstructionPrinter {
 			}
 			bw.close();
 		} catch (IOException e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
 	}
 }

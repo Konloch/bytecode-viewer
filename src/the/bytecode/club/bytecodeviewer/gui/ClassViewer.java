@@ -211,7 +211,7 @@ public class ClassViewer extends JPanel {
 	    			}
 	    		}
     	} catch(Exception e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
     	}
     }
     
@@ -242,7 +242,7 @@ public class ClassViewer extends JPanel {
                 pos += pattern.length();
             }
         } catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
     }
     

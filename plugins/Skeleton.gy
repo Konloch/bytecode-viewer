@@ -1,5 +1,4 @@
-import the.bytecode.club.bytecodeviewer.plugins.Plugin;
-import the.bytecode.club.bytecodeviewer.plugins.PluginConsole;
+import the.bytecode.club.bytecodeviewer.api.*;
 import java.util.ArrayList;
 import org.objectweb.asm.tree.ClassNode;
 

@@ -1,11 +1,14 @@
 package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.LocalVariableNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TryCatchBlockNode;
 
@@ -95,8 +98,23 @@ public class MethodNodeDecompiler {
 			}
 			
 			sb.append(BytecodeViewer.nl);
+
+			if (m.signature != null) {
+				sb.append("         <sig:").append(m.signature).append(">");
+			}
 			
 			InstructionPrinter insnPrinter = new InstructionPrinter(m, args);
+						
+			addAttrList(m.attrs, "attr", sb, insnPrinter);
+			addAttrList(m.invisibleAnnotations, "invisAnno", sb, insnPrinter);
+			addAttrList(m.invisibleAnnotations, "invisLocalVarAnno", sb, insnPrinter);
+			addAttrList(m.invisibleTypeAnnotations, "invisTypeAnno", sb, insnPrinter);
+			addAttrList(m.localVariables, "localVar", sb, insnPrinter);
+			addAttrList(m.visibleAnnotations, "visAnno", sb, insnPrinter);
+			addAttrList(m.visibleLocalVariableAnnotations, "visLocalVarAnno", sb, insnPrinter);
+			addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb, insnPrinter);
+
+			
 			for (Object o : m.tryCatchBlocks) {
 				TryCatchBlockNode tcbn = (TryCatchBlockNode) o;
 				sb.append("         ");
@@ -121,6 +139,44 @@ public class MethodNodeDecompiler {
 			sb.append("     }"+BytecodeViewer.nl);
 		}
 		return sb;
+	}
+    
+	private static void addAttrList(List<?> list, String name, PrefixedStringBuilder sb, InstructionPrinter insnPrinter) {
+		if (list == null)
+			return;
+		if (list.size() > 0) {
+			for (Object o : list) {
+				sb.append("         <");
+				sb.append(name);
+				sb.append(":");
+				sb.append(printAttr(o, insnPrinter));
+				sb.append(">");
+				sb.append("\n");
+			}
+			sb.append("\n");
+		}
+	}
+	
+	private static String printAttr(Object o, InstructionPrinter insnPrinter) {
+		if (o instanceof LocalVariableNode) {
+			LocalVariableNode lvn = (LocalVariableNode) o;
+			return "index=" + lvn.index + " , name=" + lvn.name + " , desc=" + lvn.desc + ", sig=" + lvn.signature + ", start=L" + insnPrinter.resolveLabel(lvn.start) + ", end=L" + insnPrinter.resolveLabel(lvn.end);
+		} else if (o instanceof AnnotationNode) {
+			AnnotationNode an = (AnnotationNode) o;
+			StringBuilder sb = new StringBuilder();
+			sb.append("desc = ");
+			sb.append(an.desc);
+			sb.append(" , values = ");
+			if (an.values != null) {
+				sb.append(Arrays.toString(an.values.toArray()));
+			} else {
+				sb.append("[]");
+			}
+			return sb.toString();
+		}
+		if (o == null)
+			return "";
+		return o.toString();
 	}
 	
 	private static String getAccessString(int access) {

@@ -32,7 +32,8 @@ public class ClassNodeDecompiler {
 		sb.append(" ");
 		sb.append(cn.name);
         if (cn.superName != null && !cn.superName.equals("java/lang/Object")) {
-            sb.append(" extends " + cn.superName);
+            sb.append(" extends ");
+            sb.append(cn.superName);
         }
 		
 		int amountOfInterfaces = cn.interfaces.size();
@@ -47,9 +48,11 @@ public class ClassNodeDecompiler {
 				sb.append(cn.interfaces.get(i));
 			}
 		}
-		sb.append(" {"+BytecodeViewer.nl);
+		sb.append(" {");
+		sb.append(BytecodeViewer.nl);
 		for (FieldNode fn : (List<FieldNode>)cn.fields) {
-			sb.append(BytecodeViewer.nl+"     ");
+			sb.append(BytecodeViewer.nl);
+			sb.append("     ");
 			FieldNodeDecompiler.decompile(sb, fn);
 		}
 		if (cn.fields.size() > 0) {
@@ -80,8 +83,10 @@ public class ClassNodeDecompiler {
 		
 		if(!unableToDecompile.isEmpty()) {
 			sb.append("//the following inner classes couldn't be decompiled: ");
-			for(String s : unableToDecompile)
-				sb.append(s + " ");
+			for(String s : unableToDecompile) {
+				sb.append(s);
+				sb.append(" ");
+			}
 			sb.append(BytecodeViewer.nl);
 		}
 		

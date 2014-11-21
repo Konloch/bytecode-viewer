@@ -1,5 +1,5 @@
-from the.bytecode.club.bytecodeviewer.plugins import Plugin
-from the.bytecode.club.bytecodeviewer.plugins import PluginConsole
+from the.bytecode.club.bytecodeviewer.api import Plugin
+from the.bytecode.club.bytecodeviewer.api import PluginConsole
 from java.lang import System
 from java.lang import Boolean
 from java.util import ArrayList

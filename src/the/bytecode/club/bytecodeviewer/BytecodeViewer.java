@@ -61,6 +61,14 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * The import jar method eats up a lot of memory, look into some how reducing this.
  * Make the search results clickable
  * Add a tool to build a flowchart of all the classes, and what methods execute what classes, and those method, read chatlog
+ * 2.1:
+ * Add obfuscation
+ * Add progress bars on saving all zips/java decompile jar
+ * Add the jump/save mark system Ida Pro has.
+ * Add a search function to the plugin console?
+ * Add integer boxing and other obfuscation methods contra thought of
+ * Insert unadded/debug opcodes to try to fuck up decompilers
+ * ClassAnylyzterAdapter
  * 
  * ----Beta 1.0-----:
  * 10/4/2014 - Designed a POC GUI, still needs a lot of work.
@@ -148,22 +156,22 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 11/1/2014 - Added Procyon save Java files (It uses the settings).
  * 11/1/2014 - Updated CFR to cfr_0_89.
  * 11/1/2014 - Added CFR save Java files (It uses the settings), however it relies on the file system, because of this if there is heavy name obfuscation, it could mess up for windows.
- *  ----Beta 1.5-----:
+ * -----Beta 1.5-----:
  * 11/1/2014 - Updated and improved the search function, it now prints out more useful information.
  * 11/1/2014 - Fixed a UI issue with the Replace All Strings plugin.
  * 11/2/2014 - Added search function to the Class Viewer.
  * 11/2/2014 - Updated Procyon to procyon-decompiler-0.5.27.
- *  ----Beta 1.5.1-----:
+ * -----Beta 1.5.1-----:
  * 11/2/2014 - Fixed a CFR issue with packages.
- *  ----Beta 1.5.2-----:
+ * -----Beta 1.5.2-----:
  * 11/3/2014 - Fixed Refresh Class.
- *  ----Beta 1.5.3-----:
+ * -----Beta 1.5.3-----:
  * 11/3/2014 - Settings/Temp file are now in a global directory.
  * 11/3/2014 - The GUI setttings now save.
  * 11/3/2014 - Removed the option to disable syntax highlighting (since it's lightweight now).
  * 11/3/2014 - About window now contains the version number and the BCV directory.
  * 11/3/2014 - Added an option to toggle to outdated status.
- *  ----2.0-----:
+ * -----2.0-----:
  * 11/4/2014 - Officially been 1 month of development.
  * 11/4/2014 - Replaced ""+ with String.valueOf (cheers bibl).
  * 11/4/2014 - Changed how the temp directory was created.
@@ -176,9 +184,24 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 11/5/2014 - Kinda added middle mouse button closes tab (only if you click the exit button).
  * 11/5/2014 - Improved the Malicious Code Scanner, also made it instant.
  * 11/5/2014 - Added icons to the program (cheers Fluke).
- *  ----2.0.1-----:
- *  11/7/2014 - Fixed the search function.
- *  11/7/2014 - Removed an unused package containing some unused classes.
+ * -----2.0.1-----:
+ * 11/7/2014 - Fixed the search function.
+ * 11/7/2014 - Removed an unused package containing some unused classes.
+ * -----2.1-----:
+ * 11/5/2014 - Started working on the EZ-Inject plugin.
+ * 11/6/2014 - Fixed the ClassNodeDecompiler creating unnessessary objects. (thanks bibl).
+ * 11/6/2014 - Finished an alpha version of EZ-Inject.
+ * 11/6/2014 - Started working on a basic obfuscator.
+ * 11/6/2014 - The Obfuscator now sucessfully renames all field names.
+ * 11/6/2014 - Updated CFR to cfr_0_90.
+ * 11/8/2014 - Started working on the API for BCV.
+ * 11/9/2014 - Decided to make a graphical reflection kit.
+ * 11/10/2014 - Made some progress with the obfuscator, almost finished EZ-Injection.
+ * 11/14/2014 - Been doing various updates to EZ-Injection, Obfucsation, Reflection Kit and the BCV API.
+ * 11/16/2014 - Added the option to launch BCV command line as java -jar bcv.jar C:/test.jar C:/example/whatever.jar
+ * 11/17/2014 - Fixed an issue with the out of date checking UI still activating when not selected.
+ * 11/19/2014 - Added annotatitons/local variables to the methodnode decompiler (Thanks Bibl).
+ * 11/21/2014 - Decided to release it with the obfuscator/reflection kit unfinished, they're currently disabled for future use.
  * 
  * @author Konloch
  *
@@ -198,8 +221,9 @@ public class BytecodeViewer {
 	public static String tempDirectory = getBCVDirectory() + fs + "bcv_temp" + fs;
 	private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
+	public static boolean runningObfuscation = false;
 	
-	public static String version = "2.0.1";
+	public static String version = "2.1.0";
 	
 	public static void main(String[] args) {
 		iconList = new ArrayList<BufferedImage>();
@@ -216,41 +240,42 @@ public class BytecodeViewer {
 				cleanup();
 			}
 		});
-		Thread versionChecker = new Thread() {
-			@Override
-			public void run() {
-				while(viewer == null)
-					try {
-						sleep(50);
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
-					}
-				
-				if(viewer.chckbxmntmNewCheckItem_12.isSelected()) {
-					try {
-						HttpURLConnection connection = (HttpURLConnection) new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION").openConnection();
-						connection.setUseCaches(false);
-						connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0");
-						BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-						String version = reader.readLine();
-						reader.close();
-						if(!BytecodeViewer.version.equals(version))
-							showMessage("You're running an outdated version of Bytecode Viewer, current version: " + BytecodeViewer.version + ", latest version: " + version+nl+nl+"https://github.com/Konloch/bytecode-viewer");
-					} catch(Exception e) {
-						new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
-					}
-				}
-			}
-		};
-		versionChecker.start();
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
+		
 		viewer = new MainViewerGUI();
 		loadGUISettings();
 		resetRecentFilesMenu();
+		
+		Thread versionChecker = new Thread() {
+			@Override
+			public void run() {
+				try {
+					HttpURLConnection connection = (HttpURLConnection) new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION").openConnection();
+					connection.setUseCaches(false);
+					connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0");
+					BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+					String version = reader.readLine();
+					reader.close();
+					if(!BytecodeViewer.version.equals(version))
+						showMessage("You're running an outdated version of Bytecode Viewer, current version: " + BytecodeViewer.version + ", latest version: " + version+nl+nl+"https://github.com/Konloch/bytecode-viewer");
+				} catch(Exception e) {
+					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+				}
+			}
+		};
+		
+		if(viewer.chckbxmntmNewCheckItem_12.isSelected()) //start only if selected
+			versionChecker.start();
+		
+		if(args.length >= 1)
+			for(String s : args) {
+				openFiles(new File[]{new File(s)});
+			}
+		
 		viewer.setVisible(true);
 	}
 	
@@ -258,6 +283,13 @@ public class BytecodeViewer {
 		if(loadedClasses.containsKey(name))
 			return loadedClasses.get(name);
 		return null;
+	}
+	
+	public static void updateNode(ClassNode oldNode, ClassNode newNode) {
+		for(ClassNode c : BytecodeViewer.getLoadedClasses()) {
+			if(c.name.equals(oldNode.name))
+				c = newNode;
+		}
 	}
 	
 	public static ArrayList<ClassNode> getLoadedClasses() {
@@ -281,7 +313,7 @@ public class BytecodeViewer {
 	                try {
 	                    JarUtils.put(f, BytecodeViewer.loadedClasses);
 	                } catch (final Exception e) {
-	        			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+	        			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 	                }
 	                
 	            }
@@ -290,7 +322,7 @@ public class BytecodeViewer {
 	                    final ClassNode cn = JarUtils.getNode(JarUtils.getBytes(new FileInputStream(f)));
 	                    BytecodeViewer.loadedClasses.put(cn.name, cn);
 	                } catch (final Exception e) {
-	        			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+	        			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 	                }
 	            }
         }
@@ -311,7 +343,7 @@ public class BytecodeViewer {
 		try {
 			PluginManager.runPlugin(plugin);
 		} catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
 		addRecentPlugin(plugin);
 	}
@@ -340,6 +372,7 @@ public class BytecodeViewer {
 			MainViewerGUI.getComponent(FileNavigationPane.class).resetWorkspace();
 			MainViewerGUI.getComponent(WorkPane.class).resetWorkspace();
 			MainViewerGUI.getComponent(SearchingPane.class).resetWorkspace();
+			the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
 		}
 	}
 
@@ -538,7 +571,7 @@ public class BytecodeViewer {
 			DiskWriter.writeNewLine(settingsName, String.valueOf(viewer.chckbxmntmNewCheckItem.isSelected()), false);
 			DiskWriter.writeNewLine(settingsName, String.valueOf(viewer.chckbxmntmNewCheckItem_12.isSelected()), false);
 		} catch(Exception e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
 	}
 	
@@ -659,7 +692,7 @@ public class BytecodeViewer {
             image = ImageIO.read(bis);
             bis.close();
         } catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.gui.StackTraceUI(e);
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
         
         return image;

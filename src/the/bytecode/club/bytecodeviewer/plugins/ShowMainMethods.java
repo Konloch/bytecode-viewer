@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.api.PluginConsole;
+
 /**
  * Simply shows all classes that have a public static void main(String[])
  * 

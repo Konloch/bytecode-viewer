@@ -11,6 +11,8 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 
 /**
  * The idea/core was based off of J-RET's Malicious Code Searcher
@@ -79,7 +81,7 @@ public class MaliciousCodeScanner extends Plugin {
 			
 			for(Object o : classNode.methods.toArray()) {
 				MethodNode m = (MethodNode) o;
-			
+				
 				InsnList iList = m.instructions;
 				for(AbstractInsnNode a : iList.toArray()) {
 		            if (a instanceof MethodInsnNode) {
