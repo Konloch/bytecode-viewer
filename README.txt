@@ -18,6 +18,8 @@ Video of Beta 1.5.2: http://the.bytecode.club/pages.php?page=bytecode-viewer
 
 Download the latest version here: https://github.com/Konloch/bytecode-viewer/releases
 
+If you're looking for an older copy, check out https://the.bytecode.club/bcv-archive/
+
 Features:
     Java Decompiler - It uses a modified version of FernFlower, Procyon and CFR.
     Bytecode Decompiler - A modified version of J-RET's.
