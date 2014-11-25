@@ -14,11 +14,11 @@ FernFlower by Stiver
 Procyon by Mstrobel
 CFR by Lee Benfield
 
-Video of Beta 1.5.2: http://the.bytecode.club/pages.php?page=bytecode-viewer
+Video of Beta 1.5.2: https://the.bytecode.club/pages.php?page=bytecode-viewer
 
-Download the latest version here: https://github.com/Konloch/bytecode-viewer/releases
+Download the latest version here: https://github.com/Konloch/bytecode-viewer/releases if you're looking for an older copy, check out https://the.bytecode.club/bcv-archive/
 
-If you're looking for an older copy, check out https://the.bytecode.club/bcv-archive/
+Java Docs: https://the.bytecode.club/docs/bytecode-viewer/
 
 Features:
     Java Decompiler - It uses a modified version of FernFlower, Procyon and CFR.
@@ -33,7 +33,7 @@ Features:
 
 Are you a Java Reverse Engineer? Do you want to learn?
 Join The Bytecode Club Today!
-http://the.bytecode.club
+https://the.bytecode.club
 
 Changelog:
 --- Beta 1.0.0 ---:
