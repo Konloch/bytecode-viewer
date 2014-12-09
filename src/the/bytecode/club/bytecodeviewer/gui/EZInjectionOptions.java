@@ -28,7 +28,7 @@ public class EZInjectionOptions extends JFrame {
 		setTitle("EZ Injection Options");
 		getContentPane().setLayout(null);
 		
-		final JCheckBox accessModifiers = new JCheckBox("Change Access Modifiers");
+		final JCheckBox accessModifiers = new JCheckBox("Set All Access Modifiers Public");
 		accessModifiers.setSelected(true);
 		accessModifiers.setBounds(6, 7, 232, 23);
 		getContentPane().add(accessModifiers);

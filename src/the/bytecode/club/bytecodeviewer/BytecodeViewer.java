@@ -202,6 +202,8 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 11/17/2014 - Fixed an issue with the out of date checking UI still activating when not selected.
  * 11/19/2014 - Added annotatitons/local variables to the methodnode decompiler (Thanks Bibl).
  * 11/21/2014 - Decided to release it with the obfuscator/reflection kit unfinished, they're currently disabled for future use.
+ * -----2.1-----:
+ * Updated CFR to cfr_0_91.
  * 
  * @author Konloch
  *
@@ -223,7 +225,7 @@ public class BytecodeViewer {
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	public static boolean runningObfuscation = false;
 	
-	public static String version = "2.1.0";
+	public static String version = "2.1.1";
 	
 	public static void main(String[] args) {
 		iconList = new ArrayList<BufferedImage>();
