@@ -170,3 +170,9 @@ Changelog:
 11/21/2014 - Decided to release it with the obfuscator/reflection kit unfinished, they're currently disabled for future use.
 --- 2.1.1 ---:
 12/09/2014 - Upated CFR to cfr_0_91.
+--- 2.2.0 ---:
+12/09/2014 - Added a text search function to the plugin console.
+12/09/2014 - When you press enter in the text search bar, it will now search.
+12/13/2014 - The Bytecode Decompiler now shows the method's description in a comment.
+12/13/2014 - Fixed an issue with the text search function.
+12/13/2014 - Search results are now clickable.

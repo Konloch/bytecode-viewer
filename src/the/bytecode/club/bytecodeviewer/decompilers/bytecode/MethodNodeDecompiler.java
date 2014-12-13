@@ -85,7 +85,10 @@ public class MethodNodeDecompiler {
 		}
 		
 		if (s.contains("abstract")) {
-			sb.append(" {}"+BytecodeViewer.nl);
+			sb.append(" {}");
+            sb.append(" //");
+            sb.append(m.desc);
+			sb.append(BytecodeViewer.nl);
 		} else {
 
 			sb.append(" {");
@@ -96,6 +99,9 @@ public class MethodNodeDecompiler {
 				else if(m.name.equals("<init>"))
 					sb.append(" // <init>");
 			}
+
+            sb.append(" //");
+            sb.append(m.desc);
 			
 			sb.append(BytecodeViewer.nl);
 
@@ -113,7 +119,6 @@ public class MethodNodeDecompiler {
 			addAttrList(m.visibleAnnotations, "visAnno", sb, insnPrinter);
 			addAttrList(m.visibleLocalVariableAnnotations, "visLocalVarAnno", sb, insnPrinter);
 			addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb, insnPrinter);
-
 			
 			for (Object o : m.tryCatchBlocks) {
 				TryCatchBlockNode tcbn = (TryCatchBlockNode) o;

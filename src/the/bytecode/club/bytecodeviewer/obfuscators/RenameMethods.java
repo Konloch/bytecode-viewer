@@ -13,7 +13,7 @@ public class RenameMethods extends JavaObfuscator {
 	public void obfuscate() {
 		int stringLength = getStringLength();
 		
-		System.out.println("Obfuscating");
+		System.out.println("Obfuscating method names...");
 		for(ClassNode c : BytecodeViewer.getLoadedClasses()) {
 			for(Object o : c.methods.toArray()) {
 				MethodNode m = (MethodNode)o;
@@ -37,7 +37,7 @@ public class RenameMethods extends JavaObfuscator {
 			}
 		}
 		
-		System.out.println("Obfuscated");
+		System.out.println("Obfuscated method names.");
 	}
 
 }

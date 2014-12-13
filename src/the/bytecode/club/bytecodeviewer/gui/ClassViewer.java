@@ -10,6 +10,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import static javax.swing.ScrollPaneConstants.*;
@@ -187,6 +189,13 @@ public class ClassViewer extends JPanel {
 	    				} else {
 	    					canSearch = true;
 		    				for(String s : test) {
+		    					if(pane == 0 && !byteCheck.isSelected() ||
+		    					   pane == 1 && !decompCheck.isSelected())
+				    			{
+				    				s = s.toLowerCase();
+				    				search = search.toLowerCase();
+				    			}
+		    					
 		    					if(s.contains(search)) {
     		    	    				if(lastGoodLine != -1 && canSearch)
         		    						area.setCaretPosition(area.getDocument()  
@@ -270,6 +279,18 @@ public class ClassViewer extends JPanel {
             	search(0,byteField.getText(), false);
             }
     	});
+    	byteField.addKeyListener(new KeyListener() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+    		  if(arg0.getKeyCode() == KeyEvent.VK_ENTER)
+    			  search(0,byteField.getText(), true);
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {}
+			@Override
+			public void keyTyped(KeyEvent arg0) {}
+    	});
 
     	JButton decompSearchNext = new JButton();
     	JButton decompSearchPrev = new JButton();
@@ -293,6 +314,18 @@ public class ClassViewer extends JPanel {
             public void actionPerformed(final ActionEvent arg0) {
             	search(1,decompField.getText(), false);
             }
+    	});
+    	decompField.addKeyListener(new KeyListener() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+    		  if(arg0.getKeyCode() == KeyEvent.VK_ENTER)
+    			  search(1,decompField.getText(), true);
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {}
+			@Override
+			public void keyTyped(KeyEvent arg0) {}
     	});
     	
     	sourcePane = BytecodeViewer.viewer.sourcePane.isSelected();

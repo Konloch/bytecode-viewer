@@ -11,14 +11,14 @@ public class RenameClasses extends JavaObfuscator {
 	public void obfuscate() {
 		int stringLength = getStringLength();
 		
-		System.out.println("Obfuscating");
+		System.out.println("Obfuscating class names...");
 		for(ClassNode c : BytecodeViewer.getLoadedClasses()) {
 			String newName = generateUniqueName(stringLength);
 			ASMUtil_OLD.renameClassNode(c.name, newName);
 			c.name = newName;
 		}
 		
-		System.out.println("Obfuscated");
+		System.out.println("Obfuscated class names.");
 	}
 
 }

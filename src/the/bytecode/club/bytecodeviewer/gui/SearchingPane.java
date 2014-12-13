@@ -18,7 +18,6 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.objectweb.asm.tree.ClassNode;
@@ -173,14 +172,15 @@ public class SearchingPane extends VisibleComponent {
         this.tree.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(final TreeSelectionEvent arg0) {
-                final TreePath path = arg0.getPath();
-                if ( ((TreeNode)path.getLastPathComponent()).getChildCount() > 0)
-                    return;
-                final String clazzName = path.getLastPathComponent().toString();
-                final ClassNode fN = BytecodeViewer.getClassNode(clazzName);
+            	String path = arg0.getPath().toString();
+               
+            	String className = path.split(", ")[1].split("\\.")[0];
+            	final ClassNode fN = BytecodeViewer.getClassNode(className);
                 if (fN != null) {
-                    MainViewerGUI.getComponent(FileNavigationPane.class).openClassFileToWorkSpace(clazzName, fN);
+                    MainViewerGUI.getComponent(FileNavigationPane.class).openClassFileToWorkSpace(className, fN);
                 }
+                
+                System.out.println(className);
             }
         });
         

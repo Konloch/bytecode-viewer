@@ -44,6 +44,7 @@ public class MethodCallSearch implements SearchTypeDetails {
             
         return myPanel;
     }
+    
     @SuppressWarnings("unchecked")
     @Override
     public void search(final ClassNode node, final SearchResultNotifier srn, boolean exact) {

@@ -6,8 +6,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 /**
- * This method will save to disk, if it failed it will keep trying until
- * it's saved to disk
+ * This method will save to disk
  * 
  * @author Konloch
  * 

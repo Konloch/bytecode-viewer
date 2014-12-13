@@ -59,18 +59,16 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 
  * TODO:
  * The import jar method eats up a lot of memory, look into some how reducing this.
- * Make the search results clickable
  * Add a tool to build a flowchart of all the classes, and what methods execute what classes, and those method, read chatlog
- * 2.1:
  * Add obfuscation
  * Add progress bars on saving all zips/java decompile jar
  * Add the jump/save mark system Ida Pro has.
  * Add a search function to the plugin console?
- * Add integer boxing and other obfuscation methods contra thought of
+ * Add integer boxing and other obfuscation methods contra implemented
  * Insert unadded/debug opcodes to try to fuck up decompilers
  * ClassAnylyzterAdapter
  * 
- * ----Beta 1.0-----:
+ * ----Beta 1.0.0-----:
  * 10/4/2014 - Designed a POC GUI, still needs a lot of work.
  * 10/4/2014 - Started importing J-RET's backend.
  * 10/5/2014 - Finished importing J-RET's backend.
@@ -129,12 +127,12 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 10/16/2014 - Now if you try search with an empty string, it won't search.
  * 10/16/2014 - Added Replace Strings plugin.
  * 10/16/2014 - Added a loading icon that displays whenever a background task is being executed.
- * ----Beta 1.1-----:
+ * ----Beta 1.1.0-----:
  * 10/19/2014 - Fixed harcoded \\.
- * ----Beta 1.2-----:
+ * ----Beta 1.2.0-----:
  * 10/19/2014 - Started importing Procyon and CFR decompilers.
  * 10/19/2014 - Partially finished importing Procyon and CFR, just need to finish export java files as zip.
- * ----Beta 1.3-----:
+ * ----Beta 1.3.0-----:
  * 10/22/2014 - Imported Bibl's Bytecode Decompiler from CFIDE.
  * 10/22/2014 - Did some changes to the Bytecode Decompiler.
  * 10/23/2014 - Added CFR settings.
@@ -150,13 +148,13 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 10/29/2014 - Replaced JSyntaxPane with RSyntaxArea, this sadly removes the search feature inside of source/bytecode files, I'll implement a search function soon. (This also fixes the JRE 1.8 issue)
  * 10/29/2014 - Added a new decompiler option to append brackets to labels.
  * 10/31/2014 - Fixed an issue with the decompiler still running when the source code pane isn't toggled.
- * ----Beta 1.4-----:
+ * ----Beta 1.4.0-----:
  * 11/1/2014 - Fixed FernFlower save Java files on Unix.
  * 11/1/2014 - FernFlower now uses the settings for save Java files.
  * 11/1/2014 - Added Procyon save Java files (It uses the settings).
  * 11/1/2014 - Updated CFR to cfr_0_89.
  * 11/1/2014 - Added CFR save Java files (It uses the settings), however it relies on the file system, because of this if there is heavy name obfuscation, it could mess up for windows.
- * -----Beta 1.5-----:
+ * -----Beta 1.5.0-----:
  * 11/1/2014 - Updated and improved the search function, it now prints out more useful information.
  * 11/1/2014 - Fixed a UI issue with the Replace All Strings plugin.
  * 11/2/2014 - Added search function to the Class Viewer.
@@ -171,7 +169,7 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 11/3/2014 - Removed the option to disable syntax highlighting (since it's lightweight now).
  * 11/3/2014 - About window now contains the version number and the BCV directory.
  * 11/3/2014 - Added an option to toggle to outdated status.
- * -----2.0-----:
+ * -----2.0.0-----:
  * 11/4/2014 - Officially been 1 month of development.
  * 11/4/2014 - Replaced ""+ with String.valueOf (cheers bibl).
  * 11/4/2014 - Changed how the temp directory was created.
@@ -185,9 +183,9 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 11/5/2014 - Improved the Malicious Code Scanner, also made it instant.
  * 11/5/2014 - Added icons to the program (cheers Fluke).
  * -----2.0.1-----:
- * 11/7/2014 - Fixed the search function.
+ * 11/7/2014 - Fixed the text search function.
  * 11/7/2014 - Removed an unused package containing some unused classes.
- * -----2.1-----:
+ * -----2.1.0-----:
  * 11/5/2014 - Started working on the EZ-Inject plugin.
  * 11/6/2014 - Fixed the ClassNodeDecompiler creating unnessessary objects. (thanks bibl).
  * 11/6/2014 - Finished an alpha version of EZ-Inject.
@@ -202,8 +200,14 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 11/17/2014 - Fixed an issue with the out of date checking UI still activating when not selected.
  * 11/19/2014 - Added annotatitons/local variables to the methodnode decompiler (Thanks Bibl).
  * 11/21/2014 - Decided to release it with the obfuscator/reflection kit unfinished, they're currently disabled for future use.
- * -----2.1-----:
- * Updated CFR to cfr_0_91.
+ * -----2.1.1-----:
+ * 12/09/2014 - Updated CFR to cfr_0_91.
+ * -----2.2.0-----:
+ * 12/09/2014 - Added a text search function to the plugin console.
+ * 12/09/2014 - When you press enter in the text search bar, it will now search.
+ * 12/13/2014 - The Bytecode Decompiler now shows the method's description in a comment.
+ * 12/13/2014 - Fixed an issue with the text search function.
+ * 12/13/2014 - Search results are now clickable.
  * 
  * @author Konloch
  *
@@ -225,7 +229,7 @@ public class BytecodeViewer {
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	public static boolean runningObfuscation = false;
 	
-	public static String version = "2.1.1";
+	public static String version = "2.2.0";
 	
 	public static void main(String[] args) {
 		iconList = new ArrayList<BufferedImage>();

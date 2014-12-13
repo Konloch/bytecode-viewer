@@ -12,7 +12,7 @@ public class RenameFields extends JavaObfuscator {
 	public void obfuscate() {
 		int stringLength = getStringLength();
 		
-		System.out.println("Obfuscating");
+		System.out.println("Obfuscating fields names...");
 		for(ClassNode c : BytecodeViewer.getLoadedClasses()) {
 			for(Object o : c.fields.toArray()) {
 				FieldNode f = (FieldNode)o;
@@ -22,7 +22,7 @@ public class RenameFields extends JavaObfuscator {
 			}
 		}
 		
-		System.out.println("Obfuscated");
+		System.out.println("Obfuscated field names.");
 	}
 
 }
