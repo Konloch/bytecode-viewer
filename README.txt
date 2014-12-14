@@ -20,15 +20,16 @@ Bin/Archive: https://github.com/konloch/bytecode-viewer/releases
 Java Docs: https://the.bytecode.club/docs/bytecode-viewer/
 License (Copyleft): https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/LICENSE
 
-Features:
+Key Features:
     Java Decompiler - It uses a modified version of FernFlower, Procyon and CFR.
-    Bytecode Decompiler - A modified version of J-RET's.
+    Bytecode Decompiler - A modified version of CFIDE's.
     Hex Viewer - Powered by JHexPane.
     Each Decompiler/Viewer is toggleable.
     Fully Featured Search System.
     A Plugin System With Built In Plugins. (Show All Strings, Malicious Code Scanner, String Decrypters, etc)
     Fully Featured Scripting System That Supports Groovy, Python And Ruby.
     Recent Files & Recent Plugins.
+	EZ-Inject - Graphically insert hooks and debugging code, invoke main and start the program.
     And more! Give it a try for yourself!
 
 Are you a Java Reverse Engineer? Do you want to learn?
