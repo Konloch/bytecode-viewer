@@ -18,7 +18,7 @@ Video: http://the.bytecode.club/bytecodeviewer-video/
 Source Code: https://github.com/konloch/bytecode-viewer
 Bin/Archive: https://github.com/konloch/bytecode-viewer/releases
 Java Docs: https://the.bytecode.club/docs/bytecode-viewer/
-License: https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/LICENSE (Copyleft)
+License (Copyleft): https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/LICENSE
 
 Features:
     Java Decompiler - It uses a modified version of FernFlower, Procyon and CFR.
