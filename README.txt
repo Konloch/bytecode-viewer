@@ -2,17 +2,17 @@ Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI Procyon Jav
 It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
 
 There is also a plugin system that will allow you to interact with the loaded classfiles, for example you can write a String deobfuscator, a malicious code searcher, or something else you can think of.
-You can either use one of the pre-written plugins, or write your own. It supports groovy, python and ruby scripting. Once a plugin is activated, it will send a ClassNode ArrayList of every single class loaded in the file system to the execute function, this allows the user to handle it completely using ASM.
+You can either use one of the pre-written plugins, or write your own. It supports groovy, python and ruby scripting. Once a plugin is activated, it will execute the plugin with a ClassNode ArrayList of every single class loaded in BCV, this allows the user to handle it completely using ASM.
 
 Code from various projects has been used, including but not limited to:
-J-RET by WaterWolf
-JHexPane by Sam Koivu
-JSynaxPane by Ayman Al
-Commons IO by Apache
-ASM by OW2
-FernFlower by Stiver
-Procyon by Mstrobel
-CFR by Lee Benfield
+    J-RET by WaterWolf
+    JHexPane by Sam Koivu
+    JSynaxPane by Ayman Al
+    Commons IO by Apache
+    ASM by OW2
+    FernFlower by Stiver
+    Procyon by Mstrobel
+    CFR by Lee Benfield
 
 Video: http://the.bytecode.club/bytecodeviewer-video/
 Source Code: https://github.com/konloch/bytecode-viewer
