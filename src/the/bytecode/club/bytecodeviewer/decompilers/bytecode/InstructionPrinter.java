@@ -163,20 +163,21 @@ public class InstructionPrinter {
 	}
 	
 	protected String printFieldInsnNode(FieldInsnNode fin, ListIterator<?> it) {
-		return nameOpcode(fin.getOpcode()) + " " + fin.owner + "." + fin.name + ":" + Type.getType(fin.desc).getClassName();
+		String desc = Type.getType(fin.desc).getClassName();
+		if(desc == null || desc.equals("null"))
+			desc = fin.desc;
+		return nameOpcode(fin.getOpcode()) + " " + fin.owner + "." + fin.name + ":" + desc;
 	}
 	
 	protected String printMethodInsnNode(MethodInsnNode min, ListIterator<?> it) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(nameOpcode(min.getOpcode()) + " " + min.owner + " " + min.name + "(");
 		
-		if(Type.getType(min.desc).getClassName() == null ||
-			Type.getType(min.desc).getClassName().equalsIgnoreCase("null"))
-		{
-			//sb.append(min.desc);
-		} else {
-			sb.append(Type.getType(min.desc).getClassName());
-		}
+		String desc = Type.getType(min.desc).getClassName();
+		if(desc == null || desc.equals("null"))
+			desc = min.desc;
+		sb.append(desc);
+		
 		sb.append(");");
 		
 		return sb.toString();
@@ -216,7 +217,10 @@ public class InstructionPrinter {
 	
 	protected String printTypeInsnNode(TypeInsnNode tin) {
 		try {
-			return nameOpcode(tin.getOpcode()) + " " + Type.getType(tin.desc).getClassName();
+			String desc = Type.getType(tin.desc).getClassName();
+			if(desc == null || desc.equals("null"))
+				desc = tin.desc;
+			return nameOpcode(tin.getOpcode()) + " " + desc;
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}

@@ -14,10 +14,9 @@ FernFlower by Stiver
 Procyon by Mstrobel
 CFR by Lee Benfield
 
-Video of Beta 1.5.2: https://the.bytecode.club/pages.php?page=bytecode-viewer
-
-Download the latest version here: https://github.com/Konloch/bytecode-viewer/releases if you're looking for an older copy, check out https://the.bytecode.club/bcv-archive/
-
+Video: http://the.bytecode.club/bytecodeviewer-video/
+Source Code: https://github.com/konloch/bytecode-viewer
+Bin/Archive: https://github.com/konloch/bytecode-viewer/releases
 Java Docs: https://the.bytecode.club/docs/bytecode-viewer/
 
 Features:
@@ -176,3 +175,5 @@ Changelog:
 12/13/2014 - The Bytecode Decompiler now shows the method's description in a comment.
 12/13/2014 - Fixed an issue with the text search function.
 12/13/2014 - Search results are now clickable.
+--- 2.2.1 ---:
+12/13/2014 - Fixed an issue with the Bytecode Decompiler. - Thanks bibl

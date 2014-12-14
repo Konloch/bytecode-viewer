@@ -208,6 +208,8 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 12/13/2014 - The Bytecode Decompiler now shows the method's description in a comment.
  * 12/13/2014 - Fixed an issue with the text search function.
  * 12/13/2014 - Search results are now clickable.
+ * -----2.2.1-----:
+ * 12/13/2014 - Fixed an issue with the Bytecode Decompiler. - Thanks bibl
  * 
  * @author Konloch
  *
@@ -229,7 +231,7 @@ public class BytecodeViewer {
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	public static boolean runningObfuscation = false;
 	
-	public static String version = "2.2.0";
+	public static String version = "2.2.1";
 	
 	public static void main(String[] args) {
 		iconList = new ArrayList<BufferedImage>();
