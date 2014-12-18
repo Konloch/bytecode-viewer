@@ -13,6 +13,7 @@ Code from various projects has been used, including but not limited to:
     FernFlower by Stiver
     Procyon by Mstrobel
     CFR by Lee Benfield
+	CFIDE by Bibl
 
 Video: http://the.bytecode.club/bytecodeviewer-video/
 Source Code: https://github.com/konloch/bytecode-viewer
