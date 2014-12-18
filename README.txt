@@ -7,7 +7,7 @@ You can either use one of the pre-written plugins, or write your own. It support
 Code from various projects has been used, including but not limited to:
     J-RET by WaterWolf
     JHexPane by Sam Koivu
-    JSynaxPane by Ayman Al
+    RSynaxPane by Robert Futrell
     Commons IO by Apache
     ASM by OW2
     FernFlower by Stiver
