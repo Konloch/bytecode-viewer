@@ -81,63 +81,89 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
         quickSearch.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(final KeyEvent ke) {
-                if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-                    
-                    final String qt = quickSearch.getText();
-                    quickSearch.setText("");
-                    
-                    String[] path = null;
-                    
-                    if (qt.contains(".")) {
-                        path = qt.split("\\.");
-                    }
-                    else {
-                        path = new String[] {qt};
-                    }
-                    
-                    MyTreeNode curNode = treeRoot;
-                    pathLoop:
-                    for (int i = 0;i < path.length; i++) {
-                        final String pathName = path[i];
-                        final boolean isLast = i == path.length-1;
-                        
-                        for (int c = 0; c < curNode.getChildCount(); c++) {
-                            final MyTreeNode child = (MyTreeNode) curNode.getChildAt(c);
-                            
-                            if(!exact.isSelected()) {
-	                            if (((String)child.getUserObject()).toLowerCase().contains(pathName.toLowerCase())) {
-	                                curNode = child;
-	                                if (isLast) {
-	                                    final TreePath pathn = new TreePath(curNode.getPath());
-	                                    tree.setSelectionPath(pathn);
-	                                    tree.makeVisible(pathn);
-	                                    tree.scrollPathToVisible(pathn);
-	                                    System.out.println("Found! " + curNode);
-	                                    break pathLoop;
-	                                }
-	                                continue pathLoop;
-	                            }
-                            } else {
-	                            if (((String)child.getUserObject()).equals(pathName)) {
-	                                curNode = child;
-	                                if (isLast) {
-	                                    final TreePath pathn = new TreePath(curNode.getPath());
-	                                    tree.setSelectionPath(pathn);
-	                                    tree.makeVisible(pathn);
-	                                    tree.scrollPathToVisible(pathn);
-	                                    System.out.println("Found! " + curNode);
-	                                    break pathLoop;
-	                                }
-	                                continue pathLoop;
-	                            }
-                            }
-                        }
-                        
-                        System.out.println("Could not find " + pathName);
-                        break;
-                    }
-                    
-                }
+				if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+
+					final String qt = quickSearch.getText();
+					quickSearch.setText("");
+
+					String[] path = null;
+
+					if (qt.contains(".")) {
+						path = qt.split("\\.");
+					} else {
+						path = new String[] { qt };
+					}
+
+					MyTreeNode curNode = treeRoot;
+					if (exact.isSelected()) {
+						pathLoop: for (int i = 0; i < path.length; i++) {
+							final String pathName = path[i];
+							final boolean isLast = i == path.length - 1;
+
+							for (int c = 0; c < curNode.getChildCount(); c++) {
+								final MyTreeNode child = (MyTreeNode) curNode
+										.getChildAt(c);
+
+								if (((String) child.getUserObject())
+										.toLowerCase().contains(
+												pathName.toLowerCase())) {
+									curNode = child;
+									if (isLast) {
+										final TreePath pathn = new TreePath(
+												curNode.getPath());
+										tree.setSelectionPath(pathn);
+										tree.makeVisible(pathn);
+										tree.scrollPathToVisible(pathn);
+										System.out.println("Found! " + curNode);
+										break pathLoop;
+									}
+									continue pathLoop;
+								}
+							}
+
+							System.out.println("Could not find " + pathName);
+							break;
+						}
+					} else {
+						Enumeration<MyTreeNode> enums = curNode
+								.depthFirstEnumeration();
+						while (enums != null && enums.hasMoreElements()) {
+
+							MyTreeNode node = enums.nextElement();
+							// System.out.println("enum " +
+							// node.getUserObject());
+							if (node.isLeaf()) {
+								if (((String) (node.getUserObject()))
+										.equalsIgnoreCase(path[path.length - 1])) {
+									TreeNode pathArray[] = node
+											.getPath();
+									int k = 0;
+									StringBuffer fullPath = new StringBuffer();
+									while (pathArray != null
+											&& k < pathArray.length) {
+										MyTreeNode n = (MyTreeNode)pathArray[k];
+										fullPath.append((String) (n.getUserObject()));
+										if (k++ != pathArray.length - 1) {
+											fullPath.append(".");
+										}
+									}
+									String fullPathString = fullPath.toString();
+									if (fullPathString != null
+											&& fullPathString.toLowerCase()
+													.contains(qt.toLowerCase())) {
+										System.out.println("Found! " + node);
+										final TreePath pathn = new TreePath(
+												node.getPath());
+										tree.setSelectionPath(pathn);
+										tree.makeVisible(pathn);
+										tree.scrollPathToVisible(pathn);
+									}
+								}
+							}
+						}
+					}
+
+				}
             }
         });
         quickSearch.addFocusListener(new FocusListener() {
