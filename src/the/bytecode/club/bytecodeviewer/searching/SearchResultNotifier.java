@@ -5,9 +5,9 @@ package the.bytecode.club.bytecodeviewer.searching;
  * 
  * @author Konloch
  * @author WaterWolf
- *
+ * 
  */
 
 public interface SearchResultNotifier {
-    public void notifyOfResult(String debug);
+	public void notifyOfResult(String debug);
 }

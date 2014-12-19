@@ -11,12 +11,13 @@ import org.objectweb.asm.tree.FieldNode;
  * 
  * @author Konloch
  * @author Bibl
- *
+ * 
  */
 
 public class FieldNodeDecompiler {
-	
-	public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb, FieldNode f) {
+
+	public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb,
+			FieldNode f) {
 		String s = getAccessString(f.access);
 		sb.append(s);
 		if (s.length() > 0)
@@ -40,7 +41,7 @@ public class FieldNodeDecompiler {
 		sb.append(";");
 		return sb;
 	}
-	
+
 	private static String getAccessString(int access) {
 		List<String> tokens = new ArrayList<String>();
 		if ((access & Opcodes.ACC_PUBLIC) != 0)

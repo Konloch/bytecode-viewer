@@ -15,24 +15,28 @@ import org.objectweb.asm.tree.ClassNode;
 /**
  * 
  * @author Demmonic
- *
+ * 
  */
 
 public final class ClassNodeLoader extends ClassLoader {
-	
+
 	private HashMap<String, ClassNode> classes = new HashMap<String, ClassNode>();
-	
+
 	/**
 	 * Adds the provided class node to the class loader
-	 * @param name The class name
-	 * @param contents The contents of the class (or data)
+	 * 
+	 * @param name
+	 *            The class name
+	 * @param contents
+	 *            The contents of the class (or data)
 	 */
 	public void addClass(ClassNode cn) {
 		classes.put(cn.name.replace("/", "."), cn);
 	}
 
 	/**
-	 * @param name The name of the class
+	 * @param name
+	 *            The name of the class
 	 * @return If this class loader contains the provided class node
 	 */
 	public boolean contains(String name) {
@@ -52,7 +56,7 @@ public final class ClassNodeLoader extends ClassLoader {
 	public void clear() {
 		classes.clear();
 	}
-	
+
 	/**
 	 * @return All classes in this loader
 	 */
@@ -65,24 +69,24 @@ public final class ClassNodeLoader extends ClassLoader {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return classes;
 	}
 
 	/**
 	 * @param name
-	 * 			The name of the class
+	 *            The name of the class
 	 * @return The class node with the provided name
 	 */
 	public ClassNode get(String name) {
 		return classes.get(name);
 	}
-	
+
 	@Override
 	public Class<?> loadClass(String className) throws ClassNotFoundException {
 		return findClass(className);
 	}
-	
+
 	@Override
 	public Class<?> findClass(String name) throws ClassNotFoundException {
 		if (classes.containsKey(name)) {
@@ -94,7 +98,9 @@ public final class ClassNodeLoader extends ClassLoader {
 
 	/**
 	 * Converts a class node to a class
-	 * @param node The node to convert
+	 * 
+	 * @param node
+	 *            The node to convert
 	 * @return The converted class
 	 */
 	public Class<?> nodeToClass(ClassNode node) {
@@ -107,7 +113,8 @@ public final class ClassNodeLoader extends ClassLoader {
 			e.printStackTrace();
 		}
 		byte[] b = cw.toByteArray();
-		return defineClass(node.name.replaceAll("/", "."), b, 0, b.length, getDomain());
+		return defineClass(node.name.replaceAll("/", "."), b, 0, b.length,
+				getDomain());
 	}
 
 	/**
@@ -126,5 +133,5 @@ public final class ClassNodeLoader extends ClassLoader {
 		permissions.add(new AllPermission());
 		return permissions;
 	}
-	
+
 }

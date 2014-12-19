@@ -20,19 +20,20 @@ public class ExportJar extends JFrame {
 		setSize(new Dimension(250, 277));
 		setResizable(false);
 		setTitle("Save As Jar..");
-		
+
 		JButton btnNewButton = new JButton("Save As Jar..");
 		btnNewButton.setMaximumSize(new Dimension(999, 23));
 		btnNewButton.setMinimumSize(new Dimension(999, 23));
 		btnNewButton.setSize(new Dimension(999, 0));
-		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-		
+		getContentPane().setLayout(
+				new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane);
-		
+
 		JLabel lblMetainfmanifestmf = new JLabel("META-INF/MANIFEST.MF:");
 		scrollPane.setColumnHeaderView(lblMetainfmanifestmf);
-		
+
 		final JTextArea mani = new JTextArea();
 		mani.setText("Manifest-Version: 1.0\r\nClass-Path: .\r\nMain-Class: ");
 		scrollPane.setViewportView(mani);
@@ -41,14 +42,15 @@ public class ExportJar extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				BytecodeViewer.viewer.setC(true);
-				JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), jarPath, mani.getText());
+				JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), jarPath,
+						mani.getText());
 				BytecodeViewer.viewer.setC(false);
 				dispose();
 			}
 		});
-		
+
 		this.setLocationRelativeTo(null);
 	}
-	
+
 	private static final long serialVersionUID = -2662514582647810868L;
 }

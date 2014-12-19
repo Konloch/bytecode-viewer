@@ -14,19 +14,19 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 public class GraphicialReflectionKit extends JFrame {
 	public GraphicialReflectionKit() {
-    	this.setIconImages(BytecodeViewer.iconList);
+		this.setIconImages(BytecodeViewer.iconList);
 		setSize(new Dimension(382, 356));
 		setTitle("Graphicial Reflection Kit");
-		
+
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
-		
+
 		JPanel panel = new JPanel();
 		tabbedPane.addTab("Invoke Method", null, panel, null);
-		
+
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("Get Field Value", null, panel_1, null);
-		
+
 		JPanel panel_2 = new JPanel();
 		tabbedPane.addTab("Cast Field", null, panel_2, null);
 	}

@@ -11,7 +11,7 @@ import the.bytecode.club.bytecodeviewer.api.Plugin;
  * Coming soon.
  * 
  * @author Konloch
- *
+ * 
  */
 
 public class ZKMStringDecrypter extends Plugin {

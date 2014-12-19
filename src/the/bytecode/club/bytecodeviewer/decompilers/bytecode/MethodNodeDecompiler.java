@@ -19,61 +19,63 @@ import the.bytecode.club.bytecodeviewer.decompilers.bytecode.TypeAndName;
  * 
  * @author Konloch
  * @author Bibl
- *
+ * 
  */
 
 public class MethodNodeDecompiler {
 
-    @SuppressWarnings("unused")
-	public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb, MethodNode m, ClassNode cn) {
+	@SuppressWarnings("unused")
+	public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb,
+			MethodNode m, ClassNode cn) {
 		String package_ = null;
-        String class_ = null;
-        if (cn.name.contains("/")) {
-            package_ = cn.name.substring(0, cn.name.lastIndexOf("/"));
-            class_ = cn.name.substring(cn.name.lastIndexOf("/")+1);
-        } else {
-            class_ = cn.name;
-        }
-        
+		String class_ = null;
+		if (cn.name.contains("/")) {
+			package_ = cn.name.substring(0, cn.name.lastIndexOf("/"));
+			class_ = cn.name.substring(cn.name.lastIndexOf("/") + 1);
+		} else {
+			class_ = cn.name;
+		}
+
 		String s = getAccessString(m.access);
 		sb.append("     ");
 		sb.append(s);
 		if (s.length() > 0)
 			sb.append(" ");
-		
+
 		System.out.println(m.name);
-        if (m.name.equals("<init>")) {
-            sb.append(class_);
-        } else if (m.name.equals("<clinit>")) {
-        } else {
-            sb.append(m.name);
-        }
-		
-        TypeAndName[] args = new TypeAndName[0];
-        
-        if (!m.name.equals("<clinit>")) {
-            sb.append("(");
-            
-            final Type[] argTypes = Type.getArgumentTypes(m.desc);
-            args = new TypeAndName[argTypes.length];
-            
-            for (int i = 0;i < argTypes.length; i++) {
-                final Type type = argTypes[i];
-                
-                final TypeAndName tan = new TypeAndName();
-                final String argName = "arg" + i;
-                
-                tan.name = argName;
-                tan.type = type;
-                
-                args[i] = tan;
-                
-                sb.append(type.getClassName() + " " + argName + (i < argTypes.length-1 ? ", " : ""));
-            }
-            
-            sb.append(")");
-        }
-        
+		if (m.name.equals("<init>")) {
+			sb.append(class_);
+		} else if (m.name.equals("<clinit>")) {
+		} else {
+			sb.append(m.name);
+		}
+
+		TypeAndName[] args = new TypeAndName[0];
+
+		if (!m.name.equals("<clinit>")) {
+			sb.append("(");
+
+			final Type[] argTypes = Type.getArgumentTypes(m.desc);
+			args = new TypeAndName[argTypes.length];
+
+			for (int i = 0; i < argTypes.length; i++) {
+				final Type type = argTypes[i];
+
+				final TypeAndName tan = new TypeAndName();
+				final String argName = "arg" + i;
+
+				tan.name = argName;
+				tan.type = type;
+
+				args[i] = tan;
+
+				sb.append(type.getClassName() + " " + argName
+						+ (i < argTypes.length - 1 ? ", " : ""));
+			}
+
+			sb.append(")");
+		}
+
 		int amountOfThrows = m.exceptions.size();
 		if (amountOfThrows > 0) {
 			sb.append(" throws ");
@@ -83,43 +85,47 @@ public class MethodNodeDecompiler {
 				sb.append(m.exceptions.get(i));
 			}
 		}
-		
+
 		if (s.contains("abstract")) {
 			sb.append(" {}");
-            sb.append(" //");
-            sb.append(m.desc);
+			sb.append(" //");
+			sb.append(m.desc);
 			sb.append(BytecodeViewer.nl);
 		} else {
 
 			sb.append(" {");
-			
+
 			if (BytecodeViewer.viewer.debugHelpers.isSelected()) {
-				if(m.name.equals("<clinit>"))
+				if (m.name.equals("<clinit>"))
 					sb.append(" // <clinit>");
-				else if(m.name.equals("<init>"))
+				else if (m.name.equals("<init>"))
 					sb.append(" // <init>");
 			}
 
-            sb.append(" //");
-            sb.append(m.desc);
-			
+			sb.append(" //");
+			sb.append(m.desc);
+
 			sb.append(BytecodeViewer.nl);
 
 			if (m.signature != null) {
 				sb.append("         <sig:").append(m.signature).append(">");
 			}
-			
+
 			InstructionPrinter insnPrinter = new InstructionPrinter(m, args);
-						
+
 			addAttrList(m.attrs, "attr", sb, insnPrinter);
 			addAttrList(m.invisibleAnnotations, "invisAnno", sb, insnPrinter);
-			addAttrList(m.invisibleAnnotations, "invisLocalVarAnno", sb, insnPrinter);
-			addAttrList(m.invisibleTypeAnnotations, "invisTypeAnno", sb, insnPrinter);
+			addAttrList(m.invisibleAnnotations, "invisLocalVarAnno", sb,
+					insnPrinter);
+			addAttrList(m.invisibleTypeAnnotations, "invisTypeAnno", sb,
+					insnPrinter);
 			addAttrList(m.localVariables, "localVar", sb, insnPrinter);
 			addAttrList(m.visibleAnnotations, "visAnno", sb, insnPrinter);
-			addAttrList(m.visibleLocalVariableAnnotations, "visLocalVarAnno", sb, insnPrinter);
-			addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb, insnPrinter);
-			
+			addAttrList(m.visibleLocalVariableAnnotations, "visLocalVarAnno",
+					sb, insnPrinter);
+			addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb,
+					insnPrinter);
+
 			for (Object o : m.tryCatchBlocks) {
 				TryCatchBlockNode tcbn = (TryCatchBlockNode) o;
 				sb.append("         ");
@@ -130,7 +136,7 @@ public class MethodNodeDecompiler {
 				sb.append(" handled by L");
 				sb.append(insnPrinter.resolveLabel(tcbn.handler));
 				sb.append(": ");
-				if(tcbn.type != null)
+				if (tcbn.type != null)
 					sb.append(tcbn.type);
 				else
 					sb.append("Type is null.");
@@ -141,12 +147,13 @@ public class MethodNodeDecompiler {
 				sb.append(insn);
 				sb.append(BytecodeViewer.nl);
 			}
-			sb.append("     }"+BytecodeViewer.nl);
+			sb.append("     }" + BytecodeViewer.nl);
 		}
 		return sb;
 	}
-    
-	private static void addAttrList(List<?> list, String name, PrefixedStringBuilder sb, InstructionPrinter insnPrinter) {
+
+	private static void addAttrList(List<?> list, String name,
+			PrefixedStringBuilder sb, InstructionPrinter insnPrinter) {
 		if (list == null)
 			return;
 		if (list.size() > 0) {
@@ -161,11 +168,14 @@ public class MethodNodeDecompiler {
 			sb.append("\n");
 		}
 	}
-	
+
 	private static String printAttr(Object o, InstructionPrinter insnPrinter) {
 		if (o instanceof LocalVariableNode) {
 			LocalVariableNode lvn = (LocalVariableNode) o;
-			return "index=" + lvn.index + " , name=" + lvn.name + " , desc=" + lvn.desc + ", sig=" + lvn.signature + ", start=L" + insnPrinter.resolveLabel(lvn.start) + ", end=L" + insnPrinter.resolveLabel(lvn.end);
+			return "index=" + lvn.index + " , name=" + lvn.name + " , desc="
+					+ lvn.desc + ", sig=" + lvn.signature + ", start=L"
+					+ insnPrinter.resolveLabel(lvn.start) + ", end=L"
+					+ insnPrinter.resolveLabel(lvn.end);
 		} else if (o instanceof AnnotationNode) {
 			AnnotationNode an = (AnnotationNode) o;
 			StringBuilder sb = new StringBuilder();
@@ -183,7 +193,7 @@ public class MethodNodeDecompiler {
 			return "";
 		return o.toString();
 	}
-	
+
 	private static String getAccessString(int access) {
 		// public, protected, private, abstract, static,
 		// final, synchronized, native & strictfp are permitted

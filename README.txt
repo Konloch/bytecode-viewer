@@ -13,7 +13,16 @@ Code from various projects has been used, including but not limited to:
     FernFlower by Stiver
     Procyon by Mstrobel
     CFR by Lee Benfield
-	CFIDE by Bibl
+    CFIDE by Bibl
+
+Contributors:
+    Konloch
+    Bibl
+    Fluke
+    Righteous
+    sahitya-pavurala
+    priav03
+    If I missed you, please feel free to contact me @Konloch or konloch@gmail.com
 
 Video: http://the.bytecode.club/bytecodeviewer-video/
 Source Code: https://github.com/konloch/bytecode-viewer
@@ -182,3 +191,16 @@ Changelog:
 12/13/2014 - Search results are now clickable.
 --- 2.2.1 ---:
 12/13/2014 - Fixed an issue with the Bytecode Decompiler. - Thanks bibl
+--- 2.3.0 ---:
+12/16/2014 - Started updating the class viewer.
+12/18/2014 - Finished a basic concept of the new class viewer.
+12/18/2014 - Fixed an error with importing some jars.
+12/18/2014 - Fixed the about window.
+12/18/2014 - Finished the final concept for the new class viewer.
+12/18/2014 - Threaded save Java files as zip, it now runs in a background thread.
+12/18/2014 - Save Java files as zip now prompts you to select a decompiler.
+12/18/2014 - Removed the cursor waiting for save Java files as zip.
+12/18/2014 - Wrapped the save Java files as zip around an exception handler, it will now safely show the exception if any is thrown.
+12/18/2014 - Fixed not escaping the Java strings by default for the Bytecode decompiler. - http://i.imgur.com/YrRnZA7.png
+12/18/2014 - Used Eclipse's code formatting tool and formatted the code
+12/19/2014 - Priav03 fixed the quick class searcher.

@@ -86,10 +86,10 @@ public class RegexInsnFinder {
 	private static String[] opcodesType = new String[] { "NEW", "ANEWARRAY",
 			"ARRAYLENGTH", "CHECKCAST", "INSTANCEOF" };
 	private static String opcodesTypes = buildRegexItems(opcodesType);
-	
+
 	private static String[] opcodesIf = new String[] { "IFEQ", "IFNE", "IFLT",
-		"IFGE", "IFGT", "IFLE", "IF_ICMPEQ", "IF_ICMPNE", "IF_ICMPLT",
-		"IF_ICMPGE", "IF_ICMPGT", "IF_ICMPLE", "IF_ACMPEQ", "IF_ACMPNE" };
+			"IFGE", "IFGT", "IFLE", "IF_ICMPEQ", "IF_ICMPNE", "IF_ICMPLT",
+			"IF_ICMPGE", "IF_ICMPGT", "IF_ICMPLE", "IF_ACMPEQ", "IF_ACMPNE" };
 	private static String opcodesIfs = buildRegexItems(opcodesIf, false, false);
 
 	private static String[] opcodesAny = new String[] { "NOP", "ACONST_NULL",
@@ -118,15 +118,18 @@ public class RegexInsnFinder {
 			"INVOKEDYNAMIC", "NEW", "NEWARRAY", "ANEWARRAY", "ARRAYLENGTH",
 			"ATHROW", "CHECKCAST", "INSTANCEOF", "MONITORENTER", "MONITOREXIT",
 			"MULTIANEWARRAY", "IFNULL", "IFNONNULL" };
-	private static String opcodesAnys = buildRegexItems(opcodesAny, false, false);
+	private static String opcodesAnys = buildRegexItems(opcodesAny, false,
+			false);
 
-	private static String buildRegexItems(final String[] items, final boolean capture, final boolean stdRepl) {
+	private static String buildRegexItems(final String[] items,
+			final boolean capture, final boolean stdRepl) {
 		if (items.length == 0)
 			return "()";
-		String result = (stdRepl ? "\\b" : "") + "(" + (capture ? "" : "?:") + items[0];
+		String result = (stdRepl ? "\\b" : "") + "(" + (capture ? "" : "?:")
+				+ items[0];
 		for (int i = 1; i < items.length; i++) {
-            result += "|" + items[i];
-        }
+			result += "|" + items[i];
+		}
 		result += ")";
 		return result;
 	}
@@ -138,21 +141,24 @@ public class RegexInsnFinder {
 	private static String processRegex(final String regex) {
 		String result = regex.trim();
 		result = result.replaceAll("\\bANYINSN *", opcodesAnys);
-		result = result.replaceAll(opcodesInts + "\\\\\\{\\s*(\\d+)\\s*\\\\\\} *",
-				"$1\\\\{$2\\\\} ");
+		result = result.replaceAll(opcodesInts
+				+ "\\\\\\{\\s*(\\d+)\\s*\\\\\\} *", "$1\\\\{$2\\\\} ");
 		result = result.replaceAll(opcodesInts + " *", "$1\\\\{\\\\d+\\\\} ");
-		result = result.replaceAll("\\bLDC\\\\\\{(.*?)\\\\\\}(?<!\\\\\\\\\\}) *",
+		result = result.replaceAll(
+				"\\bLDC\\\\\\{(.*?)\\\\\\}(?<!\\\\\\\\\\}) *",
 				"LDC\\\\{$1\\\\}(?<!\\\\\\\\\\\\}) ");
-		result = result.replaceAll("\\bLDC *", "LDC\\\\{.*?\\\\}(?<!\\\\\\\\\\\\}) ");
+		result = result.replaceAll("\\bLDC *",
+				"LDC\\\\{.*?\\\\}(?<!\\\\\\\\\\\\}) ");
 		result = result.replaceAll(opcodeVars + "(_\\d+) *", "$1$2 ");
 		result = result.replaceAll(opcodeVars + "(?!_) *", "$1_\\\\d+ ");
-		result = result.replaceAll("\\bIINC\\\\\\{\\s*(\\d+)\\s*,\\s*(\\d+)\\s*\\\\\\} *",
+		result = result.replaceAll(
+				"\\bIINC\\\\\\{\\s*(\\d+)\\s*,\\s*(\\d+)\\s*\\\\\\} *",
 				"IINC\\\\{$1,$2\\\\} ");
 		result = result.replaceAll("\\bIINC\\\\\\{\\s*(\\d+)\\s*\\\\\\} *",
 				"IINC\\\\{\\d+,$1\\\\} ");
 		result = result.replaceAll("\\bIINC *", "IINC\\\\{\\d+,\\d+\\\\} ");
-		result = result.replaceAll(opcodesFields +
-				"\\\\\\{\\s*(.*?)\\s*,\\s*(.*?)\\s*,\\s*(.*?)\\s*\\\\\\} *",
+		result = result.replaceAll(opcodesFields
+				+ "\\\\\\{\\s*(.*?)\\s*,\\s*(.*?)\\s*,\\s*(.*?)\\s*\\\\\\} *",
 				"$1\\\\{$2,$3,$4\\\\} ");
 		result = result.replaceAll(opcodesFields
 				+ "\\\\\\{((?:.(?!,))*)\\\\\\} *", "$1\\\\{$2,.*?,.*?\\\\} ");
@@ -164,14 +170,18 @@ public class RegexInsnFinder {
 				+ "\\\\\\{((?:.(?!,))*)\\\\\\} *", "$1\\\\{$2,.*?,.*?\\\\} ");
 		result = result.replaceAll(opcodesMethods + " *",
 				"$1\\\\{.*?,.*?,.*?\\\\} ");
-		result = result.replaceAll(opcodesTypes	+ "\\\\\\{\\s*(.*?)\\s*\\\\\\} +",
-				"$1\\\\{$2\\\\} ");
+		result = result.replaceAll(opcodesTypes
+				+ "\\\\\\{\\s*(.*?)\\s*\\\\\\} +", "$1\\\\{$2\\\\} ");
 		result = result.replaceAll(opcodesTypes + " +", "$1\\\\{\\\\.*?\\\\} ");
-		result = result.replaceAll("\\bMULTIANEWARRAY\\\\\\{\\s*(\\d+)\\s*,\\s*(.*?)\\s*\\\\\\} *",
-				"MULTIANEWARRAY\\\\{$1,$2\\\\} ");
-		result = result.replaceAll("\\bMULTIANEWARRAY\\\\\\{\\s*(.*?)\\s*\\\\\\} *",
+		result = result
+				.replaceAll(
+						"\\bMULTIANEWARRAY\\\\\\{\\s*(\\d+)\\s*,\\s*(.*?)\\s*\\\\\\} *",
+						"MULTIANEWARRAY\\\\{$1,$2\\\\} ");
+		result = result.replaceAll(
+				"\\bMULTIANEWARRAY\\\\\\{\\s*(.*?)\\s*\\\\\\} *",
 				"MULTIANEWARRAY\\\\{\\d+,$1\\\\} ");
-		result = result.replaceAll("\\bMULTIANEWARRAY *", "MULTIANEWARRAY\\\\{\\\\\\d+,.*?\\\\} ");
+		result = result.replaceAll("\\bMULTIANEWARRAY *",
+				"MULTIANEWARRAY\\\\{\\\\\\d+,.*?\\\\} ");
 		result = result.replaceAll("\\bIFINSN *", opcodesIfs + " ");
 		return result;
 	}
@@ -182,34 +192,35 @@ public class RegexInsnFinder {
 	private int[] offsets;
 	private String insnString;
 
-	public RegexInsnFinder (final ClassNode clazz, final MethodNode method) {
+	public RegexInsnFinder(final ClassNode clazz, final MethodNode method) {
 		setMethod(clazz, method);
 	}
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	private AbstractInsnNode[] cleanInsn(final InsnList insnList) {
-			final List<AbstractInsnNode> il = new ArrayList<AbstractInsnNode>();
-			
-			final Iterator<AbstractInsnNode> iIt = insnList.iterator();
-			while (iIt.hasNext()) {
-			    final AbstractInsnNode node = iIt.next();
-			    if (node.getOpcode() >= 0) {
-                    il.add(node);
-                }
+		final List<AbstractInsnNode> il = new ArrayList<AbstractInsnNode>();
+
+		final Iterator<AbstractInsnNode> iIt = insnList.iterator();
+		while (iIt.hasNext()) {
+			final AbstractInsnNode node = iIt.next();
+			if (node.getOpcode() >= 0) {
+				il.add(node);
 			}
-			return il.toArray(new AbstractInsnNode[il.size()]);
+		}
+		return il.toArray(new AbstractInsnNode[il.size()]);
 	}
 
 	/**
-	 * Refreshes the internal instruction list when you have made changes to the method.
+	 * Refreshes the internal instruction list when you have made changes to the
+	 * method.
 	 */
 	public void refresh() {
 		origInstructions = cleanInsn(mn.instructions);
 		final List<AbstractInsnNode> il = new ArrayList<AbstractInsnNode>();
 		for (final AbstractInsnNode ain : mn.instructions.toArray())
 			if (ain.getOpcode() >= 0) {
-                il.add(ain);
-            }
+				il.add(ain);
+			}
 		instructions = il.toArray(new AbstractInsnNode[il.size()]);
 		offsets = new int[instructions.length];
 		insnString = "";
@@ -218,14 +229,14 @@ public class RegexInsnFinder {
 			final AbstractInsnNode ain = instructions[i];
 			if (ain.getOpcode() >= 0) {
 				if (ain.getOpcode() >= opcodes.length) {
-                    try {
+					try {
 						throw new UnexpectedException(
 								"Unknown opcode encountered: "
 										+ ain.getOpcode());
 					} catch (final UnexpectedException e) {
 						new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 					}
-                }
+				}
 				offsets[i] = insnString.length();
 				insnString += opcodes[ain.getOpcode()];
 				switch (ain.getType()) {
@@ -271,26 +282,26 @@ public class RegexInsnFinder {
 	}
 
 	public void setMethod(final ClassNode ci, final MethodNode mi) {
-        this.mn = mi;
+		this.mn = mi;
 		refresh();
 	}
-	
+
 	private AbstractInsnNode[] makeResult(final int start, final int end) {
 		int startIndex = 0;
 		int endIndex = -1;
 		for (int i = 0; i < offsets.length - 1; i++) {
 			final int offset = offsets[i];
 			if (offset == start) {
-                startIndex = i;
-            }
+				startIndex = i;
+			}
 			if ((offset < end) && (offsets[i + 1] >= end)) {
 				endIndex = i;
 				break;
 			}
 		}
 		if (endIndex == -1) {
-            endIndex = offsets.length - 1;
-        }
+			endIndex = offsets.length - 1;
+		}
 		final int length = endIndex - startIndex + 1;
 		final AbstractInsnNode[] result = new AbstractInsnNode[length];
 		System.arraycopy(origInstructions, startIndex, result, 0, length);
@@ -299,7 +310,9 @@ public class RegexInsnFinder {
 
 	/**
 	 * Searches for a regex in the instruction list and returns the first match.
-	 * @param regex the regular expression
+	 * 
+	 * @param regex
+	 *            the regular expression
 	 * @return the matching instructions
 	 */
 	public AbstractInsnNode[] find(final String regex) {
@@ -313,10 +326,12 @@ public class RegexInsnFinder {
 		}
 		return new AbstractInsnNode[0];
 	}
-	
+
 	/**
 	 * Searches a regex in an instruction list and returns all matches.
-	 * @param regex the regular expression
+	 * 
+	 * @param regex
+	 *            the regular expression
 	 * @return a list with all sets of matching instructions
 	 */
 	public List<AbstractInsnNode[]> findAll(final String regex) {
@@ -325,8 +340,8 @@ public class RegexInsnFinder {
 			final Matcher regexMatcher = Pattern.compile(processRegex(regex),
 					Pattern.MULTILINE).matcher(insnString);
 			while (regexMatcher.find()) {
-                results.add(makeResult(regexMatcher.start(), regexMatcher.end()));
-            }
+				results.add(makeResult(regexMatcher.start(), regexMatcher.end()));
+			}
 		} catch (final PatternSyntaxException ex) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(ex);
 		}
@@ -334,8 +349,11 @@ public class RegexInsnFinder {
 	}
 
 	/**
-	 * Searches for a regex in the instruction list and returns all groups for the first match.
-	 * @param regex the regular expression
+	 * Searches for a regex in the instruction list and returns all groups for
+	 * the first match.
+	 * 
+	 * @param regex
+	 *            the regular expression
 	 * @return the groups with matching instructions
 	 */
 	public AbstractInsnNode[][] findGroups(final String regex) {
@@ -343,10 +361,12 @@ public class RegexInsnFinder {
 			final Matcher regexMatcher = Pattern.compile(processRegex(regex),
 					Pattern.MULTILINE).matcher(insnString);
 			if (regexMatcher.find()) {
-				final AbstractInsnNode[][] result = new AbstractInsnNode[regexMatcher.groupCount() + 1][0];
+				final AbstractInsnNode[][] result = new AbstractInsnNode[regexMatcher
+						.groupCount() + 1][0];
 				for (int i = 0; i <= regexMatcher.groupCount(); i++) {
-                    result[i] = makeResult(regexMatcher.start(i), regexMatcher.end(i));
-                }
+					result[i] = makeResult(regexMatcher.start(i),
+							regexMatcher.end(i));
+				}
 				return result;
 			}
 		} catch (final PatternSyntaxException ex) {
@@ -356,8 +376,11 @@ public class RegexInsnFinder {
 	}
 
 	/**
-	 * Searches for a regex in the instruction list and returns all groups for all matches.
-	 * @param regex the regular expression
+	 * Searches for a regex in the instruction list and returns all groups for
+	 * all matches.
+	 * 
+	 * @param regex
+	 *            the regular expression
 	 * @return a list with all sets of groups with matching instructions
 	 */
 	public List<AbstractInsnNode[][]> findAllGroups(final String regex) {
@@ -366,10 +389,12 @@ public class RegexInsnFinder {
 			final Matcher regexMatcher = Pattern.compile(processRegex(regex),
 					Pattern.MULTILINE).matcher(insnString);
 			if (regexMatcher.find()) {
-				final AbstractInsnNode[][] result = new AbstractInsnNode[regexMatcher.groupCount() + 1][0];
+				final AbstractInsnNode[][] result = new AbstractInsnNode[regexMatcher
+						.groupCount() + 1][0];
 				for (int i = 0; i <= regexMatcher.groupCount(); i++) {
-                    result[i] = makeResult(regexMatcher.start(i), regexMatcher.end(i));
-                }
+					result[i] = makeResult(regexMatcher.start(i),
+							regexMatcher.end(i));
+				}
 				results.add(result);
 			}
 		} catch (final PatternSyntaxException ex) {

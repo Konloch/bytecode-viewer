@@ -7,21 +7,22 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil_OLD;
 
 public class RenameFields extends JavaObfuscator {
-	
+
 	@Override
 	public void obfuscate() {
 		int stringLength = getStringLength();
-		
+
 		System.out.println("Obfuscating fields names...");
-		for(ClassNode c : BytecodeViewer.getLoadedClasses()) {
-			for(Object o : c.fields.toArray()) {
-				FieldNode f = (FieldNode)o;
+		for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
+			for (Object o : c.fields.toArray()) {
+				FieldNode f = (FieldNode) o;
 				String newName = generateUniqueName(stringLength);
-				ASMUtil_OLD.renameFieldNode(c.name,f.name,f.desc, null, newName, null);
+				ASMUtil_OLD.renameFieldNode(c.name, f.name, f.desc, null,
+						newName, null);
 				f.name = newName;
 			}
 		}
-		
+
 		System.out.println("Obfuscated field names.");
 	}
 

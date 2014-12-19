@@ -18,41 +18,46 @@ import java.io.StringWriter;
  * A simple class designed to show exceptions in the UI.
  * 
  * @author Konloch
- *
+ * 
  */
 
 public class ExceptionUI extends JFrame {
 
 	/**
-	 * @param e The exception to be shown
+	 * @param e
+	 *            The exception to be shown
 	 */
 	public ExceptionUI(Exception e) {
-		setup(e,"@Konloch");
+		setup(e, "@Konloch - konloch@gmail.com");
 	}
-	
+
 	/**
-	 * @param e The exception to be shown
-	 * @param author the author of the plugin throwing this exception.
+	 * @param e
+	 *            The exception to be shown
+	 * @param author
+	 *            the author of the plugin throwing this exception.
 	 */
 	public ExceptionUI(Exception e, String author) {
-		setup(e,author);
+		setup(e, author);
 	}
-	
+
 	private void setup(Exception e, String author) {
 
-    	this.setIconImages(BytecodeViewer.iconList);
+		this.setIconImages(BytecodeViewer.iconList);
 		setSize(new Dimension(600, 400));
-		setTitle("Bytecode Viewer "+BytecodeViewer.version+" - Stack Trace - Send this to "+author);
+		setTitle("Bytecode Viewer " + BytecodeViewer.version
+				+ " - Stack Trace - Send this to " + author);
 		getContentPane().setLayout(new CardLayout(0, 0));
-		
+
 		JTextArea txtrBytecodeViewerIs = new JTextArea();
 		txtrBytecodeViewerIs.setDisabledTextColor(Color.BLACK);
 		txtrBytecodeViewerIs.setWrapStyleWord(true);
-		getContentPane().add(new JScrollPane(txtrBytecodeViewerIs), "name_140466576080695");
+		getContentPane().add(new JScrollPane(txtrBytecodeViewerIs),
+				"name_140466576080695");
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		e.printStackTrace();
-		
+
 		txtrBytecodeViewerIs.setText(sw.toString());
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);

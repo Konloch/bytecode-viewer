@@ -15,27 +15,30 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
  * 
  * @author Konloch
  * @author Bibl
- *
+ * 
  */
 
 public class ClassNodeDecompiler {
-	
+
 	public static String decompile(ClassNode cn) {
-		return decompileClassNode(new PrefixedStringBuilder(), new ArrayList<String>(), cn).toString();
+		return decompileClassNode(new PrefixedStringBuilder(),
+				new ArrayList<String>(), cn).toString();
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	protected static PrefixedStringBuilder decompileClassNode(PrefixedStringBuilder sb, ArrayList<String> decompiledClasses, ClassNode cn) {
+	protected static PrefixedStringBuilder decompileClassNode(
+			PrefixedStringBuilder sb, ArrayList<String> decompiledClasses,
+			ClassNode cn) {
 		ArrayList<String> unableToDecompile = new ArrayList<String>();
 		decompiledClasses.add(cn.name);
 		sb.append(getAccessString(cn.access));
 		sb.append(" ");
 		sb.append(cn.name);
-        if (cn.superName != null && !cn.superName.equals("java/lang/Object")) {
-            sb.append(" extends ");
-            sb.append(cn.superName);
-        }
-		
+		if (cn.superName != null && !cn.superName.equals("java/lang/Object")) {
+			sb.append(" extends ");
+			sb.append(cn.superName);
+		}
+
 		int amountOfInterfaces = cn.interfaces.size();
 		if (amountOfInterfaces > 0) {
 			sb.append(" implements ");
@@ -50,7 +53,7 @@ public class ClassNodeDecompiler {
 		}
 		sb.append(" {");
 		sb.append(BytecodeViewer.nl);
-		for (FieldNode fn : (List<FieldNode>)cn.fields) {
+		for (FieldNode fn : (List<FieldNode>) cn.fields) {
 			sb.append(BytecodeViewer.nl);
 			sb.append("     ");
 			FieldNodeDecompiler.decompile(sb, fn);
@@ -58,20 +61,21 @@ public class ClassNodeDecompiler {
 		if (cn.fields.size() > 0) {
 			sb.append(BytecodeViewer.nl);
 		}
-		for (MethodNode mn : (List<MethodNode>)cn.methods) {
+		for (MethodNode mn : (List<MethodNode>) cn.methods) {
 			sb.append(BytecodeViewer.nl);
 			MethodNodeDecompiler.decompile(sb, mn, cn);
 		}
-		
+
 		for (Object o : cn.innerClasses) {
 			InnerClassNode innerClassNode = (InnerClassNode) o;
 			String innerClassName = innerClassNode.name;
-			if ((innerClassName != null) && !decompiledClasses.contains(innerClassName)) {
+			if ((innerClassName != null)
+					&& !decompiledClasses.contains(innerClassName)) {
 				decompiledClasses.add(innerClassName);
 				ClassNode cn1 = BytecodeViewer.getClassNode(innerClassName);
 				if (cn1 != null) {
 					sb.appendPrefix("     ");
-					sb.append(BytecodeViewer.nl+BytecodeViewer.nl);
+					sb.append(BytecodeViewer.nl + BytecodeViewer.nl);
 					sb = decompileClassNode(sb, decompiledClasses, cn1);
 					sb.trimPrefix(5);
 					sb.append(BytecodeViewer.nl);
@@ -80,21 +84,22 @@ public class ClassNodeDecompiler {
 				}
 			}
 		}
-		
-		if(!unableToDecompile.isEmpty()) {
+
+		if (!unableToDecompile.isEmpty()) {
 			sb.append("//the following inner classes couldn't be decompiled: ");
-			for(String s : unableToDecompile) {
+			for (String s : unableToDecompile) {
 				sb.append(s);
 				sb.append(" ");
 			}
 			sb.append(BytecodeViewer.nl);
 		}
-		
+
 		sb.append("}");
-		// System.out.println("Wrote end for " + cn.name + " with prefix length: " + sb.prefix.length());
+		// System.out.println("Wrote end for " + cn.name +
+		// " with prefix length: " + sb.prefix.length());
 		return sb;
 	}
-	
+
 	public static String getAccessString(int access) {
 		List<String> tokens = new ArrayList<String>();
 		if ((access & Opcodes.ACC_PUBLIC) != 0)
@@ -117,11 +122,12 @@ public class ClassNodeDecompiler {
 			tokens.add("enum");
 		if ((access & Opcodes.ACC_ANNOTATION) != 0)
 			tokens.add("annotation");
-		if (!tokens.contains("interface") && !tokens.contains("enum") && !tokens.contains("annotation"))
+		if (!tokens.contains("interface") && !tokens.contains("enum")
+				&& !tokens.contains("annotation"))
 			tokens.add("class");
 		if (tokens.size() == 0)
 			return "[Error parsing]";
-		
+
 		// hackery delimeters
 		StringBuilder sb = new StringBuilder(tokens.get(0));
 		for (int i = 1; i < tokens.size(); i++) {
