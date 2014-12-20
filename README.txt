@@ -25,6 +25,10 @@ Contributors:
     Afffsdd
     If I missed you, please feel free to contact me @Konloch or konloch@gmail.com
 
+Contribution Guide Lines:
+    Packages must start with the.bytecode.club.bytecodeviewer
+    If code you write can throw an exception, handle it using new the.bytecode.club.bytecodeviewer.ExceptionUI(exception)
+
 Video: http://the.bytecode.club/bytecodeviewer-video/
 Source Code: https://github.com/konloch/bytecode-viewer
 Bin/Archive: https://github.com/konloch/bytecode-viewer/releases
