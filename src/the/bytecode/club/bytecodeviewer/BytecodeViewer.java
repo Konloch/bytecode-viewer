@@ -3,11 +3,7 @@ package the.bytecode.club.bytecodeviewer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -511,10 +507,31 @@ public class BytecodeViewer {
 	public static String getBCVDirectory() {
 		File f = new File(System.getProperty("user.home") + fs
 				+ ".Bytecode-Viewer");
-		while (!f.exists())
+		while (!f.exists()) {
+			System.out.println("it doesn't exist."); // debug
 			f.mkdirs();
+		}
+		System.out.println("it exists now."); // debug
+		if (!f.isHidden() && isWindows())
+			hideFile(f);
 
 		return f.getAbsolutePath();
+	}
+
+	private static boolean isWindows() {
+		return System.getProperty("os.name").toLowerCase().contains("win");
+	}
+
+	private static void hideFile(File f) {
+		System.out.println("hiding file");
+		try {
+			// Hide file by running attrib system command (on Windows)
+			Runtime.getRuntime().exec("attrib +H " + f.getAbsolutePath());
+		} catch (IOException e) {
+			System.out.println("Could not hide settings folder (~/.Bytecode-Viewer) using attrib!");
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	private static String quickConvert(ArrayList<String> a) {
