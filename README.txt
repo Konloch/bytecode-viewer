@@ -22,7 +22,7 @@ Contributors:
     Righteous
     sahitya-pavurala
     priav03
-	Afffsdd
+    Afffsdd
     If I missed you, please feel free to contact me @Konloch or konloch@gmail.com
 
 Video: http://the.bytecode.club/bytecodeviewer-video/
