@@ -36,7 +36,7 @@ Are you a Java Reverse Engineer? Do you want to learn?
 Join The Bytecode Club Today!
 https://the.bytecode.club
 
-Changelog:
+Changelog :
 --- Beta 1.0.0 ---:
 10/4/2014 - Designed a POC GUI, still needs a lot of work.
 10/4/2014 - Started importing J-RET's backend.
