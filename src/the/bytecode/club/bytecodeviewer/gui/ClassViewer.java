@@ -420,7 +420,7 @@ public class ClassViewer extends JPanel {
 		hex.setSize(0, Integer.MAX_VALUE);
 
 		BytecodeViewer.viewer.setIcon(true);
-		startPaneUpdater();
+		startPaneUpdater(null);
 		this.addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
 				resetDivider();
@@ -454,7 +454,7 @@ public class ClassViewer extends JPanel {
 	static CFRDecompiler cfr_dc = new CFRDecompiler();
 	PaneUpdaterThread t;
 
-	public void startPaneUpdater() {
+	public void startPaneUpdater(final JButton button) {
 		if (BytecodeViewer.viewer.decompilerGroup1
 				.isSelected(BytecodeViewer.viewer.panel1None.getModel()))
 			pane1 = 0;
@@ -515,183 +515,190 @@ public class ClassViewer extends JPanel {
 		t = new PaneUpdaterThread() {
 			@Override
 			public void doShit() {
-				panel1.removeAll();
-				panel2.removeAll();
-				panel3.removeAll();
-
-				if (pane1 != 0 && pane1 != 5)
-					panel1.add(panel1Search, BorderLayout.NORTH);
-				if (pane2 != 0 && pane2 != 5)
-					panel2.add(panel2Search, BorderLayout.NORTH);
-				if (pane3 != 0 && pane3 != 5)
-					panel3.add(panel3Search, BorderLayout.NORTH);
-
-				if (pane1 == 1) { // procyon
-					RSyntaxTextArea panelArea = new RSyntaxTextArea();
-					panelArea
-							.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					panelArea.setCodeFoldingEnabled(true);
-					panelArea.setAntiAliasingEnabled(true);
-					RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-					panelArea.setText(proc_dc.decompileClassNode(cn));
-					panelArea.setCaretPosition(0);
-					panel1.add(scrollPane);
+				try {
+					panel1.removeAll();
+					panel2.removeAll();
+					panel3.removeAll();
+	
+					if (pane1 != 0 && pane1 != 5)
+						panel1.add(panel1Search, BorderLayout.NORTH);
+					if (pane2 != 0 && pane2 != 5)
+						panel2.add(panel2Search, BorderLayout.NORTH);
+					if (pane3 != 0 && pane3 != 5)
+						panel3.add(panel3Search, BorderLayout.NORTH);
+	
+					if (pane1 == 1) { // procyon
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						panelArea.setText(proc_dc.decompileClassNode(cn));
+						panelArea.setCaretPosition(0);
+						panel1.add(scrollPane);
+					}
+	
+					if (pane1 == 2) {// cfr
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						panelArea.setText(cfr_dc.decompileClassNode(cn));
+						panelArea.setCaretPosition(0);
+						panel1.add(scrollPane);
+					}
+	
+					if (pane1 == 3) {// fern
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						panelArea.setText(ff_dc.decompileClassNode(cn));
+						panelArea.setCaretPosition(0);
+						panel1.add(scrollPane);
+					}
+	
+					if (pane1 == 4) {// bytecode
+						RSyntaxTextArea bytecodeArea = new RSyntaxTextArea();
+						bytecodeArea
+								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						bytecodeArea.setCodeFoldingEnabled(true);
+						bytecodeArea.setAntiAliasingEnabled(true);
+						RTextScrollPane bytecodeSPane = new RTextScrollPane(
+								bytecodeArea);
+						bytecodeArea.setText(ClassNodeDecompiler.decompile(cn));
+						bytecodeArea.setCaretPosition(0);
+						panel1.add(bytecodeSPane);
+					}
+	
+					if (pane1 == 5) {// hex
+						final ClassWriter cw = new ClassWriter(0);
+						cn.accept(cw);
+						JHexEditor hex = new JHexEditor(cw.toByteArray());
+						panel1.add(hex);
+					}
+	
+					if (pane2 == 1) {
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						panelArea.setText(proc_dc.decompileClassNode(cn));
+						panelArea.setCaretPosition(0);
+						panel2.add(scrollPane);
+					}
+	
+					if (pane2 == 2) {
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						panelArea.setText(cfr_dc.decompileClassNode(cn));
+						panelArea.setCaretPosition(0);
+						panel2.add(scrollPane);
+					}
+	
+					if (pane2 == 3) {
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						panelArea.setText(ff_dc.decompileClassNode(cn));
+						panelArea.setCaretPosition(0);
+						panel2.add(scrollPane);
+					}
+	
+					if (pane2 == 4) {
+						RSyntaxTextArea paneArea = new RSyntaxTextArea();
+						paneArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						paneArea.setCodeFoldingEnabled(true);
+						paneArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(paneArea);
+						paneArea.setText(ClassNodeDecompiler.decompile(cn));
+						paneArea.setCaretPosition(0);
+						panel2.add(scrollPane);
+					}
+	
+					if (pane2 == 5) {
+						final ClassWriter cw = new ClassWriter(0);
+						cn.accept(cw);
+						JHexEditor hex = new JHexEditor(cw.toByteArray());
+						panel2.add(hex);
+					}
+	
+					if (pane3 == 1) {
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						panelArea.setText(proc_dc.decompileClassNode(cn));
+						panelArea.setCaretPosition(0);
+						panel3.add(scrollPane);
+					}
+	
+					if (pane3 == 2) {
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						panelArea.setText(cfr_dc.decompileClassNode(cn));
+						panelArea.setCaretPosition(0);
+						panel3.add(scrollPane);
+					}
+	
+					if (pane3 == 3) {
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						panelArea.setText(ff_dc.decompileClassNode(cn));
+						panelArea.setCaretPosition(0);
+						panel3.add(scrollPane);
+					}
+	
+					if (pane3 == 4) {
+						RSyntaxTextArea paneArea = new RSyntaxTextArea();
+						paneArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						paneArea.setCodeFoldingEnabled(true);
+						paneArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(paneArea);
+						paneArea.setText(ClassNodeDecompiler.decompile(cn));
+						paneArea.setCaretPosition(0);
+						panel3.add(scrollPane);
+					}
+	
+					if (pane3 == 5) {
+						final ClassWriter cw = new ClassWriter(0);
+						cn.accept(cw);
+						JHexEditor hex = new JHexEditor(cw.toByteArray());
+						panel3.add(hex);
+					}
+	
+					resetDivider();
+					BytecodeViewer.viewer.setIcon(false);
+				} catch(Exception e) {
+					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+				} finally {
+					if(button != null)
+						button.setEnabled(true);
 				}
-
-				if (pane1 == 2) {// cfr
-					RSyntaxTextArea panelArea = new RSyntaxTextArea();
-					panelArea
-							.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					panelArea.setCodeFoldingEnabled(true);
-					panelArea.setAntiAliasingEnabled(true);
-					RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-					panelArea.setText(cfr_dc.decompileClassNode(cn));
-					panelArea.setCaretPosition(0);
-					panel1.add(scrollPane);
-				}
-
-				if (pane1 == 3) {// fern
-					RSyntaxTextArea panelArea = new RSyntaxTextArea();
-					panelArea
-							.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					panelArea.setCodeFoldingEnabled(true);
-					panelArea.setAntiAliasingEnabled(true);
-					RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-					panelArea.setText(ff_dc.decompileClassNode(cn));
-					panelArea.setCaretPosition(0);
-					panel1.add(scrollPane);
-				}
-
-				if (pane1 == 4) {// bytecode
-					RSyntaxTextArea bytecodeArea = new RSyntaxTextArea();
-					bytecodeArea
-							.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					bytecodeArea.setCodeFoldingEnabled(true);
-					bytecodeArea.setAntiAliasingEnabled(true);
-					RTextScrollPane bytecodeSPane = new RTextScrollPane(
-							bytecodeArea);
-					bytecodeArea.setText(ClassNodeDecompiler.decompile(cn));
-					bytecodeArea.setCaretPosition(0);
-					panel1.add(bytecodeSPane);
-				}
-
-				if (pane1 == 5) {// hex
-					final ClassWriter cw = new ClassWriter(0);
-					cn.accept(cw);
-					JHexEditor hex = new JHexEditor(cw.toByteArray());
-					panel1.add(hex);
-				}
-
-				if (pane2 == 1) {
-					RSyntaxTextArea panelArea = new RSyntaxTextArea();
-					panelArea
-							.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					panelArea.setCodeFoldingEnabled(true);
-					panelArea.setAntiAliasingEnabled(true);
-					RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-					panelArea.setText(proc_dc.decompileClassNode(cn));
-					panelArea.setCaretPosition(0);
-					panel2.add(scrollPane);
-				}
-
-				if (pane2 == 2) {
-					RSyntaxTextArea panelArea = new RSyntaxTextArea();
-					panelArea
-							.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					panelArea.setCodeFoldingEnabled(true);
-					panelArea.setAntiAliasingEnabled(true);
-					RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-					panelArea.setText(cfr_dc.decompileClassNode(cn));
-					panelArea.setCaretPosition(0);
-					panel2.add(scrollPane);
-				}
-
-				if (pane2 == 3) {
-					RSyntaxTextArea panelArea = new RSyntaxTextArea();
-					panelArea
-							.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					panelArea.setCodeFoldingEnabled(true);
-					panelArea.setAntiAliasingEnabled(true);
-					RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-					panelArea.setText(ff_dc.decompileClassNode(cn));
-					panelArea.setCaretPosition(0);
-					panel2.add(scrollPane);
-				}
-
-				if (pane2 == 4) {
-					RSyntaxTextArea paneArea = new RSyntaxTextArea();
-					paneArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					paneArea.setCodeFoldingEnabled(true);
-					paneArea.setAntiAliasingEnabled(true);
-					RTextScrollPane scrollPane = new RTextScrollPane(paneArea);
-					paneArea.setText(ClassNodeDecompiler.decompile(cn));
-					paneArea.setCaretPosition(0);
-					panel2.add(scrollPane);
-				}
-
-				if (pane2 == 5) {
-					final ClassWriter cw = new ClassWriter(0);
-					cn.accept(cw);
-					JHexEditor hex = new JHexEditor(cw.toByteArray());
-					panel2.add(hex);
-				}
-
-				if (pane3 == 1) {
-					RSyntaxTextArea panelArea = new RSyntaxTextArea();
-					panelArea
-							.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					panelArea.setCodeFoldingEnabled(true);
-					panelArea.setAntiAliasingEnabled(true);
-					RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-					panelArea.setText(proc_dc.decompileClassNode(cn));
-					panelArea.setCaretPosition(0);
-					panel3.add(scrollPane);
-				}
-
-				if (pane3 == 2) {
-					RSyntaxTextArea panelArea = new RSyntaxTextArea();
-					panelArea
-							.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					panelArea.setCodeFoldingEnabled(true);
-					panelArea.setAntiAliasingEnabled(true);
-					RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-					panelArea.setText(cfr_dc.decompileClassNode(cn));
-					panelArea.setCaretPosition(0);
-					panel3.add(scrollPane);
-				}
-
-				if (pane3 == 3) {
-					RSyntaxTextArea panelArea = new RSyntaxTextArea();
-					panelArea
-							.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					panelArea.setCodeFoldingEnabled(true);
-					panelArea.setAntiAliasingEnabled(true);
-					RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-					panelArea.setText(ff_dc.decompileClassNode(cn));
-					panelArea.setCaretPosition(0);
-					panel3.add(scrollPane);
-				}
-
-				if (pane3 == 4) {
-					RSyntaxTextArea paneArea = new RSyntaxTextArea();
-					paneArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-					paneArea.setCodeFoldingEnabled(true);
-					paneArea.setAntiAliasingEnabled(true);
-					RTextScrollPane scrollPane = new RTextScrollPane(paneArea);
-					paneArea.setText(ClassNodeDecompiler.decompile(cn));
-					paneArea.setCaretPosition(0);
-					panel3.add(scrollPane);
-				}
-
-				if (pane3 == 5) {
-					final ClassWriter cw = new ClassWriter(0);
-					cn.accept(cw);
-					JHexEditor hex = new JHexEditor(cw.toByteArray());
-					panel3.add(hex);
-				}
-
-				resetDivider();
-				BytecodeViewer.viewer.setIcon(false);
 			}
 
 		};

@@ -18,6 +18,8 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 
+import me.konloch.kontainer.io.DiskWriter;
+
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
@@ -45,6 +47,12 @@ import the.bytecode.club.bytecodeviewer.JarUtils;
  */
 
 public class ProcyonDecompiler extends JavaDecompiler {
+
+	@Override
+	public void decompileToClass(String className, String classNameSaved) {
+		String contents = decompileClassNode(BytecodeViewer.getClassNode(className));
+		DiskWriter.replaceFile(classNameSaved, contents, false);
+	}
 
 	public DecompilerSettings getDecompilerSettings() {
 		DecompilerSettings settings = new DecompilerSettings();

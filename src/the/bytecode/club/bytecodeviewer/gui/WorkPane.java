@@ -119,8 +119,9 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 		if (src == refreshClass) {
 			final Component tabComp = tabs.getSelectedComponent();
 			if (tabComp != null) {
+				src.setEnabled(false);
 				BytecodeViewer.viewer.setC(true);
-				((ClassViewer) tabComp).startPaneUpdater();
+				((ClassViewer) tabComp).startPaneUpdater(src);
 				BytecodeViewer.viewer.setC(false);
 			}
 		}

@@ -24,7 +24,7 @@ public class AboutWindow extends JFrame {
 		txtrBytecodeViewerIs.setWrapStyleWord(true);
 		getContentPane().add(txtrBytecodeViewerIs, "name_140466526081695");
 		txtrBytecodeViewerIs
-				.setText("Bytecode Viewer 2.3.0 is an open source program\r\ndeveloped by Konloch (konloch@gmail.com)\r\nDir: "
+				.setText("Bytecode Viewer "+BytecodeViewer.version+" is an open source program\r\ndeveloped by Konloch (konloch@gmail.com)\r\nDir: "
 						+ BytecodeViewer.getBCVDirectory()
 						+ "\r\n\r\nIt uses code from the following:\r\n    J-RET by WaterWolf\r\n    JHexPane by Sam Koivu\r\n    RSyntaxTextArea by Bobbylight\r\n    Commons IO by Apache\r\n    ASM by OW2\r\n    CFIDE  by Bibl\r\n    FernFlower by Stiver\r\n    Procyon by Mstrobel\r\n    CFR by Lee Benfield\r\n\r\nIf you're interested in Java Reverse\r\nEngineering, join The Bytecode Club\r\nhttps://the.bytecode.club");
 		txtrBytecodeViewerIs.setEnabled(false);

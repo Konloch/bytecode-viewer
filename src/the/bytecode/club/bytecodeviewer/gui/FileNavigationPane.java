@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -18,6 +20,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,6 +43,8 @@ public class FileNavigationPane extends VisibleComponent implements
 
 	FileChangeNotifier fcn;
 	JCheckBox exact = new JCheckBox("Exact");
+	JButton open = new JButton("+");
+	JButton close = new JButton("-");
 
 	MyTreeNode treeRoot = new MyTreeNode("Root");
 	MyTree tree;
@@ -49,6 +54,27 @@ public class FileNavigationPane extends VisibleComponent implements
 		setTitle("Files");
 
 		this.fcn = fcn;
+		
+		open.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final TreeNode root = (TreeNode) tree.getModel().getRoot();
+				expandAll(tree, new TreePath(root), true);
+			}
+			
+		});
+		
+		close.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final TreeNode root = (TreeNode) tree.getModel().getRoot();
+				expandAll(tree, new TreePath(root), false);
+				tree.expandPath(new TreePath(root));
+			}
+			
+		});
 
 		getContentPane().setLayout(new BorderLayout());
 
@@ -190,7 +216,13 @@ public class FileNavigationPane extends VisibleComponent implements
 		JPanel p2 = new JPanel();
 		p2.setLayout(new BorderLayout());
 		p2.add(quickSearch, BorderLayout.NORTH);
-		p2.add(exact, BorderLayout.SOUTH);
+		JPanel p3 = new JPanel(new BorderLayout());
+		p3.add(exact, BorderLayout.WEST);
+		JPanel p4 = new JPanel(new BorderLayout());
+		p4.add(open, BorderLayout.EAST);
+		p4.add(close, BorderLayout.WEST);
+		p3.add(p4, BorderLayout.EAST);
+		p2.add(p3, BorderLayout.SOUTH);
 
 		getContentPane().add(p2, BorderLayout.SOUTH);
 
@@ -241,15 +273,6 @@ public class FileNavigationPane extends VisibleComponent implements
 		tree.expandPath(new TreePath(tree.getModel().getRoot()));
 		tree.updateUI();
 		// expandAll(tree, true);
-	}
-
-	// If expand is true, expands all nodes in the tree.
-	// Otherwise, collapses all nodes in the tree.
-	public void expandAll(final JTree tree, final boolean expand) {
-		final TreeNode root = (TreeNode) tree.getModel().getRoot();
-
-		// Traverse tree from root
-		expandAll(tree, new TreePath(root), expand);
 	}
 
 	@SuppressWarnings("rawtypes")

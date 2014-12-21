@@ -35,17 +35,31 @@ public class JarUtils {
 			final HashMap<String, ClassNode> clazzList) throws IOException {
 		jis = new JarInputStream(new FileInputStream(jarFile));
 		while ((entry = jis.getNextJarEntry()) != null) {
-			final String name = entry.getName();
-			if (!name.endsWith(".class")) {
-				BytecodeViewer.loadedResources.put(name, getBytes(jis));
+			try {
+				final String name = entry.getName();
+				if (!name.endsWith(".class")) {
+					BytecodeViewer.loadedResources.put(name, getBytes(jis));
+					jis.closeEntry();
+					continue;
+				}
+	
+				byte[] bytes = getBytes(jis);
+				String cafebabe = String.format("%02X", bytes[0])
+						+ String.format("%02X", bytes[1])
+						+ String.format("%02X", bytes[2])
+						+ String.format("%02X", bytes[3]);
+				if(cafebabe.toLowerCase().equals("cafebabe")) {
+					final ClassNode cn = getNode(bytes);
+					clazzList.put(cn.name, cn);
+				} else {
+					System.out.println(jarFile+">"+name+": Header does not start with CAFEBABE, ignoring.");
+				}
+
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
 				jis.closeEntry();
-				continue;
 			}
-
-			final ClassNode cn = getNode(getBytes(jis));
-			clazzList.put(cn.name, cn);
-
-			jis.closeEntry();
 		}
 		jis.close();
 

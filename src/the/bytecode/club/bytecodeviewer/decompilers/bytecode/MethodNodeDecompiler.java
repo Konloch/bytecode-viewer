@@ -42,7 +42,6 @@ public class MethodNodeDecompiler {
 		if (s.length() > 0)
 			sb.append(" ");
 
-		System.out.println(m.name);
 		if (m.name.equals("<init>")) {
 			sb.append(class_);
 		} else if (m.name.equals("<clinit>")) {

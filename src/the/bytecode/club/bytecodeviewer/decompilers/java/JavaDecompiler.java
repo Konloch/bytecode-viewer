@@ -16,6 +16,8 @@ public abstract class JavaDecompiler {
 
 	public abstract void decompileToZip(String zipName);
 
+	public abstract void decompileToClass(String className, String classNameSaved);
+
 	File tempF = null;
 
 	public int getClassNumber(String start, String ext) {

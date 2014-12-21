@@ -209,4 +209,13 @@ Changelog:
 12/18/2014 - Fixed not escaping the Java strings by default for the Bytecode decompiler. - http://i.imgur.com/YrRnZA7.png
 12/18/2014 - Used Eclipse's code formatting tool and formatted the code
 12/19/2014 - Priav03 fixed the quick class searcher.
-
+--- 2.4.0 ---:
+12/19/2014 - Afffsdd made the Bytecode Viewer directory hidden.
+12/19/2014 - Added save Java file as, for singular class file decompilation (this is threaded).
+12/19/2014 - Removed unused Bytecode Decompiler debug code.
+12/20/2014 - Made a new outdated pane - http://i.imgur.com/xMxkwJ9.png
+12/20/2014 - Added an expand/collapse the packages in the file navigator.
+12/20/2014 - Moved all of the settings to the.bytecode.club.bytecodeviewer.Settings
+12/20/2014 - If the class file does not start with CAFEBABE it won't be processed.
+12/20/2014 - Properly handled file not found error.
+12/21/2014 - Fixed the Refresh Class causing a dupe.

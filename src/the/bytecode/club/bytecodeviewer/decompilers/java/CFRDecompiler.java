@@ -14,6 +14,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import me.konloch.kontainer.io.DiskReader;
+import me.konloch.kontainer.io.DiskWriter;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
@@ -29,6 +30,12 @@ import the.bytecode.club.bytecodeviewer.JarUtils;
 
 public class CFRDecompiler extends JavaDecompiler {
 
+	@Override
+	public void decompileToClass(String className, String classNameSaved) {
+		String contents = decompileClassNode(BytecodeViewer.getClassNode(className));
+		DiskWriter.replaceFile(classNameSaved, contents, false);
+	}
+	
 	@Override
 	public String decompileClassNode(ClassNode cn) {
 		final ClassWriter cw = new ClassWriter(0);
