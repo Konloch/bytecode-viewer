@@ -209,3 +209,4 @@ Changelog:
 12/18/2014 - Fixed not escaping the Java strings by default for the Bytecode decompiler. - http://i.imgur.com/YrRnZA7.png
 12/18/2014 - Used Eclipse's code formatting tool and formatted the code
 12/19/2014 - Priav03 fixed the quick class searcher.
+
