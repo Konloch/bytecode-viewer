@@ -69,14 +69,7 @@ public class JarUtils {
     public static ClassNode getNode(final byte[] bytez) {
         cr = new ClassReader(bytez);
         cn = new ClassNode();
-        try {
-            cr.accept(cn, ClassReader.EXPAND_FRAMES);
-        }
-        catch(Exception e)
-        {
-            //
-        }
-
+        cr.accept(cn, ClassReader.EXPAND_FRAMES);
         cr = null;
         return cn;
     }
