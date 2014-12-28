@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 public class MaliciousCodeScannerOptions extends JFrame {
 	public MaliciousCodeScannerOptions() {
 		this.setIconImages(BytecodeViewer.iconList);
-		setSize(new Dimension(250, 277));
+		setSize(new Dimension(250, 300));
 		setResizable(false);
 		setTitle("Malicious Code Scanner Options");
 		getContentPane().setLayout(null);
@@ -67,6 +67,12 @@ public class MaliciousCodeScannerOptions extends JFrame {
 		chckbxLdcMatchesIp.setBounds(6, 189, 232, 23);
 		getContentPane().add(chckbxLdcMatchesIp);
 
+		final JCheckBox chckbxNullSecMan = new JCheckBox(
+				"SecurityManager set to null");
+		chckbxNullSecMan.setSelected(true);
+		chckbxNullSecMan.setBounds(6, 215, 232, 23);
+		getContentPane().add(chckbxNullSecMan);
+
 		JButton btnNewButton = new JButton("Start Scanning");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -77,11 +83,11 @@ public class MaliciousCodeScannerOptions extends JFrame {
 						chckbxLdcContainswww.isSelected(),
 						chckbxLdcContainshttp.isSelected(),
 						chckbxLdcContainshttps.isSelected(), chckbxLdcMatchesIp
-								.isSelected()));
+								.isSelected(), chckbxNullSecMan.isSelected()));
 				dispose();
 			}
 		});
-		btnNewButton.setBounds(6, 219, 232, 23);
+		btnNewButton.setBounds(6, 245, 232, 23);
 		getContentPane().add(btnNewButton);
 		this.setLocationRelativeTo(null);
 	}
