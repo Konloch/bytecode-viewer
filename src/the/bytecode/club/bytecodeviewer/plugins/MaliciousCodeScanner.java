@@ -2,10 +2,12 @@ package the.bytecode.club.bytecodeviewer.plugins;
 
 import java.util.ArrayList;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -25,10 +27,11 @@ import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 
 public class MaliciousCodeScanner extends Plugin {
 
-	public boolean ORE, ONE, ORU, OIO, LWW, LHT, LHS, LIP;
+	public boolean ORE, ONE, ORU, OIO, LWW, LHT, LHS, LIP, NSM;
 
 	public MaliciousCodeScanner(boolean reflect, boolean runtime, boolean net,
-			boolean io, boolean www, boolean http, boolean https, boolean ip) {
+			boolean io, boolean www, boolean http, boolean https, boolean ip,
+			boolean nullSecMan) {
 		ORE = reflect;
 		ONE = net;
 		ORU = runtime;
@@ -37,6 +40,7 @@ public class MaliciousCodeScanner extends Plugin {
 		LHT = http;
 		LHS = https;
 		LIP = ip;
+		NSM = nullSecMan;
 	}
 
 	@Override
@@ -77,6 +81,8 @@ public class MaliciousCodeScanner extends Plugin {
 				}
 			}
 
+			boolean prevInsn_aconst_null = false;
+
 			for (Object o : classNode.methods.toArray()) {
 				MethodNode m = (MethodNode) o;
 
@@ -110,6 +116,29 @@ public class MaliciousCodeScanner extends Plugin {
 										+ m.desc + ")" + BytecodeViewer.nl);
 							}
 						}
+					}
+
+					// Check if the security manager is getting set to null
+					if ((a instanceof InsnNode)
+							&& (a.getOpcode() == Opcodes.ACONST_NULL)) {
+						prevInsn_aconst_null = true;
+					} else if ((a instanceof MethodInsnNode)
+							&& (a.getOpcode() == Opcodes.INVOKESTATIC)) {
+						final String owner = ((MethodInsnNode) a).owner;
+						final String name = ((MethodInsnNode) a).name;
+						if ((NSM && prevInsn_aconst_null
+								&& owner.equals("java/lang/System") && name
+									.equals("setSecurityManager"))) {
+							sb.append("Found Security Manager set to null at method "
+									+ classNode.name
+									+ "."
+									+ m.name
+									+ "("
+									+ m.desc + ")" + BytecodeViewer.nl);
+							prevInsn_aconst_null = false;
+						}
+					} else {
+						prevInsn_aconst_null = false;
 					}
 				}
 			}
