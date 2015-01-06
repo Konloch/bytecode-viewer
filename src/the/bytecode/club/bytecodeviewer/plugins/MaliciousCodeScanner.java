@@ -21,6 +21,7 @@ import the.bytecode.club.bytecodeviewer.api.PluginConsole;
  * and added more stuff to search for.
  * 
  * @author Konloch
+ * @author Adrianherrera
  * @author WaterWolf
  * 
  */

@@ -455,60 +455,60 @@ public class ClassViewer extends JPanel {
 	PaneUpdaterThread t;
 
 	public void startPaneUpdater(final JButton button) {
-		if (BytecodeViewer.viewer.decompilerGroup1
+		if (BytecodeViewer.viewer.panelGroup1
 				.isSelected(BytecodeViewer.viewer.panel1None.getModel()))
 			pane1 = 0;
-		else if (BytecodeViewer.viewer.decompilerGroup1
+		else if (BytecodeViewer.viewer.panelGroup1
 				.isSelected(BytecodeViewer.viewer.panel1Proc.getModel()))
 			pane1 = 1;
-		else if (BytecodeViewer.viewer.decompilerGroup1
+		else if (BytecodeViewer.viewer.panelGroup1
 				.isSelected(BytecodeViewer.viewer.panel1CFR.getModel()))
 			pane1 = 2;
-		else if (BytecodeViewer.viewer.decompilerGroup1
+		else if (BytecodeViewer.viewer.panelGroup1
 				.isSelected(BytecodeViewer.viewer.panel1Fern.getModel()))
 			pane1 = 3;
-		else if (BytecodeViewer.viewer.decompilerGroup1
+		else if (BytecodeViewer.viewer.panelGroup1
 				.isSelected(BytecodeViewer.viewer.panel1Bytecode.getModel()))
 			pane1 = 4;
-		else if (BytecodeViewer.viewer.decompilerGroup1
+		else if (BytecodeViewer.viewer.panelGroup1
 				.isSelected(BytecodeViewer.viewer.panel1Hexcode.getModel()))
 			pane1 = 5;
 
-		if (BytecodeViewer.viewer.decompilerGroup2
+		if (BytecodeViewer.viewer.panelGroup2
 				.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
 			pane2 = 0;
-		else if (BytecodeViewer.viewer.decompilerGroup2
+		else if (BytecodeViewer.viewer.panelGroup2
 				.isSelected(BytecodeViewer.viewer.panel2Proc.getModel()))
 			pane2 = 1;
-		else if (BytecodeViewer.viewer.decompilerGroup2
+		else if (BytecodeViewer.viewer.panelGroup2
 				.isSelected(BytecodeViewer.viewer.panel2CFR.getModel()))
 			pane2 = 2;
-		else if (BytecodeViewer.viewer.decompilerGroup2
+		else if (BytecodeViewer.viewer.panelGroup2
 				.isSelected(BytecodeViewer.viewer.panel2Fern.getModel()))
 			pane2 = 3;
-		else if (BytecodeViewer.viewer.decompilerGroup2
+		else if (BytecodeViewer.viewer.panelGroup2
 				.isSelected(BytecodeViewer.viewer.panel2Bytecode.getModel()))
 			pane2 = 4;
-		else if (BytecodeViewer.viewer.decompilerGroup2
+		else if (BytecodeViewer.viewer.panelGroup2
 				.isSelected(BytecodeViewer.viewer.panel2Hexcode.getModel()))
 			pane2 = 5;
 
-		if (BytecodeViewer.viewer.decompilerGroup3
+		if (BytecodeViewer.viewer.panelGroup3
 				.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
 			pane3 = 0;
-		else if (BytecodeViewer.viewer.decompilerGroup3
+		else if (BytecodeViewer.viewer.panelGroup3
 				.isSelected(BytecodeViewer.viewer.panel3Proc.getModel()))
 			pane3 = 1;
-		else if (BytecodeViewer.viewer.decompilerGroup3
+		else if (BytecodeViewer.viewer.panelGroup3
 				.isSelected(BytecodeViewer.viewer.panel3CFR.getModel()))
 			pane3 = 2;
-		else if (BytecodeViewer.viewer.decompilerGroup3
+		else if (BytecodeViewer.viewer.panelGroup3
 				.isSelected(BytecodeViewer.viewer.panel3Fern.getModel()))
 			pane3 = 3;
-		else if (BytecodeViewer.viewer.decompilerGroup3
+		else if (BytecodeViewer.viewer.panelGroup3
 				.isSelected(BytecodeViewer.viewer.panel3Bytecode.getModel()))
 			pane3 = 4;
-		else if (BytecodeViewer.viewer.decompilerGroup3
+		else if (BytecodeViewer.viewer.panelGroup3
 				.isSelected(BytecodeViewer.viewer.panel3Hexcode.getModel()))
 			pane3 = 5;
 

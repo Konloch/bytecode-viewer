@@ -14,6 +14,14 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * A simple GUI to select the Malicious Code Scanner options.
+ * 
+ * @author Konloch
+ * @author Adrianherrera
+ *
+ */
+
 public class MaliciousCodeScannerOptions extends JFrame {
 	public MaliciousCodeScannerOptions() {
 		this.setIconImages(BytecodeViewer.iconList);

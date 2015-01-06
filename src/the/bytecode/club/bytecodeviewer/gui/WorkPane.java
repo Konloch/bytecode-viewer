@@ -55,7 +55,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 
 		buttonPanel = new JPanel(new FlowLayout());
 
-		refreshClass = new JButton("Refresh class");
+		refreshClass = new JButton("Refresh Class");
 		refreshClass.addActionListener(this);
 
 		buttonPanel.add(refreshClass);

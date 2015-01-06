@@ -24,6 +24,7 @@ import javax.swing.JCheckBoxMenuItem;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.decompilers.java.CFRDecompiler;
@@ -44,6 +45,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JCheckBox;
 
 public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
@@ -248,10 +250,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			"Light Obfuscation");
 	private final JMenuItem mntmNewMenuItem_11 = new JMenuItem("Rename Classes");
 	private final JSeparator separator_2 = new JSeparator();
-	public final ButtonGroup decompilerGroup1 = new ButtonGroup();
-	public final ButtonGroup decompilerGroup2 = new ButtonGroup();
-	public final ButtonGroup decompilerGroup3 = new ButtonGroup();
-	private final JMenu mnNewMenu_6 = new JMenu("View");
+	public final ButtonGroup panelGroup1 = new ButtonGroup();
+	public final ButtonGroup panelGroup2 = new ButtonGroup();
+	public final ButtonGroup panelGroup3 = new ButtonGroup();
+	private final JMenu mnNewMenu_6 = new JMenu("View Panes");
 	private final JMenu mnNewMenu_7 = new JMenu("Pane 1");
 	private final JMenu mnNewMenu_8 = new JMenu("Pane 2");
 	private final JMenu mnNewMenu_9 = new JMenu("Pane 3");
@@ -293,6 +295,11 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			"Hexcode");
 	private final JMenuItem mntmNewMenuItem_12 = new JMenuItem("Save Java File..");
 	public WorkPane workPane = new WorkPane(this);
+	private final JMenu mnSettings = new JMenu("Settings");
+	private final JSeparator separator_6 = new JSeparator();
+	public final JCheckBox refreshOnChange = new JCheckBox("Refresh On View Change");
+
+	final MainViewerGUI This = this;
 	
 	public void setC(boolean busy) {
 		if (busy) {
@@ -332,18 +339,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		}
 	}
 
+	ImageIcon busy = new ImageIcon(getClass().getResource("/resources/1.gif"));
+	ImageIcon busyB64 = new ImageIcon(BytecodeViewer.b642IMG("R0lGODlhEAALAPQAAP///wAAANra2tDQ0Orq6gcHBwAAAC8vL4KCgmFhYbq6uiMjI0tLS4qKimVlZb6+vicnJwUFBU9PT+bm5tjY2PT09Dk5Odzc3PLy8ra2tqCgoMrKyu7u7gAAAAAAAAAAACH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7"));
+	private final JMenuItem mntmSaveAsApk = new JMenuItem("Save As DEX..");
 	public void setIcon(final boolean busy) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				if (busy) {
 					try {
-						mntmNewMenuItem_4.setIcon(new ImageIcon(getClass()
-								.getResource("/resources/1.gif")));
+						mntmNewMenuItem_4.setIcon(This.busy);
 					} catch (NullPointerException e) {
-						mntmNewMenuItem_4.setIcon(new ImageIcon(
-								BytecodeViewer
-										.b642IMG("R0lGODlhEAALAPQAAP///wAAANra2tDQ0Orq6gcHBwAAAC8vL4KCgmFhYbq6uiMjI0tLS4qKimVlZb6+vicnJwUFBU9PT+bm5tjY2PT09Dk5Odzc3PLy8ra2tqCgoMrKyu7u7gAAAAAAAAAAACH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7"),
-								""));
+						mntmNewMenuItem_4.setIcon(busyB64);
 					}
 				} else
 					mntmNewMenuItem_4.setIcon(null);
@@ -354,92 +360,65 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 	public MainViewerGUI() {
 		this.setIconImages(BytecodeViewer.iconList);
-		decompilerGroup1.add(panel1None);
-		decompilerGroup1.add(panel1Fern);
-		decompilerGroup1.add(panel1Proc);
-		decompilerGroup1.add(panel1CFR);
-		decompilerGroup1.add(panel1Bytecode);
-		decompilerGroup1.add(panel1Hexcode);
-		decompilerGroup1.setSelected(panel1Proc.getModel(), true);
-		decompilerGroup2.add(panel2None);
-		decompilerGroup2.add(panel2Fern);
-		decompilerGroup2.add(panel2Proc);
-		decompilerGroup2.add(panel2CFR);
-		decompilerGroup2.add(panel2Bytecode);
-		decompilerGroup2.add(panel2Hexcode);
-		decompilerGroup2.setSelected(panel2Bytecode.getModel(), true);
-		decompilerGroup3.add(panel3None);
-		decompilerGroup3.add(panel3Fern);
-		decompilerGroup3.add(panel3Proc);
-		decompilerGroup3.add(panel3CFR);
-		decompilerGroup3.add(panel3Bytecode);
-		decompilerGroup3.add(panel3Hexcode);
-		decompilerGroup3.setSelected(panel3None.getModel(), true);
+		panelGroup1.add(panel1None);
+		panelGroup1.add(panel1Fern);
+		panelGroup1.add(panel1Proc);
+		panelGroup1.add(panel1CFR);
+		panelGroup1.add(panel1Bytecode);
+		panelGroup1.add(panel1Hexcode);
+		panelGroup1.setSelected(panel1Proc.getModel(), true);//my one true love
+		panelGroup2.add(panel2None);
+		panelGroup2.add(panel2Fern);
+		panelGroup2.add(panel2Proc);
+		panelGroup2.add(panel2CFR);
+		panelGroup2.add(panel2Bytecode);
+		panelGroup2.add(panel2Hexcode);
+		panelGroup2.setSelected(panel2Bytecode.getModel(), true);
+		panelGroup3.add(panel3None);
+		panelGroup3.add(panel3Fern);
+		panelGroup3.add(panel3Proc);
+		panelGroup3.add(panel3CFR);
+		panelGroup3.add(panel3Bytecode);
+		panelGroup3.add(panel3Hexcode);
+		panelGroup3.setSelected(panel3None.getModel(), true);
+
+		ActionListener listener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(refreshOnChange.isSelected()) {
+					if(workPane.getCurrentClass() == null)
+						return;
+
+					workPane.refreshClass.doClick();
+				}
+			}
+			
+		};
+
+		panel1None.addActionListener(listener);
+		panel1Fern.addActionListener(listener);
+		panel1Proc.addActionListener(listener);
+		panel1CFR.addActionListener(listener);
+		panel1Bytecode.addActionListener(listener);
+		panel1Hexcode.addActionListener(listener);
+		panel2None.addActionListener(listener);
+		panel2Fern.addActionListener(listener);
+		panel2Proc.addActionListener(listener);
+		panel2CFR.addActionListener(listener);
+		panel2Bytecode.addActionListener(listener);
+		panel2Hexcode.addActionListener(listener);
+		panel3None.addActionListener(listener);
+		panel3Fern.addActionListener(listener);
+		panel3Proc.addActionListener(listener);
+		panel3CFR.addActionListener(listener);
+		panel3Bytecode.addActionListener(listener);
+		panel3Hexcode.addActionListener(listener);
 		obfuscatorGroup.add(strongObf);
 		obfuscatorGroup.add(lightObf);
 		obfuscatorGroup.setSelected(strongObf.getModel(), true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// fernflower
-		rbr.setSelected(true);
-		rsy.setSelected(false);
-		din.setSelected(true);
-		das.setSelected(true);
-		dgs.setSelected(false);
-		den.setSelected(true);
-		uto.setSelected(true);
-		udv.setSelected(true);
-		fdi.setSelected(true);
-		asc.setSelected(false);
-		debugHelpers.setSelected(true);
-		// cfr
-		decodeenumswitch.setSelected(true);
-		sugarenums.setSelected(true);
-		decodestringswitch.setSelected(true);
-		arrayiter.setSelected(true);
-		collectioniter.setSelected(true);
-		innerclasses.setSelected(true);
-		removeboilerplate.setSelected(true);
-		removeinnerclasssynthetics.setSelected(true);
-		decodelambdas.setSelected(true);
-		hidebridgemethods.setSelected(true);
-		liftconstructorinit.setSelected(true);
-		removedeadmethods.setSelected(true);
-		removebadgenerics.setSelected(true);
-		sugarasserts.setSelected(true);
-		sugarboxing.setSelected(true);
-		showversion.setSelected(true);
-		decodefinally.setSelected(true);
-		tidymonitors.setSelected(true);
-		lenient.setSelected(false);
-		dumpclasspath.setSelected(false);
-		comments.setSelected(true);
-		forcetopsort.setSelected(true);
-		forcetopsortaggress.setSelected(true);
-		forceexceptionprune.setSelected(true);
-		stringbuffer.setSelected(false);
-		stringbuilder.setSelected(true);
-		silent.setSelected(true);
-		recover.setSelected(true);
-		eclipse.setSelected(true);
-		override.setSelected(true);
-		showinferrable.setSelected(true);
-		aexagg.setSelected(true);
-		forcecondpropagate.setSelected(true);
-		hideutf.setSelected(true);
-		hidelongstrings.setSelected(false);
-		commentmonitor.setSelected(false);
-		allowcorrecting.setSelected(true);
-		labelledblocks.setSelected(true);
-		j14classobj.setSelected(false);
-		hidelangimports.setSelected(true);
-		recoverytypeclash.setSelected(true);
-		recoverytypehints.setSelected(true);
-		forceturningifs.setSelected(true);
-		forloopaggcapture.setSelected(true);
 		// procyon
 		/* none */
-		// other
-		chckbxmntmAppendBrackets.setSelected(true);
 		chckbxmntmNewCheckItem_12.setSelected(true);
 
 		setJMenuBar(menuBar);
@@ -447,10 +426,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		JMenu mnNewMenu = new JMenu("File");
 		menuBar.add(mnNewMenu);
 
-		final JFrame This = this;
 		mntmNewWorkspace.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				BytecodeViewer.resetWorkSpace();
+				BytecodeViewer.resetWorkSpace(true);
 			}
 		});
 
@@ -458,7 +436,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mntmLoadJar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
-				fc.setFileFilter(new JarZipClassFileFilter());
+				fc.setFileFilter(new APKDEXJarZipClassFileFilter());
 				fc.setFileHidingEnabled(false);
 				fc.setAcceptAllFileFilterUsed(false);
 				int returnVal = fc.showOpenDialog(This);
@@ -467,7 +445,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					try {
 						BytecodeViewer.viewer.setC(true);
 						BytecodeViewer.openFiles(new File[] { fc
-								.getSelectedFile() });
+								.getSelectedFile() }, true);
 						BytecodeViewer.viewer.setC(false);
 					} catch (Exception e1) {
 						new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
@@ -515,6 +493,55 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		});
 
 		mnNewMenu.add(mntmNewMenuItem_3);
+		mntmSaveAsApk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fc = new JFileChooser();
+				fc.setFileFilter(new DexFileFilter());
+				fc.setFileHidingEnabled(false);
+				fc.setAcceptAllFileFilterUsed(false);
+				int returnVal = fc.showSaveDialog(MainViewerGUI.this);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					final File file = fc.getSelectedFile();
+					if(file.exists()) {
+						JOptionPane pane = new JOptionPane(
+								"Are you sure you wish to overwrite this existing file?");
+						Object[] options = new String[] { "Yes", "No" };
+						pane.setOptions(options);
+						JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
+								"Bytecode Viewer - Overwrite File");
+						dialog.setVisible(true);
+						Object obj = pane.getValue();
+						int result = -1;
+						for (int k = 0; k < options.length; k++)
+							if (options[k].equals(obj))
+								result = k;
+
+						if (result == 0) {
+							file.delete();
+						} else {
+							return;
+						}
+					}
+						
+					Thread t = new Thread() {
+						@Override
+						public void run() {
+							BytecodeViewer.viewer.setIcon(true);
+							String input = BytecodeViewer.tempDirectory+BytecodeViewer.fs+BytecodeViewer.getRandomizedName()+".jar";
+							JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
+							String output = file.getAbsolutePath();
+							if (!output.endsWith(".dex"))
+								output = output + ".dex";
+							Dex2Jar.saveAsDex(new File(input), new File(output));
+							BytecodeViewer.viewer.setIcon(false);
+						}
+					};
+					t.start();
+				}
+			}
+		});
+		
+		mnNewMenu.add(mntmSaveAsApk);
 		mnNewMenu.add(mntmSave);
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -696,7 +723,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane pane = new JOptionPane(
 						"Are you sure you want to exit?");
@@ -704,7 +730,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				pane.setOptions(options);
 				JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
 						"Bytecode Viewer - Exit");
-				dialog.show();
+				dialog.setVisible(true);
 				Object obj = pane.getValue();
 				int result = -1;
 				for (int k = 0; k < options.length; k++)
@@ -761,38 +787,87 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnNewMenu_9.add(panel3Bytecode);
 
 		mnNewMenu_9.add(panel3Hexcode);
-
-		menuBar.add(mnNewMenu_4);
-
-		mnNewMenu_4.add(chckbxmntmNewCheckItem_6);
-
-		mnNewMenu_4.add(chckbxmntmNewCheckItem_11);
-
-		mnNewMenu_4.add(chckbxmntmShowDebugLine);
-
-		mnNewMenu_4.add(chckbxmntmNewCheckItem_3);
-
-		mnNewMenu_4.add(chckbxmntmNewCheckItem_4);
-
-		mnNewMenu_4.add(chckbxmntmNewCheckItem_7);
-
-		mnNewMenu_4.add(chckbxmntmSimplifyMemberReferences);
-
-		mnNewMenu_4.add(mnMergeVariables);
-
-		mnNewMenu_4.add(chckbxmntmNewCheckItem_8);
-
-		mnNewMenu_4.add(chckbxmntmNewCheckItem_9);
-
-		mnNewMenu_4.add(chckbxmntmNewCheckItem_10);
-
-		mnNewMenu_4.add(chckbxmntmNewCheckItem_2);
-
-		mnNewMenu_4.add(chckbxmntmNewCheckItem_5);
-
-		mnNewMenu_4.add(chckbxmntmNewCheckItem_1);
-
-		menuBar.add(mnNewMenu_3);
+		
+		menuBar.add(mnSettings);
+				
+				mnSettings.add(refreshOnChange);
+				
+				mnSettings.add(separator_6);
+				mnSettings.add(mnNewMenu_4);
+		
+				mnNewMenu_4.add(chckbxmntmNewCheckItem_6);
+				
+						mnNewMenu_4.add(chckbxmntmNewCheckItem_11);
+						
+								mnNewMenu_4.add(chckbxmntmShowDebugLine);
+								
+										mnNewMenu_4.add(chckbxmntmNewCheckItem_3);
+										
+												mnNewMenu_4.add(chckbxmntmNewCheckItem_4);
+												
+														mnNewMenu_4.add(chckbxmntmNewCheckItem_7);
+														
+																mnNewMenu_4.add(chckbxmntmSimplifyMemberReferences);
+																
+																		mnNewMenu_4.add(mnMergeVariables);
+																		
+																				mnNewMenu_4.add(chckbxmntmNewCheckItem_8);
+																				
+																						mnNewMenu_4.add(chckbxmntmNewCheckItem_9);
+																						
+																								mnNewMenu_4.add(chckbxmntmNewCheckItem_10);
+																								
+																										mnNewMenu_4.add(chckbxmntmNewCheckItem_2);
+																										
+																												mnNewMenu_4.add(chckbxmntmNewCheckItem_5);
+																												
+																														mnNewMenu_4.add(chckbxmntmNewCheckItem_1);
+		// cfr
+		decodeenumswitch.setSelected(true);
+		sugarenums.setSelected(true);
+		decodestringswitch.setSelected(true);
+		arrayiter.setSelected(true);
+		collectioniter.setSelected(true);
+		innerclasses.setSelected(true);
+		removeboilerplate.setSelected(true);
+		removeinnerclasssynthetics.setSelected(true);
+		decodelambdas.setSelected(true);
+		hidebridgemethods.setSelected(true);
+		liftconstructorinit.setSelected(true);
+		removedeadmethods.setSelected(true);
+		removebadgenerics.setSelected(true);
+		sugarasserts.setSelected(true);
+		sugarboxing.setSelected(true);
+		showversion.setSelected(true);
+		decodefinally.setSelected(true);
+		tidymonitors.setSelected(true);
+		lenient.setSelected(false);
+		dumpclasspath.setSelected(false);
+		comments.setSelected(true);
+		forcetopsort.setSelected(true);
+		forcetopsortaggress.setSelected(true);
+		forceexceptionprune.setSelected(true);
+		stringbuffer.setSelected(false);
+		stringbuilder.setSelected(true);
+		silent.setSelected(true);
+		recover.setSelected(true);
+		eclipse.setSelected(true);
+		override.setSelected(true);
+		showinferrable.setSelected(true);
+		aexagg.setSelected(true);
+		forcecondpropagate.setSelected(true);
+		hideutf.setSelected(true);
+		hidelongstrings.setSelected(false);
+		commentmonitor.setSelected(false);
+		allowcorrecting.setSelected(true);
+		labelledblocks.setSelected(true);
+		j14classobj.setSelected(false);
+		hidelangimports.setSelected(true);
+		recoverytypeclash.setSelected(true);
+		recoverytypehints.setSelected(true);
+		forceturningifs.setSelected(true);
+		forloopaggcapture.setSelected(true);
+		mnSettings.add(mnNewMenu_3);
 
 		mnNewMenu_3.add(decodeenumswitch);
 
@@ -881,9 +956,20 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnNewMenu_3.add(forceturningifs);
 
 		mnNewMenu_3.add(forloopaggcapture);
+		// fernflower
+		rbr.setSelected(true);
+		rsy.setSelected(false);
+		din.setSelected(true);
+		das.setSelected(true);
+		dgs.setSelected(false);
+		den.setSelected(true);
+		uto.setSelected(true);
+		udv.setSelected(true);
+		fdi.setSelected(true);
+		asc.setSelected(false);
 
 		JMenu mnDecompilerSettings = new JMenu("FernFlower");
-		menuBar.add(mnDecompilerSettings);
+		mnSettings.add(mnDecompilerSettings);
 		dc4.setSelected(true);
 		mnDecompilerSettings.add(dc4);
 		nns.setSelected(true);
@@ -910,9 +996,12 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnDecompilerSettings.add(udv);
 		mnDecompilerSettings.add(fdi);
 		mnDecompilerSettings.add(asc);
+		debugHelpers.setSelected(true);
+		// other
+		chckbxmntmAppendBrackets.setSelected(true);
 
 		JMenu mnBytecodeDecompilerSettings = new JMenu("Bytecode Decompiler");
-		menuBar.add(mnBytecodeDecompilerSettings);
+		mnSettings.add(mnBytecodeDecompilerSettings);
 
 		mnBytecodeDecompilerSettings.add(debugHelpers);
 
@@ -1124,7 +1213,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		}
 		return null;
 	}
-
+	
 	public class GroovyPythonRubyFileFilter extends FileFilter {
 		@Override
 		public boolean accept(File f) {
@@ -1157,7 +1246,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		}
 	}
 
-	public class JarZipClassFileFilter extends FileFilter {
+	public class APKDEXJarZipClassFileFilter extends FileFilter {
 		@Override
 		public boolean accept(File f) {
 			if (f.isDirectory())
@@ -1165,15 +1254,16 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 			String extension = getExtension(f);
 			if (extension != null)
-				return (extension.equals("jar") || extension.equals("zip") || extension
-						.equals("class"));
+				return (extension.equals("jar")   || extension.equals("zip")
+					 || extension.equals("class") || extension.equals("apk")
+					 || extension.equals("dex"));
 
 			return false;
 		}
 
 		@Override
 		public String getDescription() {
-			return "Class Files or Zip/Jar Archives";
+			return "APKs, DEX, Class Files or Zip/Jar Archives";
 		}
 
 		public String getExtension(File f) {
@@ -1256,7 +1346,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 			String extension = getExtension(f);
 			if (extension != null)
-				return (extension.equals("Java"));
+				return (extension.equals("java"));
 
 			return false;
 		}
@@ -1264,6 +1354,36 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		@Override
 		public String getDescription() {
 			return "Java Source Files";
+		}
+
+		public String getExtension(File f) {
+			String ext = null;
+			String s = f.getName();
+			int i = s.lastIndexOf('.');
+
+			if (i > 0 && i < s.length() - 1)
+				ext = s.substring(i + 1).toLowerCase();
+
+			return ext;
+		}
+	}
+
+	public class DexFileFilter extends FileFilter {
+		@Override
+		public boolean accept(File f) {
+			if (f.isDirectory())
+				return true;
+
+			String extension = getExtension(f);
+			if (extension != null)
+				return (extension.equals("dex"));
+
+			return false;
+		}
+
+		@Override
+		public String getDescription() {
+			return "Android DEX Files";
 		}
 
 		public String getExtension(File f) {

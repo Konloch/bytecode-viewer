@@ -1,4 +1,4 @@
-Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
+Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI APK Decompiler, GUI DEX Decompiler, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
 It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
 
 There is also a plugin system that will allow you to interact with the loaded classfiles, for example you can write a String deobfuscator, a malicious code searcher, or something else you can think of.
@@ -38,15 +38,15 @@ Report Bugs (or below): https://github.com/Konloch/bytecode-viewer/issues
 Discussion Forum: https://the.bytecode.club/forumdisplay.php?fid=69
 
 Key Features:
-    Java Decompiler - It uses a modified version of FernFlower, Procyon and CFR.
+    Java Decompiler - It utilizes FernFlower, Procyon and CFR for decompilation.
     Bytecode Decompiler - A modified version of CFIDE's.
     Hex Viewer - Powered by JHexPane.
-    Each Decompiler/Viewer is toggleable.
-    Fully Featured Search System.
-    A Plugin System With Built In Plugins. (Show All Strings, Malicious Code Scanner, String Decrypters, etc)
+    Each Decompiler/Viewer is toggleable, you can also select what will display on each pane.
+    Fully Featured Search System - Search through strings, functions, variables and more!
+    A Plugin System With Built In Plugins - (Show All Strings, Malicious Code Scanner, String Decrypters, etc)
     Fully Featured Scripting System That Supports Groovy, Python And Ruby.
-    Recent Files & Recent Plugins.
 	EZ-Inject - Graphically insert hooks and debugging code, invoke main and start the program.
+    Recent Files & Recent Plugins.
     And more! Give it a try for yourself!
 
 Are you a Java Reverse Engineer? Do you want to learn?
@@ -219,3 +219,15 @@ Changelog:
 12/20/2014 - If the class file does not start with CAFEBABE it won't be processed.
 12/20/2014 - Properly handled file not found error.
 12/21/2014 - Fixed the Refresh Class causing a dupe.
+--- 2.5.0 ---:
+12/28/2014 - Improved the outdated version pane by including an automatic downloader - http://i.imgur.com/4MXeBGb.png - http://i.imgur.com/v50Pghe.png - http://i.imgur.com/bVZqxZ2.png - http://i.imgur.com/l8nIMzD.png
+12/28/2014 - Updated CFR to cfr_0.92.jar
+12/31/2014 - Adrianherrera updated the Malicious Code Scanner to detect the security manager being set to null.
+ **HAPPY NEW YEAR**
+01/01/2015 - Added refresh class on decompiler/pane view change
+01/01/2015 - Moved all of the settings into a settings pane
+01/01/2015 - Added some debug code when you first start it up, it also includes how long it took to fully load up.
+01/02/2015 - Cached the busy icon.
+01/02/2015 - ADDED APK SUPPORT, had to downgrade to ASM 3.3, which means losing some annotation debugging for the Bytecode Decompiler.
+01/03/2015 - Wrapped the search pane in a JScrollPane.
+01/06/2015 - Added save as DEX and import .dex files.

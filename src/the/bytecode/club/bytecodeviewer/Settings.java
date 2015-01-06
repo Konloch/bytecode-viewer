@@ -95,44 +95,46 @@ public class Settings {
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.debugHelpers.isSelected()), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, "deprecated", false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_12.isSelected()), false);
-			 if(BytecodeViewer.viewer.decompilerGroup1.isSelected(BytecodeViewer.viewer.panel1None.getModel()))
+			 if(BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1None.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup1.isSelected(BytecodeViewer.viewer.panel1Proc.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Proc.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "1", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup1.isSelected(BytecodeViewer.viewer.panel1CFR.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1CFR.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "2", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup1.isSelected(BytecodeViewer.viewer.panel1Fern.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Fern.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "3", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup1.isSelected(BytecodeViewer.viewer.panel1Bytecode.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Bytecode.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "4", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup1.isSelected(BytecodeViewer.viewer.panel1Hexcode.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Hexcode.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "5", false);
 			   
-			 if(BytecodeViewer.viewer.decompilerGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
+			 if(BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup2.isSelected(BytecodeViewer.viewer.panel2Proc.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Proc.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "1", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup2.isSelected(BytecodeViewer.viewer.panel2CFR.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2CFR.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "2", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup2.isSelected(BytecodeViewer.viewer.panel2Fern.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Fern.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "3", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup2.isSelected(BytecodeViewer.viewer.panel2Bytecode.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Bytecode.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "4", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup2.isSelected(BytecodeViewer.viewer.panel2Hexcode.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Hexcode.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "5", false);
-			    
-			 if(BytecodeViewer.viewer.decompilerGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
+			 
+			 if(BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup3.isSelected(BytecodeViewer.viewer.panel3Proc.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Proc.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "1", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup3.isSelected(BytecodeViewer.viewer.panel3CFR.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3CFR.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "2", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup3.isSelected(BytecodeViewer.viewer.panel3Fern.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Fern.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "3", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup3.isSelected(BytecodeViewer.viewer.panel3Bytecode.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Bytecode.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "4", false);
-			 else if(BytecodeViewer.viewer.decompilerGroup3.isSelected(BytecodeViewer.viewer.panel3Hexcode.getModel()))
+			 else if(BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Hexcode.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "5", false);
+			 
+			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.refreshOnChange.isSelected()), false);
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
@@ -222,43 +224,45 @@ public class Settings {
 			BytecodeViewer.viewer.chckbxmntmNewCheckItem_12.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 80, false)));
 			int decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 81, false));
 			if(decompiler == 0)
-				BytecodeViewer.viewer.decompilerGroup1.setSelected(BytecodeViewer.viewer.panel1None.getModel(), true);
+				BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1None.getModel(), true);
 			else if(decompiler == 1)
-				BytecodeViewer.viewer.decompilerGroup1.setSelected(BytecodeViewer.viewer.panel1Proc.getModel(), true);
+				BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1Proc.getModel(), true);
 			else if(decompiler == 2)
-				BytecodeViewer.viewer.decompilerGroup1.setSelected(BytecodeViewer.viewer.panel1CFR.getModel(), true);
+				BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1CFR.getModel(), true);
 			else if(decompiler == 3)
-				BytecodeViewer.viewer.decompilerGroup1.setSelected(BytecodeViewer.viewer.panel1Fern.getModel(), true);
+				BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1Fern.getModel(), true);
 			else if(decompiler == 4)
-				BytecodeViewer.viewer.decompilerGroup1.setSelected(BytecodeViewer.viewer.panel1Bytecode.getModel(), true);
+				BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1Bytecode.getModel(), true);
 			else if(decompiler == 5)
-				BytecodeViewer.viewer.decompilerGroup1.setSelected(BytecodeViewer.viewer.panel1Hexcode.getModel(), true);
+				BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1Hexcode.getModel(), true);
 			decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 82, false));
 			if(decompiler == 0)
-				BytecodeViewer.viewer.decompilerGroup2.setSelected(BytecodeViewer.viewer.panel2None.getModel(), true);
+				BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2None.getModel(), true);
 			else if(decompiler == 1)
-				BytecodeViewer.viewer.decompilerGroup2.setSelected(BytecodeViewer.viewer.panel2Proc.getModel(), true);
+				BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2Proc.getModel(), true);
 			else if(decompiler == 2)
-				BytecodeViewer.viewer.decompilerGroup2.setSelected(BytecodeViewer.viewer.panel2CFR.getModel(), true);
+				BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2CFR.getModel(), true);
 			else if(decompiler == 3)
-				BytecodeViewer.viewer.decompilerGroup2.setSelected(BytecodeViewer.viewer.panel2Fern.getModel(), true);
+				BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2Fern.getModel(), true);
 			else if(decompiler == 4)
-				BytecodeViewer.viewer.decompilerGroup2.setSelected(BytecodeViewer.viewer.panel2Bytecode.getModel(), true);
+				BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2Bytecode.getModel(), true);
 			else if(decompiler == 5)
-				BytecodeViewer.viewer.decompilerGroup2.setSelected(BytecodeViewer.viewer.panel2Hexcode.getModel(), true);
+				BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2Hexcode.getModel(), true);
 			decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 83, false));
 			if(decompiler == 0)
-				BytecodeViewer.viewer.decompilerGroup3.setSelected(BytecodeViewer.viewer.panel3None.getModel(), true);
+				BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3None.getModel(), true);
 			else if(decompiler == 1)
-				BytecodeViewer.viewer.decompilerGroup3.setSelected(BytecodeViewer.viewer.panel3Proc.getModel(), true);
+				BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3Proc.getModel(), true);
 			else if(decompiler == 2)
-				BytecodeViewer.viewer.decompilerGroup3.setSelected(BytecodeViewer.viewer.panel3CFR.getModel(), true);
+				BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3CFR.getModel(), true);
 			else if(decompiler == 3)
-				BytecodeViewer.viewer.decompilerGroup3.setSelected(BytecodeViewer.viewer.panel3Fern.getModel(), true);
+				BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3Fern.getModel(), true);
 			else if(decompiler == 4)
-				BytecodeViewer.viewer.decompilerGroup3.setSelected(BytecodeViewer.viewer.panel3Bytecode.getModel(), true);
+				BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3Bytecode.getModel(), true);
 			else if(decompiler == 5)
-				BytecodeViewer.viewer.decompilerGroup3.setSelected(BytecodeViewer.viewer.panel3Hexcode.getModel(), true);
+				BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3Hexcode.getModel(), true);
+			
+			BytecodeViewer.viewer.refreshOnChange.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 84, false)));
 		} catch(Exception e) {
 			//ignore because errors are expected, first start up and outdated settings.
 		}

@@ -8,6 +8,9 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -18,6 +21,7 @@ import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -62,14 +66,16 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * TODO:
  * The import jar method eats up a lot of memory, look into some how reducing this.
  * Add a tool to build a flowchart of all the classes, and what methods execute what classes, and those method, read chatlog
- * Add obfuscation
+ * Add obfuscation:
+ *     Add integer boxing and other obfuscation methods contra implemented
+ *     Insert unadded/debug opcodes to try to fuck up decompilers
+ *     ClassAnylyzterAdapter
  * Add progress bars on saving all zips/java decompile jar
  * Add the jump/save mark system Ida Pro has.
- * Add integer boxing and other obfuscation methods contra implemented
- * Insert unadded/debug opcodes to try to fuck up decompilers
- * ClassAnylyzterAdapter
  * Add class annotations to bytecode decompiler.
  * Option to make  the bytecode pane automatically scroll to where the source code pane is
+ * Replacing all string field calls with the string instance - would require EZ-Injection to run code?
+ * Spiffy up the plugin console with red text optional, would require JTextPane, not JTextArea.
  * 
  * ----Beta 1.0.0-----:
  * 10/4/2014 - Designed a POC GUI, still needs a lot of work.
@@ -236,6 +242,18 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 12/20/2014 - If the class file does not start with CAFEBABE it won't be processed.
  * 12/20/2014 - Properly handled file not found error.
  * 12/21/2014 - Fixed the Refresh Class causing a dupe.
+ * -----2.5.0-----:
+ * 12/28/2014 - Improved the outdated version pane by including an automatic downloader - http://i.imgur.com/4MXeBGb.png - http://i.imgur.com/v50Pghe.png - http://i.imgur.com/bVZqxZ2.png - http://i.imgur.com/l8nIMzD.png
+ * 12/28/2014 - Updated CFR to cfr_0.92.jar
+ * 12/31/2014 - Adrianherrera updated the Malicious Code Scanner to detect the security manager being set to null.
+ * **HAPPY NEW YEAR**
+ * 01/01/2015 - Added refresh class on decompiler/pane view change
+ * 01/01/2015 - Moved all of the settings into a settings pane
+ * 01/01/2015 - Added some debug code when you first start it up, it also includes how long it took to fully load up.
+ * 01/02/2015 - Cached the busy icon.
+ * 01/02/2015 - ADDED APK SUPPORT, had to downgrade to ASM 3.3, which means losing some annotation debugging for the Bytecode Decompiler.
+ * 01/03/2015 - Wrapped the search pane in a JScrollPane.
+ * 01/06/2015 - Added save as DEX and import .dex files.
  * 
  * @author Konloch
  * 
@@ -256,9 +274,11 @@ public class BytecodeViewer {
 	private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	public static boolean runningObfuscation = false;
-	public static String version = "2.4.0";
+	public static String version = "2.5.0";
+	private static long start = System.currentTimeMillis();
 	
 	public static void main(String[] args) {
+		System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version);
 		iconList = new ArrayList<BufferedImage>();
 		int size = 16;
 		for (int i = 0; i < 24; i++) {
@@ -295,7 +315,7 @@ public class BytecodeViewer {
 							"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0");
 					BufferedReader reader = new BufferedReader(
 							new InputStreamReader(connection.getInputStream()));
-					String version = reader.readLine();
+					final String version = reader.readLine();
 					reader.close();
 					if (!BytecodeViewer.version.equals(version)) {
 						connection = (HttpURLConnection) new URL(
@@ -312,11 +332,13 @@ public class BytecodeViewer {
 							readme.add(s);
 						reader.close();
 						
-						String changelog = "";
+						String changelog = "Unable to load change log, please try again later."+nl;
 						boolean trigger = false;
 						for(String st : readme) {
-							if(st.equals("--- "+version+" ---:"))
+							if(st.equals("--- "+version+" ---:")) {
+								changelog = "";
 								trigger = true;
+							}
 							
 							if(trigger == true && !st.equals("--- "+version+" ---:")) {
 								if(st.startsWith("--- "))
@@ -336,8 +358,8 @@ public class BytecodeViewer {
 								+ nl
 								+ changelog
 								+ nl
-								+ "Would you like to automatically open the download page? (https://github.com/Konloch/bytecode-viewer/releases)");
-						Object[] options = new String[] { "Yes", "No" };
+								+ "What would you like to do?");
+						Object[] options = new String[] { "Open The Download Page", "Download The Updated Jar", "Do Nothing" };
 						pane.setOptions(options);
 						JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
 								"Bytecode Viewer - Outdated Version");
@@ -356,6 +378,92 @@ public class BytecodeViewer {
 								showMessage("Cannot open the page, please manually type it.");
 							}
 						}
+						if(result == 1) {
+							JFileChooser fc = new JFileChooser();
+							try {
+								fc.setCurrentDirectory(new File(".").getAbsoluteFile()); //set the current working directory
+							} catch(Exception e) {
+								new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+							}
+							fc.setFileFilter(viewer.new JarFileFilter());
+							fc.setFileHidingEnabled(false);
+							fc.setAcceptAllFileFilterUsed(false);
+							int returnVal = fc.showSaveDialog(viewer);
+							if (returnVal == JFileChooser.APPROVE_OPTION) {
+								File file = fc.getSelectedFile();
+								if(!file.getAbsolutePath().endsWith(".jar"))
+									file = new File(file.getAbsolutePath()+".jar");
+								
+								if(file.exists()) {
+									pane = new JOptionPane("The file " + file + " exists, would you like to overwrite it?");
+									options = new String[] { "Yes", "No" };
+									pane.setOptions(options);
+									dialog = pane.createDialog(BytecodeViewer.viewer,
+											"Bytecode Viewer - Overwrite File");
+									dialog.setVisible(true);
+									obj = pane.getValue();
+									result = -1;
+									for (int k = 0; k < options.length; k++)
+										if (options[k].equals(obj))
+											result = k;
+									
+									if (result != 0)
+										return;
+									
+									file.delete();
+								}
+
+								final File finalFile = file;
+								Thread downloadThread = new Thread() {
+									@Override
+									public void run() {
+										try {
+											InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/releases/download/v"+version+"/BytecodeViewer."+version+".jar").openConnection().getInputStream();
+											FileOutputStream fos = new FileOutputStream(finalFile);
+										    try {
+										    	System.out.println("Downloading from https://github.com/Konloch/bytecode-viewer/releases/download/v"+version+"/BytecodeViewer."+version+".jar");
+										        byte[] buffer = new byte[8192];
+										        int len;
+										        int downloaded = 0;
+										        boolean flag = false;
+										    	showMessage("Downloading the jar in the background, when it's finished you will be alerted with another message box."+nl+nl+"Expect this to take several minutes.");
+										        while ((len = is.read(buffer)) > 0) {  
+										            fos.write(buffer, 0, len);
+										            fos.flush();
+										            downloaded += 8192;
+											        int mbs = downloaded / 1048576;
+											        if(mbs % 5 == 0 && mbs != 0) {
+											        	if(!flag)
+											        		System.out.println("Downloaded " + mbs + "MBs so far");
+											        	flag = true;
+											        } else
+											        	flag = false;
+										        }
+										    } finally {
+										        try {
+										            if (is != null) {
+										                is.close();
+										            }
+										        } finally {
+										            if (fos != null) {
+											            fos.flush();
+										                fos.close();
+										            }
+										        }
+										    }
+										    System.out.println("Download finished!");
+											showMessage("Download successful! You can find the updated jar at " + finalFile.getAbsolutePath());
+										} catch(FileNotFoundException e) {
+											showMessage("Unable to download, the jar file has not been uploaded yet, please try again later in an hour.");
+										} catch(Exception e) {
+											new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+										}
+										
+									}
+								};
+								downloadThread.start();
+							}
+						}
 					}
 				} catch (Exception e) {
 					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -368,10 +476,11 @@ public class BytecodeViewer {
 
 		if (args.length >= 1)
 			for (String s : args) {
-				openFiles(new File[] { new File(s) });
+				openFiles(new File[] { new File(s) }, true);
 			}
 
 		viewer.setVisible(true);
+		System.out.println("Start up took " + ((System.currentTimeMillis() - start) / 1000) + " seconds");
 	}
 
 	public static ClassNode getClassNode(String name) {
@@ -398,52 +507,75 @@ public class BytecodeViewer {
 		return a;
 	}
 
-	public static void openFiles(File[] files) {
-		for (File f : files)
-			BytecodeViewer.addRecentFile(f);
+	public static void openFiles(File[] files, boolean recentFiles) {
+		if(recentFiles)
+			for (File f : files)
+				BytecodeViewer.addRecentFile(f);
 		
-		BytecodeViewer.viewer.setC(true);
 		BytecodeViewer.viewer.setIcon(true);
 		boolean update = true;
 		
 		for (final File f : files) {
 			final String fn = f.getName();
-			if (fn.endsWith(".jar")) {
-				try {
-					JarUtils.put(f, BytecodeViewer.loadedClasses);
-				} catch (final Exception e) {
-					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-				}
-
-			} else if (fn.endsWith(".class")) {
-				try {
-					byte[] bytes = JarUtils.getBytes(new FileInputStream(f));
-					String cafebabe = String.format("%02X", bytes[0])
-									+ String.format("%02X", bytes[1])
-									+ String.format("%02X", bytes[2])
-									+ String.format("%02X", bytes[3]);
-					if(cafebabe.toLowerCase().equals("cafebabe")) {
-						final ClassNode cn = JarUtils.getNode(bytes);
-						BytecodeViewer.loadedClasses.put(cn.name, cn);
-					} else {
-						showMessage(fn+": Header does not start with CAFEBABE, ignoring.");
+			if(!f.exists()) {
+				update = false;
+				showMessage("The file " + f.getAbsolutePath() + " could not be found.");
+			} else {
+				if (fn.endsWith(".jar") || fn.endsWith(".zip")) {
+					try {
+						JarUtils.put(f, BytecodeViewer.loadedClasses);
+					} catch (final Exception e) {
+						new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 						update = false;
 					}
-				} catch (java.io.FileNotFoundException e) {
-					showMessage("The file " + f.getAbsolutePath() + " could not be found.");
-					update = false;
-				} catch (final Exception e) {
-					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-				} 
+	
+				} else if (fn.endsWith(".class")) {
+					try {
+						byte[] bytes = JarUtils.getBytes(new FileInputStream(f));
+						String cafebabe = String.format("%02X", bytes[0])
+										+ String.format("%02X", bytes[1])
+										+ String.format("%02X", bytes[2])
+										+ String.format("%02X", bytes[3]);
+						if(cafebabe.toLowerCase().equals("cafebabe")) {
+							final ClassNode cn = JarUtils.getNode(bytes);
+							BytecodeViewer.loadedClasses.put(cn.name, cn);
+						} else {
+							showMessage(fn+": Header does not start with CAFEBABE, ignoring.");
+							update = false;
+						}
+					} catch (final Exception e) {
+						new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+						update = false;
+					} 
+				} else if(fn.endsWith(".apk")) {
+					Thread t = new Thread() {
+						@Override
+						public void run() {
+							try {
+								String name = getRandomizedName()+".jar";
+								File output = new File(tempDirectory + fs + name);
+								Dex2Jar.dex2Jar(f, output);
+								BytecodeViewer.viewer.setIcon(false);
+								openFiles(new File[]{output}, false);
+							} catch (final Exception e) {
+								new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+							}
+						}
+					};
+					t.start();
+					return;
+				}
 			}
 		}
 
-		BytecodeViewer.viewer.setC(false);
 		BytecodeViewer.viewer.setIcon(false);
 		
 		if(update)
-			MainViewerGUI.getComponent(FileNavigationPane.class).updateTree();
-	}
+			try {
+				MainViewerGUI.getComponent(FileNavigationPane.class).updateTree();
+			} catch(java.lang.NullPointerException e) {
+			}
+		}
 
 	public static void startPlugin(File plugin) {
 		if (!plugin.exists())
@@ -462,21 +594,8 @@ public class BytecodeViewer {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void resetWorkSpace() {
-		JOptionPane pane = new JOptionPane(
-				"Are you sure you want to reset the workspace?\n\rIt will also reset your file navigator and search.");
-		Object[] options = new String[] { "Yes", "No" };
-		pane.setOptions(options);
-		JDialog dialog = pane.createDialog(viewer,
-				"Bytecode Viewer - Reset Workspace");
-		dialog.show();
-		Object obj = pane.getValue();
-		int result = -1;
-		for (int k = 0; k < options.length; k++)
-			if (options[k].equals(obj))
-				result = k;
-
-		if (result == 0) {
+	public static void resetWorkSpace(boolean ask) {
+		if(!ask) {
 			loadedResources.clear();
 			loadedClasses.clear();
 			MainViewerGUI.getComponent(FileNavigationPane.class)
@@ -485,6 +604,30 @@ public class BytecodeViewer {
 			MainViewerGUI.getComponent(SearchingPane.class).resetWorkspace();
 			the.bytecode.club.bytecodeviewer.api.BytecodeViewer
 					.getClassNodeLoader().clear();
+		} else {
+			JOptionPane pane = new JOptionPane(
+					"Are you sure you want to reset the workspace?\n\rIt will also reset your file navigator and search.");
+			Object[] options = new String[] { "Yes", "No" };
+			pane.setOptions(options);
+			JDialog dialog = pane.createDialog(viewer,
+					"Bytecode Viewer - Reset Workspace");
+			dialog.show();
+			Object obj = pane.getValue();
+			int result = -1;
+			for (int k = 0; k < options.length; k++)
+				if (options[k].equals(obj))
+					result = k;
+	
+			if (result == 0) {
+				loadedResources.clear();
+				loadedClasses.clear();
+				MainViewerGUI.getComponent(FileNavigationPane.class)
+						.resetWorkspace();
+				MainViewerGUI.getComponent(WorkPane.class).resetWorkspace();
+				MainViewerGUI.getComponent(SearchingPane.class).resetWorkspace();
+				the.bytecode.club.bytecodeviewer.api.BytecodeViewer
+						.getClassNodeLoader().clear();
+			}
 		}
 	}
 
@@ -546,7 +689,7 @@ public class BytecodeViewer {
 				m.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						JMenuItem m = (JMenuItem) e.getSource();
-						openFiles(new File[] { new File(m.getText()) });
+						openFiles(new File[] { new File(m.getText()) }, true);
 					}
 				});
 				viewer.mnRecentFiles.add(m);
@@ -569,16 +712,30 @@ public class BytecodeViewer {
 
 	public static void cleanup() {
 		tempF = new File(tempDirectory);
-		while (tempF.exists()) { // delete dirs
-			try {
-				FileUtils.deleteDirectory(tempF);
-			} catch (Exception e) {
-			}
+		
+		try {
+			FileUtils.deleteDirectory(tempF);
+		} catch (Exception e) {
 		}
 
-		while (!tempF.exists())
-			// keep making dirs
+		while (!tempF.exists()) // keep making dirs
 			tempF.mkdir();
+	}
+	
+	public static ArrayList<String> createdRandomizedNames = new ArrayList<String>();
+	
+	public static String getRandomizedName() {
+		boolean generated = false;
+		String name = "";
+		while(!generated) {
+			String randomizedName = MiscUtils.randomString(25);
+			if(!createdRandomizedNames.contains(randomizedName)) {
+				createdRandomizedNames.add(randomizedName);
+				name = randomizedName;
+				generated = true;
+			}
+		}
+		return name;
 	}
 
 	public static String getBCVDirectory() {

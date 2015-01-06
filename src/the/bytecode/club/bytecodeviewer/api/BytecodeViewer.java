@@ -53,10 +53,12 @@ public class BytecodeViewer {
 	 * Used to load classes/jars into BCV.
 	 * 
 	 * @param files
-	 *            an array of the files you want loaded.
+	 *				an array of the files you want loaded.
+	 * @param recentFiles
+	 * 				if it should save to the recent files menu.
 	 */
-	public static void openFiles(File[] files) {
-		the.bytecode.club.bytecodeviewer.BytecodeViewer.openFiles(files);
+	public static void openFiles(File[] files, boolean recentFiles) {
+		the.bytecode.club.bytecodeviewer.BytecodeViewer.openFiles(files, recentFiles);
 	}
 
 	/**
@@ -93,9 +95,12 @@ public class BytecodeViewer {
 	/**
 	 * This will ask the user if they really want to reset the workspace, then
 	 * it'll reset the work space.
+	 * 
+	 * @param ask
+	 * 			if it should ask the user about resetting the workspace
 	 */
-	public static void resetWorkSpace() {
-		the.bytecode.club.bytecodeviewer.BytecodeViewer.resetWorkSpace();
+	public static void resetWorkSpace(boolean ask) {
+		the.bytecode.club.bytecodeviewer.BytecodeViewer.resetWorkSpace(ask);
 	}
 
 	/**

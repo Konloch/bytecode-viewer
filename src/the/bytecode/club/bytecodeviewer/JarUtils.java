@@ -9,10 +9,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -28,13 +27,13 @@ import org.objectweb.asm.tree.ClassNode;
 
 public class JarUtils {
 
-	private static JarInputStream jis;
-	private static JarEntry entry;
+	private static ZipInputStream jis;
+	private static ZipEntry entry;
 
 	public static void put(final File jarFile,
 			final HashMap<String, ClassNode> clazzList) throws IOException {
-		jis = new JarInputStream(new FileInputStream(jarFile));
-		while ((entry = jis.getNextJarEntry()) != null) {
+		jis = new ZipInputStream(new FileInputStream(jarFile));
+		while ((entry = jis.getNextEntry()) != null) {
 			try {
 				final String name = entry.getName();
 				if (!name.endsWith(".class")) {
@@ -56,7 +55,7 @@ public class JarUtils {
 				}
 
 			} catch(Exception e) {
-				e.printStackTrace();
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 			} finally {
 				jis.closeEntry();
 			}

@@ -183,9 +183,17 @@ public class InstructionPrinter {
 		sb.append(nameOpcode(min.getOpcode()) + " " + min.owner + " "
 				+ min.name + "(");
 
-		String desc = Type.getType(min.desc).getClassName();
-		if (desc == null || desc.equals("null"))
-			desc = min.desc;
+		String desc = min.desc;
+		try {
+			if(Type.getType(min.desc) != null)
+				desc = Type.getType(min.desc).getClassName();
+
+			if (desc == null || desc.equals("null"))
+				desc = min.desc;
+		} catch(java.lang.ArrayIndexOutOfBoundsException e) {
+			
+		}
+		
 		sb.append(desc);
 
 		sb.append(");");
@@ -224,9 +232,16 @@ public class InstructionPrinter {
 
 	protected String printTypeInsnNode(TypeInsnNode tin) {
 		try {
-			String desc = Type.getType(tin.desc).getClassName();
-			if (desc == null || desc.equals("null"))
-				desc = tin.desc;
+			String desc = tin.desc;
+			try {
+				if(Type.getType(tin.desc) != null)
+					desc = Type.getType(tin.desc).getClassName();
+
+				if (desc == null || desc.equals("null"))
+					desc = tin.desc;
+			} catch(java.lang.ArrayIndexOutOfBoundsException e) {
+				
+			}
 			return nameOpcode(tin.getOpcode()) + " " + desc;
 		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);

@@ -129,7 +129,6 @@ public class EZInjection extends Plugin {
 				+ "), it's been blocked.");
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList) {
 		BytecodeViewer.viewer.setIcon(true);

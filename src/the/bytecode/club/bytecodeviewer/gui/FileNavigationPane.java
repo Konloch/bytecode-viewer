@@ -238,7 +238,7 @@ public class FileNavigationPane extends VisibleComponent implements
 	public void filesDropped(final File[] files) {
 		if (files.length < 1)
 			return;
-		BytecodeViewer.openFiles(files);
+		BytecodeViewer.openFiles(files, true);
 	}
 
 	public void updateTree() {

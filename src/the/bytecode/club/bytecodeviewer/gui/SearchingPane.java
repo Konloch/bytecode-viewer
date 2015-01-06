@@ -176,7 +176,7 @@ public class SearchingPane extends VisibleComponent {
 
 		getContentPane().setLayout(new BorderLayout());
 
-		getContentPane().add(optionPanel, BorderLayout.NORTH);
+		getContentPane().add(new JScrollPane(optionPanel), BorderLayout.NORTH);
 		getContentPane().add(new JScrollPane(tree), BorderLayout.CENTER);
 
 		this.tree.addTreeSelectionListener(new TreeSelectionListener() {
