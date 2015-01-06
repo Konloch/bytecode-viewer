@@ -38,6 +38,7 @@ Report Bugs (or below): https://github.com/Konloch/bytecode-viewer/issues
 Discussion Forum: https://the.bytecode.club/forumdisplay.php?fid=69
 
 Key Features:
+    APK/DEX Support - Using Dex2Jar and Jar2Dex it's able to load and save APKs with ease!
     Java Decompiler - It utilizes FernFlower, Procyon and CFR for decompilation.
     Bytecode Decompiler - A modified version of CFIDE's.
     Hex Viewer - Powered by JHexPane.
