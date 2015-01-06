@@ -235,5 +235,5 @@ Changelog:
 --- 2.5.1 ---:
 01/06/2015 - Silenced the error connecting to update server for offline mode.
 01/06/2015 - Fixed a search function with Android APKs.
---- 2.5.1 ---:
-01/06/2015 - Fixed another issue with LDC searching for Android APKs.01/06/2015 - Fixed another issue with LDC searching for Android APKs.
+--- 2.5.2 ---:
+01/06/2015 - Completely fixed the search function with Android APKs.

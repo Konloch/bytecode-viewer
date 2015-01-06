@@ -63,6 +63,8 @@ public class LDCSearch implements SearchTypeDetails {
 					String desc2 = method.desc;
 					try {
 						desc2 = Type.getType(method.desc).toString();
+						if(desc2 == null || desc2.equals("null"))
+							desc2 = method.desc;
 					} catch(java.lang.ArrayIndexOutOfBoundsException e) {
 						
 					}
@@ -80,8 +82,16 @@ public class LDCSearch implements SearchTypeDetails {
 		final Iterator<FieldNode> fields = node.fields.iterator();
 		while (methods.hasNext()) {
 			final FieldNode field = fields.next();
+			String desc2 = field.desc;
+			try {
+				desc2 = Type.getType(field.desc).toString();
+				if(desc2 == null || desc2.equals("null"))
+					desc2 = field.desc;
+			} catch(java.lang.ArrayIndexOutOfBoundsException e) {
+				
+			}
 			if (field.value instanceof String) {
-				srn.notifyOfResult(node.name + "." + field.name + field.desc
+				srn.notifyOfResult(node.name + "." + field.name + desc2
 						+ " -> \"" + field.value + "\" > field");
 			}
 		}
