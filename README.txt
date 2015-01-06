@@ -228,6 +228,6 @@ Changelog:
 01/01/2015 - Moved all of the settings into a settings pane
 01/01/2015 - Added some debug code when you first start it up, it also includes how long it took to fully load up.
 01/02/2015 - Cached the busy icon.
-01/02/2015 - ADDED APK SUPPORT, had to downgrade to ASM 3.3, which means losing some annotation debugging for the Bytecode Decompiler.
+01/02/2015 - >> ADDED APK SUPPORT <<, had to downgrade to ASM 3.3, which means losing some annotation debugging for the Bytecode Decompiler.
 01/03/2015 - Wrapped the search pane in a JScrollPane.
 01/06/2015 - Added save as DEX and import .dex files.
