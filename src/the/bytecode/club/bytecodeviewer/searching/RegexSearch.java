@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
@@ -54,7 +55,13 @@ public class RegexSearch implements SearchTypeDetails {
 			}
 
 			if (regexFinder.find(srchText).length > 0) {
-				srn.notifyOfResult(node.name + "." + method.name + method.desc);
+				String desc2 = method.desc;
+				try {
+					desc2 = Type.getType(method.desc).toString();
+				} catch(java.lang.ArrayIndexOutOfBoundsException e) {
+					
+				}
+				srn.notifyOfResult(node.name + "." + method.name + desc2);
 			}
 
 		}

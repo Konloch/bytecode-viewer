@@ -60,10 +60,16 @@ public class LDCSearch implements SearchTypeDetails {
 				if (insnNode instanceof LdcInsnNode) {
 					final LdcInsnNode ldcObject = ((LdcInsnNode) insnNode);
 					final String ldcString = ldcObject.cst.toString();
+					String desc2 = method.desc;
+					try {
+						desc2 = Type.getType(method.desc).toString();
+					} catch(java.lang.ArrayIndexOutOfBoundsException e) {
+						
+					}
 					if ((exact && ldcString.equals(srchText))
 							|| (!exact && ldcString.contains(srchText))) {
 						srn.notifyOfResult(node.name + "." + method.name
-								+ Type.getType(method.desc).getInternalName()
+								+ desc2
 								+ " -> \"" + ldcString + "\" > "
 								+ ldcObject.cst.getClass().getCanonicalName());
 					}

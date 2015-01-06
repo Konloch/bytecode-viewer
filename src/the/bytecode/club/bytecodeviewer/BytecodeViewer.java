@@ -257,6 +257,8 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * -----2.5.1-----:
  * 01/06/2015 - Silenced the error connecting to update server for offline mode.
  * 01/06/2015 - Fixed a search function with Android APKs.
+ * -----2.5.2-----:
+ * 01/06/2015 - Fixed another issue with LDC searching for Android APKs.
  * 
  * @author Konloch
  * 
@@ -277,7 +279,7 @@ public class BytecodeViewer {
 	private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	public static boolean runningObfuscation = false;
-	public static String version = "2.5.1";
+	public static String version = "2.5.2";
 	private static long start = System.currentTimeMillis();
 	
 	public static void main(String[] args) {
@@ -469,7 +471,7 @@ public class BytecodeViewer {
 						}
 					}
 				} catch (Exception e) {
-					//new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+					e.printStackTrace();
 				}
 			}
 		};
