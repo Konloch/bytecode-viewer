@@ -254,6 +254,9 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 01/02/2015 - ADDED APK SUPPORT, had to downgrade to ASM 3.3, which means losing some annotation debugging for the Bytecode Decompiler.
  * 01/03/2015 - Wrapped the search pane in a JScrollPane.
  * 01/06/2015 - Added save as DEX and import .dex files.
+ * -----2.5.1-----:
+ * 01/06/2015 - Silenced the error connecting to update server for offline mode.
+ * 01/06/2015 - Fixed a search function with Android APKs.
  * 
  * @author Konloch
  * 
@@ -274,7 +277,7 @@ public class BytecodeViewer {
 	private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	public static boolean runningObfuscation = false;
-	public static String version = "2.5.0";
+	public static String version = "2.5.1";
 	private static long start = System.currentTimeMillis();
 	
 	public static void main(String[] args) {
@@ -466,7 +469,7 @@ public class BytecodeViewer {
 						}
 					}
 				} catch (Exception e) {
-					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+					//new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 				}
 			}
 		};

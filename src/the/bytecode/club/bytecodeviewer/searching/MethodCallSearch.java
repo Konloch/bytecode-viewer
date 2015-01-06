@@ -86,10 +86,16 @@ public class MethodCallSearch implements SearchTypeDetails {
 						if (desc != null && !desc.equals(min.desc)) {
 							continue;
 						}
+						String desc2 = method.desc;
+						try {
+							desc2 = Type.getType(method.desc).toString();
+						} catch(java.lang.ArrayIndexOutOfBoundsException e) {
+							
+						}
 						srn.notifyOfResult(node.name
 								+ "."
 								+ method.name
-								+ Type.getType(method.desc)
+								+ desc2
 								+ " > "
 								+ OpcodeInfo.OPCODES.get(insnNode.getOpcode())
 										.toLowerCase());
@@ -103,10 +109,16 @@ public class MethodCallSearch implements SearchTypeDetails {
 						if (desc != null && !desc.contains(min.desc)) {
 							continue;
 						}
+						String desc2 = method.desc;
+						try {
+							desc2 = Type.getType(method.desc).toString();
+						} catch(java.lang.ArrayIndexOutOfBoundsException e) {
+							
+						}
 						srn.notifyOfResult(node.name
 								+ "."
 								+ method.name
-								+ Type.getType(method.desc)
+								+ desc2
 								+ " > "
 								+ OpcodeInfo.OPCODES.get(insnNode.getOpcode())
 										.toLowerCase());

@@ -46,7 +46,7 @@ Key Features:
     Fully Featured Search System - Search through strings, functions, variables and more!
     A Plugin System With Built In Plugins - (Show All Strings, Malicious Code Scanner, String Decrypters, etc)
     Fully Featured Scripting System That Supports Groovy, Python And Ruby.
-	EZ-Inject - Graphically insert hooks and debugging code, invoke main and start the program.
+    EZ-Inject - Graphically insert hooks and debugging code, invoke main and start the program.
     Recent Files & Recent Plugins.
     And more! Give it a try for yourself!
 
@@ -232,3 +232,6 @@ Changelog:
 01/02/2015 - >> ADDED APK SUPPORT <<, had to downgrade to ASM 3.3, which means losing some annotation debugging for the Bytecode Decompiler.
 01/03/2015 - Wrapped the search pane in a JScrollPane.
 01/06/2015 - Added save as DEX and import .dex files.
+--- 2.5.1 ---:
+01/06/2015 - Silenced the error connecting to update server for offline mode.
+01/06/2015 - Fixed a search function with Android APKs.
