@@ -62,6 +62,14 @@ public class BytecodeViewer {
 	}
 
 	/**
+	 * Returns the currently opened class node, if nothing is opened it'll return null.
+	 * @return The opened class node or a null if nothing is opened
+	 */
+	public static ClassNode getCurrentlyOpenedClassNode() {
+		return the.bytecode.club.bytecodeviewer.BytecodeViewer.getCurrentlyOpenedClassNode();
+	}
+	
+	/**
 	 * Used to load a ClassNode.
 	 * 
 	 * @param name

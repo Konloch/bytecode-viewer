@@ -242,36 +242,40 @@ public class FileNavigationPane extends VisibleComponent implements
 	}
 
 	public void updateTree() {
-		treeRoot.removeAllChildren();
-		for (final Entry<String, ClassNode> entry : BytecodeViewer.loadedClasses
-				.entrySet()) {
-			String name = entry.getKey();
-			final String[] spl = name.split("\\/");
-			if (spl.length < 2) {
-				treeRoot.add(new MyTreeNode(name));
-			} else {
-				MyTreeNode parent = treeRoot;
-				for (final String s : spl) {
-					MyTreeNode child = null;
-					for (int i = 0; i < parent.getChildCount(); i++) {
-						if (((MyTreeNode) parent.getChildAt(i)).getUserObject()
-								.equals(s)) {
-							child = (MyTreeNode) parent.getChildAt(i);
-							break;
+		try {
+			treeRoot.removeAllChildren();
+			for (final Entry<String, ClassNode> entry : BytecodeViewer.loadedClasses
+					.entrySet()) {
+				String name = entry.getKey();
+				final String[] spl = name.split("\\/");
+				if (spl.length < 2) {
+					treeRoot.add(new MyTreeNode(name));
+				} else {
+					MyTreeNode parent = treeRoot;
+					for (final String s : spl) {
+						MyTreeNode child = null;
+						for (int i = 0; i < parent.getChildCount(); i++) {
+							if (((MyTreeNode) parent.getChildAt(i)).getUserObject()
+									.equals(s)) {
+								child = (MyTreeNode) parent.getChildAt(i);
+								break;
+							}
 						}
+						if (child == null) {
+							child = new MyTreeNode(s);
+							parent.add(child);
+						}
+						parent = child;
 					}
-					if (child == null) {
-						child = new MyTreeNode(s);
-						parent.add(child);
-					}
-					parent = child;
 				}
 			}
+	
+			treeRoot.sort();
+			tree.expandPath(new TreePath(tree.getModel().getRoot()));
+			tree.updateUI();
+		} catch(java.util.ConcurrentModificationException e) {
+			//ignore, the last file will reset everything
 		}
-
-		treeRoot.sort();
-		tree.expandPath(new TreePath(tree.getModel().getRoot()));
-		tree.updateUI();
 		// expandAll(tree, true);
 	}
 
@@ -310,18 +314,22 @@ public class FileNavigationPane extends VisibleComponent implements
 
 		@Override
 		public void paint(final Graphics g) {
-			super.paint(g);
-			if (m == null) {
-				m = new StringMetrics((Graphics2D) g);
-			}
-			if (treeRoot.getChildCount() < 1) {
-				g.setColor(new Color(0, 0, 0, 100));
-				g.fillRect(0, 0, getWidth(), getHeight());
-				g.setColor(Color.white);
-				String s = "Drag class/jar here";
-				g.drawString(s,
-						((int) ((getWidth() / 2) - (m.getWidth(s) / 2))),
-						getHeight() / 2);
+			try {
+				super.paint(g);
+				if (m == null) {
+					m = new StringMetrics((Graphics2D) g);
+				}
+				if (treeRoot.getChildCount() < 1) {
+					g.setColor(new Color(0, 0, 0, 100));
+					g.fillRect(0, 0, getWidth(), getHeight());
+					g.setColor(Color.white);
+					String s = "Drag class/jar here";
+					g.drawString(s,
+							((int) ((getWidth() / 2) - (m.getWidth(s) / 2))),
+							getHeight() / 2);
+				}
+			} catch(java.lang.InternalError | java.lang.NullPointerException e) {
+				
 			}
 		}
 	}

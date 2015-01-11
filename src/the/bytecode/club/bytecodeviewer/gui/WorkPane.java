@@ -113,16 +113,26 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 		return (ClassViewer) tabs.getSelectedComponent();
 	}
 
+	public java.awt.Component[] getLoadedViewers() {
+		return (java.awt.Component[])tabs.getComponents();
+	}
+	
 	@Override
 	public void actionPerformed(final ActionEvent arg0) {
+		if(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected())
+			try {
+				BytecodeViewer.compileSmali(false);
+			} catch(java.lang.NullPointerException e) {
+				
+			}
 		final JButton src = (JButton) arg0.getSource();
 		if (src == refreshClass) {
 			final Component tabComp = tabs.getSelectedComponent();
 			if (tabComp != null) {
 				src.setEnabled(false);
-				BytecodeViewer.viewer.setC(true);
+				BytecodeViewer.viewer.setIcon(true);
 				((ClassViewer) tabComp).startPaneUpdater(src);
-				BytecodeViewer.viewer.setC(false);
+				BytecodeViewer.viewer.setIcon(false);
 			}
 		}
 	}

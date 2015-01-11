@@ -41,10 +41,16 @@ public class ExportJar extends JFrame {
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				BytecodeViewer.viewer.setC(true);
-				JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), jarPath,
-						mani.getText());
-				BytecodeViewer.viewer.setC(false);
+				BytecodeViewer.viewer.setIcon(true);
+				Thread t = new Thread() {
+					@Override
+					public void run() {
+					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), jarPath,
+							mani.getText());
+					BytecodeViewer.viewer.setIcon(false);
+					}
+				};
+				t.start();
 				dispose();
 			}
 		});

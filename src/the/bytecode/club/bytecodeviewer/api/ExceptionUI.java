@@ -58,7 +58,7 @@ public class ExceptionUI extends JFrame {
 		e.printStackTrace(new PrintWriter(sw));
 		e.printStackTrace();
 
-		txtrBytecodeViewerIs.setText(sw.toString());
+		txtrBytecodeViewerIs.setText("Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString());
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}

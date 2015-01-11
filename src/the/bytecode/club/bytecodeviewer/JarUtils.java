@@ -64,14 +64,10 @@ public class JarUtils {
 
 	}
 
-	private static ByteArrayOutputStream baos = null;
-	private static byte[] buffer = null;
-	private static int a = 0;
-
 	public static byte[] getBytes(final InputStream is) throws IOException {
-		baos = new ByteArrayOutputStream();
-		buffer = new byte[1024];
-		a = 0;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int a = 0;
 		while ((a = is.read(buffer)) != -1) {
 			baos.write(buffer, 0, a);
 		}
@@ -80,16 +76,13 @@ public class JarUtils {
 		return baos.toByteArray();
 	}
 
-	private static ClassReader cr = null;
-	private static ClassNode cn = null;
-
 	public static ClassNode getNode(final byte[] bytez) {
-		cr = new ClassReader(bytez);
-		cn = new ClassNode();
+		ClassReader cr = new ClassReader(bytez);
+		ClassNode cn = new ClassNode();
 		try {
 			cr.accept(cn, ClassReader.EXPAND_FRAMES);
 		} catch (Exception e) {
-			cr.accept(cn, ClassReader.SKIP_FRAMES);
+			cr.accept(cn, ClassReader.SKIP_FRAMES | ClassReader.SKIP_DEBUG | ClassReader.SKIP_CODE);
 		}
 		cr = null;
 		return cn;

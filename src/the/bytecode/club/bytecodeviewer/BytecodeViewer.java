@@ -4,15 +4,12 @@ import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,12 +25,15 @@ import javax.swing.UIManager;
 
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
+import me.konloch.kontainer.io.HTTPRequest;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.imgscalr.Scalr;
 import org.objectweb.asm.tree.ClassNode;
 
+import the.bytecode.club.bytecodeviewer.decompilers.Smali;
+import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.FileNavigationPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.SearchingPane;
@@ -65,11 +65,10 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 
  * TODO:
  * The import jar method eats up a lot of memory, look into some how reducing this.
- * Add a tool to build a flowchart of all the classes, and what methods execute what classes, and those method, read chatlog
  * Add obfuscation:
- *     Add integer boxing and other obfuscation methods contra implemented
- *     Insert unadded/debug opcodes to try to fuck up decompilers
- *     ClassAnylyzterAdapter
+ *    - Add integer boxing and other obfuscation methods contra implemented
+ *    - Insert unadded/debug opcodes to try to fuck up decompilers
+ *    - ClassAnylyzterAdapter
  * Add progress bars on saving all zips/java decompile jar
  * Add the jump/save mark system Ida Pro has.
  * Add class annotations to bytecode decompiler.
@@ -259,6 +258,30 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 01/06/2015 - Fixed a search function with Android APKs.
  * -----2.5.2-----:
  * 01/06/2015 - Fixed another issue with LDC searching for Android APKs.
+ * -----2.6.0-----:
+ * 01/06/2015 - Now saves if maximized or not.
+ * 01/07/2015 - For all save as functions, it will now append the correct extension if not added by the user.
+ * 01/07/2015 - You can no longer use use the save functions if no classes are loaded (fixes a crash issue).
+ * 01/07/2015 - Moved the Update Check to the Settings menu.
+ * 01/08/2015 - Added an extremely basic code sqeuence diagram plugin.
+ * 01/08/2015 - Updated CFR to CFR_0.93.jar
+ * 01/08/2015 - Threaded the Add files function.
+ * 01/08/2015 - Finally implemented Kontainer's HTTPRequest wrapper now that I've open sourced it.
+ * 01/08/2015 - Set the panes to be non-editable.
+ * 01/08/2015 - Sexified the view pane selection.
+ * 01/08/2015 - Started working on Smali Editing support, finished decompiler so far.
+ * 01/09/2015 - Fixed a bug with saving.
+ * 01/09/2015 - Added add entire directory.
+ * 01/09/2015 - Fixed import .DEX files.
+ * 01/10/2015 - Finished Smali Editing.
+ * 01/10/2015 - Fixed a class opening issue with sychronization.
+ * 01/11/2015 - Threaded all of the save functions.
+ * 01/11/2015 - Removed all instances of the setCursor to busy.
+ * 01/11/2015 - Added are you sure you wish to overwrite this existing file to all the other save functions.
+ * 01/11/2015 - All of the decompiling names are now randomly generated instead of a counting number.
+ * 01/11/2015 - Updated CFR to CFR_0.94.jar
+ * 01/11/2015 - Updated to the latest version of FernFlower.
+ * 01/11/2015 - Fixed an extension appending issue with save Java file.
  * 
  * @author Konloch
  * 
@@ -279,7 +302,7 @@ public class BytecodeViewer {
 	private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	public static boolean runningObfuscation = false;
-	public static String version = "2.5.2";
+	public static String version = "2.6.0";
 	private static long start = System.currentTimeMillis();
 	
 	public static void main(String[] args) {
@@ -312,30 +335,11 @@ public class BytecodeViewer {
 			@Override
 			public void run() {
 				try {
-					HttpURLConnection connection = (HttpURLConnection) new URL(
-							"https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION")
-							.openConnection();
-					connection.setUseCaches(false);
-					connection.setRequestProperty("User-Agent",
-							"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0");
-					BufferedReader reader = new BufferedReader(
-							new InputStreamReader(connection.getInputStream()));
-					final String version = reader.readLine();
-					reader.close();
+					HTTPRequest r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION"));
+					final String version = r.readSingle();
 					if (!BytecodeViewer.version.equals(version)) {
-						connection = (HttpURLConnection) new URL(
-								"https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/README.txt")
-								.openConnection();
-						connection.setUseCaches(false);
-						connection.setRequestProperty("User-Agent",
-								"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0");
-						reader = new BufferedReader(
-								new InputStreamReader(connection.getInputStream()));
-						ArrayList<String> readme = new ArrayList<String>();
-						String s;
-						while((s = reader.readLine()) != null)
-							readme.add(s);
-						reader.close();
+						r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION"));
+						String[] readme = r.read();
 						
 						String changelog = "Unable to load change log, please try again later."+nl;
 						boolean trigger = false;
@@ -343,9 +347,7 @@ public class BytecodeViewer {
 							if(st.equals("--- "+version+" ---:")) {
 								changelog = "";
 								trigger = true;
-							}
-							
-							if(trigger == true && !st.equals("--- "+version+" ---:")) {
+							} else if(trigger == true) {
 								if(st.startsWith("--- "))
 									trigger = false;
 								else
@@ -487,7 +489,16 @@ public class BytecodeViewer {
 		viewer.setVisible(true);
 		System.out.println("Start up took " + ((System.currentTimeMillis() - start) / 1000) + " seconds");
 	}
+	
+	//because Smali and Baksmali System.exit if it failed
+	public static void exit(int i) {
+		
+	}
 
+	public static ClassNode getCurrentlyOpenedClassNode() {
+		return viewer.workPane.getCurrentClass().cn;
+	}
+	
 	public static ClassNode getClassNode(String name) {
 		if (loadedClasses.containsKey(name))
 			return loadedClasses.get(name);
@@ -495,10 +506,8 @@ public class BytecodeViewer {
 	}
 
 	public static void updateNode(ClassNode oldNode, ClassNode newNode) {
-		for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
-			if (c.name.equals(oldNode.name))
-				c = newNode;
-		}
+		BytecodeViewer.loadedClasses.remove(oldNode.name);
+		BytecodeViewer.loadedClasses.put(oldNode.name, newNode);
 	}
 
 	public static ArrayList<ClassNode> getLoadedClasses() {
@@ -511,75 +520,115 @@ public class BytecodeViewer {
 			}
 		return a;
 	}
+	
+	//called whenever a save function is executed
+	public static boolean compileSmali(boolean message) {
+		if(getLoadedClasses().isEmpty())
+			return false;
+		
+		for(java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers()) {
+			if(c instanceof ClassViewer) {
+				ClassViewer cv = (ClassViewer) c;
+				Object smali[] = cv.getSmali();
+				ClassNode origNode = (ClassNode) smali[0];
+				String smaliText = (String) smali[1];
+				if(smali != null) {
+					byte[] smaliCompiled = Smali.compile(smaliText);
+					if(smaliCompiled != null) {
+						ClassNode newNode = JarUtils.getNode(smaliCompiled);
+						System.out.println(origNode.name+":"+newNode.name);
+						BytecodeViewer.updateNode(origNode, newNode);
+					} else {
+						BytecodeViewer.showMessage("There has been an error with assembling your Smali code, please check this. Class: " + origNode.name);
+						return false;
+					}
+				}
+			}
+		}
+		
+		if(message)
+			BytecodeViewer.showMessage("Compiled Successfully.");
+		
+		return true;
+	}
 
-	public static void openFiles(File[] files, boolean recentFiles) {
+	private static boolean update = true;
+	public static void openFiles(final File[] files, boolean recentFiles) {
 		if(recentFiles)
 			for (File f : files)
 				BytecodeViewer.addRecentFile(f);
 		
 		BytecodeViewer.viewer.setIcon(true);
-		boolean update = true;
-		
-		for (final File f : files) {
-			final String fn = f.getName();
-			if(!f.exists()) {
-				update = false;
-				showMessage("The file " + f.getAbsolutePath() + " could not be found.");
-			} else {
-				if (fn.endsWith(".jar") || fn.endsWith(".zip")) {
-					try {
-						JarUtils.put(f, BytecodeViewer.loadedClasses);
-					} catch (final Exception e) {
-						new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-						update = false;
-					}
-	
-				} else if (fn.endsWith(".class")) {
-					try {
-						byte[] bytes = JarUtils.getBytes(new FileInputStream(f));
-						String cafebabe = String.format("%02X", bytes[0])
-										+ String.format("%02X", bytes[1])
-										+ String.format("%02X", bytes[2])
-										+ String.format("%02X", bytes[3]);
-						if(cafebabe.toLowerCase().equals("cafebabe")) {
-							final ClassNode cn = JarUtils.getNode(bytes);
-							BytecodeViewer.loadedClasses.put(cn.name, cn);
-						} else {
-							showMessage(fn+": Header does not start with CAFEBABE, ignoring.");
+		update = true;
+
+		Thread t = new Thread() {
+			@Override
+			public void run() {
+				try {
+					for (final File f : files) {
+						final String fn = f.getName();
+						if(!f.exists()) {
 							update = false;
-						}
-					} catch (final Exception e) {
-						new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-						update = false;
-					} 
-				} else if(fn.endsWith(".apk")) {
-					Thread t = new Thread() {
-						@Override
-						public void run() {
-							try {
-								String name = getRandomizedName()+".jar";
-								File output = new File(tempDirectory + fs + name);
-								Dex2Jar.dex2Jar(f, output);
-								BytecodeViewer.viewer.setIcon(false);
-								openFiles(new File[]{output}, false);
-							} catch (final Exception e) {
-								new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+							showMessage("The file " + f.getAbsolutePath() + " could not be found.");
+						} else {
+							if(f.isDirectory()) {
+								openFiles(f.listFiles(), false);
+							} else {
+								if (fn.endsWith(".jar") || fn.endsWith(".zip")) {
+									try {
+										JarUtils.put(f, BytecodeViewer.loadedClasses);
+									} catch (final Exception e) {
+										new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+										update = false;
+									}
+					
+								} else if (fn.endsWith(".class")) {
+									try {
+										byte[] bytes = JarUtils.getBytes(new FileInputStream(f));
+										String cafebabe = String.format("%02X", bytes[0])
+														+ String.format("%02X", bytes[1])
+														+ String.format("%02X", bytes[2])
+														+ String.format("%02X", bytes[3]);
+										if(cafebabe.toLowerCase().equals("cafebabe")) {
+											final ClassNode cn = JarUtils.getNode(bytes);
+											BytecodeViewer.loadedClasses.put(cn.name, cn);
+										} else {
+											showMessage(fn+": Header does not start with CAFEBABE, ignoring.");
+											update = false;
+										}
+									} catch (final Exception e) {
+										new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+										update = false;
+									} 
+								} else if(fn.endsWith(".apk") || fn.endsWith(".dex")) {
+									try {
+										String name = getRandomizedName()+".jar";
+										File output = new File(tempDirectory + fs + name);
+										Dex2Jar.dex2Jar(f, output);
+										BytecodeViewer.viewer.setIcon(false);
+										openFiles(new File[]{output}, false);
+									} catch (final Exception e) {
+										new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+									}
+									return;
+								}
 							}
 						}
-					};
-					t.start();
-					return;
+					}
+				} catch (final Exception e) {
+					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+				} finally {
+					BytecodeViewer.viewer.setIcon(false);
+					
+					if(update)
+						try {
+							MainViewerGUI.getComponent(FileNavigationPane.class).updateTree();
+						} catch(java.lang.NullPointerException e) {
+						}
+					}
 				}
-			}
-		}
-
-		BytecodeViewer.viewer.setIcon(false);
-		
-		if(update)
-			try {
-				MainViewerGUI.getComponent(FileNavigationPane.class).updateTree();
-			} catch(java.lang.NullPointerException e) {
-			}
+			};
+			t.start();
 		}
 
 	public static void startPlugin(File plugin) {

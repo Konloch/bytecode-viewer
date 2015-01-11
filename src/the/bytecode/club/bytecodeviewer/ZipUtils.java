@@ -2,7 +2,10 @@ package the.bytecode.club.bytecodeviewer;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -13,6 +16,61 @@ import javax.swing.filechooser.FileFilter;
  * Rudimentary utility class for Zip archives creation.
  */
 public final class ZipUtils {
+	
+	 public static final int BUFFER = 2048;
+	
+	 /**
+	  * Unzip files to path.
+	  * 
+	  * @param zipFileName the zip file name
+	  * @param fileExtractPath the file extract path
+	  * @throws IOException Signals that an I/O exception has occurred.
+	  */
+	 public static void unzipFilesToPath(String jarPath, String destinationDir) throws IOException {
+			File file = new File(jarPath);
+			JarFile jar = new JarFile(file);
+	 
+			// fist get all directories,
+			// then make those directory on the destination Path
+			for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements();) {
+				JarEntry entry = (JarEntry) enums.nextElement();
+	 
+				String fileName = destinationDir + File.separator + entry.getName();
+				File f = new File(fileName);
+	 
+				if (fileName.endsWith("/")) {
+					f.mkdirs();
+				}
+	 
+			}
+	 
+			//now create all files
+			for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements();) {
+				JarEntry entry = (JarEntry) enums.nextElement();
+	 
+				String fileName = destinationDir + File.separator + entry.getName();
+				File f = new File(fileName);
+	 
+				if (!fileName.endsWith("/")) {
+					InputStream is = jar.getInputStream(entry);
+					FileOutputStream fos = new FileOutputStream(f);
+	 
+					// write contents of 'is' to 'fos'
+					while (is.available() > 0) {
+						fos.write(is.read());
+					}
+	 
+					fos.close();
+					is.close();
+				}
+			}
+			
+			try {
+				jar.close();
+			} catch(Exception e) {
+				
+			}
+		}
 
 	private static final String ZIP_FILE_EXTENSION = ".zip";
 	private static final FileFilter ZIP_FILE_FILTER = new FileFilter() {
@@ -98,10 +156,10 @@ public final class ZipUtils {
 			throws IOException {
 		if (zipFile == null) {
 			throw new IllegalArgumentException("Cannot unzip a null file!");
-		} else if (!ZIP_FILE_FILTER.accept(zipFile)) {
+		} /*else if (!ZIP_FILE_FILTER.accept(zipFile)) {
 			throw new IllegalArgumentException(
 					"Given archive is not a valid Zip file!");
-		}
+		}*/
 		if (target == null) {
 			throw new IllegalArgumentException("Cannot unzip to a null target!");
 		}
@@ -196,5 +254,29 @@ public final class ZipUtils {
 		}
 
 		return new File(file.getAbsolutePath().substring(parentPath.length()));
+	}
+	
+	public static void zipFile(File inputFile, File outputZip) {
+    	byte[] buffer = new byte[1024];
+    	 
+    	try {
+    		FileOutputStream fos = new FileOutputStream(outputZip);
+    		ZipOutputStream zos = new ZipOutputStream(fos);
+    		ZipEntry ze= new ZipEntry(inputFile.getName());
+    		zos.putNextEntry(ze);
+    		FileInputStream in = new FileInputStream(inputFile);
+ 
+    		int len;
+    		while ((len = in.read(buffer)) > 0) {
+    			zos.write(buffer, 0, len);
+    		}
+ 
+    		in.close();
+    		zos.closeEntry();
+ 
+    		zos.close();
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
 	}
 }

@@ -1,4 +1,4 @@
-Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI APK Decompiler, GUI DEX Decompiler, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
+Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI APK Decompiler, GUI DEX Decompiler, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI DEX2Jar, GUI Jar2DEX, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
 It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
 
 There is also a plugin system that will allow you to interact with the loaded classfiles, for example you can write a String deobfuscator, a malicious code searcher, or something else you can think of.
@@ -237,3 +237,27 @@ Changelog:
 01/06/2015 - Fixed a search function with Android APKs.
 --- 2.5.2 ---:
 01/06/2015 - Completely fixed the search function with Android APKs.
+--- 2.6.0 ---:
+01/06/2015 - Now saves if maximized or not.
+01/07/2015 - For all save as functions, it will now append the correct extension if not added by the user.
+01/07/2015 - You can no longer use use the save functions if no classes are loaded (fixes a crash issue).
+01/07/2015 - Moved the Update Check to the Settings menu.
+01/08/2015 - Added an extremely basic code sqeuence diagram plugin.
+01/08/2015 - Updated CFR to CFR_0.93.jar
+01/08/2015 - Threaded the Add files function.
+01/08/2015 - Finally implemented Kontainer's HTTPRequest wrapper now that I've open sourced it.
+01/08/2015 - Set the panes to be non-editable.
+01/08/2015 - Sexified the view pane selection.
+01/08/2015 - Started working on Smali Editing support, finished decompiler so far.
+01/09/2015 - Fixed a bug with saving.
+01/09/2015 - Added add entire directory.
+01/09/2015 - Fixed import .DEX files.
+01/10/2015 - Finished Smali Editing.
+01/10/2015 - Fixed a class opening issue with sychronization.
+01/11/2015 - Threaded all of the save functions.
+01/11/2015 - Removed all instances of the setCursor to busy.
+01/11/2015 - Added are you sure you wish to overwrite this existing file to all the other save functions.
+01/11/2015 - All of the decompiling names are now randomly generated instead of a counting number.
+01/11/2015 - Updated CFR to CFR_0.94.jar
+01/11/2015 - Updated to the latest version of FernFlower.
+01/11/2015 - Fixed an extension appending issue with save Java file.

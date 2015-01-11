@@ -45,10 +45,11 @@ import org.objectweb.asm.tree.ClassNode;
 import com.jhe.hexed.JHexEditor;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.decompilers.CFRDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.FernFlowerDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.ProcyonDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.Smali;
 import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.java.CFRDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.java.FernFlowerDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.java.ProcyonDecompiler;
 
 /**
  * This represents the opened classfile.
@@ -99,7 +100,7 @@ public class ClassViewer extends JPanel {
 	private static final long serialVersionUID = -8650495368920680024L;
 	ArrayList<MethodData> lnData = new ArrayList<MethodData>();
 	String name;
-	ClassNode cn;
+	public ClassNode cn;
 	JSplitPane sp;
 	JSplitPane sp2;
 	public JPanel panel1Search = new JPanel(new BorderLayout());
@@ -114,6 +115,9 @@ public class ClassViewer extends JPanel {
 	int pane1 = -1;
 	int pane2 = -1;
 	int pane3 = -1;
+	public RSyntaxTextArea smali1 = null;
+	public RSyntaxTextArea smali2 = null;
+	public RSyntaxTextArea smali3 = null;
 
 	/**
 	 * This was really interesting to write.
@@ -455,6 +459,7 @@ public class ClassViewer extends JPanel {
 	PaneUpdaterThread t;
 
 	public void startPaneUpdater(final JButton button) {
+		this.cn = BytecodeViewer.getClassNode(cn.name); //update the classnode
 		if (BytecodeViewer.viewer.panelGroup1
 				.isSelected(BytecodeViewer.viewer.panel1None.getModel()))
 			pane1 = 0;
@@ -473,6 +478,9 @@ public class ClassViewer extends JPanel {
 		else if (BytecodeViewer.viewer.panelGroup1
 				.isSelected(BytecodeViewer.viewer.panel1Hexcode.getModel()))
 			pane1 = 5;
+		else if (BytecodeViewer.viewer.panelGroup1
+				.isSelected(BytecodeViewer.viewer.panel1Smali.getModel()))
+			pane1 = 6;
 
 		if (BytecodeViewer.viewer.panelGroup2
 				.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
@@ -492,6 +500,9 @@ public class ClassViewer extends JPanel {
 		else if (BytecodeViewer.viewer.panelGroup2
 				.isSelected(BytecodeViewer.viewer.panel2Hexcode.getModel()))
 			pane2 = 5;
+		else if (BytecodeViewer.viewer.panelGroup2
+				.isSelected(BytecodeViewer.viewer.panel2Smali.getModel()))
+			pane2 = 6;
 
 		if (BytecodeViewer.viewer.panelGroup3
 				.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
@@ -511,6 +522,9 @@ public class ClassViewer extends JPanel {
 		else if (BytecodeViewer.viewer.panelGroup3
 				.isSelected(BytecodeViewer.viewer.panel3Hexcode.getModel()))
 			pane3 = 5;
+		else if (BytecodeViewer.viewer.panelGroup3
+				.isSelected(BytecodeViewer.viewer.panel3Smali.getModel()))
+			pane3 = 6;
 
 		t = new PaneUpdaterThread() {
 			@Override
@@ -519,6 +533,9 @@ public class ClassViewer extends JPanel {
 					panel1.removeAll();
 					panel2.removeAll();
 					panel3.removeAll();
+					smali1 = null;
+					smali2 = null;
+					smali3 = null;
 	
 					if (pane1 != 0 && pane1 != 5)
 						panel1.add(panel1Search, BorderLayout.NORTH);
@@ -536,6 +553,7 @@ public class ClassViewer extends JPanel {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(proc_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
+						panelArea.setEditable(false);
 						panel1.add(scrollPane);
 					}
 	
@@ -548,6 +566,7 @@ public class ClassViewer extends JPanel {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(cfr_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
+						panelArea.setEditable(false);
 						panel1.add(scrollPane);
 					}
 	
@@ -560,6 +579,7 @@ public class ClassViewer extends JPanel {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(ff_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
+						panelArea.setEditable(false);
 						panel1.add(scrollPane);
 					}
 	
@@ -573,6 +593,7 @@ public class ClassViewer extends JPanel {
 								bytecodeArea);
 						bytecodeArea.setText(ClassNodeDecompiler.decompile(cn));
 						bytecodeArea.setCaretPosition(0);
+						bytecodeArea.setEditable(false);
 						panel1.add(bytecodeSPane);
 					}
 	
@@ -581,6 +602,20 @@ public class ClassViewer extends JPanel {
 						cn.accept(cw);
 						JHexEditor hex = new JHexEditor(cw.toByteArray());
 						panel1.add(hex);
+					}
+	
+					if (pane1 == 6) {// bytecode
+						RSyntaxTextArea bytecodeArea = new RSyntaxTextArea();
+						bytecodeArea
+								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						bytecodeArea.setCodeFoldingEnabled(true);
+						bytecodeArea.setAntiAliasingEnabled(true);
+						RTextScrollPane bytecodeSPane = new RTextScrollPane(
+								bytecodeArea);
+						bytecodeArea.setText(Smali.decompileClassNode(cn));
+						bytecodeArea.setCaretPosition(0);
+						smali1 = bytecodeArea;
+						panel1.add(bytecodeSPane);
 					}
 	
 					if (pane2 == 1) {
@@ -592,6 +627,7 @@ public class ClassViewer extends JPanel {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(proc_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
+						panelArea.setEditable(false);
 						panel2.add(scrollPane);
 					}
 	
@@ -604,6 +640,7 @@ public class ClassViewer extends JPanel {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(cfr_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
+						panelArea.setEditable(false);
 						panel2.add(scrollPane);
 					}
 	
@@ -616,6 +653,7 @@ public class ClassViewer extends JPanel {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(ff_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
+						panelArea.setEditable(false);
 						panel2.add(scrollPane);
 					}
 	
@@ -627,6 +665,7 @@ public class ClassViewer extends JPanel {
 						RTextScrollPane scrollPane = new RTextScrollPane(paneArea);
 						paneArea.setText(ClassNodeDecompiler.decompile(cn));
 						paneArea.setCaretPosition(0);
+						paneArea.setEditable(false);
 						panel2.add(scrollPane);
 					}
 	
@@ -635,6 +674,18 @@ public class ClassViewer extends JPanel {
 						cn.accept(cw);
 						JHexEditor hex = new JHexEditor(cw.toByteArray());
 						panel2.add(hex);
+					}
+	
+					if (pane2 == 6) {
+						RSyntaxTextArea paneArea = new RSyntaxTextArea();
+						paneArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						paneArea.setCodeFoldingEnabled(true);
+						paneArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(paneArea);
+						paneArea.setText(Smali.decompileClassNode(cn));
+						paneArea.setCaretPosition(0);
+						smali2 = paneArea;
+						panel2.add(scrollPane);
 					}
 	
 					if (pane3 == 1) {
@@ -646,6 +697,7 @@ public class ClassViewer extends JPanel {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(proc_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
+						panelArea.setEditable(false);
 						panel3.add(scrollPane);
 					}
 	
@@ -658,6 +710,7 @@ public class ClassViewer extends JPanel {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(cfr_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
+						panelArea.setEditable(false);
 						panel3.add(scrollPane);
 					}
 	
@@ -670,6 +723,7 @@ public class ClassViewer extends JPanel {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(ff_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
+						panelArea.setEditable(false);
 						panel3.add(scrollPane);
 					}
 	
@@ -681,6 +735,7 @@ public class ClassViewer extends JPanel {
 						RTextScrollPane scrollPane = new RTextScrollPane(paneArea);
 						paneArea.setText(ClassNodeDecompiler.decompile(cn));
 						paneArea.setCaretPosition(0);
+						paneArea.setEditable(false);
 						panel3.add(scrollPane);
 					}
 	
@@ -689,6 +744,18 @@ public class ClassViewer extends JPanel {
 						cn.accept(cw);
 						JHexEditor hex = new JHexEditor(cw.toByteArray());
 						panel3.add(hex);
+					}
+	
+					if (pane3 == 6) {
+						RSyntaxTextArea paneArea = new RSyntaxTextArea();
+						paneArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						paneArea.setCodeFoldingEnabled(true);
+						paneArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(paneArea);
+						paneArea.setText(Smali.decompileClassNode(cn));
+						paneArea.setCaretPosition(0);
+						smali3 = paneArea;
+						panel3.add(scrollPane);
 					}
 	
 					resetDivider();
@@ -703,6 +770,17 @@ public class ClassViewer extends JPanel {
 
 		};
 		t.start();
+	}
+	
+	public Object[] getSmali() {
+		if(smali1 != null)
+			return new Object[]{cn, smali1.getText()};
+		if(smali2 != null)
+			return new Object[]{cn, smali2.getText()};
+		if(smali3 != null)
+			return new Object[]{cn, smali3.getText()};
+		
+		return null;
 	}
 
 	public static class MethodData {
