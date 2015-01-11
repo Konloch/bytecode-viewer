@@ -1,4 +1,4 @@
-Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI APK Decompiler, GUI DEX Decompiler, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI DEX2Jar, GUI Jar2DEX, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
+Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI Smali, GUI Baksmali, GUI APK Editor, GUI Dex Editor, GUI APK Decompiler, GUI DEX Decompiler, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI DEX2Jar, GUI Jar2DEX, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
 It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
 
 There is also a plugin system that will allow you to interact with the loaded classfiles, for example you can write a String deobfuscator, a malicious code searcher, or something else you can think of.
@@ -14,6 +14,8 @@ Code from various projects has been used, including but not limited to:
     Procyon by Mstrobel
     CFR by Lee Benfield
     CFIDE by Bibl
+	Smali by JesusFreke
+	Dex2Jar by pxb1..?
 
 Contributors:
     Konloch
@@ -38,6 +40,7 @@ Report Bugs (or below): https://github.com/Konloch/bytecode-viewer/issues
 Discussion Forum: https://the.bytecode.club/forumdisplay.php?fid=69
 
 Key Features:
+    Smali/BakSmali Intergration - You can now edit class files/dex files via smali!
     APK/DEX Support - Using Dex2Jar and Jar2Dex it's able to load and save APKs with ease!
     Java Decompiler - It utilizes FernFlower, Procyon and CFR for decompilation.
     Bytecode Decompiler - A modified version of CFIDE's.
