@@ -396,14 +396,14 @@ public class BytecodeViewer {
 						} catch(Exception e) {
 							new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 						}
-						fc.setFileFilter(viewer.new JarFileFilter());
+						fc.setFileFilter(viewer.new ZipFileFilter());
 						fc.setFileHidingEnabled(false);
 						fc.setAcceptAllFileFilterUsed(false);
 						int returnVal = fc.showSaveDialog(viewer);
 						if (returnVal == JFileChooser.APPROVE_OPTION) {
 							File file = fc.getSelectedFile();
-							if(!file.getAbsolutePath().endsWith(".jar"))
-								file = new File(file.getAbsolutePath()+".jar");
+							if(!file.getAbsolutePath().endsWith(".zip"))
+								file = new File(file.getAbsolutePath()+".zip");
 							
 							if(file.exists()) {
 								pane = new JOptionPane("The file " + file + " exists, would you like to overwrite it?");
@@ -429,10 +429,10 @@ public class BytecodeViewer {
 								@Override
 								public void run() {
 									try {
-										InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/releases/download/v"+version+"/BytecodeViewer."+version+".jar").openConnection().getInputStream();
+										InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/releases/download/v"+version+"/BytecodeViewer."+version+".zip").openConnection().getInputStream();
 										FileOutputStream fos = new FileOutputStream(finalFile);
 									    try {
-									    	System.out.println("Downloading from https://github.com/Konloch/bytecode-viewer/releases/download/v"+version+"/BytecodeViewer."+version+".jar");
+									    	System.out.println("Downloading from https://github.com/Konloch/bytecode-viewer/releases/download/v"+version+"/BytecodeViewer."+version+".zip");
 									        byte[] buffer = new byte[8192];
 									        int len;
 									        int downloaded = 0;
@@ -463,9 +463,9 @@ public class BytecodeViewer {
 									        }
 									    }
 									    System.out.println("Download finished!");
-										showMessage("Download successful! You can find the updated jar at " + finalFile.getAbsolutePath());
+										showMessage("Download successful! You can find the updated program at " + finalFile.getAbsolutePath());
 									} catch(FileNotFoundException e) {
-										showMessage("Unable to download, the jar file has not been uploaded yet, please try again later in an hour.");
+										showMessage("Unable to download, the zip file has not been uploaded yet, please try again later in an hour.");
 									} catch(Exception e) {
 										new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 									}
