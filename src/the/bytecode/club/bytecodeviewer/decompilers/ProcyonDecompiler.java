@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -90,6 +91,7 @@ public class ProcyonDecompiler extends JavaDecompiler {
 
 	@Override
 	public String decompileClassNode(ClassNode cn) {
+		String exception = "";
 		try {
 			final ClassWriter cw = new ClassWriter(0);
 			cn.accept(cw);
@@ -131,9 +133,13 @@ public class ProcyonDecompiler extends JavaDecompiler {
 
 			return decompiledSource;
 		} catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			e.printStackTrace();
+
+			exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
 		}
-		return "Procyon error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
+		return "Procyon error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggestest Fix: Click refresh class, if it fails again try another decompiler."+BytecodeViewer.nl+BytecodeViewer.nl+exception;
 	}
 
 	@Override

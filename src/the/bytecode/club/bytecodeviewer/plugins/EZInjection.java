@@ -147,11 +147,6 @@ public class EZInjection extends Plugin {
 			print("Hooks are not debugging.");
 		else
 			print("Hooks are disabled completely.");
-		if (sandboxRuntime || sandboxSystem)
-			print("Sandboxing runtime: " + sandboxRuntime + ", system: "
-					+ sandboxSystem + ".");
-		else
-			print("WARNING: Sandboxing is disabled, this is NOT SAFE!");
 		if (useProxy)
 			print("Forcing proxy as '" + proxy + "'.");
 		if (launchKit)

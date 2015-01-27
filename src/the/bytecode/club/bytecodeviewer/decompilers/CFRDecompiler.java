@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Random;
@@ -89,13 +91,17 @@ public class CFRDecompiler extends JavaDecompiler {
 				try {
 					s = DiskReader.loadAsString(f.getAbsolutePath());
 				} catch (Exception e) {
-					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-					return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
+					StringWriter sw = new StringWriter();
+					e.printStackTrace(new PrintWriter(sw));
+					e.printStackTrace();
+
+					String exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+					return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggestest Fix: Click refresh class, if it fails again try another decompiler."+BytecodeViewer.nl+BytecodeViewer.nl+exception;
 				}
 				return s;
 			}
 		}
-		return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
+		return "CFR error!"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggestest Fix: Click refresh class, if it fails again try another decompiler.";
 	}
 
 	public String[] generateMainMethod(String filePath, String outputPath) {

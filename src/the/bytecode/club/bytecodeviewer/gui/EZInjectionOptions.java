@@ -23,46 +23,33 @@ import javax.swing.JLabel;
 public class EZInjectionOptions extends JFrame {
 	public EZInjectionOptions() {
 		this.setIconImages(BytecodeViewer.iconList);
-		setSize(new Dimension(250, 454));
+		setSize(new Dimension(250, 402));
 		setResizable(false);
 		setTitle("EZ Injection Options");
 		getContentPane().setLayout(null);
 
 		final JCheckBox accessModifiers = new JCheckBox(
 				"Set All Access Modifiers Public");
-		accessModifiers.setSelected(true);
 		accessModifiers.setBounds(6, 7, 232, 23);
 		getContentPane().add(accessModifiers);
 
 		final JCheckBox invokeMethod = new JCheckBox("Invoke Main Method:");
 		invokeMethod.setSelected(true);
-		invokeMethod.setBounds(6, 251, 232, 23);
+		invokeMethod.setBounds(6, 203, 232, 23);
 		getContentPane().add(invokeMethod);
 
 		final JCheckBox injectHooks = new JCheckBox("Inject Hooks");
-		injectHooks.setSelected(true);
 		injectHooks.setBounds(6, 33, 232, 23);
 		getContentPane().add(injectHooks);
 
 		debugMethodCalls = new JCheckBox("Debug Method Calls");
-		debugMethodCalls.setSelected(true);
 		debugMethodCalls.setBounds(6, 59, 232, 23);
 		getContentPane().add(debugMethodCalls);
-
-		final JCheckBox runtime = new JCheckBox("Sandbox Runtime.exec");
-		runtime.setEnabled(false);
-		runtime.setBounds(6, 138, 232, 23);
-		getContentPane().add(runtime);
-
-		final JCheckBox system = new JCheckBox("Sandbox System.exit");
-		system.setEnabled(false);
-		system.setBounds(6, 164, 232, 23);
-		getContentPane().add(system);
 
 		txtThebytecodeclubexamplemainlstring = new JTextField();
 
 		JButton btnNewButton = new JButton("Execute");
-		btnNewButton.setBounds(6, 393, 232, 23);
+		btnNewButton.setBounds(6, 345, 232, 23);
 		getContentPane().add(btnNewButton);
 
 		boolean b = false;
@@ -85,7 +72,7 @@ public class EZInjectionOptions extends JFrame {
 			txtThebytecodeclubexamplemainlstring
 					.setText("the/bytecode/club/Example.main");
 
-		txtThebytecodeclubexamplemainlstring.setBounds(6, 281, 232, 20);
+		txtThebytecodeclubexamplemainlstring.setBounds(6, 233, 232, 20);
 		getContentPane().add(txtThebytecodeclubexamplemainlstring);
 		txtThebytecodeclubexamplemainlstring.setColumns(10);
 
@@ -100,31 +87,31 @@ public class EZInjectionOptions extends JFrame {
 		textField.setColumns(10);
 
 		textField_1 = new JTextField();
-		textField_1.setText("127.0.0.1:9050");
+		textField_1.setText("127.0.0.1:9150");
 		textField_1.setColumns(10);
-		textField_1.setBounds(6, 220, 232, 20);
+		textField_1.setBounds(6, 172, 232, 20);
 		getContentPane().add(textField_1);
 
 		final JCheckBox forceProxy = new JCheckBox(
 				"Force Proxy (socks5, host:port):");
-		forceProxy.setBounds(6, 190, 232, 23);
+		forceProxy.setBounds(6, 142, 232, 23);
 		getContentPane().add(forceProxy);
 
 		final JCheckBox launchReflectionKit = new JCheckBox(
 				"Launch Reflection Kit On Successful Invoke");
 		launchReflectionKit.setEnabled(false);
-		launchReflectionKit.setBounds(6, 308, 232, 23);
+		launchReflectionKit.setBounds(6, 260, 232, 23);
 		getContentPane().add(launchReflectionKit);
 
 		final JCheckBox console = new JCheckBox("Launch Console");
-		console.setBounds(6, 334, 232, 23);
+		console.setBounds(6, 286, 232, 23);
 		console.setSelected(true);
 		getContentPane().add(console);
 
 		final JCheckBox chckbxPrintToTerminal = new JCheckBox(
 				"Print To Command Line");
 		chckbxPrintToTerminal.setSelected(true);
-		chckbxPrintToTerminal.setBounds(6, 363, 232, 23);
+		chckbxPrintToTerminal.setBounds(6, 315, 232, 23);
 		getContentPane().add(chckbxPrintToTerminal);
 		this.setLocationRelativeTo(null);
 		btnNewButton.addActionListener(new ActionListener() {
@@ -133,8 +120,7 @@ public class EZInjectionOptions extends JFrame {
 						.isSelected(), injectHooks.isSelected(),
 						debugMethodCalls.isSelected(), invokeMethod
 								.isSelected(),
-						txtThebytecodeclubexamplemainlstring.getText(), runtime
-								.isSelected(), system.isSelected(), textField
+						txtThebytecodeclubexamplemainlstring.getText(), false, false, textField
 								.getText(), textField_1.getText(), forceProxy
 								.isSelected(),
 						launchReflectionKit.isSelected(), console.isSelected(),

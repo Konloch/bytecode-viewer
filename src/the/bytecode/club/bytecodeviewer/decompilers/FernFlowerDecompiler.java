@@ -3,6 +3,8 @@ package the.bytecode.club.bytecodeviewer.decompilers;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
@@ -65,6 +67,7 @@ public class FernFlowerDecompiler extends JavaDecompiler {
 		
 		final File tempClass = new File(start + ".class");
 
+		String exception = "";
 		try {
 			final FileOutputStream fos = new FileOutputStream(tempClass);
 
@@ -72,7 +75,11 @@ public class FernFlowerDecompiler extends JavaDecompiler {
 
 			fos.close();
 		} catch (final IOException e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			e.printStackTrace();
+
+			exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
 		}
 
 		org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler
@@ -90,10 +97,14 @@ public class FernFlowerDecompiler extends JavaDecompiler {
 
 				return s;
 			} catch (Exception e) {
-				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+				StringWriter sw = new StringWriter();
+				e.printStackTrace(new PrintWriter(sw));
+				e.printStackTrace();
+
+				exception += BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
 			}
 		}
-		return "FernFlower error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com";
+		return "FernFlower error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggestest Fix: Click refresh class, if it fails again try another decompiler."+BytecodeViewer.nl+BytecodeViewer.nl+exception;
 	}
 
 	private String[] generateMainMethod(String className, String folder) {

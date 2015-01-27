@@ -5,13 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
+import java.security.Permission;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -75,6 +80,12 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * Option to make  the bytecode pane automatically scroll to where the source code pane is
  * Replacing all string field calls with the string instance - would require EZ-Injection to run code?
  * Spiffy up the plugin console with red text optional, would require JTextPane, not JTextArea.
+ * Add robot to malware scanner
+ * Add right click on tab > close other tabs > close this tab
+ * Try automatic insert return null for all runtime.exec methods via ASM3; //maybe just do AMS5 then obfuscate the dex2jar shit.
+ * 
+ * Look at Desktop.getDesktop().open();
+ * refine POC and just use sec man
  * 
  * ----Beta 1.0.0-----:
  * 10/4/2014 - Designed a POC GUI, still needs a lot of work.
@@ -282,9 +293,24 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 01/11/2015 - Updated CFR to CFR_0.94.jar
  * 01/11/2015 - Updated to the latest version of FernFlower.
  * 01/11/2015 - Fixed an extension appending issue with save Java file.
+ * -----2.7.0-----:
+ * 01/11/2015 - Improved the Refresh Class function to be used as the default compile function.
+ * 01/11/2015 - Implemented better error handling for decompiling class files.
+ * 01/15/2015 - CTRL + O will open the add file interface.
+ * 01/15/2015 - CTRL + N will open the net workspace interface.
+ * 01/15/2015 - It will now save the last directory you opened.
+ * 01/15/2015 - Some how the URL for the auto updater change log got changed, this has been fixed.
+ * 01/15/2015 - Slightly updated the change log display, it'll now show all the changes since your version.
+ * 01/16/2015 - Made EZ-Injection UI look a bit nicer.
+ * 01/27/2015 - Decided to scrap the  JVM Sandbox POC and use the Security Manager.
+ * 01/27/2015 - BCV now blocks exec and won't allow any ports to be bound.
  * 
  * @author Konloch
  * 
+ */
+
+/**
+ * Store the inst object and original class bytes, then allow optional real time toggling?
  */
 
 public class BytecodeViewer {
@@ -302,10 +328,229 @@ public class BytecodeViewer {
 	private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	public static boolean runningObfuscation = false;
-	public static String version = "2.6.0";
+	public static String version = "2.7.0";
 	private static long start = System.currentTimeMillis();
+	public static String lastDirectory = "";
+	private static Thread versionChecker = new Thread() {
+		@Override
+		public void run() {
+			try {
+				HTTPRequest r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION"));
+				final String version = r.readSingle();
+				try {
+					int simplemaths = Integer.parseInt(version.replace(".", ""));
+					int simplemaths2 = Integer.parseInt(BytecodeViewer.version.replace(".", ""));
+					if(simplemaths2 > simplemaths)
+						return; //developer version
+				} catch(Exception e) {
+					
+				}
+				
+				if (!BytecodeViewer.version.equals(version)) {
+					r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/README.txt"));
+					String[] readme = r.read();
+					
+					String changelog = "Unable to load change log, please try again later."+nl;
+					boolean trigger = false;
+					boolean finalTrigger = false;
+					for(String st : readme) {
+						if(st.equals("--- "+BytecodeViewer.version+" ---:")) {
+							changelog = "";
+							trigger = true;
+						} else if(trigger) {
+							if(st.startsWith("--- "))
+								finalTrigger = true;
+							
+							if(finalTrigger)
+								changelog += st + nl;
+						}
+					}
+
+					JOptionPane pane = new JOptionPane("Your version: "
+							+ BytecodeViewer.version
+							+ ", latest version: "
+							+ version
+							+ nl
+							+ nl
+							+ "Changes since your version:"
+							+ nl
+							+ changelog
+							+ nl
+							+ "What would you like to do?");
+					Object[] options = new String[] { "Open The Download Page", "Download The Updated Jar", "Do Nothing" };
+					pane.setOptions(options);
+					JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
+							"Bytecode Viewer - Outdated Version");
+					dialog.setVisible(true);
+					Object obj = pane.getValue();
+					int result = -1;
+					for (int k = 0; k < options.length; k++)
+						if (options[k].equals(obj))
+							result = k;
+					
+					if (result == 0) {
+						if(Desktop.isDesktopSupported())
+						{
+						  Desktop.getDesktop().browse(new URI("https://github.com/Konloch/bytecode-viewer/releases"));
+						} else {
+							showMessage("Cannot open the page, please manually type it.");
+						}
+					}
+					if(result == 1) {
+						JFileChooser fc = new JFileChooser();
+						try {
+							fc.setCurrentDirectory(new File(".").getAbsoluteFile()); //set the current working directory
+						} catch(Exception e) {
+							new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+						}
+						fc.setFileFilter(viewer.new JarFileFilter());
+						fc.setFileHidingEnabled(false);
+						fc.setAcceptAllFileFilterUsed(false);
+						int returnVal = fc.showSaveDialog(viewer);
+						if (returnVal == JFileChooser.APPROVE_OPTION) {
+							File file = fc.getSelectedFile();
+							if(!file.getAbsolutePath().endsWith(".jar"))
+								file = new File(file.getAbsolutePath()+".jar");
+							
+							if(file.exists()) {
+								pane = new JOptionPane("The file " + file + " exists, would you like to overwrite it?");
+								options = new String[] { "Yes", "No" };
+								pane.setOptions(options);
+								dialog = pane.createDialog(BytecodeViewer.viewer,
+										"Bytecode Viewer - Overwrite File");
+								dialog.setVisible(true);
+								obj = pane.getValue();
+								result = -1;
+								for (int k = 0; k < options.length; k++)
+									if (options[k].equals(obj))
+										result = k;
+								
+								if (result != 0)
+									return;
+								
+								file.delete();
+							}
+
+							final File finalFile = file;
+							Thread downloadThread = new Thread() {
+								@Override
+								public void run() {
+									try {
+										InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/releases/download/v"+version+"/BytecodeViewer."+version+".jar").openConnection().getInputStream();
+										FileOutputStream fos = new FileOutputStream(finalFile);
+									    try {
+									    	System.out.println("Downloading from https://github.com/Konloch/bytecode-viewer/releases/download/v"+version+"/BytecodeViewer."+version+".jar");
+									        byte[] buffer = new byte[8192];
+									        int len;
+									        int downloaded = 0;
+									        boolean flag = false;
+									    	showMessage("Downloading the jar in the background, when it's finished you will be alerted with another message box."+nl+nl+"Expect this to take several minutes.");
+									        while ((len = is.read(buffer)) > 0) {  
+									            fos.write(buffer, 0, len);
+									            fos.flush();
+									            downloaded += 8192;
+										        int mbs = downloaded / 1048576;
+										        if(mbs % 5 == 0 && mbs != 0) {
+										        	if(!flag)
+										        		System.out.println("Downloaded " + mbs + "MBs so far");
+										        	flag = true;
+										        } else
+										        	flag = false;
+									        }
+									    } finally {
+									        try {
+									            if (is != null) {
+									                is.close();
+									            }
+									        } finally {
+									            if (fos != null) {
+										            fos.flush();
+									                fos.close();
+									            }
+									        }
+									    }
+									    System.out.println("Download finished!");
+										showMessage("Download successful! You can find the updated jar at " + finalFile.getAbsolutePath());
+									} catch(FileNotFoundException e) {
+										showMessage("Unable to download, the jar file has not been uploaded yet, please try again later in an hour.");
+									} catch(Exception e) {
+										new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+									}
+									
+								}
+							};
+							downloadThread.start();
+						}
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	};
+	
+	/**
+	 * Grab the byte array from the loaded Class object
+	 * @param clazz
+	 * @return
+	 * @throws IOException
+	 */
+	public static byte[] getClassFile(Class<?> clazz) throws IOException {     
+	    InputStream is = clazz.getResourceAsStream( "/" + clazz.getName().replace('.', '/') + ".class");
+	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    int r = 0;
+	    byte[] buffer = new byte[8192];
+	    while((r=is.read(buffer))>=0) {
+	        baos.write(buffer, 0, r);
+	    }   
+	    return baos.toByteArray();
+	}
 	
 	public static void main(String[] args) {
+		SecurityManager sm = new SecurityManager() {
+			@Override
+		    public void checkExec(String cmd) {
+				throw new SecurityException("BCV is awesome.");
+		    }
+			@Override
+		    public void checkListen(int port) {
+				throw new SecurityException("BCV is awesome.");
+		    }
+			@Override
+		    public void checkPermission(Permission perm) { //expand eventually
+		    }
+			@Override
+		    public void checkPermission(Permission perm, Object context) {//expand eventually
+		    }
+			@Override public void checkAccess(Thread t) {}
+			@Override public void checkAccept(String host, int port) {}
+			@Override public void checkAccess(ThreadGroup g) {}
+			@Override public void checkAwtEventQueueAccess() {}
+			@Override public void checkConnect(String host, int port) {}
+			@Override public void checkConnect(String host, int port, Object context) {}
+			@Override public void checkCreateClassLoader() {}
+			@Override public void checkDelete(String file) {}
+			@Override public void checkExit(int status) {}
+			@Override public void checkLink(String lib) {}
+			@Override public void checkMemberAccess(Class<?> clazz, int which) {}
+			@Override public void checkMulticast(InetAddress maddr) {}
+			@Override public void checkMulticast(InetAddress maddr, byte ttl) {}
+			@Override public void checkPackageAccess(String pkg) {}
+			@Override public void checkPackageDefinition(String pkg) {}
+			@Override public void checkPrintJobAccess() {}
+			@Override public void checkPropertiesAccess() {}
+			@Override public void checkPropertyAccess(String key) {}
+			@Override public void checkRead(FileDescriptor fd) {}
+			@Override public void checkRead(String file) {}
+			@Override public void checkRead(String file, Object context) {}
+			@Override public void checkSecurityAccess(String target) {}
+			@Override public void checkSetFactory() {}
+			@Override public void checkSystemClipboardAccess() {}
+			@Override public void checkWrite(FileDescriptor fd) {}
+			@Override public void checkWrite(String file) {}
+		};
+		System.setSecurityManager(sm);
+		
 		System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version);
 		iconList = new ArrayList<BufferedImage>();
 		int size = 16;
@@ -331,163 +576,16 @@ public class BytecodeViewer {
 		Settings.loadGUI();
 		resetRecentFilesMenu();
 
-		Thread versionChecker = new Thread() {
-			@Override
-			public void run() {
-				try {
-					HTTPRequest r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION"));
-					final String version = r.readSingle();
-					if (!BytecodeViewer.version.equals(version)) {
-						r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION"));
-						String[] readme = r.read();
-						
-						String changelog = "Unable to load change log, please try again later."+nl;
-						boolean trigger = false;
-						for(String st : readme) {
-							if(st.equals("--- "+version+" ---:")) {
-								changelog = "";
-								trigger = true;
-							} else if(trigger == true) {
-								if(st.startsWith("--- "))
-									trigger = false;
-								else
-									changelog += st + nl;
-							}
-						}
-
-						JOptionPane pane = new JOptionPane("Your version: "
-								+ BytecodeViewer.version
-								+ ", latest version: "
-								+ version
-								+ nl
-								+ nl
-								+ "Version " + version + "'s Change Log:"
-								+ nl
-								+ changelog
-								+ nl
-								+ "What would you like to do?");
-						Object[] options = new String[] { "Open The Download Page", "Download The Updated Jar", "Do Nothing" };
-						pane.setOptions(options);
-						JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-								"Bytecode Viewer - Outdated Version");
-						dialog.setVisible(true);
-						Object obj = pane.getValue();
-						int result = -1;
-						for (int k = 0; k < options.length; k++)
-							if (options[k].equals(obj))
-								result = k;
-						
-						if (result == 0) {
-							if(Desktop.isDesktopSupported())
-							{
-							  Desktop.getDesktop().browse(new URI("https://github.com/Konloch/bytecode-viewer/releases"));
-							} else {
-								showMessage("Cannot open the page, please manually type it.");
-							}
-						}
-						if(result == 1) {
-							JFileChooser fc = new JFileChooser();
-							try {
-								fc.setCurrentDirectory(new File(".").getAbsoluteFile()); //set the current working directory
-							} catch(Exception e) {
-								new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-							}
-							fc.setFileFilter(viewer.new JarFileFilter());
-							fc.setFileHidingEnabled(false);
-							fc.setAcceptAllFileFilterUsed(false);
-							int returnVal = fc.showSaveDialog(viewer);
-							if (returnVal == JFileChooser.APPROVE_OPTION) {
-								File file = fc.getSelectedFile();
-								if(!file.getAbsolutePath().endsWith(".jar"))
-									file = new File(file.getAbsolutePath()+".jar");
-								
-								if(file.exists()) {
-									pane = new JOptionPane("The file " + file + " exists, would you like to overwrite it?");
-									options = new String[] { "Yes", "No" };
-									pane.setOptions(options);
-									dialog = pane.createDialog(BytecodeViewer.viewer,
-											"Bytecode Viewer - Overwrite File");
-									dialog.setVisible(true);
-									obj = pane.getValue();
-									result = -1;
-									for (int k = 0; k < options.length; k++)
-										if (options[k].equals(obj))
-											result = k;
-									
-									if (result != 0)
-										return;
-									
-									file.delete();
-								}
-
-								final File finalFile = file;
-								Thread downloadThread = new Thread() {
-									@Override
-									public void run() {
-										try {
-											InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/releases/download/v"+version+"/BytecodeViewer."+version+".jar").openConnection().getInputStream();
-											FileOutputStream fos = new FileOutputStream(finalFile);
-										    try {
-										    	System.out.println("Downloading from https://github.com/Konloch/bytecode-viewer/releases/download/v"+version+"/BytecodeViewer."+version+".jar");
-										        byte[] buffer = new byte[8192];
-										        int len;
-										        int downloaded = 0;
-										        boolean flag = false;
-										    	showMessage("Downloading the jar in the background, when it's finished you will be alerted with another message box."+nl+nl+"Expect this to take several minutes.");
-										        while ((len = is.read(buffer)) > 0) {  
-										            fos.write(buffer, 0, len);
-										            fos.flush();
-										            downloaded += 8192;
-											        int mbs = downloaded / 1048576;
-											        if(mbs % 5 == 0 && mbs != 0) {
-											        	if(!flag)
-											        		System.out.println("Downloaded " + mbs + "MBs so far");
-											        	flag = true;
-											        } else
-											        	flag = false;
-										        }
-										    } finally {
-										        try {
-										            if (is != null) {
-										                is.close();
-										            }
-										        } finally {
-										            if (fos != null) {
-											            fos.flush();
-										                fos.close();
-										            }
-										        }
-										    }
-										    System.out.println("Download finished!");
-											showMessage("Download successful! You can find the updated jar at " + finalFile.getAbsolutePath());
-										} catch(FileNotFoundException e) {
-											showMessage("Unable to download, the jar file has not been uploaded yet, please try again later in an hour.");
-										} catch(Exception e) {
-											new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-										}
-										
-									}
-								};
-								downloadThread.start();
-							}
-						}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		};
-
 		if (viewer.chckbxmntmNewCheckItem_12.isSelected()) // start only if selected
 			versionChecker.start();
 
+		viewer.setVisible(true);		
+		System.out.println("Start up took " + ((System.currentTimeMillis() - start) / 1000) + " seconds");
+		
 		if (args.length >= 1)
 			for (String s : args) {
 				openFiles(new File[] { new File(s) }, true);
 			}
-
-		viewer.setVisible(true);
-		System.out.println("Start up took " + ((System.currentTimeMillis() - start) / 1000) + " seconds");
 	}
 	
 	//because Smali and Baksmali System.exit if it failed

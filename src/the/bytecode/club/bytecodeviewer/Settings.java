@@ -146,6 +146,7 @@ public class Settings {
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.isMaximized), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileSmali.isSelected()), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()), false);
+			DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.lastDirectory, false);
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
@@ -290,6 +291,7 @@ public class Settings {
 			}
 			BytecodeViewer.viewer.autoCompileSmali.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 86, false)));
 			BytecodeViewer.viewer.autoCompileOnRefresh.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 87, false)));
+			BytecodeViewer.lastDirectory = DiskReader.loadString(BytecodeViewer.settingsName, 88, false);
 		} catch(Exception e) {
 			//ignore because errors are expected, first start up and outdated settings.
 		}

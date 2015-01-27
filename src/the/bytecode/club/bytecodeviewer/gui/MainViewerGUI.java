@@ -15,6 +15,9 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -336,6 +339,44 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			}
 		}
 	}
+	
+    private class Test implements KeyEventDispatcher {
+    	long last = System.currentTimeMillis();
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent e) {
+        	if(System.currentTimeMillis() - last <= (1000 * 4))
+        		return false;
+        	
+            if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+            	last = System.currentTimeMillis();
+            	JFileChooser fc = new JFileChooser();
+            	try {
+            		fc.setSelectedFile(new File(BytecodeViewer.lastDirectory));
+            	} catch(Exception e2) {
+            		
+            	}
+				fc.setFileFilter(new APKDEXJarZipClassFileFilter());
+				fc.setFileHidingEnabled(false);
+				fc.setAcceptAllFileFilterUsed(false);
+				int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
+	
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					BytecodeViewer.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+					try {
+						BytecodeViewer.viewer.setIcon(true);
+						BytecodeViewer.openFiles(new File[] { fc.getSelectedFile() }, true);
+						BytecodeViewer.viewer.setIcon(false);
+					} catch (Exception e1) {
+						new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
+					}
+				}
+            } else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+            	last = System.currentTimeMillis();
+            	BytecodeViewer.resetWorkSpace(true);
+            }
+            return false;
+        }
+    }
 
 	ImageIcon busy = new ImageIcon(getClass().getResource("/resources/1.gif"));
 	ImageIcon busyB64 = new ImageIcon(BytecodeViewer.b642IMG("R0lGODlhEAALAPQAAP///wAAANra2tDQ0Orq6gcHBwAAAC8vL4KCgmFhYbq6uiMjI0tLS4qKimVlZb6+vicnJwUFBU9PT+bm5tjY2PT09Dk5Odzc3PLy8ra2tqCgoMrKyu7u7gAAAAAAAAAAACH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7"));
@@ -370,6 +411,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	}
 
 	public MainViewerGUI() {
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new Test());
 		mnNewMenu_5.setVisible(false);
 		this.addWindowStateListener(new WindowAdapter() {
 		      public void windowStateChanged(WindowEvent evt) {
@@ -471,12 +513,18 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mntmLoadJar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
+            	try {
+            		fc.setSelectedFile(new File(BytecodeViewer.lastDirectory));
+            	} catch(Exception e2) {
+            		
+            	}
 				fc.setFileFilter(new APKDEXJarZipClassFileFilter());
 				fc.setFileHidingEnabled(false);
 				fc.setAcceptAllFileFilterUsed(false);
 				int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
 
-				if (returnVal == JFileChooser.APPROVE_OPTION)
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					BytecodeViewer.lastDirectory = fc.getSelectedFile().getAbsolutePath();
 					try {
 						BytecodeViewer.viewer.setIcon(true);
 						BytecodeViewer.openFiles(new File[] { fc
@@ -485,6 +533,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					} catch (Exception e1) {
 						new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
 					}
+				}
 			}
 		});
 		mnNewMenu.add(mntmLoadJar);

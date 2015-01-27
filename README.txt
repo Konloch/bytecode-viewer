@@ -256,7 +256,7 @@ Changelog:
 01/09/2015 - Added add entire directory.
 01/09/2015 - Fixed import .DEX files.
 01/10/2015 - Finished Smali Editing.
-01/10/2015 - Fixed a class opening issue with sychronization.
+01/10/2015 - Fixed a class opening issue with synchronization.
 01/11/2015 - Threaded all of the save functions.
 01/11/2015 - Removed all instances of the setCursor to busy.
 01/11/2015 - Added are you sure you wish to overwrite this existing file to all the other save functions.
@@ -264,3 +264,14 @@ Changelog:
 01/11/2015 - Updated CFR to CFR_0.94.jar
 01/11/2015 - Updated to the latest version of FernFlower.
 01/11/2015 - Fixed an extension appending issue with save Java file.
+--- 2.7.0 ---:
+01/11/2015 - Improved the Refresh Class function to be used as the default compile function.
+01/11/2015 - Implemented better error handling for decompiling class files.
+01/15/2015 - CTRL + O will open the add file interface.
+01/15/2015 - CTRL + N will open the net workspace interface.
+01/15/2015 - It will now save the last directory you opened.
+01/15/2015 - Some how the URL for the auto updater change log got changed, this has been fixed.
+01/15/2015 - Slightly updated the change log display, it'll now show all the changes since your version.
+01/16/2015 - Made EZ-Injection UI look a bit nicer.
+01/27/2015 - Decided to scrap the  JVM Sandbox POC and use the Security Manager.
+01/27/2015 - BCV now blocks exec and won't allow any ports to be bound.
