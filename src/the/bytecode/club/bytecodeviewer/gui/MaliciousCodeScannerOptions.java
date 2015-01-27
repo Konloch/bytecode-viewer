@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
 public class MaliciousCodeScannerOptions extends JFrame {
 	public MaliciousCodeScannerOptions() {
 		this.setIconImages(BytecodeViewer.iconList);
-		setSize(new Dimension(250, 300));
+		setSize(new Dimension(250, 323));
 		setResizable(false);
 		setTitle("Malicious Code Scanner Options");
 		getContentPane().setLayout(null);
@@ -38,11 +38,11 @@ public class MaliciousCodeScannerOptions extends JFrame {
 
 		final JCheckBox chckbxJavanet = new JCheckBox("java/net");
 		chckbxJavanet.setSelected(true);
-		chckbxJavanet.setBounds(6, 59, 232, 23);
+		chckbxJavanet.setBounds(6, 81, 232, 23);
 		getContentPane().add(chckbxJavanet);
 
 		final JCheckBox chckbxJavaio = new JCheckBox("java/io");
-		chckbxJavaio.setBounds(6, 85, 232, 23);
+		chckbxJavaio.setBounds(6, 104, 232, 23);
 		getContentPane().add(chckbxJavaio);
 
 		final JCheckBox chckbxJavalangruntime = new JCheckBox(
@@ -54,48 +54,57 @@ public class MaliciousCodeScannerOptions extends JFrame {
 		final JCheckBox chckbxLdcContainswww = new JCheckBox(
 				"LDC contains 'www.'");
 		chckbxLdcContainswww.setSelected(true);
-		chckbxLdcContainswww.setBounds(6, 111, 232, 23);
+		chckbxLdcContainswww.setBounds(6, 130, 232, 23);
 		getContentPane().add(chckbxLdcContainswww);
 
 		final JCheckBox chckbxLdcContainshttp = new JCheckBox(
 				"LDC contains 'http://'");
 		chckbxLdcContainshttp.setSelected(true);
-		chckbxLdcContainshttp.setBounds(6, 137, 232, 23);
+		chckbxLdcContainshttp.setBounds(6, 156, 232, 23);
 		getContentPane().add(chckbxLdcContainshttp);
 
 		final JCheckBox chckbxLdcContainshttps = new JCheckBox(
 				"LDC contains 'https://'");
 		chckbxLdcContainshttps.setSelected(true);
-		chckbxLdcContainshttps.setBounds(6, 163, 232, 23);
+		chckbxLdcContainshttps.setBounds(6, 182, 232, 23);
 		getContentPane().add(chckbxLdcContainshttps);
 
 		final JCheckBox chckbxLdcMatchesIp = new JCheckBox(
 				"LDC matches IP regex");
 		chckbxLdcMatchesIp.setSelected(true);
-		chckbxLdcMatchesIp.setBounds(6, 189, 232, 23);
+		chckbxLdcMatchesIp.setBounds(6, 208, 232, 23);
 		getContentPane().add(chckbxLdcMatchesIp);
 
 		final JCheckBox chckbxNullSecMan = new JCheckBox(
 				"SecurityManager set to null");
 		chckbxNullSecMan.setSelected(true);
-		chckbxNullSecMan.setBounds(6, 215, 232, 23);
+		chckbxNullSecMan.setBounds(6, 234, 232, 23);
 		getContentPane().add(chckbxNullSecMan);
+		
+		final JCheckBox chckbxJavaawtrobot = new JCheckBox("java/awt/Robot");
+		chckbxJavaawtrobot.setSelected(true);
+		chckbxJavaawtrobot.setBounds(6, 59, 232, 23);
+		getContentPane().add(chckbxJavaawtrobot);
 
 		JButton btnNewButton = new JButton("Start Scanning");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				PluginManager.runPlugin(new MaliciousCodeScanner(
 						chckbxJavalangreflection.isSelected(),
-						chckbxJavalangruntime.isSelected(), chckbxJavanet
-								.isSelected(), chckbxJavaio.isSelected(),
+						chckbxJavalangruntime.isSelected(),
+						chckbxJavanet.isSelected(),
+						chckbxJavaio.isSelected(),
 						chckbxLdcContainswww.isSelected(),
 						chckbxLdcContainshttp.isSelected(),
-						chckbxLdcContainshttps.isSelected(), chckbxLdcMatchesIp
-								.isSelected(), chckbxNullSecMan.isSelected()));
+						chckbxLdcContainshttps.isSelected(),
+						chckbxLdcMatchesIp.isSelected(),
+						chckbxNullSecMan.isSelected(),
+						chckbxJavaawtrobot.isSelected()));
 				dispose();
 			}
 		});
-		btnNewButton.setBounds(6, 245, 232, 23);
+		
+		btnNewButton.setBounds(6, 264, 232, 23);
 		getContentPane().add(btnNewButton);
 		this.setLocationRelativeTo(null);
 	}

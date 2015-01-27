@@ -14,8 +14,8 @@ Code from various projects has been used, including but not limited to:
     Procyon by Mstrobel
     CFR by Lee Benfield
     CFIDE by Bibl
-	Smali by JesusFreke
-	Dex2Jar by pxb1..?
+    Smali by JesusFreke
+    Dex2Jar by pxb1..?
 
 Contributors:
     Konloch

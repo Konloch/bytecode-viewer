@@ -28,11 +28,11 @@ import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 
 public class MaliciousCodeScanner extends Plugin {
 
-	public boolean ORE, ONE, ORU, OIO, LWW, LHT, LHS, LIP, NSM;
+	public boolean ORE, ONE, ORU, OIO, LWW, LHT, LHS, LIP, NSM, ROB;
 
 	public MaliciousCodeScanner(boolean reflect, boolean runtime, boolean net,
 			boolean io, boolean www, boolean http, boolean https, boolean ip,
-			boolean nullSecMan) {
+			boolean nullSecMan, boolean robot) {
 		ORE = reflect;
 		ONE = net;
 		ORU = runtime;
@@ -42,6 +42,7 @@ public class MaliciousCodeScanner extends Plugin {
 		LHS = https;
 		LIP = ip;
 		NSM = nullSecMan;
+		ROB = robot;
 	}
 
 	@Override
@@ -59,6 +60,8 @@ public class MaliciousCodeScanner extends Plugin {
 							|| (LHS && s.contains("https://"))
 							|| (ORE && s.contains("java/lang/Runtime"))
 							|| (ORE && s.contains("java.lang.Runtime"))
+							|| (ROB && s.contains("java.awt.Robot"))
+							|| (ROB && s.contains("java/awt/Robot"))
 							|| (LIP && s
 									.matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")))
 						sb.append("Found LDC \"" + s + "\" at field "
@@ -73,6 +76,8 @@ public class MaliciousCodeScanner extends Plugin {
 								|| (LHS && s.contains("https://"))
 								|| (ORE && s.contains("java/lang/Runtime"))
 								|| (ORE && s.contains("java.lang.Runtime"))
+								|| (ROB && s.contains("java.awt.Robot"))
+								|| (ROB && s.contains("java/awt/Robot"))
 								|| (LIP && s
 										.matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")))
 							sb.append("Found LDC \"" + s + "\" at field "
@@ -93,8 +98,8 @@ public class MaliciousCodeScanner extends Plugin {
 						final MethodInsnNode min = (MethodInsnNode) a;
 						if ((ORE && min.owner.startsWith("java/lang/reflect"))
 								|| (ONE && min.owner.startsWith("java/net"))
-								|| (ORU && min.owner
-										.equals("java/lang/Runtime"))
+								|| (ORU && min.owner.equals("java/lang/Runtime"))
+								|| (ROB && min.owner.equals("java/awt/Robot"))
 								|| (OIO && min.owner.startsWith("java/io"))) {
 							sb.append("Found Method call to " + min.owner + "."
 									+ min.name + "(" + min.desc + ") at "
@@ -110,6 +115,8 @@ public class MaliciousCodeScanner extends Plugin {
 									|| (LHS && s.contains("https://"))
 									|| (ORE && s.contains("java/lang/Runtime"))
 									|| (ORE && s.contains("java.lang.Runtime"))
+									|| (ROB && s.contains("java.awt.Robot"))
+									|| (ROB && s.contains("java/awt/Robot"))
 									|| (LIP && s
 											.matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"))) {
 								sb.append("Found LDC \"" + s + "\" at method "

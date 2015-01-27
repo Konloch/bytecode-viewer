@@ -80,12 +80,8 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * Option to make  the bytecode pane automatically scroll to where the source code pane is
  * Replacing all string field calls with the string instance - would require EZ-Injection to run code?
  * Spiffy up the plugin console with red text optional, would require JTextPane, not JTextArea.
- * Add robot to malware scanner
  * Add right click on tab > close other tabs > close this tab
- * Try automatic insert return null for all runtime.exec methods via ASM3; //maybe just do AMS5 then obfuscate the dex2jar shit.
- * 
- * Look at Desktop.getDesktop().open();
- * refine POC and just use sec man
+ * maybe just do AMS5 then obfuscate the dex2jar shit.
  * 
  * ----Beta 1.0.0-----:
  * 10/4/2014 - Designed a POC GUI, still needs a lot of work.
@@ -304,13 +300,10 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 01/16/2015 - Made EZ-Injection UI look a bit nicer.
  * 01/27/2015 - Decided to scrap the  JVM Sandbox POC and use the Security Manager.
  * 01/27/2015 - BCV now blocks exec and won't allow any ports to be bound.
+ * 01/27/2015 - Added java.awt.Robot to the malicious code scanner.
  * 
  * @author Konloch
  * 
- */
-
-/**
- * Store the inst object and original class bytes, then allow optional real time toggling?
  */
 
 public class BytecodeViewer {
