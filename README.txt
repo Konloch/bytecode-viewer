@@ -275,3 +275,5 @@ Changelog:
 01/16/2015 - Made EZ-Injection UI look a bit nicer.
 01/27/2015 - Decided to scrap the  JVM Sandbox POC and use the Security Manager.
 01/27/2015 - BCV now blocks exec and won't allow any ports to be bound.
+--- 2.7.1 ---:
+01/27/2015 - Fixed hide file.

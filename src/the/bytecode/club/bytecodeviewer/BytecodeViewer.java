@@ -301,6 +301,8 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 01/27/2015 - Decided to scrap the  JVM Sandbox POC and use the Security Manager.
  * 01/27/2015 - BCV now blocks exec and won't allow any ports to be bound.
  * 01/27/2015 - Added java.awt.Robot to the malicious code scanner.
+ * -----2.7.1-----:
+ * 01/27/2015 - Fixed hide file.
  * 
  * @author Konloch
  * 
@@ -321,7 +323,7 @@ public class BytecodeViewer {
 	private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	public static boolean runningObfuscation = false;
-	public static String version = "2.7.0";
+	public static String version = "2.7.1";
 	private static long start = System.currentTimeMillis();
 	public static String lastDirectory = "";
 	private static Thread versionChecker = new Thread() {
@@ -500,6 +502,7 @@ public class BytecodeViewer {
 	}
 	
 	public static void main(String[] args) {
+		getBCVDirectory();
 		SecurityManager sm = new SecurityManager() {
 			@Override
 		    public void checkExec(String cmd) {
