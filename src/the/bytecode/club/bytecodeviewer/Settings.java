@@ -111,6 +111,10 @@ public class Settings {
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "5", false);
 			 else if(BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Smali.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "6", false);
+			 else if(BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Krakatau.getModel()))
+				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "7", false);
+			 else if(BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1KrakatauEditable.getModel()))
+				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
 			   
 			 if(BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
@@ -126,6 +130,10 @@ public class Settings {
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "5", false);
 			 else if(BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Smali.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "6", false);
+			 else if(BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Krakatau.getModel()))
+				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "7", false);
+			 else if(BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2KrakatauEditable.getModel()))
+				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
 			 
 			 if(BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
@@ -141,12 +149,18 @@ public class Settings {
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "5", false);
 			 else if(BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Smali.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "6", false);
+			 else if(BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Krakatau.getModel()))
+				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "7", false);
+			 else if(BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3KrakatauEditable.getModel()))
+				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
 			 
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.refreshOnChange.isSelected()), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.isMaximized), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileSmali.isSelected()), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.lastDirectory, false);
+			DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.python, false);
+			DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.rt, false);
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
@@ -249,6 +263,10 @@ public class Settings {
 				BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1Hexcode.getModel(), true);
 			else if(decompiler == 6)
 				BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1Smali.getModel(), true);
+			else if(decompiler == 7)
+				BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1Krakatau.getModel(), true);
+			else if(decompiler == 8)
+				BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1KrakatauEditable.getModel(), true);
 
 			decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 82, false));
 			if(decompiler == 0)
@@ -265,6 +283,10 @@ public class Settings {
 				BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2Hexcode.getModel(), true);
 			else if(decompiler == 6)
 				BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2Smali.getModel(), true);
+			else if(decompiler == 7)
+				BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2Krakatau.getModel(), true);
+			else if(decompiler == 8)
+				BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2KrakatauEditable.getModel(), true);
 	
 			decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 83, false));
 			if(decompiler == 0)
@@ -281,6 +303,10 @@ public class Settings {
 				BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3Hexcode.getModel(), true);
 			else if(decompiler == 6)
 				BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3Smali.getModel(), true);
+			else if(decompiler == 7)
+				BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3Krakatau.getModel(), true);
+			else if(decompiler == 8)
+				BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3KrakatauEditable.getModel(), true);
 			
 			BytecodeViewer.viewer.refreshOnChange.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 84, false)));
 			
@@ -292,6 +318,8 @@ public class Settings {
 			BytecodeViewer.viewer.autoCompileSmali.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 86, false)));
 			BytecodeViewer.viewer.autoCompileOnRefresh.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 87, false)));
 			BytecodeViewer.lastDirectory = DiskReader.loadString(BytecodeViewer.settingsName, 88, false);
+			BytecodeViewer.python = DiskReader.loadString(BytecodeViewer.settingsName, 89, false);
+			BytecodeViewer.rt = DiskReader.loadString(BytecodeViewer.settingsName, 90, false);
 		} catch(Exception e) {
 			//ignore because errors are expected, first start up and outdated settings.
 		}

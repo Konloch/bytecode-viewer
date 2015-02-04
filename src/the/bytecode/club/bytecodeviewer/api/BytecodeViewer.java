@@ -18,25 +18,20 @@ import the.bytecode.club.bytecodeviewer.plugins.EZInjection;
 public class BytecodeViewer {
 
 	/**
-	 * This is used to define a global loader.
-	 */
-	private static ClassNodeLoader loader = new ClassNodeLoader();
-
-	/**
 	 * Grab the loader instance
 	 * 
 	 * @return
 	 */
 	public static ClassNodeLoader getClassNodeLoader() {
-		return loader;
+		return the.bytecode.club.bytecodeviewer.BytecodeViewer.loader;
 	}
 
 	/**
 	 * Creates a new instance of the ClassNode loader.
 	 */
 	public static void createNewClassNodeLoaderInstance() {
-		loader.clear();
-		loader = new ClassNodeLoader();
+		the.bytecode.club.bytecodeviewer.BytecodeViewer.loader.clear();
+		the.bytecode.club.bytecodeviewer.BytecodeViewer.loader = new ClassNodeLoader();
 	}
 
 	/**

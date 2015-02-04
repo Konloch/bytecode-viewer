@@ -1,8 +1,8 @@
-Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI Smali, GUI Baksmali, GUI APK Editor, GUI Dex Editor, GUI APK Decompiler, GUI DEX Decompiler, GUI Procyon Java Decompiler, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI DEX2Jar, GUI Jar2DEX, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
+Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI Smali, GUI Baksmali, GUI APK Editor, GUI Dex Editor, GUI APK Decompiler, GUI DEX Decompiler, GUI Procyon Java Decompiler, GUI Krakatau, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI DEX2Jar, GUI Jar2DEX, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
 It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
 
 There is also a plugin system that will allow you to interact with the loaded classfiles, for example you can write a String deobfuscator, a malicious code searcher, or something else you can think of.
-You can either use one of the pre-written plugins, or write your own. It supports groovy, python and ruby scripting. Once a plugin is activated, it will execute the plugin with a ClassNode ArrayList of every single class loaded in BCV, this allows the user to handle it completely using ASM.
+You can either use one of the pre-written plugins, or write your own. It supports groovy scripting. Once a plugin is activated, it will execute the plugin with a ClassNode ArrayList of every single class loaded in BCV, this allows the user to handle it completely using ASM.
 
 Code from various projects has been used, including but not limited to:
     J-RET by WaterWolf
@@ -16,6 +16,7 @@ Code from various projects has been used, including but not limited to:
     CFIDE by Bibl
     Smali by JesusFreke
     Dex2Jar by pxb1..?
+    Krakatau by Storyyeller
 
 Contributors:
     Konloch
@@ -31,7 +32,7 @@ Contribution Guide Lines:
     Packages must start with the.bytecode.club.bytecodeviewer
     If code you write can throw an exception, handle it using new the.bytecode.club.bytecodeviewer.ExceptionUI(exception)
 
-Video: http://the.bytecode.club/bytecodeviewer-video/
+Website: https://bytecodeviewer.com
 Source Code: https://github.com/konloch/bytecode-viewer
 Bin/Archive: https://github.com/konloch/bytecode-viewer/releases
 Java Docs: https://the.bytecode.club/docs/bytecode-viewer/
@@ -40,7 +41,8 @@ Report Bugs (or below): https://github.com/Konloch/bytecode-viewer/issues
 Discussion Forum: https://the.bytecode.club/forumdisplay.php?fid=69
 
 Key Features:
-    Smali/BakSmali Intergration - You can now edit class files/dex files via smali!
+    Krakatau Integration for Bytecode assembly/disassembly. 
+    Smali/BakSmali Integration - You can now edit class files/dex files via smali!
     APK/DEX Support - Using Dex2Jar and Jar2Dex it's able to load and save APKs with ease!
     Java Decompiler - It utilizes FernFlower, Procyon and CFR for decompilation.
     Bytecode Decompiler - A modified version of CFIDE's.
@@ -48,7 +50,7 @@ Key Features:
     Each Decompiler/Viewer is toggleable, you can also select what will display on each pane.
     Fully Featured Search System - Search through strings, functions, variables and more!
     A Plugin System With Built In Plugins - (Show All Strings, Malicious Code Scanner, String Decrypters, etc)
-    Fully Featured Scripting System That Supports Groovy, Python And Ruby.
+    Fully Featured Scripting System That Supports Groovy.
     EZ-Inject - Graphically insert hooks and debugging code, invoke main and start the program.
     Recent Files & Recent Plugins.
     And more! Give it a try for yourself!
@@ -277,3 +279,12 @@ Changelog:
 01/27/2015 - BCV now blocks exec and won't allow any ports to be bound.
 --- 2.7.1 ---:
 01/27/2015 - Fixed hide file.
+--- 2.8.0 ---:
+02/01/2015 - Updated CFR and Proycon to latest versions.
+02/01/2015 - Started working on implementing Krakatau.
+02/01/2015 - Sexifixed the security manager a little bit.
+02/03/2015 - Fully added Krakatau Java decompiler, just disassembly/assembly left.
+02/03/2015 - Updated the about window.
+02/03/2015 - Dropped JRuby and Jython support (BCV is now roughly 16mb, was 45mb).
+02/04/2015 - Added Krakatau Disassembly.
+02/04/2015 - Added Krakatau Assembly.

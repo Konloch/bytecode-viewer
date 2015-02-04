@@ -13,7 +13,6 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.api.ASMUtil_OLD;
 import the.bytecode.club.bytecodeviewer.api.BytecodeHook;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
@@ -27,9 +26,6 @@ import the.bytecode.club.bytecodeviewer.gui.GraphicialReflectionKit;
  * reflection.
  * 
  * @author Konloch
- * 
- *         TODO: figure out a way to block runtime.exec without java agents,
- *         maybe by replacing the method call?
  * 
  */
 
@@ -112,21 +108,6 @@ public class EZInjection extends Plugin {
 
 		if (gui.isVisible())
 			gui.appendText(message);
-	}
-
-	public static void exit(int i) {
-		print("[SANDBOX] Tried to call on System.exit(" + i
-				+ "), it's been blocked.");
-	}
-
-	public static void exitR(int i) {
-		print("[SANDBOX] Tried to call on Runtime.exit(" + i
-				+ "), it's been blocked.");
-	}
-
-	public static void announceSystem(String s) {
-		print("[SANDBOX] Tried to call on Runtime.exec(" + s
-				+ "), it's been blocked.");
 	}
 
 	@Override
@@ -250,18 +231,6 @@ public class EZInjection extends Plugin {
 					}
 				}
 			}
-		}
-
-		if (sandboxRuntime) {
-			ASMUtil_OLD.renameClassNode("java/lang/Runtime",
-					"the/bytecode/club/bytecodeviewer/RuntimeOverride");
-		}
-
-		if (sandboxSystem) {
-			ASMUtil_OLD.renameMethodNode("java/lang/System", "exit",
-					"(Ljava/lang/String;)V",
-					"the/bytecode/club/bytecodeviewer/plugins/EZInjection",
-					null, null);
 		}
 
 		if (useProxy) {

@@ -14,6 +14,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.JarUtils;
+import the.bytecode.club.bytecodeviewer.MiscUtils;
 
 /**
  * A complete FernFlower launcher with all the options (except 2)
@@ -63,7 +64,7 @@ public class FernFlowerDecompiler extends JavaDecompiler {
 		final ClassWriter cw = new ClassWriter(0);
 		cn.accept(cw);
 		
-		String start = getUniqueName("", ".class");
+		String start = MiscUtils.getUniqueName("", ".class");
 		
 		final File tempClass = new File(start + ".class");
 
@@ -104,7 +105,7 @@ public class FernFlowerDecompiler extends JavaDecompiler {
 				exception += BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
 			}
 		}
-		return "FernFlower error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggestest Fix: Click refresh class, if it fails again try another decompiler."+BytecodeViewer.nl+BytecodeViewer.nl+exception;
+		return "FernFlower error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggested Fix: Click refresh class, if it fails again try another decompiler."+BytecodeViewer.nl+BytecodeViewer.nl+exception;
 	}
 
 	private String[] generateMainMethod(String className, String folder) {

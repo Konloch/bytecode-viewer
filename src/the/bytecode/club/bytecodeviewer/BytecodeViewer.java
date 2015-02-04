@@ -7,16 +7,13 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
-import java.security.Permission;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -37,7 +34,7 @@ import org.apache.commons.io.FileUtils;
 import org.imgscalr.Scalr;
 import org.objectweb.asm.tree.ClassNode;
 
-import the.bytecode.club.bytecodeviewer.decompilers.Smali;
+import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.FileNavigationPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
@@ -63,7 +60,7 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * There is also a plugin system that will allow you to interact with the loaded
  * classfiles, for example you can write a String deobfuscator, a malicious code
  * searcher, or something else you can think of. You can either use one of the
- * pre-written plugins, or write your own. It supports groovy, python and ruby
+ * pre-written plugins, or write your own. It supports groovy
  * scripting. Once a plugin is activated, it will send a ClassNode ArrayList of
  * every single class loaded in the file system to the execute function, this
  * allows the user to handle it completely using ASM.
@@ -303,6 +300,15 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 01/27/2015 - Added java.awt.Robot to the malicious code scanner.
  * -----2.7.1-----:
  * 01/27/2015 - Fixed hide file.
+ * -----2.8.0-----:
+ * 02/01/2015 - Updated CFR and Proycon to latest versions.
+ * 02/01/2015 - Started working on implementing Krakatau.
+ * 02/01/2015 - Sexifixed the security manager a little bit.
+ * 02/03/2015 - Fully added Krakatau Java decompiler, just disassembly/assembly left.
+ * 02/03/2015 - Updated the about window.
+ * 02/03/2015 - Dropped JRuby and Jython support (BCV is now roughly 16mb, was 45mb).
+ * 02/04/2015 - Added Krakatau Disassembly.
+ * 02/04/2015 - Added Krakatau Assembly.
  * 
  * @author Konloch
  * 
@@ -310,20 +316,29 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
 
 public class BytecodeViewer {
 
+	/*per version*/
+	public static String version = "2.8.0";
+	public static String krakatauVersion = "2";
+	/*the rest*/
 	public static MainViewerGUI viewer = null;
+	public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV, however that's highly unlikely.
+	public static String python = "";
+	public static String rt = "";
+	public static SecurityMan sm = new SecurityMan();
 	public static HashMap<String, ClassNode> loadedClasses = new HashMap<String, ClassNode>();
 	public static HashMap<String, byte[]> loadedResources = new HashMap<String, byte[]>();
 	private static int maxRecentFiles = 25;
 	public static String fs = System.getProperty("file.separator");
 	public static String nl = System.getProperty("line.separator");
+	private static File BCVDir = new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
 	private static String filesName = getBCVDirectory() + fs + "recentfiles.bcv";
 	private static String pluginsName = getBCVDirectory() + fs + "recentplugins.bcv";
 	public static String settingsName = getBCVDirectory() + fs + "settings.bcv";
 	public static String tempDirectory = getBCVDirectory() + fs + "bcv_temp" + fs;
+	public static String krakatauWorkingDirectory = getBCVDirectory() + fs + "krakatau_" + krakatauVersion + fs + "Krakatau-master";
 	private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	public static boolean runningObfuscation = false;
-	public static String version = "2.7.1";
 	private static long start = System.currentTimeMillis();
 	public static String lastDirectory = "";
 	private static Thread versionChecker = new Thread() {
@@ -502,51 +517,8 @@ public class BytecodeViewer {
 	}
 	
 	public static void main(String[] args) {
-		getBCVDirectory();
-		SecurityManager sm = new SecurityManager() {
-			@Override
-		    public void checkExec(String cmd) {
-				throw new SecurityException("BCV is awesome.");
-		    }
-			@Override
-		    public void checkListen(int port) {
-				throw new SecurityException("BCV is awesome.");
-		    }
-			@Override
-		    public void checkPermission(Permission perm) { //expand eventually
-		    }
-			@Override
-		    public void checkPermission(Permission perm, Object context) {//expand eventually
-		    }
-			@Override public void checkAccess(Thread t) {}
-			@Override public void checkAccept(String host, int port) {}
-			@Override public void checkAccess(ThreadGroup g) {}
-			@Override public void checkAwtEventQueueAccess() {}
-			@Override public void checkConnect(String host, int port) {}
-			@Override public void checkConnect(String host, int port, Object context) {}
-			@Override public void checkCreateClassLoader() {}
-			@Override public void checkDelete(String file) {}
-			@Override public void checkExit(int status) {}
-			@Override public void checkLink(String lib) {}
-			@Override public void checkMemberAccess(Class<?> clazz, int which) {}
-			@Override public void checkMulticast(InetAddress maddr) {}
-			@Override public void checkMulticast(InetAddress maddr, byte ttl) {}
-			@Override public void checkPackageAccess(String pkg) {}
-			@Override public void checkPackageDefinition(String pkg) {}
-			@Override public void checkPrintJobAccess() {}
-			@Override public void checkPropertiesAccess() {}
-			@Override public void checkPropertyAccess(String key) {}
-			@Override public void checkRead(FileDescriptor fd) {}
-			@Override public void checkRead(String file) {}
-			@Override public void checkRead(String file, Object context) {}
-			@Override public void checkSecurityAccess(String target) {}
-			@Override public void checkSetFactory() {}
-			@Override public void checkSystemClipboardAccess() {}
-			@Override public void checkWrite(FileDescriptor fd) {}
-			@Override public void checkWrite(String file) {}
-		};
 		System.setSecurityManager(sm);
-		
+		checkKrakatau();
 		System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version);
 		iconList = new ArrayList<BufferedImage>();
 		int size = 16;
@@ -616,7 +588,7 @@ public class BytecodeViewer {
 	}
 	
 	//called whenever a save function is executed
-	public static boolean compileSmali(boolean message) {
+	public static boolean compile(boolean message) {
 		if(getLoadedClasses().isEmpty())
 			return false;
 		
@@ -624,16 +596,32 @@ public class BytecodeViewer {
 			if(c instanceof ClassViewer) {
 				ClassViewer cv = (ClassViewer) c;
 				Object smali[] = cv.getSmali();
-				ClassNode origNode = (ClassNode) smali[0];
-				String smaliText = (String) smali[1];
 				if(smali != null) {
-					byte[] smaliCompiled = Smali.compile(smaliText);
+					ClassNode origNode = (ClassNode) smali[0];
+					String smaliText = (String) smali[1];
+					byte[] smaliCompiled = the.bytecode.club.bytecodeviewer.compilers.SmaliAssembler.compile(smaliText);
 					if(smaliCompiled != null) {
 						ClassNode newNode = JarUtils.getNode(smaliCompiled);
 						System.out.println(origNode.name+":"+newNode.name);
 						BytecodeViewer.updateNode(origNode, newNode);
 					} else {
 						BytecodeViewer.showMessage("There has been an error with assembling your Smali code, please check this. Class: " + origNode.name);
+						return false;
+					}
+				}
+				
+
+				Object krakatau[] = cv.getKrakatau();
+				if(krakatau != null) {
+					ClassNode origNodeK = (ClassNode) krakatau[0];
+					String krakatauText = (String) krakatau[1];
+					byte[] krakatauCompiled = the.bytecode.club.bytecodeviewer.compilers.KrakatauAssembler.compile(krakatauText, origNodeK.name);
+					if(krakatauCompiled != null) {
+						ClassNode newNode = JarUtils.getNode(krakatauCompiled);
+						System.out.println(origNodeK.name+":"+newNode.name);
+						BytecodeViewer.updateNode(origNodeK, newNode);
+					} else {
+						BytecodeViewer.showMessage("There has been an error with assembling your Krakatau Bytecode, please check this. Class: " + origNodeK.name);
 						return false;
 					}
 				}
@@ -646,6 +634,30 @@ public class BytecodeViewer {
 		return true;
 	}
 
+	public static void checkKrakatau() {
+		File krakatauDirectory = new File(getBCVDirectory() + fs + "krakatau_" + krakatauVersion);
+		if(!krakatauDirectory.exists()) {
+			try {
+				File temp = new File(getBCVDirectory() + fs + "krakatau_" + krakatauVersion + ".zip");
+			    while(temp.exists())
+			    	temp.delete();
+				InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("krakatau.zip");
+			    FileOutputStream baos = new FileOutputStream(temp);
+			    int r = 0;
+			    byte[] buffer = new byte[8192];
+			    while((r=is.read(buffer))>=0) {
+			        baos.write(buffer, 0, r);
+			    }
+			    baos.close();
+			    ZipUtils.unzipFilesToPath(temp.getAbsolutePath(), krakatauDirectory.getAbsolutePath());
+			    temp.delete();
+			} catch(Exception e) {
+				showMessage("ERROR: There was an issue unzipping Krakatau decompiler, please contact @Konloch with your stacktrace.");
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			}
+		}
+	}
+	
 	private static boolean update = true;
 	public static void openFiles(final File[] files, boolean recentFiles) {
 		if(recentFiles)
@@ -741,7 +753,6 @@ public class BytecodeViewer {
 		JOptionPane.showMessageDialog(viewer, message);
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void resetWorkSpace(boolean ask) {
 		if(!ask) {
 			loadedResources.clear();
@@ -759,7 +770,7 @@ public class BytecodeViewer {
 			pane.setOptions(options);
 			JDialog dialog = pane.createDialog(viewer,
 					"Bytecode Viewer - Reset Workspace");
-			dialog.show();
+			dialog.setVisible(true);
 			Object obj = pane.getValue();
 			int result = -1;
 			for (int k = 0; k < options.length; k++)
@@ -793,8 +804,7 @@ public class BytecodeViewer {
 			killList.clear();
 		}
 
-		if (recentFiles.contains(f.getAbsolutePath())) // already added on the
-														// list
+		if (recentFiles.contains(f.getAbsolutePath())) // already added on the list
 			recentFiles.remove(f.getAbsolutePath());
 		if (recentFiles.size() >= maxRecentFiles)
 			recentFiles.remove(maxRecentFiles - 1); // zero indexing
@@ -818,8 +828,7 @@ public class BytecodeViewer {
 			killList2.clear();
 		}
 
-		if (recentPlugins.contains(f.getAbsolutePath())) // already added on the
-															// list
+		if (recentPlugins.contains(f.getAbsolutePath())) // already added on the list
 			recentPlugins.remove(f.getAbsolutePath());
 		if (recentPlugins.size() >= maxRecentFiles)
 			recentPlugins.remove(maxRecentFiles - 1); // zero indexing
@@ -887,15 +896,13 @@ public class BytecodeViewer {
 	}
 
 	public static String getBCVDirectory() {
-		File f = new File(System.getProperty("user.home") + fs
-				+ ".Bytecode-Viewer");
-		while (!f.exists())
-			f.mkdirs();
+		while (!BCVDir.exists())
+			BCVDir.mkdirs();
 		
-		if (!f.isHidden() && isWindows())
-			hideFile(f);
+		if (!BCVDir.isHidden() && isWindows())
+			hideFile(BCVDir);
 		
-		return f.getAbsolutePath();
+		return BCVDir.getAbsolutePath();
 	}
 
 	private static boolean isWindows() {
@@ -903,13 +910,14 @@ public class BytecodeViewer {
 	}
 
 	private static void hideFile(File f) {
-		System.out.println("hiding file");
+		sm.blocking = false;
 		try {
 			// Hide file by running attrib system command (on Windows)
 			Runtime.getRuntime().exec("attrib +H " + f.getAbsolutePath());
 		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
+		sm.blocking = true;
 	}
 
 	private static String quickConvert(ArrayList<String> a) {

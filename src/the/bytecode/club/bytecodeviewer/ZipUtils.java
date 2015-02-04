@@ -279,4 +279,47 @@ public final class ZipUtils {
     		e.printStackTrace();
     	}
 	}
+	
+	 public static void zipFolder(String srcFolder, String destZipFile, String ignore) throws Exception {
+		    ZipOutputStream zip = null;
+		    FileOutputStream fileWriter = null;
+
+		    fileWriter = new FileOutputStream(destZipFile);
+		    zip = new ZipOutputStream(fileWriter);
+
+		    addFolderToZip("", srcFolder, zip, ignore);
+		    zip.flush();
+		    zip.close();
+		  }
+
+		  public static void addFileToZip(String path, String srcFile, ZipOutputStream zip, String ignore)
+		      throws Exception {
+			  
+		    File folder = new File(srcFile);
+		    if (folder.isDirectory()) {
+		      addFolderToZip(path, srcFile, zip, ignore);
+		    } else {
+		      byte[] buf = new byte[1024];
+		      int len;
+		      FileInputStream in = new FileInputStream(srcFile);
+		      zip.putNextEntry(new ZipEntry(path.replace(ignore, "BCV_Krakatau") + "/" + folder.getName()));
+		      while ((len = in.read(buf)) > 0) {
+		        zip.write(buf, 0, len);
+		      }
+		      in.close();
+		    }
+		  }
+
+		 public static void addFolderToZip(String path, String srcFolder, ZipOutputStream zip, String ignore)
+		      throws Exception {
+		    File folder = new File(srcFolder);
+
+		    for (String fileName : folder.list()) {
+		      if (path.equals("")) {
+		        addFileToZip(folder.getName(), srcFolder + "/" + fileName, zip, ignore);
+		      } else {
+		        addFileToZip(path + "/" + folder.getName(), srcFolder + "/" + fileName, zip, ignore);
+		      }
+		    }
+		  }
 }

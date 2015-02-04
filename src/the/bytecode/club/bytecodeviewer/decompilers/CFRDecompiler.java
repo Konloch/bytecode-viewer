@@ -23,6 +23,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.JarUtils;
+import the.bytecode.club.bytecodeviewer.MiscUtils;
 
 /**
  * 
@@ -43,10 +44,9 @@ public class CFRDecompiler extends JavaDecompiler {
 		final ClassWriter cw = new ClassWriter(0);
 		cn.accept(cw);
 
-		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
-				+ "temp";
-
-		final File tempClass = new File(getUniqueName(fileStart, ".class") + ".class");
+		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
+		
+		final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
 		try {
 			final FileOutputStream fos = new FileOutputStream(tempClass);
@@ -96,12 +96,12 @@ public class CFRDecompiler extends JavaDecompiler {
 					e.printStackTrace();
 
 					String exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
-					return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggestest Fix: Click refresh class, if it fails again try another decompiler."+BytecodeViewer.nl+BytecodeViewer.nl+exception;
+					return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggested Fix: Click refresh class, if it fails again try another decompiler."+BytecodeViewer.nl+BytecodeViewer.nl+exception;
 				}
 				return s;
 			}
 		}
-		return "CFR error!"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggestest Fix: Click refresh class, if it fails again try another decompiler.";
+		return "CFR error!"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggested Fix: Click refresh class, if it fails again try another decompiler.";
 	}
 
 	public String[] generateMainMethod(String filePath, String outputPath) {
@@ -230,8 +230,7 @@ public class CFRDecompiler extends JavaDecompiler {
 		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
 				tempZip.getAbsolutePath());
 
-		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
-				+ "temp";
+		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
 
 		String fuckery = fuckery(fileStart);
 

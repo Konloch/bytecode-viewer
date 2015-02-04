@@ -39,6 +39,7 @@ import com.strobel.assembler.metadata.TypeReference;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.JarUtils;
+import the.bytecode.club.bytecodeviewer.MiscUtils;
 
 /**
  * 
@@ -99,7 +100,7 @@ public class ProcyonDecompiler extends JavaDecompiler {
 			String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
 					+ "temp";
 
-			final File tempClass = new File(getUniqueName(fileStart, ".class") + ".class");
+			final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
 			try {
 				final FileOutputStream fos = new FileOutputStream(tempClass);
@@ -139,7 +140,7 @@ public class ProcyonDecompiler extends JavaDecompiler {
 
 			exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
 		}
-		return "Procyon error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggestest Fix: Click refresh class, if it fails again try another decompiler."+BytecodeViewer.nl+BytecodeViewer.nl+exception;
+		return "Procyon error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggested Fix: Click refresh class, if it fails again try another decompiler."+BytecodeViewer.nl+BytecodeViewer.nl+exception;
 	}
 
 	@Override

@@ -121,7 +121,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 	public void actionPerformed(final ActionEvent arg0) {
 		if(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected())
 			try {
-				if(!BytecodeViewer.compileSmali(false))
+				if(!BytecodeViewer.compile(false))
 					return;
 			} catch(java.lang.NullPointerException e) {
 				
