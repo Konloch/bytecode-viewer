@@ -1,4 +1,4 @@
-Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI Smali, GUI Baksmali, GUI APK Editor, GUI Dex Editor, GUI APK Decompiler, GUI DEX Decompiler, GUI Procyon Java Decompiler, GUI Krakatau, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI DEX2Jar, GUI Jar2DEX, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
+Bytecode Viewer is an Advanced Lightweight Java Bytecode Viewer, GUI Java Decompiler, GUI Bytecode Editor, GUI Smali, GUI Baksmali, GUI APK Editor, GUI Dex Editor, GUI APK Decompiler, GUI DEX Decompiler, GUI Procyon Java Decompiler, GUI Krakatau, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI DEX2Jar, GUI Jar2DEX, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
 It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
 
 There is also a plugin system that will allow you to interact with the loaded classfiles, for example you can write a String deobfuscator, a malicious code searcher, or something else you can think of.
@@ -28,9 +28,11 @@ Contributors:
     Afffsdd
     If I missed you, please feel free to contact me @Konloch or konloch@gmail.com
 
-Contribution Guide Lines:
+Contribution Guide Lines/Coding Conventions:
     Packages must start with the.bytecode.club.bytecodeviewer
-    If code you write can throw an exception, handle it using new the.bytecode.club.bytecodeviewer.ExceptionUI(exception)
+    If code you write can throw an exception, handle it using new the.bytecode.club.bytecodeviewer.ExceptionUI(exception, "authors@email.com")
+	All variables must be at the start of each class.
+	Brackets are meant to be on the same line, I.E. public void main(String[] args) { not (String[] args) <NEWLINE_BREAK> {
 
 Website: https://bytecodeviewer.com
 Source Code: https://github.com/konloch/bytecode-viewer
@@ -288,3 +290,6 @@ Changelog:
 02/03/2015 - Dropped JRuby and Jython support (BCV is now roughly 16mb, was 45mb).
 02/04/2015 - Added Krakatau Disassembly.
 02/04/2015 - Added Krakatau Assembly.
+--- 2.8.1 ---:
+02/04/2015 - Fixed UI bug with Krakatau/Krakatau Editable view panes.
+02/05/2015 - Added CTRL + F.

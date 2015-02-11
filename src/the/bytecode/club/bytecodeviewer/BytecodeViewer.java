@@ -66,19 +66,31 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * allows the user to handle it completely using ASM.
  * 
  * TODO:
+ * 
+ * 3.0.0: (RETIREMENT PARTY, WOHOOO)
+ * maybe just do AMS5 then obfuscate the dex2jar shit.
  * The import jar method eats up a lot of memory, look into some how reducing this.
  * Add obfuscation:
  *    - Add integer boxing and other obfuscation methods contra implemented
  *    - Insert unadded/debug opcodes to try to fuck up decompilers
  *    - ClassAnylyzterAdapter
- * Add progress bars on saving all zips/java decompile jar
  * Add the jump/save mark system Ida Pro has.
  * Add class annotations to bytecode decompiler.
- * Option to make  the bytecode pane automatically scroll to where the source code pane is
- * Replacing all string field calls with the string instance - would require EZ-Injection to run code?
- * Spiffy up the plugin console with red text optional, would require JTextPane, not JTextArea.
+ * EVERYTHING BUG FREE, CHECK 100%
+ * add support for all files, and resource loading (images display inside, can be view in hex)
+ * 
+ * 
+ * 2.9.0:
+ * make it save the last used main class entry globally, reset on workspace reset
+ * make it use that global last used inside of export as jar
+ * remake EZ-Inject plugin as File-Run
+ * Add Java compiler to attempt to recompile the decompiled Java code
  * Add right click on tab > close other tabs > close this tab
- * maybe just do AMS5 then obfuscate the dex2jar shit.
+ * Spiffy up the plugin console with red text optional, would require JTextPane, not JTextArea.
+ * Option to make  the bytecode pane automatically scroll to where the source code pane is
+ * Add progress bars on saving all zips/java decompile jar
+ * Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
+ * 
  * 
  * ----Beta 1.0.0-----:
  * 10/4/2014 - Designed a POC GUI, still needs a lot of work.
@@ -309,6 +321,9 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
  * 02/03/2015 - Dropped JRuby and Jython support (BCV is now roughly 16mb, was 45mb).
  * 02/04/2015 - Added Krakatau Disassembly.
  * 02/04/2015 - Added Krakatau Assembly.
+ * -----2.8.1-----:
+ * 02/04/2015 - Fixed UI bug with Krakatau/Krakatau Editable view panes.
+ * 02/05/2015 - Added CTRL + F.
  * 
  * @author Konloch
  * 
@@ -317,7 +332,7 @@ import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
 public class BytecodeViewer {
 
 	/*per version*/
-	public static String version = "2.8.0";
+	public static String version = "2.8.1";
 	public static String krakatauVersion = "2";
 	/*the rest*/
 	public static MainViewerGUI viewer = null;

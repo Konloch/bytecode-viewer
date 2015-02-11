@@ -23,6 +23,8 @@ import java.io.StringWriter;
 
 public class ExceptionUI extends JFrame {
 
+	private static final long serialVersionUID = -5230501978224926296L;
+
 	/**
 	 * @param e
 	 *            The exception to be shown
@@ -97,7 +99,5 @@ public class ExceptionUI extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-
-	private static final long serialVersionUID = -5230501978224926296L;
 
 }

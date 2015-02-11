@@ -124,7 +124,7 @@ public class ClassViewer extends JPanel {
 	public RSyntaxTextArea krakatau1 = null;
 	public RSyntaxTextArea krakatau2 = null;
 	public RSyntaxTextArea krakatau3 = null;
-
+	
 	/**
 	 * This was really interesting to write.
 	 * 
@@ -278,6 +278,9 @@ public class ClassViewer extends JPanel {
 		}
 	}
 
+	final JTextField field1 = new JTextField();
+	final JTextField field2 = new JTextField();
+	final JTextField field3 = new JTextField();
 	public ClassViewer(final String name, final ClassNode cn) {
 		JButton byteSearchNext = new JButton();
 		JButton byteSearchPrev = new JButton();
@@ -293,7 +296,6 @@ public class ClassViewer extends JPanel {
 						BytecodeViewer
 								.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYgKhxpRi1AAAATElEQVR42mNgwAZYHIAEExA7qUAYLApMDmCGEwODCojByM/A8FEAyPi/moFh9QewYjCAM1iA+D2KqYwMrIlA6tUGFoa/Z4GMt1hsBgCe1wuKber+SwAAAABJRU5ErkJggg==")));
 		panel1Search.add(byteButtonPane, BorderLayout.WEST);
-		final JTextField field1 = new JTextField();
 		panel1Search.add(field1, BorderLayout.CENTER);
 		panel1Search.add(check1, BorderLayout.EAST);
 		byteSearchNext.addActionListener(new ActionListener() {
@@ -338,7 +340,6 @@ public class ClassViewer extends JPanel {
 						BytecodeViewer
 								.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYgKhxpRi1AAAATElEQVR42mNgwAZYHIAEExA7qUAYLApMDmCGEwODCojByM/A8FEAyPi/moFh9QewYjCAM1iA+D2KqYwMrIlA6tUGFoa/Z4GMt1hsBgCe1wuKber+SwAAAABJRU5ErkJggg==")));
 		panel2Search.add(buttonPane2, BorderLayout.WEST);
-		final JTextField field2 = new JTextField();
 		panel2Search.add(field2, BorderLayout.CENTER);
 		panel2Search.add(check2, BorderLayout.EAST);
 		searchNext2.addActionListener(new ActionListener() {
@@ -383,7 +384,6 @@ public class ClassViewer extends JPanel {
 						BytecodeViewer
 								.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYgKhxpRi1AAAATElEQVR42mNgwAZYHIAEExA7qUAYLApMDmCGEwODCojByM/A8FEAyPi/moFh9QewYjCAM1iA+D2KqYwMrIlA6tUGFoa/Z4GMt1hsBgCe1wuKber+SwAAAABJRU5ErkJggg==")));
 		panel3Search.add(buttonPane3, BorderLayout.WEST);
-		final JTextField field3 = new JTextField();
 		panel3Search.add(field3, BorderLayout.CENTER);
 		panel3Search.add(check3, BorderLayout.EAST);
 		searchNext3.addActionListener(new ActionListener() {
@@ -579,6 +579,18 @@ public class ClassViewer extends JPanel {
 						panelArea.setText(proc_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {
+								
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field1.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel1.add(scrollPane);
 					}
 	
@@ -592,6 +604,17 @@ public class ClassViewer extends JPanel {
 						panelArea.setText(cfr_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field1.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel1.add(scrollPane);
 					}
 	
@@ -605,6 +628,17 @@ public class ClassViewer extends JPanel {
 						panelArea.setText(ff_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field1.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel1.add(scrollPane);
 					}
 	
@@ -614,12 +648,23 @@ public class ClassViewer extends JPanel {
 								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						bytecodeArea.setCodeFoldingEnabled(true);
 						bytecodeArea.setAntiAliasingEnabled(true);
-						RTextScrollPane bytecodeSPane = new RTextScrollPane(
+						RTextScrollPane scrollPane = new RTextScrollPane(
 								bytecodeArea);
 						bytecodeArea.setText(ClassNodeDecompiler.decompile(cn));
 						bytecodeArea.setCaretPosition(0);
 						bytecodeArea.setEditable(false);
-						panel1.add(bytecodeSPane);
+						bytecodeArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field1.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
+						panel1.add(scrollPane);
 					}
 	
 					if (pane1 == 5) {// hex
@@ -635,12 +680,23 @@ public class ClassViewer extends JPanel {
 								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						bytecodeArea.setCodeFoldingEnabled(true);
 						bytecodeArea.setAntiAliasingEnabled(true);
-						RTextScrollPane bytecodeSPane = new RTextScrollPane(
+						RTextScrollPane scrollPane = new RTextScrollPane(
 								bytecodeArea);
 						bytecodeArea.setText(SmaliDisassembler.decompileClassNode(cn));
 						bytecodeArea.setCaretPosition(0);
 						smali1 = bytecodeArea;
-						panel1.add(bytecodeSPane);
+						smali1.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field1.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
+						panel1.add(scrollPane);
 					}
 	
 					if (pane1 == 7) {// krakatau
@@ -649,11 +705,22 @@ public class ClassViewer extends JPanel {
 								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						bytecodeArea.setCodeFoldingEnabled(true);
 						bytecodeArea.setAntiAliasingEnabled(true);
-						RTextScrollPane bytecodeSPane = new RTextScrollPane(
+						RTextScrollPane scrollPane = new RTextScrollPane(
 								bytecodeArea);
 						bytecodeArea.setText(krak_dc.decompileClassNode(cn));
 						bytecodeArea.setCaretPosition(0);
-						panel1.add(bytecodeSPane);
+						bytecodeArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field1.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
+						panel1.add(scrollPane);
 					}
 					
 
@@ -664,12 +731,23 @@ public class ClassViewer extends JPanel {
 								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						bytecodeArea.setCodeFoldingEnabled(true);
 						bytecodeArea.setAntiAliasingEnabled(true);
-						RTextScrollPane bytecodeSPane = new RTextScrollPane(
+						RTextScrollPane scrollPane = new RTextScrollPane(
 								bytecodeArea);
 						bytecodeArea.setText(KrakatauDisassembler.decompileClassNode(cn));
 						bytecodeArea.setCaretPosition(0);
 						krakatau1 = bytecodeArea;
-						panel1.add(bytecodeSPane);
+						krakatau1.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field1.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
+						panel1.add(scrollPane);
 					}
 	
 					if (pane2 == 1) {
@@ -682,6 +760,17 @@ public class ClassViewer extends JPanel {
 						panelArea.setText(proc_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field2.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel2.add(scrollPane);
 					}
 	
@@ -695,6 +784,17 @@ public class ClassViewer extends JPanel {
 						panelArea.setText(cfr_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field2.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel2.add(scrollPane);
 					}
 	
@@ -708,6 +808,17 @@ public class ClassViewer extends JPanel {
 						panelArea.setText(ff_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field2.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel2.add(scrollPane);
 					}
 	
@@ -720,6 +831,17 @@ public class ClassViewer extends JPanel {
 						paneArea.setText(ClassNodeDecompiler.decompile(cn));
 						paneArea.setCaretPosition(0);
 						paneArea.setEditable(false);
+						paneArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field2.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel2.add(scrollPane);
 					}
 	
@@ -739,6 +861,17 @@ public class ClassViewer extends JPanel {
 						paneArea.setText(SmaliDisassembler.decompileClassNode(cn));
 						paneArea.setCaretPosition(0);
 						smali2 = paneArea;
+						paneArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field2.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel2.add(scrollPane);
 					}
 	
@@ -748,11 +881,22 @@ public class ClassViewer extends JPanel {
 								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						bytecodeArea.setCodeFoldingEnabled(true);
 						bytecodeArea.setAntiAliasingEnabled(true);
-						RTextScrollPane bytecodeSPane = new RTextScrollPane(
+						RTextScrollPane scrollPane = new RTextScrollPane(
 								bytecodeArea);
 						bytecodeArea.setText(krak_dc.decompileClassNode(cn));
 						bytecodeArea.setCaretPosition(0);
-						panel2.add(bytecodeSPane);
+						bytecodeArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field2.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
+						panel2.add(scrollPane);
 					}
 					
 
@@ -763,12 +907,23 @@ public class ClassViewer extends JPanel {
 								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						bytecodeArea.setCodeFoldingEnabled(true);
 						bytecodeArea.setAntiAliasingEnabled(true);
-						RTextScrollPane bytecodeSPane = new RTextScrollPane(
+						RTextScrollPane scrollPane = new RTextScrollPane(
 								bytecodeArea);
 						bytecodeArea.setText(KrakatauDisassembler.decompileClassNode(cn));
 						bytecodeArea.setCaretPosition(0);
 						krakatau2 = bytecodeArea;
-						panel2.add(bytecodeSPane);
+						krakatau2.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field2.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
+						panel2.add(scrollPane);
 					}
 	
 					if (pane3 == 1) {
@@ -781,6 +936,17 @@ public class ClassViewer extends JPanel {
 						panelArea.setText(proc_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field3.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel3.add(scrollPane);
 					}
 	
@@ -794,6 +960,17 @@ public class ClassViewer extends JPanel {
 						panelArea.setText(cfr_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field3.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel3.add(scrollPane);
 					}
 	
@@ -807,6 +984,17 @@ public class ClassViewer extends JPanel {
 						panelArea.setText(ff_dc.decompileClassNode(cn));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field3.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel3.add(scrollPane);
 					}
 	
@@ -819,6 +1007,17 @@ public class ClassViewer extends JPanel {
 						paneArea.setText(ClassNodeDecompiler.decompile(cn));
 						paneArea.setCaretPosition(0);
 						paneArea.setEditable(false);
+						paneArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field3.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel3.add(scrollPane);
 					}
 	
@@ -838,6 +1037,17 @@ public class ClassViewer extends JPanel {
 						paneArea.setText(SmaliDisassembler.decompileClassNode(cn));
 						paneArea.setCaretPosition(0);
 						smali3 = paneArea;
+						smali3.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field3.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
 						panel3.add(scrollPane);
 					}
 	
@@ -847,11 +1057,22 @@ public class ClassViewer extends JPanel {
 								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						bytecodeArea.setCodeFoldingEnabled(true);
 						bytecodeArea.setAntiAliasingEnabled(true);
-						RTextScrollPane bytecodeSPane = new RTextScrollPane(
+						RTextScrollPane scrollPane = new RTextScrollPane(
 								bytecodeArea);
 						bytecodeArea.setText(krak_dc.decompileClassNode(cn));
 						bytecodeArea.setCaretPosition(0);
-						panel3.add(bytecodeSPane);
+						bytecodeArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field3.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
+						panel3.add(scrollPane);
 					}
 					
 
@@ -862,12 +1083,23 @@ public class ClassViewer extends JPanel {
 								.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						bytecodeArea.setCodeFoldingEnabled(true);
 						bytecodeArea.setAntiAliasingEnabled(true);
-						RTextScrollPane bytecodeSPane = new RTextScrollPane(
+						RTextScrollPane scrollPane = new RTextScrollPane(
 								bytecodeArea);
 						bytecodeArea.setText(KrakatauDisassembler.decompileClassNode(cn));
 						bytecodeArea.setCaretPosition(0);
 						krakatau3 = bytecodeArea;
-						panel3.add(bytecodeSPane);
+						krakatau3.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field3.requestFocus();
+								}
+        	   	
+								BytecodeViewer.viewer.checkKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
+						panel3.add(scrollPane);
 					}
 	
 					resetDivider();

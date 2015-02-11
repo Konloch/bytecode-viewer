@@ -374,40 +374,44 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	}
 	
     private class Test implements KeyEventDispatcher {
-    	long last = System.currentTimeMillis();
         @Override
         public boolean dispatchKeyEvent(KeyEvent e) {
-        	if(System.currentTimeMillis() - last <= (1000 * 4))
-        		return false;
-        	
-            if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            	last = System.currentTimeMillis();
-            	JFileChooser fc = new JFileChooser();
-            	try {
-            		fc.setSelectedFile(new File(BytecodeViewer.lastDirectory));
-            	} catch(Exception e2) {
-            		
-            	}
-				fc.setFileFilter(new APKDEXJarZipClassFileFilter());
-				fc.setFileHidingEnabled(false);
-				fc.setAcceptAllFileFilterUsed(false);
-				int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-	
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					BytecodeViewer.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-					try {
-						BytecodeViewer.viewer.setIcon(true);
-						BytecodeViewer.openFiles(new File[] { fc.getSelectedFile() }, true);
-						BytecodeViewer.viewer.setIcon(false);
-					} catch (Exception e1) {
-						new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
-					}
-				}
-            } else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            	last = System.currentTimeMillis();
-            	BytecodeViewer.resetWorkSpace(true);
-            }
+        	checkKey(e);
             return false;
+        }
+    }
+
+	long last = System.currentTimeMillis();
+    public void checkKey(KeyEvent e) {
+    	if(System.currentTimeMillis() - last <= (1000 * 4))
+    		return;
+    	
+        if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+        	last = System.currentTimeMillis();
+        	JFileChooser fc = new JFileChooser();
+        	try {
+        		fc.setSelectedFile(new File(BytecodeViewer.lastDirectory));
+        	} catch(Exception e2) {
+        		
+        	}
+			fc.setFileFilter(new APKDEXJarZipClassFileFilter());
+			fc.setFileHidingEnabled(false);
+			fc.setAcceptAllFileFilterUsed(false);
+			int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
+
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				BytecodeViewer.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+				try {
+					BytecodeViewer.viewer.setIcon(true);
+					BytecodeViewer.openFiles(new File[] { fc.getSelectedFile() }, true);
+					BytecodeViewer.viewer.setIcon(false);
+				} catch (Exception e1) {
+					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
+				}
+			}
+        } else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+        	last = System.currentTimeMillis();
+        	BytecodeViewer.resetWorkSpace(true);
         }
     }
 
@@ -436,6 +440,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	public final JRadioButtonMenuItem panel3Krakatau = new JRadioButtonMenuItem("Krakatau");
 	public final JRadioButtonMenuItem panel3KrakatauEditable = new JRadioButtonMenuItem("Krakatau Editable");
 	private final JMenuItem mntmSetJreRt = new JMenuItem("Set JRE RT Library");
+	private final JSeparator separator_14 = new JSeparator();
+	private final JCheckBoxMenuItem chckbxmntmPaneEditable = new JCheckBoxMenuItem("Pane 1 Editable");
+	private final JCheckBoxMenuItem chckbxmntmPaneEditable_1 = new JCheckBoxMenuItem("Pane 2 Editable");
+	private final JCheckBoxMenuItem chckbxmntmPaneEditable_2 = new JCheckBoxMenuItem("Pane 3 Editable");
 	public void setIcon(final boolean busy) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -525,6 +533,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		panel1Bytecode.addActionListener(listener);
 		panel1Smali.addActionListener(listener);
 		panel1Hexcode.addActionListener(listener);
+		panel1Krakatau.addActionListener(listener);
+		panel1KrakatauEditable.addActionListener(listener);
 		panel2None.addActionListener(listener);
 		panel2Fern.addActionListener(listener);
 		panel2Proc.addActionListener(listener);
@@ -532,6 +542,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		panel2Bytecode.addActionListener(listener);
 		panel2Smali.addActionListener(listener);
 		panel2Hexcode.addActionListener(listener);
+		panel2Krakatau.addActionListener(listener);
+		panel2KrakatauEditable.addActionListener(listener);
 		panel3None.addActionListener(listener);
 		panel3Fern.addActionListener(listener);
 		panel3Proc.addActionListener(listener);
@@ -539,6 +551,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		panel3Bytecode.addActionListener(listener);
 		panel3Smali.addActionListener(listener);
 		panel3Hexcode.addActionListener(listener);
+		panel3Krakatau.addActionListener(listener);
+		panel3KrakatauEditable.addActionListener(listener);
 		obfuscatorGroup.add(strongObf);
 		obfuscatorGroup.add(lightObf);
 		obfuscatorGroup.setSelected(strongObf.getModel(), true);
@@ -562,7 +576,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
             	try {
-            		fc.setSelectedFile(new File(BytecodeViewer.lastDirectory));
+            		File f = new File(BytecodeViewer.lastDirectory);
+            		if(f.exists())
+            			fc.setSelectedFile(f);
             	} catch(Exception e2) {
             		
             	}
@@ -1053,6 +1069,14 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnNewMenu.add(mntmExit);
 
 		menuBar.add(mnNewMenu_6);
+		
+		mnNewMenu_6.add(chckbxmntmPaneEditable);
+		
+		mnNewMenu_6.add(chckbxmntmPaneEditable_1);
+		
+		mnNewMenu_6.add(chckbxmntmPaneEditable_2);
+		
+		mnNewMenu_6.add(separator_14);
 
 		mnNewMenu_6.add(mnNewMenu_7);
 

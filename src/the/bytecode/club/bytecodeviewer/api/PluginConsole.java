@@ -39,7 +39,8 @@ public class PluginConsole extends JFrame {
 	JPanel panel = new JPanel(new BorderLayout());
 	JScrollPane scrollPane = new JScrollPane();
 	public JCheckBox check = new JCheckBox("Exact");
-
+	final JTextField field = new JTextField();
+	
 	public PluginConsole(String pluginName) {
 		this.setIconImages(BytecodeViewer.iconList);
 		setTitle("Bytecode Viewer - Plugin Console - " + pluginName);
@@ -48,6 +49,17 @@ public class PluginConsole extends JFrame {
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 		scrollPane.setViewportView(textArea);
+		textArea.addKeyListener(new KeyListener() {  
+			public void keyPressed(KeyEvent e) {  
+				if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+					field.requestFocus();
+				}
+	
+				BytecodeViewer.viewer.checkKey(e);
+			}
+			@Override public void keyReleased(KeyEvent arg0) { }
+			@Override public void keyTyped(KeyEvent arg0) { }  
+		});
 
 		JButton searchNext = new JButton();
 		JButton searchPrev = new JButton();
@@ -63,7 +75,6 @@ public class PluginConsole extends JFrame {
 						BytecodeViewer
 								.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYgKhxpRi1AAAATElEQVR42mNgwAZYHIAEExA7qUAYLApMDmCGEwODCojByM/A8FEAyPi/moFh9QewYjCAM1iA+D2KqYwMrIlA6tUGFoa/Z4GMt1hsBgCe1wuKber+SwAAAABJRU5ErkJggg==")));
 		panel.add(buttonPane, BorderLayout.WEST);
-		final JTextField field = new JTextField();
 		panel.add(field, BorderLayout.CENTER);
 		panel.add(check, BorderLayout.EAST);
 		searchNext.addActionListener(new ActionListener() {
@@ -93,7 +104,6 @@ public class PluginConsole extends JFrame {
 			public void keyTyped(KeyEvent arg0) {
 			}
 		});
-
 		scrollPane.setColumnHeaderView(panel);
 		this.setLocationRelativeTo(null);
 	}
