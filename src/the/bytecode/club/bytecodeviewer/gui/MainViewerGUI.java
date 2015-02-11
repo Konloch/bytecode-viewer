@@ -49,6 +49,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.SwingConstants;
 
 public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	
@@ -1069,10 +1070,14 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnNewMenu.add(mntmExit);
 
 		menuBar.add(mnNewMenu_6);
+		chckbxmntmPaneEditable.setVisible(false);
 		
 		mnNewMenu_6.add(chckbxmntmPaneEditable);
+		chckbxmntmPaneEditable_1.setVisible(false);
+		chckbxmntmPaneEditable_1.setVerticalTextPosition(SwingConstants.TOP);
 		
 		mnNewMenu_6.add(chckbxmntmPaneEditable_1);
+		chckbxmntmPaneEditable_2.setVisible(false);
 		
 		mnNewMenu_6.add(chckbxmntmPaneEditable_2);
 		
