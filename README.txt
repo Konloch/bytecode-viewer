@@ -319,3 +319,6 @@ Changelog:
 02/23/2015 - Back to ASM5, packed dex2jar in its own obfuscated jar.
 02/23/2015 - Added the annotations back to the Bytecode Decompiler. (Once again, thanks Bibl)
 02/23/2015 - It once again works with Java 8 Jars.
+--- 2.9.1 ---:
+02/24/2015 - Fixed the third pane window not showing the search buttons.
+02/24/2015 - Fixed some issues with the compiler functionality.

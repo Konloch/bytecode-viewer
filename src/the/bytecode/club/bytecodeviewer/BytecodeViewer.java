@@ -81,32 +81,9 @@ import the.bytecode.club.bytecodeviewer.gui.WorkPane;
  * fix the randomly sometimes fucked up names on file navigation bug
  * make zipfile not include the decode shit
  * 
- * -----2.9.0-----:
- * 02/11/2015 - Added ZStringArray String Decrypter. (Thanks Righteous)
- * 02/20/2015 - Moved the decompilers/disassemblers around.
- * 02/20/2015 - Fixed a resource leak with Krakatau Decompiler/Disassembler/Assembler.
- * 02/21/2015 - Fixed regex searching if your regex search contained a syntax error.
- * 02/21/2015 - Added the compiler/decompiler instances to the BytecodeViewer API class.
- * 02/21/2015 - Sped up the decompilers, each view pane runs its own decompiler thread.
- * 02/21/2015 - Added Janino compiler, you can now compile the decompiled source code inside of BCV.
- * 02/21/2015 - Added the editable option for almost all of the decompilers/disassemblers.
- * 02/21/2015 - Cached the next/previous icons and added a resources class for all resources.
- * 01/21/2015 - Renamed EZ-Injection as File-Run, however kept the plugin named EZ-Injection.
- * 02/21/2015 - Dropped Groovy support, added .Java plugin compilation instead (now only 10mb).
- * 02/21/2015 - Added support for reading resources, including displaying images, detecting pure ascii files and more.
- * 02/21/2015 - Fixed an issue with loading an already selected node in the file navigation pane.
- * 02/22/2015 - Added an error console to the Java compiler
- * 02/22/2015 - Ensured the spawned Python/Krakatau processes are killed when closing BCV.
- * 02/22/2015 - Made it more beginner friendly.
- * 02/22/2015 - Fixed? The file navigation search.
- * 02/22/2015 - Added a shit ton more comments to non-api related classes.
- * 02/23/2015 - Added APK resources.
- * 02/23/2015 - MORE ANDROID LOVE! Added APKTool.jar's decode. (Takes a while so it's a setting, also pumped the jar back to 16MB :()
- * 02/23/2015 - Added close all but this tab menu.
- * 02/23/2015 - Not really code related, but added _install.bat and _uninstall.bat for the exe version of BCV.
- * 02/23/2015 - Back to ASM5, packed dex2jar in its own obfuscated jar.
- * 02/23/2015 - Added the annotations back to the Bytecode Decompiler. (Once again, thanks Bibl)
- * 02/23/2015 - It once again works with Java 8 Jars.
+ * -----2.9.1-----:
+ * 02/24/2015 - Fixed the third pane window not showing the search buttons.
+ * 02/24/2015 - Fixed some issues with the compiler functionality.
  * 
  * @author Konloch
  * 
@@ -115,7 +92,7 @@ import the.bytecode.club.bytecodeviewer.gui.WorkPane;
 public class BytecodeViewer {
 
 	/*per version*/
-	public static String version = "2.9.0";
+	public static String version = "2.9.1";
 	public static String krakatauVersion = "2";
 	/*the rest*/
 	public static MainViewerGUI viewer = null;
@@ -431,63 +408,80 @@ public class BytecodeViewer {
 		if(getLoadedClasses().isEmpty())
 			return false;
 		
+		boolean actuallyTried = false;
+		
 		for(java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers()) {
 			if(c instanceof ClassViewer) {
 				ClassViewer cv = (ClassViewer) c;
-				Object smali[] = cv.getSmali();
-				if(smali != null) {
-					ClassNode origNode = (ClassNode) smali[0];
-					String smaliText = (String) smali[1];
-					byte[] smaliCompiled = the.bytecode.club.bytecodeviewer.compilers.Compiler.smali.compile(smaliText, origNode.name);
-					if(smaliCompiled != null) {
-						ClassNode newNode = JarUtils.getNode(smaliCompiled);
-						BytecodeViewer.updateNode(origNode, newNode);
-					} else {
-						BytecodeViewer.showMessage("There has been an error with assembling your Smali code, please check this. Class: " + origNode.name);
-						return false;
+				if((cv.smali1 != null && cv.smali2 != null && cv.smali3 != null) &&
+					(cv.smali1.isEditable() || cv.smali2.isEditable() || cv.smali3.isEditable())) {
+					actuallyTried = true;
+					Object smali[] = cv.getSmali();
+					if(smali != null) {
+						ClassNode origNode = (ClassNode) smali[0];
+						String smaliText = (String) smali[1];
+						byte[] smaliCompiled = the.bytecode.club.bytecodeviewer.compilers.Compiler.smali.compile(smaliText, origNode.name);
+						if(smaliCompiled != null) {
+							ClassNode newNode = JarUtils.getNode(smaliCompiled);
+							BytecodeViewer.updateNode(origNode, newNode);
+						} else {
+							BytecodeViewer.showMessage("There has been an error with assembling your Smali code, please check this. Class: " + origNode.name);
+							return false;
+						}
 					}
 				}
 
 
-				Object krakatau[] = cv.getKrakatau();
-				if(krakatau != null) {
-					ClassNode origNode = (ClassNode) krakatau[0];
-					String krakatauText = (String) krakatau[1];
-					byte[] krakatauCompiled = the.bytecode.club.bytecodeviewer.compilers.Compiler.krakatau.compile(krakatauText, origNode.name);
-					if(krakatauCompiled != null) {
-						ClassNode newNode = JarUtils.getNode(krakatauCompiled);
-						BytecodeViewer.updateNode(origNode, newNode);
-					} else {
-						BytecodeViewer.showMessage("There has been an error with assembling your Krakatau Bytecode, please check this. Class: " + origNode.name);
-						return false;
+				if((cv.krakatau1 != null && cv.krakatau2 != null && cv.krakatau3 != null) &&
+					(cv.krakatau1.isEditable() || cv.krakatau2.isEditable() || cv.krakatau3.isEditable())) {
+					actuallyTried = true;
+					Object krakatau[] = cv.getKrakatau();
+					if(krakatau != null) {
+						ClassNode origNode = (ClassNode) krakatau[0];
+						String krakatauText = (String) krakatau[1];
+						byte[] krakatauCompiled = the.bytecode.club.bytecodeviewer.compilers.Compiler.krakatau.compile(krakatauText, origNode.name);
+						if(krakatauCompiled != null) {
+							ClassNode newNode = JarUtils.getNode(krakatauCompiled);
+							BytecodeViewer.updateNode(origNode, newNode);
+						} else {
+							BytecodeViewer.showMessage("There has been an error with assembling your Krakatau Bytecode, please check this. Class: " + origNode.name);
+							return false;
+						}
 					}
 				}
 
-				Object java[] = cv.getJava();
-				if(java != null) {
-					ClassNode origNode = (ClassNode) java[0];
-					String javaText = (String) java[1];
-					
-					SystemErrConsole errConsole = new SystemErrConsole("Java Compile Issues");
-					errConsole.setText("Error compiling class: " + origNode.name + nl + "Keep in mind most decompilers cannot produce compilable classes"+nl+nl);
-					
-					byte[] javaCompiled = the.bytecode.club.bytecodeviewer.compilers.Compiler.java.compile(javaText, origNode.name);
-					if(javaCompiled != null) {
-						ClassNode newNode = JarUtils.getNode(javaCompiled);
-						BytecodeViewer.updateNode(origNode, newNode);
-						errConsole.finished();
-					} else {
-						errConsole.pretty();
-						errConsole.setVisible(true);
-						errConsole.finished();
-						return false;
+				if((cv.java1 != null && cv.java2 != null && cv.java3 != null) &&
+					(cv.java1.isEditable() || cv.java2.isEditable() || cv.java3.isEditable())) {
+					actuallyTried = true;
+					Object java[] = cv.getJava();
+					if(java != null) {
+						ClassNode origNode = (ClassNode) java[0];
+						String javaText = (String) java[1];
+						
+						SystemErrConsole errConsole = new SystemErrConsole("Java Compile Issues");
+						errConsole.setText("Error compiling class: " + origNode.name + nl + "Keep in mind most decompilers cannot produce compilable classes"+nl+nl);
+						
+						byte[] javaCompiled = the.bytecode.club.bytecodeviewer.compilers.Compiler.java.compile(javaText, origNode.name);
+						if(javaCompiled != null) {
+							ClassNode newNode = JarUtils.getNode(javaCompiled);
+							BytecodeViewer.updateNode(origNode, newNode);
+							errConsole.finished();
+						} else {
+							errConsole.pretty();
+							errConsole.setVisible(true);
+							errConsole.finished();
+							return false;
+						}
 					}
 				}
 			}
 		}
 		
 		if(message)
-			BytecodeViewer.showMessage("Compiled Successfully.");
+			if(actuallyTried)
+				BytecodeViewer.showMessage("Compiled Successfully.");
+			else
+				BytecodeViewer.showMessage("You have no editable panes opened, make one editable and try again.");
 		
 		return true;
 	}

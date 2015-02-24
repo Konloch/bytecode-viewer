@@ -43,8 +43,16 @@ public class CFRDecompiler extends Decompiler {
 	@Override
 	public String decompileClassNode(ClassNode cn) {
 		final ClassWriter cw = new ClassWriter(0);
-		cn.accept(cw);
-
+		try {
+			cn.accept(cw);
+		} catch(Exception e) {
+			e.printStackTrace();
+			try {
+				Thread.sleep(200);
+				cn.accept(cw);
+			} catch (InterruptedException e1) { }
+		}
+			
 		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
 		
 		final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");

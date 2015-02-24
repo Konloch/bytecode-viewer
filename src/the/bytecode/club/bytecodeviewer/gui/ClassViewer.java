@@ -359,8 +359,8 @@ public class ClassViewer extends JPanel {
 		JPanel buttonPane3 = new JPanel(new BorderLayout());
 		buttonPane3.add(searchNext3, BorderLayout.WEST);
 		buttonPane3.add(searchPrev3, BorderLayout.EAST);
-		searchNext2.setIcon(Resources.nextIcon);
-		searchPrev2.setIcon(Resources.prevIcon);
+		searchNext3.setIcon(Resources.nextIcon);
+		searchPrev3.setIcon(Resources.prevIcon);
 		panel3Search.add(buttonPane3, BorderLayout.WEST);
 		panel3Search.add(field3, BorderLayout.CENTER);
 		panel3Search.add(check3, BorderLayout.EAST);
