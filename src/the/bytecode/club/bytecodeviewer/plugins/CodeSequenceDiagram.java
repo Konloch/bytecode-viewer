@@ -17,6 +17,7 @@ import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 
 /**
@@ -37,7 +38,7 @@ public class CodeSequenceDiagram extends Plugin {
 		}
 		ClassNode c = BytecodeViewer.viewer.workPane.getCurrentClass().cn;
 		JFrame frame = new JFrame("Code Sequence Diagram - " +c.name);
-		frame.setIconImages(BytecodeViewer.iconList);
+		frame.setIconImages(Resources.iconList);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setSize(400, 320);
 		mxGraph graph = new mxGraph();

@@ -1,14 +1,22 @@
 package the.bytecode.club.bytecodeviewer.api;
 
 import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.objectweb.asm.tree.ClassNode;
 
+import the.bytecode.club.bytecodeviewer.JarUtils;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.plugins.EZInjection;
 
 /**
- * The official API for BCV, this was mainly designed for plugin authors and
+ * The official API for BCV, this was designed for plugin authors and
  * people utilizing EZ-Injection.
  * 
  * @author Konloch
@@ -17,6 +25,8 @@ import the.bytecode.club.bytecodeviewer.plugins.EZInjection;
 
 public class BytecodeViewer {
 
+	private static URLClassLoader cl;
+	
 	/**
 	 * Grab the loader instance
 	 * 
@@ -25,6 +35,59 @@ public class BytecodeViewer {
 	public static ClassNodeLoader getClassNodeLoader() {
 		return the.bytecode.club.bytecodeviewer.BytecodeViewer.loader;
 	}
+	
+	/**
+	 * Returns the URLClassLoader instance
+	 * @return the URLClassLoader instance
+	 */
+	public static URLClassLoader getClassLoaderInstance() {
+		return cl;
+	}
+
+	/**
+	 * Re-instances the URLClassLoader and loads a jar to it.
+	 * @param path
+	 * @return The loaded classes into the new URLClassLoader instance
+	 * @author Cafebabe
+	 */
+    public static List<Class<?>> loadClassesIntoClassLoader()  {
+    	try {
+    		File f = new File(
+    				the.bytecode.club.bytecodeviewer.BytecodeViewer.tempDirectory +
+    				the.bytecode.club.bytecodeviewer.BytecodeViewer.fs +
+    				"loaded_temp.jar");
+    		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), f.getAbsolutePath());
+    		JarFile jarFile = new JarFile(""+f.getAbsolutePath());
+                    Enumeration<JarEntry> e = jarFile.entries();
+                    URL[] urls = { new URL("jar:file:" + ""+f.getAbsolutePath()+"!/") };
+                    cl = URLClassLoader.newInstance(urls);
+                    List<Class<?>> ret = new ArrayList<Class<?>>();
+                   
+                    while (e.hasMoreElements())
+                    {
+                        JarEntry je = (JarEntry) e.nextElement();
+                        if(je.isDirectory() || !je.getName().endsWith(".class"))
+                            continue;
+                        String className = je.getName().replace("/", ".").replace(".class", "");
+                        className = className.replace('/', '.');
+                        try{
+                            ret.add(cl.loadClass(className));
+                        }
+                        catch(Exception e2)
+                        {
+                			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e2);
+                        }
+                    }
+                    jarFile.close();
+                   
+                    return ret;
+            }
+            catch(Exception e)
+            {
+    			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            }
+    	return null;
+    }
 
 	/**
 	 * Creates a new instance of the ClassNode loader.
@@ -125,5 +188,61 @@ public class BytecodeViewer {
 	 */
 	public static void showMessage(String message) {
 		the.bytecode.club.bytecodeviewer.BytecodeViewer.showMessage(message);
+	}
+	
+	/**
+	 * Returns the wrapped Krakatau Decompiler instance.
+	 * @return The wrapped Krakatau Decompiler instance
+	 */
+	public static Decompiler getKrakatauDecompiler() {
+		return Decompiler.krakatau;
+	}
+	
+	/**
+	 * Returns the wrapped Procyon Decompiler instance.
+	 * @return The wrapped Procyon Decompiler instance
+	 */
+	public static Decompiler getProcyonDecompiler() {
+		return Decompiler.procyon;
+	}
+	
+	/**
+	 * Returns the wrapped CFR Decompiler instance.
+	 * @return The wrapped CFR Decompiler instance
+	 */
+	public static Decompiler getCFRDecompiler() {
+		return Decompiler.cfr;
+	}
+	
+	/**
+	 * Returns the wrapped FernFlower Decompiler instance.
+	 * @return The wrapped FernFlower Decompiler instance
+	 */
+	public static Decompiler getFernFlowerDecompiler() {
+		return Decompiler.fernflower;
+	}
+	
+	/**
+	 * Returns the wrapped Krakatau Disassembler instance.
+	 * @return The wrapped Krakatau Disassembler instance
+	 */
+	public static Decompiler getKrakatauDisassembler() {
+		return Decompiler.krakatauDA;
+	}
+	
+	/**
+	 * Returns the wrapped Krakatau Assembler instance.
+	 * @return The wrapped Krakatau Assembler instance
+	 */
+	public static the.bytecode.club.bytecodeviewer.compilers.Compiler getKrakatauCompiler() {
+		return the.bytecode.club.bytecodeviewer.compilers.Compiler.krakatau;
+	}
+	
+	/**
+	 * Returns the wrapped Smali Assembler instance.
+	 * @return The wrapped Smali Assembler instance
+	 */
+	public static the.bytecode.club.bytecodeviewer.compilers.Compiler getSmaliCompiler() {
+		return the.bytecode.club.bytecodeviewer.compilers.Compiler.smali;
 	}
 }

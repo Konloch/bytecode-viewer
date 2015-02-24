@@ -8,12 +8,20 @@ import java.awt.CardLayout;
 import javax.swing.JTextArea;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Resources;
 
 import java.awt.Color;
 
+/**
+ * The about frame.
+ * 
+ * @author Konloch
+ *
+ */
+
 public class AboutWindow extends JFrame {
 	public AboutWindow() {
-		this.setIconImages(BytecodeViewer.iconList);
+		this.setIconImages(Resources.iconList);
 		setSize(new Dimension(446, 434));
 		setType(Type.UTILITY);
 		setTitle("Bytecode Viewer - About");

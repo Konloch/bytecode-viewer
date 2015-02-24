@@ -8,11 +8,18 @@ import the.bytecode.club.bytecodeviewer.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
 import the.bytecode.club.bytecodeviewer.ZipUtils;
 
-public class SmaliAssembler {
-	
-	public static byte[] compile(String contents) {
-		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
-				+ "temp";
+/**
+ * Smali Assembler Wrapper for Java
+ * 
+ * @author Konloch
+ *
+ */
+
+public class SmaliAssembler extends Compiler {
+
+	@Override
+	public byte[] compile(String contents, String name) {
+		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp";
 		int fileNumber = MiscUtils.getClassNumber(fileStart, ".dex");
 
 		final File tempSmaliFolder = new File(fileStart + fileNumber + "-smalifolder"+BytecodeViewer.fs);

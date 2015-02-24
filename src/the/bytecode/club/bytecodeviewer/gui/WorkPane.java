@@ -75,6 +75,9 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 				if (c instanceof ClassViewer) {
 					workingOn.remove(((ClassViewer) c).name);
 				}
+				if (c instanceof FileViewer) {
+					workingOn.remove(((FileViewer) c).name);
+				}
 			}
 
 		});
@@ -93,11 +96,27 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 
 	public void addWorkingFile(final String name, final ClassNode cn) {
 		if (!workingOn.containsKey(name)) {
-			final Component tabComp = new ClassViewer(name, cn);
+			final JPanel tabComp = new ClassViewer(name, cn);
 			tabs.add(tabComp);
 			final int tabCount = tabs.indexOfComponent(tabComp);
 			workingOn.put(name, tabCount);
-			tabs.setTabComponentAt(tabCount, new TabbedPane(tabs));
+			tabs.setTabComponentAt(tabCount, new TabbedPane(name,tabs));
+			tabs.setSelectedIndex(tabCount);
+		} else {
+			tabs.setSelectedIndex(workingOn.get(name));
+		}
+	}
+	
+	public void addFile(final String name, byte[] contents) {
+		if(contents == null) //a directory
+			return;
+		
+		if (!workingOn.containsKey(name)) {
+			final Component tabComp = new FileViewer(name, contents);
+			tabs.add(tabComp);
+			final int tabCount = tabs.indexOfComponent(tabComp);
+			workingOn.put(name, tabCount);
+			tabs.setTabComponentAt(tabCount, new TabbedPane(name,tabs));
 			tabs.setSelectedIndex(tabCount);
 		} else {
 			tabs.setSelectedIndex(workingOn.get(name));
@@ -107,6 +126,11 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 	@Override
 	public void openClassFile(final String name, final ClassNode cn) {
 		addWorkingFile(name, cn);
+	}
+
+	@Override
+	public void openFile(final String name, byte[] content) {
+		addFile(name, content);
 	}
 
 	public ClassViewer getCurrentClass() {
@@ -129,7 +153,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 		final JButton src = (JButton) arg0.getSource();
 		if (src == refreshClass) {
 			final Component tabComp = tabs.getSelectedComponent();
-			if (tabComp != null) {
+			if (tabComp != null && tabComp instanceof ClassViewer) {
 				src.setEnabled(false);
 				BytecodeViewer.viewer.setIcon(true);
 				((ClassViewer) tabComp).startPaneUpdater(src);

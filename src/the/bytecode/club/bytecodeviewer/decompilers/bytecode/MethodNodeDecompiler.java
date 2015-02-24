@@ -109,6 +109,11 @@ public class MethodNodeDecompiler {
 			if (m.signature != null) {
 				sb.append("         <sig:").append(m.signature).append(">");
 			}
+			
+			if (m.annotationDefault != null) {
+				sb.append(m.annotationDefault);
+				sb.append("\n");
+			}
 
 			InstructionPrinter insnPrinter = new InstructionPrinter(m, args);
 
@@ -116,14 +121,14 @@ public class MethodNodeDecompiler {
 			addAttrList(m.invisibleAnnotations, "invisAnno", sb, insnPrinter);
 			addAttrList(m.invisibleAnnotations, "invisLocalVarAnno", sb,
 					insnPrinter);
-			/*addAttrList(m.invisibleTypeAnnotations, "invisTypeAnno", sb,
-					insnPrinter);*/
+			addAttrList(m.invisibleTypeAnnotations, "invisTypeAnno", sb,
+					insnPrinter);
 			addAttrList(m.localVariables, "localVar", sb, insnPrinter);
 			addAttrList(m.visibleAnnotations, "visAnno", sb, insnPrinter);
-			/*addAttrList(m.visibleLocalVariableAnnotations, "visLocalVarAnno",
+			addAttrList(m.visibleLocalVariableAnnotations, "visLocalVarAnno",
 					sb, insnPrinter);
 			addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb,
-					insnPrinter);*/
+					insnPrinter);
 
 			for (Object o : m.tryCatchBlocks) {
 				TryCatchBlockNode tcbn = (TryCatchBlockNode) o;

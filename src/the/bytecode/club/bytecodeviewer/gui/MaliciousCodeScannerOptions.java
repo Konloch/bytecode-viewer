@@ -7,9 +7,9 @@ import java.awt.Dimension;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.PluginManager;
+import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.plugins.MaliciousCodeScanner;
-import the.bytecode.club.bytecodeviewer.plugins.PluginManager;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 
 public class MaliciousCodeScannerOptions extends JFrame {
 	public MaliciousCodeScannerOptions() {
-		this.setIconImages(BytecodeViewer.iconList);
+		this.setIconImages(Resources.iconList);
 		setSize(new Dimension(250, 323));
 		setResizable(false);
 		setTitle("Malicious Code Scanner Options");

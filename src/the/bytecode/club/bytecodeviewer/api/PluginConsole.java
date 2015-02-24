@@ -1,6 +1,5 @@
 package the.bytecode.club.bytecodeviewer.api;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -20,6 +19,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JTextArea;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Resources;
 
 import javax.swing.JPanel;
 import javax.swing.text.DefaultHighlighter;
@@ -42,7 +42,7 @@ public class PluginConsole extends JFrame {
 	final JTextField field = new JTextField();
 	
 	public PluginConsole(String pluginName) {
-		this.setIconImages(BytecodeViewer.iconList);
+		this.setIconImages(Resources.iconList);
 		setTitle("Bytecode Viewer - Plugin Console - " + pluginName);
 		setSize(new Dimension(542, 316));
 
@@ -66,14 +66,8 @@ public class PluginConsole extends JFrame {
 		JPanel buttonPane = new JPanel(new BorderLayout());
 		buttonPane.add(searchNext, BorderLayout.WEST);
 		buttonPane.add(searchPrev, BorderLayout.EAST);
-		searchNext
-				.setIcon(new ImageIcon(
-						BytecodeViewer
-								.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYqPBJSG/ZAAAASUlEQVR42mNgwAbS0oAEE4yHyWBmYAzjYDC694OJ4f9+BoY3H0BSbz6A2MxA6VciFyDqGAWQTWVkYEkCUrcOsDD8OwtkvMViMwAb8xEUHlHcFAAAAABJRU5ErkJggg==")));
-		searchPrev
-				.setIcon(new ImageIcon(
-						BytecodeViewer
-								.b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYgKhxpRi1AAAATElEQVR42mNgwAZYHIAEExA7qUAYLApMDmCGEwODCojByM/A8FEAyPi/moFh9QewYjCAM1iA+D2KqYwMrIlA6tUGFoa/Z4GMt1hsBgCe1wuKber+SwAAAABJRU5ErkJggg==")));
+		searchNext.setIcon(Resources.nextIcon);
+		searchPrev.setIcon(Resources.prevIcon);
 		panel.add(buttonPane, BorderLayout.WEST);
 		panel.add(field, BorderLayout.CENTER);
 		panel.add(check, BorderLayout.EAST);

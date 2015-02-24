@@ -10,6 +10,7 @@ import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 
 /**
  * 
@@ -18,15 +19,15 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
  * 
  */
 
-public class ClassNodeDecompiler {
+public class ClassNodeDecompiler extends Decompiler {
 
-	public static String decompile(ClassNode cn) {
-		return decompileClassNode(new PrefixedStringBuilder(),
+	public String decompileClassNode(ClassNode cn) {
+		return decompile(new PrefixedStringBuilder(),
 				new ArrayList<String>(), cn).toString();
 	}
 
 	@SuppressWarnings("unchecked")
-	protected static PrefixedStringBuilder decompileClassNode(
+	protected static PrefixedStringBuilder decompile(
 			PrefixedStringBuilder sb, ArrayList<String> decompiledClasses,
 			ClassNode cn) {
 		ArrayList<String> unableToDecompile = new ArrayList<String>();
@@ -76,7 +77,7 @@ public class ClassNodeDecompiler {
 				if (cn1 != null) {
 					sb.appendPrefix("     ");
 					sb.append(BytecodeViewer.nl + BytecodeViewer.nl);
-					sb = decompileClassNode(sb, decompiledClasses, cn1);
+					sb = decompile(sb, decompiledClasses, cn1);
 					sb.trimPrefix(5);
 					sb.append(BytecodeViewer.nl);
 				} else {
@@ -136,4 +137,7 @@ public class ClassNodeDecompiler {
 		}
 		return sb.toString();
 	}
+
+	@Override public void decompileToZip(String zipName) { }
+	@Override public void decompileToClass(String className, String classNameSaved) { }
 }

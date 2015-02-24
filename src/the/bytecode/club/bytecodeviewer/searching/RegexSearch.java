@@ -21,7 +21,7 @@ import org.objectweb.asm.tree.MethodNode;
 
 public class RegexSearch implements SearchTypeDetails {
 
-	JTextField searchText = new JTextField("");
+	public static JTextField searchText = new JTextField("");
 	JPanel myPanel = null;
 
 	private static RegexInsnFinder regexFinder;

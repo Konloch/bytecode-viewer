@@ -15,6 +15,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+/**
+ * The export as Jar UI.
+ * 
+ * @author Konloch
+ *
+ */
+
 public class ExportJar extends JFrame {
 	public ExportJar(final String jarPath) {
 		setSize(new Dimension(250, 277));

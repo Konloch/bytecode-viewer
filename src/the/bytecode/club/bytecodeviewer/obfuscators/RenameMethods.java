@@ -7,6 +7,13 @@ import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil_OLD;
 
+/**
+ * Rename methods.
+ * 
+ * @author Konloch
+ *
+ */
+
 public class RenameMethods extends JavaObfuscator {
 
 	@Override

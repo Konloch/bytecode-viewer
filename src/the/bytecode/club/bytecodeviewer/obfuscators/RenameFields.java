@@ -6,6 +6,13 @@ import org.objectweb.asm.tree.FieldNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil_OLD;
 
+/**
+ * Rename fields.
+ * 
+ * @author Konloch
+ *
+ */
+
 public class RenameFields extends JavaObfuscator {
 
 	@Override

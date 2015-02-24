@@ -1,7 +1,5 @@
 package the.bytecode.club.bytecodeviewer.searching;
 
-import groovyjarjarasm.asm.tree.FieldNode;
-
 import java.awt.GridLayout;
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -13,6 +11,7 @@ import javax.swing.JTextField;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;

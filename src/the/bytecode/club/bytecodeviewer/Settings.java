@@ -161,6 +161,10 @@ public class Settings {
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.lastDirectory, false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.python, false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.rt, false);
+			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.pane1Editable.isSelected()), false);
+			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.pane2Editable.isSelected()), false);
+			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.pane3Editable.isSelected()), false);
+			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.decodeAPKResources.isSelected()), false);
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
@@ -320,6 +324,10 @@ public class Settings {
 			BytecodeViewer.lastDirectory = DiskReader.loadString(BytecodeViewer.settingsName, 88, false);
 			BytecodeViewer.python = DiskReader.loadString(BytecodeViewer.settingsName, 89, false);
 			BytecodeViewer.rt = DiskReader.loadString(BytecodeViewer.settingsName, 90, false);
+			BytecodeViewer.viewer.pane1Editable.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 91, false)));
+			BytecodeViewer.viewer.pane2Editable.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 92, false)));
+			BytecodeViewer.viewer.pane3Editable.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 93, false)));
+			BytecodeViewer.viewer.decodeAPKResources.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 94, false)));
 		} catch(Exception e) {
 			//ignore because errors are expected, first start up and outdated settings.
 		}

@@ -110,6 +110,7 @@ public class EZInjection extends Plugin {
 			gui.appendText(message);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList) {
 		BytecodeViewer.viewer.setIcon(true);

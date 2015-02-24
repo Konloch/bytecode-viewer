@@ -17,14 +17,14 @@ import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
 
 /**
- * A complete FernFlower launcher with all the options (except 2)
+ * A FernFlower wrapper with all the options (except 2)
  * 
  * @author Konloch
  * @author WaterWolf
  * 
  */
 
-public class FernFlowerDecompiler extends JavaDecompiler {
+public class FernFlowerDecompiler extends Decompiler {
 
 	@Override
 	public void decompileToClass(String className, String classNameSaved) {

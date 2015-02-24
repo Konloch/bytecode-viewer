@@ -17,15 +17,16 @@ import the.bytecode.club.bytecodeviewer.MiscUtils;
 import the.bytecode.club.bytecodeviewer.ZipUtils;
 
 /**
- * Krakatau Java Decompiler, requires Python 2.7
+ * Krakatau Java Decompiler Wrapper, requires Python 2.7
  * 
  * @author Konloch
  *
  */
 
-public class KrakatauDecompiler extends JavaDecompiler {
+public class KrakatauDecompiler extends Decompiler {
 
 	public String decompileClassNode(ClassNode cn) {
+		
 		if(BytecodeViewer.python.equals("")) {
 			BytecodeViewer.showMessage("You need to set your Python 2.7 executable path.");
 			BytecodeViewer.viewer.pythonC();
@@ -39,8 +40,6 @@ public class KrakatauDecompiler extends JavaDecompiler {
 		final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
 		tempDirectory.mkdir();
 		final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp"+MiscUtils.randomString(32)+".jar");
-		while(tempJar.exists())
-			tempJar.delete();
 		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 		
 		BytecodeViewer.sm.blocking = false;
@@ -57,6 +56,7 @@ public class KrakatauDecompiler extends JavaDecompiler {
 			);
 
 	        Process process = pb.start();
+	        BytecodeViewer.krakatau.add(process);
 	        
 	        //Read out dir output
 	        InputStream is = process.getInputStream();
@@ -67,6 +67,7 @@ public class KrakatauDecompiler extends JavaDecompiler {
 	        while ((line = br.readLine()) != null) {
 	            log += BytecodeViewer.nl + line;
 	        }
+	        br.close();
 
 	        log += BytecodeViewer.nl+BytecodeViewer.nl+"Error:"+BytecodeViewer.nl+BytecodeViewer.nl;
 	        is = process.getErrorStream();
@@ -75,6 +76,7 @@ public class KrakatauDecompiler extends JavaDecompiler {
 	        while ((line = br.readLine()) != null) {
 	            log += BytecodeViewer.nl + line;
 	        }
+	        br.close();
 	        
 	        int exitValue = process.waitFor();
 	        log += BytecodeViewer.nl+BytecodeViewer.nl+"Exit Value is " + exitValue;
@@ -135,13 +137,15 @@ public class KrakatauDecompiler extends JavaDecompiler {
 	        while ((line = br.readLine()) != null) {
 	            System.out.println(line);
 	        }
-
+	        br.close();
+	        
 	        is = process.getErrorStream();
 	        isr = new InputStreamReader(is);
 	        br = new BufferedReader(isr);
 	        while ((line = br.readLine()) != null) {
 	            System.out.println(line);
 	        }
+	        br.close();
 	        
 	        int exitValue = process.waitFor();
 	        System.out.println("Exit Value is " + exitValue);
@@ -196,6 +200,7 @@ public class KrakatauDecompiler extends JavaDecompiler {
 	        while ((line = br.readLine()) != null) {
 	            System.out.println(line);
 	        }
+	        br.close();
 
 	        is = process.getErrorStream();
 	        isr = new InputStreamReader(is);
@@ -203,6 +208,7 @@ public class KrakatauDecompiler extends JavaDecompiler {
 	        while ((line = br.readLine()) != null) {
 	            System.out.println(line);
 	        }
+	        br.close();
 	        
 	        int exitValue = process.waitFor();
 	        System.out.println("Exit Value is " + exitValue);

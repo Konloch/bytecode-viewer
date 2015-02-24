@@ -4,6 +4,13 @@ import java.io.FileDescriptor;
 import java.net.InetAddress;
 import java.security.Permission;
 
+/**
+ * An awesome security manager.
+ * 
+ * @author Konloch
+ *
+ */
+
 public class SecurityMan extends SecurityManager {
 
 	public boolean blocking = true;

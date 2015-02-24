@@ -34,5 +34,8 @@ public abstract class VisibleComponent extends JInternalFrame implements
 	@Override
 	public void openClassFile(final String name, final ClassNode cn) {
 	}
+	@Override
+	public void openFile(final String name, byte[] contents) {
+	}
 
 }

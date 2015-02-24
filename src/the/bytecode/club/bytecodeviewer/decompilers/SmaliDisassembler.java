@@ -14,9 +14,16 @@ import the.bytecode.club.bytecodeviewer.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
 import the.bytecode.club.bytecodeviewer.ZipUtils;
 
-public class SmaliDisassembler {
+/**
+ * Smali Disassembler Wrapper
+ * 
+ * @author Konloch
+ *
+ */
+
+public class SmaliDisassembler extends Decompiler {
 	
-	public static String decompileClassNode(ClassNode cn) {
+	public String decompileClassNode(ClassNode cn) {
 		final ClassWriter cw = new ClassWriter(0);
 		cn.accept(cw);
 
@@ -70,5 +77,7 @@ public class SmaliDisassembler {
 		
 		return null;
 	}
-	
+
+	@Override public void decompileToZip(String zipName) { }
+	@Override public void decompileToClass(String className, String classNameSaved) { }
 }

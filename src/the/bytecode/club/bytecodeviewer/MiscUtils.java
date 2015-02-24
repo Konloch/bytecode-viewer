@@ -3,11 +3,23 @@ package the.bytecode.club.bytecodeviewer;
 import java.io.File;
 import java.util.Random;
 
+/**
+ * A collection of Misc Utils.
+ * 
+ * @author Konloch
+ *
+ */
+
 public class MiscUtils {
 	private static final String AB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	private static final String AN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	private static Random rnd = new Random();
 
+	/**
+	 * Returns a random string without numbers
+	 * @param len the length of the String
+	 * @return the randomized string
+	 */
 	public static String randomString(int len) {
 		StringBuilder sb = new StringBuilder(len);
 		for (int i = 0; i < len; i++)
@@ -15,6 +27,11 @@ public class MiscUtils {
 		return sb.toString();
 	}
 
+	/**
+	 * Returns a random string with numbers
+	 * @param len the length of the String
+	 * @return the randomized string
+	 */
 	public static String randomStringNum(int len) {
 		StringBuilder sb = new StringBuilder(len);
 		for (int i = 0; i < len; i++)
@@ -22,8 +39,12 @@ public class MiscUtils {
 		return sb.toString();
 	}
 	
-
-
+	/**
+	 * Checks the file system to ensure it's a unique name
+	 * @param start directory it'll be in
+	 * @param ext the file extension it'll use
+	 * @return the unique name
+	 */
 	public static String getUniqueName(String start, String ext) {
 		String s = null;
 		boolean b = true;
@@ -40,6 +61,12 @@ public class MiscUtils {
 		return s;
 	}
 	
+	/**
+	 * Checks the file system to ensure it's a unique number
+	 * @param start directory it'll be in
+	 * @param ext the file extension it'll use
+	 * @return the unique number
+	 */
 	public static int getClassNumber(String start, String ext) {
 		boolean b = true;
 		int i = 0;

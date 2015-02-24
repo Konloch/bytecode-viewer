@@ -138,7 +138,7 @@ public class RegexInsnFinder {
 		return buildRegexItems(items, true, true);
 	}
 
-	private static String processRegex(final String regex) {
+	public static String processRegex(final String regex) {
 		String result = regex.trim();
 		result = result.replaceAll("\\bANYINSN *", opcodesAnys);
 		result = result.replaceAll(opcodesInts
@@ -322,7 +322,7 @@ public class RegexInsnFinder {
 			if (regexMatcher.find())
 				return makeResult(regexMatcher.start(), regexMatcher.end());
 		} catch (final PatternSyntaxException ex) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(ex);
+			//ignore, they fucked up regex
 		}
 		return new AbstractInsnNode[0];
 	}

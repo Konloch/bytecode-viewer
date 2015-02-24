@@ -17,7 +17,9 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.plaf.basic.BasicButtonUI;
 
@@ -36,11 +38,12 @@ public class TabbedPane extends JPanel {
 	final JButton button = new TabButton();
 	private static long zero = System.currentTimeMillis();
 
-	public TabbedPane(final JTabbedPane pane) {
+	public TabbedPane(String name, final JTabbedPane pane) {
 		// unset default FlowLayout' gaps
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		if (pane == null)
 			throw new NullPointerException("TabbedPane is null");
+		
 		this.pane = pane;
 		setOpaque(false);
 
@@ -57,43 +60,68 @@ public class TabbedPane extends JPanel {
 			}
 		};
 
-		add(label);
+		this.add(label);
 		// add more space between the label and the button
 		label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 		// tab button
-		add(button);
+		this.add(button);
 		// add more space to the top of the component
 		setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
-		button.addMouseListener(new MouseListener() {
+		JPopupMenu pop_up = new JPopupMenu();
+		 JMenuItem closealltab = new JMenuItem("Close All But This: " + name);
+		 JMenuItem closetab = new JMenuItem("Close Tab: " + name);
+		 closetab.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getModifiers() == 8) {
-					if (System.currentTimeMillis() - zero >= 500) {
-						zero = System.currentTimeMillis();
-						final int i = pane.indexOfTabComponent(TabbedPane.this);
-						if (i != -1)
-							pane.remove(i);
+			public void actionPerformed(ActionEvent e) {
+				String name = e.getActionCommand().split(": ")[1];
+				final int i = pane.indexOfTab(name);
+				if (i != -1)
+					pane.remove(i);
+			}
+		 });
+		 closealltab.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = e.getActionCommand().split(": ")[1];
+				System.out.println(name);
+				boolean removedAll = false;
+				while(!removedAll) {
+					int thisID = pane.indexOfTab(name);
+					if(pane.getTabCount() <= 1) {
+						removedAll = true;
+						return;
 					}
+					if(thisID != 0)
+						pane.remove(0);
+					else
+						pane.remove(1);
 				}
 			}
+		 });
+		 
+		pop_up.add(closealltab);
+		 pop_up.add(closetab);
+		button.setComponentPopupMenu(pop_up);
 
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
+		button.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (e.getModifiers() == 8) {
+						if (System.currentTimeMillis() - zero >= 100) {
+							zero = System.currentTimeMillis();
+							final int i = pane.indexOfTabComponent(TabbedPane.this);
+							if (i != -1)
+								pane.remove(i);
+						}
+					}
+				}
+				
+				@Override public void mouseEntered(MouseEvent arg0) { }
+				@Override public void mouseExited(MouseEvent arg0) { }
+				@Override public void mousePressed(MouseEvent arg0) { }
+				@Override public void mouseReleased(MouseEvent e) { }
 
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-
-		});
+			});
 	}
 
 	private class TabButton extends JButton implements ActionListener {

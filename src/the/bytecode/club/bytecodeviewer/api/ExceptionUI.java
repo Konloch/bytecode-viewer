@@ -9,6 +9,7 @@ import java.awt.CardLayout;
 import javax.swing.JTextArea;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Resources;
 
 import java.awt.Color;
 import java.io.PrintWriter;
@@ -63,7 +64,7 @@ public class ExceptionUI extends JFrame {
 
 	private void setup(Exception e, String author) {
 
-		this.setIconImages(BytecodeViewer.iconList);
+		this.setIconImages(Resources.iconList);
 		setSize(new Dimension(600, 400));
 		setTitle("Bytecode Viewer " + BytecodeViewer.version
 				+ " - Stack Trace - Send this to " + author);
@@ -84,7 +85,7 @@ public class ExceptionUI extends JFrame {
 	}
 	
 	private void setup(String e, String author) {
-		this.setIconImages(BytecodeViewer.iconList);
+		this.setIconImages(Resources.iconList);
 		setSize(new Dimension(600, 400));
 		setTitle("Bytecode Viewer " + BytecodeViewer.version
 				+ " - Stack Trace - Send this to " + author);

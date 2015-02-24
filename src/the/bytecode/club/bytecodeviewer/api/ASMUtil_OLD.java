@@ -2,9 +2,6 @@ package the.bytecode.club.bytecodeviewer.api;
 
 import java.util.List;
 
-import org.objectweb.asm.ClassAdapter;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -16,8 +13,6 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.CoolClassAdapter;
-import the.bytecode.club.bytecodeviewer.JarUtils;
 
 /**
  * Used to rename/replace methods/classes/fields
@@ -169,15 +164,6 @@ public final class ASMUtil_OLD {
 					}
 				}
 			}
-
-			ClassWriter cw2 = new ClassWriter(0);
-			c.accept(cw2);
-			ClassReader cr=new ClassReader(cw2.toByteArray());
-			ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_MAXS);
-			ClassAdapter ca=new CoolClassAdapter(cw, oldName, newName);
-			cr.accept(ca, 0);
-			byte[] newClass = cw.toByteArray();
-			BytecodeViewer.updateNode(c, JarUtils.getNode(newClass));
 		}
 	}
 }

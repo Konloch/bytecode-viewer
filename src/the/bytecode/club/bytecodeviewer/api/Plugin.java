@@ -19,14 +19,11 @@ public abstract class Plugin extends Thread {
 	public void run() {
 		BytecodeViewer.viewer.setIcon(true);
 		try {
-			if (!BytecodeViewer.getLoadedClasses().isEmpty())
-				execute(BytecodeViewer.getLoadedClasses());
-			else {
-				System.out
-						.println("Plugin not ran, put some classes in first.");
-				BytecodeViewer
-						.showMessage("Plugin not ran, put some classes in first.");
+			if(BytecodeViewer.getLoadedClasses().isEmpty()) {
+				BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+				return;
 			}
+			execute(BytecodeViewer.getLoadedClasses());
 		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		} finally {

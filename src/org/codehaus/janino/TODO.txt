@@ -1,0 +1,12 @@
+The raw, inofficial list of TODOs:
+
+* Implement '@SuppressWarnings'; supersede JANINO's old '-warn:...' feature
+* Implement non-SOURCE annotations
+* Implement annotation declarations
+* Implement ENUMs
+* Implement type arguments ('List<String> l;')
+* Implement type parameters ('class MyClass<T extends InputStream> { ... }')
+* Enhanced FOR loop
+
+Recently implemented:
+* ASSERT (simplified, ASSERTions are ALWAYS enabled, as if '-ea' were set)

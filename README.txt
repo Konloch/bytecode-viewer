@@ -49,7 +49,7 @@ Key Features:
     Java Decompiler - It utilizes FernFlower, Procyon and CFR for decompilation.
     Bytecode Decompiler - A modified version of CFIDE's.
     Hex Viewer - Powered by JHexPane.
-    Each Decompiler/Viewer is toggleable, you can also select what will display on each pane.
+    Each Decompiler/Editor/Viewer is toggleable, you can also select what will display on each pane.
     Fully Featured Search System - Search through strings, functions, variables and more!
     A Plugin System With Built In Plugins - (Show All Strings, Malicious Code Scanner, String Decrypters, etc)
     Fully Featured Scripting System That Supports Groovy.
@@ -293,3 +293,29 @@ Changelog:
 --- 2.8.1 ---:
 02/04/2015 - Fixed UI bug with Krakatau/Krakatau Editable view panes.
 02/05/2015 - Added CTRL + F.
+--- 2.9.0 ---:
+02/11/2015 - Added ZStringArray String Decrypter. (Thanks Righteous)
+02/20/2015 - Moved the decompilers/disassemblers around.
+02/20/2015 - Fixed a resource leak with Krakatau Decompiler/Disassembler/Assembler.
+02/21/2015 - Fixed regex searching if your regex search contained a syntax error.
+02/21/2015 - Added the compiler/decompiler instances to the BytecodeViewer API class.
+02/21/2015 - Sped up the decompilers, each view pane runs its own decompiler thread.
+02/21/2015 - Added Janino compiler, you can now compile the decompiled source code inside of BCV.
+02/21/2015 - Added the editable option for almost all of the decompilers/disassemblers.
+02/21/2015 - Cached the next/previous icons and added a resources class for all resources.
+01/21/2015 - Renamed EZ-Injection as File-Run, however kept the plugin named EZ-Injection.
+02/21/2015 - Dropped Groovy support, added .Java plugin compilation instead (now only 10mb).
+02/21/2015 - Added support for reading resources, including displaying images, detecting pure ascii files and more.
+02/21/2015 - Fixed an issue with loading an already selected node in the file navigation pane.
+02/22/2015 - Added an error console to the Java compiler
+02/22/2015 - Ensured the spawned Python/Krakatau processes are killed when closing BCV.
+02/22/2015 - Made it more beginner friendly.
+02/22/2015 - Fixed? The file navigation search.
+02/22/2015 - Added a shit ton more comments to non-api related classes.
+02/23/2015 - Added APK resources.
+02/23/2015 - MORE ANDROID LOVE! Added APKTool.jar's decode. (Takes a while so it's a setting, also pumped the jar back to 16MB)
+02/23/2015 - Added close all but this tab menu.
+02/23/2015 - Not really code related, but added _install.bat and _uninstall.bat for the exe version of BCV.
+02/23/2015 - Back to ASM5, packed dex2jar in its own obfuscated jar.
+02/23/2015 - Added the annotations back to the Bytecode Decompiler. (Once again, thanks Bibl)
+02/23/2015 - It once again works with Java 8 Jars.

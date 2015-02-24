@@ -1,20 +1,23 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
 import javax.swing.JFrame;
-
 import java.awt.Dimension;
-
 import javax.swing.JTabbedPane;
-
 import java.awt.BorderLayout;
-
 import javax.swing.JPanel;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Resources;
+
+/**
+ * A graphical way to execute reflection.
+ * 
+ * @author Konloch
+ *
+ */
 
 public class GraphicialReflectionKit extends JFrame {
 	public GraphicialReflectionKit() {
-		this.setIconImages(BytecodeViewer.iconList);
+		this.setIconImages(Resources.iconList);
 		setSize(new Dimension(382, 356));
 		setTitle("Graphicial Reflection Kit");
 

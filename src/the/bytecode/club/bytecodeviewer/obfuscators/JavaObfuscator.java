@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
 
+/**
+ * An unfinished obfuscator.
+ * 
+ * @author Konloch
+ *
+ */
+
 public abstract class JavaObfuscator extends Thread {
 
 	@Override

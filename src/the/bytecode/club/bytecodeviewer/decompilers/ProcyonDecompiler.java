@@ -42,13 +42,14 @@ import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
 
 /**
+ * Procyon Java Decompiler Wrapper
  * 
  * @author Konloch
  * @author DeathMarine
  * 
  */
 
-public class ProcyonDecompiler extends JavaDecompiler {
+public class ProcyonDecompiler extends Decompiler {
 
 	@Override
 	public void decompileToClass(String className, String classNameSaved) {

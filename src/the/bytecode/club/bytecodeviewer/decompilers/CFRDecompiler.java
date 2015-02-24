@@ -26,12 +26,13 @@ import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
 
 /**
+ * CFR Java Wrapper
  * 
  * @author Konloch
  * 
  */
 
-public class CFRDecompiler extends JavaDecompiler {
+public class CFRDecompiler extends Decompiler {
 
 	@Override
 	public void decompileToClass(String className, String classNameSaved) {
