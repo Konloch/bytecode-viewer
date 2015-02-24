@@ -322,3 +322,5 @@ Changelog:
 --- 2.9.1 ---:
 02/24/2015 - Fixed the third pane window not showing the search buttons.
 02/24/2015 - Fixed some issues with the compiler functionality.
+--- 2.9.2 ---:
+02/24/2015 - Actually fixed the compiler, LOL.

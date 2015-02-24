@@ -74,16 +74,15 @@ import the.bytecode.club.bytecodeviewer.gui.WorkPane;
  * bytecode editor that works by editing per method instead of entire class, methods are in a pane like the file navigator
  * Make the tabs menu and middle mouse button click work on the tab itself not just the close button.
  * 
- * 2.9.1:
+ * 2.9.2:
  * make it use that global last used inside of export as jar
  * Spiffy up the plugin console with hilighted lines
  * Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
  * fix the randomly sometimes fucked up names on file navigation bug
  * make zipfile not include the decode shit
  * 
- * -----2.9.1-----:
- * 02/24/2015 - Fixed the third pane window not showing the search buttons.
- * 02/24/2015 - Fixed some issues with the compiler functionality.
+ * -----2.9.2-----:
+ * 02/24/2015 - Actually fixed the compiler, LOL.
  * 
  * @author Konloch
  * 
@@ -92,7 +91,7 @@ import the.bytecode.club.bytecodeviewer.gui.WorkPane;
 public class BytecodeViewer {
 
 	/*per version*/
-	public static String version = "2.9.1";
+	public static String version = "2.9.2";
 	public static String krakatauVersion = "2";
 	/*the rest*/
 	public static MainViewerGUI viewer = null;
@@ -413,8 +412,10 @@ public class BytecodeViewer {
 		for(java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers()) {
 			if(c instanceof ClassViewer) {
 				ClassViewer cv = (ClassViewer) c;
-				if((cv.smali1 != null && cv.smali2 != null && cv.smali3 != null) &&
-					(cv.smali1.isEditable() || cv.smali2.isEditable() || cv.smali3.isEditable())) {
+				if(		cv.smali1 != null && cv.smali1.isEditable() ||
+						cv.smali2 != null &&  cv.smali2.isEditable() ||
+						cv.smali3 != null && cv.smali3.isEditable())
+					{
 					actuallyTried = true;
 					Object smali[] = cv.getSmali();
 					if(smali != null) {
@@ -432,8 +433,10 @@ public class BytecodeViewer {
 				}
 
 
-				if((cv.krakatau1 != null && cv.krakatau2 != null && cv.krakatau3 != null) &&
-					(cv.krakatau1.isEditable() || cv.krakatau2.isEditable() || cv.krakatau3.isEditable())) {
+				if(cv.krakatau1 != null && cv.krakatau1.isEditable() ||
+					cv.krakatau2 != null &&  cv.krakatau2.isEditable() ||
+					cv.krakatau3 != null && cv.krakatau3.isEditable())
+				{
 					actuallyTried = true;
 					Object krakatau[] = cv.getKrakatau();
 					if(krakatau != null) {
@@ -450,8 +453,10 @@ public class BytecodeViewer {
 					}
 				}
 
-				if((cv.java1 != null && cv.java2 != null && cv.java3 != null) &&
-					(cv.java1.isEditable() || cv.java2.isEditable() || cv.java3.isEditable())) {
+				if(		cv.java1 != null && cv.java1.isEditable() ||
+						cv.java2 != null &&  cv.java2.isEditable() ||
+						cv.java3 != null && cv.java3.isEditable())
+					{
 					actuallyTried = true;
 					Object java[] = cv.getJava();
 					if(java != null) {
