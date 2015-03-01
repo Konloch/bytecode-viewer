@@ -121,7 +121,6 @@ public class BytecodeViewer {
 	
 	/* ASM Re-mapping Constants */
 	public static Refactorer refactorer = new Refactorer();
-	public static List<String> main_classes = new ArrayList<>();
 	/* ASM Re-mapping Constants */
 	
 	/**
