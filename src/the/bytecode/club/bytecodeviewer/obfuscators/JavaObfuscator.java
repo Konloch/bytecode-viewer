@@ -43,6 +43,9 @@ public abstract class JavaObfuscator extends Thread {
 		String name = "";
 		while (!found) {
 			String nameTry = MiscUtils.randomString(1) + MiscUtils.randomStringNum(length - 1);
+			if (!Character.isJavaIdentifierStart(nameTry.toCharArray()[0]))
+				continue;
+			
 			if (!names.contains(nameTry)) {
 				names.add(nameTry);
 				name = nameTry;

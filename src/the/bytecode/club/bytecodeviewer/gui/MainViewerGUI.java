@@ -340,6 +340,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	private final JSeparator separator_6 = new JSeparator();
 	public final JCheckBoxMenuItem refreshOnChange = new JCheckBoxMenuItem("Refresh On View Change");
 
+	public FileNavigationPane cn = new FileNavigationPane(this);
+	
 	public boolean isMaximized = false;
 	
 	public void removed(boolean busy) {
@@ -1434,6 +1436,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				}
 				new RenameFields().start();
 				workPane.refreshClass.doClick();
+				cn.tree.updateUI();
 			}
 		});
 
@@ -1455,6 +1458,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				}
 				new RenameMethods().start();
 				workPane.refreshClass.doClick();
+				cn.tree.updateUI();
 			}
 		});
 
@@ -1467,6 +1471,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				}
 				new RenameClasses().start();
 				workPane.refreshClass.doClick();
+				cn.tree.updateUI();
 			}
 		});
 
@@ -1575,7 +1580,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
 		// scrollPane.setViewportView(tree);
-		FileNavigationPane cn = new FileNavigationPane(this);
 		cn.setMinimumSize(new Dimension(200, 50));
 		// panel.add(cn);
 		SearchingPane s = new SearchingPane(this);

@@ -22,7 +22,7 @@ public class RenameClasses extends JavaObfuscator {
 
 	@Override
 	public void obfuscate() {
-		int stringLength = getStringLength();
+		int stringLength = 5;//getStringLength();
 
 		System.out.println("Obfuscating class names...");
 		classLoop: for (ClassNode c : BytecodeViewer.getLoadedClasses()) {

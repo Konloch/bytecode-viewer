@@ -45,6 +45,7 @@ public class Refactorer {
         for (Map.Entry<String, ClassNode> factor : refactored.entrySet()) {
             BytecodeViewer.relocate(factor.getKey(), factor.getValue());
         }
+        mapper.printMap();
     }
 
     private byte[] getClassNodeBytes(ClassNode cn) {
