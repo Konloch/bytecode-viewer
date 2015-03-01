@@ -20,6 +20,7 @@ public abstract class JavaObfuscator extends Thread {
 		BytecodeViewer.viewer.setIcon(true);
 		BytecodeViewer.runningObfuscation = true;
 		obfuscate();
+		BytecodeViewer.refactorer.run();
 		BytecodeViewer.runningObfuscation = false;
 		BytecodeViewer.viewer.setIcon(false);
 	}
@@ -34,8 +35,8 @@ public abstract class JavaObfuscator extends Thread {
 		}
 	}
 
-	public static int MAX_STRING_LENGTH = 250;
-	public static int MIN_STRING_LENGTH = 20;
+	public static int MAX_STRING_LENGTH = 25;
+	public static int MIN_STRING_LENGTH = 5;
 	private ArrayList<String> names = new ArrayList<String>();
 
 	protected String generateUniqueName(int length) {

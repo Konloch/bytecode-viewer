@@ -39,9 +39,9 @@ import the.bytecode.club.bytecodeviewer.decompilers.FernFlowerDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.KrakatauDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.ProcyonDecompiler;
-import the.bytecode.club.bytecodeviewer.obfuscators.RenameClasses;
-import the.bytecode.club.bytecodeviewer.obfuscators.RenameFields;
-import the.bytecode.club.bytecodeviewer.obfuscators.RenameMethods;
+import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
+import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
+import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugins.*;
 
 import java.awt.event.ActionListener;
@@ -474,7 +474,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 	public MainViewerGUI() {
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new Test());
-		mnNewMenu_5.setVisible(false);
+		mnNewMenu_5.setVisible(true);
 		this.addWindowStateListener(new WindowAdapter() {
 		      public void windowStateChanged(WindowEvent evt) {
 		          int oldState = evt.getOldState();
