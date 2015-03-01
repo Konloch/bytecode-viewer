@@ -16,10 +16,10 @@ public abstract class JavaObfuscator extends Thread {
 
 	@Override
 	public void run() {
-		System.out.println("mibbzz is gay");
 		BytecodeViewer.viewer.setIcon(true);
 		BytecodeViewer.runningObfuscation = true;
 		obfuscate();
+		BytecodeViewer.refactorer.run();
 		BytecodeViewer.runningObfuscation = false;
 		BytecodeViewer.viewer.setIcon(false);
 	}
@@ -34,8 +34,8 @@ public abstract class JavaObfuscator extends Thread {
 		}
 	}
 
-	public static int MAX_STRING_LENGTH = 250;
-	public static int MIN_STRING_LENGTH = 20;
+	public static int MAX_STRING_LENGTH = 25;
+	public static int MIN_STRING_LENGTH = 5;
 	private ArrayList<String> names = new ArrayList<String>();
 
 	protected String generateUniqueName(int length) {
@@ -43,6 +43,9 @@ public abstract class JavaObfuscator extends Thread {
 		String name = "";
 		while (!found) {
 			String nameTry = MiscUtils.randomString(1) + MiscUtils.randomStringNum(length - 1);
+			if (!Character.isJavaIdentifierStart(nameTry.toCharArray()[0]))
+				continue;
+			
 			if (!names.contains(nameTry)) {
 				names.add(nameTry);
 				name = nameTry;

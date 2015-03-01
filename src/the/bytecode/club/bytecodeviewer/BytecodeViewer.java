@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.JDialog;
@@ -36,6 +37,7 @@ import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.SearchingPane;
 import the.bytecode.club.bytecodeviewer.gui.SystemErrConsole;
 import the.bytecode.club.bytecodeviewer.gui.WorkPane;
+import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 
 /**
  * A lightweight Java Reverse Engineering suite, developed by Konloch -
@@ -116,6 +118,11 @@ public class BytecodeViewer {
 	private static long start = System.currentTimeMillis();
 	public static String lastDirectory = "";
 	public static ArrayList<Process> krakatau = new ArrayList<Process>();
+	
+	/* ASM Re-mapping Constants */
+	public static Refactorer refactorer = new Refactorer();
+	public static List<String> main_classes = new ArrayList<>();
+	/* ASM Re-mapping Constants */
 	
 	/**
 	 * The version checker thread
@@ -381,6 +388,18 @@ public class BytecodeViewer {
 	public static void updateNode(ClassNode oldNode, ClassNode newNode) {
 		BytecodeViewer.loadedClasses.remove(oldNode.name);
 		BytecodeViewer.loadedClasses.put(oldNode.name, newNode);
+	}
+	
+	/**
+	 * Replaces an old node with a new instance
+	 * @param oldNode the old instance
+	 * @param newNode the new instance
+	 */
+	public static void relocate(String name, ClassNode node) {
+		if (BytecodeViewer.loadedClasses.containsKey(name))
+			BytecodeViewer.loadedClasses.remove(name);
+		
+		BytecodeViewer.loadedClasses.put(node.name, node);
 	}
 
 	/**

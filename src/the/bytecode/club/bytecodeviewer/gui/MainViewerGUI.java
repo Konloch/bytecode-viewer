@@ -39,9 +39,9 @@ import the.bytecode.club.bytecodeviewer.decompilers.FernFlowerDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.KrakatauDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.ProcyonDecompiler;
-import the.bytecode.club.bytecodeviewer.obfuscators.RenameClasses;
-import the.bytecode.club.bytecodeviewer.obfuscators.RenameFields;
-import the.bytecode.club.bytecodeviewer.obfuscators.RenameMethods;
+import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
+import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
+import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugins.*;
 
 import java.awt.event.ActionListener;
@@ -340,6 +340,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	private final JSeparator separator_6 = new JSeparator();
 	public final JCheckBoxMenuItem refreshOnChange = new JCheckBoxMenuItem("Refresh On View Change");
 
+	public FileNavigationPane cn = new FileNavigationPane(this);
+	
 	public boolean isMaximized = false;
 	
 	public void removed(boolean busy) {
@@ -474,7 +476,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 	public MainViewerGUI() {
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new Test());
-		mnNewMenu_5.setVisible(false);
+		mnNewMenu_5.setVisible(true);
 		this.addWindowStateListener(new WindowAdapter() {
 		      public void windowStateChanged(WindowEvent evt) {
 		          int oldState = evt.getOldState();
@@ -1433,6 +1435,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					return;
 				}
 				new RenameFields().start();
+				workPane.refreshClass.doClick();
+				cn.tree.updateUI();
 			}
 		});
 
@@ -1453,6 +1457,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					return;
 				}
 				new RenameMethods().start();
+				workPane.refreshClass.doClick();
+				cn.tree.updateUI();
 			}
 		});
 
@@ -1464,6 +1470,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					return;
 				}
 				new RenameClasses().start();
+				workPane.refreshClass.doClick();
+				cn.tree.updateUI();
 			}
 		});
 
@@ -1572,7 +1580,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
 		// scrollPane.setViewportView(tree);
-		FileNavigationPane cn = new FileNavigationPane(this);
 		cn.setMinimumSize(new Dimension(200, 50));
 		// panel.add(cn);
 		SearchingPane s = new SearchingPane(this);
