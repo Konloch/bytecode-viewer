@@ -39,8 +39,8 @@ public class RenameClasses extends JavaObfuscator {
 			
 			BytecodeViewer.refactorer.getHooks().addClass(new MappingData(c.name, newName));
 			
-			ASMUtil_OLD.renameClassNode(c.name, newName);
-			c.name = newName;
+			/*ASMUtil_OLD.renameClassNode(c.name, newName);
+			c.name = newName;*/
 		}
 
 		System.out.println("Obfuscated class names.");
