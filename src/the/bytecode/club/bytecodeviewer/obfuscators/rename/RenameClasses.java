@@ -27,15 +27,15 @@ public class RenameClasses extends JavaObfuscator {
 		System.out.println("Obfuscating class names...");
 		classLoop: for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
 			
-			/** As we dont want to rename classes the user specified as main-classes */
-			for (String name : BytecodeViewer.main_classes) {
-				if (name.equals(c.name))
-					continue classLoop;
-			}
-			
 			/** As we dont want to rename classes that contain native dll methods */
 			for (Object o : c.methods) {
 				MethodNode m = (MethodNode) o;
+				
+				/** As we dont want to rename any  main-classes */
+				if (m.name.equals("main") && m.desc.equals("([Ljava/lang/String;)V")
+						|| m.name.equals("init") && c.superName.equals("java/applet/Applet"))
+					continue classLoop;
+				
 				/* As we dont want to rename native dll methods */
 				if ((m.access & Opcodes.ACC_NATIVE) != 0)
 					continue classLoop;
