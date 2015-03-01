@@ -1433,6 +1433,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					return;
 				}
 				new RenameFields().start();
+				workPane.refreshClass.doClick();
 			}
 		});
 
@@ -1453,6 +1454,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					return;
 				}
 				new RenameMethods().start();
+				workPane.refreshClass.doClick();
 			}
 		});
 
@@ -1464,6 +1466,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					return;
 				}
 				new RenameClasses().start();
+				workPane.refreshClass.doClick();
 			}
 		});
 
