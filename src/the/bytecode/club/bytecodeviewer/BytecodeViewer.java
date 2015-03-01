@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.JDialog;
@@ -120,6 +121,7 @@ public class BytecodeViewer {
 	
 	/* ASM Re-mapping Constants */
 	public static Refactorer refactorer = new Refactorer();
+	public static List<String> main_classes = new ArrayList<>();
 	/* ASM Re-mapping Constants */
 	
 	/**
