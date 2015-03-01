@@ -25,7 +25,7 @@ import the.bytecode.club.bytecodeviewer.ZipUtils;
 
 public class KrakatauDecompiler extends Decompiler {
 
-	public String decompileClassNode(ClassNode cn) {
+	public String decompileClassNode(ClassNode cn, byte[] b) {
 		
 		if(BytecodeViewer.python.equals("")) {
 			BytecodeViewer.showMessage("You need to set your Python 2.7 executable path.");

@@ -55,7 +55,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
  * 
  */
 
-public class ClassViewer extends JPanel {
+public class ClassViewer extends Viewer {
 
 	/**
 	 * Whoever wrote this function, THANK YOU!
@@ -544,6 +544,17 @@ public class ClassViewer extends JPanel {
 		if (pane3 != 0 && pane3 != 5)
 			panel3.add(panel3Search, BorderLayout.NORTH);
 
+		final ClassWriter cw = new ClassWriter(0);
+		try {
+			cn.accept(cw);
+		} catch(Exception e) {
+			e.printStackTrace();
+			try {
+				Thread.sleep(200);
+				cn.accept(cw);
+			} catch (InterruptedException e1) { }
+		}
+		final byte[] b = cw.toByteArray();
 		Thread t1 = new PaneUpdaterThread() {
 			@Override
 			public void doShit() {
@@ -555,7 +566,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.procyon.decompileClassNode(cn));
+						panelArea.setText(Decompiler.procyon.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -565,7 +576,7 @@ public class ClassViewer extends JPanel {
 									field1.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -580,7 +591,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.cfr.decompileClassNode(cn));
+						panelArea.setText(Decompiler.cfr.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -589,7 +600,7 @@ public class ClassViewer extends JPanel {
 									field1.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -605,7 +616,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn));
+						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -614,7 +625,7 @@ public class ClassViewer extends JPanel {
 									field1.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -631,7 +642,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
-						panelArea.setText(Decompiler.bytecode.decompileClassNode(cn));
+						panelArea.setText(Decompiler.bytecode.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
 						panelArea.addKeyListener(new KeyListener() {  
@@ -640,7 +651,7 @@ public class ClassViewer extends JPanel {
 									field1.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -663,7 +674,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
-						panelArea.setText(Decompiler.smali.decompileClassNode(cn));
+						panelArea.setText(Decompiler.smali.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
 						smali1 = panelArea;
@@ -673,7 +684,7 @@ public class ClassViewer extends JPanel {
 									field1.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -689,7 +700,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
-						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn));
+						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -698,7 +709,7 @@ public class ClassViewer extends JPanel {
 									field1.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -717,7 +728,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
-						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn));
+						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
 						krakatau1 = panelArea;
@@ -727,7 +738,7 @@ public class ClassViewer extends JPanel {
 									field1.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -757,7 +768,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.procyon.decompileClassNode(cn));
+						panelArea.setText(Decompiler.procyon.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -766,7 +777,7 @@ public class ClassViewer extends JPanel {
 									field2.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -782,7 +793,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.cfr.decompileClassNode(cn));
+						panelArea.setText(Decompiler.cfr.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -791,7 +802,7 @@ public class ClassViewer extends JPanel {
 									field2.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -807,7 +818,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn));
+						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -816,7 +827,7 @@ public class ClassViewer extends JPanel {
 									field2.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -831,7 +842,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.bytecode.decompileClassNode(cn));
+						panelArea.setText(Decompiler.bytecode.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
 						panelArea.addKeyListener(new KeyListener() {  
@@ -840,7 +851,7 @@ public class ClassViewer extends JPanel {
 									field2.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -861,7 +872,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.smali.decompileClassNode(cn));
+						panelArea.setText(Decompiler.smali.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
 						smali2 = panelArea;
@@ -871,7 +882,7 @@ public class ClassViewer extends JPanel {
 									field2.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -887,7 +898,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
-						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn));
+						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -896,7 +907,7 @@ public class ClassViewer extends JPanel {
 									field2.requestFocus();
 								}
 	
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -913,7 +924,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
-						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn));
+						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
 						krakatau2 = panelArea;
@@ -923,7 +934,7 @@ public class ClassViewer extends JPanel {
 									field2.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -954,7 +965,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.procyon.decompileClassNode(cn));
+						panelArea.setText(Decompiler.procyon.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -963,7 +974,7 @@ public class ClassViewer extends JPanel {
 									field3.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -979,7 +990,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.cfr.decompileClassNode(cn));
+						panelArea.setText(Decompiler.cfr.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -988,7 +999,7 @@ public class ClassViewer extends JPanel {
 									field3.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -1004,7 +1015,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn));
+						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -1013,7 +1024,7 @@ public class ClassViewer extends JPanel {
 									field3.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -1028,7 +1039,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.bytecode.decompileClassNode(cn));
+						panelArea.setText(Decompiler.bytecode.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
 						panelArea.addKeyListener(new KeyListener() {  
@@ -1037,7 +1048,7 @@ public class ClassViewer extends JPanel {
 									field3.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -1058,7 +1069,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-						panelArea.setText(Decompiler.smali.decompileClassNode(cn));
+						panelArea.setText(Decompiler.smali.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
 						smali3 = panelArea;
@@ -1068,7 +1079,7 @@ public class ClassViewer extends JPanel {
 									field3.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -1084,7 +1095,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
-						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn));
+						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
 						panelArea.addKeyListener(new KeyListener() {  
@@ -1093,7 +1104,7 @@ public class ClassViewer extends JPanel {
 									field3.requestFocus();
 								}
 	
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
@@ -1112,7 +1123,7 @@ public class ClassViewer extends JPanel {
 						panelArea.setAntiAliasingEnabled(true);
 						RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
-						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn));
+						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
 						krakatau3 = panelArea;
@@ -1122,7 +1133,7 @@ public class ClassViewer extends JPanel {
 									field3.requestFocus();
 								}
 
-								BytecodeViewer.viewer.checkKey(e);
+								BytecodeViewer.checkHotKey(e);
 							}
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  

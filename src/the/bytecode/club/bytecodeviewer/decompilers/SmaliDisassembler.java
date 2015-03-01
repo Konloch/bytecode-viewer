@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import me.konloch.kontainer.io.DiskReader;
 
-import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -23,10 +22,7 @@ import the.bytecode.club.bytecodeviewer.ZipUtils;
 
 public class SmaliDisassembler extends Decompiler {
 	
-	public String decompileClassNode(ClassNode cn) {
-		final ClassWriter cw = new ClassWriter(0);
-		cn.accept(cw);
-
+	public String decompileClassNode(ClassNode cn, byte[] b) {
 		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
 				+ "temp";
 		
@@ -40,7 +36,7 @@ public class SmaliDisassembler extends Decompiler {
 		try {
 			final FileOutputStream fos = new FileOutputStream(tempClass);
 
-			fos.write(cw.toByteArray());
+			fos.write(b);
 
 			fos.close();
 		} catch (final IOException e) {

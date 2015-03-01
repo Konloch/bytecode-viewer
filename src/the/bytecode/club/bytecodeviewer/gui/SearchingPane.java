@@ -164,8 +164,7 @@ public class SearchingPane extends VisibleComponent {
 								.showMessage("You currently have a search performing in the background, please wait for that to finish.");
 					}
 				} else if (radius == SearchRadius.Current_Class) {
-					final ClassViewer cv = MainViewerGUI.getComponent(
-							WorkPane.class).getCurrentClass();
+					final Viewer cv = MainViewerGUI.getComponent(WorkPane.class).getCurrentViewer();
 					if (cv != null) {
 						searchType.details.search(cv.cn, srn,
 								exact.isSelected());

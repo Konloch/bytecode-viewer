@@ -2,12 +2,15 @@ package the.bytecode.club.bytecodeviewer.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 
@@ -26,6 +29,7 @@ import javax.swing.text.JTextComponent;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import org.imgscalr.Scalr;
 
 import com.jhe.hexed.JHexEditor;
 
@@ -39,7 +43,7 @@ import the.bytecode.club.bytecodeviewer.Resources;
  *
  */
 
-public class FileViewer extends JPanel {
+public class FileViewer extends Viewer {
 
 	private static final long serialVersionUID = 6103372882168257164L;
 
@@ -50,6 +54,7 @@ public class FileViewer extends JPanel {
 	JPanel panel2 = new JPanel(new BorderLayout());
 	public JCheckBox check = new JCheckBox("Exact");
 	final JTextField field = new JTextField();
+	public BufferedImage image;
 	
 	public void setContents() {
 		String name = this.name.toLowerCase();
@@ -62,7 +67,7 @@ public class FileViewer extends JPanel {
 					field.requestFocus();
 				}
 	
-				BytecodeViewer.viewer.checkKey(e);
+				BytecodeViewer.checkHotKey(e);
 			}
 			@Override public void keyReleased(KeyEvent arg0) { }
 			@Override public void keyTyped(KeyEvent arg0) { }  
@@ -75,9 +80,26 @@ public class FileViewer extends JPanel {
 				name.endsWith(".gif") || name.endsWith(".tif") || name.endsWith(".bmp"))
 			{
 				try {
-					final Image i = ImageIO.read(new ByteArrayInputStream(contents)); //gifs fail cause of this
-					JLabel label = new JLabel("", new ImageIcon(i), JLabel.CENTER);
+					image = ImageIO.read(new ByteArrayInputStream(contents)); //gifs fail cause of this
+					JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
 					panel2.add( label, BorderLayout.CENTER );
+					panel2.addMouseWheelListener(new MouseWheelListener() {
+
+						@Override
+						public void mouseWheelMoved(MouseWheelEvent e) {
+							int notches = e.getWheelRotation();
+						    if (notches < 0) {
+						    	image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() + 10, image.getHeight() + 10);
+						    } else {
+						    	image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() - 10, image.getHeight() - 10);
+						    }
+						    panel2.removeAll();
+							JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
+							panel2.add( label, BorderLayout.CENTER );
+							panel2.updateUI();
+						}
+						
+					});
 					return;
 				} catch(Exception e) {
 					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -339,5 +361,19 @@ public class FileViewer extends JPanel {
 		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
+	}
+	
+	public void refresh(JButton src) {
+		panel2.removeAll();
+		try {
+			image = ImageIO.read(new ByteArrayInputStream(contents));
+		} catch (IOException e) {
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+		}
+		JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
+		panel2.add( label, BorderLayout.CENTER );
+		panel2.updateUI();
+		
+		src.setEnabled(true);
 	}
 }

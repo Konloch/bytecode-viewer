@@ -385,42 +385,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     private class Test implements KeyEventDispatcher {
         @Override
         public boolean dispatchKeyEvent(KeyEvent e) {
-        	checkKey(e);
+        	BytecodeViewer.checkHotKey(e);
             return false;
-        }
-    }
-
-	long last = System.currentTimeMillis();
-    public void checkKey(KeyEvent e) {
-    	if(System.currentTimeMillis() - last <= (1000 * 4))
-    		return;
-    	
-        if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-        	last = System.currentTimeMillis();
-        	JFileChooser fc = new JFileChooser();
-        	try {
-        		fc.setSelectedFile(new File(BytecodeViewer.lastDirectory));
-        	} catch(Exception e2) {
-        		
-        	}
-			fc.setFileFilter(new APKDEXJarZipClassFileFilter());
-			fc.setFileHidingEnabled(false);
-			fc.setAcceptAllFileFilterUsed(false);
-			int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				BytecodeViewer.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-				try {
-					BytecodeViewer.viewer.setIcon(true);
-					BytecodeViewer.openFiles(new File[] { fc.getSelectedFile() }, true);
-					BytecodeViewer.viewer.setIcon(false);
-				} catch (Exception e1) {
-					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
-				}
-			}
-        } else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-        	last = System.currentTimeMillis();
-        	BytecodeViewer.resetWorkSpace(true);
         }
     }
 
@@ -476,7 +442,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 	public MainViewerGUI() {
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new Test());
-		mnNewMenu_5.setVisible(true);
 		this.addWindowStateListener(new WindowAdapter() {
 		      public void windowStateChanged(WindowEvent evt) {
 		          int oldState = evt.getOldState();
@@ -527,7 +492,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(refreshOnChange.isSelected()) {
-					if(workPane.getCurrentClass() == null)
+					if(workPane.getCurrentViewer() == null)
 						return;
 
 					workPane.refreshClass.doClick();
@@ -923,13 +888,13 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		});
 		mntmNewMenuItem_12.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(workPane.getCurrentClass() == null) {
+				if(workPane.getCurrentViewer() == null) {
 					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
 					return;
 				}
 				if(autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
 					return;
-				final String s = workPane.getCurrentClass().name;
+				final String s = workPane.getCurrentViewer().name;
 				
 				JFileChooser fc = new JFileChooser();
 				fc.setFileFilter(new JavaFileFilter());

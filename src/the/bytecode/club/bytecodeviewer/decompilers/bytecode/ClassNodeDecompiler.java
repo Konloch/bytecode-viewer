@@ -21,7 +21,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 
 public class ClassNodeDecompiler extends Decompiler {
 
-	public String decompileClassNode(ClassNode cn) {
+	public String decompileClassNode(ClassNode cn, byte[] b) {
 		return decompile(new PrefixedStringBuilder(),
 				new ArrayList<String>(), cn).toString();
 	}

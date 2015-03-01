@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +15,6 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.JDialog;
@@ -76,15 +76,22 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
  * bytecode editor that works by editing per method instead of entire class, methods are in a pane like the file navigator
  * Make the tabs menu and middle mouse button click work on the tab itself not just the close button.
  * 
- * 2.9.2:
+ * before 3.0.0:
  * make it use that global last used inside of export as jar
  * Spiffy up the plugin console with hilighted lines
  * Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
  * fix the randomly sometimes fucked up names on file navigation bug
  * make zipfile not include the decode shit
+ * When you drag a folder, it must add the folder name not just the child into the root jtree path
  * 
- * -----2.9.2-----:
- * 02/24/2015 - Actually fixed the compiler, LOL.
+ * -----2.9.3-----:
+ * 02/28/2015 - Added drag and drop for any file.
+ * 02/28/2015 - Added ctrl + w to close the current opened tab.
+ * 02/28/2015 - Updated to CFR 0_97.jar
+ * 02/28/2015 - Fixed a concurrency issue with the decompilers.
+ * 02/28/2015 - Added image resize via scroll on mouse.
+ * 02/28/2015 - Added resource refreshing.
+ * 02/28/2015 - Im Frizzy started working on Obfuscation.
  * 
  * @author Konloch
  * 
@@ -93,7 +100,7 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 public class BytecodeViewer {
 
 	/*per version*/
-	public static String version = "2.9.2";
+	public static String version = "2.9.3";
 	public static String krakatauVersion = "2";
 	/*the rest*/
 	public static MainViewerGUI viewer = null;
@@ -118,10 +125,7 @@ public class BytecodeViewer {
 	private static long start = System.currentTimeMillis();
 	public static String lastDirectory = "";
 	public static ArrayList<Process> krakatau = new ArrayList<Process>();
-	
-	/* ASM Re-mapping Constants */
 	public static Refactorer refactorer = new Refactorer();
-	/* ASM Re-mapping Constants */
 	
 	/**
 	 * The version checker thread
@@ -354,7 +358,7 @@ public class BytecodeViewer {
 	 * @return the currently opened ClassNode
 	 */
 	public static ClassNode getCurrentlyOpenedClassNode() {
-		return viewer.workPane.getCurrentClass().cn;
+		return viewer.workPane.getCurrentViewer().cn;
 	}
 
 	/**
@@ -388,18 +392,6 @@ public class BytecodeViewer {
 		BytecodeViewer.loadedClasses.remove(oldNode.name);
 		BytecodeViewer.loadedClasses.put(oldNode.name, newNode);
 	}
-	
-	/**
-	 * Replaces an old node with a new instance
-	 * @param oldNode the old instance
-	 * @param newNode the new instance
-	 */
-	public static void relocate(String name, ClassNode node) {
-		if (BytecodeViewer.loadedClasses.containsKey(name))
-			BytecodeViewer.loadedClasses.remove(name);
-		
-		BytecodeViewer.loadedClasses.put(node.name, node);
-	}
 
 	/**
 	 * Gets all of the loaded classes as an array list
@@ -422,9 +414,6 @@ public class BytecodeViewer {
 	 * @return true if no errors, false if it failed to compile.
 	 */
 	public static boolean compile(boolean message) {
-		if(getLoadedClasses().isEmpty())
-			return false;
-		
 		boolean actuallyTried = false;
 		
 		for(java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers()) {
@@ -620,6 +609,9 @@ public class BytecodeViewer {
 										new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 									}
 									return;
+								} else {
+									byte[] bytes = JarUtils.getBytes(new FileInputStream(f));
+									BytecodeViewer.loadedResources.put(f.getName(), bytes);
 								}
 							}
 						}
@@ -672,12 +664,10 @@ public class BytecodeViewer {
 		if(!ask) {
 			loadedResources.clear();
 			loadedClasses.clear();
-			MainViewerGUI.getComponent(FileNavigationPane.class)
-					.resetWorkspace();
+			MainViewerGUI.getComponent(FileNavigationPane.class).resetWorkspace();
 			MainViewerGUI.getComponent(WorkPane.class).resetWorkspace();
 			MainViewerGUI.getComponent(SearchingPane.class).resetWorkspace();
-			the.bytecode.club.bytecodeviewer.api.BytecodeViewer
-					.getClassNodeLoader().clear();
+			the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
 		} else {
 			JOptionPane pane = new JOptionPane(
 					"Are you sure you want to reset the workspace?\n\rIt will also reset your file navigator and search.");
@@ -695,12 +685,10 @@ public class BytecodeViewer {
 			if (result == 0) {
 				loadedResources.clear();
 				loadedClasses.clear();
-				MainViewerGUI.getComponent(FileNavigationPane.class)
-						.resetWorkspace();
+				MainViewerGUI.getComponent(FileNavigationPane.class).resetWorkspace();
 				MainViewerGUI.getComponent(WorkPane.class).resetWorkspace();
 				MainViewerGUI.getComponent(SearchingPane.class).resetWorkspace();
-				the.bytecode.club.bytecodeviewer.api.BytecodeViewer
-						.getClassNodeLoader().clear();
+				the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
 			}
 		}
 	}
@@ -828,6 +816,19 @@ public class BytecodeViewer {
 		return name;
 	}
 
+	
+	/**
+	 * Replaces an old node with a new instance
+	 * @param oldNode the old instance
+	 * @param newNode the new instance
+	 */
+	public static void relocate(String name, ClassNode node) {
+		if (BytecodeViewer.loadedClasses.containsKey(name))
+			BytecodeViewer.loadedClasses.remove(name);
+		
+		BytecodeViewer.loadedClasses.put(node.name, node);
+	}
+	
 	/**
 	 * Returns the BCV directory
 	 * @return the static BCV directory
@@ -876,4 +877,46 @@ public class BytecodeViewer {
 			s += r + nl;
 		return s;
 	}
+	
+	private static long last = System.currentTimeMillis();
+	/**
+	 * Checks the hotkeys
+	 * @param e
+	 */
+    public static void checkHotKey(KeyEvent e) {
+    	if(System.currentTimeMillis() - last <= (4000))
+    		return;
+    	
+        if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+        	last = System.currentTimeMillis();
+        	JFileChooser fc = new JFileChooser();
+        	try {
+        		fc.setSelectedFile(new File(BytecodeViewer.lastDirectory));
+        	} catch(Exception e2) {
+        		
+        	}
+			fc.setFileFilter(viewer.new APKDEXJarZipClassFileFilter());
+			fc.setFileHidingEnabled(false);
+			fc.setAcceptAllFileFilterUsed(false);
+			int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
+
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				BytecodeViewer.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+				try {
+					BytecodeViewer.viewer.setIcon(true);
+					BytecodeViewer.openFiles(new File[] { fc.getSelectedFile() }, true);
+					BytecodeViewer.viewer.setIcon(false);
+				} catch (Exception e1) {
+					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
+				}
+			}
+        } else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+        	last = System.currentTimeMillis();
+        	BytecodeViewer.resetWorkSpace(true);
+        } else if ((e.getKeyCode() == KeyEvent.VK_W) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+        	last = System.currentTimeMillis();
+        	if(viewer.workPane.getCurrentViewer() != null)
+        		viewer.workPane.tabs.remove(viewer.workPane.getCurrentViewer());
+        }
+    }
 }

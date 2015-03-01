@@ -8,6 +8,6 @@ public class Skeleton extends Plugin {
 	public void execute(ArrayList<ClassNode> classNodesList) {
 		PluginConsole gui = new PluginConsole("Skeleton");
 		gui.setVisible(true);
-		gui.appendText("exceuted skeleton");
+		gui.appendText("executed skeleton");
 	}
 }

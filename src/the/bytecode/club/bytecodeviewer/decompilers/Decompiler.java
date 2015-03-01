@@ -13,7 +13,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler
 
 public abstract class Decompiler {
 
-	public abstract String decompileClassNode(ClassNode cn);
+	public abstract String decompileClassNode(ClassNode cn, byte[] b);
 
 	public abstract void decompileToZip(String zipName);
 

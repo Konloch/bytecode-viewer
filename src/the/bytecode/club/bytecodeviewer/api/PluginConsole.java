@@ -55,7 +55,7 @@ public class PluginConsole extends JFrame {
 					field.requestFocus();
 				}
 	
-				BytecodeViewer.viewer.checkKey(e);
+				BytecodeViewer.checkHotKey(e);
 			}
 			@Override public void keyReleased(KeyEvent arg0) { }
 			@Override public void keyTyped(KeyEvent arg0) { }  

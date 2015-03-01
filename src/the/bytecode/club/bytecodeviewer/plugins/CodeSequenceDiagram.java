@@ -19,6 +19,7 @@ import com.mxgraph.view.mxGraph;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
 
 /**
  * A simple code sequence diagram.
@@ -32,11 +33,11 @@ public class CodeSequenceDiagram extends Plugin {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList) {
-		if(BytecodeViewer.viewer.workPane.getCurrentClass() == null) {
+		if(BytecodeViewer.viewer.workPane.getCurrentViewer() == null || !(BytecodeViewer.viewer.workPane.getCurrentViewer() instanceof ClassViewer)) {
 			BytecodeViewer.showMessage("First open a class file.");
 			return;
 		}
-		ClassNode c = BytecodeViewer.viewer.workPane.getCurrentClass().cn;
+		ClassNode c = BytecodeViewer.viewer.workPane.getCurrentViewer().cn;
 		JFrame frame = new JFrame("Code Sequence Diagram - " +c.name);
 		frame.setIconImages(Resources.iconList);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

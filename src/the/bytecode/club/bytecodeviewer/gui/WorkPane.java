@@ -33,7 +33,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 	private static final long serialVersionUID = 6542337997679487946L;
 
 	FileChangeNotifier fcn;
-	JTabbedPane tabs;
+	public JTabbedPane tabs;
 
 	JPanel buttonPanel;
 	JButton refreshClass;
@@ -55,7 +55,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 
 		buttonPanel = new JPanel(new FlowLayout());
 
-		refreshClass = new JButton("Refresh Class");
+		refreshClass = new JButton("Refresh");
 		refreshClass.addActionListener(this);
 
 		buttonPanel.add(refreshClass);
@@ -133,8 +133,8 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 		addFile(name, content);
 	}
 
-	public ClassViewer getCurrentClass() {
-		return (ClassViewer) tabs.getSelectedComponent();
+	public Viewer getCurrentViewer() {
+		return (Viewer) tabs.getSelectedComponent();
 	}
 
 	public java.awt.Component[] getLoadedViewers() {
@@ -153,11 +153,18 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 		final JButton src = (JButton) arg0.getSource();
 		if (src == refreshClass) {
 			final Component tabComp = tabs.getSelectedComponent();
-			if (tabComp != null && tabComp instanceof ClassViewer) {
-				src.setEnabled(false);
-				BytecodeViewer.viewer.setIcon(true);
-				((ClassViewer) tabComp).startPaneUpdater(src);
-				BytecodeViewer.viewer.setIcon(false);
+			if (tabComp != null) {
+				if(tabComp instanceof ClassViewer) {
+					src.setEnabled(false);
+					BytecodeViewer.viewer.setIcon(true);
+					((ClassViewer) tabComp).startPaneUpdater(src);
+					BytecodeViewer.viewer.setIcon(false);
+				} else if(tabComp instanceof FileViewer) {
+					src.setEnabled(false);
+					BytecodeViewer.viewer.setIcon(true);
+					((FileViewer) tabComp).refresh(src);
+					BytecodeViewer.viewer.setIcon(false);
+				}
 			}
 		}
 	}

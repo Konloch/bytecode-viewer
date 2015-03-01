@@ -36,12 +36,7 @@ public class CFRDecompiler extends Decompiler {
 
 	@Override
 	public void decompileToClass(String className, String classNameSaved) {
-		String contents = decompileClassNode(BytecodeViewer.getClassNode(className));
-		DiskWriter.replaceFile(classNameSaved, contents, false);
-	}
-	
-	@Override
-	public String decompileClassNode(ClassNode cn) {
+		ClassNode cn = BytecodeViewer.getClassNode(className);
 		final ClassWriter cw = new ClassWriter(0);
 		try {
 			cn.accept(cw);
@@ -52,7 +47,12 @@ public class CFRDecompiler extends Decompiler {
 				cn.accept(cw);
 			} catch (InterruptedException e1) { }
 		}
-			
+		String contents = decompileClassNode(cn, cw.toByteArray());
+		DiskWriter.replaceFile(classNameSaved, contents, false);
+	}
+	
+	@Override
+	public String decompileClassNode(ClassNode cn, byte[] b) {
 		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
 		
 		final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
@@ -60,7 +60,7 @@ public class CFRDecompiler extends Decompiler {
 		try {
 			final FileOutputStream fos = new FileOutputStream(tempClass);
 
-			fos.write(cw.toByteArray());
+			fos.write(b);
 
 			fos.close();
 		} catch (final IOException e) {
