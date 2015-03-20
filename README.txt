@@ -324,3 +324,13 @@ Changelog:
 02/24/2015 - Fixed some issues with the compiler functionality.
 --- 2.9.2 ---:
 02/24/2015 - Actually fixed the compiler, LOL.
+--- 2.9.3 ---:
+02/28/2015 - Added drag and drop for any file.
+02/28/2015 - Added ctrl + w to close the current opened tab.
+02/28/2015 - Updated to CFR 0_97.jar
+02/28/2015 - Fixed a concurrency issue with the decompilers.
+02/28/2015 - Added image resize via scroll on mouse.
+02/28/2015 - Added resource refreshing.
+02/28/2015 - Im Frizzy started working on Obfuscation.
+03/20/2015 - Updated Dex2Jar to 2.0.
+03/20/2015 - Updated CFR to 0_98.jar

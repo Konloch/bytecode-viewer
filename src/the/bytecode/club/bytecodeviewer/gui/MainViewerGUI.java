@@ -441,6 +441,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	}
 
 	public MainViewerGUI() {
+		mnNewMenu_5.setVisible(false);
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new Test());
 		this.addWindowStateListener(new WindowAdapter() {
 		      public void windowStateChanged(WindowEvent evt) {
@@ -1681,9 +1682,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 			String extension = getExtension(f);
 			if (extension != null)
-				return (extension.equals("jar")   || extension.equals("zip")
+				if (extension.equals("jar")   || extension.equals("zip")
 					 || extension.equals("class") || extension.equals("apk")
-					 || extension.equals("dex"));
+					 || extension.equals("dex"))
+				return true;
 
 			return false;
 		}

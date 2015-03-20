@@ -83,6 +83,10 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
  * fix the randomly sometimes fucked up names on file navigation bug
  * make zipfile not include the decode shit
  * When you drag a folder, it must add the folder name not just the child into the root jtree path
+ * add ctrl + r for run
+ * add ctrl + t for compile
+ * add stackmapframes to bytecode decompiler
+ * add stackmapframes remover?
  * 
  * -----2.9.3-----:
  * 02/28/2015 - Added drag and drop for any file.
@@ -92,6 +96,8 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
  * 02/28/2015 - Added image resize via scroll on mouse.
  * 02/28/2015 - Added resource refreshing.
  * 02/28/2015 - Im Frizzy started working on Obfuscation.
+ * 03/20/2015 - Updated Dex2Jar to 2.0.
+ * 03/20/2015 - Updated CFR to 0_98.jar
  * 
  * @author Konloch
  * 
@@ -422,7 +428,7 @@ public class BytecodeViewer {
 				if(		cv.smali1 != null && cv.smali1.isEditable() ||
 						cv.smali2 != null &&  cv.smali2.isEditable() ||
 						cv.smali3 != null && cv.smali3.isEditable())
-					{
+				{
 					actuallyTried = true;
 					Object smali[] = cv.getSmali();
 					if(smali != null) {
@@ -463,7 +469,7 @@ public class BytecodeViewer {
 				if(		cv.java1 != null && cv.java1.isEditable() ||
 						cv.java2 != null &&  cv.java2.isEditable() ||
 						cv.java3 != null && cv.java3.isEditable())
-					{
+				{
 					actuallyTried = true;
 					Object java[] = cv.getJava();
 					if(java != null) {

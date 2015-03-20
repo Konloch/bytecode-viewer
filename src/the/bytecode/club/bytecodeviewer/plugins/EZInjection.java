@@ -33,8 +33,7 @@ public class EZInjection extends Plugin {
 
 	public static ArrayList<BytecodeHook> hookArray = new ArrayList<BytecodeHook>();
 	private static String version = "1.0";
-	private static PluginConsole gui = new PluginConsole("EZ Injection v"
-			+ version);
+	private static PluginConsole gui = new PluginConsole("EZ Injection v" + version);
 	private boolean accessModifiers, injectHooks, invokeMethod, useProxy,
 			launchKit, console;
 	public static boolean sandboxSystem, sandboxRuntime, printCmdL;
