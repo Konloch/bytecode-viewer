@@ -25,10 +25,17 @@ import the.bytecode.club.bytecodeviewer.ZipUtils;
 
 public class KrakatauDecompiler extends Decompiler {
 
+	public String quick() {
+		if(BytecodeViewer.library.isEmpty())
+			return "";
+		else
+			return ";"+BytecodeViewer.library;
+	}
+	
 	public String decompileClassNode(ClassNode cn, byte[] b) {
 		
 		if(BytecodeViewer.python.equals("")) {
-			BytecodeViewer.showMessage("You need to set your Python 2.7 executable path.");
+			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
 			BytecodeViewer.viewer.pythonC();
 		}
 		if(BytecodeViewer.rt.equals("")) {
@@ -46,10 +53,12 @@ public class KrakatauDecompiler extends Decompiler {
 		try {
 			ProcessBuilder pb = new ProcessBuilder(
 					BytecodeViewer.python,
+					"-O", //love you storyyeller <3
 					BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "decompile.py",
+					"-skip", //love you storyyeller <3
 					"-nauto",
 					"-path",
-					BytecodeViewer.rt+";"+tempJar.getAbsolutePath(),
+					BytecodeViewer.rt+";"+tempJar.getAbsolutePath()+quick(),
 					"-out",
 					tempDirectory.getAbsolutePath(),
 					cn.name+".class"
@@ -100,7 +109,7 @@ public class KrakatauDecompiler extends Decompiler {
 
 	public void decompileToZip(String zipName) {
 		if(BytecodeViewer.python.equals("")) {
-			BytecodeViewer.showMessage("You need to set your Python 2.7 executable path.");
+			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
 			BytecodeViewer.viewer.pythonC();
 		}
 		if(BytecodeViewer.rt.equals("")) {
@@ -118,6 +127,7 @@ public class KrakatauDecompiler extends Decompiler {
 		try {
 			ProcessBuilder pb = new ProcessBuilder(
 					BytecodeViewer.python,
+					"-O", //love you storyyeller <3
 					BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "decompile.py",
 					"-nauto",
 					"-path",
@@ -164,7 +174,7 @@ public class KrakatauDecompiler extends Decompiler {
 
 	public void decompileToClass(String className, String classNameSaved) {
 		if(BytecodeViewer.python.equals("")) {
-			BytecodeViewer.showMessage("You need to set your Python 2.7 executable path.");
+			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
 			BytecodeViewer.viewer.pythonC();
 		}
 		if(BytecodeViewer.rt.equals("")) {
@@ -181,6 +191,7 @@ public class KrakatauDecompiler extends Decompiler {
 		try {
 			ProcessBuilder pb = new ProcessBuilder(
 					BytecodeViewer.python,
+					"-O", //love you storyyeller <3
 					BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "decompile.py",
 					"-nauto",
 					"-path",

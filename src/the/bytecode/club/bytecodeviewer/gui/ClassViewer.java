@@ -56,7 +56,120 @@ import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
  */
 
 public class ClassViewer extends Viewer {
+	
+	public void setPanes() {
+		if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1None.getModel()))
+			pane1 = 0;
+		else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Proc.getModel()))
+			pane1 = 1;
+		else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1CFR.getModel()))
+			pane1 = 2;
+		else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Fern.getModel()))
+			pane1 = 3;
+		else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Bytecode.getModel()))
+			pane1 = 4;
+		else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Hexcode.getModel()))
+			pane1 = 5;
+		else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Smali.getModel()))
+			pane1 = 6;
+		else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Krakatau.getModel()))
+			pane1 = 7;
+		else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel()))
+			pane1 = 8;
 
+		if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
+			pane2 = 0;
+		else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Proc.getModel()))
+			pane2 = 1;
+		else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2CFR.getModel()))
+			pane2 = 2;
+		else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Fern.getModel()))
+			pane2 = 3;
+		else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Bytecode.getModel()))
+			pane2 = 4;
+		else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Hexcode.getModel()))
+			pane2 = 5;
+		else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Smali.getModel()))
+			pane2 = 6;
+		else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Krakatau.getModel()))
+			pane2 = 7;
+		else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel()))
+			pane2 = 8;
+
+		if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
+			pane3 = 0;
+		else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Proc.getModel()))
+			pane3 = 1;
+		else if (BytecodeViewer.viewer.panelGroup3 .isSelected(BytecodeViewer.viewer.panel3CFR.getModel()))
+			pane3 = 2;
+		else if (BytecodeViewer.viewer.panelGroup3 .isSelected(BytecodeViewer.viewer.panel3Fern.getModel()))
+			pane3 = 3;
+		else if (BytecodeViewer.viewer.panelGroup3 .isSelected(BytecodeViewer.viewer.panel3Bytecode.getModel()))
+			pane3 = 4;
+		else if (BytecodeViewer.viewer.panelGroup3 .isSelected(BytecodeViewer.viewer.panel3Hexcode.getModel()))
+			pane3 = 5;
+		else if (BytecodeViewer.viewer.panelGroup3 .isSelected(BytecodeViewer.viewer.panel3Smali.getModel()))
+			pane3 = 6;
+		else if (BytecodeViewer.viewer.panelGroup3 .isSelected(BytecodeViewer.viewer.panel3Krakatau.getModel()))
+			pane3 = 7;
+		else if (BytecodeViewer.viewer.panelGroup3 .isSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel()))
+			pane3 = 8;
+	}
+
+	public boolean isPanel1Editable() {
+		setPanes();
+
+		if(pane1 == 1 && BytecodeViewer.viewer.panel1Proc_E.isSelected())
+			return true;
+		if(pane1 == 2 && BytecodeViewer.viewer.panel1CFR_E.isSelected())
+			return true;
+		if(pane1 == 3 && BytecodeViewer.viewer.panel1Fern_E.isSelected())
+			return true;
+		if(pane1 == 6 && BytecodeViewer.viewer.panel1Smali_E.isSelected())
+			return true;
+		if((pane1 == 7 || pane1 == 8) && BytecodeViewer.viewer.panel1Krakatau_E.isSelected())
+			return true;
+		
+		
+		return false;
+	}
+
+	public boolean isPanel2Editable() {
+		setPanes();
+
+		if(pane2 == 1 && BytecodeViewer.viewer.panel2Proc_E.isSelected())
+			return true;
+		if(pane2 == 2 && BytecodeViewer.viewer.panel2CFR_E.isSelected())
+			return true;
+		if(pane2 == 3 && BytecodeViewer.viewer.panel2Fern_E.isSelected())
+			return true;
+		if(pane2 == 6 && BytecodeViewer.viewer.panel2Smali_E.isSelected())
+			return true;
+		if((pane2 == 7 || pane2 == 8) && BytecodeViewer.viewer.panel2Krakatau_E.isSelected())
+			return true;
+		
+		
+		return false;
+	}
+
+	public boolean isPanel3Editable() {
+		setPanes();
+
+		if(pane3 == 1 && BytecodeViewer.viewer.panel3Proc_E.isSelected())
+			return true;
+		if(pane3 == 2 && BytecodeViewer.viewer.panel3CFR_E.isSelected())
+			return true;
+		if(pane3 == 3 && BytecodeViewer.viewer.panel3Fern_E.isSelected())
+			return true;
+		if(pane3 == 6 && BytecodeViewer.viewer.panel3Smali_E.isSelected())
+			return true;
+		if((pane3 == 7 || pane3 == 8) && BytecodeViewer.viewer.panel3Krakatau_E.isSelected())
+			return true;
+		
+		
+		return false;
+	}
+	
 	/**
 	 * Whoever wrote this function, THANK YOU!
 	 * 
@@ -443,89 +556,7 @@ public class ClassViewer extends Viewer {
 
 	public void startPaneUpdater(final JButton button) {
 		this.cn = BytecodeViewer.getClassNode(cn.name); //update the classnode
-		if (BytecodeViewer.viewer.panelGroup1
-				.isSelected(BytecodeViewer.viewer.panel1None.getModel()))
-			pane1 = 0;
-		else if (BytecodeViewer.viewer.panelGroup1
-				.isSelected(BytecodeViewer.viewer.panel1Proc.getModel()))
-			pane1 = 1;
-		else if (BytecodeViewer.viewer.panelGroup1
-				.isSelected(BytecodeViewer.viewer.panel1CFR.getModel()))
-			pane1 = 2;
-		else if (BytecodeViewer.viewer.panelGroup1
-				.isSelected(BytecodeViewer.viewer.panel1Fern.getModel()))
-			pane1 = 3;
-		else if (BytecodeViewer.viewer.panelGroup1
-				.isSelected(BytecodeViewer.viewer.panel1Bytecode.getModel()))
-			pane1 = 4;
-		else if (BytecodeViewer.viewer.panelGroup1
-				.isSelected(BytecodeViewer.viewer.panel1Hexcode.getModel()))
-			pane1 = 5;
-		else if (BytecodeViewer.viewer.panelGroup1
-				.isSelected(BytecodeViewer.viewer.panel1Smali.getModel()))
-			pane1 = 6;
-		else if (BytecodeViewer.viewer.panelGroup1
-				.isSelected(BytecodeViewer.viewer.panel1Krakatau.getModel()))
-			pane1 = 7;
-		else if (BytecodeViewer.viewer.panelGroup1
-				.isSelected(BytecodeViewer.viewer.panel1KrakatauEditable.getModel()))
-			pane1 = 8;
-
-		if (BytecodeViewer.viewer.panelGroup2
-				.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
-			pane2 = 0;
-		else if (BytecodeViewer.viewer.panelGroup2
-				.isSelected(BytecodeViewer.viewer.panel2Proc.getModel()))
-			pane2 = 1;
-		else if (BytecodeViewer.viewer.panelGroup2
-				.isSelected(BytecodeViewer.viewer.panel2CFR.getModel()))
-			pane2 = 2;
-		else if (BytecodeViewer.viewer.panelGroup2
-				.isSelected(BytecodeViewer.viewer.panel2Fern.getModel()))
-			pane2 = 3;
-		else if (BytecodeViewer.viewer.panelGroup2
-				.isSelected(BytecodeViewer.viewer.panel2Bytecode.getModel()))
-			pane2 = 4;
-		else if (BytecodeViewer.viewer.panelGroup2
-				.isSelected(BytecodeViewer.viewer.panel2Hexcode.getModel()))
-			pane2 = 5;
-		else if (BytecodeViewer.viewer.panelGroup2
-				.isSelected(BytecodeViewer.viewer.panel2Smali.getModel()))
-			pane2 = 6;
-		else if (BytecodeViewer.viewer.panelGroup2
-				.isSelected(BytecodeViewer.viewer.panel2Krakatau.getModel()))
-			pane2 = 7;
-		else if (BytecodeViewer.viewer.panelGroup2
-				.isSelected(BytecodeViewer.viewer.panel2KrakatauEditable.getModel()))
-			pane2 = 8;
-
-		if (BytecodeViewer.viewer.panelGroup3
-				.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
-			pane3 = 0;
-		else if (BytecodeViewer.viewer.panelGroup3
-				.isSelected(BytecodeViewer.viewer.panel3Proc.getModel()))
-			pane3 = 1;
-		else if (BytecodeViewer.viewer.panelGroup3
-				.isSelected(BytecodeViewer.viewer.panel3CFR.getModel()))
-			pane3 = 2;
-		else if (BytecodeViewer.viewer.panelGroup3
-				.isSelected(BytecodeViewer.viewer.panel3Fern.getModel()))
-			pane3 = 3;
-		else if (BytecodeViewer.viewer.panelGroup3
-				.isSelected(BytecodeViewer.viewer.panel3Bytecode.getModel()))
-			pane3 = 4;
-		else if (BytecodeViewer.viewer.panelGroup3
-				.isSelected(BytecodeViewer.viewer.panel3Hexcode.getModel()))
-			pane3 = 5;
-		else if (BytecodeViewer.viewer.panelGroup3
-				.isSelected(BytecodeViewer.viewer.panel3Smali.getModel()))
-			pane3 = 6;
-		else if (BytecodeViewer.viewer.panelGroup3
-				.isSelected(BytecodeViewer.viewer.panel3Krakatau.getModel()))
-			pane3 = 7;
-		else if (BytecodeViewer.viewer.panelGroup3
-				.isSelected(BytecodeViewer.viewer.panel3KrakatauEditable.getModel()))
-			pane3 = 8;
+		setPanes();
 
 		panel1.removeAll();
 		panel2.removeAll();
@@ -568,7 +599,7 @@ public class ClassViewer extends Viewer {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.procyon.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
+						panelArea.setEditable(isPanel1Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {
 
@@ -593,7 +624,7 @@ public class ClassViewer extends Viewer {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.cfr.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
+						panelArea.setEditable(isPanel1Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
 								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -618,7 +649,7 @@ public class ClassViewer extends Viewer {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
+						panelArea.setEditable(isPanel1Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
 								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -676,7 +707,7 @@ public class ClassViewer extends Viewer {
 								panelArea);
 						panelArea.setText(Decompiler.smali.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
+						panelArea.setEditable(isPanel1Editable());
 						smali1 = panelArea;
 						smali1.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
@@ -702,7 +733,7 @@ public class ClassViewer extends Viewer {
 								panelArea);
 						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
+						panelArea.setEditable(isPanel1Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
 								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -730,7 +761,7 @@ public class ClassViewer extends Viewer {
 								panelArea);
 						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane1Editable.isSelected());
+						panelArea.setEditable(isPanel1Editable());
 						krakatau1 = panelArea;
 						krakatau1.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
@@ -770,7 +801,7 @@ public class ClassViewer extends Viewer {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.procyon.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
+						panelArea.setEditable(isPanel2Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
 								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -795,7 +826,7 @@ public class ClassViewer extends Viewer {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.cfr.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
+						panelArea.setEditable(isPanel2Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
 								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -820,7 +851,7 @@ public class ClassViewer extends Viewer {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
+						panelArea.setEditable(isPanel2Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
 								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -874,7 +905,7 @@ public class ClassViewer extends Viewer {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.smali.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
+						panelArea.setEditable(isPanel2Editable());
 						smali2 = panelArea;
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
@@ -900,7 +931,7 @@ public class ClassViewer extends Viewer {
 								panelArea);
 						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
+						panelArea.setEditable(isPanel2Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
 								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -926,7 +957,7 @@ public class ClassViewer extends Viewer {
 								panelArea);
 						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane2Editable.isSelected());
+						panelArea.setEditable(isPanel2Editable());
 						krakatau2 = panelArea;
 						krakatau2.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
@@ -967,7 +998,7 @@ public class ClassViewer extends Viewer {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.procyon.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
+						panelArea.setEditable(isPanel3Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
 								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -992,7 +1023,7 @@ public class ClassViewer extends Viewer {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.cfr.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
+						panelArea.setEditable(isPanel3Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
 								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -1017,7 +1048,7 @@ public class ClassViewer extends Viewer {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
+						panelArea.setEditable(isPanel3Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
 								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -1071,7 +1102,7 @@ public class ClassViewer extends Viewer {
 						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.smali.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
+						panelArea.setEditable(isPanel3Editable());
 						smali3 = panelArea;
 						smali3.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
@@ -1097,7 +1128,7 @@ public class ClassViewer extends Viewer {
 								panelArea);
 						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
+						panelArea.setEditable(isPanel3Editable());
 						panelArea.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  
 								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -1125,7 +1156,7 @@ public class ClassViewer extends Viewer {
 								panelArea);
 						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
-						panelArea.setEditable(BytecodeViewer.viewer.pane3Editable.isSelected());
+						panelArea.setEditable(isPanel3Editable());
 						krakatau3 = panelArea;
 						krakatau3.addKeyListener(new KeyListener() {  
 							public void keyPressed(KeyEvent e) {  

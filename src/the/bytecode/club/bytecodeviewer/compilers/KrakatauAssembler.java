@@ -21,7 +21,7 @@ public class KrakatauAssembler extends Compiler {
 	@Override
 	public byte[] compile(String contents, String name) {
 		if(BytecodeViewer.python.equals("")) {
-			BytecodeViewer.showMessage("You need to set your Python 2.7 executable path.");
+			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
 			BytecodeViewer.viewer.pythonC();
 		}
 
@@ -46,6 +46,7 @@ public class KrakatauAssembler extends Compiler {
 		try {
 			ProcessBuilder pb = new ProcessBuilder(
 					BytecodeViewer.python,
+					"-O", //love you storyyeller <3
 					BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "assemble.py",
 					"-out",
 					tempDirectory.getAbsolutePath(),

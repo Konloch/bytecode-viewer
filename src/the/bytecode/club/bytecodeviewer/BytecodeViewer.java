@@ -34,6 +34,7 @@ import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.FileNavigationPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
+import the.bytecode.club.bytecodeviewer.gui.RunOptions;
 import the.bytecode.club.bytecodeviewer.gui.SearchingPane;
 import the.bytecode.club.bytecodeviewer.gui.SystemErrConsole;
 import the.bytecode.club.bytecodeviewer.gui.WorkPane;
@@ -83,21 +84,23 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
  * fix the randomly sometimes fucked up names on file navigation bug
  * make zipfile not include the decode shit
  * When you drag a folder, it must add the folder name not just the child into the root jtree path
- * add ctrl + r for run
- * add ctrl + t for compile
  * add stackmapframes to bytecode decompiler
  * add stackmapframes remover?
  * 
- * -----2.9.3-----:
- * 02/28/2015 - Added drag and drop for any file.
- * 02/28/2015 - Added ctrl + w to close the current opened tab.
- * 02/28/2015 - Updated to CFR 0_97.jar
- * 02/28/2015 - Fixed a concurrency issue with the decompilers.
- * 02/28/2015 - Added image resize via scroll on mouse.
- * 02/28/2015 - Added resource refreshing.
- * 02/28/2015 - Im Frizzy started working on Obfuscation.
- * 03/20/2015 - Updated Dex2Jar to 2.0.
- * 03/20/2015 - Updated CFR to 0_98.jar
+ * -----2.9.4-----:
+ * 04/19/2015 - Added -O to be passed for Krakatau Decompiler/Disassembler/Assembler. (Thanks Storyyeller).
+ * 04/19/2015 - Added -skip to be passed for Krakatau Decompiler. (Thanks Storyyeller).
+ * 04/19/2015 - Changed the warning window for Python to recommend PyPy. (Thanks Storyyeller).
+ * 04/20/2015 - Happy 2015 4/20 (Shoutout to @announce420 for being 2 years old).
+ * 04/21/2015 - Started reworking the View Panes.
+ * 04/21/2015 - Finished reworking the View Panes - http://i.imgur.com/SqIw4Vj.png - Cheers to whoever's idea this was (I forget sorry <3).
+ * 04/21/2015 - Updated CFR to 0_100.jar
+ * 04/21/2015 - Added CTRL + R for run.
+ * 04/21/2015 - Added CTRL + S for save files as.
+ * 04/21/2015 - Added CTRL + T for compile.
+ * 04/21/2015 - Added Krakatau optional library.
+ * 04/21/2015 - The about pane now provides a lot more up to date information.
+ * 04/21/2015 - Changed 'View Panes' to simply 'View'.
  * 
  * @author Konloch
  * 
@@ -106,13 +109,14 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 public class BytecodeViewer {
 
 	/*per version*/
-	public static String version = "2.9.3";
+	public static String version = "2.9.4";
 	public static String krakatauVersion = "2";
 	/*the rest*/
 	public static MainViewerGUI viewer = null;
 	public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV, however that's highly unlikely.
 	public static String python = "";
 	public static String rt = "";
+	public static String library = "";
 	public static SecurityMan sm = new SecurityMan();
 	public static HashMap<String, ClassNode> loadedClasses = new HashMap<String, ClassNode>();
 	public static HashMap<String, byte[]> loadedResources = new HashMap<String, byte[]>();
@@ -919,6 +923,69 @@ public class BytecodeViewer {
         } else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
         	last = System.currentTimeMillis();
         	BytecodeViewer.resetWorkSpace(true);
+        } else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+        	last = System.currentTimeMillis();
+        	BytecodeViewer.compile(true);
+        } else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+        	last = System.currentTimeMillis();
+			if(BytecodeViewer.getLoadedClasses().isEmpty()) {
+				BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+				return;
+			}
+			new RunOptions().setVisible(true);
+        } else if ((e.getKeyCode() == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+        	last = System.currentTimeMillis();
+
+			if(BytecodeViewer.getLoadedClasses().isEmpty()) {
+				BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+				return;
+			}
+			if(viewer.autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
+				return;
+			JFileChooser fc = new JFileChooser();
+			fc.setFileFilter(viewer.new ZipFileFilter());
+			fc.setFileHidingEnabled(false);
+			fc.setAcceptAllFileFilterUsed(false);
+			int returnVal = fc.showSaveDialog(viewer);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				if(!file.getAbsolutePath().endsWith(".zip"))
+					file = new File(file.getAbsolutePath()+".zip");
+				
+				if(file.exists()) {
+					JOptionPane pane = new JOptionPane(
+							"Are you sure you wish to overwrite this existing file?");
+					Object[] options = new String[] { "Yes", "No" };
+					pane.setOptions(options);
+					JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
+							"Bytecode Viewer - Overwrite File");
+					dialog.setVisible(true);
+					Object obj = pane.getValue();
+					int result = -1;
+					for (int k = 0; k < options.length; k++)
+						if (options[k].equals(obj))
+							result = k;
+
+					if (result == 0) {
+						file.delete();
+					} else {
+						return;
+					}
+				}
+				
+				final File file2 = file;
+				
+				BytecodeViewer.viewer.setIcon(true);
+				Thread t = new Thread() {
+					@Override
+					public void run() {
+						JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
+								file2.getAbsolutePath());
+						BytecodeViewer.viewer.setIcon(false);
+					}
+				};
+				t.start();
+			}
         } else if ((e.getKeyCode() == KeyEvent.VK_W) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
         	last = System.currentTimeMillis();
         	if(viewer.workPane.getCurrentViewer() != null)

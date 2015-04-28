@@ -26,7 +26,7 @@ public class KrakatauDisassembler extends Decompiler {
 
 	public String decompileClassNode(ClassNode cn, byte[] b) {
 		if(BytecodeViewer.python.equals("")) {
-			BytecodeViewer.showMessage("You need to set your Python 2.7 executable path.");
+			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
 			BytecodeViewer.viewer.pythonC();
 		}
 		String s = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
@@ -40,6 +40,7 @@ public class KrakatauDisassembler extends Decompiler {
 		try {
 			ProcessBuilder pb = new ProcessBuilder(
 					BytecodeViewer.python,
+					"-O", //love you storyyeller <3
 					BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "disassemble.py",
 					"-path",
 					tempJar.getAbsolutePath(),

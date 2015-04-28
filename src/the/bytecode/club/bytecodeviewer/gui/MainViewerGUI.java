@@ -50,7 +50,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JRadioButtonMenuItem;
-import javax.swing.SwingConstants;
 
 /**
  * The main file for the GUI.n
@@ -76,6 +75,23 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			}
 	}
 	
+	public void library() {
+		JFileChooser fc = new JFileChooser();
+		fc.setFileFilter(new LibraryFileFilter());
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fc.setFileHidingEnabled(false);
+		fc.setAcceptAllFileFilterUsed(false);
+		int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+			try {
+				BytecodeViewer.library = fc.getSelectedFile().getAbsolutePath();
+			} catch (Exception e1) {
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
+			}
+	}
+	
+
 	public void rtC() {
 		JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(new RTCFileFilter());
@@ -96,10 +112,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	final Decompiler cfr_dc = new CFRDecompiler();
 	final Decompiler krak_dc = new KrakatauDecompiler();
 
-	private static final long serialVersionUID = 1851409230530948543L;
+	public static final long serialVersionUID = 1851409230530948543L;
 	public JCheckBoxMenuItem debugHelpers = new JCheckBoxMenuItem("Debug Helpers");
-	private JSplitPane sp1;
-	private JSplitPane sp2;
+	public JSplitPane sp1;
+	public JSplitPane sp2;
 	static ArrayList<VisibleComponent> rfComps = new ArrayList<VisibleComponent>();
 	public JCheckBoxMenuItem rbr = new JCheckBoxMenuItem("Hide bridge methods");
 	public JCheckBoxMenuItem rsy = new JCheckBoxMenuItem(
@@ -135,36 +151,36 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			"Deinline finally structures");
 	public JCheckBoxMenuItem asc = new JCheckBoxMenuItem(
 			"Allow only ASCII characters in strings");
-	private final JMenuItem mntmNewWorkspace = new JMenuItem("New Workspace");
+	public final JMenuItem mntmNewWorkspace = new JMenuItem("New Workspace");
 	public JMenu mnRecentFiles = new JMenu("Recent Files");
-	private final JMenuItem mntmNewMenuItem = new JMenuItem(
+	public final JMenuItem mntmNewMenuItem = new JMenuItem(
 			"Save Java Files As..");
-	private final JMenuItem mntmAbout = new JMenuItem("About");
-	private AboutWindow aboutWindow = new AboutWindow();
-	private final JSeparator separator_3 = new JSeparator();
-	private final JMenu mnNewMenu_1 = new JMenu("Plugins");
-	private final JMenuItem mntmStartExternalPlugin = new JMenuItem(
+	public final JMenuItem mntmAbout = new JMenuItem("About");
+	public AboutWindow aboutWindow = new AboutWindow();
+	public final JSeparator separator_3 = new JSeparator();
+	public final JMenu mnNewMenu_1 = new JMenu("Plugins");
+	public final JMenuItem mntmStartExternalPlugin = new JMenuItem(
 			"Open Plugin..");
-	private final JSeparator separator_4 = new JSeparator();
+	public final JSeparator separator_4 = new JSeparator();
 	public JMenu mnRecentPlugins = new JMenu("Recent Plugins");
-	private final JSeparator separator_5 = new JSeparator();
-	private final JMenuItem mntmStartZkmString = new JMenuItem(
+	public final JSeparator separator_5 = new JSeparator();
+	public final JMenuItem mntmStartZkmString = new JMenuItem(
 			"ZKM String Decrypter");
-	private final JMenuItem mntmNewMenuItem_1 = new JMenuItem(
+	public final JMenuItem mntmNewMenuItem_1 = new JMenuItem(
 			"Malicious Code Scanner");
-	private final JMenuItem mntmNewMenuItem_2 = new JMenuItem(
+	public final JMenuItem mntmNewMenuItem_2 = new JMenuItem(
 			"Allatori String Decrypter");
-	private final JMenuItem mntmShowAllStrings = new JMenuItem(
+	public final JMenuItem mntmShowAllStrings = new JMenuItem(
 			"Show All Strings");
-	private final JMenuItem mntmShowMainMethods = new JMenuItem(
+	public final JMenuItem mntmShowMainMethods = new JMenuItem(
 			"Show Main Methods");
-	private final JMenuItem mntmNewMenuItem_3 = new JMenuItem("Save As Jar..");
-	private JMenuBar menuBar = new JMenuBar();
-	private final JMenuItem mntmReplaceStrings = new JMenuItem(
+	public final JMenuItem mntmNewMenuItem_3 = new JMenuItem("Save As Jar..");
+	public JMenuBar menuBar = new JMenuBar();
+	public final JMenuItem mntmReplaceStrings = new JMenuItem(
 			"Replace Strings");
-	private final JMenuItem mntmNewMenuItem_4 = new JMenuItem("");
-	private final JMenu mnNewMenu_3 = new JMenu("CFR");
-	private final JMenu mnNewMenu_4 = new JMenu("Procyon");
+	public final JMenuItem mntmNewMenuItem_4 = new JMenuItem("");
+	public final JMenu mnNewMenu_3 = new JMenu("CFR");
+	public final JMenu mnNewMenu_4 = new JMenu("Procyon");
 	public final JCheckBoxMenuItem decodeenumswitch = new JCheckBoxMenuItem(
 			"Decode Enum Switch");
 	public final JCheckBoxMenuItem sugarenums = new JCheckBoxMenuItem(
@@ -277,27 +293,22 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			"Append Brackets To Labels");
 	public final JCheckBoxMenuItem chckbxmntmNewCheckItem_12 = new JCheckBoxMenuItem(
 			"Update Check");
-	private final JMenu mnNewMenu_5 = new JMenu("Obfuscate");
-	private final JMenuItem mntmNewMenuItem_6 = new JMenuItem("Rename Fields");
-	private final JMenuItem mntmNewMenuItem_7 = new JMenuItem("Rename Methods");
-	private final JMenuItem mntmNewMenuItem_8 = new JMenuItem(
+	public final JMenu mnNewMenu_5 = new JMenu("Obfuscate");
+	public final JMenuItem mntmNewMenuItem_6 = new JMenuItem("Rename Fields");
+	public final JMenuItem mntmNewMenuItem_7 = new JMenuItem("Rename Methods");
+	public final JMenuItem mntmNewMenuItem_8 = new JMenuItem(
 			"Move All Classes Into Root Package");
-	private final JMenuItem mntmNewMenuItem_9 = new JMenuItem("Control Flow");
-	private final JMenuItem mntmNewMenuItem_10 = new JMenuItem("Junk Code");
+	public final JMenuItem mntmNewMenuItem_9 = new JMenuItem("Control Flow");
+	public final JMenuItem mntmNewMenuItem_10 = new JMenuItem("Junk Code");
 	public final ButtonGroup obfuscatorGroup = new ButtonGroup();
 	public final JRadioButtonMenuItem strongObf = new JRadioButtonMenuItem(
 			"Strong Obfuscation");
 	public final JRadioButtonMenuItem lightObf = new JRadioButtonMenuItem(
 			"Light Obfuscation");
-	private final JMenuItem mntmNewMenuItem_11 = new JMenuItem("Rename Classes");
-	private final JSeparator separator_2 = new JSeparator();
-	public final ButtonGroup panelGroup1 = new ButtonGroup();
-	public final ButtonGroup panelGroup2 = new ButtonGroup();
-	public final ButtonGroup panelGroup3 = new ButtonGroup();
-	private final JMenu mnNewMenu_6 = new JMenu("View Panes");
-	private final JMenu mnNewMenu_7 = new JMenu("Pane 1");
-	private final JMenu mnNewMenu_8 = new JMenu("Pane 2");
-	private final JMenu mnNewMenu_9 = new JMenu("Pane 3");
+	public final JMenuItem mntmNewMenuItem_11 = new JMenuItem("Rename Classes");
+	public final JSeparator separator_2 = new JSeparator();
+	public final JMenu mnNewMenu_6 = new JMenu("View");
+	public final JMenu mnNewMenu_7 = new JMenu("Pane 1");
 	public final JRadioButtonMenuItem panel1None = new JRadioButtonMenuItem(
 			"None");
 	public final JRadioButtonMenuItem panel1Hexcode = new JRadioButtonMenuItem(
@@ -305,39 +316,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	public final JRadioButtonMenuItem panel1Bytecode = new JRadioButtonMenuItem(
 			"Bytecode");
 	public final JRadioButtonMenuItem panel1Fern = new JRadioButtonMenuItem(
-			"FernFlower");
+			"Java");
 	public final JRadioButtonMenuItem panel1CFR = new JRadioButtonMenuItem(
-			"CFR");
+			"Java");
 	public final JRadioButtonMenuItem panel1Proc = new JRadioButtonMenuItem(
-			"Procyon");
-	public final JRadioButtonMenuItem panel2None = new JRadioButtonMenuItem(
-			"None");
-	public final JRadioButtonMenuItem panel2Proc = new JRadioButtonMenuItem(
-			"Procyon");
-	public final JRadioButtonMenuItem panel2CFR = new JRadioButtonMenuItem(
-			"CFR");
-	public final JRadioButtonMenuItem panel2Bytecode = new JRadioButtonMenuItem(
-			"Bytecode");
-	public final JRadioButtonMenuItem panel2Fern = new JRadioButtonMenuItem(
-			"FernFlower");
-	public final JRadioButtonMenuItem panel2Hexcode = new JRadioButtonMenuItem(
-			"Hexcode");
-	public final JRadioButtonMenuItem panel3None = new JRadioButtonMenuItem(
-			"None");
-	public final JRadioButtonMenuItem panel3Proc = new JRadioButtonMenuItem(
-			"Procyon");
-	public final JRadioButtonMenuItem panel3CFR = new JRadioButtonMenuItem(
-			"CFR");
-	public final JRadioButtonMenuItem panel3Fern = new JRadioButtonMenuItem(
-			"FernFlower");
-	public final JRadioButtonMenuItem panel3Bytecode = new JRadioButtonMenuItem(
-			"Bytecode");
-	public final JRadioButtonMenuItem panel3Hexcode = new JRadioButtonMenuItem(
-			"Hexcode");
-	private final JMenuItem mntmNewMenuItem_12 = new JMenuItem("Save Java File..");
+			"Java");
+	public final JMenuItem mntmNewMenuItem_12 = new JMenuItem("Save Java File..");
 	public WorkPane workPane = new WorkPane(this);
-	private final JMenu mnSettings = new JMenu("Settings");
-	private final JSeparator separator_6 = new JSeparator();
+	public final JMenu mnSettings = new JMenu("Settings");
+	public final JSeparator separator_6 = new JSeparator();
 	public final JCheckBoxMenuItem refreshOnChange = new JCheckBoxMenuItem("Refresh On View Change");
 
 	public FileNavigationPane cn = new FileNavigationPane(this);
@@ -382,7 +369,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		}
 	}
 	
-    private class Test implements KeyEventDispatcher {
+    public class Test implements KeyEventDispatcher {
         @Override
         public boolean dispatchKeyEvent(KeyEvent e) {
         	BytecodeViewer.checkHotKey(e);
@@ -390,40 +377,95 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         }
     }
 
-    private final JMenuItem mntmSaveAsApk = new JMenuItem("Save As DEX..");
-	private final JMenuItem mntmCodeSequenceDiagram = new JMenuItem("Code Sequence Diagram");
-	private final JSeparator separator_7 = new JSeparator();
-	private final JSeparator separator_8 = new JSeparator();
-	private final JSeparator separator_9 = new JSeparator();
-	private final JSeparator separator_10 = new JSeparator();
-	private final JSeparator separator_11 = new JSeparator();
-	private final JSeparator separator_12 = new JSeparator();
+    public final JMenuItem mntmSaveAsApk = new JMenuItem("Save As DEX..");
+	public final JMenuItem mntmCodeSequenceDiagram = new JMenuItem("Code Sequence Diagram");
+	public final JSeparator separator_7 = new JSeparator();
+	public final JSeparator separator_8 = new JSeparator();
 	public final JRadioButtonMenuItem panel1Smali = new JRadioButtonMenuItem("Smali/DEX");
-	public final JRadioButtonMenuItem panel2Smali = new JRadioButtonMenuItem("Smali/DEX");
-	public final JRadioButtonMenuItem panel3Smali = new JRadioButtonMenuItem("Smali/DEX");
 	public final JCheckBoxMenuItem autoCompileSmali = new JCheckBoxMenuItem("Compile On Save");
-	private final JMenuItem mntmNewMenuItem_13 = new JMenuItem("Compile");
+	public final JMenuItem mntmNewMenuItem_13 = new JMenuItem("Compile");
 	public final JCheckBoxMenuItem autoCompileOnRefresh = new JCheckBoxMenuItem("Compile On Refresh");
-	private final JMenuItem mntmSetPythonDirectory = new JMenuItem("Set Python 2.7 Executable");
-	private final JSeparator separator_13 = new JSeparator();
-	public final JRadioButtonMenuItem panel1Krakatau = new JRadioButtonMenuItem("Krakatau");
-	public final JRadioButtonMenuItem panel1KrakatauEditable = new JRadioButtonMenuItem("Krakatau Bytecode");
-	public final JRadioButtonMenuItem panel2Krakatau = new JRadioButtonMenuItem("Krakatau");
-	public final JRadioButtonMenuItem panel2KrakatauEditable = new JRadioButtonMenuItem("Krakatau Bytecode");
-	public final JRadioButtonMenuItem panel3Krakatau = new JRadioButtonMenuItem("Krakatau");
-	public final JRadioButtonMenuItem panel3KrakatauEditable = new JRadioButtonMenuItem("Krakatau Bytecode");
-	private final JMenuItem mntmSetJreRt = new JMenuItem("Set JRE RT Library");
-	private final JSeparator separator_14 = new JSeparator();
-	public final JCheckBoxMenuItem pane1Editable = new JCheckBoxMenuItem("Pane 1 Editable");
-	public final JCheckBoxMenuItem pane2Editable = new JCheckBoxMenuItem("Pane 2 Editable");
-	public final JCheckBoxMenuItem pane3Editable = new JCheckBoxMenuItem("Pane 3 Editable");
-	private final JMenuItem mntmZstringarrayDecrypter = new JMenuItem("ZStringArray Decrypter");
-	private final JSeparator separator_15 = new JSeparator();
-	private final JSeparator separator_16 = new JSeparator();
-	private final JSeparator separator_17 = new JSeparator();
-	private final JMenuItem mntmRun = new JMenuItem("Run");
-	private final JSeparator separator_18 = new JSeparator();
+	public final JMenuItem mntmSetPythonDirectory = new JMenuItem("Set Python 2.7 Executable");
+	public final JSeparator separator_13 = new JSeparator();
+	public final JRadioButtonMenuItem panel1Krakatau = new JRadioButtonMenuItem("Java");
+	public final JRadioButtonMenuItem panel1KrakatauBytecode = new JRadioButtonMenuItem("Bytecode");
+	public final JMenuItem mntmSetJreRt = new JMenuItem("Set JRE RT Library");
+	public final JMenuItem mntmZstringarrayDecrypter = new JMenuItem("ZStringArray Decrypter");
+	public final JSeparator separator_15 = new JSeparator();
+	public final JMenuItem mntmRun = new JMenuItem("Run");
+	public final JSeparator separator_18 = new JSeparator();
 	public final JCheckBoxMenuItem decodeAPKResources = new JCheckBoxMenuItem("Decode APK Resources");
+	public final JMenu mnProcyon = new JMenu("Procyon");
+	public final JCheckBoxMenuItem panel1Proc_E = new JCheckBoxMenuItem("Editable");
+	public final JSeparator separator_14 = new JSeparator();
+	public final JMenu mnCfr = new JMenu("CFR");
+	public final JSeparator separator_19 = new JSeparator();
+	public final JCheckBoxMenuItem panel1CFR_E = new JCheckBoxMenuItem("Editable");
+	public final JMenu mnFernflower = new JMenu("FernFlower");
+	public final JSeparator separator_20 = new JSeparator();
+	public final JCheckBoxMenuItem panel1Fern_E = new JCheckBoxMenuItem("Editable");
+	public final JMenu mnKrakatau = new JMenu("Krakatau");
+	public final JSeparator separator_21 = new JSeparator();
+	public final JCheckBoxMenuItem panel1Krakatau_E = new JCheckBoxMenuItem("Editable");
+	public final JMenu mnSmalidex = new JMenu("Smali/DEX");
+	public final JSeparator separator_22 = new JSeparator();
+	public final JCheckBoxMenuItem panel1Smali_E = new JCheckBoxMenuItem("Editable");
+	public final JMenu mnPane = new JMenu("Pane 2");
+	public final JRadioButtonMenuItem panel2None = new JRadioButtonMenuItem("None");
+	public final JSeparator separator_9 = new JSeparator();
+	public final JMenu menu_1 = new JMenu("Procyon");
+	public final JRadioButtonMenuItem panel2Proc = new JRadioButtonMenuItem("Java");
+	public final JSeparator separator_10 = new JSeparator();
+	public final JCheckBoxMenuItem panel2Proc_E = new JCheckBoxMenuItem("Editable");
+	public final JMenu menu_2 = new JMenu("CFR");
+	public final JRadioButtonMenuItem panel2CFR = new JRadioButtonMenuItem("Java");
+	public final JSeparator separator_11 = new JSeparator();
+	public final JCheckBoxMenuItem panel2CFR_E = new JCheckBoxMenuItem("Editable");
+	public final JMenu menu_3 = new JMenu("FernFlower");
+	public final JRadioButtonMenuItem panel2Fern = new JRadioButtonMenuItem("Java");
+	public final JSeparator separator_12 = new JSeparator();
+	public final JCheckBoxMenuItem panel2Fern_E = new JCheckBoxMenuItem("Editable");
+	public final JMenu menu_4 = new JMenu("Krakatau");
+	public final JRadioButtonMenuItem panel2Krakatau = new JRadioButtonMenuItem("Java");
+	public final JRadioButtonMenuItem panel2KrakatauBytecode = new JRadioButtonMenuItem("Bytecode");
+	public final JSeparator separator_16 = new JSeparator();
+	public final JCheckBoxMenuItem panel2Krakatau_E = new JCheckBoxMenuItem("Editable");
+	public final JSeparator separator_17 = new JSeparator();
+	public final JMenu menu_5 = new JMenu("Smali/DEX");
+	public final JRadioButtonMenuItem panel2Smali = new JRadioButtonMenuItem("Smali/DEX");
+	public final JSeparator separator_23 = new JSeparator();
+	public final JCheckBoxMenuItem panel2Smali_E = new JCheckBoxMenuItem("Editable");
+	public final JSeparator separator_24 = new JSeparator();
+	public final JRadioButtonMenuItem panel2Bytecode = new JRadioButtonMenuItem("Bytecode");
+	public final JRadioButtonMenuItem panel2Hexcode = new JRadioButtonMenuItem("Hexcode");
+	public final JMenu mnPane_1 = new JMenu("Pane 3");
+	public final JRadioButtonMenuItem panel3None = new JRadioButtonMenuItem("None");
+	public final JSeparator separator_25 = new JSeparator();
+	public final JMenu menu_7 = new JMenu("Procyon");
+	public final JRadioButtonMenuItem panel3Proc = new JRadioButtonMenuItem("Java");
+	public final JSeparator separator_26 = new JSeparator();
+	public final JCheckBoxMenuItem panel3Proc_E = new JCheckBoxMenuItem("Editable");
+	public final JMenu menu_8 = new JMenu("CFR");
+	public final JRadioButtonMenuItem panel3CFR = new JRadioButtonMenuItem("Java");
+	public final JSeparator separator_27 = new JSeparator();
+	public final JCheckBoxMenuItem panel3CFR_E = new JCheckBoxMenuItem("Editable");
+	public final JMenu menu_9 = new JMenu("FernFlower");
+	public final JRadioButtonMenuItem panel3Fern = new JRadioButtonMenuItem("Java");
+	public final JSeparator separator_28 = new JSeparator();
+	public final JCheckBoxMenuItem panel3Fern_E = new JCheckBoxMenuItem("Editable");
+	public final JMenu menu_10 = new JMenu("Krakatau");
+	public final JRadioButtonMenuItem panel3Krakatau = new JRadioButtonMenuItem("Java");
+	public final JRadioButtonMenuItem panel3KrakatauBytecode = new JRadioButtonMenuItem("Bytecode");
+	public final JSeparator separator_29 = new JSeparator();
+	public final JCheckBoxMenuItem panel3Krakatau_E = new JCheckBoxMenuItem("Editable");
+	public final JSeparator separator_30 = new JSeparator();
+	public final JMenu menu_11 = new JMenu("Smali/DEX");
+	public final JRadioButtonMenuItem panel3Smali = new JRadioButtonMenuItem("Smali/DEX");
+	public final JSeparator separator_31 = new JSeparator();
+	public final JCheckBoxMenuItem panel3Smali_E = new JCheckBoxMenuItem("Editable");
+	public final JSeparator separator_32 = new JSeparator();
+	public final JRadioButtonMenuItem panel3Bytecode = new JRadioButtonMenuItem("Bytecode");
+	public final JRadioButtonMenuItem panel3Hexcode = new JRadioButtonMenuItem("Hexcode");
 	public void setIcon(final boolean busy) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -440,6 +482,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		});
 	}
 
+	public final ButtonGroup panelGroup1 = new ButtonGroup();
+	public final ButtonGroup panelGroup2 = new ButtonGroup();
+	public final ButtonGroup panelGroup3 = new ButtonGroup();
+	private final JMenuItem mntmSetOpitonalLibrary = new JMenuItem("Set Optionial Library Folder");
 	public MainViewerGUI() {
 		mnNewMenu_5.setVisible(false);
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new Test());
@@ -462,33 +508,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		        }
 		      });
 		this.setIconImages(Resources.iconList);
-		panelGroup1.add(panel1None);
-		panelGroup1.add(panel1Fern);
-		panelGroup1.add(panel1Proc);
-		panelGroup1.add(panel1CFR);
-		panelGroup1.add(panel1Smali);
-		panelGroup1.add(panel1Hexcode);
-		panelGroup1.add(panel1Krakatau);
-		panelGroup1.add(panel1KrakatauEditable);
-		panelGroup1.setSelected(panel1Proc.getModel(), true);//my one true love
-		panelGroup2.add(panel2None);
-		panelGroup2.add(panel2Fern);
-		panelGroup2.add(panel2Proc);
-		panelGroup2.add(panel2CFR);
-		panelGroup2.add(panel2Smali);
-		panelGroup2.add(panel2Hexcode);
-		panelGroup2.add(panel2Krakatau);
-		panelGroup2.add(panel2KrakatauEditable);
-		panelGroup3.add(panel3None);
-		panelGroup3.add(panel3Fern);
-		panelGroup3.add(panel3Proc);
-		panelGroup3.add(panel3CFR);
-		panelGroup3.add(panel3Smali);
-		panelGroup3.add(panel3Hexcode);
-		panelGroup3.add(panel3Krakatau);
-		panelGroup3.add(panel3KrakatauEditable);
-		panelGroup3.setSelected(panel3None.getModel(), true);
-
 		ActionListener listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -503,29 +522,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		};
 
 		panel1None.addActionListener(listener);
-		panel1Fern.addActionListener(listener);
-		panel1Proc.addActionListener(listener);
-		panel1CFR.addActionListener(listener);
-		panel1Smali.addActionListener(listener);
 		panel1Hexcode.addActionListener(listener);
-		panel1Krakatau.addActionListener(listener);
-		panel1KrakatauEditable.addActionListener(listener);
-		panel2None.addActionListener(listener);
-		panel2Fern.addActionListener(listener);
-		panel2Proc.addActionListener(listener);
-		panel2CFR.addActionListener(listener);
-		panel2Smali.addActionListener(listener);
-		panel2Hexcode.addActionListener(listener);
-		panel2Krakatau.addActionListener(listener);
-		panel2KrakatauEditable.addActionListener(listener);
-		panel3None.addActionListener(listener);
-		panel3Fern.addActionListener(listener);
-		panel3Proc.addActionListener(listener);
-		panel3CFR.addActionListener(listener);
-		panel3Smali.addActionListener(listener);
-		panel3Hexcode.addActionListener(listener);
-		panel3Krakatau.addActionListener(listener);
-		panel3KrakatauEditable.addActionListener(listener);
 		obfuscatorGroup.add(strongObf);
 		obfuscatorGroup.add(lightObf);
 		obfuscatorGroup.setSelected(strongObf.getModel(), true);
@@ -1055,36 +1052,56 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnNewMenu.add(mntmExit);
 
 		menuBar.add(mnNewMenu_6);
-		
-		mnNewMenu_6.add(pane1Editable);
-		pane2Editable.setVerticalTextPosition(SwingConstants.TOP);
-		
-		mnNewMenu_6.add(pane2Editable);
-		
-		mnNewMenu_6.add(pane3Editable);
-		
-		mnNewMenu_6.add(separator_14);
 
 		mnNewMenu_6.add(mnNewMenu_7);
 
 		mnNewMenu_7.add(panel1None);
 		
 		mnNewMenu_7.add(separator_7);
-
-		mnNewMenu_7.add(panel1Proc);
-
-		mnNewMenu_7.add(panel1CFR);
-
-		mnNewMenu_7.add(panel1Fern);
 		
-		mnNewMenu_7.add(panel1Krakatau);
+		mnNewMenu_7.add(mnProcyon);
+		mnProcyon.add(panel1Proc);
+		
+		mnProcyon.add(separator_14);
+		
+		mnProcyon.add(panel1Proc_E);
+		panel1Proc.addActionListener(listener);
+		
+		mnNewMenu_7.add(mnCfr);
+		mnCfr.add(panel1CFR);
+		panel1CFR.addActionListener(listener);
+		
+		mnCfr.add(separator_19);
+		
+		mnCfr.add(panel1CFR_E);
+		
+		mnNewMenu_7.add(mnFernflower);
+		mnFernflower.add(panel1Fern);
+		panel1Fern.addActionListener(listener);
+		
+		mnFernflower.add(separator_20);
+		
+		mnFernflower.add(panel1Fern_E);
+		
+		mnNewMenu_7.add(mnKrakatau);
+		mnKrakatau.add(panel1Krakatau);
+		panel1Krakatau.addActionListener(listener);
+		mnKrakatau.add(panel1KrakatauBytecode);
+		panel1KrakatauBytecode.addActionListener(listener);
+		
+		mnKrakatau.add(separator_21);
+		
+		mnKrakatau.add(panel1Krakatau_E);
 		
 		mnNewMenu_7.add(separator_8);
 		
-		mnNewMenu_7.add(panel1KrakatauEditable);
+		mnNewMenu_7.add(mnSmalidex);
+		mnSmalidex.add(panel1Smali);
+		panel1Smali.addActionListener(listener);
 		
-		mnNewMenu_7.add(panel1Smali);
-		panelGroup1.add(panel1Bytecode);
+		mnSmalidex.add(separator_22);
+		
+		mnSmalidex.add(panel1Smali_E);
 		panel1Bytecode.addActionListener(listener);
 				
 				mnNewMenu_7.add(separator_15);
@@ -1092,63 +1109,118 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				mnNewMenu_7.add(panel1Bytecode);
 
 		mnNewMenu_7.add(panel1Hexcode);
-
-		mnNewMenu_6.add(mnNewMenu_8);
-
-		mnNewMenu_8.add(panel2None);
 		
-		mnNewMenu_8.add(separator_9);
-
-		mnNewMenu_8.add(panel2Proc);
-
-		mnNewMenu_8.add(panel2CFR);
-
-		mnNewMenu_8.add(panel2Fern);
+		mnNewMenu_6.add(mnPane);
 		
-		mnNewMenu_8.add(panel2Krakatau);
+		mnPane.add(panel2None);
 		
-		mnNewMenu_8.add(separator_10);
+		mnPane.add(separator_9);
 		
-		mnNewMenu_8.add(panel2KrakatauEditable);
+		mnPane.add(menu_1);
 		
-		mnNewMenu_8.add(panel2Smali);
-		panelGroup2.add(panel2Bytecode);
-		panelGroup2.setSelected(panel2Bytecode.getModel(), true);
-		panel2Bytecode.addActionListener(listener);
-				
-				mnNewMenu_8.add(separator_16);
+		menu_1.add(panel2Proc);
 		
-				mnNewMenu_8.add(panel2Bytecode);
-
-		mnNewMenu_8.add(panel2Hexcode);
-
-		mnNewMenu_6.add(mnNewMenu_9);
-
-		mnNewMenu_9.add(panel3None);
+		menu_1.add(separator_10);
 		
-		mnNewMenu_9.add(separator_11);
-
-		mnNewMenu_9.add(panel3Proc);
-
-		mnNewMenu_9.add(panel3CFR);
-
-		mnNewMenu_9.add(panel3Fern);
+		menu_1.add(panel2Proc_E);
 		
-		mnNewMenu_9.add(panel3Krakatau);
+		mnPane.add(menu_2);
 		
-		mnNewMenu_9.add(separator_12);
+		menu_2.add(panel2CFR);
 		
-		mnNewMenu_9.add(panel3KrakatauEditable);
+		menu_2.add(separator_11);
 		
-		mnNewMenu_9.add(panel3Smali);
-		panelGroup3.add(panel3Bytecode);
-		panel3Bytecode.addActionListener(listener);
-				
-				mnNewMenu_9.add(separator_17);
+		menu_2.add(panel2CFR_E);
 		
-				mnNewMenu_9.add(panel3Bytecode);
-
-		mnNewMenu_9.add(panel3Hexcode);
+		mnPane.add(menu_3);
+		
+		menu_3.add(panel2Fern);
+		
+		menu_3.add(separator_12);
+		
+		menu_3.add(panel2Fern_E);
+		
+		mnPane.add(menu_4);
+		
+		menu_4.add(panel2Krakatau);
+		
+		menu_4.add(panel2KrakatauBytecode);
+		
+		menu_4.add(separator_16);
+		
+		menu_4.add(panel2Krakatau_E);
+		
+		mnPane.add(separator_17);
+		
+		mnPane.add(menu_5);
+		
+		menu_5.add(panel2Smali);
+		
+		menu_5.add(separator_23);
+		
+		menu_5.add(panel2Smali_E);
+		
+		mnPane.add(separator_24);
+		
+		mnPane.add(panel2Bytecode);
+		
+		mnPane.add(panel2Hexcode);
+		
+		mnNewMenu_6.add(mnPane_1);
+		
+		mnPane_1.add(panel3None);
+		
+		mnPane_1.add(separator_25);
+		
+		mnPane_1.add(menu_7);
+		
+		menu_7.add(panel3Proc);
+		
+		menu_7.add(separator_26);
+		
+		menu_7.add(panel3Proc_E);
+		
+		mnPane_1.add(menu_8);
+		
+		menu_8.add(panel3CFR);
+		
+		menu_8.add(separator_27);
+		
+		menu_8.add(panel3CFR_E);
+		
+		mnPane_1.add(menu_9);
+		
+		menu_9.add(panel3Fern);
+		
+		menu_9.add(separator_28);
+		
+		menu_9.add(panel3Fern_E);
+		
+		mnPane_1.add(menu_10);
+		
+		menu_10.add(panel3Krakatau);
+		
+		menu_10.add(panel3KrakatauBytecode);
+		
+		menu_10.add(separator_29);
+		
+		menu_10.add(panel3Krakatau_E);
+		
+		mnPane_1.add(separator_30);
+		
+		mnPane_1.add(menu_11);
+		
+		menu_11.add(panel3Smali);
+		
+		menu_11.add(separator_31);
+		
+		menu_11.add(panel3Smali_E);
+		
+		mnPane_1.add(separator_32);
+		
+		mnPane_1.add(panel3Bytecode);
+		
+		mnPane_1.add(panel3Hexcode);
 		
 		menuBar.add(mnSettings);
 				
@@ -1177,6 +1249,13 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				});
 				
 				mnSettings.add(mntmSetJreRt);
+				mntmSetOpitonalLibrary.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						library();
+					}
+				});
+				
+				mnSettings.add(mntmSetOpitonalLibrary);
 				
 				mnSettings.add(separator_6);
 				mnSettings.add(mnNewMenu_4);
@@ -1565,6 +1644,45 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		rfComps.add(s);
 		rfComps.add(workPane);
+		
+
+		panelGroup1.add(panel1None);
+		panelGroup1.add(panel1Proc);
+		panelGroup1.add(panel1CFR);
+		panelGroup1.add(panel1Fern);
+		panelGroup1.add(panel1Krakatau);
+		panelGroup1.add(panel1KrakatauBytecode);
+		panelGroup1.add(panel1Smali);
+		panelGroup1.add(panel1Bytecode);
+		panelGroup1.add(panel1Hexcode);
+		
+		panelGroup2.add(panel2None);
+		panelGroup2.add(panel2Proc);
+		panelGroup2.add(panel2CFR);
+		panelGroup2.add(panel2Fern);
+		panelGroup2.add(panel2Krakatau);
+		panelGroup2.add(panel2KrakatauBytecode);
+		panelGroup2.add(panel2Smali);
+		panelGroup2.add(panel2Bytecode);
+		panelGroup2.add(panel2Hexcode);
+
+		panelGroup3.add(panel3None);
+		panelGroup3.add(panel3Proc);
+		panelGroup3.add(panel3CFR);
+		panelGroup3.add(panel3Fern);
+		panelGroup3.add(panel3Krakatau);
+		panelGroup3.add(panel3KrakatauBytecode);
+		panelGroup3.add(panel3Smali);
+		panelGroup3.add(panel3Bytecode);
+		panelGroup3.add(panel3Hexcode);
+		
+
+		panelGroup1.setSelected(panel1Proc.getModel(), true);//my one true love
+		panelGroup2.setSelected(panel2Bytecode.getModel(), true);
+		panelGroup3.setSelected(panel3None.getModel(), true);
+
+		
+		
 		this.setLocationRelativeTo(null);
 	}
 
@@ -1865,7 +1983,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		@Override
 		public String getDescription() {
-			return "Python 2.7 Executable";
+			return "Python (Or PyPy for speed) 2.7 Executable";
 		}
 	}
 
@@ -1878,6 +1996,18 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		@Override
 		public String getDescription() {
 			return "JRE RT Library";
+		}
+	}
+
+	public class LibraryFileFilter extends FileFilter {
+		@Override
+		public boolean accept(File f) {
+			return f.isDirectory();
+		}
+
+		@Override
+		public String getDescription() {
+			return "Optional Library Folder";
 		}
 	}
 }

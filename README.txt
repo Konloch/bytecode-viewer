@@ -334,3 +334,17 @@ Changelog:
 02/28/2015 - Im Frizzy started working on Obfuscation.
 03/20/2015 - Updated Dex2Jar to 2.0.
 03/20/2015 - Updated CFR to 0_98.jar
+-----2.9.4-----:
+04/19/2015 - Added -O to be passed for Krakatau Decompiler/Disassembler/Assembler. (Thanks Storyyeller).
+04/19/2015 - Added -skip to be passed for Krakatau Decompiler. (Thanks Storyyeller).
+04/19/2015 - Changed the warning window for Python to recommend PyPy. (Thanks Storyyeller).
+04/20/2015 - Happy 2015 4/20 (Shoutout to @announce420 for being 2 years old).
+04/21/2015 - Started reworking the View Panes.
+04/21/2015 - Finished reworking the View Panes - http://i.imgur.com/SqIw4Vj.png - Cheers to whoever's idea this was (I forget sorry <3).
+04/21/2015 - Updated CFR to 0_100.jar
+04/21/2015 - Added CTRL + R for run.
+04/21/2015 - Added CTRL + S for save files as.
+04/21/2015 - Added CTRL + T for compile.
+04/21/2015 - Added Krakatau optional library.
+04/21/2015 - The about pane now provides a lot more up to date information.
+04/21/2015 - Changed 'View Panes' to simply 'View'.
