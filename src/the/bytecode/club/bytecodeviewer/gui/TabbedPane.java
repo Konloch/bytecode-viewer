@@ -41,6 +41,7 @@ public class TabbedPane extends JPanel {
 	public TabbedPane(String name, final JTabbedPane pane) {
 		// unset default FlowLayout' gaps
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		
 		if (pane == null)
 			throw new NullPointerException("TabbedPane is null");
 		

@@ -86,21 +86,10 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
  * When you drag a folder, it must add the folder name not just the child into the root jtree path
  * add stackmapframes to bytecode decompiler
  * add stackmapframes remover?
+ * In BCV if you open a class and the name is so big, you cannot close because the [X] does not appear."
  * 
- * -----2.9.4-----:
- * 04/19/2015 - Added -O to be passed for Krakatau Decompiler/Disassembler/Assembler. (Thanks Storyyeller).
- * 04/19/2015 - Added -skip to be passed for Krakatau Decompiler. (Thanks Storyyeller).
- * 04/19/2015 - Changed the warning window for Python to recommend PyPy. (Thanks Storyyeller).
- * 04/20/2015 - Happy 2015 4/20 (Shoutout to @announce420 for being 2 years old).
- * 04/21/2015 - Started reworking the View Panes.
- * 04/21/2015 - Finished reworking the View Panes - http://i.imgur.com/SqIw4Vj.png - Cheers to whoever's idea this was (I forget sorry <3).
- * 04/21/2015 - Updated CFR to 0_100.jar
- * 04/21/2015 - Added CTRL + R for run.
- * 04/21/2015 - Added CTRL + S for save files as.
- * 04/21/2015 - Added CTRL + T for compile.
- * 04/21/2015 - Added Krakatau optional library.
- * 04/21/2015 - The about pane now provides a lot more up to date information.
- * 04/21/2015 - Changed 'View Panes' to simply 'View'.
+ * -----2.9.5-----:
+ * 05/01/2015 - Added 'pingback' for statistics (to track how many people globally use BCV)
  * 
  * @author Konloch
  * 
@@ -109,7 +98,7 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 public class BytecodeViewer {
 
 	/*per version*/
-	public static String version = "2.9.4";
+	public static String version = "2.9.5";
 	public static String krakatauVersion = "2";
 	/*the rest*/
 	public static MainViewerGUI viewer = null;
@@ -136,6 +125,7 @@ public class BytecodeViewer {
 	public static String lastDirectory = "";
 	public static ArrayList<Process> krakatau = new ArrayList<Process>();
 	public static Refactorer refactorer = new Refactorer();
+	public static boolean pingback = false;
 	
 	/**
 	 * The version checker thread
@@ -353,6 +343,34 @@ public class BytecodeViewer {
 			for (String s : args) {
 				openFiles(new File[] { new File(s) }, true);
 			}
+		
+		if(!pingback) {
+			pingback = true;
+			pingback();
+		}
+	}
+	
+	public static void pingback() {
+		JOptionPane pane = new JOptionPane(
+				"Would you like to 'pingback' to https://bytecodeviewer.com to be counted in the global users for BCV?");
+		Object[] options = new String[] { "Yes", "No" };
+		pane.setOptions(options);
+		JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
+				"Bytecode Viewer - Optional Pingback");
+		dialog.setVisible(true);
+		Object obj = pane.getValue();
+		int result = -1;
+		for (int k = 0; k < options.length; k++)
+			if (options[k].equals(obj))
+				result = k;
+
+		if (result == 0) {
+			try {
+				new HTTPRequest(new URL("https://bytecodeviewer.com/add.php")).read();
+			} catch (Exception e) {
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			}
+		}
 	}
 	
 	/**

@@ -486,6 +486,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	public final ButtonGroup panelGroup2 = new ButtonGroup();
 	public final ButtonGroup panelGroup3 = new ButtonGroup();
 	private final JMenuItem mntmSetOpitonalLibrary = new JMenuItem("Set Optionial Library Folder");
+	private final JMenuItem mntmPingback = new JMenuItem("Pingback");
 	public MainViewerGUI() {
 		mnNewMenu_5.setVisible(false);
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new Test());
@@ -1049,6 +1050,13 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				}
 			}
 		});
+		mntmPingback.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				BytecodeViewer.pingback();
+			}
+		});
+		
+		mnNewMenu.add(mntmPingback);
 		mnNewMenu.add(mntmExit);
 
 		menuBar.add(mnNewMenu_6);

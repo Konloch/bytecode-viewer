@@ -178,6 +178,7 @@ public class Settings {
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel3Smali_E.isSelected()), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.decodeAPKResources.isSelected()), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.library, false);
+			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.pingback), false);
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
@@ -354,9 +355,10 @@ public class Settings {
 			BytecodeViewer.viewer.panel3Smali_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 105, false)));
 			BytecodeViewer.viewer.decodeAPKResources.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 106, false)));
 			BytecodeViewer.library = DiskReader.loadString(BytecodeViewer.settingsName, 107, false);
+			BytecodeViewer.pingback = Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 108, false));
 		} catch(Exception e) {
 			//ignore because errors are expected, first start up and outdated settings.
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
