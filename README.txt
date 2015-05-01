@@ -348,3 +348,5 @@ Changelog:
 04/21/2015 - Added Krakatau optional library.
 04/21/2015 - The about pane now provides a lot more up to date information.
 04/21/2015 - Changed 'View Panes' to simply 'View'.
+-----2.9.5-----:
+05/01/2015 - Added 'pingback' for statistics (to track how many people globally use BCV)
