@@ -334,7 +334,7 @@ Changelog:
 02/28/2015 - Im Frizzy started working on Obfuscation.
 03/20/2015 - Updated Dex2Jar to 2.0.
 03/20/2015 - Updated CFR to 0_98.jar
------2.9.4-----:
+--- 2.9.4 ---:
 04/19/2015 - Added -O to be passed for Krakatau Decompiler/Disassembler/Assembler. (Thanks Storyyeller).
 04/19/2015 - Added -skip to be passed for Krakatau Decompiler. (Thanks Storyyeller).
 04/19/2015 - Changed the warning window for Python to recommend PyPy. (Thanks Storyyeller).
@@ -348,5 +348,5 @@ Changelog:
 04/21/2015 - Added Krakatau optional library.
 04/21/2015 - The about pane now provides a lot more up to date information.
 04/21/2015 - Changed 'View Panes' to simply 'View'.
------2.9.5-----:
+--- 2.9.5 ---:
 05/01/2015 - Added 'pingback' for statistics (to track how many people globally use BCV)
