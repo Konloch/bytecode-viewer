@@ -245,4 +245,12 @@ public class BytecodeViewer {
 	public static the.bytecode.club.bytecodeviewer.compilers.Compiler getSmaliCompiler() {
 		return the.bytecode.club.bytecodeviewer.compilers.Compiler.smali;
 	}
+	
+	/**
+	 * Returns the wrapped JD-GUI Decompiler instance.
+	 * @return The wrapped JD-GUI Decompiler instance
+	 */
+	public static the.bytecode.club.bytecodeviewer.decompilers.Decompiler getDJGUIDecompiler() {
+		return the.bytecode.club.bytecodeviewer.decompilers.Decompiler.jdgui;
+	}
 }

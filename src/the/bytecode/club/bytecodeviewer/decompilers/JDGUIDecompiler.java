@@ -48,7 +48,7 @@ import the.bytecode.club.bytecodeviewer.MiscUtils;
  * 
  */
 
-public class JDCoreDecompiler extends Decompiler {
+public class JDGUIDecompiler extends Decompiler {
 
 	@Override
 	public void decompileToClass(String className, String classNameSaved) {
@@ -81,11 +81,11 @@ public class JDCoreDecompiler extends Decompiler {
 
 			exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
 		}
-		return "Procyon error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggested Fix: Click refresh class, if it fails again try another decompiler."+BytecodeViewer.nl+BytecodeViewer.nl+exception;
+		return "JD-GUI error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com"+BytecodeViewer.nl+BytecodeViewer.nl+"Suggested Fix: Click refresh class, if it fails again try another decompiler."+BytecodeViewer.nl+BytecodeViewer.nl+exception;
 	}
 
 	@Override
 	public void decompileToZip(String zipName) {
+		
 	}
-
 }

@@ -26,4 +26,5 @@ public abstract class Decompiler {
 	public static Decompiler krakatau = new KrakatauDecompiler();
 	public static Decompiler krakatauDA = new KrakatauDisassembler();
 	public static Decompiler smali = new SmaliDisassembler();
+	public static Decompiler jdgui = new JDGUIDecompiler();
 }

@@ -88,9 +88,15 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * add stackmapframes to bytecode decompiler
  * add stackmapframes remover?
  * In BCV if you open a class and the name is so big, you cannot close because the [X] does not appear."
+ * refresh appears under panes that are non refreshable
+ * make ez-injection plugin console show all sys.out calls
+ * edit then save issues?
  * 
- * -----2.9.5-----:
- * 05/01/2015 - Added 'pingback' for statistics (to track how many people globally use BCV)
+ * -----2.9.6-----:
+ * 05/05/2015 - Fixed a typo in the about window
+ * 05/28/2015 - Started importing JD-GUI Decompiler.
+ * 05/28/2015 - Compile on refresh and compile on save are now enabled by default.
+ * 05/28/2015 - Renamed the File>Save As options to be much more informative.
  * 
  * @author Konloch
  * 
@@ -99,7 +105,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 public class BytecodeViewer {
 
 	/*per version*/
-	public static String version = "2.9.5";
+	public static String version = "2.9.6";
 	public static String krakatauVersion = "2";
 	/*the rest*/
 	public static MainViewerGUI viewer = null;
