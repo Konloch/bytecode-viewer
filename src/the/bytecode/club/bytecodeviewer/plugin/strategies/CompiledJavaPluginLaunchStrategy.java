@@ -63,7 +63,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 		while ((entry = jis.getNextEntry()) != null) {
 			try {
 				String name = entry.getName();
-				if(!name.endsWith(".class")){
+				if(name.endsWith(".class")){
 					byte[] bytes = JarUtils.getBytes(jis);
 					String magic = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
 					if(magic.toLowerCase().equals("cafebabe")) {
