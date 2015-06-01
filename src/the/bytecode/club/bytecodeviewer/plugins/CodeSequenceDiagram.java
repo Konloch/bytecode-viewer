@@ -38,7 +38,16 @@ public class CodeSequenceDiagram extends Plugin {
 			return;
 		}
 		ClassNode c = BytecodeViewer.viewer.workPane.getCurrentViewer().cn;
-		JFrame frame = new JFrame("Code Sequence Diagram - " +c.name);
+		if(c == null) {
+			BytecodeViewer.showMessage("ClassNode is null for CodeSequenceDiagram. Please report to @Konloch");
+			return;
+		}
+		JFrame frame = null;
+		if(c.name != null)
+			frame = new JFrame("Code Sequence Diagram - "+c.name);
+		else
+			frame = new JFrame("Code Sequence Diagram - Unknown Name");
+		
 		frame.setIconImages(Resources.iconList);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setSize(400, 320);

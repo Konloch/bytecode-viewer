@@ -76,6 +76,8 @@ public class ClassViewer extends Viewer {
 			pane1 = 7;
 		else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel()))
 			pane1 = 8;
+		else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1JDGUI.getModel()))
+			pane1 = 9;
 
 		if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
 			pane2 = 0;
@@ -95,6 +97,8 @@ public class ClassViewer extends Viewer {
 			pane2 = 7;
 		else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel()))
 			pane2 = 8;
+		else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2JDGUI.getModel()))
+			pane2 = 9;
 
 		if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
 			pane3 = 0;
@@ -114,6 +118,8 @@ public class ClassViewer extends Viewer {
 			pane3 = 7;
 		else if (BytecodeViewer.viewer.panelGroup3 .isSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel()))
 			pane3 = 8;
+		else if (BytecodeViewer.viewer.panelGroup3 .isSelected(BytecodeViewer.viewer.panel3JDGUI.getModel()))
+			pane3 = 9;
 	}
 
 	public boolean isPanel1Editable() {
@@ -126,6 +132,8 @@ public class ClassViewer extends Viewer {
 		if(pane1 == 3 && BytecodeViewer.viewer.panel1Fern_E.isSelected())
 			return true;
 		if(pane1 == 6 && BytecodeViewer.viewer.panel1Smali_E.isSelected())
+			return true;
+		if(pane1 == 9 && BytecodeViewer.viewer.panel1JDGUI_E.isSelected())
 			return true;
 		if((pane1 == 7 || pane1 == 8) && BytecodeViewer.viewer.panel1Krakatau_E.isSelected())
 			return true;
@@ -145,6 +153,8 @@ public class ClassViewer extends Viewer {
 			return true;
 		if(pane2 == 6 && BytecodeViewer.viewer.panel2Smali_E.isSelected())
 			return true;
+		if(pane2 == 9 && BytecodeViewer.viewer.panel2JDGUI_E.isSelected())
+			return true;
 		if((pane2 == 7 || pane2 == 8) && BytecodeViewer.viewer.panel2Krakatau_E.isSelected())
 			return true;
 		
@@ -162,6 +172,8 @@ public class ClassViewer extends Viewer {
 		if(pane3 == 3 && BytecodeViewer.viewer.panel3Fern_E.isSelected())
 			return true;
 		if(pane3 == 6 && BytecodeViewer.viewer.panel3Smali_E.isSelected())
+			return true;
+		if(pane3 == 9 && BytecodeViewer.viewer.panel3JDGUI_E.isSelected())
 			return true;
 		if((pane3 == 7 || pane3 == 8) && BytecodeViewer.viewer.panel3Krakatau_E.isSelected())
 			return true;
@@ -776,6 +788,32 @@ public class ClassViewer extends Viewer {
 						});
 						panel1.add(scrollPane);
 					}
+
+					if (pane1 == 9) {// JD-GUI
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(
+								panelArea);
+						panelArea.setText(Decompiler.jdgui.decompileClassNode(cn,b));
+						panelArea.setCaretPosition(0);
+						panelArea.setEditable(isPanel1Editable());
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field1.requestFocus();
+								}
+
+								BytecodeViewer.checkHotKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
+						panel1.add(scrollPane);
+						java1 = panelArea;
+					}
 				} catch(Exception e) {
 					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 				} finally {
@@ -972,6 +1010,32 @@ public class ClassViewer extends Viewer {
 						});
 						panel2.add(scrollPane);
 					}
+
+					if (pane2 == 9) {// JD-GUI
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(
+								panelArea);
+						panelArea.setText(Decompiler.jdgui.decompileClassNode(cn,b));
+						panelArea.setCaretPosition(0);
+						panelArea.setEditable(isPanel2Editable());
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field2.requestFocus();
+								}
+	
+								BytecodeViewer.checkHotKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
+						panel2.add(scrollPane);
+						java2 = panelArea;
+					}
 				} catch(Exception e) {
 					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 				} finally {
@@ -1143,9 +1207,7 @@ public class ClassViewer extends Viewer {
 						panel3.add(scrollPane);
 						java3 = panelArea;
 					}
-
-
-
+					
 					if (pane3 == 8) {// kraktau bytecode
 						RSyntaxTextArea panelArea = new RSyntaxTextArea();
 						panelArea
@@ -1170,6 +1232,32 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						panel3.add(scrollPane);
+					}
+
+					if (pane3 == 9) {// JD-GUI
+						RSyntaxTextArea panelArea = new RSyntaxTextArea();
+						panelArea
+						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+						panelArea.setCodeFoldingEnabled(true);
+						panelArea.setAntiAliasingEnabled(true);
+						RTextScrollPane scrollPane = new RTextScrollPane(
+								panelArea);
+						panelArea.setText(Decompiler.jdgui.decompileClassNode(cn,b));
+						panelArea.setCaretPosition(0);
+						panelArea.setEditable(isPanel3Editable());
+						panelArea.addKeyListener(new KeyListener() {  
+							public void keyPressed(KeyEvent e) {  
+								if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+									field3.requestFocus();
+								}
+	
+								BytecodeViewer.checkHotKey(e);
+							}
+							@Override public void keyReleased(KeyEvent arg0) { }
+							@Override public void keyTyped(KeyEvent arg0) { }  
+						});
+						panel3.add(scrollPane);
+						java3 = panelArea;
 					}
 				} catch(Exception e) {
 					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);

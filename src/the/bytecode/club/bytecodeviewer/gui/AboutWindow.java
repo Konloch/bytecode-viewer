@@ -40,7 +40,7 @@ public class AboutWindow extends JFrame {
 		super.setVisible(b);
 		txtrBytecodeViewerIs
 				.setText("Bytecode Viewer "+BytecodeViewer.version+" is an open source program developed and maintained by Konloch (konloch@gmail.com)\r\n"+
-				"100% free and open sourced licensed under GPL v3 CopyLef\r\n\r\n"+
+				"100% free and open sourced licensed under GPL v3 CopyLeft\r\n\r\n"+
 				"Settings:"+BytecodeViewer.nl+
 				"BCV Dir: " + BytecodeViewer.getBCVDirectory()+BytecodeViewer.nl+
 				"Python: " + BytecodeViewer.python+BytecodeViewer.nl+
@@ -51,6 +51,7 @@ public class AboutWindow extends JFrame {
 				"Keybinds:"+BytecodeViewer.nl+
 				"CTRL + O: Open/add new jar/class/apk"+BytecodeViewer.nl+
 				"CTLR + N: Reset the workspace"+BytecodeViewer.nl+
+				"CTRL + W: Closes the currently opened tab"+BytecodeViewer.nl+
 				"CTRL + T: Compile"+BytecodeViewer.nl+
 				"CTRL + S: Save classes as zip"+BytecodeViewer.nl+
 				"CTRL + R: Run (EZ-Inject) - dynamically load the classes and invoke a main class"+
