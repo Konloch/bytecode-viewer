@@ -79,4 +79,8 @@ public class MiscUtils {
 		}
 		return i;
 	}
+	
+	public static String extension(String name) {
+		return name.substring(name.lastIndexOf('.') + 1);
+	}
 }

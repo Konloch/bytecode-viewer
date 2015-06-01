@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.plugins;
+package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
 import java.awt.Font;
 import java.awt.font.FontRenderContext;

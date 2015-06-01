@@ -1,30 +1,34 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.BoxLayout;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JSplitPane;
-import javax.swing.SwingUtilities;
-
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.util.ArrayList;
 
-import javax.swing.filechooser.FileFilter;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSeparator;
+import javax.swing.JSplitPane;
+import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileFilter;
 
 import org.objectweb.asm.tree.ClassNode;
 
@@ -32,24 +36,23 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.JarUtils;
-import the.bytecode.club.bytecodeviewer.PluginManager;
+import the.bytecode.club.bytecodeviewer.MiscUtils;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.decompilers.CFRDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.FernFlowerDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.FernFlowerDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.KrakatauDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.ProcyonDecompiler;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
-import the.bytecode.club.bytecodeviewer.plugins.*;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.util.ArrayList;
-
-import javax.swing.JRadioButtonMenuItem;
+import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.plugins.AllatoriStringDecrypter;
+import the.bytecode.club.bytecodeviewer.plugins.CodeSequenceDiagram;
+import the.bytecode.club.bytecodeviewer.plugins.ShowAllStrings;
+import the.bytecode.club.bytecodeviewer.plugins.ShowMainMethods;
+import the.bytecode.club.bytecodeviewer.plugins.ZKMStringDecrypter;
+import the.bytecode.club.bytecodeviewer.plugins.ZStringArrayDecrypter;
 
 /**
  * The main file for the GUI.n
@@ -57,7 +60,6 @@ import javax.swing.JRadioButtonMenuItem;
  * @author Konloch
  *
  */
-
 public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	
 	public void pythonC() {
@@ -468,6 +470,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	public final JRadioButtonMenuItem panel3Hexcode = new JRadioButtonMenuItem("Hexcode");
 	public void setIcon(final boolean busy) {
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				if (busy) {
 					try {
@@ -491,7 +494,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnNewMenu_5.setVisible(false);
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new Test());
 		this.addWindowStateListener(new WindowAdapter() {
-		      public void windowStateChanged(WindowEvent evt) {
+		      @Override
+			public void windowStateChanged(WindowEvent evt) {
 		          int oldState = evt.getOldState();
 		          int newState = evt.getNewState();
 
@@ -537,6 +541,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		menuBar.add(mnNewMenu);
 
 		mntmNewWorkspace.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				BytecodeViewer.resetWorkSpace(true);
 			}
@@ -544,6 +549,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		JMenuItem mntmLoadJar = new JMenuItem("Add..");
 		mntmLoadJar.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
             	try {
@@ -577,6 +583,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		JMenuItem mntmSave = new JMenuItem("Save Files As..");
 		mntmSave.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(BytecodeViewer.getLoadedClasses().isEmpty()) {
 					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
@@ -633,6 +640,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		mnNewMenu.add(separator_3);
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(BytecodeViewer.getLoadedClasses().isEmpty()) {
 					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
@@ -677,11 +685,13 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			}
 		});
 		mntmNewMenuItem_13.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				BytecodeViewer.compile(true);
 			}
 		});
 		mntmRun.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(BytecodeViewer.getLoadedClasses().isEmpty()) {
 					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
@@ -699,6 +709,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		mnNewMenu.add(mntmNewMenuItem_3);
 		mntmSaveAsApk.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(BytecodeViewer.getLoadedClasses().isEmpty()) {
 					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
@@ -765,6 +776,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnNewMenu.add(mntmSaveAsApk);
 		mnNewMenu.add(mntmSave);
 		mntmNewMenuItem.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(BytecodeViewer.getLoadedClasses().isEmpty()) {
 					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
@@ -886,6 +898,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			}
 		});
 		mntmNewMenuItem_12.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(workPane.getCurrentViewer() == null) {
 					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
@@ -1022,6 +1035,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		JSeparator separator_1 = new JSeparator();
 		mnNewMenu.add(separator_1);
 		mntmAbout.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				aboutWindow.setVisible(true);
 			}
@@ -1031,6 +1045,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane pane = new JOptionPane(
 						"Are you sure you want to exit?");
@@ -1051,6 +1066,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			}
 		});
 		mntmPingback.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				BytecodeViewer.pingback();
 			}
@@ -1244,6 +1260,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				
 				mnSettings.add(separator_13);
 				mntmSetPythonDirectory.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						pythonC();
 					}
@@ -1251,6 +1268,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				
 				mnSettings.add(mntmSetPythonDirectory);
 				mntmSetJreRt.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						rtC();
 					}
@@ -1258,6 +1276,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				
 				mnSettings.add(mntmSetJreRt);
 				mntmSetOpitonalLibrary.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						library();
 					}
@@ -1482,6 +1501,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		
 		menuBar.add(mnNewMenu_5);
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (BytecodeViewer.runningObfuscation) {
 					BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish.");
@@ -1504,6 +1524,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		mnNewMenu_5.add(mntmNewMenuItem_6);
 		mntmNewMenuItem_7.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (BytecodeViewer.runningObfuscation) {
 					BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish.");
@@ -1517,6 +1538,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		mnNewMenu_5.add(mntmNewMenuItem_7);
 		mntmNewMenuItem_11.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (BytecodeViewer.runningObfuscation) {
 					BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish.");
@@ -1542,6 +1564,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnNewMenu_1.add(mnRecentPlugins);
 		mnNewMenu_1.add(separator_5);
 		mntmCodeSequenceDiagram.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(BytecodeViewer.getLoadedClasses().isEmpty()) {
 					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
@@ -1556,6 +1579,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnNewMenu_1.add(mntmShowMainMethods);
 		mnNewMenu_1.add(mntmShowAllStrings);
 		mntmReplaceStrings.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(BytecodeViewer.getLoadedClasses().isEmpty()) {
 					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
@@ -1569,6 +1593,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnNewMenu_1.add(mntmNewMenuItem_2);
 		mnNewMenu_1.add(mntmStartZkmString);
 		mntmZstringarrayDecrypter.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				PluginManager.runPlugin(new ZStringArrayDecrypter());
 			}
@@ -1579,9 +1604,12 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		menuBar.add(mntmNewMenuItem_4);
 
 		mntmStartExternalPlugin.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser fc = new JFileChooser();
-				fc.setFileFilter(new JavaPFileFilter());
+				/* 01/06/15, 14:32, Changed to plugin file filter rather from the
+				 * 					only .java filter. */
+				fc.setFileFilter(PluginManager.fileFilter());
 				fc.setFileHidingEnabled(false);
 				fc.setAcceptAllFileFilterUsed(false);
 				int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
@@ -1597,16 +1625,19 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			}
 		});
 		mntmStartZkmString.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				PluginManager.runPlugin(new ZKMStringDecrypter());
 			}
 		});
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				PluginManager.runPlugin(new AllatoriStringDecrypter());
 			}
 		});
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(BytecodeViewer.getLoadedClasses().isEmpty()) {
 					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
@@ -1616,12 +1647,14 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			}
 		});
 		mntmShowAllStrings.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				PluginManager.runPlugin(new ShowAllStrings());
 			}
 		});
 
 		mntmShowMainMethods.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				PluginManager.runPlugin(new ShowMainMethods());
 			}
@@ -1738,13 +1771,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		return null;
 	}
 	
+	/* 01/06/15, 14:33 changed by Bibl. */
+	
 	public class GroovyPythonRubyFileFilter extends FileFilter {
 		@Override
 		public boolean accept(File f) {
 			if (f.isDirectory())
 				return true;
 
-			String extension = getExtension(f);
+			String extension = MiscUtils.extension(f.getAbsolutePath());
 			if (extension != null)
 				return (extension.equals("gy") || extension.equals("groovy")
 						|| extension.equals("py") || extension.equals("python")
@@ -1757,27 +1792,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		public String getDescription() {
 			return "Groovy, Python or Ruby plugins.";
 		}
-
-		public String getExtension(File f) {
-			String ext = null;
-			String s = f.getName();
-			int i = s.lastIndexOf('.');
-
-			if (i > 0 && i < s.length() - 1)
-				ext = s.substring(i + 1).toLowerCase();
-
-			return ext;
-		}
 	}
 
-	
 	public class GroovyFileFilter extends FileFilter {
 		@Override
 		public boolean accept(File f) {
 			if (f.isDirectory())
 				return true;
 
-			String extension = getExtension(f);
+			String extension = MiscUtils.extension(f.getAbsolutePath());
 			if (extension != null)
 				return (extension.equals("gy") || extension.equals("groovy"));
 
@@ -1788,25 +1811,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		public String getDescription() {
 			return "Groovy plugins.";
 		}
-
-		public String getExtension(File f) {
-			String ext = null;
-			String s = f.getName();
-			int i = s.lastIndexOf('.');
-
-			if (i > 0 && i < s.length() - 1)
-				ext = s.substring(i + 1).toLowerCase();
-
-			return ext;
-		}
 	}
+	
 	public class APKDEXJarZipClassFileFilter extends FileFilter {
 		@Override
 		public boolean accept(File f) {
 			if (f.isDirectory())
 				return true;
 
-			String extension = getExtension(f);
+			String extension = MiscUtils.extension(f.getAbsolutePath());
 			if (extension != null)
 				if (extension.equals("jar")   || extension.equals("zip")
 					 || extension.equals("class") || extension.equals("apk")
@@ -1820,166 +1833,53 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		public String getDescription() {
 			return "APKs, DEX, Class Files or Zip/Jar Archives";
 		}
-
-		public String getExtension(File f) {
-			String ext = null;
-			String s = f.getName();
-			int i = s.lastIndexOf('.');
-
-			if (i > 0 && i < s.length() - 1)
-				ext = s.substring(i + 1).toLowerCase();
-
-			return ext;
-		}
 	}
 
 	public class ZipFileFilter extends FileFilter {
 		@Override
 		public boolean accept(File f) {
-			if (f.isDirectory())
-				return true;
-
-			String extension = getExtension(f);
-			if (extension != null)
-				return (extension.equals("zip"));
-
-			return false;
+			return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
 		}
 
 		@Override
 		public String getDescription() {
 			return "Zip Archives";
 		}
-
-		public String getExtension(File f) {
-			String ext = null;
-			String s = f.getName();
-			int i = s.lastIndexOf('.');
-
-			if (i > 0 && i < s.length() - 1)
-				ext = s.substring(i + 1).toLowerCase();
-
-			return ext;
-		}
 	}
 
 	public class JarFileFilter extends FileFilter {
 		@Override
 		public boolean accept(File f) {
-			if (f.isDirectory())
-				return true;
-
-			String extension = getExtension(f);
-			if (extension != null)
-				return (extension.equals("jar"));
-
-			return false;
+			return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("jar");
 		}
 
 		@Override
 		public String getDescription() {
 			return "Jar Archives";
 		}
-
-		public String getExtension(File f) {
-			String ext = null;
-			String s = f.getName();
-			int i = s.lastIndexOf('.');
-
-			if (i > 0 && i < s.length() - 1)
-				ext = s.substring(i + 1).toLowerCase();
-
-			return ext;
-		}
 	}
 
 	public class JavaFileFilter extends FileFilter {
 		@Override
 		public boolean accept(File f) {
-			if (f.isDirectory())
-				return true;
-
-			String extension = getExtension(f);
-			if (extension != null)
-				return (extension.equals("java"));
-
-			return false;
+			return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("java");
 		}
 
 		@Override
 		public String getDescription() {
 			return "Java Source Files";
 		}
-
-		public String getExtension(File f) {
-			String ext = null;
-			String s = f.getName();
-			int i = s.lastIndexOf('.');
-
-			if (i > 0 && i < s.length() - 1)
-				ext = s.substring(i + 1).toLowerCase();
-
-			return ext;
-		}
-	}
-	
-	public class JavaPFileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			if (f.isDirectory())
-				return true;
-
-			String extension = getExtension(f);
-			if (extension != null)
-				return (extension.equals("java"));
-
-			return false;
-		}
-
-		@Override
-		public String getDescription() {
-			return "Java Plugins";
-		}
-
-		public String getExtension(File f) {
-			String ext = null;
-			String s = f.getName();
-			int i = s.lastIndexOf('.');
-
-			if (i > 0 && i < s.length() - 1)
-				ext = s.substring(i + 1).toLowerCase();
-
-			return ext;
-		}
 	}
 
 	public class DexFileFilter extends FileFilter {
 		@Override
 		public boolean accept(File f) {
-			if (f.isDirectory())
-				return true;
-
-			String extension = getExtension(f);
-			if (extension != null)
-				return (extension.equals("dex"));
-
-			return false;
+			return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("dex");
 		}
 
 		@Override
 		public String getDescription() {
 			return "Android DEX Files";
-		}
-
-		public String getExtension(File f) {
-			String ext = null;
-			String s = f.getName();
-			int i = s.lastIndexOf('.');
-
-			if (i > 0 && i < s.length() - 1)
-				ext = s.substring(i + 1).toLowerCase();
-
-			return ext;
 		}
 	}
 

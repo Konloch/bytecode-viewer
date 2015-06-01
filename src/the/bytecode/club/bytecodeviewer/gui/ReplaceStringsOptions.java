@@ -7,9 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import the.bytecode.club.bytecodeviewer.PluginManager;
 import the.bytecode.club.bytecodeviewer.Resources;
-import the.bytecode.club.bytecodeviewer.plugins.ReplaceStrings;
+import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ReplaceStrings;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
