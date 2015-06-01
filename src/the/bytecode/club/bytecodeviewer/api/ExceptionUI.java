@@ -1,19 +1,17 @@
 package the.bytecode.club.bytecodeviewer.api;
 
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-
-import java.awt.Dimension;
-import java.awt.CardLayout;
-
 import javax.swing.JTextArea;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
-
-import java.awt.Color;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 /**
  * A simple class designed to show exceptions in the UI.
@@ -30,7 +28,7 @@ public class ExceptionUI extends JFrame {
 	 * @param e
 	 *            The exception to be shown
 	 */
-	public ExceptionUI(Exception e) {
+	public ExceptionUI(Throwable e) {
 		setup(e, "@Konloch - konloch@gmail.com");
 	}
 	
@@ -48,7 +46,7 @@ public class ExceptionUI extends JFrame {
 	 * @param author
 	 *            the author of the plugin throwing this exception.
 	 */
-	public ExceptionUI(Exception e, String author) {
+	public ExceptionUI(Throwable e, String author) {
 		setup(e, author);
 	}
 
@@ -62,7 +60,7 @@ public class ExceptionUI extends JFrame {
 		setup(e, author);
 	}
 
-	private void setup(Exception e, String author) {
+	private void setup(Throwable e, String author) {
 
 		this.setIconImages(Resources.iconList);
 		setSize(new Dimension(600, 400));

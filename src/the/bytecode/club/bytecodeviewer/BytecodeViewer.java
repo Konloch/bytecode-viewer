@@ -39,6 +39,7 @@ import the.bytecode.club.bytecodeviewer.gui.SearchingPane;
 import the.bytecode.club.bytecodeviewer.gui.SystemErrConsole;
 import the.bytecode.club.bytecodeviewer.gui.WorkPane;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
+import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
 /**
  * A lightweight Java Reverse Engineering suite, developed by Konloch -
@@ -668,18 +669,18 @@ public class BytecodeViewer {
 
 	/**
 	 * Starts the specified plugin
-	 * @param plugin the file of the plugin
+	 * @param file the file of the plugin
 	 */
-	public static void startPlugin(File plugin) {
-		if (!plugin.exists())
+	public static void startPlugin(File file) {
+		if (!file.exists())
 			return;
 
 		try {
-			PluginManager.runPlugin(plugin);
-		} catch (Exception e) {
+			PluginManager.runPlugin(file);
+		} catch (Throwable e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
-		addRecentPlugin(plugin);
+		addRecentPlugin(file);
 	}
 
 	/**
@@ -792,6 +793,7 @@ public class BytecodeViewer {
 			if (!s.isEmpty()) {
 				JMenuItem m = new JMenuItem(s);
 				m.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						JMenuItem m = (JMenuItem) e.getSource();
 						openFiles(new File[] { new File(m.getText()) }, true);
@@ -804,6 +806,7 @@ public class BytecodeViewer {
 			if (!s.isEmpty()) {
 				JMenuItem m = new JMenuItem(s);
 				m.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						JMenuItem m = (JMenuItem) e.getSource();
 						startPlugin(new File(m.getText()));

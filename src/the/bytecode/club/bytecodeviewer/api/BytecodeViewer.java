@@ -13,7 +13,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.plugins.EZInjection;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
 
 /**
  * The official API for BCV, this was designed for plugin authors and
