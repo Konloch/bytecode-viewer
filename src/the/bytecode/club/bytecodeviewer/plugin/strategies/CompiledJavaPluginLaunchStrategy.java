@@ -63,7 +63,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 		while ((entry = jis.getNextEntry()) != null) {
 			try {
 				String name = entry.getName();
-				if(!name.endsWith(".class")){
+				if(name.endsWith(".class")){
 					byte[] bytes = JarUtils.getBytes(jis);
 					String magic = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
 					if(magic.toLowerCase().equals("cafebabe")) {
@@ -136,9 +136,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 			ccache = new HashMap<String, Class<?>>();
 
 			for(LoadedNodeData d: set) {
-				if(d != data) {
-					cache.put(d.node.name, d);
-				}
+				cache.put(d.node.name, d);
 			}
 
 			@SuppressWarnings("unchecked")
@@ -152,7 +150,9 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 
 		@Override
 		public Class<?> findClass(String name) throws ClassNotFoundException {
-			name = name.replace("/", ".");
+			name = name.replace(".", "/");
+			
+			System.out.println("finding " + name);
 
 			if(ccache.containsKey(name))
 				return ccache.get(name);
@@ -160,7 +160,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 			LoadedNodeData data = cache.get(name);
 			if(data != null) {
 				byte[] bytes = data.bytes;
-				Class<?> klass = defineClass(data.node.name, bytes, 0, bytes.length);
+				Class<?> klass = defineClass(data.node.name.replace("/", "."), bytes, 0, bytes.length);
 				ccache.put(name, klass);
 				return klass;
 			}
