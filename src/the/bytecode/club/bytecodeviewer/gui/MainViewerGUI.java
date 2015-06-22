@@ -44,11 +44,11 @@ import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.CodeSequenceDiagram;
-import the.bytecode.club.bytecodeviewer.plugins.AllatoriStringDecrypter;
-import the.bytecode.club.bytecodeviewer.plugins.ShowAllStrings;
-import the.bytecode.club.bytecodeviewer.plugins.ShowMainMethods;
-import the.bytecode.club.bytecodeviewer.plugins.ZKMStringDecrypter;
-import the.bytecode.club.bytecodeviewer.plugins.ZStringArrayDecrypter;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.AllatoriStringDecrypter;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowAllStrings;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowMainMethods;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZStringArrayDecrypter;
 
 /**
  * The main file for the GUI.n
