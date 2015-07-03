@@ -103,13 +103,13 @@ public class FieldCallSearch implements SearchTypeDetails {
 										.toLowerCase());
 					} else {
 
-						if (name != null && !name.contains(min.name)) {
+						if (name != null && !min.name.contains(name)) {
 							continue;
 						}
-						if (owner != null && !owner.contains(min.owner)) {
+						if (owner != null && !min.owner.contains(owner)) {
 							continue;
 						}
-						if (desc != null && !desc.contains(min.desc)) {
+						if (desc != null && !min.desc.contains(desc)) {
 							continue;
 						}
 						String desc2 = method.desc;

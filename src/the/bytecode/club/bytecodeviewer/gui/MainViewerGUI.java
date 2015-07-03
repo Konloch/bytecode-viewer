@@ -826,7 +826,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					JOptionPane pane = new JOptionPane(
 							"What decompiler will you use?");
 					Object[] options = new String[] { "Procyon", "CFR",
-							"Fernflower", "Krakatau", "JD-GUI", "Cancel" };
+							"Fernflower", "Krakatau", "Cancel" };
 					pane.setOptions(options);
 					JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
 							"Bytecode Viewer - Select Decompiler");
@@ -895,22 +895,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 						t.start();
 					}
 					
-					if (result == 4) {
-						Thread t = new Thread() {
-							@Override
-							public void run() {
-								try {
-									Decompiler.jdgui.decompileToZip(path);
-									BytecodeViewer.viewer.setIcon(false);
-								} catch (Exception e) {
-									new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-								}
-							}
-						};
-						t.start();
-					}
-					
-					if(result == 5) {
+					if(result == 4) {
 						BytecodeViewer.viewer.setIcon(false);
 					}
 				}
@@ -963,7 +948,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					JOptionPane pane = new JOptionPane(
 							"What decompiler will you use?");
 					Object[] options = new String[] { "Procyon", "CFR",
-							"Fernflower", "Krakatau", "DJ GUI", "Cancel" };
+							"Fernflower", "Krakatau", "Cancel" };
 					pane.setOptions(options);
 					JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
 							"Bytecode Viewer - Select Decompiler");
@@ -1034,23 +1019,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 						};
 						t.start();
 					}
-					if (result == 4) {
-						Thread t = new Thread() {
-							@Override
-							public void run() {
-								try {
-									Decompiler.jdgui.decompileToClass(s,path);
-									BytecodeViewer.viewer.setIcon(false);
-								} catch (Exception e) {
-									new the.bytecode.club.bytecodeviewer.api.ExceptionUI(
-											e);
-								}
-							}
-						};
-						t.start();
-					}
-					
-					if(result == 5) {
+					if(result == 4) {
 						BytecodeViewer.viewer.setIcon(false);
 					}
 				}

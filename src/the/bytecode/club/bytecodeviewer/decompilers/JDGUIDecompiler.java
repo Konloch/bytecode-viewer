@@ -1,55 +1,43 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
-import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.zip.ZipException;
-import java.util.zip.ZipOutputStream;
 
+import jd.cli.loader.DirectoryLoader;
+import jd.cli.loader.JarLoader;
+import jd.cli.preferences.CommonPreferences;
+import jd.cli.util.ClassFileUtil;
+import jd.core.loader.Loader;
+import jd.core.process.DecompilerImpl;
+import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
-import com.strobel.core.StringUtilities;
-import com.strobel.decompiler.DecompilationOptions;
-import com.strobel.decompiler.DecompilerSettings;
-import com.strobel.decompiler.PlainTextOutput;
-import com.strobel.decompiler.languages.java.JavaFormattingOptions;
-import com.strobel.assembler.InputTypeLoader;
-import com.strobel.assembler.metadata.Buffer;
-import com.strobel.assembler.metadata.ITypeLoader;
-import com.strobel.assembler.metadata.JarTypeLoader;
-import com.strobel.assembler.metadata.MetadataSystem;
-import com.strobel.assembler.metadata.TypeDefinition;
-import com.strobel.assembler.metadata.TypeReference;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
+import the.bytecode.club.bytecodeviewer.ZipUtils;
+import jd.cli.printer.text.PlainTextPrinter;
 
 /**
  * JDCore Decompiler Wrapper
  * 
  * @author Konloch
+ * @author JD-Core developers
  * 
  */
 
 public class JDGUIDecompiler extends Decompiler {
-
+    
 	@Override
 	public void decompileToClass(String className, String classNameSaved) {
 		ClassNode cn = BytecodeViewer.getClassNode(className);
@@ -66,12 +54,65 @@ public class JDGUIDecompiler extends Decompiler {
 		String contents = decompileClassNode(cn, cw.toByteArray());
 		DiskWriter.replaceFile(classNameSaved, contents, false);
 	}
-
+	
 	@Override
 	public String decompileClassNode(ClassNode cn, byte[] b) {
 		String exception = "";
 		try {
-			String decompiledSource = "dicks WIP";
+			final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+			tempDirectory.mkdir();
+			final File tempClass = new File(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".class");
+			final File tempJava = new File(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".java");
+
+			if(cn.name.contains("/")) {
+				String[] raw = cn.name.split("/");
+				String path = tempDirectory.getAbsolutePath() + BytecodeViewer.fs;
+				for(int i = 0; i < raw.length-1; i++) {
+					path += raw[i] + BytecodeViewer.fs;
+					File f = new File(path);
+					f.mkdir();
+				}
+			}
+			
+			try {
+				final FileOutputStream fos = new FileOutputStream(tempClass);
+
+				fos.write(b);
+
+				fos.close();
+			} catch (final IOException e) {
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			}
+			
+			
+			String pathToClass = tempClass.getAbsolutePath().replace('/', File.separatorChar).replace('\\', File.separatorChar);			
+			String directoryPath = ClassFileUtil.ExtractDirectoryPath(pathToClass);
+			
+			String internalPath = ClassFileUtil.ExtractInternalPath(directoryPath, pathToClass);
+			
+			CommonPreferences preferences = new CommonPreferences() {
+				@Override
+				public boolean isShowLineNumbers() {
+					return false;
+				}
+				@Override
+				public boolean isMergeEmptyLines() {
+					return true;
+				}
+			};
+			
+			DirectoryLoader loader = new DirectoryLoader(new File(directoryPath));
+			
+			//PrintStream ps = new PrintStream("test.html");
+			//HtmlPrinter printer = new HtmlPrinter(ps);
+			PrintStream ps = new PrintStream(tempJava.getAbsolutePath());
+			PlainTextPrinter printer = new PlainTextPrinter(preferences, ps);
+		
+			jd.core.Decompiler decompiler = new DecompilerImpl();		
+			decompiler.decompile(preferences, loader, printer, internalPath);
+			
+            String decompiledSource = "Error with decompilation.";
+			decompiledSource = DiskReader.loadAsString(tempJava.getAbsolutePath());
 
 			return decompiledSource;
 		} catch (Exception e) {
@@ -86,6 +127,5 @@ public class JDGUIDecompiler extends Decompiler {
 
 	@Override
 	public void decompileToZip(String zipName) {
-		
 	}
 }

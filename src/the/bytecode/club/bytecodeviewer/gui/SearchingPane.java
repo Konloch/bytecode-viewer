@@ -191,7 +191,7 @@ public class SearchingPane extends VisibleComponent {
 				final ClassNode fN = BytecodeViewer.getClassNode(className);
 				if (fN != null) {
 					MainViewerGUI.getComponent(FileNavigationPane.class)
-							.openClassFileToWorkSpace(className, fN);
+							.openClassFileToWorkSpace(className+".class", fN);
 				}
 
 				System.out.println(className);
