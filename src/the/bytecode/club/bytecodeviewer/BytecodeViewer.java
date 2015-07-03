@@ -94,14 +94,8 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * 
  * Search open doesnt append .class
  * 
- * -----2.9.6-----:
- * 05/05/2015 - Fixed a typo in the about window
- * 05/28/2015 - Started importing JD-GUI Decompiler.
- * 05/28/2015 - Compile on refresh and compile on save are now enabled by default.
- * 05/28/2015 - Renamed the File>Save As options to be much more informative.
- * 06/24/2015 - Fixed a logic error with the Field & Method searchers.
- * 06/26/2015 - Updated Procyon & CFR to their latest versions.
- * 07/02/2015 - Added JD-GUI Decompiler. - Huge thanks to the guys behind JD-GUI! <3
+ * -----2.9.7-----:
+ * 07/02/2015 - Added ajustable font size.
  * 
  * @author Konloch
  * 
@@ -110,7 +104,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 public class BytecodeViewer {
 
 	/*per version*/
-	public static String version = "2.9.6";
+	public static String version = "2.9.7";
 	public static String krakatauVersion = "2";
 	/*the rest*/
 	public static MainViewerGUI viewer = null;

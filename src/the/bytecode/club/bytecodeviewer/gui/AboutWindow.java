@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui;
 import javax.swing.JFrame;
 
 import java.awt.CardLayout;
+import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.JTextArea;
@@ -33,11 +34,12 @@ public class AboutWindow extends JFrame {
 		getContentPane().add(txtrBytecodeViewerIs, "name_140466526081695");txtrBytecodeViewerIs.setEnabled(false);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-	}
+		}
 	
 	@Override
 	public void setVisible(boolean b) {
 		super.setVisible(b);
+		txtrBytecodeViewerIs.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 		txtrBytecodeViewerIs
 				.setText("Bytecode Viewer "+BytecodeViewer.version+" is an open source program developed and maintained by Konloch (konloch@gmail.com)\r\n"+
 				"100% free and open sourced licensed under GPL v3 CopyLeft\r\n\r\n"+

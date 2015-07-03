@@ -188,6 +188,7 @@ public class Settings {
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel1JDGUI_E.isSelected()), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel2JDGUI_E.isSelected()), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel3JDGUI_E.isSelected()), false);
+			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.fontSpinner.getValue()), false);
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
@@ -374,6 +375,7 @@ public class Settings {
 			BytecodeViewer.viewer.panel1JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 109, false)));
 			BytecodeViewer.viewer.panel2JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 110, false)));
 			BytecodeViewer.viewer.panel3JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 111, false)));
+			BytecodeViewer.viewer.fontSpinner.setValue(Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 112, false)));
 		} catch(Exception e) {
 			//ignore because errors are expected, first start up and outdated settings.
 			//e.printStackTrace();

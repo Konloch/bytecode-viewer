@@ -49,6 +49,8 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowAllStrings;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowMainMethods;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZStringArrayDecrypter;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 /**
  * The main file for the GUI.n
@@ -149,7 +151,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	public final JMenuItem mntmNewMenuItem = new JMenuItem(
 			"Decompile & Save All Classes..");
 	public final JMenuItem mntmAbout = new JMenuItem("About");
-	public AboutWindow aboutWindow = new AboutWindow();
 	public final JSeparator separator_3 = new JSeparator();
 	public final JMenu mnNewMenu_1 = new JMenu("Plugins");
 	public final JMenuItem mntmStartExternalPlugin = new JMenuItem(
@@ -319,7 +320,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	public final JMenu mnSettings = new JMenu("Settings");
 	public final JSeparator separator_6 = new JSeparator();
 	public final JCheckBoxMenuItem refreshOnChange = new JCheckBoxMenuItem("Refresh On View Change");
-
+	public AboutWindow aboutWindow = new AboutWindow();
+	
 	public FileNavigationPane cn = new FileNavigationPane(this);
 	
 	public boolean isMaximized = false;
@@ -493,6 +495,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	public final JRadioButtonMenuItem panel1JDGUI = new JRadioButtonMenuItem("Java");
 	private final JSeparator separator_35 = new JSeparator();
 	public final JCheckBoxMenuItem panel1JDGUI_E = new JCheckBoxMenuItem("Editable");
+	private final JMenu mnFontSize = new JMenu("Font Size");
+	public final JSpinner fontSpinner = new JSpinner();
+	private final JSeparator separator_36 = new JSeparator();
 	public MainViewerGUI() {
 		mnNewMenu_5.setVisible(false);
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new Test());
@@ -1287,6 +1292,13 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				
 				mnSettings.add(decodeAPKResources);
 				
+				mnSettings.add(separator_36);
+				
+				mnSettings.add(mnFontSize);
+				fontSpinner.setModel(new SpinnerNumberModel(new Integer(12), new Integer(1), null, new Integer(1)));
+				
+				mnFontSize.add(fontSpinner);
+				
 				mnSettings.add(separator_13);
 				mntmSetPythonDirectory.addActionListener(new ActionListener() {
 					@Override
@@ -1751,8 +1763,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		panelGroup1.setSelected(panel1Proc.getModel(), true);//my one true love
 		panelGroup2.setSelected(panel2Bytecode.getModel(), true);
 		panelGroup3.setSelected(panel3None.getModel(), true);
-
-		
 		
 		this.setLocationRelativeTo(null);
 	}
