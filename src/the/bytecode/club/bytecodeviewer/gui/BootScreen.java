@@ -55,7 +55,7 @@ public class BootScreen extends JFrame {
 	
 	private JProgressBar progressBar = new JProgressBar();
 	
-	public BootScreen() {
+	public BootScreen() throws IOException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setIconImages(Resources.iconList);
 		setSize(new Dimension(600, 800));
@@ -79,7 +79,7 @@ public class BootScreen extends JFrame {
 	    JEditorPane editorPane = new JEditorPane();
 	    editorPane.setEditorKit(new HTMLEditorKit());
 	    
-	    editorPane.setText("http://www.icesoft.org/java/home.jsf");
+	    editorPane.setText(convertStreamToString(BytecodeViewer.class.getClassLoader().getResourceAsStream("resources/intro.html")));
 
 		scrollPane.setViewportView(editorPane);
 		
@@ -89,6 +89,15 @@ public class BootScreen extends JFrame {
 		gbc_progressBar.gridy = 24;
 		getContentPane().add(progressBar, gbc_progressBar);
 		this.setLocationRelativeTo(null);
+	}
+	
+	static String convertStreamToString(java.io.InputStream is) throws IOException {
+	    @SuppressWarnings("resource")
+		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+	    String string =  s.hasNext() ? s.next() : "";
+	    is.close();
+	    s.close();
+	    return string;
 	}
 	
 	public void DO_FIRST_BOOT(String args[]) {
@@ -208,26 +217,28 @@ public class BootScreen extends JFrame {
 			for(String s : libsFileList ) {
 				if(s.endsWith(".jar")) {
 					File f = new File(s);
-					setTitle("Bytecode Viewer Boot Screen - Loading Library " + f.getName());
-					System.out.println(f.getName());
-					
-					JarFile jarFile = new JarFile(s);
-					Enumeration<JarEntry> e = jarFile.entries();
-					ClassPathHack.addFile(f);
-					while (e.hasMoreElements()) {
-						JarEntry je = (JarEntry) e.nextElement();
-						if(je.isDirectory() || !je.getName().endsWith(".class")){
-							continue;
+					if(f.exists()) {
+						setTitle("Bytecode Viewer Boot Screen - Loading Library " + f.getName());
+						System.out.println(f.getName());
+						
+						JarFile jarFile = new JarFile(s);
+						Enumeration<JarEntry> e = jarFile.entries();
+						ClassPathHack.addFile(f);
+						while (e.hasMoreElements()) {
+							JarEntry je = (JarEntry) e.nextElement();
+							if(je.isDirectory() || !je.getName().endsWith(".class")){
+								continue;
+							}
+							try {
+						        String className = je.getName().substring(0,je.getName().length()-6);
+						        className = className.replace('/', '.');
+						        ClassLoader.getSystemClassLoader().loadClass(className);
+							} catch(java.lang.VerifyError | java.lang.ExceptionInInitializerError | java.lang.IncompatibleClassChangeError | java.lang.NoClassDefFoundError | Exception e2) {
+						        	//ignore
+							}
 						}
-						try {
-					        String className = je.getName().substring(0,je.getName().length()-6);
-					        className = className.replace('/', '.');
-					        ClassLoader.getSystemClassLoader().loadClass(className);
-						} catch(java.lang.VerifyError | java.lang.ExceptionInInitializerError | java.lang.IncompatibleClassChangeError | java.lang.NoClassDefFoundError | Exception e2) {
-					        	//ignore
-						}
+						jarFile.close();
 					}
-					jarFile.close();
 				}
 			}
 			setTitle("Bytecode Viewer Boot Screen - Booting!");

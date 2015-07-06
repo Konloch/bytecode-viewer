@@ -356,10 +356,10 @@ public class BytecodeViewer {
 		System.setSecurityManager(sm);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new BootScreen().DO_FIRST_BOOT(args);
 		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
-		new BootScreen().DO_FIRST_BOOT(args);
 	}
 	
 	public static void BOOT(String[] args) {
