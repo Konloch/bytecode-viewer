@@ -1293,13 +1293,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				mnSettings.add(decodeAPKResources);
 				
 				mnSettings.add(separator_36);
-				
-				mnSettings.add(mnFontSize);
-				fontSpinner.setModel(new SpinnerNumberModel(new Integer(12), new Integer(1), null, new Integer(1)));
-				
-				mnFontSize.add(fontSpinner);
-				
-				mnSettings.add(separator_13);
 				mntmSetPythonDirectory.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
@@ -1758,6 +1751,13 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		panelGroup3.add(panel3Smali);
 		panelGroup3.add(panel3Bytecode);
 		panelGroup3.add(panel3Hexcode);
+		mnNewMenu_6.add(separator_13);
+		fontSpinner.setPreferredSize(new Dimension(42, 20));
+		fontSpinner.setSize(new Dimension(42, 20));
+		fontSpinner.setModel(new SpinnerNumberModel(new Integer(12), new Integer(1), null, new Integer(1)));
+		mnNewMenu_6.add(mnFontSize);
+		
+		mnFontSize.add(fontSpinner);
 		
 
 		panelGroup1.setSelected(panel1Proc.getModel(), true);//my one true love

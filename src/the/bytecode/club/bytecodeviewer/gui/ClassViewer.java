@@ -222,7 +222,6 @@ public class ClassViewer extends Viewer {
 	private static final long serialVersionUID = -8650495368920680024L;
 	ArrayList<MethodData> lnData = new ArrayList<MethodData>();
 	String name;
-	public ClassNode cn;
 	JSplitPane sp;
 	JSplitPane sp2;
 	public JPanel panel1Search = new JPanel(new BorderLayout());

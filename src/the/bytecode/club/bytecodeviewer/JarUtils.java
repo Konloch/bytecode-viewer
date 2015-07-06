@@ -77,6 +77,8 @@ public class JarUtils {
 	 * @throws IOException
 	 */
 	public static void loadResources(final File zipFile) throws IOException {
+		if(!zipFile.exists())
+			return; //just ignore
 		ZipInputStream jis = new ZipInputStream(new FileInputStream(zipFile));
 		ZipEntry entry;
 		while ((entry = jis.getNextEntry()) != null) {

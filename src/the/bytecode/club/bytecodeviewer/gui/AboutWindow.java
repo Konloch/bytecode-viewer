@@ -34,7 +34,7 @@ public class AboutWindow extends JFrame {
 		getContentPane().add(txtrBytecodeViewerIs, "name_140466526081695");txtrBytecodeViewerIs.setEnabled(false);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		}
+	}
 	
 	@Override
 	public void setVisible(boolean b) {

@@ -33,6 +33,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.FileNavigationPane;
+import the.bytecode.club.bytecodeviewer.gui.BootScreen;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.RunOptions;
 import the.bytecode.club.bytecodeviewer.gui.SearchingPane;
@@ -67,7 +68,6 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * TODO:
  * 
  * 3.0.0: (RETIREMENT PARTY, WOHOOO)
- * maybe just do AMS5 then obfuscate the dex2jar shit.
  * Add obfuscation:
  *    - Add integer boxing and other obfuscation methods contra implemented
  *    - Insert unadded/debug opcodes to try to fuck up decompilers
@@ -91,11 +91,13 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * refresh appears under panes that are non refreshable
  * make ez-injection plugin console show all sys.out calls
  * edit then save issues?
- * 
- * Search open doesnt append .class
+ * Search open doesnt append .class to tab name
  * 
  * -----2.9.7-----:
  * 07/02/2015 - Added ajustable font size.
+ * 07/05/2015 - Started working on the new Boot Screen.
+ * 07/06/2015 - Moved the font size to be under the view menu.
+ * 07/06/2015 - Fixed a bug with plugins not being able to grab the currently viewed class.
  * 
  * @author Konloch
  * 
@@ -123,6 +125,7 @@ public class BytecodeViewer {
 	private static String pluginsName = getBCVDirectory() + fs + "recentplugins.bcv";
 	public static String settingsName = getBCVDirectory() + fs + "settings.bcv";
 	public static String tempDirectory = getBCVDirectory() + fs + "bcv_temp" + fs;
+	public static String libsDirectory = getBCVDirectory() + fs + "libs" + fs;
 	public static String krakatauWorkingDirectory = getBCVDirectory() + fs + "krakatau_" + krakatauVersion + fs + "Krakatau-master";
 	private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
@@ -132,11 +135,12 @@ public class BytecodeViewer {
 	public static ArrayList<Process> krakatau = new ArrayList<Process>();
 	public static Refactorer refactorer = new Refactorer();
 	public static boolean pingback = false;
+	public static boolean deleteForiegnLibraries = true;
 	
 	/**
 	 * The version checker thread
 	 */
-	private static Thread versionChecker = new Thread() {
+	public static Thread versionChecker = new Thread() {
 		@Override
 		public void run() {
 			try {
@@ -294,6 +298,39 @@ public class BytecodeViewer {
 		}
 	};
 	
+	public static Thread PingBack = new Thread() {
+		public void run() {
+			try {
+				new HTTPRequest(new URL("https://bytecodeviewer.com/add.php")).read();
+			} catch(Exception e) {
+				//ignore
+			}
+		}
+	};
+	
+	public static void pingback() {
+		JOptionPane pane = new JOptionPane(
+				"Would you like to 'pingback' to https://bytecodeviewer.com to be counted in the global users for BCV?");
+		Object[] options = new String[] { "Yes", "No" };
+		pane.setOptions(options);
+		JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
+				"Bytecode Viewer - Optional Pingback");
+		dialog.setVisible(true);
+		Object obj = pane.getValue();
+		int result = -1;
+		for (int k = 0; k < options.length; k++)
+			if (options[k].equals(obj))
+				result = k;
+
+		if (result == 0) {
+			try {
+				PingBack.start();
+			} catch (Exception e) {
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			}
+		}
+	}
+	
 	/**
 	 * Grab the byte array from the loaded Class object
 	 * @param clazz
@@ -317,6 +354,15 @@ public class BytecodeViewer {
 	 */
 	public static void main(String[] args) {
 		System.setSecurityManager(sm);
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+		}
+		new BootScreen().DO_FIRST_BOOT(args);
+	}
+	
+	public static void BOOT(String[] args) {
 		checkKrakatau();
 		System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version);
 		cleanup();
@@ -329,18 +375,13 @@ public class BytecodeViewer {
 				cleanup();
 			}
 		});
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-		}
 
 		viewer = new MainViewerGUI();
 		Settings.loadGUI();
 		resetRecentFilesMenu();
 
-		if (viewer.chckbxmntmNewCheckItem_12.isSelected()) // start only if selected
-			versionChecker.start();
+		/*if (viewer.chckbxmntmNewCheckItem_12.isSelected()) // start only if selected
+			versionChecker.start();*/
 
 		viewer.setVisible(true);		
 		System.out.println("Start up took " + ((System.currentTimeMillis() - start) / 1000) + " seconds");
@@ -350,33 +391,10 @@ public class BytecodeViewer {
 				openFiles(new File[] { new File(s) }, true);
 			}
 		
-		if(!pingback) {
+		/*if(!pingback) {
 			pingback = true;
 			pingback();
-		}
-	}
-	
-	public static void pingback() {
-		JOptionPane pane = new JOptionPane(
-				"Would you like to 'pingback' to https://bytecodeviewer.com to be counted in the global users for BCV?");
-		Object[] options = new String[] { "Yes", "No" };
-		pane.setOptions(options);
-		JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-				"Bytecode Viewer - Optional Pingback");
-		dialog.setVisible(true);
-		Object obj = pane.getValue();
-		int result = -1;
-		for (int k = 0; k < options.length; k++)
-			if (options[k].equals(obj))
-				result = k;
-
-		if (result == 0) {
-			try {
-				new HTTPRequest(new URL("https://bytecodeviewer.com/add.php")).read();
-			} catch (Exception e) {
-				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-			}
-		}
+		}*/
 	}
 	
 	/**
@@ -569,7 +587,8 @@ public class BytecodeViewer {
 	public static void openFiles(final File[] files, boolean recentFiles) {
 		if(recentFiles)
 			for (File f : files)
-				BytecodeViewer.addRecentFile(f);
+				if(f.exists())
+					BytecodeViewer.addRecentFile(f);
 
 		BytecodeViewer.viewer.setIcon(true);
 		update = true;
