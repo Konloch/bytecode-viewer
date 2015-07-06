@@ -263,7 +263,7 @@ public class BootScreen extends JFrame {
 		
 		BytecodeViewer.BOOT(args);
 		
-		if(BytecodeViewer.pingback) {
+		if(!BytecodeViewer.pingback) {
 			BytecodeViewer.PingBack.start();
 			BytecodeViewer.pingback = true;
 		}
