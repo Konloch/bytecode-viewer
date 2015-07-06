@@ -2,6 +2,16 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
+  <obj>w32api/crt2.o</obj>
+  <obj>head/guihead.o</obj>
+  <obj>head/head.o</obj>
+  <lib>w32api/libmingw32.a</lib>
+  <lib>w32api/libgcc.a</lib>
+  <lib>w32api/libmsvcrt.a</lib>
+  <lib>w32api/libkernel32.a</lib>
+  <lib>w32api/libuser32.a</lib>
+  <lib>w32api/libadvapi32.a</lib>
+  <lib>w32api/libshell32.a</lib>
   <jar>H:\Repo\BCV\bytecode-viewer\BytecodeViewer 2.9.6.jar</jar>
   <outfile>H:\Repo\BCV\bytecode-viewer\BytecodeViewer.exe</outfile>
   <errTitle></errTitle>
