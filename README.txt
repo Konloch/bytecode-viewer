@@ -17,6 +17,7 @@ Code from various projects has been used, including but not limited to:
     Smali by JesusFreke
     Dex2Jar by pxb1..?
     Krakatau by Storyyeller
+    JD GUI/JD Core by The Java-Decompiler Team
 
 Contributors:
     Konloch
