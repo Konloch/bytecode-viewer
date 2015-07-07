@@ -51,6 +51,8 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZStringArrayDecrypter;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 /**
  * The main file for the GUI.n
@@ -498,6 +500,18 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	private final JMenu mnFontSize = new JMenu("Font Size");
 	public final JSpinner fontSpinner = new JSpinner();
 	private final JSeparator separator_36 = new JSeparator();
+	private final JCheckBoxMenuItem chckbxmntmDeleteForiegnoutdatedLibs = new JCheckBoxMenuItem("Delete Foriegn/Outdated Libs");
+	private final JSeparator separator_37 = new JSeparator();
+	private final JSeparator separator_38 = new JSeparator();
+	private final JMenu mnApkConversion = new JMenu("APK Conversion");
+	public final ButtonGroup apkConversionGroup = new ButtonGroup();
+	public final JRadioButtonMenuItem apkConversionDex = new JRadioButtonMenuItem("Dex2Jar");
+	public final JRadioButtonMenuItem apkConversionEnjarify = new JRadioButtonMenuItem("Enjarify");
+	
+	public void calledAfterLoad() {
+		chckbxmntmDeleteForiegnoutdatedLibs.setSelected(BytecodeViewer.deleteForiegnLibraries);
+	}
+	
 	public MainViewerGUI() {
 		mnNewMenu_5.setVisible(false);
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new Test());
@@ -1285,12 +1299,32 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				autoCompileOnRefresh.setSelected(true);
 				
 				mnSettings.add(autoCompileOnRefresh);
-				mnSettings.add(chckbxmntmNewCheckItem_12);
-				chckbxmntmNewCheckItem_12.setSelected(true);
 				
 				mnSettings.add(refreshOnChange);
 				
+				mnSettings.add(separator_38);
+				
 				mnSettings.add(decodeAPKResources);
+				
+				mnSettings.add(mnApkConversion);
+				
+				mnApkConversion.add(apkConversionDex);
+				
+				mnApkConversion.add(apkConversionEnjarify);
+				
+				mnSettings.add(separator_37);
+				mnSettings.add(chckbxmntmNewCheckItem_12);
+				chckbxmntmDeleteForiegnoutdatedLibs.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						if(!chckbxmntmDeleteForiegnoutdatedLibs.isSelected()) {
+							BytecodeViewer.showMessage("WARNING: With this being toggled off outdated libraries will NOT be removed. It's also a security issue. ONLY TURN IT OFF IF YOU KNOW WHAT YOU'RE DOING.");
+						}
+						BytecodeViewer.deleteForiegnLibraries = chckbxmntmDeleteForiegnoutdatedLibs.isSelected();
+					}
+				});
+				chckbxmntmDeleteForiegnoutdatedLibs.setSelected(true);
+				
+				mnSettings.add(chckbxmntmDeleteForiegnoutdatedLibs);
 				
 				mnSettings.add(separator_36);
 				mntmSetPythonDirectory.addActionListener(new ActionListener() {
@@ -1717,6 +1751,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		rfComps.add(s);
 		rfComps.add(workPane);
+
+		apkConversionGroup.add(apkConversionDex);
+		apkConversionGroup.add(apkConversionEnjarify);
+		apkConversionGroup.setSelected(apkConversionDex.getModel(), true);//my one true love
 		
 
 		panelGroup1.add(panel1None);

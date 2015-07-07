@@ -190,6 +190,10 @@ public class Settings {
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel3JDGUI_E.isSelected()), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.fontSpinner.getValue()), false);
 			DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.deleteForiegnLibraries), false);
+			 if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
+				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
+			 else if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
+				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "1", false);
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
@@ -378,6 +382,11 @@ public class Settings {
 			BytecodeViewer.viewer.panel3JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 111, false)));
 			BytecodeViewer.viewer.fontSpinner.setValue(Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 112, false)));
 			BytecodeViewer.deleteForiegnLibraries = Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 113, false));
+			decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 114, false));
+			if(decompiler == 0)
+				BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionDex.getModel(), true);
+			else if(decompiler == 1)
+				BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel(), true);
 		} catch(Exception e) {
 			//ignore because errors are expected, first start up and outdated settings.
 			//e.printStackTrace();

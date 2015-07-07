@@ -220,7 +220,6 @@ public class BootScreen extends JFrame {
 					File f = new File(s);
 					if(f.exists()) {
 						setTitle("Bytecode Viewer Boot Screen - Loading Library " + f.getName());
-						System.out.println(f.getName());
 						
 						try {
 							JarFile jarFile = new JarFile(s);
@@ -239,6 +238,7 @@ public class BootScreen extends JFrame {
 							        	//ignore
 								}
 							}
+							System.out.println("Succesfully loaded " + f.getName());
 							jarFile.close();
 						} catch(java.util.zip.ZipException e) {
 							e.printStackTrace();
@@ -262,14 +262,6 @@ public class BootScreen extends JFrame {
 		setTitle("Bytecode Viewer Boot Screen - Finished");
 		
 		BytecodeViewer.BOOT(args);
-		
-		if(!BytecodeViewer.pingback) {
-			BytecodeViewer.PingBack.start();
-			BytecodeViewer.pingback = true;
-		}
-		
-		if(BytecodeViewer.viewer.chckbxmntmNewCheckItem_12.isSelected())
-			BytecodeViewer.versionChecker.start();
 		
 		this.setVisible(false);
 	}

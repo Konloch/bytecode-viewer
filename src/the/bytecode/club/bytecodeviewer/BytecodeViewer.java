@@ -378,7 +378,16 @@ public class BytecodeViewer {
 
 		viewer = new MainViewerGUI();
 		Settings.loadGUI();
+		viewer.calledAfterLoad();
 		resetRecentFilesMenu();
+		
+		if(!pingback) {
+			PingBack.start();
+			pingback = true;
+		}
+		
+		if(viewer.chckbxmntmNewCheckItem_12.isSelected())
+			versionChecker.start();
 
 		/*if (viewer.chckbxmntmNewCheckItem_12.isSelected()) // start only if selected
 			versionChecker.start();*/
