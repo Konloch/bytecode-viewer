@@ -5,6 +5,7 @@ import java.io.File;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Dex2Jar;
+import the.bytecode.club.bytecodeviewer.Enjarify;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
 import the.bytecode.club.bytecodeviewer.ZipUtils;
 
@@ -43,7 +44,10 @@ public class SmaliAssembler extends Compiler {
 		}
 		
 
-		Dex2Jar.dex2Jar(tempDex, tempJar);
+		if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
+			 Dex2Jar.dex2Jar(tempDex, tempJar);
+		else if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
+			 Enjarify.apk2Jar(tempDex, tempJar);
 		
 		try {
 			ZipUtils.unzipFilesToPath(tempJar.getAbsolutePath(), tempJarFolder.getAbsolutePath());

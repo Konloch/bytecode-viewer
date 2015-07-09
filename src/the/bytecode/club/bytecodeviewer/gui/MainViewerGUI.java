@@ -34,6 +34,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Dex2Jar;
+import the.bytecode.club.bytecodeviewer.Enjarify;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
@@ -49,10 +50,9 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowAllStrings;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowMainMethods;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZStringArrayDecrypter;
+
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 /**
  * The main file for the GUI.n
@@ -61,7 +61,7 @@ import javax.swing.event.ChangeEvent;
  *
  */
 public class MainViewerGUI extends JFrame implements FileChangeNotifier {
-	
+
 	public void pythonC() {
 		JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(new PythonCFileFilter());
@@ -72,6 +72,21 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		if (returnVal == JFileChooser.APPROVE_OPTION)
 			try {
 				BytecodeViewer.python = fc.getSelectedFile().getAbsolutePath();
+			} catch (Exception e1) {
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
+			}
+	}
+	
+	public void pythonC3() {
+		JFileChooser fc = new JFileChooser();
+		fc.setFileFilter(new PythonC3FileFilter());
+		fc.setFileHidingEnabled(false);
+		fc.setAcceptAllFileFilterUsed(false);
+		int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+			try {
+				BytecodeViewer.python3 = fc.getSelectedFile().getAbsolutePath();
 			} catch (Exception e1) {
 				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
 			}
@@ -784,7 +799,11 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 							Thread t = new Thread() {
 								@Override
 								public void run() {
-									Dex2Jar.saveAsDex(new File(input), file2);
+									if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
+										 Dex2Jar.saveAsDex(new File(input), file2);
+									else if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
+										 Enjarify.saveAsAPK(new File(input), file2);
+									
 									BytecodeViewer.viewer.setIcon(false);
 								}
 							};
@@ -1970,6 +1989,18 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		@Override
 		public String getDescription() {
 			return "Python (Or PyPy for speed) 2.7 Executable";
+		}
+	}
+
+	public class PythonC3FileFilter extends FileFilter {
+		@Override
+		public boolean accept(File f) {
+			return true;
+		}
+
+		@Override
+		public String getDescription() {
+			return "Python (Or PyPy for speed) 3.x Executable";
 		}
 	}
 

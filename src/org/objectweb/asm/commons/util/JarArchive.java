@@ -32,8 +32,9 @@ public class JarArchive {
     public Map<String, ClassNode> build() {
         if (!nodes.isEmpty())
             return nodes;
+        JarFile jar = null;
         try {
-            JarFile jar = new JarFile(file);
+            jar = new JarFile(file);
             manifest = jar.getManifest();
             Enumeration<JarEntry> entries = jar.entries();
             while (entries.hasMoreElements()) {
@@ -48,6 +49,12 @@ public class JarArchive {
             }
         } catch (IOException e) {
             throw new RuntimeException("Error building classes (" + file.getName() + "): ", e.getCause());
+        } finally {
+            try {
+            	if(jar != null)
+            		jar.close();
+			} catch (IOException e) {
+			}
         }
         return nodes;
     }

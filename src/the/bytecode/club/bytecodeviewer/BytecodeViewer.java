@@ -43,12 +43,10 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
 /**
- * A lightweight Java Reverse Engineering suite, developed by Konloch -
- * http://konloch.me
+ * A lightweight Java Reverse Engineering suite, developed by Konloch - http://konloch.me
  * 
- * Are you a Java Reverse Engineer? Or maybe you want to learn Java Reverse
- * Engineering? Join The Bytecode Club, we're noob friendly, and censorship
- * free.
+ * Are you a Java Reverse Engineer? Or maybe you want to learn Java Reverse Engineering?
+ * Join The Bytecode Club, we're noob friendly, and censorship free.
  * 
  * http://the.bytecode.club
  * 
@@ -91,13 +89,17 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * refresh appears under panes that are non refreshable
  * make ez-injection plugin console show all sys.out calls
  * edit then save issues?
- * Search open doesnt append .class to tab name
+ * Search open doesn't append .class to tab name
  * 
  * -----2.9.7-----:
  * 07/02/2015 - Added ajustable font size.
  * 07/05/2015 - Started working on the new Boot Screen.
  * 07/06/2015 - Moved the font size to be under the view menu.
  * 07/06/2015 - Fixed a bug with plugins not being able to grab the currently viewed class.
+ * 07/07/2015 - Started adding enjarify as an optional APK converter instead of Dex2Jar.
+ * 07/07/2015 - Finished the new Boot Screen
+ * 07/09/2015 - Fixed a process leak with krakatau decompiler.
+ * 07/09/2015 - Finished adding enjarify.
  * 
  * @author Konloch
  * 
@@ -107,14 +109,15 @@ public class BytecodeViewer {
 
 	/*per version*/
 	public static String version = "2.9.7";
-	public static String krakatauVersion = "2";
+	public static boolean previewCopy = true;
 	/*the rest*/
 	public static MainViewerGUI viewer = null;
 	public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV, however that's highly unlikely.
 	public static String python = "";
+	public static String python3 = "";
 	public static String rt = "";
 	public static String library = "";
-	public static SecurityMan sm = new SecurityMan();
+	public static SecurityMan sm = new SecurityMan(); //might be insecure due to assholes targeting BCV, however that's highly unlikely.
 	public static HashMap<String, ClassNode> loadedClasses = new HashMap<String, ClassNode>();
 	public static HashMap<String, byte[]> loadedResources = new HashMap<String, byte[]>();
 	private static int maxRecentFiles = 25;
@@ -126,13 +129,17 @@ public class BytecodeViewer {
 	public static String settingsName = getBCVDirectory() + fs + "settings.bcv";
 	public static String tempDirectory = getBCVDirectory() + fs + "bcv_temp" + fs;
 	public static String libsDirectory = getBCVDirectory() + fs + "libs" + fs;
-	public static String krakatauWorkingDirectory = getBCVDirectory() + fs + "krakatau_" + krakatauVersion + fs + "Krakatau-master";
+	public static String krakatauWorkingDirectory = "";
+	public static String krakatauVersion = "";
+	public static String enjarifyWorkingDirectory = "";
+	public static String enjarifyVersion = "";
 	private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
 	private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
 	public static boolean runningObfuscation = false;
 	private static long start = System.currentTimeMillis();
 	public static String lastDirectory = "";
 	public static ArrayList<Process> krakatau = new ArrayList<Process>();
+	public static ArrayList<Process> enjarify = new ArrayList<Process>();
 	public static Refactorer refactorer = new Refactorer();
 	public static boolean pingback = false;
 	public static boolean deleteForiegnLibraries = true;
@@ -303,7 +310,7 @@ public class BytecodeViewer {
 			try {
 				new HTTPRequest(new URL("https://bytecodeviewer.com/add.php")).read();
 			} catch(Exception e) {
-				//ignore
+				pingback = false;
 			}
 		}
 	};
@@ -356,6 +363,9 @@ public class BytecodeViewer {
 		System.setSecurityManager(sm);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			if(previewCopy)
+				showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when 2.9.7 is actually out if you use this."+nl+
+							"Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for 2.9.7's release");
 			new BootScreen().DO_FIRST_BOOT(args);
 		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -363,7 +373,6 @@ public class BytecodeViewer {
 	}
 	
 	public static void BOOT(String[] args) {
-		checkKrakatau();
 		System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version);
 		cleanup();
 		Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -371,6 +380,8 @@ public class BytecodeViewer {
 			public void run() {
 				for(Process krakatau : krakatau)
 					krakatau.destroy();
+				for(Process enjarify : enjarify)
+					enjarify.destroy();
 				Settings.saveGUI();
 				cleanup();
 			}
@@ -558,33 +569,6 @@ public class BytecodeViewer {
 		
 		return true;
 	}
-
-	/**
-	 * Drops the latest krakatau safely
-	 */
-	public static void checkKrakatau() {
-		File krakatauDirectory = new File(getBCVDirectory() + fs + "krakatau_" + krakatauVersion);
-		if(!krakatauDirectory.exists()) {
-			try {
-				File temp = new File(getBCVDirectory() + fs + "krakatau_" + krakatauVersion + ".zip");
-			    while(temp.exists())
-			    	temp.delete();
-				InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("krakatau.zip");
-			    FileOutputStream baos = new FileOutputStream(temp);
-			    int r = 0;
-			    byte[] buffer = new byte[8192];
-			    while((r=is.read(buffer))>=0) {
-			        baos.write(buffer, 0, r);
-			    }
-			    baos.close();
-			    ZipUtils.unzipFilesToPath(temp.getAbsolutePath(), krakatauDirectory.getAbsolutePath());
-			    temp.delete();
-			} catch(Exception e) {
-				showMessage("ERROR: There was an issue unzipping Krakatau decompiler, please contact @Konloch with your stacktrace.");
-				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-			}
-		}
-	}
 	
 	private static boolean update = true;
 	
@@ -653,7 +637,12 @@ public class BytecodeViewer {
 										
 										String name = getRandomizedName()+".jar";
 										File output = new File(tempDirectory + fs + name);
-										Dex2Jar.dex2Jar(f, output);
+										
+										if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
+											 Dex2Jar.dex2Jar(f, output);
+										else if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
+											 Enjarify.apk2Jar(f, output);
+										 
 										BytecodeViewer.viewer.setIcon(false);
 										openFiles(new File[]{output}, false);
 									} catch (final Exception e) {
@@ -664,7 +653,12 @@ public class BytecodeViewer {
 									try {
 										String name = getRandomizedName()+".jar";
 										File output = new File(tempDirectory + fs + name);
-										Dex2Jar.dex2Jar(f, output);
+										
+										if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
+											 Dex2Jar.dex2Jar(f, output);
+										else if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
+											 Enjarify.apk2Jar(f, output);
+										
 										BytecodeViewer.viewer.setIcon(false);
 										openFiles(new File[]{output}, false);
 									} catch (final Exception e) {

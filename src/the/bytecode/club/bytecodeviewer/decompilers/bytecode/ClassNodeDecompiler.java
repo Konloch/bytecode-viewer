@@ -26,7 +26,6 @@ public class ClassNodeDecompiler extends Decompiler {
 				new ArrayList<String>(), cn).toString();
 	}
 
-	@SuppressWarnings("unchecked")
 	protected static PrefixedStringBuilder decompile(
 			PrefixedStringBuilder sb, ArrayList<String> decompiledClasses,
 			ClassNode cn) {

@@ -45,11 +45,14 @@ public class AboutWindow extends JFrame {
 				"100% free and open sourced licensed under GPL v3 CopyLeft\r\n\r\n"+
 				"Settings:"+BytecodeViewer.nl+
 				"BCV Dir: " + BytecodeViewer.getBCVDirectory()+BytecodeViewer.nl+
-				"Python: " + BytecodeViewer.python+BytecodeViewer.nl+
+				"Python 2.7 (or PyPy): " + BytecodeViewer.python+BytecodeViewer.nl+
+				"Python 3.0 (or PyPy): " + BytecodeViewer.python3+BytecodeViewer.nl+
 				"RT.jar:" + BytecodeViewer.rt+BytecodeViewer.nl+
 				"Optional Lib: " + BytecodeViewer.library+BytecodeViewer.nl+
 				"BCV Krakatau: v" + BytecodeViewer.krakatauVersion+BytecodeViewer.nl+
-				"Krakatau Dir: " + BytecodeViewer.krakatauWorkingDirectory+BytecodeViewer.nl+BytecodeViewer.nl+
+				"Krakatau Dir: " + BytecodeViewer.krakatauWorkingDirectory+BytecodeViewer.nl+
+				"BCV Enjarify: v" + BytecodeViewer.enjarifyVersion+BytecodeViewer.nl+
+				"Enjarify Dir: " + BytecodeViewer.enjarifyWorkingDirectory+BytecodeViewer.nl+BytecodeViewer.nl+
 				"Keybinds:"+BytecodeViewer.nl+
 				"CTRL + O: Open/add new jar/class/apk"+BytecodeViewer.nl+
 				"CTLR + N: Reset the workspace"+BytecodeViewer.nl+

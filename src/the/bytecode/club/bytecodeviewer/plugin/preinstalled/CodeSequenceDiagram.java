@@ -30,7 +30,6 @@ import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
 
 public class CodeSequenceDiagram extends Plugin {
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList) {
 		if(BytecodeViewer.viewer.workPane.getCurrentViewer() == null || !(BytecodeViewer.viewer.workPane.getCurrentViewer() instanceof ClassViewer)) {

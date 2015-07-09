@@ -49,7 +49,6 @@ public class FieldCallSearch implements SearchTypeDetails {
 	@Override
 	public void search(final ClassNode node, final SearchResultNotifier srn,
 			boolean exact) {
-		@SuppressWarnings("unchecked")
 		final Iterator<MethodNode> methods = node.methods.iterator();
 		String owner = mOwner.getText();
 		if (owner.isEmpty()) {
@@ -67,7 +66,6 @@ public class FieldCallSearch implements SearchTypeDetails {
 			final MethodNode method = methods.next();
 
 			final InsnList insnlist = method.instructions;
-			@SuppressWarnings("unchecked")
 			final ListIterator<AbstractInsnNode> instructions = insnlist
 					.iterator();
 			while (instructions.hasNext()) {

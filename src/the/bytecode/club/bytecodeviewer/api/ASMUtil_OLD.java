@@ -93,7 +93,6 @@ public final class ASMUtil_OLD {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public static void renameClassNode(final String oldName,
 			final String newName) {
 		for (ClassNode c : BytecodeViewer.getLoadedClasses()) {

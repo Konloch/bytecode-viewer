@@ -195,8 +195,7 @@ public class RegexInsnFinder {
 	public RegexInsnFinder(final ClassNode clazz, final MethodNode method) {
 		setMethod(clazz, method);
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	private AbstractInsnNode[] cleanInsn(final InsnList insnList) {
 		final List<AbstractInsnNode> il = new ArrayList<AbstractInsnNode>();
 

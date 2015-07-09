@@ -1,20 +1,15 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import jd.cli.loader.DirectoryLoader;
-import jd.cli.loader.JarLoader;
 import jd.cli.preferences.CommonPreferences;
 import jd.cli.util.ClassFileUtil;
-import jd.core.loader.Loader;
 import jd.core.process.DecompilerImpl;
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
@@ -23,9 +18,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
-import the.bytecode.club.bytecodeviewer.ZipUtils;
 import jd.cli.printer.text.PlainTextPrinter;
 
 /**
