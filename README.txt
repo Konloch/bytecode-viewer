@@ -63,8 +63,9 @@ Command Line Input:
 	-help                         Displays the help menu
 	-list                         Displays the available decompilers
 	-decompiler <decompiler>      Selects the decompiler, procyon by default
-	-i <input file>               Selects the input file
-	-o <output file>              Selects the output file
+	-i <input file>               Selects the input file (Jar, Class, APK, ZIP, DEX all work automatically)
+	-o <output file>              Selects the output file (Java or Java-Bytecode)
+	-t <target classname>         Must either be the fully qualified classname or "all" to decompile all as zip
 	-nowait                       Doesn't wait for the user to read the CLI messages
 
 Are you a Java Reverse Engineer? Do you want to learn?
