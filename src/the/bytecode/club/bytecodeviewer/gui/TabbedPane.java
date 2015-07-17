@@ -59,6 +59,15 @@ public class TabbedPane extends JPanel {
 					return pane.getTitleAt(i);
 				return null;
 			}
+			
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension realDimension = super.getPreferredSize();
+				if(realDimension.getWidth() >= 400)
+					return new Dimension(400, 20);
+				else
+					return realDimension;
+			}
 		};
 
 		this.add(label);

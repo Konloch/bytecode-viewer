@@ -83,4 +83,11 @@ public class MiscUtils {
 	public static String extension(String name) {
 		return name.substring(name.lastIndexOf('.') + 1);
 	}
+	
+	public static String append(File file, String extension) {
+		String path = file.getAbsolutePath();
+		if (!path.endsWith(extension))
+			path = path + extension;
+		return path;
+	}
 }

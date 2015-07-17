@@ -30,6 +30,9 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 
+import me.konloch.kontainer.io.DiskWriter;
+
+import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -64,7 +67,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 	public void pythonC() {
 		JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(new PythonCFileFilter());
+		fc.setFileFilter(new FileFilter() {
+			@Override
+			public boolean accept(File f) {
+				return true;
+			}
+
+			@Override
+			public String getDescription() {
+				return "Python (Or PyPy for speed) 2.7 Executable";
+			}
+		});
 		fc.setFileHidingEnabled(false);
 		fc.setAcceptAllFileFilterUsed(false);
 		int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
@@ -79,7 +92,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	
 	public void pythonC3() {
 		JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(new PythonC3FileFilter());
+		fc.setFileFilter(new FileFilter() {
+			@Override
+			public boolean accept(File f) {
+				return true;
+			}
+
+			@Override
+			public String getDescription() {
+				return "Python (Or PyPy for speed) 3.x Executable";
+			}
+		});
 		fc.setFileHidingEnabled(false);
 		fc.setAcceptAllFileFilterUsed(false);
 		int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
@@ -94,7 +117,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	
 	public void library() {
 		JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(new LibraryFileFilter());
+		fc.setFileFilter(new FileFilter() {
+			@Override
+			public boolean accept(File f) {
+				return f.isDirectory();
+			}
+
+			@Override
+			public String getDescription() {
+				return "Optional Library Folder";
+			}
+		});
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fc.setFileHidingEnabled(false);
 		fc.setAcceptAllFileFilterUsed(false);
@@ -111,7 +144,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 	public void rtC() {
 		JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(new RTCFileFilter());
+		fc.setFileFilter(new FileFilter() {
+			@Override
+			public boolean accept(File f) {
+				return true;
+			}
+
+			@Override
+			public String getDescription() {
+				return "JRE RT Library";
+			}
+		});
 		fc.setFileHidingEnabled(false);
 		fc.setAcceptAllFileFilterUsed(false);
 		int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
@@ -596,7 +639,27 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
             	} catch(Exception e2) {
             		
             	}
-				fc.setFileFilter(new APKDEXJarZipClassFileFilter());
+				fc.setFileFilter(new FileFilter() {
+					@Override
+					public boolean accept(File f) {
+						if (f.isDirectory())
+							return true;
+
+						String extension = MiscUtils.extension(f.getAbsolutePath());
+						if (extension != null)
+							if (extension.equals("jar")   || extension.equals("zip")
+								 || extension.equals("class") || extension.equals("apk")
+								 || extension.equals("dex"))
+							return true;
+
+						return false;
+					}
+					
+					@Override
+					public String getDescription() {
+						return "APKs, DEX, Class Files or Zip/Jar Archives";
+					}
+				});
 				fc.setFileHidingEnabled(false);
 				fc.setAcceptAllFileFilterUsed(false);
 				int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
@@ -630,7 +693,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				if(autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
 					return;
 				JFileChooser fc = new JFileChooser();
-				fc.setFileFilter(new ZipFileFilter());
+				fc.setFileFilter(new FileFilter() {
+					@Override
+					public boolean accept(File f) {
+						return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
+					}
+
+					@Override
+					public String getDescription() {
+						return "Zip Archives";
+					}
+				});
 				fc.setFileHidingEnabled(false);
 				fc.setAcceptAllFileFilterUsed(false);
 				int returnVal = fc.showSaveDialog(MainViewerGUI.this);
@@ -687,7 +760,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				if(autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
 					return;
 				JFileChooser fc = new JFileChooser();
-				fc.setFileFilter(new JarFileFilter());
+				fc.setFileFilter(new FileFilter() {
+					@Override
+					public boolean accept(File f) {
+						return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
+					}
+
+					@Override
+					public String getDescription() {
+						return "Zip Archives";
+					}
+				});
 				fc.setFileHidingEnabled(false);
 				fc.setAcceptAllFileFilterUsed(false);
 				int returnVal = fc.showSaveDialog(MainViewerGUI.this);
@@ -756,7 +839,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				if(autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
 					return;
 				JFileChooser fc = new JFileChooser();
-				fc.setFileFilter(new DexFileFilter());
+				fc.setFileFilter(new FileFilter() {
+					@Override
+					public boolean accept(File f) {
+						return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("dex");
+					}
+
+					@Override
+					public String getDescription() {
+						return "Android DEX Files";
+					}
+				});
 				fc.setFileHidingEnabled(false);
 				fc.setAcceptAllFileFilterUsed(false);
 				int returnVal = fc.showSaveDialog(MainViewerGUI.this);
@@ -827,7 +920,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				if(autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
 					return;
 				JFileChooser fc = new JFileChooser();
-				fc.setFileFilter(new ZipFileFilter());
+				fc.setFileFilter(new FileFilter() {
+					@Override
+					public boolean accept(File f) {
+						return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
+					}
+
+					@Override
+					public String getDescription() {
+						return "Zip Archives";
+					}
+				});
 				fc.setFileHidingEnabled(false);
 				fc.setAcceptAllFileFilterUsed(false);
 				int returnVal = fc.showSaveDialog(MainViewerGUI.this);
@@ -858,8 +961,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					}
 					
 					BytecodeViewer.viewer.setIcon(true);
-					final String path = appendZip(file);// cheap hax cause
-														// string is final
+					final String path = MiscUtils.append(file, ".zip");	// cheap hax cause
+																		// string is final
 
 					JOptionPane pane = new JOptionPane(
 							"What decompiler will you use?");
@@ -951,7 +1054,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				final String s = workPane.getCurrentViewer().name;
 				
 				JFileChooser fc = new JFileChooser();
-				fc.setFileFilter(new JavaFileFilter());
+				fc.setFileFilter(new FileFilter() {
+					@Override
+					public boolean accept(File f) {
+						return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("java");
+					}
+
+					@Override
+					public String getDescription() {
+						return "Java Source Files";
+					}
+				});
 				fc.setFileHidingEnabled(false);
 				fc.setAcceptAllFileFilterUsed(false);
 				int returnVal = fc.showSaveDialog(MainViewerGUI.this);
@@ -959,8 +1072,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					File file = fc.getSelectedFile();
 					
 					BytecodeViewer.viewer.setIcon(true);
-					final String path = appendJava(file);// cheap hax cause
-														// string is final
+					final String path = MiscUtils.append(file, ".java");	// cheap hax cause
+																			// string is final
 					
 					if(new File(path).exists()) {
 						JOptionPane pane = new JOptionPane(
@@ -1002,7 +1115,19 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 							@Override
 							public void run() {
 								try {
-									Decompiler.procyon.decompileToClass(s,path);
+									ClassNode cn = BytecodeViewer.getClassNode(s);
+									final ClassWriter cw = new ClassWriter(0);
+									try {
+										cn.accept(cw);
+									} catch(Exception e) {
+										e.printStackTrace();
+										try {
+											Thread.sleep(200);
+											cn.accept(cw);
+										} catch (InterruptedException e1) { }
+									}
+									String contents = Decompiler.procyon.decompileClassNode(cn, cw.toByteArray());
+									DiskWriter.replaceFile(path, contents, false);
 									BytecodeViewer.viewer.setIcon(false);
 								} catch (Exception e) {
 									new the.bytecode.club.bytecodeviewer.api.ExceptionUI(
@@ -1017,7 +1142,19 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 							@Override
 							public void run() {
 								try {
-									Decompiler.cfr.decompileToClass(s,path);
+									ClassNode cn = BytecodeViewer.getClassNode(s);
+									final ClassWriter cw = new ClassWriter(0);
+									try {
+										cn.accept(cw);
+									} catch(Exception e) {
+										e.printStackTrace();
+										try {
+											Thread.sleep(200);
+											cn.accept(cw);
+										} catch (InterruptedException e1) { }
+									}
+									String contents = Decompiler.cfr.decompileClassNode(cn, cw.toByteArray());
+									DiskWriter.replaceFile(path, contents, false);
 									BytecodeViewer.viewer.setIcon(false);
 								} catch (Exception e) {
 									new the.bytecode.club.bytecodeviewer.api.ExceptionUI(
@@ -1032,7 +1169,20 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 							@Override
 							public void run() {
 								try {
-									Decompiler.fernflower.decompileToClass(s,path);
+
+									ClassNode cn = BytecodeViewer.getClassNode(s);
+									final ClassWriter cw = new ClassWriter(0);
+									try {
+										cn.accept(cw);
+									} catch(Exception e) {
+										e.printStackTrace();
+										try {
+											Thread.sleep(200);
+											cn.accept(cw);
+										} catch (InterruptedException e1) { }
+									}
+									String contents = Decompiler.fernflower.decompileClassNode(cn, cw.toByteArray());
+									DiskWriter.replaceFile(path, contents, false);
 									BytecodeViewer.viewer.setIcon(false);
 								} catch (Exception e) {
 									new the.bytecode.club.bytecodeviewer.api.ExceptionUI(
@@ -1047,7 +1197,19 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 							@Override
 							public void run() {
 								try {
-									Decompiler.krakatau.decompileToClass(s,path);
+									ClassNode cn = BytecodeViewer.getClassNode(s);
+									final ClassWriter cw = new ClassWriter(0);
+									try {
+										cn.accept(cw);
+									} catch(Exception e) {
+										e.printStackTrace();
+										try {
+											Thread.sleep(200);
+											cn.accept(cw);
+										} catch (InterruptedException e1) { }
+									}
+									String contents = Decompiler.krakatau.decompileClassNode(cn, cw.toByteArray());
+									DiskWriter.replaceFile(path, contents, false);
 									BytecodeViewer.viewer.setIcon(false);
 								} catch (Exception e) {
 									new the.bytecode.club.bytecodeviewer.api.ExceptionUI(
@@ -1746,7 +1908,11 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		});
 
 		setSize(new Dimension(800, 400));
-		setTitle("Bytecode Viewer "+BytecodeViewer.version+" - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
+		if(BytecodeViewer.previewCopy)
+			setTitle("Bytecode Viewer "+BytecodeViewer.version+" preview - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
+		else
+			setTitle("Bytecode Viewer "+BytecodeViewer.version+" - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
+		
 		getContentPane().setLayout(
 				new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
@@ -1824,26 +1990,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		this.setLocationRelativeTo(null);
 	}
 
-	public String appendZip(File file) {
-		String path = file.getAbsolutePath();
-		if (!path.endsWith(".zip"))
-			path = path + ".zip";
-		return path;
-	}
-	
-	public String appendClass(File file) {
-		String path = file.getAbsolutePath();
-		if (!path.endsWith(".class"))
-			path = path + ".class";
-		return path;
-	}
-	
-	public String appendJava(File file) {
-		String path = file.getAbsolutePath();
-		if (!path.endsWith(".java"))
-			path = path + ".java";
-		return path;
-	}
 
 	@Override
 	public void openClassFile(final String name, final ClassNode cn) {
@@ -1866,165 +2012,5 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				return (T) vc;
 		}
 		return null;
-	}
-	
-	/* 01/06/15, 14:33 changed by Bibl. */
-	
-	public class GroovyPythonRubyFileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			if (f.isDirectory())
-				return true;
-
-			String extension = MiscUtils.extension(f.getAbsolutePath());
-			if (extension != null)
-				return (extension.equals("gy") || extension.equals("groovy")
-						|| extension.equals("py") || extension.equals("python")
-						|| extension.equals("rb") || extension.equals("ruby"));
-
-			return false;
-		}
-
-		@Override
-		public String getDescription() {
-			return "Groovy, Python or Ruby plugins.";
-		}
-	}
-
-	public class GroovyFileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			if (f.isDirectory())
-				return true;
-
-			String extension = MiscUtils.extension(f.getAbsolutePath());
-			if (extension != null)
-				return (extension.equals("gy") || extension.equals("groovy"));
-
-			return false;
-		}
-
-		@Override
-		public String getDescription() {
-			return "Groovy plugins.";
-		}
-	}
-	
-	public class APKDEXJarZipClassFileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			if (f.isDirectory())
-				return true;
-
-			String extension = MiscUtils.extension(f.getAbsolutePath());
-			if (extension != null)
-				if (extension.equals("jar")   || extension.equals("zip")
-					 || extension.equals("class") || extension.equals("apk")
-					 || extension.equals("dex"))
-				return true;
-
-			return false;
-		}
-
-		@Override
-		public String getDescription() {
-			return "APKs, DEX, Class Files or Zip/Jar Archives";
-		}
-	}
-
-	public class ZipFileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
-		}
-
-		@Override
-		public String getDescription() {
-			return "Zip Archives";
-		}
-	}
-
-	public class JarFileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("jar");
-		}
-
-		@Override
-		public String getDescription() {
-			return "Jar Archives";
-		}
-	}
-
-	public class JavaFileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("java");
-		}
-
-		@Override
-		public String getDescription() {
-			return "Java Source Files";
-		}
-	}
-
-	public class DexFileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("dex");
-		}
-
-		@Override
-		public String getDescription() {
-			return "Android DEX Files";
-		}
-	}
-
-	public class PythonCFileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			return true;
-		}
-
-		@Override
-		public String getDescription() {
-			return "Python (Or PyPy for speed) 2.7 Executable";
-		}
-	}
-
-	public class PythonC3FileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			return true;
-		}
-
-		@Override
-		public String getDescription() {
-			return "Python (Or PyPy for speed) 3.x Executable";
-		}
-	}
-
-	public class RTCFileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			return true;
-		}
-
-		@Override
-		public String getDescription() {
-			return "JRE RT Library";
-		}
-	}
-
-	public class LibraryFileFilter extends FileFilter {
-		@Override
-		public boolean accept(File f) {
-			return f.isDirectory();
-		}
-
-		@Override
-		public String getDescription() {
-			return "Optional Library Folder";
-		}
 	}
 }

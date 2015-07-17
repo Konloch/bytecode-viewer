@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JProgressBar;
 
@@ -33,19 +34,14 @@ import javax.swing.text.html.HTMLEditorKit;
 import org.apache.commons.io.FileUtils;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.CommandLineInput;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.Settings;
 import the.bytecode.club.bytecodeviewer.ZipUtils;
 import me.konloch.kontainer.io.HTTPRequest;
 
 /**
- * First boot, will automatically connect to BytecodeViewer for PingBack
- * It'll Check BCV version
- * then it'll download repos from the library
- * After it's completed and compared MD5 hashes, it simply dynamically loads all jars in /libs/ folder of BCV
- * While all of this is happening, it'll show the HOW-TO guide for BCV
- * 
- * Download Failed? Corrupt Jar? Append -clean to BCV startup
+ * Automatic updater for BCV libraries
  * 
  * @author Konloch
  *
@@ -62,7 +58,17 @@ public class BootScreen extends JFrame {
 	public BootScreen() throws IOException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setIconImages(Resources.iconList);
-		setSize(new Dimension(600, 800));
+
+		int i = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+		if(i >= 840)
+			setSize(new Dimension(600, 800));
+		else if(i >= 640)
+			setSize(new Dimension(500, 600));
+		else if(i >= 440)
+			setSize(new Dimension(400, 400));
+		else
+			setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		
 		setTitle("Bytecode Viewer Boot Screen - Starting Up");
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
@@ -104,8 +110,13 @@ public class BootScreen extends JFrame {
 	    return string;
 	}
 	
-	public void DO_FIRST_BOOT(String args[]) {
-		this.setVisible(true);
+	public void DO_FIRST_BOOT(String args[], int CLI) {
+		if(CLI == -1)
+			return;
+		
+		if(CLI == 1)
+			this.setVisible(true);
+		
 		if(FIRST_BOOT)
 			return;
 		
@@ -114,6 +125,8 @@ public class BootScreen extends JFrame {
 		
 
 		setTitle("Bytecode Viewer Boot Screen - Checking Libraries...");
+		System.out.println("Checking Libraries...");
+		
 		File libsDirectory = new File(BytecodeViewer.libsDirectory);
 		
 		try {
@@ -151,6 +164,7 @@ public class BootScreen extends JFrame {
 				String fileName = s.substring("https://github.com/Konloch/bytecode-viewer/blob/master/libs/".length(), s.length());
 				if(!libsList.contains(fileName)) {
 					setTitle("Bytecode Viewer Boot Screen - Downloading " + fileName);
+					System.out.println("Downloading " + fileName);
 					boolean passed = false;
 					while(!passed) {
 						InputStream is = null;
@@ -199,7 +213,8 @@ public class BootScreen extends JFrame {
 			}
 
 			if(BytecodeViewer.deleteForiegnLibraries) {
-				setTitle("Bytecode Viewer Boot Screen - Checking & Deleting Foriegn/Outdated Libraries...");
+				setTitle("Bytecode Viewer Boot Screen - Checking & Deleting Foreign/Outdated Libraries...");
+				System.out.println("Checking & Deleting foreign/outdated libraries");
 				for(String s : libsFileList) {
 					File f = new File(s);
 					boolean delete = true;
@@ -216,12 +231,14 @@ public class BootScreen extends JFrame {
 			}
 			
 			setTitle("Bytecode Viewer Boot Screen - Loading Libraries...");
+			System.out.println("Loading libraries...");
 			
 			for(String s : libsFileList ) {
 				if(s.endsWith(".jar")) {
 					File f = new File(s);
 					if(f.exists()) {
 						setTitle("Bytecode Viewer Boot Screen - Loading Library " + f.getName());
+						System.out.println("Loading library " + f.getName());
 						
 						try {
 							JarFile jarFile = new JarFile(s);
@@ -256,6 +273,8 @@ public class BootScreen extends JFrame {
 			
 
 			setTitle("Bytecode Viewer Boot Screen - Checking Krakatau...");
+			System.out.println("Checking krakatau");
+			
 			File krakatauZip = null;
 			for(File f : new File(BytecodeViewer.libsDirectory).listFiles()) {
 				if(f.getName().toLowerCase().startsWith("krakatau-")) {
@@ -296,6 +315,8 @@ public class BootScreen extends JFrame {
 			
 
 			setTitle("Bytecode Viewer Boot Screen - Checking Enjarify...");
+			System.out.println("Checking enjarify");
+			
 			File enjarifyZip = null;
 			for(File f : new File(BytecodeViewer.libsDirectory).listFiles()) {
 				if(f.getName().toLowerCase().startsWith("enjarify-")) {
@@ -346,8 +367,13 @@ public class BootScreen extends JFrame {
 
 		setTitle("Bytecode Viewer Boot Screen - Finished");
 		
-		BytecodeViewer.BOOT(args);
-		
+		if(CLI == 1)
+			BytecodeViewer.BOOT(args, false);
+		else {
+			BytecodeViewer.BOOT(args, true);
+			CommandLineInput.executeCommandLine(args);
+		}
+			
 		this.setVisible(false);
 	}
 

@@ -60,7 +60,7 @@ public class AboutWindow extends JFrame {
 				"CTRL + T: Compile"+BytecodeViewer.nl+
 				"CTRL + S: Save classes as zip"+BytecodeViewer.nl+
 				"CTRL + R: Run (EZ-Inject) - dynamically load the classes and invoke a main class"+
-				"\r\n\r\nIt uses code from the following:\r\n    J-RET by WaterWolf\r\n    JHexPane by Sam Koivu\r\n    RSynaxPane by Robert Futrell\r\n    Commons IO by Apache\r\n    ASM by OW2\r\n    FernFlower by Stiver\r\n    Procyon by Mstrobel\r\n    CFR by Lee Benfield\r\n    CFIDE by Bibl\r\n    Smali by JesusFreke\r\n    Dex2Jar by pxb1..?\r\n    Krakatau by Storyyeller\r\n    JD-GUI + JD-Core by The Java-Decompiler Team\r\n\r\nIf you're interested in Java Reverse Engineering, join The Bytecode Club\r\nhttps://the.bytecode.club");
+				"\r\n\r\nCode from various projects has been used, including but not limited to:\r\n    J-RET by WaterWolf\r\n    JHexPane by Sam Koivu\r\n    RSynaxPane by Robert Futrell\r\n    Commons IO by Apache\r\n    ASM by OW2\r\n    FernFlower by Stiver\r\n    Procyon by Mstrobel\r\n    CFR by Lee Benfield\r\n    CFIDE by Bibl\r\n    Smali by JesusFreke\r\n    Dex2Jar by pxb1..?\r\n    Krakatau by Storyyeller\r\n    JD-GUI + JD-Core by The Java-Decompiler Team\r\n    Enjarify by Storyyeller\r\n\r\nIf you're interested in Java Reverse Engineering, join The Bytecode Club\r\nhttps://the.bytecode.club");
 		
 	}
 

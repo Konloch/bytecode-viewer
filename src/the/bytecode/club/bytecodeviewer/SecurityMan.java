@@ -13,7 +13,7 @@ import java.security.Permission;
 
 public class SecurityMan extends SecurityManager {
 
-	public boolean blocking = true;
+	public boolean blocking = true; //might be insecure due to assholes targeting BCV, however that's highly unlikely.
 	@Override
     public void checkExec(String cmd) {
 		if(blocking)

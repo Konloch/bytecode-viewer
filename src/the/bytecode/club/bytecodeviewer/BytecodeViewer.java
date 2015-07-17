@@ -22,6 +22,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
 
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
@@ -80,16 +81,14 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * make it use that global last used inside of export as jar
  * Spiffy up the plugin console with hilighted lines
  * Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
- * fix the randomly sometimes fucked up names on file navigation bug
  * make zipfile not include the decode shit
  * When you drag a folder, it must add the folder name not just the child into the root jtree path
  * add stackmapframes to bytecode decompiler
  * add stackmapframes remover?
- * In BCV if you open a class and the name is so big, you cannot close because the [X] does not appear."
- * refresh appears under panes that are non refreshable
  * make ez-injection plugin console show all sys.out calls
- * edit then save issues?
- * Search open doesn't append .class to tab name
+ * Command line parameter to save source
+ * add JEB decompiler optionally, requires them to add jeb library jar externally and disable update check
+ * add decompile as zip for krakatau-bytecode and smali for CLI
  * 
  * -----2.9.7-----:
  * 07/02/2015 - Added ajustable font size.
@@ -100,6 +99,14 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * 07/07/2015 - Finished the new Boot Screen
  * 07/09/2015 - Fixed a process leak with krakatau decompiler.
  * 07/09/2015 - Finished adding enjarify.
+ * 07/09/2015 - Supressed syntax exceptions due to JD-GUI.
+ * 07/09/2015 - Fixed refresh on non-refreshable resources.
+ * 07/09/2015 - Fixed opening a class and the name is so big, you cannot close because the [X] does not appear.
+ * 07/09/2015 - Added support for smaller screens for the boot screen.
+ * 07/16/2015 - Removed the FileFilter classes.
+ * 07/16/2015 - Updated the decompiler class to make more sense.
+ * 07/16/2015 - Started working on BCV CLI.
+ * 07/16/2015 - Finished BCV CLI.
  * 
  * @author Konloch
  * 
@@ -113,11 +120,11 @@ public class BytecodeViewer {
 	/*the rest*/
 	public static MainViewerGUI viewer = null;
 	public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV, however that's highly unlikely.
+	public static SecurityMan sm = new SecurityMan(); //might be insecure due to assholes targeting BCV, however that's highly unlikely.
 	public static String python = "";
 	public static String python3 = "";
 	public static String rt = "";
 	public static String library = "";
-	public static SecurityMan sm = new SecurityMan(); //might be insecure due to assholes targeting BCV, however that's highly unlikely.
 	public static HashMap<String, ClassNode> loadedClasses = new HashMap<String, ClassNode>();
 	public static HashMap<String, byte[]> loadedResources = new HashMap<String, byte[]>();
 	private static int maxRecentFiles = 25;
@@ -219,7 +226,17 @@ public class BytecodeViewer {
 						} catch(Exception e) {
 							new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 						}
-						fc.setFileFilter(viewer.new ZipFileFilter());
+						fc.setFileFilter(new FileFilter() {
+							@Override
+							public boolean accept(File f) {
+								return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
+							}
+
+							@Override
+							public String getDescription() {
+								return "Zip Archives";
+							}
+						});
 						fc.setFileHidingEnabled(false);
 						fc.setAcceptAllFileFilterUsed(false);
 						int returnVal = fc.showSaveDialog(viewer);
@@ -360,20 +377,21 @@ public class BytecodeViewer {
 	 * @param args files you want to open
 	 */
 	public static void main(String[] args) {
+		System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version);
 		System.setSecurityManager(sm);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			if(previewCopy)
-				showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when 2.9.7 is actually out if you use this."+nl+
-							"Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for 2.9.7's release");
-			new BootScreen().DO_FIRST_BOOT(args);
+			if(previewCopy && !CommandLineInput.containsCommand(args))
+				showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when "+version+" is actually out if you use this."+nl+
+							"Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for "+version+"'s release");
+			
+			new BootScreen().DO_FIRST_BOOT(args, CommandLineInput.parseCommandLine(args));
 		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
 	}
 	
-	public static void BOOT(String[] args) {
-		System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version);
+	public static void BOOT(String[] args, boolean cli) {
 		cleanup();
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
@@ -400,21 +418,16 @@ public class BytecodeViewer {
 		if(viewer.chckbxmntmNewCheckItem_12.isSelected())
 			versionChecker.start();
 
-		/*if (viewer.chckbxmntmNewCheckItem_12.isSelected()) // start only if selected
-			versionChecker.start();*/
-
-		viewer.setVisible(true);		
+		if(!cli)
+			viewer.setVisible(true);		
+		
 		System.out.println("Start up took " + ((System.currentTimeMillis() - start) / 1000) + " seconds");
 		
-		if (args.length >= 1)
-			for (String s : args) {
-				openFiles(new File[] { new File(s) }, true);
-			}
-		
-		/*if(!pingback) {
-			pingback = true;
-			pingback();
-		}*/
+		if(!cli)
+			if (args.length >= 1)
+				for (String s : args) {
+					openFiles(new File[] { new File(s) }, true);
+				}
 	}
 	
 	/**
@@ -953,7 +966,27 @@ public class BytecodeViewer {
         	} catch(Exception e2) {
         		
         	}
-			fc.setFileFilter(viewer.new APKDEXJarZipClassFileFilter());
+			fc.setFileFilter(new FileFilter() {
+				@Override
+				public boolean accept(File f) {
+					if (f.isDirectory())
+						return true;
+
+					String extension = MiscUtils.extension(f.getAbsolutePath());
+					if (extension != null)
+						if (extension.equals("jar")   || extension.equals("zip")
+							 || extension.equals("class") || extension.equals("apk")
+							 || extension.equals("dex"))
+						return true;
+
+					return false;
+				}
+				
+				@Override
+				public String getDescription() {
+					return "APKs, DEX, Class Files or Zip/Jar Archives";
+				}
+			});
 			fc.setFileHidingEnabled(false);
 			fc.setAcceptAllFileFilterUsed(false);
 			int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
@@ -991,7 +1024,17 @@ public class BytecodeViewer {
 			if(viewer.autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
 				return;
 			JFileChooser fc = new JFileChooser();
-			fc.setFileFilter(viewer.new ZipFileFilter());
+			fc.setFileFilter(new FileFilter() {
+				@Override
+				public boolean accept(File f) {
+					return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
+				}
+
+				@Override
+				public String getDescription() {
+					return "Zip Archives";
+				}
+			});
 			fc.setFileHidingEnabled(false);
 			fc.setAcceptAllFileFilterUsed(false);
 			int returnVal = fc.showSaveDialog(viewer);

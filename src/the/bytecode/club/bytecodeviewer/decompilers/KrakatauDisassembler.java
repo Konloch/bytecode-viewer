@@ -14,6 +14,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
+import the.bytecode.club.bytecodeviewer.ZipUtils;
 
 /**
  * Krakatau Java Disassembler Wrapper, requires Python 2.7
@@ -92,6 +93,64 @@ public class KrakatauDisassembler extends Decompiler {
 		return s;
 	}
 
-	@Override public void decompileToZip(String zipName) { }
-	@Override public void decompileToClass(String className, String classNameSaved) { }
+	@Override public void decompileToZip(String zipName) {
+		if(BytecodeViewer.python.equals("")) {
+			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
+			BytecodeViewer.viewer.pythonC();
+		}
+		
+		String ran = MiscUtils.randomString(32);
+		final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + ran + BytecodeViewer.fs);
+		tempDirectory.mkdir();
+		final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp.jar");
+		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
+		
+		BytecodeViewer.sm.blocking = false;
+		try {
+			ProcessBuilder pb = new ProcessBuilder(
+					BytecodeViewer.python,
+					"-O", //love you storyyeller <3
+					BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "disassemble.py",
+					"-path",
+					BytecodeViewer.rt+";"+tempJar.getAbsolutePath(),
+					"-out",
+					tempDirectory.getAbsolutePath(),
+					tempJar.getAbsolutePath()
+			);
+
+	        Process process = pb.start();
+	        BytecodeViewer.krakatau.add(process);
+	        
+	        //Read out dir output
+	        InputStream is = process.getInputStream();
+	        InputStreamReader isr = new InputStreamReader(is);
+	        BufferedReader br = new BufferedReader(isr);
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            System.out.println(line);
+	        }
+	        br.close();
+	        
+	        is = process.getErrorStream();
+	        isr = new InputStreamReader(is);
+	        br = new BufferedReader(isr);
+	        while ((line = br.readLine()) != null) {
+	            System.out.println(line);
+	        }
+	        br.close();
+	        
+	        int exitValue = process.waitFor();
+	        System.out.println("Exit Value is " + exitValue);
+			
+	       // ZipUtils.zipDirectory(tempDirectory, new File(zipName));
+	        ZipUtils.zipFolder(tempDirectory.getAbsolutePath(), zipName, ran);
+	        
+			//tempDirectory.delete();
+			tempJar.delete();
+		} catch(Exception e) {
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+		}
+		
+		BytecodeViewer.sm.blocking = true;
+	}
 }

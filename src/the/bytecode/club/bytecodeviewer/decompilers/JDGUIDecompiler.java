@@ -12,9 +12,7 @@ import jd.cli.preferences.CommonPreferences;
 import jd.cli.util.ClassFileUtil;
 import jd.core.process.DecompilerImpl;
 import me.konloch.kontainer.io.DiskReader;
-import me.konloch.kontainer.io.DiskWriter;
 
-import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -30,23 +28,6 @@ import jd.cli.printer.text.PlainTextPrinter;
  */
 
 public class JDGUIDecompiler extends Decompiler {
-    
-	@Override
-	public void decompileToClass(String className, String classNameSaved) {
-		ClassNode cn = BytecodeViewer.getClassNode(className);
-		final ClassWriter cw = new ClassWriter(0);
-		try {
-			cn.accept(cw);
-		} catch(Exception e) {
-			e.printStackTrace();
-			try {
-				Thread.sleep(200);
-				cn.accept(cw);
-			} catch (InterruptedException e1) { }
-		}
-		String contents = decompileClassNode(cn, cw.toByteArray());
-		DiskWriter.replaceFile(classNameSaved, contents, false);
-	}
 	
 	@Override
 	public String decompileClassNode(ClassNode cn, byte[] b) {

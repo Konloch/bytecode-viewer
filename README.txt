@@ -18,6 +18,7 @@ Code from various projects has been used, including but not limited to:
     Dex2Jar by pxb1..?
     Krakatau by Storyyeller
     JD GUI/JD Core by The Java-Decompiler Team
+    Enjarify by Storyyeller
 
 Contributors:
     Konloch
@@ -57,6 +58,14 @@ Key Features:
     EZ-Inject - Graphically insert hooks and debugging code, invoke main and start the program.
     Recent Files & Recent Plugins.
     And more! Give it a try for yourself!
+
+Command Line Input:
+	-help                         Displays the help menu
+	-list                         Displays the available decompilers
+	-decompiler <decompiler>      Selects the decompiler, procyon by default
+	-i <input file>               Selects the input file
+	-o <output file>              Selects the output file
+	-nowait                       Doesn't wait for the user to read the CLI messages
 
 Are you a Java Reverse Engineer? Do you want to learn?
 Join The Bytecode Club Today!

@@ -80,6 +80,7 @@ public class SmaliDisassembler extends Decompiler {
 		return null;
 	}
 
-	@Override public void decompileToZip(String zipName) { }
-	@Override public void decompileToClass(String className, String classNameSaved) { }
+	@Override public void decompileToZip(String zipName) {
+		
+	}
 }

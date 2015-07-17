@@ -138,5 +138,4 @@ public class ClassNodeDecompiler extends Decompiler {
 	}
 
 	@Override public void decompileToZip(String zipName) { }
-	@Override public void decompileToClass(String className, String classNameSaved) { }
 }

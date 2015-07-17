@@ -831,6 +831,8 @@ public class ClassViewer extends Viewer {
 						
 						java1 = panelArea;
 					}
+				} catch(java.lang.IndexOutOfBoundsException  | java.lang.NullPointerException e) {
+					//ignore
 				} catch(Exception e) {
 					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 				} finally {
@@ -1071,6 +1073,8 @@ public class ClassViewer extends Viewer {
 						
 						java2 = panelArea;
 					}
+				} catch(java.lang.IndexOutOfBoundsException  | java.lang.NullPointerException e) {
+					//ignore
 				} catch(Exception e) {
 					new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 				} finally {
@@ -1312,6 +1316,8 @@ public class ClassViewer extends Viewer {
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
 					}
+				} catch(java.lang.IndexOutOfBoundsException  | java.lang.NullPointerException e) {
+					//ignore
 				} catch(Exception e) {
 					//new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 				} finally {

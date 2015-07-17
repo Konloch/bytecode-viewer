@@ -55,6 +55,7 @@ public class FileViewer extends Viewer {
 	public JCheckBox check = new JCheckBox("Exact");
 	final JTextField field = new JTextField();
 	public BufferedImage image;
+	boolean canRefresh = false;
 	
 	public void setContents() {
 		String name = this.name.toLowerCase();
@@ -79,6 +80,7 @@ public class FileViewer extends Viewer {
 			if(	name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") ||
 				name.endsWith(".gif") || name.endsWith(".tif") || name.endsWith(".bmp"))
 			{
+				canRefresh = true;
 				try {
 					image = ImageIO.read(new ByteArrayInputStream(contents)); //gifs fail cause of this
 					JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
@@ -364,6 +366,11 @@ public class FileViewer extends Viewer {
 	}
 	
 	public void refresh(JButton src) {
+		if(!canRefresh) {
+			src.setEnabled(true);
+			return;
+		}
+		
 		panel2.removeAll();
 		try {
 			image = ImageIO.read(new ByteArrayInputStream(contents));
