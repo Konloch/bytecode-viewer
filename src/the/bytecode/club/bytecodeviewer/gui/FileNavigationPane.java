@@ -398,7 +398,7 @@ public class FileNavigationPane extends VisibleComponent implements
 					g.setColor(new Color(0, 0, 0, 100));
 					g.fillRect(0, 0, getWidth(), getHeight());
 					g.setColor(Color.white);
-					String s = "Drag class/jar here";
+					String s = "Drag class/jar/zip/APK/DEX here";
 					g.drawString(s,
 							((int) ((getWidth() / 2) - (m.getWidth(s) / 2))),
 							getHeight() / 2);

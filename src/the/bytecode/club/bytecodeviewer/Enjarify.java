@@ -40,7 +40,7 @@ public class Enjarify {
 			pb.directory(new File(BytecodeViewer.enjarifyWorkingDirectory));
 			
 	        Process process = pb.start();
-	        BytecodeViewer.enjarify.add(process);
+	        BytecodeViewer.createdProcesses.add(process);
 	        
 	        //Read out dir output
 	        InputStream is = process.getInputStream();
@@ -96,7 +96,7 @@ public class Enjarify {
 
 			
 	        Process process = pb.start();
-	        BytecodeViewer.enjarify.add(process);
+	        BytecodeViewer.createdProcesses.add(process);
 	        
 	        //Read out dir output
 	        InputStream is = process.getInputStream();

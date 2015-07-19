@@ -51,7 +51,7 @@ public class KrakatauDisassembler extends Decompiler {
 			);
 
 	        Process process = pb.start();
-	        BytecodeViewer.krakatau.add(process);
+	        BytecodeViewer.createdProcesses.add(process);
 	        
 	        //Read out dir output
 	        InputStream is = process.getInputStream();
@@ -119,7 +119,7 @@ public class KrakatauDisassembler extends Decompiler {
 			);
 
 	        Process process = pb.start();
-	        BytecodeViewer.krakatau.add(process);
+	        BytecodeViewer.createdProcesses.add(process);
 	        
 	        //Read out dir output
 	        InputStream is = process.getInputStream();

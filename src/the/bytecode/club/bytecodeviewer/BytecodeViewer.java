@@ -86,9 +86,10 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * add stackmapframes to bytecode decompiler
  * add stackmapframes remover?
  * make ez-injection plugin console show all sys.out calls
- * Command line parameter to save source
  * add JEB decompiler optionally, requires them to add jeb library jar externally and disable update check
- * add decompile as zip for krakatau-bytecode and smali for CLI
+ * add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
+ * fix hook inject for EZ-Injection
+ * fix classfile searcher
  * 
  * -----2.9.7-----:
  * 07/02/2015 - Added ajustable font size.
@@ -116,7 +117,7 @@ public class BytecodeViewer {
 
 	/*per version*/
 	public static String version = "2.9.7";
-	public static boolean previewCopy = true;
+	public static boolean previewCopy = false;
 	/*the rest*/
 	public static MainViewerGUI viewer = null;
 	public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV, however that's highly unlikely.
@@ -145,8 +146,7 @@ public class BytecodeViewer {
 	public static boolean runningObfuscation = false;
 	private static long start = System.currentTimeMillis();
 	public static String lastDirectory = "";
-	public static ArrayList<Process> krakatau = new ArrayList<Process>();
-	public static ArrayList<Process> enjarify = new ArrayList<Process>();
+	public static ArrayList<Process> createdProcesses = new ArrayList<Process>();
 	public static Refactorer refactorer = new Refactorer();
 	public static boolean pingback = false;
 	public static boolean deleteForiegnLibraries = true;
@@ -396,10 +396,8 @@ public class BytecodeViewer {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-				for(Process krakatau : krakatau)
-					krakatau.destroy();
-				for(Process enjarify : enjarify)
-					enjarify.destroy();
+				for(Process proc : createdProcesses)
+					proc.destroy();
 				Settings.saveGUI();
 				cleanup();
 			}

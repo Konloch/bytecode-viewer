@@ -80,22 +80,6 @@ public final class PluginManager {
 		if(p != null) {
 			runPlugin(p);
 		}
-		
-		/*if (f.getName().endsWith(".java")) {
-			p = loadJavaScript(f);
-		}
-		if (f.getName().endsWith(".gy") || f.getName().endsWith(".groovy")) {
-			p = loadGroovyScript(f);
-		}
-		if (f.getName().endsWith(".py") || f.getName().endsWith(".python")) {
-			p = loadPythonScript(f);
-		}
-		if (f.getName().endsWith(".rb") || f.getName().endsWith(".ruby")) {
-			p = loadRubyScript(f);
-		}
-		if (p != null) {
-			runPlugin(p);
-		}*/
 	}
 	
 	public static void register(String name, PluginLaunchStrategy strat) {
@@ -122,7 +106,7 @@ public final class PluginManager {
 
 		@Override
 		public String getDescription() {
-			return "Plugins";
+			return "BCV Plugins";
 		}
 	}
 }

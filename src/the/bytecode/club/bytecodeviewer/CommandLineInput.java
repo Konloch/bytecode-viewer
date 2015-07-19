@@ -82,6 +82,7 @@ public class CommandLineInput {
 						"-decompiler <decompiler>      Selects the decompiler, procyon by default",
 						"-i <input file>               Selects the input file",
 						"-o <output file>              Selects the output file",
+						"-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile all as zip",
 						"-nowait                       Doesn't wait for the user to read the CLI messages"
 				})
 					System.out.println(s);
@@ -302,7 +303,8 @@ public class CommandLineInput {
 				Thread.sleep(5 * 1000);
 				
 				if(target.equalsIgnoreCase("all")) {
-					Decompiler.jdgui.decompileToZip(output.getAbsolutePath());
+					System.out.println("Coming soon.");
+					//Decompiler.jdgui.decompileToZip(output.getAbsolutePath());
 				} else {
 					try {
 						ClassNode cn = BytecodeViewer.getClassNode(target);
