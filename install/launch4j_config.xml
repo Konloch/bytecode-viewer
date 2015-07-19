@@ -12,7 +12,7 @@
   <lib>w32api/libuser32.a</lib>
   <lib>w32api/libadvapi32.a</lib>
   <lib>w32api/libshell32.a</lib>
-  <jar>H:\Repo\BCV\bytecode-viewer\BytecodeViewer 2.9.6.jar</jar>
+  <jar>H:\Repo\BCV\bytecode-viewer\BytecodeViewer 2.9.7.jar</jar>
   <outfile>H:\Repo\BCV\bytecode-viewer\BytecodeViewer.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
@@ -34,7 +34,7 @@
     <runtimeBits>64/32</runtimeBits>
   </jre>
   <versionInfo>
-    <fileVersion>0.2.9.6</fileVersion>
+    <fileVersion>0.2.9.7</fileVersion>
     <txtFileVersion>http://the.bytecode.club</txtFileVersion>
     <fileDescription>Bytecode Viewer</fileDescription>
     <copyright>http://bytecodeviewer.com</copyright>

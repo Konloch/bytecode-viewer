@@ -384,6 +384,9 @@ public class BytecodeViewer {
 			if(previewCopy && !CommandLineInput.containsCommand(args))
 				showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when "+version+" is actually out if you use this."+nl+
 							"Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for "+version+"'s release");
+
+			viewer = new MainViewerGUI();
+			Settings.loadGUI();
 			
 			new BootScreen().DO_FIRST_BOOT(args, CommandLineInput.parseCommandLine(args));
 		} catch (Exception e) {
@@ -403,8 +406,6 @@ public class BytecodeViewer {
 			}
 		});
 
-		viewer = new MainViewerGUI();
-		Settings.loadGUI();
 		viewer.calledAfterLoad();
 		resetRecentFilesMenu();
 		
