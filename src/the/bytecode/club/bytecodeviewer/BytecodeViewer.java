@@ -34,7 +34,6 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.FileNavigationPane;
-import the.bytecode.club.bytecodeviewer.gui.BootScreen;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.RunOptions;
 import the.bytecode.club.bytecodeviewer.gui.SearchingPane;
@@ -323,6 +322,7 @@ public class BytecodeViewer {
 	};
 	
 	public static Thread PingBack = new Thread() {
+		@Override
 		public void run() {
 			try {
 				new HTTPRequest(new URL("https://bytecodeviewer.com/add.php")).read();
