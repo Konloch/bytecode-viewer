@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import me.konloch.kontainer.io.HTTPRequest;
+import the.bytecode.club.bootloader.resource.EmptyExternalResource;
 import the.bytecode.club.bootloader.resource.ExternalResource;
 
 /**
