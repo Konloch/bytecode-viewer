@@ -1,4 +1,4 @@
-package the.bytecode.club.bootloader;
+package the.bytecode.club.bootloader.util;
 
 /**
  * @author Bibl (don't ban me pls)
