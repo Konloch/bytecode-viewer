@@ -1,7 +1,7 @@
-package the.bytecode.club.bootloader;
+package the.bytecode.club.bootloader.util;
 
-import static the.bytecode.club.bootloader.ClassHelper.convertToMap;
-import static the.bytecode.club.bootloader.ClassHelper.copyOf;
+import static the.bytecode.club.bootloader.util.ClassHelper.convertToMap;
+import static the.bytecode.club.bootloader.util.ClassHelper.copyOf;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -1,14 +1,14 @@
 package the.bytecode.club.bootloader;
 
-import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bootloader.resource.ExternalResource;
 
 /**
  * @author Bibl (don't ban me pls)
  * @created 19 Jul 2015 02:29:43
  */
-public abstract interface ILoader {
+public abstract interface ILoader<T> {
 
-	public abstract void bind(ExternalResource<JarContents<ClassNode>> resource);
+	public abstract void bind(ExternalResource<T> resource);
 	
 	abstract Class<?> findClass(String name) throws ClassNotFoundException, NoClassDefFoundError;
 

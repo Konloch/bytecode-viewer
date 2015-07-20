@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import me.konloch.kontainer.io.HTTPRequest;
+import the.bytecode.club.bootloader.resource.ExternalResource;
 
 /**
  * @author Bibl (don't ban me pls)
@@ -21,7 +22,8 @@ public class Boot {
 	private static InitialBootScreen screen;
 
 	public static void main(String[] args) throws Exception {
-		ILoader loader = findLoader();
+		bootstrap();
+		ILoader<?> loader = findLoader();
 		
 		screen = new InitialBootScreen();
 		SwingUtilities.invokeLater(new Runnable() {
@@ -41,7 +43,7 @@ public class Boot {
 		klass.getDeclaredMethod("main", new Class<?>[] { String[].class }).invoke(null, new Object[] { args });
 	}
 
-	private static void create(ILoader loader, boolean clean) throws Exception {
+	private static void create(ILoader<?> loader, boolean clean) throws Exception {
 		setState("Bytecode Viewer Boot Screen - Checking Libraries...");
 
 		final File libsDirectory = libsDir();
@@ -159,9 +161,8 @@ public class Boot {
 					System.out.println("Loading library " + f.getName());
 
 					try {
-						JarInfo jar = new JarInfo(f);
-						ExternalLibrary lib = new ExternalLibrary(jar);
-						loader.bind(lib);
+						ExternalResource res = new EmptyExternalResource<Object>(f.toURI().toURL());
+						loader.bind(res);
 						System.out.println("Succesfully loaded " + f.getName());
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -191,8 +192,20 @@ public class Boot {
 		screen.setTitle(s);
 	}
 
-	private static ILoader findLoader() {
+	private static ILoader<?> findLoader() {
 		// TODO: Find from providers
-		return new LibraryClassLoader();
+		// return new LibraryClassLoader();
+		
+		// TODO: Catch
+		return AbstractLoaderFactory.find().spawnLoader();
+	}
+	
+	private static void bootstrap() {
+		AbstractLoaderFactory.register(new LoaderFactory<Object>() {
+			@Override
+			public ILoader<Object> spawnLoader() {
+				return new ClassPathLoader();
+			}
+		});
 	}
 }
