@@ -37,7 +37,7 @@ public class KrakatauDisassembler extends Decompiler {
 		final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp"+MiscUtils.randomString(32)+".jar");
 		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 		
-		BytecodeViewer.sm.blocking = false;
+		BytecodeViewer.sm.stopBlocking();
 		try {
 			ProcessBuilder pb = new ProcessBuilder(
 					BytecodeViewer.python,
@@ -86,10 +86,9 @@ public class KrakatauDisassembler extends Decompiler {
 			e.printStackTrace(new PrintWriter(sw));
 			e.printStackTrace();
 			s += BytecodeViewer.nl+"Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+		} finally {
+			BytecodeViewer.sm.setBlocking();
 		}
-		
-		BytecodeViewer.sm.blocking = true;
-		
 		return s;
 	}
 
@@ -105,7 +104,7 @@ public class KrakatauDisassembler extends Decompiler {
 		final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp.jar");
 		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 		
-		BytecodeViewer.sm.blocking = false;
+		BytecodeViewer.sm.stopBlocking();
 		try {
 			ProcessBuilder pb = new ProcessBuilder(
 					BytecodeViewer.python,
@@ -149,8 +148,8 @@ public class KrakatauDisassembler extends Decompiler {
 			tempJar.delete();
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+		} finally {
+			BytecodeViewer.sm.setBlocking();
 		}
-		
-		BytecodeViewer.sm.blocking = true;
 	}
 }

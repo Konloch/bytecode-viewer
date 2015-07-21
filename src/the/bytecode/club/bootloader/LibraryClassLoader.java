@@ -79,7 +79,6 @@ public class LibraryClassLoader extends ClassLoader implements ILoader<JarConten
 		return super.loadClass(name);
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected Class<?> define(ClassNode cn) {
 		ClassWriter writer = new ResolvingClassWriter(tree);
 		cn.accept(cn);

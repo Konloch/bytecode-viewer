@@ -31,6 +31,7 @@ import me.konloch.kontainer.io.HTTPRequest;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 
+import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.FileNavigationPane;
@@ -90,23 +91,11 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * fix hook inject for EZ-Injection
  * fix classfile searcher
  * 
- * -----2.9.7-----:
- * 07/02/2015 - Added ajustable font size.
- * 07/05/2015 - Started working on the new Boot Screen.
- * 07/06/2015 - Moved the font size to be under the view menu.
- * 07/06/2015 - Fixed a bug with plugins not being able to grab the currently viewed class.
- * 07/07/2015 - Started adding enjarify as an optional APK converter instead of Dex2Jar.
- * 07/07/2015 - Finished the new Boot Screen
- * 07/09/2015 - Fixed a process leak with krakatau decompiler.
- * 07/09/2015 - Finished adding enjarify.
- * 07/09/2015 - Supressed syntax exceptions due to JD-GUI.
- * 07/09/2015 - Fixed refresh on non-refreshable resources.
- * 07/09/2015 - Fixed opening a class and the name is so big, you cannot close because the [X] does not appear.
- * 07/09/2015 - Added support for smaller screens for the boot screen.
- * 07/16/2015 - Removed the FileFilter classes.
- * 07/16/2015 - Updated the decompiler class to make more sense.
- * 07/16/2015 - Started working on BCV CLI.
- * 07/16/2015 - Finished BCV CLI.
+ * -----2.9.8-----:
+ * 07/19/2015 - Fixed enjarify.
+ * 07/20/2015 - Bibl sexified the boot loading time.
+ * 07/20/2015 - Decode APK Resources is selected by default.
+ * 07/20/2015 - Made the security manager slightly safer, can still be targeted but not as obvious now.
  * 
  * @author Konloch
  * 
@@ -115,8 +104,8 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 public class BytecodeViewer {
 
 	/*per version*/
-	public static String version = "2.9.7";
-	public static boolean previewCopy = false;
+	public static String version = "2.9.8";
+	public static boolean previewCopy = true;
 	/*the rest*/
 	public static MainViewerGUI viewer = null;
 	public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV, however that's highly unlikely.
@@ -388,7 +377,9 @@ public class BytecodeViewer {
 			viewer = new MainViewerGUI();
 			Settings.loadGUI();
 			
-			new BootScreen().DO_FIRST_BOOT(args, CommandLineInput.parseCommandLine(args));
+
+			Boot.boot(args, CommandLineInput.parseCommandLine(args));
+			//new BootScreen().DO_FIRST_BOOT(args, CommandLineInput.parseCommandLine(args));
 		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
@@ -926,14 +917,14 @@ public class BytecodeViewer {
 	 * @param f file you want hidden
 	 */
 	private static void hideFile(File f) {
-		sm.blocking = false;
+		sm.stopBlocking();
 		try {
 			// Hide file by running attrib system command (on Windows)
 			Runtime.getRuntime().exec("attrib +H " + f.getAbsolutePath());
 		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
-		sm.blocking = true;
+		sm.setBlocking();
 	}
 
 	/**

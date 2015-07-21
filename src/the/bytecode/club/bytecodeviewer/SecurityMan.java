@@ -13,16 +13,46 @@ import java.security.Permission;
 
 public class SecurityMan extends SecurityManager {
 
-	public boolean blocking = true; //might be insecure due to assholes targeting BCV, however that's highly unlikely.
+	public void setBlocking() {
+		blocking = true;
+	}
+	
+	public void stopBlocking() { //slightly safer security system than just a public static boolean being toggled
+		String executedClass = Thread.currentThread().getStackTrace()[2].getClassName();
+		if(	executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.KrakatauDecompiler") ||
+			executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.KrakatauDisassambler") ||
+			executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.KrakatauAssembler") ||
+			executedClass.equals("the.bytecode.club.bytecodeviewer.BytecodeViewer"))
+		{
+			blocking = false;
+		} else for(StackTraceElement stackTraceElements : Thread.currentThread().getStackTrace()) {
+			System.out.println(stackTraceElements.getClassName());
+		}
+	}
+	
+	private boolean blocking = true; //might be insecure due to assholes targeting BCV, however that's highly unlikely.
+	
 	@Override
     public void checkExec(String cmd) {
-		if(blocking)
-			throw new SecurityException("BCV is awesome.");
+		String[] whitelist = {
+			"attrib",
+			"python",
+			"pypy"
+		};
+		boolean allow = false;
+		
+		for(String s : whitelist) {
+			if(cmd.contains(s))
+				allow = true;
+		}
+		
+		if(allow && !blocking) {
+			System.out.println("Allowing exec:" + cmd);
+		} else throw new SecurityException("BCV is awesome.");
     }
 	@Override
     public void checkListen(int port) {
-		if(blocking)
-			throw new SecurityException("BCV is awesome.");
+		throw new SecurityException("BCV is awesome.");
     }
 	@Override
     public void checkPermission(Permission perm) { //expand eventually

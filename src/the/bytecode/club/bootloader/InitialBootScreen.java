@@ -16,6 +16,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import the.bytecode.club.bytecodeviewer.Resources;
 
 /**
+ * @author Konloch
  * @author Bibl (don't ban me pls)
  * @created 19 Jul 2015 04:12:21
  */

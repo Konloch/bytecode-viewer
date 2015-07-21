@@ -41,7 +41,7 @@ public class KrakatauAssembler extends Compiler {
 		final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp"+MiscUtils.randomString(32)+".jar");
 		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 		
-		BytecodeViewer.sm.blocking = false;
+		BytecodeViewer.sm.stopBlocking();
         String log = "";
 		try {
 			ProcessBuilder pb = new ProcessBuilder(
@@ -86,10 +86,10 @@ public class KrakatauAssembler extends Compiler {
 		} catch(Exception e) {
 			e.printStackTrace();
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(log);
+		} finally {
+			BytecodeViewer.sm.setBlocking();
 		}
-		
-		BytecodeViewer.sm.blocking = true;
-		
+			
 		return null;
 	}
 	

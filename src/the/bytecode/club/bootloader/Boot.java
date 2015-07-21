@@ -10,11 +10,17 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.apache.commons.io.FileUtils;
+
 import me.konloch.kontainer.io.HTTPRequest;
 import the.bytecode.club.bootloader.resource.EmptyExternalResource;
 import the.bytecode.club.bootloader.resource.ExternalResource;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.CommandLineInput;
+import the.bytecode.club.bytecodeviewer.ZipUtils;
 
 /**
+ * @author Konloch
  * @author Bibl (don't ban me pls)
  * @created 19 Jul 2015 03:22:37
  */
@@ -22,28 +28,44 @@ public class Boot {
 
 	private static InitialBootScreen screen;
 
-	public static void main(String[] args) throws Exception {
+	public static void boot(String[] args, int CLI) throws Exception {
+		if(CLI == CommandLineInput.STOP)
+			return;
+		
 		bootstrap();
 		ILoader<?> loader = findLoader();
 		
 		screen = new InitialBootScreen();
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				screen.setVisible(true);
-			}
-		});
+
+		if(CLI == CommandLineInput.OPEN_FILE)
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					screen.setVisible(true);
+				}
+			});
+		
 		create(loader, args.length > 0 ? Boolean.valueOf(args[0]) : true);
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				screen.setVisible(false);
 			}
 		});
-		Class<?> klass = loader.loadClass("the.bytecode.club.bytecodeviewer.BytecodeViewer");
-		klass.getDeclaredMethod("main", new Class<?>[] { String[].class }).invoke(null, new Object[] { args });
+		
+		/*Class<?> klass = loader.loadClass("the.bytecode.club.bytecodeviewer.BytecodeViewer");
+		klass.getDeclaredMethod("BOOT", new Class<?>[] { String[].class }).invoke(null, new Object[] { args });*/
+		
+		if(CLI == CommandLineInput.OPEN_FILE)
+			BytecodeViewer.BOOT(args, false);
+		else {
+			BytecodeViewer.BOOT(args, true);
+			CommandLineInput.executeCommandLine(args);
+		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void create(ILoader<?> loader, boolean clean) throws Exception {
 		setState("Bytecode Viewer Boot Screen - Checking Libraries...");
 
@@ -177,6 +199,88 @@ public class Boot {
 				screen.getProgressBar().setValue(completedCheck);
 			}
 		}
+		
+		setState("Bytecode Viewer Boot Screen - Checking Krakatau...");
+		System.out.println("Checking krakatau");
+
+		File krakatauZip = null;
+		for(File f : new File(BytecodeViewer.libsDirectory).listFiles()) {
+			if(f.getName().toLowerCase().startsWith("krakatau-")) {
+				BytecodeViewer.krakatauVersion = f.getName().split("-")[1].split("\\.")[0];
+				krakatauZip = f;
+			}
+		}
+
+		for(File f : new File(BytecodeViewer.getBCVDirectory()).listFiles()) {
+			if(f.getName().toLowerCase().startsWith("krakatau_") && !f.getName().split("_")[1].split("\\.")[0].equals(BytecodeViewer.krakatauVersion)) {
+				setState("Bytecode Viewer Boot Screen - Removing Outdated " + f.getName() + "...");
+				System.out.println("Removing oudated " + f.getName());
+				try {
+					FileUtils.deleteDirectory(f);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		BytecodeViewer.krakatauWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion + BytecodeViewer.fs + "Krakatau-master";		
+		File krakatauDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion);
+		if(!krakatauDirectory.exists()) {
+			try {
+				setState("Bytecode Viewer Boot Screen - Updating to "+krakatauDirectory.getName()+"...");
+				ZipUtils.unzipFilesToPath(krakatauZip.getAbsolutePath(), krakatauDirectory.getAbsolutePath());
+				System.out.println("Updated to krakatau v" + BytecodeViewer.krakatauVersion);
+			} catch(Exception e) {
+				BytecodeViewer.showMessage("ERROR: There was an issue unzipping Krakatau decompiler (possibly corrupt). Restart BCV."+BytecodeViewer.nl+
+						"If the error persists contact @Konloch.");
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+				krakatauZip.delete();
+			}
+		}
+
+		completedCheck++;
+		screen.getProgressBar().setValue(completedCheck);
+
+
+		setState("Bytecode Viewer Boot Screen - Checking Enjarify...");
+		System.out.println("Checking enjarify");
+
+		File enjarifyZip = null;
+		for(File f : new File(BytecodeViewer.libsDirectory).listFiles()) {
+			if(f.getName().toLowerCase().startsWith("enjarify-")) {
+				BytecodeViewer.enjarifyVersion = f.getName().split("-")[1].split("\\.")[0];
+				enjarifyZip = f;
+			}
+		}
+
+		for(File f : new File(BytecodeViewer.getBCVDirectory()).listFiles()) {
+			if(f.getName().toLowerCase().startsWith("enjarify_") && !f.getName().split("_")[1].split("\\.")[0].equals(BytecodeViewer.enjarifyVersion)) {
+				setState("Bytecode Viewer Boot Screen - Removing Outdated " + f.getName() + "...");
+				System.out.println("Removing oudated " + f.getName());
+				try {
+					FileUtils.deleteDirectory(f);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		BytecodeViewer.enjarifyWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify_" + BytecodeViewer.enjarifyVersion + BytecodeViewer.fs + "enjarify-master";		
+		File enjarifyDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify_" + BytecodeViewer.enjarifyVersion);
+		if(!enjarifyDirectory.exists()) {
+			try {
+				setState("Bytecode Viewer Boot Screen - Updating to "+enjarifyDirectory.getName()+"...");
+				ZipUtils.unzipFilesToPath(enjarifyZip.getAbsolutePath(), enjarifyDirectory.getAbsolutePath());
+				System.out.println("Updated to enjarify v" + BytecodeViewer.enjarifyVersion);
+			} catch(Exception e) {
+				BytecodeViewer.showMessage("ERROR: There was an issue unzipping enjarify (possibly corrupt). Restart BCV."+BytecodeViewer.nl+
+						"If the error persists contact @Konloch.");
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+				enjarifyZip.delete();
+			}
+		}
+		completedCheck++;
+		screen.getProgressBar().setValue(completedCheck);
 
 		setState("Bytecode Viewer Boot Screen - Booting!");
 	}

@@ -10,7 +10,6 @@ import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Dex2Jar;
-import the.bytecode.club.bytecodeviewer.Enjarify;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
 import the.bytecode.club.bytecodeviewer.ZipUtils;
 
@@ -46,10 +45,7 @@ public class SmaliDisassembler extends Decompiler {
 		
 		ZipUtils.zipFile(tempClass, tempZip);
 
-		if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
-			 Dex2Jar.saveAsDex(tempZip, tempDex);
-		else if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
-			 Enjarify.saveAsAPK(tempZip, tempDex);
+		Dex2Jar.saveAsDex(tempZip, tempDex);
 		
 		try {
 			org.jf.baksmali.main.main(new String[]{"-o", tempSmali.getAbsolutePath(), "-x", tempDex.getAbsolutePath()});

@@ -892,10 +892,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 							Thread t = new Thread() {
 								@Override
 								public void run() {
-									if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
-										 Dex2Jar.saveAsDex(new File(input), file2);
-									else if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
-										 Enjarify.saveAsAPK(new File(input), file2);
+									Dex2Jar.saveAsDex(new File(input), file2);
 									
 									BytecodeViewer.viewer.setIcon(false);
 								}
@@ -1484,6 +1481,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				mnSettings.add(refreshOnChange);
 				
 				mnSettings.add(separator_38);
+				decodeAPKResources.setSelected(true);
 				
 				mnSettings.add(decodeAPKResources);
 				

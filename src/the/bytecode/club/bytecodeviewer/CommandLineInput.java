@@ -27,6 +27,11 @@ public class CommandLineInput {
 	private static final Options options = new Options();
 	private static final CommandLineParser parser = new DefaultParser();
 	
+	/*BECAUSE WHO DOESN'T LOVE MAGIC NUMBERS*/
+	public static int STOP = -1;
+	public static int OPEN_FILE = 0;
+	public static int CLI = 1;
+	
 	static {
 		options.addOption("help", false, "prints the help menu.");
 		options.addOption("list", false, "lists all the available decompilers for BCV " + BytecodeViewer.version+".");
@@ -63,7 +68,7 @@ public class CommandLineInput {
 	
 	public static int parseCommandLine(String[] args) {
 		if(!containsCommand(args))
-			return 1;
+			return OPEN_FILE;
 		try {
 			CommandLine cmd = parser.parse(options, args);
 			if(cmd.hasOption("list")) {
@@ -74,7 +79,7 @@ public class CommandLineInput {
 			    System.out.println("Krakatau-Bytecode");
 			    System.out.println("JD-GUI");
 			    System.out.println("Smali");
-				return -1;
+				return STOP;
 			} else if(cmd.hasOption("help")) {
 				for(String s : new String[] {
 						"-help                         Displays the help menu",
@@ -86,17 +91,17 @@ public class CommandLineInput {
 						"-nowait                       Doesn't wait for the user to read the CLI messages"
 				})
 					System.out.println(s);
-				return -1;
+				return STOP;
 			} else {
 				if(cmd.getOptionValue("i") == null) {
 					System.err.println("Set the input with -i");
-					return -1;
+					return STOP;
 				} if(cmd.getOptionValue("o") == null) {
 					System.err.println("Set the output with -o");
-					return -1;
+					return STOP;
 				} if(cmd.getOptionValue("t") == null) {
 					System.err.println("Set the target with -t");
-					return -1;
+					return STOP;
 				}
 				
 				File input = new File(cmd.getOptionValue("i"));
@@ -105,7 +110,7 @@ public class CommandLineInput {
 
 				if(!input.exists()) {
 					System.err.println(input.getAbsolutePath() + " does not exist.");
-					return -1;
+					return STOP;
 				}
 				
 				if(output.exists()) {
@@ -134,13 +139,13 @@ public class CommandLineInput {
 				if(!cmd.hasOption("nowait"))
 					Thread.sleep(5 * 1000);
 					
-				return 0;
+				return CLI;
 			}
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
 		
-		return 1;
+		return OPEN_FILE;
 	}
 	
 	public static void executeCommandLine(String[] args) {
