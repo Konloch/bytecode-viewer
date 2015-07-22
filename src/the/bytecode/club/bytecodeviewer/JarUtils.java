@@ -34,8 +34,7 @@ public class JarUtils {
 	 * @throws IOException
 	 */
 	public static void put(final File jarFile) throws IOException {
-		FileContainer container = new FileContainer();
-		container.name = jarFile.getName();
+		FileContainer container = new FileContainer(jarFile);
 		HashMap<String, byte[]> files = new HashMap<String, byte[]>();
 		
 		ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));

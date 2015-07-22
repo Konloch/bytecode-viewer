@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.*;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -31,6 +33,7 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -63,6 +66,10 @@ public class FileNavigationPane extends VisibleComponent implements
 		super("ClassNavigation");
 		setTitle("Files");
 
+
+		tree.setRootVisible(false);
+		tree.setShowsRootHandles(true);
+		
 		this.fcn = fcn;
 		
 		open.addActionListener(new ActionListener() {
@@ -291,6 +298,8 @@ public class FileNavigationPane extends VisibleComponent implements
 			for (FileContainer container : BytecodeViewer.files) {
 				MyTreeNode root = new MyTreeNode(container.name);
 				treeRoot.add(root);
+				ImageRenderer renderer = new ImageRenderer();
+				tree.setCellRenderer(renderer);
 				
 				if(!container.classes.isEmpty()) {
 					for(ClassNode c : container.classes) {
@@ -507,6 +516,104 @@ public class FileNavigationPane extends VisibleComponent implements
 		treeRoot.removeAllChildren();
 		tree.repaint();
 		tree.updateUI();
+	}
+	
+	/**
+	 * 
+	 * @author http://stackoverflow.com/questions/14968005
+	 * @author Konloch
+	 *
+	 */
+	public class ImageRenderer extends DefaultTreeCellRenderer {
+
+		public Component getTreeCellRendererComponent( 
+		         JTree tree, 
+		         Object value, 
+		         boolean sel, 
+		         boolean expanded, 
+		         boolean leaf, 
+		         int row, 
+		         boolean hasFocus)
+		{ //called every time there is a pane update, I.E. whenever you expand a folder
+
+		    Component ret = super.getTreeCellRendererComponent(tree, value,
+		            selected, expanded, leaf, row, hasFocus);
+		    
+		    		if(value != null && value instanceof the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) {
+		    			the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode node = (the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) value;
+		    			String name = node.toString().toLowerCase();
+		    			
+			    		if(name.endsWith(".jar")) {
+			    			setIcon(Resources.jar);
+			    		} else if(name.endsWith(".zip")) {
+			    			setIcon(Resources.zip);
+			    		} else if(name.endsWith(".bat")) {
+			    			setIcon(Resources.bat);
+			    		} else if(name.endsWith(".sh")) {
+			    			setIcon(Resources.sh);
+			    		} else if(name.endsWith(".cs")) {
+			    			setIcon(Resources.csharp);
+			    		} else if(name.endsWith(".c") ||name.endsWith(".cpp") ||name.endsWith(".h")) {
+			    			setIcon(Resources.cplusplus);
+			    		}  else if(name.endsWith(".apk") || name.endsWith(".dex")) {
+			    			setIcon(Resources.android);
+			    		} else if(name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".bmp") || name.endsWith(".gif")) {
+			    			setIcon(Resources.imageFile);
+			    		} else if(name.endsWith(".class")) {
+			    			setIcon(Resources.classFile);
+			    		} else if(name.endsWith(".txt") || name.endsWith(".md")) {
+			    			setIcon(Resources.textFile);
+			    		} else if(name.equals("decoded resources")) {
+			    			setIcon(Resources.decoded);
+			    		} else if(name.endsWith(".properties") || name.endsWith(".xml") || name.endsWith(".mf") || name.endsWith(".config") || name.endsWith(".cfg")) {
+			    			setIcon(Resources.config);
+			    		} else if(node.getChildCount() <= 0) { //random file
+			    			setIcon(Resources.file);
+			    		} else { //folder
+			    			ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
+			    			ArrayList<TreeNode> totalNodes = new ArrayList<TreeNode>();
+			    			
+			    			nodes.add(node);
+			    			totalNodes.add(node);
+			    			
+			    			boolean isJava = false;
+			    			boolean finished = false;
+			    			
+			    			while(!finished) { //may cause a clusterfuck with huge files
+			    				if(nodes.isEmpty())
+			    					finished = true;
+			    				else {
+			    					TreeNode treeNode = nodes.get(0);
+				    				nodes.remove(treeNode);
+			    					int children = treeNode.getChildCount();
+			    					if(children >= 1)
+					    				for(int i = 0; i < children; i++) {
+					    					TreeNode child = treeNode.getChildAt(i);
+					    					
+					    					if(!totalNodes.contains(child)) {
+					    						nodes.add(child);
+					    						totalNodes.add(child);
+					    					}
+			    					
+					    					if(child.toString().endsWith(".class"))
+					    						isJava = true;
+					    				}
+				    				
+				    				if(isJava)
+				    					nodes.clear();
+			    				}
+			    			}
+			    			
+			    			if(isJava)
+			    				setIcon(Resources.packages);
+			    			else {
+			    				setIcon(Resources.folder);
+			    			}
+			    		}
+		    		}
+		    
+		            return ret;
+		    }
 	}
 
 }

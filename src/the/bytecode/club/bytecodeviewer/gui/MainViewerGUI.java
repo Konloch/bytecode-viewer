@@ -540,7 +540,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	public final ButtonGroup panelGroup1 = new ButtonGroup();
 	public final ButtonGroup panelGroup2 = new ButtonGroup();
 	public final ButtonGroup panelGroup3 = new ButtonGroup();
-	private final JMenuItem mntmSetOpitonalLibrary = new JMenuItem("Set Optionial Library Folder");
+	private final JMenuItem mntmSetOpitonalLibrary = new JMenuItem("Set Optional Library Folder");
 	private final JMenuItem mntmPingback = new JMenuItem("Pingback");
 	private final JMenu mnJdgui = new JMenu("JD-GUI");
 	public final JRadioButtonMenuItem panel3JDGUI = new JRadioButtonMenuItem("Java");
@@ -1936,7 +1936,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		apkConversionGroup.add(apkConversionDex);
 		apkConversionGroup.add(apkConversionEnjarify);
-		apkConversionGroup.setSelected(apkConversionDex.getModel(), true);//my one true love
+		apkConversionGroup.setSelected(apkConversionDex.getModel(), true);
 		
 
 		panelGroup1.add(panel1None);
@@ -1980,7 +1980,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		mnFontSize.add(fontSpinner);
 		
 
-		panelGroup1.setSelected(panel1Proc.getModel(), true);//my one true love
+		panelGroup1.setSelected(panel1JDGUI.getModel(), true);
 		panelGroup2.setSelected(panel2Bytecode.getModel(), true);
 		panelGroup3.setSelected(panel3None.getModel(), true);
 		

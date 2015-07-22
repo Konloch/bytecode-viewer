@@ -22,6 +22,7 @@ public class SecurityMan extends SecurityManager {
 		if(	executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.KrakatauDecompiler") ||
 			executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.KrakatauDisassambler") ||
 			executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.KrakatauAssembler") ||
+			executedClass.equals("the.bytecode.club.bytecodeviewer.Enjarify") ||
 			executedClass.equals("the.bytecode.club.bytecodeviewer.BytecodeViewer"))
 		{
 			blocking = false;
@@ -48,11 +49,11 @@ public class SecurityMan extends SecurityManager {
 		
 		if(allow && !blocking) {
 			System.out.println("Allowing exec:" + cmd);
-		} else throw new SecurityException("BCV is awesome.");
+		} else throw new SecurityException("BCV is awesome, blocking " + cmd);
     }
 	@Override
     public void checkListen(int port) {
-		throw new SecurityException("BCV is awesome.");
+		throw new SecurityException("BCV is awesome, blocking port "+port+" from listening");
     }
 	@Override
     public void checkPermission(Permission perm) { //expand eventually

@@ -25,7 +25,22 @@ public class Resources {
 	public static ImageIcon prevIcon;
 	public static ImageIcon busy;
 	public static ImageIcon busyB64;
-	
+
+	public static ImageIcon bat;
+	public static ImageIcon sh;
+	public static ImageIcon csharp;
+	public static ImageIcon cplusplus;
+	public static ImageIcon config;
+	public static ImageIcon jar;
+	public static ImageIcon zip;
+	public static ImageIcon packages;
+	public static ImageIcon folder;
+	public static ImageIcon android;
+	public static ImageIcon file;
+	public static ImageIcon textFile;
+	public static ImageIcon classFile;
+	public static ImageIcon imageFile;
+	public static ImageIcon decoded;
 	
 
 	static {
@@ -35,6 +50,21 @@ public class Resources {
 		busy = new ImageIcon(Resources.class.getClass().getResource("/resources/1.gif"));
 		busyB64 = new ImageIcon(b642IMG("R0lGODlhEAALAPQAAP///wAAANra2tDQ0Orq6gcHBwAAAC8vL4KCgmFhYbq6uiMjI0tLS4qKimVlZb6+vicnJwUFBU9PT+bm5tjY2PT09Dk5Odzc3PLy8ra2tqCgoMrKyu7u7gAAAAAAAAAAACH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7"));
 
+		bat = new ImageIcon(Resources.class.getClass().getResource("/resources/bat.png"));
+		sh = new ImageIcon(Resources.class.getClass().getResource("/resources/sh.png"));
+		csharp = new ImageIcon(Resources.class.getClass().getResource("/resources/c#.png"));
+		cplusplus = new ImageIcon(Resources.class.getClass().getResource("/resources/c++.png"));
+		config = new ImageIcon(Resources.class.getClass().getResource("/resources/config.png"));
+		jar = new ImageIcon(Resources.class.getClass().getResource("/resources/jar.png"));
+		zip= new ImageIcon(Resources.class.getClass().getResource("/resources/zip.png"));
+		packages = new ImageIcon(Resources.class.getClass().getResource("/resources/package.png"));
+		folder = new ImageIcon(Resources.class.getClass().getResource("/resources/folder.png"));
+		android = new ImageIcon(Resources.class.getClass().getResource("/resources/android.png"));
+		file = new ImageIcon(Resources.class.getClass().getResource("/resources/file.png"));
+		textFile = new ImageIcon(Resources.class.getClass().getResource("/resources/text.png"));
+		classFile = new ImageIcon(Resources.class.getClass().getResource("/resources/java.png"));
+		imageFile = new ImageIcon(Resources.class.getClass().getResource("/resources/image.png"));
+		decoded = new ImageIcon(Resources.class.getClass().getResource("/resources/decoded.png"));
 		
 		iconList = new ArrayList<BufferedImage>();
 		int size = 16;

@@ -20,7 +20,7 @@ import the.bytecode.club.bytecodeviewer.MiscUtils;
 import jd.cli.printer.text.PlainTextPrinter;
 
 /**
- * JDCore Decompiler Wrapper
+ * JD-Core Decompiler Wrapper
  * 
  * @author Konloch
  * @author JD-Core developers

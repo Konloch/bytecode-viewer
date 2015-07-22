@@ -176,16 +176,7 @@ public class CommandLineInput {
 				} else {
 					try {
 						ClassNode cn = BytecodeViewer.getClassNode(target);
-						final ClassWriter cw = new ClassWriter(0);
-						try {
-							cn.accept(cw);
-						} catch(Exception e) {
-							e.printStackTrace();
-							try {
-								Thread.sleep(200);
-								cn.accept(cw);
-							} catch (InterruptedException e1) { }
-						}
+						final ClassWriter cw = accept(cn);
 						String contents = Decompiler.procyon.decompileClassNode(cn, cw.toByteArray());
 						DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
 					} catch (Exception e) {
@@ -203,16 +194,7 @@ public class CommandLineInput {
 				} else {
 					try {
 						ClassNode cn = BytecodeViewer.getClassNode(target);
-						final ClassWriter cw = new ClassWriter(0);
-						try {
-							cn.accept(cw);
-						} catch(Exception e) {
-							e.printStackTrace();
-							try {
-								Thread.sleep(200);
-								cn.accept(cw);
-							} catch (InterruptedException e1) { }
-						}
+						final ClassWriter cw = accept(cn);
 						String contents = Decompiler.cfr.decompileClassNode(cn, cw.toByteArray());
 						DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
 					} catch (Exception e) {
@@ -230,16 +212,7 @@ public class CommandLineInput {
 				} else {
 					try {
 						ClassNode cn = BytecodeViewer.getClassNode(target);
-						final ClassWriter cw = new ClassWriter(0);
-						try {
-							cn.accept(cw);
-						} catch(Exception e) {
-							e.printStackTrace();
-							try {
-								Thread.sleep(200);
-								cn.accept(cw);
-							} catch (InterruptedException e1) { }
-						}
+						final ClassWriter cw = accept(cn);
 						String contents = Decompiler.fernflower.decompileClassNode(cn, cw.toByteArray());
 						DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
 					} catch (Exception e) {
@@ -257,16 +230,7 @@ public class CommandLineInput {
 				} else {
 					try {
 						ClassNode cn = BytecodeViewer.getClassNode(target);
-						final ClassWriter cw = new ClassWriter(0);
-						try {
-							cn.accept(cw);
-						} catch(Exception e) {
-							e.printStackTrace();
-							try {
-								Thread.sleep(200);
-								cn.accept(cw);
-							} catch (InterruptedException e1) { }
-						}
+						final ClassWriter cw = accept(cn);
 						String contents = Decompiler.krakatau.decompileClassNode(cn, cw.toByteArray());
 						DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
 					} catch (Exception e) {
@@ -285,16 +249,7 @@ public class CommandLineInput {
 				} else {
 					try {
 						ClassNode cn = BytecodeViewer.getClassNode(target);
-						final ClassWriter cw = new ClassWriter(0);
-						try {
-							cn.accept(cw);
-						} catch(Exception e) {
-							e.printStackTrace();
-							try {
-								Thread.sleep(200);
-								cn.accept(cw);
-							} catch (InterruptedException e1) { }
-						}
+						final ClassWriter cw = accept(cn);
 						String contents = Decompiler.krakatauDA.decompileClassNode(cn, cw.toByteArray());
 						DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
 					} catch (Exception e) {
@@ -313,16 +268,7 @@ public class CommandLineInput {
 				} else {
 					try {
 						ClassNode cn = BytecodeViewer.getClassNode(target);
-						final ClassWriter cw = new ClassWriter(0);
-						try {
-							cn.accept(cw);
-						} catch(Exception e) {
-							e.printStackTrace();
-							try {
-								Thread.sleep(200);
-								cn.accept(cw);
-							} catch (InterruptedException e1) { }
-						}
+						final ClassWriter cw = accept(cn);
 						String contents = Decompiler.jdgui.decompileClassNode(cn, cw.toByteArray());
 						DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
 					} catch (Exception e) {
@@ -341,16 +287,7 @@ public class CommandLineInput {
 				} else {
 					try {
 						ClassNode cn = BytecodeViewer.getClassNode(target);
-						final ClassWriter cw = new ClassWriter(0);
-						try {
-							cn.accept(cw);
-						} catch(Exception e) {
-							e.printStackTrace();
-							try {
-								Thread.sleep(200);
-								cn.accept(cw);
-							} catch (InterruptedException e1) { }
-						}
+						final ClassWriter cw = accept(cn);
 						String contents = Decompiler.smali.decompileClassNode(cn, cw.toByteArray());
 						DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
 					} catch (Exception e) {
@@ -365,6 +302,20 @@ public class CommandLineInput {
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
+	}
+	
+	public static ClassWriter accept(ClassNode cn) {
+		ClassWriter cw = new ClassWriter(0);
+		try {
+			cn.accept(cw);
+		} catch(Exception e) {
+			e.printStackTrace();
+			try {
+				Thread.sleep(200);
+				cn.accept(cw);
+			} catch (InterruptedException e1) { }
+		}
+		return cw;
 	}
 	
 }

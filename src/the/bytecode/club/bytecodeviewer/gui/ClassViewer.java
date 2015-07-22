@@ -625,7 +625,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Procyon Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Procyon Decompiler - Editable: " + panelArea.isEditable()));
 						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -652,7 +652,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler - Editable: " + panelArea.isEditable()));
 						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -680,7 +680,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("FernFlower Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("FernFlower Decompiler - Editable: " + panelArea.isEditable()));
 						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -709,7 +709,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Bytecode Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Bytecode Decompiler - Editable: " + panelArea.isEditable()));
 						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -746,7 +746,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Smali Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Smali Decompiler - Editable: " + panelArea.isEditable()));
 						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -774,7 +774,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Krakatau Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Krakatau Decompiler - Editable: " + panelArea.isEditable()));
 						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -806,7 +806,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Krakatau Disassembler"));
+						scrollPane.setColumnHeaderView(new JLabel("Krakatau Disassembler - Editable: " + panelArea.isEditable()));
 						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -834,7 +834,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("JD-GUI Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("JD-GUI Decompiler - Editable: " + panelArea.isEditable()));
 						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -879,7 +879,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Procyon Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Procyon Decompiler - Editable: " + panelArea.isEditable()));
 						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -907,7 +907,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler - Editable: " + panelArea.isEditable()));
 						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -935,7 +935,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler - Editable: " + panelArea.isEditable()));
 						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -962,7 +962,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Bytecode Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Bytecode Decompiler - Editable: " + panelArea.isEditable()));
 						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -998,7 +998,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Smali Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Smali Decompiler - Editable: " + panelArea.isEditable()));
 						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -1026,7 +1026,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Krakatau Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Krakatau Decompiler - Editable: " + panelArea.isEditable()));
 						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -1084,7 +1084,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("JD-GUI Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("JD-GUI Decompiler - Editable: " + panelArea.isEditable()));
 						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -1130,7 +1130,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Procyon Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Procyon Decompiler - Editable: " + panelArea.isEditable()));
 						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -1158,7 +1158,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler - Editable: " + panelArea.isEditable()));
 						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -1186,7 +1186,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler - Editable: " + panelArea.isEditable()));
 						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -1213,7 +1213,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Bytecode Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Bytecode Decompiler - Editable: " + panelArea.isEditable()));
 						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -1249,7 +1249,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Smali Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Smali Decompiler - Editable: " + panelArea.isEditable()));
 						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -1277,7 +1277,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("Krakatau Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("Krakatau Decompiler - Editable: " + panelArea.isEditable()));
 						panel3.add(scrollPane);
 						java3 = panelArea;
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
@@ -1335,7 +1335,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("JD-GUI Decompiler"));
+						scrollPane.setColumnHeaderView(new JLabel("JD-GUI Decompiler - Editable: " + panelArea.isEditable()));
 						panel3.add(scrollPane);
 						java3 = panelArea;
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));

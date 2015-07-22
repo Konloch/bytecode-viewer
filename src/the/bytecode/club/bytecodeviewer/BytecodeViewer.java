@@ -98,12 +98,17 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * 07/19/2015 - Fixed enjarify.
  * 07/20/2015 - Bibl sexified the boot loading time.
  * 07/20/2015 - Decode APK Resources is selected by default.
- * 07/20/2015 - Made the security manager slightly safer, can still be targeted but not as obvious now.
+ * 07/20/2015 - Made the security manager slightly safer, it can still be targeted but not as obviously now.
  * 07/20/2015 - Added CLI to the boot page.
- * 07/21/2015 - Added support for offline mode incase you cannot connect to github for some reason. (kicks in after 7 seconds)
- * 07/21/2015 - Added fatjar option back, incase anyone wants a 100% portable version.
+ * 07/21/2015 - Added support for offline mode in case you cannot connect to github for some reason. (kicks in after 7 seconds)
+ * 07/21/2015 - Added fatjar option back, in case anyone wants a 100% portable version.
  * 07/21/2015 - Made it so it now shows the decompiler it's using - http://i.imgur.com/yMEzXwv.png.
  * 07/21/2015 - Rewrote the file system, it now shows the path of the jar it's got loaded.
+ * 07/21/2015 - Now it shows if the decompiler is in editable mode or not.
+ * 07/21/2015 - Fixed Enjarify bug from new security manager.
+ * 07/22/2015 - Fixed a typo (Thanks affffsdsd)
+ * 07/22/2015 - Finally added icons to the File Navigator, credits to http://famfamfam.com/lab/icons/silk/ for the icons.
+ * 07/22/2015 - JD-GUI is now the default decompiler for GUI.
  * 
  * @author Konloch
  * 
@@ -214,7 +219,7 @@ public class BytecodeViewer {
 						{
 						  Desktop.getDesktop().browse(new URI("https://github.com/Konloch/bytecode-viewer/releases"));
 						} else {
-							showMessage("Cannot open the page, please manually type it.");
+							showMessage("Cannot open the page, please manually type it."+nl+"https://github.com/Konloch/bytecode-viewer/releases");
 						}
 					}
 					if(result == 1) {
@@ -303,7 +308,7 @@ public class BytecodeViewer {
 									    System.out.println("Download finished!");
 										showMessage("Download successful! You can find the updated program at " + finalFile.getAbsolutePath());
 									} catch(FileNotFoundException e) {
-										showMessage("Unable to download, the zip file has not been uploaded yet, please try again later in an hour.");
+										showMessage("Unable to download, the zip file has not been uploaded yet, please try again in about 10 minutes.");
 									} catch(Exception e) {
 										new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 									}
@@ -468,7 +473,7 @@ public class BytecodeViewer {
 	
 	/**
 	 * Main startup
-	 * @param args files you want to open
+	 * @param args files you want to open or CLI
 	 */
 	public static void main(String[] args) {
 		BytecodeViewer.args = args;
@@ -756,11 +761,8 @@ public class BytecodeViewer {
 										if(cafebabe.toLowerCase().equals("cafebabe")) {
 											final ClassNode cn = JarUtils.getNode(bytes);
 											
-											FileContainer container = new FileContainer();
-											
-											container.name = fn;
+											FileContainer container = new FileContainer(f);
 											container.classes.add(cn);
-											
 											BytecodeViewer.files.add(container);
 										} else {
 											showMessage(fn+": Header does not start with CAFEBABE, ignoring.");
@@ -773,8 +775,7 @@ public class BytecodeViewer {
 								} else if(fn.endsWith(".apk")) {
 									try {
 										BytecodeViewer.viewer.setIcon(true);
-										FileContainer container = new FileContainer();
-										container.name = fn;
+										FileContainer container = new FileContainer(f);
 										
 										if(viewer.decodeAPKResources.isSelected()) {
 											File decodedResources = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
@@ -803,8 +804,7 @@ public class BytecodeViewer {
 								} else if(fn.endsWith(".dex")) {
 									try {
 										BytecodeViewer.viewer.setIcon(true);
-										FileContainer container = new FileContainer();
-										container.name = fn;
+										FileContainer container = new FileContainer(f);
 										
 										String name = getRandomizedName()+".jar";
 										File output = new File(tempDirectory + fs + name);
@@ -828,11 +828,8 @@ public class BytecodeViewer {
 									files.put(f.getName(), bytes);
 
 									
-									FileContainer container = new FileContainer();
-
-									container.name = fn;
+									FileContainer container = new FileContainer(f);
 									container.files = files;
-									
 									BytecodeViewer.files.add(container);
 								}
 							}

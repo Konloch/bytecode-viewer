@@ -26,6 +26,7 @@ import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
  */
 public class Boot {
 
+	/*flags*/
 	public static boolean globalstop = false;
 	public static boolean completedboot = false;
 	public static boolean downloading = false;
