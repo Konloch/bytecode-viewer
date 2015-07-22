@@ -56,8 +56,8 @@ public class FileNavigationPane extends VisibleComponent implements
 	JButton open = new JButton("+");
 	JButton close = new JButton("-");
 
-	MyTreeNode treeRoot = new MyTreeNode("Root");
-	MyTree tree;
+	MyTreeNode treeRoot = new MyTreeNode("Loaded Files:");
+	MyTree tree = new MyTree(treeRoot);
 
 	public FileNavigationPane(final FileChangeNotifier fcn) {
 		super("ClassNavigation");
@@ -87,8 +87,6 @@ public class FileNavigationPane extends VisibleComponent implements
 		});
 
 		getContentPane().setLayout(new BorderLayout());
-
-		this.tree = new MyTree(treeRoot);
 		getContentPane().add(new JScrollPane(tree), BorderLayout.CENTER);
 		
 		MouseAdapter ml = new MouseAdapter() {
@@ -97,7 +95,7 @@ public class FileNavigationPane extends VisibleComponent implements
 				if (path == null)
 					return;
 				final StringBuffer nameBuffer = new StringBuffer();
-				for (int i = 1; i < path.getPathCount(); i++) {
+				for (int i = 2; i < path.getPathCount(); i++) {
 					nameBuffer.append(path.getPathComponent(i));
 					if (i < path.getPathCount() - 1) {
 						nameBuffer.append("/");
@@ -290,61 +288,70 @@ public class FileNavigationPane extends VisibleComponent implements
 	public void updateTree() {
 		try {
 			treeRoot.removeAllChildren();
-			for (final Entry<String, ClassNode> entry : BytecodeViewer.loadedClasses
-					.entrySet()) {
-				String name = entry.getKey();
-				final String[] spl = name.split("/");
-				if (spl.length < 2) {
-					treeRoot.add(new MyTreeNode(name+".class"));
-				} else {
-					MyTreeNode parent = treeRoot;
-					for (int i1 = 0; i1 < spl.length; i1++) {
-						String s = spl[i1];
-						MyTreeNode child = null;
-						for (int i = 0; i < parent.getChildCount(); i++) {
-							if (((MyTreeNode) parent.getChildAt(i)).getUserObject()
-									.equals(s)) {
-								child = (MyTreeNode) parent.getChildAt(i);
-								break;
+			for (FileContainer container : BytecodeViewer.files) {
+				MyTreeNode root = new MyTreeNode(container.name);
+				treeRoot.add(root);
+				
+				if(!container.classes.isEmpty()) {
+					for(ClassNode c : container.classes) {
+						String name = c.name;
+						final String[] spl = name.split("/");
+						if (spl.length < 2) {
+							root.add(new MyTreeNode(name+".class"));
+						} else {
+							MyTreeNode parent = root;
+							for (int i1 = 0; i1 < spl.length; i1++) {
+								String s = spl[i1];
+								MyTreeNode child = null;
+								for (int i = 0; i < parent.getChildCount(); i++) {
+									if (((MyTreeNode) parent.getChildAt(i)).getUserObject()
+											.equals(s)) {
+										child = (MyTreeNode) parent.getChildAt(i);
+										break;
+									}
+								}
+								if (child == null) {
+									if(i1 == spl.length-1)
+										child = new MyTreeNode(s+".class");
+									else
+										child = new MyTreeNode(s);
+									parent.add(child);
+								}
+								parent = child;
 							}
 						}
-						if (child == null) {
-							if(i1 == spl.length-1)
-								child = new MyTreeNode(s+".class");
-							else
-								child = new MyTreeNode(s);
-							parent.add(child);
-						}
-						parent = child;
 					}
 				}
+				
+				if(!container.files.isEmpty()) {
+					for (final Entry<String, byte[]> entry : container.files.entrySet()) {
+						String name = entry.getKey();
+						final String[] spl = name.split("/");
+						if (spl.length < 2) {
+							root.add(new MyTreeNode(name));
+						} else {
+							MyTreeNode parent = root;
+							for (final String s : spl) {
+								MyTreeNode child = null;
+								for (int i = 0; i < parent.getChildCount(); i++) {
+									if (((MyTreeNode) parent.getChildAt(i)).getUserObject()
+											.equals(s)) {
+										child = (MyTreeNode) parent.getChildAt(i);
+										break;
+									}
+								}
+								if (child == null) {
+									child = new MyTreeNode(s);
+									parent.add(child);
+								}
+								parent = child;
+							}
+						}
+					}
+				}
+				
 			}
 			
-			for (final Entry<String, byte[]> entry : BytecodeViewer.loadedResources.entrySet()) {
-				String name = entry.getKey();
-				final String[] spl = name.split("/");
-				if (spl.length < 2) {
-					treeRoot.add(new MyTreeNode(name));
-				} else {
-					MyTreeNode parent = treeRoot;
-					for (final String s : spl) {
-						MyTreeNode child = null;
-						for (int i = 0; i < parent.getChildCount(); i++) {
-							if (((MyTreeNode) parent.getChildAt(i)).getUserObject()
-									.equals(s)) {
-								child = (MyTreeNode) parent.getChildAt(i);
-								break;
-							}
-						}
-						if (child == null) {
-							child = new MyTreeNode(s);
-							parent.add(child);
-						}
-						parent = child;
-					}
-				}
-			}
-	
 			treeRoot.sort();
 			tree.expandPath(new TreePath(tree.getModel().getRoot()));
 			tree.updateUI();

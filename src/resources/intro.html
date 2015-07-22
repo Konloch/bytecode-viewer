@@ -1,5 +1,16 @@
 <html>Bytecode Viewer (BCV) was designed to be extremely user and beginner friendly, because of this almost everything is accessible through an interface, settings, tools, etc. This means if you give BCV a try you should get the gist of it can do, however for those who don't want to run BCV until they're convinced they should use it, below is a complete list of features BCV has, and what they do.
 
+<h2>Command Line Interface (CLI):</h2>
+<ul>
+<li>	-help                         Displays the help menu</li>
+<li>	-list                         Displays the available decompilers</li>
+<li>	-decompiler [decompiler]      Selects the decompiler, procyon by default</li>
+<li>	-i [input file]               Selects the input file (Jar, Class, APK, ZIP, DEX all work automatically)</li>
+<li>	-o [output file]              Selects the output file (Java or Java-Bytecode)</li>
+<li>	-t [target classname]         Must either be the fully qualified classname or "all" to decompile all as zip</li>
+<li>	-nowait                       Doesn't wait for the user to read the CLI messages</li>
+</ul>
+
 <h2>File:</h2>
 <ul>
 <li>Add (Ctrl + O) - If you add a jar/zip BCV will unzip it, if you add an APK or DEX file, BCV will run dex2jar then run the jar input process.</li>

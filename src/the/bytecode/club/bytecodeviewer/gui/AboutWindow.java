@@ -46,6 +46,8 @@ scrollPane.setViewportView(textArea);
 		textArea.setText("Bytecode Viewer "+BytecodeViewer.version+" is an open source program developed and maintained by Konloch (konloch@gmail.com)\r\n"+
 				"100% free and open sourced licensed under GPL v3 CopyLeft\r\n\r\n"+
 				"Settings:"+BytecodeViewer.nl+
+				"	Preview Copy:"+BytecodeViewer.previewCopy+BytecodeViewer.nl+
+				"	Fat Jar:"+BytecodeViewer.fatJar+BytecodeViewer.nl+
 				"	BCV Dir: " + BytecodeViewer.getBCVDirectory()+BytecodeViewer.nl+
 				"	Python 2.7 (or PyPy): " + BytecodeViewer.python+BytecodeViewer.nl+
 				"	Python 3.X (or PyPy): " + BytecodeViewer.python3+BytecodeViewer.nl+

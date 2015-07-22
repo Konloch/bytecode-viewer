@@ -37,7 +37,6 @@ import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Dex2Jar;
-import the.bytecode.club.bytecodeviewer.Enjarify;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
@@ -1907,7 +1906,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
 		setSize(new Dimension(800, 400));
 		if(BytecodeViewer.previewCopy)
-			setTitle("Bytecode Viewer "+BytecodeViewer.version+" preview - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
+			setTitle("Bytecode Viewer "+BytecodeViewer.version+" Preview - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
 		else
 			setTitle("Bytecode Viewer "+BytecodeViewer.version+" - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
 		

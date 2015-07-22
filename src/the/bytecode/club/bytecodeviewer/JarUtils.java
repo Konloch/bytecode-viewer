@@ -33,7 +33,11 @@ public class JarUtils {
 	 * @param clazzList the existing map of loaded classes
 	 * @throws IOException
 	 */
-	public static void put(final File jarFile, final HashMap<String, ClassNode> clazzList) throws IOException {
+	public static void put(final File jarFile) throws IOException {
+		FileContainer container = new FileContainer();
+		container.name = jarFile.getName();
+		HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+		
 		ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
 		ZipEntry entry;
 		while ((entry = jis.getNextEntry()) != null) {
@@ -41,7 +45,7 @@ public class JarUtils {
 				final String name = entry.getName();
 				if (!name.endsWith(".class")) {
 					if(!entry.isDirectory())
-						BytecodeViewer.loadedResources.put(name, getBytes(jis));
+						files.put(name, getBytes(jis));
 				} else {
 					byte[] bytes = getBytes(jis);
 					String cafebabe = String.format("%02X", bytes[0])
@@ -51,7 +55,7 @@ public class JarUtils {
 					if(cafebabe.toLowerCase().equals("cafebabe")) {
 						try {
 							final ClassNode cn = getNode(bytes);
-							clazzList.put(cn.name, cn);
+							container.classes.add(cn);
 						} catch(Exception e) {
 							e.printStackTrace();
 						}
@@ -67,18 +71,58 @@ public class JarUtils {
 			}
 		}
 		jis.close();
+		container.files = files;
+		BytecodeViewer.files.add(container);
 
 	}
 	
 
+	public static ArrayList<ClassNode> loadClasses(final File jarFile) throws IOException {
+		ArrayList<ClassNode> classes = new ArrayList<ClassNode>();
+		ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
+		ZipEntry entry;
+		while ((entry = jis.getNextEntry()) != null) {
+			try {
+				final String name = entry.getName();
+				if (name.endsWith(".class")) {
+					byte[] bytes = getBytes(jis);
+					String cafebabe = String.format("%02X", bytes[0])
+							+ String.format("%02X", bytes[1])
+							+ String.format("%02X", bytes[2])
+							+ String.format("%02X", bytes[3]);
+					if(cafebabe.toLowerCase().equals("cafebabe")) {
+						try {
+							final ClassNode cn = getNode(bytes);
+							classes.add(cn);
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+					} else {
+						System.out.println(jarFile+">"+name+": Header does not start with CAFEBABE, ignoring.");
+					}
+				}
+
+			} catch(Exception e) {
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			} finally {
+				jis.closeEntry();
+			}
+		}
+		jis.close();
+		return classes;
+	}
+	
 	/**
 	 * Loads resources only, just for .APK
 	 * @param zipFile the input zip file
 	 * @throws IOException
 	 */
-	public static void loadResources(final File zipFile) throws IOException {
+	public static HashMap<String, byte[]> loadResources(final File zipFile) throws IOException {
 		if(!zipFile.exists())
-			return; //just ignore
+			return null; //just ignore
+		
+		HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+		
 		ZipInputStream jis = new ZipInputStream(new FileInputStream(zipFile));
 		ZipEntry entry;
 		while ((entry = jis.getNextEntry()) != null) {
@@ -86,7 +130,7 @@ public class JarUtils {
 				final String name = entry.getName();
 				if (!name.endsWith(".class") && !name.endsWith(".dex")) {
 					if(!entry.isDirectory())
-						BytecodeViewer.loadedResources.put(name, getBytes(jis));
+						files.put(name, getBytes(jis));
 					
 					jis.closeEntry();
 					continue;
@@ -98,6 +142,8 @@ public class JarUtils {
 			}
 		}
 		jis.close();
+		
+		return files;
 
 	}
 
@@ -164,15 +210,15 @@ public class JarUtils {
 			out.write((manifest.trim() + "\r\n\r\n").getBytes());
 			out.closeEntry();
 
-			for (Entry<String, byte[]> entry : BytecodeViewer.loadedResources
-					.entrySet()) {
-				String filename = entry.getKey();
-				if (!filename.startsWith("META-INF")) {
-					out.putNextEntry(new ZipEntry(filename));
-					out.write(entry.getValue());
-					out.closeEntry();
+			for(FileContainer container : BytecodeViewer.files)
+				for (Entry<String, byte[]> entry : container.files.entrySet()) {
+					String filename = entry.getKey();
+					if (!filename.startsWith("META-INF")) {
+						out.putNextEntry(new ZipEntry(filename));
+						out.write(entry.getValue());
+						out.closeEntry();
+					}
 				}
-			}
 
 			out.close();
 		} catch (IOException e) {
@@ -198,15 +244,15 @@ public class JarUtils {
 				out.closeEntry();
 			}
 
-			for (Entry<String, byte[]> entry : BytecodeViewer.loadedResources
-					.entrySet()) {
-				String filename = entry.getKey();
-				if (!filename.startsWith("META-INF")) {
-					out.putNextEntry(new ZipEntry(filename));
-					out.write(entry.getValue());
-					out.closeEntry();
+			for(FileContainer container : BytecodeViewer.files)
+				for (Entry<String, byte[]> entry : container.files.entrySet()) {
+					String filename = entry.getKey();
+					if (!filename.startsWith("META-INF")) {
+						out.putNextEntry(new ZipEntry(filename));
+						out.write(entry.getValue());
+						out.closeEntry();
+					}
 				}
-			}
 
 			out.close();
 		} catch (IOException e) {

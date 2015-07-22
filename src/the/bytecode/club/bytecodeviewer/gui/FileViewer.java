@@ -86,7 +86,6 @@ public class FileViewer extends Viewer {
 					JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
 					panel2.add( label, BorderLayout.CENTER );
 					panel2.addMouseWheelListener(new MouseWheelListener() {
-
 						@Override
 						public void mouseWheelMoved(MouseWheelEvent e) {
 							int notches = e.getWheelRotation();
@@ -100,7 +99,6 @@ public class FileViewer extends Viewer {
 							panel2.add( label, BorderLayout.CENTER );
 							panel2.updateUI();
 						}
-						
 					});
 					return;
 				} catch(Exception e) {
@@ -134,7 +132,7 @@ public class FileViewer extends Viewer {
 		} else if(name.endsWith(".properties") || name.endsWith(".mf") || name.endsWith(".sf")) {
 			panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PROPERTIES_FILE);
 			panelArea.setText(contentsS);
-		} else if(name.endsWith(".php") || name.startsWith("<?php")) {
+		} else if(name.endsWith(".php") || contentsS.startsWith("<?php")) {
 			panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PHP);
 			panelArea.setText(contentsS);
 		} else if(name.endsWith(".js")) {
