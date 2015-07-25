@@ -38,6 +38,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
+import the.bytecode.club.bytecodeviewer.FileContainer;
 import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
 import the.bytecode.club.bytecodeviewer.Resources;
@@ -526,9 +527,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			public void run() {
 				if (busy) {
 					try {
-						mntmNewMenuItem_4.setIcon(Resources.busy);
+						mntmNewMenuItem_4.setIcon(Resources.busyIcon);
 					} catch (NullPointerException e) {
-						mntmNewMenuItem_4.setIcon(Resources.busyB64);
+						mntmNewMenuItem_4.setIcon(Resources.busyB64Icon);
 					}
 				} else
 					mntmNewMenuItem_4.setIcon(null);
@@ -564,6 +565,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 	public final ButtonGroup apkConversionGroup = new ButtonGroup();
 	public final JRadioButtonMenuItem apkConversionDex = new JRadioButtonMenuItem("Dex2Jar");
 	public final JRadioButtonMenuItem apkConversionEnjarify = new JRadioButtonMenuItem("Enjarify");
+	private final JMenuItem mntmSetPythonx = new JMenuItem("Set Python 3.X Executable");
+	private final JMenuItem mntmReloadResources = new JMenuItem("Reload Resources");
+	private final JSeparator separator_39 = new JSeparator();
+	private final JSeparator separator_40 = new JSeparator();
 	
 	public void calledAfterLoad() {
 		chckbxmntmDeleteForiegnoutdatedLibs.setSelected(BytecodeViewer.deleteForiegnLibraries);
@@ -677,6 +682,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			}
 		});
 		mnNewMenu.add(mntmLoadJar);
+		
+		mnNewMenu.add(separator_40);
 
 		mnNewMenu.add(mntmNewWorkspace);
 
@@ -747,6 +754,35 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				}
 			}
 		});
+		
+		mnNewMenu.add(separator_39);
+		mntmReloadResources.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane pane = new JOptionPane("Are you sure you wish to reload the resources?");
+				Object[] options = new String[] { "Yes", "No" };
+				pane.setOptions(options);
+				JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Reload Resources");
+				dialog.setVisible(true);
+				Object obj = pane.getValue();
+				int result = -1;
+				for (int k = 0; k < options.length; k++)
+					if (options[k].equals(obj))
+						result = k;
+
+				if (result == 0) {
+					ArrayList<File> reopen = new ArrayList<File>();
+					for(FileContainer container : BytecodeViewer.files)
+						reopen.add(container.file);
+					
+					BytecodeViewer.files.clear();
+					BytecodeViewer.openFiles(reopen.toArray(new File[reopen.size()]), false);
+					
+					//refresh panes
+				}
+			}
+		});
+		
+		mnNewMenu.add(mntmReloadResources);
 
 		mnNewMenu.add(separator_3);
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
@@ -1491,6 +1527,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 				mnApkConversion.add(apkConversionEnjarify);
 				
 				mnSettings.add(separator_37);
+				chckbxmntmNewCheckItem_12.setSelected(true);
 				mnSettings.add(chckbxmntmNewCheckItem_12);
 				chckbxmntmDeleteForiegnoutdatedLibs.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
@@ -1519,6 +1556,13 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 						rtC();
 					}
 				});
+				mntmSetPythonx.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						pythonC3();
+					}
+				});
+				
+				mnSettings.add(mntmSetPythonx);
 				
 				mnSettings.add(mntmSetJreRt);
 				mntmSetOpitonalLibrary.addActionListener(new ActionListener() {

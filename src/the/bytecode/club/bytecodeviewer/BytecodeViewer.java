@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,7 +87,6 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * Spiffy up the plugin console with hilighted lines
  * Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
  * make zipfile not include the decode shit
- * When you drag a folder, it must add the folder name not just the child into the root jtree path
  * add stackmapframes to bytecode decompiler
  * add stackmapframes remover?
  * make ez-injection plugin console show all sys.out calls
@@ -109,6 +110,13 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * 07/22/2015 - Fixed a typo (Thanks affffsdsd)
  * 07/22/2015 - Finally added icons to the File Navigator, credits to http://famfamfam.com/lab/icons/silk/ for the icons.
  * 07/22/2015 - JD-GUI is now the default decompiler for GUI.
+ * 07/22/2015 - Added Set Python 3.X to the UI.
+ * 07/22/2015 - Fixed krakatau/export as jar bug introduced by file system update.
+ * 07/22/2015 - Sped up krakatau decompiler/disassembler on big files.
+ * 07/22/2015 - Made it so when you press enter on the file navigation pane it opens the class.
+ * 07/22/2015 - The Quick file search now opens the files again.
+ * 07/23/2015 - Fixed opening single files and file folders into BCV
+ * 07/24/2015 - Added File>Reload Resources.
  * 
  * @author Konloch
  * 
@@ -619,7 +627,8 @@ public class BytecodeViewer {
 		
 		for(FileContainer container : files)
 			for(ClassNode c : container.classes)
-				a.add(c);
+				if(!a.contains(c))
+					a.add(c);
 		
 		return a;
 	}
@@ -741,7 +750,38 @@ public class BytecodeViewer {
 							showMessage("The file " + f.getAbsolutePath() + " could not be found.");
 						} else {
 							if(f.isDirectory()) {
-								openFiles(f.listFiles(), false);
+								FileContainer container = new FileContainer(f);
+								HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+								boolean finished = false;
+								ArrayList<File> totalFiles = new ArrayList<File>();
+								totalFiles.add(f);
+								String dir = f.getAbsolutePath();//f.getAbsolutePath().substring(0, f.getAbsolutePath().length()-f.getName().length());
+								
+								while(!finished) {
+									boolean added = false;
+									for(int i = 0; i < totalFiles.size(); i++) {
+										File child = totalFiles.get(i);
+										if(child.listFiles() != null)
+											for(File rocket : child.listFiles())
+												if(!totalFiles.contains(rocket)) {
+													totalFiles.add(rocket);
+													added = true;
+												}
+									}
+									
+									if(!added) {
+										for(File child : totalFiles)
+											if(child.isFile()) {
+												String fileName = child.getAbsolutePath().substring(dir.length()+1, child.getAbsolutePath().length()).replaceAll("\\\\", "\\/");
+												
+												
+												files.put(fileName, Files.readAllBytes(Paths.get(child.getAbsolutePath())));
+											}
+										finished = true;
+									}
+								}
+								container.files = files;
+								BytecodeViewer.files.add(container);
 							} else {
 								if (fn.endsWith(".jar") || fn.endsWith(".zip")) {
 									try {

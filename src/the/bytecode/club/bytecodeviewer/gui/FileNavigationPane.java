@@ -14,6 +14,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -61,187 +62,156 @@ public class FileNavigationPane extends VisibleComponent implements
 
 	MyTreeNode treeRoot = new MyTreeNode("Loaded Files:");
 	MyTree tree = new MyTree(treeRoot);
+	final String quickSearchText = "Quick file search (no file extension)";
+	final JTextField quickSearch = new JTextField(quickSearchText);
 
+	public KeyAdapter search = new KeyAdapter() {
+		@Override
+		public void keyPressed(final KeyEvent ke) {
+			if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+
+				final String qt = quickSearch.getText();
+				quickSearch.setText("");
+
+				
+				String[] path = null;
+
+				if (qt.contains(".")) {
+					path = qt.split("\\.");
+					String[] path2 = new String[path.length];
+					for(int i = 0; i < path.length; i++) {
+						path2[i] = path[i];
+						if(i+2 == path.length) {
+							path2[i+1] = "." + path[i+1];
+						}
+					}
+				} else {
+					path = new String[] { qt };
+				}
+
+				MyTreeNode curNode = treeRoot;
+				if (exact.isSelected()) {
+					pathLoop: for (int i = 0; i < path.length; i++) {
+						final String pathName = path[i];
+						final boolean isLast = i == path.length - 1;
+
+						for (int c = 0; c < curNode.getChildCount(); c++) {
+							final MyTreeNode child = (MyTreeNode) curNode.getChildAt(c);
+							System.out.println(pathName +":"+((String) child.getUserObject()));
+							
+							if (((String) child.getUserObject()).equals(pathName)) {
+								curNode = child;
+								if (isLast) {
+									final TreePath pathn = new TreePath(curNode.getPath());
+									tree.setSelectionPath(pathn);
+									tree.makeVisible(pathn);
+									tree.scrollPathToVisible(pathn);
+							        openPath(pathn); //auto open
+									System.out.println("Found! " + curNode);
+									break pathLoop;
+								}
+								continue pathLoop;
+							}
+						}
+
+						System.out.println("Could not find " + pathName);
+						break;
+					}
+				} else {
+					{
+						@SuppressWarnings("unchecked")
+						Enumeration<MyTreeNode> enums = curNode.depthFirstEnumeration();
+						while (enums != null && enums.hasMoreElements()) {
+
+							MyTreeNode node = enums.nextElement();
+							if (node.isLeaf()) {
+								if (((String) (node.getUserObject())).toLowerCase().contains(path[path.length - 1].toLowerCase())) {
+									TreeNode pathArray[] = node.getPath();
+									int k = 0;
+									StringBuffer fullPath = new StringBuffer();
+									while (pathArray != null
+											&& k < pathArray.length) {
+										MyTreeNode n = (MyTreeNode) pathArray[k];
+										String s = (String) (n.getUserObject());
+										fullPath.append(s);
+										if (k++ != pathArray.length - 1) {
+											fullPath.append(".");
+										}
+									}
+									String fullPathString = fullPath.toString();
+									if (fullPathString != null && fullPathString.toLowerCase().contains(qt.toLowerCase())) {
+										System.out.println("Found! " + node);
+										final TreePath pathn = new TreePath(node.getPath());
+										tree.setSelectionPath(pathn.getParentPath());
+										tree.setSelectionPath(pathn);
+										tree.makeVisible(pathn);
+										tree.scrollPathToVisible(pathn);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+	
 	public FileNavigationPane(final FileChangeNotifier fcn) {
 		super("ClassNavigation");
-		setTitle("Files");
-
-
+		this.fcn = fcn;
 		tree.setRootVisible(false);
 		tree.setShowsRootHandles(true);
+		quickSearch.setForeground(Color.gray);
+		setTitle("Files");
 		
-		this.fcn = fcn;
-		
-		open.addActionListener(new ActionListener() {
-
+		this.open.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final TreeNode root = (TreeNode) tree.getModel().getRoot();
 				expandAll(tree, new TreePath(root), true);
 			}
-			
 		});
 		
-		close.addActionListener(new ActionListener() {
-
+		this.close.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final TreeNode root = (TreeNode) tree.getModel().getRoot();
 				expandAll(tree, new TreePath(root), false);
 				tree.expandPath(new TreePath(root));
 			}
-			
 		});
-
-		getContentPane().setLayout(new BorderLayout());
-		getContentPane().add(new JScrollPane(tree), BorderLayout.CENTER);
 		
-		MouseAdapter ml = new MouseAdapter() {
+		this.tree.addMouseListener(new MouseAdapter() {
+			@Override
 		    public void mousePressed(MouseEvent e) {
-		        TreePath path = tree.getPathForLocation(e.getX(), e.getY());
-				if (path == null)
-					return;
-				final StringBuffer nameBuffer = new StringBuffer();
-				for (int i = 2; i < path.getPathCount(); i++) {
-					nameBuffer.append(path.getPathComponent(i));
-					if (i < path.getPathCount() - 1) {
-						nameBuffer.append("/");
-					}
-				}
-				
-				String name = nameBuffer.toString();
-				if(name.endsWith(".class")) {
-					final ClassNode cn = BytecodeViewer.getClassNode(name.substring(0, name.length() - ".class".length()));
-					if (cn != null) {
-						openClassFileToWorkSpace(nameBuffer.toString(), cn);
-					}
-				} else {
-					openFileToWorkSpace(nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
-				}
+		        openPath(tree.getPathForLocation(e.getX(), e.getY()));
 		    }
-		};
-		this.tree.addMouseListener(ml);
+		});
 
 		this.tree.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(final TreeSelectionEvent arg0) {
-				final TreePath path = arg0.getPath();
-				if (((TreeNode) path.getLastPathComponent()).getChildCount() > 0)
-					return;
-				final StringBuffer nameBuffer = new StringBuffer();
-				for (int i = 1; i < path.getPathCount(); i++) {
-					nameBuffer.append(path.getPathComponent(i));
-					if (i < path.getPathCount() - 1) {
-						nameBuffer.append("/");
-					}
-				}
-				
-				String name = nameBuffer.toString();
-				if(name.endsWith(".class")) {
-					final ClassNode cn = BytecodeViewer.getClassNode(name.substring(0, name.length() - ".class".length()));
-					if (cn != null) {
-						openClassFileToWorkSpace(nameBuffer.toString(), cn);
-					}
-				} else {
-					openFileToWorkSpace(nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
-				}
+				openPath(arg0.getPath());
 			}
 		});
 		
-		final String quickSearchText = "Quick class search (no file extension)";
-
-		final JTextField quickSearch = new JTextField(quickSearchText);
-		quickSearch.setForeground(Color.gray);
-		quickSearch.addKeyListener(new KeyAdapter() {
+		this.tree.addKeyListener(new KeyListener() {
 			@Override
-			public void keyPressed(final KeyEvent ke) {
-				if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-
-					final String qt = quickSearch.getText();
-					quickSearch.setText("");
-
-					
-					String[] path = null;
-
-					if (qt.contains(".")) {
-						path = qt.split("\\.");
-						String[] path2 = new String[path.length];
-						for(int i = 0; i < path.length; i++) {
-							path2[i] = path[i];
-							if(i+2 == path.length) {
-								path2[i+1] = "." + path[i+1];
-							}
-						}
-					} else {
-						path = new String[] { qt };
+			public void keyReleased(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(arg0.getSource() instanceof MyTree) {
+				        MyTree tree = (MyTree) arg0.getSource();
+				        openPath(tree.getSelectionPath());
 					}
-
-					MyTreeNode curNode = treeRoot;
-					if (exact.isSelected()) {
-						pathLoop: for (int i = 0; i < path.length; i++) {
-							final String pathName = path[i];
-							final boolean isLast = i == path.length - 1;
-
-							for (int c = 0; c < curNode.getChildCount(); c++) {
-								final MyTreeNode child = (MyTreeNode) curNode.getChildAt(c);
-								System.out.println(pathName +":"+((String) child.getUserObject()));
-								
-								if (((String) child.getUserObject()).equals(pathName)) {
-									curNode = child;
-									if (isLast) {
-										final TreePath pathn = new TreePath(curNode.getPath());
-										tree.setSelectionPath(pathn);
-										tree.makeVisible(pathn);
-										tree.scrollPathToVisible(pathn);
-										System.out.println("Found! " + curNode);
-										break pathLoop;
-									}
-									continue pathLoop;
-								}
-							}
-
-							System.out.println("Could not find " + pathName);
-							break;
-						}
-					} else {
-						{
-							@SuppressWarnings("unchecked")
-							Enumeration<MyTreeNode> enums = curNode.depthFirstEnumeration();
-							while (enums != null && enums.hasMoreElements()) {
-	
-								MyTreeNode node = enums.nextElement();
-								if (node.isLeaf()) {
-									if (((String) (node.getUserObject())).toLowerCase().contains(path[path.length - 1].toLowerCase())) {
-										TreeNode pathArray[] = node.getPath();
-										int k = 0;
-										StringBuffer fullPath = new StringBuffer();
-										while (pathArray != null
-												&& k < pathArray.length) {
-											MyTreeNode n = (MyTreeNode) pathArray[k];
-											String s = (String) (n.getUserObject());
-											fullPath.append(s);
-											if (k++ != pathArray.length - 1) {
-												fullPath.append(".");
-											}
-										}
-										String fullPathString = fullPath.toString();
-										if (fullPathString != null && fullPathString.toLowerCase().contains(qt.toLowerCase())) {
-											System.out.println("Found! " + node);
-											final TreePath pathn = new TreePath(node.getPath());
-											tree.setSelectionPath(pathn.getParentPath());
-											tree.setSelectionPath(pathn);
-											tree.makeVisible(pathn);
-											tree.scrollPathToVisible(pathn);
-										}
-									}
-								}
-							}
-						}
-					}
-
 				}
 			}
+
+			@Override public void keyPressed(KeyEvent arg0) { }
+			@Override public void keyTyped(KeyEvent arg0) { }
 		});
+		
+		quickSearch.addKeyListener(search);
+		
 		quickSearch.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(final FocusEvent arg0) {
@@ -259,6 +229,9 @@ public class FileNavigationPane extends VisibleComponent implements
 				}
 			}
 		});
+		
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(new JScrollPane(tree), BorderLayout.CENTER);
 
 		JPanel p2 = new JPanel();
 		p2.setLayout(new BorderLayout());
@@ -518,6 +491,28 @@ public class FileNavigationPane extends VisibleComponent implements
 		tree.updateUI();
 	}
 	
+	public void openPath(TreePath path) {
+		if (path == null)
+			return;
+		final StringBuffer nameBuffer = new StringBuffer();
+		for (int i = 2; i < path.getPathCount(); i++) {
+			nameBuffer.append(path.getPathComponent(i));
+			if (i < path.getPathCount() - 1) {
+				nameBuffer.append("/");
+			}
+		}
+		
+		String name = nameBuffer.toString();
+		if(name.endsWith(".class")) {
+			final ClassNode cn = BytecodeViewer.getClassNode(name.substring(0, name.length() - ".class".length()));
+			if (cn != null) {
+				openClassFileToWorkSpace(nameBuffer.toString(), cn);
+			}
+		} else {
+			openFileToWorkSpace(nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
+		}
+	}
+	
 	/**
 	 * 
 	 * @author http://stackoverflow.com/questions/14968005
@@ -544,31 +539,33 @@ public class FileNavigationPane extends VisibleComponent implements
 		    			String name = node.toString().toLowerCase();
 		    			
 			    		if(name.endsWith(".jar")) {
-			    			setIcon(Resources.jar);
+			    			setIcon(Resources.jarIcon);
 			    		} else if(name.endsWith(".zip")) {
-			    			setIcon(Resources.zip);
+			    			setIcon(Resources.zipIcon);
 			    		} else if(name.endsWith(".bat")) {
-			    			setIcon(Resources.bat);
+			    			setIcon(Resources.batIcon);
 			    		} else if(name.endsWith(".sh")) {
-			    			setIcon(Resources.sh);
+			    			setIcon(Resources.shIcon);
 			    		} else if(name.endsWith(".cs")) {
-			    			setIcon(Resources.csharp);
+			    			setIcon(Resources.csharpIcon);
 			    		} else if(name.endsWith(".c") ||name.endsWith(".cpp") ||name.endsWith(".h")) {
-			    			setIcon(Resources.cplusplus);
+			    			setIcon(Resources.cplusplusIcon);
 			    		}  else if(name.endsWith(".apk") || name.endsWith(".dex")) {
-			    			setIcon(Resources.android);
+			    			setIcon(Resources.androidIcon);
 			    		} else if(name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".bmp") || name.endsWith(".gif")) {
-			    			setIcon(Resources.imageFile);
+			    			setIcon(Resources.imageIcon);
 			    		} else if(name.endsWith(".class")) {
-			    			setIcon(Resources.classFile);
+			    			setIcon(Resources.classIcon);
+			    		} else if(name.endsWith(".java")) {
+			    			setIcon(Resources.javaIcon);
 			    		} else if(name.endsWith(".txt") || name.endsWith(".md")) {
-			    			setIcon(Resources.textFile);
+			    			setIcon(Resources.textIcon);
 			    		} else if(name.equals("decoded resources")) {
-			    			setIcon(Resources.decoded);
+			    			setIcon(Resources.decodedIcon);
 			    		} else if(name.endsWith(".properties") || name.endsWith(".xml") || name.endsWith(".mf") || name.endsWith(".config") || name.endsWith(".cfg")) {
-			    			setIcon(Resources.config);
+			    			setIcon(Resources.configIcon);
 			    		} else if(node.getChildCount() <= 0) { //random file
-			    			setIcon(Resources.file);
+			    			setIcon(Resources.fileIcon);
 			    		} else { //folder
 			    			ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
 			    			ArrayList<TreeNode> totalNodes = new ArrayList<TreeNode>();
@@ -605,9 +602,9 @@ public class FileNavigationPane extends VisibleComponent implements
 			    			}
 			    			
 			    			if(isJava)
-			    				setIcon(Resources.packages);
+			    				setIcon(Resources.packagesIcon);
 			    			else {
-			    				setIcon(Resources.folder);
+			    				setIcon(Resources.folderIcon);
 			    			}
 			    		}
 		    		}

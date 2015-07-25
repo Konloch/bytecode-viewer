@@ -581,6 +581,13 @@ public class ClassViewer extends Viewer {
 		java2 = null;
 		java3 = null;
 
+		if(this.cn == null) {
+			panel1.add(new JLabel("This file has been removed from the reload."));
+			panel2.add(new JLabel("This file has been removed from the reload."));
+			panel3.add(new JLabel("This file has been removed from the reload."));
+			return;
+		}
+
 		if (pane1 != 0 && pane1 != 5)
 			panel1.add(panel1Search, BorderLayout.NORTH);
 		if (pane2 != 0 && pane2 != 5)

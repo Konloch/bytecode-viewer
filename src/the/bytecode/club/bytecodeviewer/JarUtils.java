@@ -230,29 +230,69 @@ public class JarUtils {
 	 * @param nodeList The loaded ClassNodes
 	 * @param path the exact jar output path
 	 */
-	public static void saveAsJar(ArrayList<ClassNode> nodeList, String path) {
+	public static void saveAsJarClassesOnly(ArrayList<ClassNode> nodeList, String path) {
 		try {
-			JarOutputStream out = new JarOutputStream(
-					new FileOutputStream(path));
+			System.out.println("zipping");
+			JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
+			ArrayList<String> noDupe = new ArrayList<String>();
 			for (ClassNode cn : nodeList) {
 				ClassWriter cw = new ClassWriter(0);
 				cn.accept(cw);
 
-				out.putNextEntry(new ZipEntry(cn.name + ".class"));
-				out.write(cw.toByteArray());
-				out.closeEntry();
+				String name = cn.name + ".class";
+				
+				if(!noDupe.contains(name)) {
+					noDupe.add(name);
+					out.putNextEntry(new ZipEntry(name));
+					out.write(cw.toByteArray());
+					out.closeEntry();
+				}
+			}
+
+			noDupe.clear();
+			out.close();
+		} catch (IOException e) {
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+		}
+	}
+
+	/**
+	 * Saves a jar without the manifest
+	 * @param nodeList The loaded ClassNodes
+	 * @param path the exact jar output path
+	 */
+	public static void saveAsJar(ArrayList<ClassNode> nodeList, String path) {
+		try {
+			JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
+			ArrayList<String> noDupe = new ArrayList<String>();
+			for (ClassNode cn : nodeList) {
+				ClassWriter cw = new ClassWriter(0);
+				cn.accept(cw);
+
+				String name = cn.name + ".class";
+				
+				if(!noDupe.contains(name)) {
+					noDupe.add(name);
+					out.putNextEntry(new ZipEntry(name));
+					out.write(cw.toByteArray());
+					out.closeEntry();
+				}
 			}
 
 			for(FileContainer container : BytecodeViewer.files)
 				for (Entry<String, byte[]> entry : container.files.entrySet()) {
 					String filename = entry.getKey();
 					if (!filename.startsWith("META-INF")) {
-						out.putNextEntry(new ZipEntry(filename));
-						out.write(entry.getValue());
-						out.closeEntry();
+						if(!noDupe.contains(filename)) {
+							noDupe.add(filename);
+							out.putNextEntry(new ZipEntry(filename));
+							out.write(entry.getValue());
+							out.closeEntry();
+						}
 					}
 				}
 
+			noDupe.clear();
 			out.close();
 		} catch (IOException e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
