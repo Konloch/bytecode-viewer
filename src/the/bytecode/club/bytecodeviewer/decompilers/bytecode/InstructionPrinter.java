@@ -19,6 +19,7 @@ import org.objectweb.asm.tree.FrameNode;
 import org.objectweb.asm.tree.IincInsnNode;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.IntInsnNode;
+import org.objectweb.asm.tree.InvokeDynamicInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LdcInsnNode;
@@ -128,6 +129,8 @@ public class InstructionPrinter {
 				line = printTableSwitchInsnNode((TableSwitchInsnNode) ain);
 			} else if (ain instanceof LookupSwitchInsnNode) {
 				line = printLookupSwitchInsnNode((LookupSwitchInsnNode) ain);
+			} else if (ain instanceof InvokeDynamicInsnNode) {
+				line = printInvokeDynamicInsNode((InvokeDynamicInsnNode) ain);
 			} else {
 				line += "UNADDED OPCODE: " + nameOpcode(ain.opcode()) + " "
 						+ ain.toString();
@@ -279,6 +282,29 @@ public class InstructionPrinter {
 		line += "                default" + " -> L" + resolveLabel(lin.dflt)
 				+ "";
 		return line;
+	}
+
+	protected String printInvokeDynamicInsNode(InvokeDynamicInsnNode idin) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(nameOpcode(idin.opcode()) + " " + idin.name + "(");
+
+		String desc = idin.desc;
+		String partedDesc = idin.desc.substring(2);
+		try {
+			if(Type.getType(partedDesc) != null)
+				desc = Type.getType(partedDesc).getClassName();
+
+			if (desc == null || desc.equals("null"))
+				desc = idin.desc;
+		} catch(java.lang.ArrayIndexOutOfBoundsException e) {
+
+		}
+
+		sb.append(desc);
+
+		sb.append(");");
+
+		return sb.toString();
 	}
 
 	protected String nameOpcode(int opcode) {
