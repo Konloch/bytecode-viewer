@@ -386,3 +386,32 @@ Changelog:
 07/16/2015 - Updated the decompiler class to make more sense.
 07/16/2015 - Started working on BCV CLI.
 07/16/2015 - Finished BCV CLI.
+--- 2.9.8 ---:
+07/19/2015 - Fixed enjarify.
+07/20/2015 - Bibl sexified the boot loading time.
+07/20/2015 - Decode APK Resources is selected by default.
+07/20/2015 - Made the security manager slightly safer, it can still be targeted but not as obviously now.
+07/20/2015 - Added CLI to the boot page.
+07/21/2015 - Added support for offline mode in case you cannot connect to github for some reason. (kicks in after 7 seconds)
+07/21/2015 - Added fatjar option back, in case anyone wants a 100% portable version.
+07/21/2015 - Made it so it now shows the decompiler it's using - http://i.imgur.com/yMEzXwv.png.
+07/21/2015 - Rewrote the file system, it now shows the path of the jar it's got loaded.
+07/21/2015 - Now it shows if the decompiler is in editable mode or not.
+07/21/2015 - Fixed Enjarify bug from new security manager.
+07/22/2015 - Fixed a typo (Thanks affffsdsd)
+07/22/2015 - Finally added icons to the File Navigator, credits to http://famfamfam.com/lab/icons/silk/ for the icons.
+07/22/2015 - JD-GUI is now the default decompiler for GUI.
+07/22/2015 - Added Set Python 3.X to the UI.
+07/22/2015 - Fixed krakatau/export as jar bug introduced by file system update.
+07/22/2015 - Sped up krakatau decompiler/disassembler on big files.
+07/22/2015 - Made it so when you press enter on the file navigation pane it opens the class.
+07/22/2015 - The Quick file search now opens the files again.
+07/23/2015 - Fixed opening single files and file folders into BCV
+07/24/2015 - Added File>Reload Resources.
+07/26/2015 - Fixed the view pane refresh after toggling a viewer, it's now flawless.
+07/26/2015 - Fixed Krakatau Disassembler.
+07/26/2015 - Mibbzz is gay once again.
+07/30/2015 - Removed Janino Compiler & moved to Javac, it can now compile decompiled classes again.
+07/30/2015 - Affssdd fixed the File Navigator Pane's Quick Class Search.
+07/30/2015 - Fixed a process leak in KrakatauDisassembler.
+07/30/2015 - Started working on converting all the decompilers to launch in their own process in an effort to reduce BCV resources (only for non-fatjar version).

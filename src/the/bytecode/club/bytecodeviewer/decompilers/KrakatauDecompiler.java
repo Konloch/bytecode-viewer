@@ -42,6 +42,17 @@ public class KrakatauDecompiler extends Decompiler {
 			BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
 			BytecodeViewer.viewer.rtC();
 		}
+
+		if(BytecodeViewer.python.equals("")) {
+			BytecodeViewer.showMessage("You need to set Python!");
+			return "Set your paths";
+		}
+
+		if(BytecodeViewer.rt.equals("")) {
+			BytecodeViewer.showMessage("You need to set RT.jar!");
+			return "Set your paths";
+		}
+		
 		String s = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
 		
 		final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
@@ -139,95 +150,12 @@ public class KrakatauDecompiler extends Decompiler {
 
 	        Process process = pb.start();
 	        BytecodeViewer.createdProcesses.add(process);
-	        
-	        //Read out dir output
-	        InputStream is = process.getInputStream();
-	        InputStreamReader isr = new InputStreamReader(is);
-	        BufferedReader br = new BufferedReader(isr);
-	        String line;
-	        while ((line = br.readLine()) != null) {
-	            System.out.println(line);
-	        }
-	        br.close();
-	        
-	        is = process.getErrorStream();
-	        isr = new InputStreamReader(is);
-	        br = new BufferedReader(isr);
-	        while ((line = br.readLine()) != null) {
-	            System.out.println(line);
-	        }
-	        br.close();
-	        
-	        int exitValue = process.waitFor();
-	        System.out.println("Exit Value is " + exitValue);
+	        process.waitFor();
 			
 	       // ZipUtils.zipDirectory(tempDirectory, new File(zipName));
 	        ZipUtils.zipFolder(tempDirectory.getAbsolutePath(), zipName, ran);
 	        
 			//tempDirectory.delete();
-			tempJar.delete();
-		} catch(Exception e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-		} finally {
-			BytecodeViewer.sm.setBlocking();
-		}
-	}
-
-	public void decompileToClass(String className, String classNameSaved) {
-		if(BytecodeViewer.python.equals("")) {
-			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-			BytecodeViewer.viewer.pythonC();
-		}
-		if(BytecodeViewer.rt.equals("")) {
-			BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
-			BytecodeViewer.viewer.rtC();
-		}
-		
-		final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
-		tempDirectory.mkdir();
-		final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp.jar");
-		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
-		
-		BytecodeViewer.sm.stopBlocking();
-		try {
-			ProcessBuilder pb = new ProcessBuilder(
-					BytecodeViewer.python,
-					"-O", //love you storyyeller <3
-					BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "decompile.py",
-					"-nauto",
-					"-path",
-					BytecodeViewer.rt+";"+tempJar.getAbsolutePath(),
-					"-out",
-					tempDirectory.getAbsolutePath(),
-					className+".class"
-			);
-
-	        Process process = pb.start();
-	        
-	        //Read out dir output
-	        InputStream is = process.getInputStream();
-	        InputStreamReader isr = new InputStreamReader(is);
-	        BufferedReader br = new BufferedReader(isr);
-	        String line;
-	        while ((line = br.readLine()) != null) {
-	            System.out.println(line);
-	        }
-	        br.close();
-
-	        is = process.getErrorStream();
-	        isr = new InputStreamReader(is);
-	        br = new BufferedReader(isr);
-	        while ((line = br.readLine()) != null) {
-	            System.out.println(line);
-	        }
-	        br.close();
-	        
-	        int exitValue = process.waitFor();
-	        System.out.println("Exit Value is " + exitValue);
-			
-			File f = new File(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + className + ".java");
-			f.renameTo(new File(classNameSaved));
-			tempDirectory.delete();
 			tempJar.delete();
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);

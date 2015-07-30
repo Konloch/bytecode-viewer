@@ -548,7 +548,10 @@ public class ClassViewer extends Viewer {
 			sp = setDividerLocation(sp, 0.5);
 		else if (pane1 != 0)
 			sp = setDividerLocation(sp, 1);
-		else
+		else if(pane2 != 0) {
+			sp.setResizeWeight(1);
+			sp = setDividerLocation(sp, 0);
+		} else
 			sp = setDividerLocation(sp, 0);
 		if (pane3 != 0) {
 			sp2.setResizeWeight(0.7);
@@ -558,6 +561,7 @@ public class ClassViewer extends Viewer {
 			else if (pane1 == 0 && pane2 == 0)
 				sp2 = setDividerLocation(sp2, 0);
 		} else {
+			sp.setResizeWeight(1);
 			sp2.setResizeWeight(0);
 			sp2 = setDividerLocation(sp2, 1);
 		}

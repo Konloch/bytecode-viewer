@@ -90,10 +90,11 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * add stackmapframes to bytecode decompiler
  * add stackmapframes remover?
  * make ez-injection plugin console show all sys.out calls
- * add JEB decompiler optionally, requires them to add jeb library jar externally and disable update check
+ * add JEB decompiler optionally, requires them to add jeb library jar externally and disable update check ?
  * add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
  * fix hook inject for EZ-Injection
  * fix classfile searcher
+ * make the decompilers launch in a separate process?
  * 
  * -----2.9.8-----:
  * 07/19/2015 - Fixed enjarify.
@@ -117,6 +118,13 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * 07/22/2015 - The Quick file search now opens the files again.
  * 07/23/2015 - Fixed opening single files and file folders into BCV
  * 07/24/2015 - Added File>Reload Resources.
+ * 07/26/2015 - Fixed the view pane refresh after toggling a viewer, it's now flawless.
+ * 07/26/2015 - Fixed Krakatau Disassembler.
+ * 07/26/2015 - Mibbzz is gay once again.
+ * 07/30/2015 - Removed Janino Compiler & moved to Javac, it can now compile decompiled classes again.
+ * 07/30/2015 - Affssdd fixed the File Navigator Pane's Quick Class Search.
+ * 07/30/2015 - Fixed a process leak in KrakatauDisassembler.
+ * 07/30/2015 - Started working on converting all the decompilers to launch in their own process in an effort to reduce BCV resources (only for non-fatjar version).
  * 
  * @author Konloch
  * 
@@ -126,7 +134,7 @@ public class BytecodeViewer {
 
 	/*per version*/
 	public static String version = "2.9.8";
-	public static boolean previewCopy = true;
+	public static boolean previewCopy = false;
 	public static boolean fatJar = false;
 	/*the rest*/
 	public static boolean verify = false; //eventually may be a setting
@@ -138,6 +146,8 @@ public class BytecodeViewer {
 	public static String python3 = "";
 	public static String rt = "";
 	public static String library = "";
+	public static String javac = "";
+	public static String java = "";
 	public static ArrayList<FileContainer> files = new ArrayList<FileContainer>(); //all of BCV's loaded files/classes/etc
 	private static int maxRecentFiles = 25;
 	public static String fs = System.getProperty("file.separator");
@@ -568,7 +578,33 @@ public class BytecodeViewer {
 	public static void exit(int i) {
 		
 	}
-
+	
+	/**
+	 * Returns the java command it can use to launch the decompilers
+	 * @return
+	 */
+	public static String getJavaCommand() {
+		try {
+			sm.stopBlocking();
+			ProcessBuilder pb = new ProcessBuilder("java", "-version");
+			Process p = pb.start();
+			sm.setBlocking();
+			if(p != null)
+				return "java"; //java is set
+		} catch(Exception e) { //ignore
+			sm.setBlocking();
+			boolean empty = java.isEmpty();
+			while(empty) {
+				showMessage("You need to set your Java path, this requires the JRE to be downloaded."+BytecodeViewer.nl+
+							"(C:/programfiles/Java/JRE_xx/bin/javac.exe)");
+				viewer.java();
+				if(!java.isEmpty())
+					empty = false;
+			}
+		}
+		return java;
+	}
+	
 	/**
 	 * Returns the currently opened ClassNode
 	 * @return the currently opened ClassNode
@@ -639,6 +675,7 @@ public class BytecodeViewer {
 	 * @return true if no errors, false if it failed to compile.
 	 */
 	public static boolean compile(boolean message) {
+		BytecodeViewer.viewer.setIcon(true);
 		boolean actuallyTried = false;
 		
 		for(java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers()) {
@@ -659,6 +696,7 @@ public class BytecodeViewer {
 							BytecodeViewer.updateNode(origNode, newNode);
 						} else {
 							BytecodeViewer.showMessage("There has been an error with assembling your Smali code, please check this. Class: " + origNode.name);
+							BytecodeViewer.viewer.setIcon(false);
 							return false;
 						}
 					}
@@ -680,6 +718,7 @@ public class BytecodeViewer {
 							BytecodeViewer.updateNode(origNode, newNode);
 						} else {
 							BytecodeViewer.showMessage("There has been an error with assembling your Krakatau Bytecode, please check this. Class: " + origNode.name);
+							BytecodeViewer.viewer.setIcon(false);
 							return false;
 						}
 					}
@@ -694,10 +733,10 @@ public class BytecodeViewer {
 					if(java != null) {
 						ClassNode origNode = (ClassNode) java[0];
 						String javaText = (String) java[1];
-						
+
 						SystemErrConsole errConsole = new SystemErrConsole("Java Compile Issues");
 						errConsole.setText("Error compiling class: " + origNode.name + nl + "Keep in mind most decompilers cannot produce compilable classes"+nl+nl);
-						
+
 						byte[] javaCompiled = the.bytecode.club.bytecodeviewer.compilers.Compiler.java.compile(javaText, origNode.name);
 						if(javaCompiled != null) {
 							ClassNode newNode = JarUtils.getNode(javaCompiled);
@@ -707,6 +746,7 @@ public class BytecodeViewer {
 							errConsole.pretty();
 							errConsole.setVisible(true);
 							errConsole.finished();
+							BytecodeViewer.viewer.setIcon(false);
 							return false;
 						}
 					}
@@ -720,6 +760,7 @@ public class BytecodeViewer {
 			else
 				BytecodeViewer.showMessage("You have no editable panes opened, make one editable and try again.");
 		
+		BytecodeViewer.viewer.setIcon(false);
 		return true;
 	}
 	
@@ -1181,7 +1222,12 @@ public class BytecodeViewer {
         	BytecodeViewer.resetWorkSpace(true);
         } else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
         	last = System.currentTimeMillis();
-        	BytecodeViewer.compile(true);
+        	Thread t = new Thread() {
+        		public void run() {
+                	BytecodeViewer.compile(true);
+        		}
+        	};
+        	t.start();
         } else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
         	last = System.currentTimeMillis();
 			if(BytecodeViewer.getLoadedClasses().isEmpty()) {
@@ -1196,62 +1242,68 @@ public class BytecodeViewer {
 				BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
 				return;
 			}
-			if(viewer.autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
-				return;
-			JFileChooser fc = new JFileChooser();
-			fc.setFileFilter(new FileFilter() {
-				@Override
-				public boolean accept(File f) {
-					return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
-				}
-
-				@Override
-				public String getDescription() {
-					return "Zip Archives";
-				}
-			});
-			fc.setFileHidingEnabled(false);
-			fc.setAcceptAllFileFilterUsed(false);
-			int returnVal = fc.showSaveDialog(viewer);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File file = fc.getSelectedFile();
-				if(!file.getAbsolutePath().endsWith(".zip"))
-					file = new File(file.getAbsolutePath()+".zip");
-				
-				if(file.exists()) {
-					JOptionPane pane = new JOptionPane(
-							"Are you sure you wish to overwrite this existing file?");
-					Object[] options = new String[] { "Yes", "No" };
-					pane.setOptions(options);
-					JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-							"Bytecode Viewer - Overwrite File");
-					dialog.setVisible(true);
-					Object obj = pane.getValue();
-					int result = -1;
-					for (int k = 0; k < options.length; k++)
-						if (options[k].equals(obj))
-							result = k;
-
-					if (result == 0) {
-						file.delete();
-					} else {
+			
+			Thread t = new Thread() {
+				public void run() {
+					if(viewer.autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
 						return;
+					JFileChooser fc = new JFileChooser();
+					fc.setFileFilter(new FileFilter() {
+						@Override
+						public boolean accept(File f) {
+							return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
+						}
+
+						@Override
+						public String getDescription() {
+							return "Zip Archives";
+						}
+					});
+					fc.setFileHidingEnabled(false);
+					fc.setAcceptAllFileFilterUsed(false);
+					int returnVal = fc.showSaveDialog(viewer);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						if(!file.getAbsolutePath().endsWith(".zip"))
+							file = new File(file.getAbsolutePath()+".zip");
+						
+						if(file.exists()) {
+							JOptionPane pane = new JOptionPane(
+									"Are you sure you wish to overwrite this existing file?");
+							Object[] options = new String[] { "Yes", "No" };
+							pane.setOptions(options);
+							JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
+									"Bytecode Viewer - Overwrite File");
+							dialog.setVisible(true);
+							Object obj = pane.getValue();
+							int result = -1;
+							for (int k = 0; k < options.length; k++)
+								if (options[k].equals(obj))
+									result = k;
+
+							if (result == 0) {
+								file.delete();
+							} else {
+								return;
+							}
+						}
+						
+						final File file2 = file;
+						
+						BytecodeViewer.viewer.setIcon(true);
+						Thread t = new Thread() {
+							@Override
+							public void run() {
+								JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
+										file2.getAbsolutePath());
+								BytecodeViewer.viewer.setIcon(false);
+							}
+						};
+						t.start();
 					}
 				}
-				
-				final File file2 = file;
-				
-				BytecodeViewer.viewer.setIcon(true);
-				Thread t = new Thread() {
-					@Override
-					public void run() {
-						JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
-								file2.getAbsolutePath());
-						BytecodeViewer.viewer.setIcon(false);
-					}
-				};
-				t.start();
-			}
+			};
+			t.start();
         } else if ((e.getKeyCode() == KeyEvent.VK_W) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
         	last = System.currentTimeMillis();
         	if(viewer.workPane.getCurrentViewer() != null)

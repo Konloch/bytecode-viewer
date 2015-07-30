@@ -1,9 +1,6 @@
 package the.bytecode.club.bytecodeviewer;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  * A simple wrapper for Enjarify.
@@ -25,6 +22,11 @@ public class Enjarify {
 			BytecodeViewer.viewer.pythonC3();
 		}
 		
+		if(BytecodeViewer.python3.equals("")) {
+			BytecodeViewer.showMessage("You need to set Python!");
+			return;
+		}
+		
 		BytecodeViewer.sm.stopBlocking();
 		try {
 			ProcessBuilder pb = new ProcessBuilder(
@@ -38,35 +40,14 @@ public class Enjarify {
 			);
 
 			pb.directory(new File(BytecodeViewer.enjarifyWorkingDirectory));
-			
 	        Process process = pb.start();
 	        BytecodeViewer.createdProcesses.add(process);
+	        process.waitFor();
 	        
-	        //Read out dir output
-	        InputStream is = process.getInputStream();
-	        InputStreamReader isr = new InputStreamReader(is);
-	        BufferedReader br = new BufferedReader(isr);
-	        String line;
-	        while ((line = br.readLine()) != null) {
-	            System.out.println(line);
-	        }
-	        br.close();
-	        
-	        is = process.getErrorStream();
-	        isr = new InputStreamReader(is);
-	        br = new BufferedReader(isr);
-	        while ((line = br.readLine()) != null) {
-	            System.out.println(line);
-	        }
-	        br.close();
-	        
-	        int exitValue = process.waitFor();
-	        System.out.println("Exit Value is " + exitValue);
-			
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+		} finally {
+			BytecodeViewer.sm.setBlocking();
 		}
-		
-		BytecodeViewer.sm.setBlocking();
 	}
 }

@@ -24,17 +24,20 @@ public class KrakatauAssembler extends Compiler {
 			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
 			BytecodeViewer.viewer.pythonC();
 		}
+		
+		if(BytecodeViewer.python.equals("")) {
+			BytecodeViewer.showMessage("You need to set Python!");
+			return null;
+		}
 
 		String origName = name;
 		name = MiscUtils.randomString(20);
 
-		System.out.println("run");
 		File tempD = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
 		tempD.mkdir();
 		
 		File tempJ = new File(tempD.getAbsolutePath() + BytecodeViewer.fs+name+".j");
 		DiskWriter.replaceFile(tempJ.getAbsolutePath(), contents, true);
-		System.out.println("ran");
 		
 		final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
 		tempDirectory.mkdir();
@@ -77,7 +80,7 @@ public class KrakatauAssembler extends Compiler {
 	        
 	        int exitValue = process.waitFor();
 	        log += BytecodeViewer.nl+BytecodeViewer.nl+"Exit Value is " + exitValue;
-	        System.out.println(log);
+	        //System.out.println(log);
 
 			byte[] b = org.apache.commons.io.FileUtils.readFileToByteArray(new File(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + origName + ".class"));
 			tempDirectory.delete();

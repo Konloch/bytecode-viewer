@@ -98,6 +98,7 @@ public class ExceptionUI extends JFrame {
 		getContentPane().add(new JScrollPane(txtrBytecodeViewerIs),
 				"name_140466576080695");
 		txtrBytecodeViewerIs.setText(e);
+		System.err.println(e);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}

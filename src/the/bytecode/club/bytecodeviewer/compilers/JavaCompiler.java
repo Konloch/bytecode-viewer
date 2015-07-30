@@ -1,7 +1,10 @@
 package the.bytecode.club.bytecodeviewer.compilers;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -26,21 +29,77 @@ public class JavaCompiler extends Compiler {
 		File cp = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "cpath_"+MiscUtils.randomString(12)+".jar");
 		File tempD = new File(fileStart + BytecodeViewer.fs + name.substring(0,name.length() - name.split("/")[name.split("/").length-1].length()));
 		tempD.mkdirs();
+		new File(fileStart2).mkdirs();
+
+		if(BytecodeViewer.javac.equals("")) {
+			BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded."+BytecodeViewer.nl+"(C:/programfiles/Java/JRE_xx/bin/javac.exe)");
+			BytecodeViewer.viewer.javac();
+		}
 		
+		if(BytecodeViewer.javac.equals("")) {
+			BytecodeViewer.showMessage("You need to set Javac!");
+			return null;
+		}
 		
 		DiskWriter.replaceFile(java.getAbsolutePath(), contents, false);
 		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), cp.getAbsolutePath());
 
 		boolean cont = true;
+		BytecodeViewer.sm.stopBlocking();
 		try {
-			org.codehaus.janino.Compiler.BCV(new String[]{
-					"-d", fileStart2,
-					"-classpath", cp.getAbsolutePath(),
-					java.getAbsolutePath()
-			});
+			String log = "";
+			ProcessBuilder pb;
+			
+			if(BytecodeViewer.library.isEmpty()) {
+				pb = new ProcessBuilder(
+						BytecodeViewer.javac,
+						"-d", fileStart2,
+						"-classpath", cp.getAbsolutePath(),
+						java.getAbsolutePath()
+				);
+			} else {
+				pb = new ProcessBuilder(
+						BytecodeViewer.javac,
+						"-d", fileStart2,
+						"-classpath", cp.getAbsolutePath()+";"+BytecodeViewer.library,
+						java.getAbsolutePath()
+				);
+			}
+			
+	        Process process = pb.start();
+	        BytecodeViewer.createdProcesses.add(process);
+	        
+	        //Read out dir output
+	        InputStream is = process.getInputStream();
+	        InputStreamReader isr = new InputStreamReader(is);
+	        BufferedReader br = new BufferedReader(isr);
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            log += BytecodeViewer.nl + line;
+	        }
+	        br.close();
+	        
+	        log += BytecodeViewer.nl+BytecodeViewer.nl+"Error:"+BytecodeViewer.nl+BytecodeViewer.nl;
+	        is = process.getErrorStream();
+	        isr = new InputStreamReader(is);
+	        br = new BufferedReader(isr);
+	        while ((line = br.readLine()) != null) {
+	            log += BytecodeViewer.nl + line;
+	        }
+	        br.close();
+	        
+	        int exitValue = process.waitFor();
+	        log += BytecodeViewer.nl+BytecodeViewer.nl+"Exit Value is " + exitValue;
+	        System.out.println(log);
+	        
+	        if(!clazz.exists())
+	        	throw new Exception(log);
+	        
 		} catch(Exception e) {
 			cont = false;
+			e.printStackTrace();
 		}
+		BytecodeViewer.sm.setBlocking();
 
 		cp.delete();
 		

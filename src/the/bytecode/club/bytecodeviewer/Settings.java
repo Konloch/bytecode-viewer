@@ -195,6 +195,8 @@ public class Settings {
 			 else if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
 				 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "1", false);
 			 DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.python3, false);
+			 DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.javac, false);
+			 DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.java, false);
 		} catch(Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
@@ -389,6 +391,8 @@ public class Settings {
 			else if(decompiler == 1)
 				BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel(), true);
 			BytecodeViewer.python3 = DiskReader.loadString(BytecodeViewer.settingsName, 115, false);
+			BytecodeViewer.javac = DiskReader.loadString(BytecodeViewer.settingsName, 116, false);
+			BytecodeViewer.java = DiskReader.loadString(BytecodeViewer.settingsName, 117, false);
 		} catch(Exception e) {
 			//ignore because errors are expected, first start up and outdated settings.
 			//e.printStackTrace();

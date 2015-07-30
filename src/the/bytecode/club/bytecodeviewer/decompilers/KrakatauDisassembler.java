@@ -30,6 +30,12 @@ public class KrakatauDisassembler extends Decompiler {
 			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
 			BytecodeViewer.viewer.pythonC();
 		}
+		
+		if(BytecodeViewer.python.equals("")) {
+			BytecodeViewer.showMessage("You need to set Python!");
+			return "Set your paths";
+		}
+		
 		String s = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
 		
 		final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
@@ -119,27 +125,7 @@ public class KrakatauDisassembler extends Decompiler {
 
 	        Process process = pb.start();
 	        BytecodeViewer.createdProcesses.add(process);
-	        
-	        //Read out dir output
-	        InputStream is = process.getInputStream();
-	        InputStreamReader isr = new InputStreamReader(is);
-	        BufferedReader br = new BufferedReader(isr);
-	        String line;
-	        while ((line = br.readLine()) != null) {
-	            System.out.println(line);
-	        }
-	        br.close();
-	        
-	        is = process.getErrorStream();
-	        isr = new InputStreamReader(is);
-	        br = new BufferedReader(isr);
-	        while ((line = br.readLine()) != null) {
-	            System.out.println(line);
-	        }
-	        br.close();
-	        
-	        int exitValue = process.waitFor();
-	        System.out.println("Exit Value is " + exitValue);
+	        process.waitFor();
 			
 	       // ZipUtils.zipDirectory(tempDirectory, new File(zipName));
 	        ZipUtils.zipFolder(tempDirectory.getAbsolutePath(), zipName, ran);

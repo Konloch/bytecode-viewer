@@ -16,11 +16,14 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import me.konloch.kontainer.io.DiskReader;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
+import the.bytecode.club.bytecodeviewer.Resources;
 
 /**
  * CFR Java Wrapper
@@ -48,8 +51,24 @@ public class CFRDecompiler extends Decompiler {
 		}
 
 		String fuckery = fuckery(fileStart);
-		org.benf.cfr.reader.Main.main(generateMainMethod(
-				tempClass.getAbsolutePath(), fuckery));
+		/*if(!BytecodeViewer.fatJar) {
+			try {
+				ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
+							new String[]{BytecodeViewer.getJavaCommand(),"-jar",Resources.findLibrary("cfr")},
+							generateMainMethod(tempClass.getAbsolutePath(), fuckery)
+				));
+				BytecodeViewer.sm.stopBlocking();
+				Process p = pb.start();
+				BytecodeViewer.createdProcesses.add(p);
+				p.waitFor();
+			} catch(Exception e) {
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			} finally {
+				BytecodeViewer.sm.setBlocking();
+			}
+		} else {*/
+			org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
+		//}
 
 		tempClass.delete();
 

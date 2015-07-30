@@ -13,6 +13,8 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import me.konloch.kontainer.io.DiskWriter;
+
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
@@ -42,11 +44,11 @@ public class JarUtils {
 		while ((entry = jis.getNextEntry()) != null) {
 			try {
 				final String name = entry.getName();
+				final byte[] bytes = getBytes(jis);
 				if (!name.endsWith(".class")) {
 					if(!entry.isDirectory())
-						files.put(name, getBytes(jis));
+						files.put(name, bytes);
 				} else {
-					byte[] bytes = getBytes(jis);
 					String cafebabe = String.format("%02X", bytes[0])
 							+ String.format("%02X", bytes[1])
 							+ String.format("%02X", bytes[2])
@@ -232,7 +234,6 @@ public class JarUtils {
 	 */
 	public static void saveAsJarClassesOnly(ArrayList<ClassNode> nodeList, String path) {
 		try {
-			System.out.println("zipping");
 			JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
 			ArrayList<String> noDupe = new ArrayList<String>();
 			for (ClassNode cn : nodeList) {
@@ -252,6 +253,28 @@ public class JarUtils {
 			noDupe.clear();
 			out.close();
 		} catch (IOException e) {
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+		}
+	}
+
+	/**
+	 * Saves a jar without the manifest
+	 * @param nodeList The loaded ClassNodes
+	 * @param path the exact jar output path
+	 */
+	public static void saveAsJarClassesOnlyToDir(ArrayList<ClassNode> nodeList, String dir) {
+		try {
+			for (ClassNode cn : nodeList) {
+				ClassWriter cw = new ClassWriter(0);
+				cn.accept(cw);
+
+				String name = dir + BytecodeViewer.fs + cn.name + ".class";
+				File f = new File(name);
+				f.mkdirs();
+				
+				DiskWriter.replaceFile(name, cw.toByteArray(), false);
+			}
+		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
 	}

@@ -20,10 +20,15 @@ public class SecurityMan extends SecurityManager {
 	public void stopBlocking() { //slightly safer security system than just a public static boolean being toggled
 		String executedClass = Thread.currentThread().getStackTrace()[2].getClassName();
 		if(	executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.KrakatauDecompiler") ||
-			executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.KrakatauDisassambler") ||
+			executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.KrakatauDisassembler") ||
+			executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.CFRDecompiler") ||
+			executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.ProcyonDecompiler") ||
+			executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.FernFlowerDecompiler") ||
+			executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.JDGUIDecompiler") ||
 			executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.KrakatauAssembler") ||
 			executedClass.equals("the.bytecode.club.bytecodeviewer.Enjarify") ||
-			executedClass.equals("the.bytecode.club.bytecodeviewer.BytecodeViewer"))
+			executedClass.equals("the.bytecode.club.bytecodeviewer.BytecodeViewer") ||
+			executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.JavaCompiler"))
 		{
 			blocking = false;
 		} else for(StackTraceElement stackTraceElements : Thread.currentThread().getStackTrace()) {
@@ -38,7 +43,8 @@ public class SecurityMan extends SecurityManager {
 		String[] whitelist = {
 			"attrib",
 			"python",
-			"pypy"
+			"pypy",
+			"java"
 		};
 		boolean allow = false;
 		

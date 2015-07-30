@@ -143,30 +143,35 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 	
 	@Override
 	public void actionPerformed(final ActionEvent arg0) {
-		if(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected())
-			try {
-				if(!BytecodeViewer.compile(false))
-					return;
-			} catch(java.lang.NullPointerException e) {
-				
-			}
-		final JButton src = (JButton) arg0.getSource();
-		if (src == refreshClass) {
-			final Component tabComp = tabs.getSelectedComponent();
-			if (tabComp != null) {
-				if(tabComp instanceof ClassViewer) {
-					src.setEnabled(false);
-					BytecodeViewer.viewer.setIcon(true);
-					((ClassViewer) tabComp).startPaneUpdater(src);
-					BytecodeViewer.viewer.setIcon(false);
-				} else if(tabComp instanceof FileViewer) {
-					src.setEnabled(false);
-					BytecodeViewer.viewer.setIcon(true);
-					((FileViewer) tabComp).refresh(src);
-					BytecodeViewer.viewer.setIcon(false);
+		Thread t = new Thread() {
+			public void run() {
+				if(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected())
+					try {
+						if(!BytecodeViewer.compile(false))
+							return;
+					} catch(java.lang.NullPointerException e) {
+						
+					}
+				final JButton src = (JButton) arg0.getSource();
+				if (src == refreshClass) {
+					final Component tabComp = tabs.getSelectedComponent();
+					if (tabComp != null) {
+						if(tabComp instanceof ClassViewer) {
+							src.setEnabled(false);
+							BytecodeViewer.viewer.setIcon(true);
+							((ClassViewer) tabComp).startPaneUpdater(src);
+							BytecodeViewer.viewer.setIcon(false);
+						} else if(tabComp instanceof FileViewer) {
+							src.setEnabled(false);
+							BytecodeViewer.viewer.setIcon(true);
+							((FileViewer) tabComp).refresh(src);
+							BytecodeViewer.viewer.setIcon(false);
+						}
+					}
 				}
 			}
-		}
+		};
+		t.start();
 	}
 
 	public void resetWorkspace() {

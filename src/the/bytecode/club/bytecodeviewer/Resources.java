@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -96,6 +97,15 @@ public class Resources {
 		}
 
 		return image;
+	}
+	
+	public static String findLibrary(String nameContains) {
+		for(File f : new File(BytecodeViewer.libsDirectory).listFiles()) {
+			if(f.getName().contains(nameContains))
+				return f.getAbsolutePath();
+		}
+		
+		return null;
 	}
 	
 }
