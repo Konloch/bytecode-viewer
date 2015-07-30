@@ -48,6 +48,7 @@ import the.bytecode.club.bytecodeviewer.*;
  * 
  * @author Konloch
  * @author WaterWolf
+ * @author afffsdd
  *
  */
 
@@ -64,6 +65,7 @@ public class FileNavigationPane extends VisibleComponent implements
 	MyTree tree = new MyTree(treeRoot);
 	final String quickSearchText = "Quick file search (no file extension)";
 	final JTextField quickSearch = new JTextField(quickSearchText);
+	boolean cancel = false;
 
 	public KeyAdapter search = new KeyAdapter() {
 		@Override
@@ -191,6 +193,10 @@ public class FileNavigationPane extends VisibleComponent implements
 		this.tree.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(final TreeSelectionEvent arg0) {
+				if (cancel) {
+					cancel = false;
+					return;
+				}
 				openPath(arg0.getPath());
 			}
 		});
@@ -203,11 +209,24 @@ public class FileNavigationPane extends VisibleComponent implements
 				        MyTree tree = (MyTree) arg0.getSource();
 				        openPath(tree.getSelectionPath());
 					}
+				} else {
+					cancel = true;
 				}
 			}
 
-			@Override public void keyPressed(KeyEvent arg0) { }
-			@Override public void keyTyped(KeyEvent arg0) { }
+			@Override
+			public void keyTyped(KeyEvent e) {
+				quickSearch.grabFocus();
+				quickSearch.setText("" + e.getKeyChar()); // fuck
+				cancel = true;
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				quickSearch.grabFocus();
+				quickSearch.setText("" + e.getKeyChar()); // fuck
+				cancel = true;
+			}
 		});
 		
 		quickSearch.addKeyListener(search);
