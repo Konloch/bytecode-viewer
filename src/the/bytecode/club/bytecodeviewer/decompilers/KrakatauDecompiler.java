@@ -140,6 +140,7 @@ public class KrakatauDecompiler extends Decompiler {
 					BytecodeViewer.python,
 					"-O", //love you storyyeller <3
 					BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "decompile.py",
+					"-skip", //love you storyyeller <3
 					"-nauto",
 					"-path",
 					BytecodeViewer.rt+";"+tempJar.getAbsolutePath(),

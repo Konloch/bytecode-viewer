@@ -83,6 +83,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * Make the tabs menu and middle mouse button click work on the tab itself not just the close button.
  * 
  * before 3.0.0:
+ * EVERYTHING ON THE FUCKING GITHUB ISSUES LOL
  * make it use that global last used inside of export as jar
  * Spiffy up the plugin console with hilighted lines
  * Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
@@ -98,7 +99,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * 
  * -----2.9.9-----:
  * 08/01/2015 - Fixed a pingback concurrency exception issue.
- * 08/01/2015 - Fixed a typo for FernFlower decompiler.
+ * 08/03/2015 - Fixed a typo for FernFlower decompiler.
  * 
  * @author Konloch
  * 
