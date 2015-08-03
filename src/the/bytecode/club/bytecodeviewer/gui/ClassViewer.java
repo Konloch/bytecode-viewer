@@ -946,7 +946,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler - Editable: " + panelArea.isEditable()));
+						scrollPane.setColumnHeaderView(new JLabel("FernFlower Decompiler - Editable: " + panelArea.isEditable()));
 						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
@@ -1197,7 +1197,7 @@ public class ClassViewer extends Viewer {
 							@Override public void keyReleased(KeyEvent arg0) { }
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
-						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler - Editable: " + panelArea.isEditable()));
+						scrollPane.setColumnHeaderView(new JLabel("FernFlower Decompiler - Editable: " + panelArea.isEditable()));
 						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
