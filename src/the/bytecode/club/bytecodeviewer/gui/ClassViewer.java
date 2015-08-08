@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BoxView;
 import javax.swing.text.ComponentView;
@@ -48,6 +49,24 @@ import com.jhe.hexed.JHexEditor;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
 
 /**
  * This represents the opened classfile.
@@ -620,7 +639,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.procyon.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(isPanel1Editable());
@@ -637,8 +656,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Procyon Decompiler - Editable: " + panelArea.isEditable()));
-						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+						
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel1.add(scrollPane);
+							}
+						});
 						
 						java1 = panelArea;
 					}
@@ -648,7 +672,7 @@ public class ClassViewer extends Viewer {
 						panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.cfr.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(isPanel1Editable());
@@ -664,8 +688,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler - Editable: " + panelArea.isEditable()));
-						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel1.add(scrollPane);
+							}
+						});
 						
 						java1 = panelArea;
 					}
@@ -676,7 +705,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(isPanel1Editable());
@@ -692,8 +721,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("FernFlower Decompiler - Editable: " + panelArea.isEditable()));
-						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+						
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel1.add(scrollPane);
+							}
+						});
 						
 						java1 = panelArea;
 					}
@@ -704,7 +738,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(
+						final RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
 						panelArea.setText(Decompiler.bytecode.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
@@ -721,17 +755,27 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Bytecode Decompiler - Editable: " + panelArea.isEditable()));
-						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+						
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel1.add(scrollPane);
+							}
+						});
 						
 					}
 
 					if (pane1 == 5) {// hex
 						final ClassWriter cw = new ClassWriter(0);
 						cn.accept(cw);
-						JHexEditor hex = new JHexEditor(cw.toByteArray());
-						panel1.add(hex);
+						final JHexEditor hex = new JHexEditor(cw.toByteArray());
 						hex.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel1.add(hex);
+							}
+						});
 					}
 
 					if (pane1 == 6) {//smali bytecode
@@ -740,7 +784,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(
+						final RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
 						panelArea.setText(Decompiler.smali.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
@@ -758,8 +802,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Smali Decompiler - Editable: " + panelArea.isEditable()));
-						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel1.add(scrollPane);
+							}
+						});
 						
 					}
 
@@ -769,7 +818,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(
+						final RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
 						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
@@ -786,8 +835,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Krakatau Decompiler - Editable: " + panelArea.isEditable()));
-						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+						
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel1.add(scrollPane);
+							}
+						});
 						
 						java1 = panelArea;
 					}
@@ -800,7 +854,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(
+						final RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
 						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
@@ -818,8 +872,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Krakatau Disassembler - Editable: " + panelArea.isEditable()));
-						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel1.add(scrollPane);
+							}
+						});
 						
 					}
 
@@ -829,7 +888,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(
+						final RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
 						panelArea.setText(Decompiler.jdgui.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
@@ -846,8 +905,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("JD-GUI Decompiler - Editable: " + panelArea.isEditable()));
-						panel1.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel1.add(scrollPane);
+							}
+						});
 						
 						java1 = panelArea;
 					}
@@ -875,7 +939,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.procyon.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(isPanel2Editable());
@@ -891,8 +955,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Procyon Decompiler - Editable: " + panelArea.isEditable()));
-						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel2.add(scrollPane);
+							}
+						});
 						
 						java2 = panelArea;
 					}
@@ -903,7 +972,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.cfr.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(isPanel2Editable());
@@ -919,8 +988,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler - Editable: " + panelArea.isEditable()));
-						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel2.add(scrollPane);
+							}
+						});
 						
 						java2 = panelArea;
 					}
@@ -931,7 +1005,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(isPanel2Editable());
@@ -947,8 +1021,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("FernFlower Decompiler - Editable: " + panelArea.isEditable()));
-						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel2.add(scrollPane);
+							}
+						});
 						
 						java2 = panelArea;
 					}
@@ -958,7 +1037,7 @@ public class ClassViewer extends Viewer {
 						panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.bytecode.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
@@ -974,18 +1053,27 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Bytecode Decompiler - Editable: " + panelArea.isEditable()));
-						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel2.add(scrollPane);
+							}
+						});
 						
 					}
 
 					if (pane2 == 5) {
 						final ClassWriter cw = new ClassWriter(0);
 						cn.accept(cw);
-						JHexEditor hex = new JHexEditor(cw.toByteArray());
-						panel2.add(hex);
+						final JHexEditor hex = new JHexEditor(cw.toByteArray());
 						hex.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
-						
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel2.add(hex);
+							}
+						});
 					}
 
 					if (pane2 == 6) {
@@ -993,7 +1081,7 @@ public class ClassViewer extends Viewer {
 						panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.smali.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(isPanel2Editable());
@@ -1010,8 +1098,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Smali Decompiler - Editable: " + panelArea.isEditable()));
-						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel2.add(scrollPane);
+							}
+						});
 						
 					}
 
@@ -1021,7 +1114,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(
+						final RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
 						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
@@ -1038,8 +1131,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Krakatau Decompiler - Editable: " + panelArea.isEditable()));
-						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel2.add(scrollPane);
+							}
+						});
 						
 						java2 = panelArea;
 					}
@@ -1050,7 +1148,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(
+						final RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
 						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
@@ -1068,8 +1166,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Krakatau Disassembler"));
-						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel2.add(scrollPane);
+							}
+						});
 						
 					}
 
@@ -1079,7 +1182,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(
+						final RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
 						panelArea.setText(Decompiler.jdgui.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
@@ -1096,8 +1199,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("JD-GUI Decompiler - Editable: " + panelArea.isEditable()));
-						panel2.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel2.add(scrollPane);
+							}
+						});
 						
 						java2 = panelArea;
 					}
@@ -1126,7 +1234,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.procyon.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(isPanel3Editable());
@@ -1142,8 +1250,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Procyon Decompiler - Editable: " + panelArea.isEditable()));
-						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel3.add(scrollPane);
+							}
+						});
 						
 						java3 = panelArea;
 					}
@@ -1154,7 +1267,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.cfr.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(isPanel3Editable());
@@ -1170,8 +1283,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("CFR Decompiler - Editable: " + panelArea.isEditable()));
-						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel3.add(scrollPane);
+							}
+						});
 						
 						java3 = panelArea;
 					}
@@ -1182,7 +1300,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.fernflower.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(isPanel3Editable());
@@ -1198,8 +1316,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("FernFlower Decompiler - Editable: " + panelArea.isEditable()));
-						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel3.add(scrollPane);
+							}
+						});
 						
 						java3 = panelArea;
 					}
@@ -1209,7 +1332,7 @@ public class ClassViewer extends Viewer {
 						panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.bytecode.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(false);
@@ -1225,17 +1348,26 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Bytecode Decompiler - Editable: " + panelArea.isEditable()));
-						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel3.add(scrollPane);
+							}
+						});
 					}
 
 					if (pane3 == 5) {
 						final ClassWriter cw = new ClassWriter(0);
 						cn.accept(cw);
-						JHexEditor hex = new JHexEditor(cw.toByteArray());
-						panel3.add(hex);
+						final JHexEditor hex = new JHexEditor(cw.toByteArray());
 						hex.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel3.add(hex);
+							}
+						});
 						
 					}
 
@@ -1244,7 +1376,7 @@ public class ClassViewer extends Viewer {
 						panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+						final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
 						panelArea.setText(Decompiler.smali.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
 						panelArea.setEditable(isPanel3Editable());
@@ -1261,8 +1393,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Smali Decompiler - Editable: " + panelArea.isEditable()));
-						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel3.add(scrollPane);
+							}
+						});
 						
 					}
 
@@ -1272,7 +1409,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(
+						final RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
 						panelArea.setText(Decompiler.krakatau.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
@@ -1289,10 +1426,14 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Krakatau Decompiler - Editable: " + panelArea.isEditable()));
-						panel3.add(scrollPane);
 						java3 = panelArea;
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
-						
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel3.add(scrollPane);
+							}
+						});
 					}
 					
 					if (pane3 == 8) {// kraktau bytecode
@@ -1301,7 +1442,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(
+						final RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
 						panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
@@ -1319,8 +1460,13 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("Krakatau Disassembler"));
-						panel3.add(scrollPane);
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
+
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel3.add(scrollPane);
+							}
+						});
 						
 					}
 
@@ -1330,7 +1476,7 @@ public class ClassViewer extends Viewer {
 						.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						panelArea.setCodeFoldingEnabled(true);
 						panelArea.setAntiAliasingEnabled(true);
-						RTextScrollPane scrollPane = new RTextScrollPane(
+						final RTextScrollPane scrollPane = new RTextScrollPane(
 								panelArea);
 						panelArea.setText(Decompiler.jdgui.decompileClassNode(cn,b));
 						panelArea.setCaretPosition(0);
@@ -1347,10 +1493,14 @@ public class ClassViewer extends Viewer {
 							@Override public void keyTyped(KeyEvent arg0) { }  
 						});
 						scrollPane.setColumnHeaderView(new JLabel("JD-GUI Decompiler - Editable: " + panelArea.isEditable()));
-						panel3.add(scrollPane);
 						java3 = panelArea;
 						panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int)BytecodeViewer.viewer.fontSpinner.getValue()));
 						
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								panel3.add(scrollPane);
+							}
+						});
 					}
 				} catch(java.lang.IndexOutOfBoundsException  | java.lang.NullPointerException e) {
 					//ignore

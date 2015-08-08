@@ -48,6 +48,24 @@ import the.bytecode.club.bytecodeviewer.gui.WorkPane;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
 /**
  * A lightweight Java Reverse Engineering suite, developed by Konloch - http://konloch.me
  * 
@@ -100,6 +118,11 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * -----2.9.9-----:
  * 08/01/2015 - Fixed a pingback concurrency exception issue.
  * 08/03/2015 - Fixed a typo for FernFlower decompiler.
+ * 08/03/2015 - Fixed an issue with Krakatau Decompiler as zip.
+ * 08/07/2015 - "Fixed" an issue with Enjarify and latest PyPy3 bin.
+ * 08/07/2015 - FernFlower & CFR Decompiler now launch in their own process with the 'slimjar' version.
+ * 08/07/2015 - Switched the ClassViewer up slightly so it utilizes the event dispatch thread.
+ * 08/07/2015 - Fixed? CFIDE's Bytecode Decompiler on TableSwitchs
  * 
  * @author Konloch
  * 
@@ -108,7 +131,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 public class BytecodeViewer {
 
 	/*per version*/
-	public static String version = "2.9.8";
+	public static String version = "2.9.9";
 	public static boolean previewCopy = false;
 	public static boolean fatJar = false; //could be automatic by checking if it's loaded a class named whatever for a library
 	/*the rest*/
@@ -559,7 +582,7 @@ public class BytecodeViewer {
 	 * Returns the java command it can use to launch the decompilers
 	 * @return
 	 */
-	public static String getJavaCommand() {
+	public static synchronized String getJavaCommand() {
 		try {
 			sm.stopBlocking();
 			ProcessBuilder pb = new ProcessBuilder("java", "-version");
@@ -572,10 +595,9 @@ public class BytecodeViewer {
 			boolean empty = java.isEmpty();
 			while(empty) {
 				showMessage("You need to set your Java path, this requires the JRE to be downloaded."+BytecodeViewer.nl+
-							"(C:/programfiles/Java/JRE_xx/bin/javac.exe)");
+							"(C:/programfiles/Java/JRE_xx/bin/java.exe)");
 				viewer.java();
-				if(!java.isEmpty())
-					empty = false;
+				empty = java.isEmpty();
 			}
 		}
 		return java;
