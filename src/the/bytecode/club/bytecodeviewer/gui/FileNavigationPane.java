@@ -145,7 +145,7 @@ public class FileNavigationPane extends VisibleComponent implements
 
 							MyTreeNode node = enums.nextElement();
 							if (node.isLeaf()) {
-								if (((String) (node.getUserObject())).toLowerCase().contains(path[path.length - 1].toLowerCase())) {
+								if (((String) (node.getUserObject())).contains(path[path.length - 1])) {
 									TreeNode pathArray[] = node.getPath();
 									int k = 0;
 									StringBuffer fullPath = new StringBuffer();
@@ -159,7 +159,7 @@ public class FileNavigationPane extends VisibleComponent implements
 										}
 									}
 									String fullPathString = fullPath.toString();
-									if (fullPathString != null && fullPathString.toLowerCase().contains(qt.toLowerCase())) {
+									if (fullPathString != null && fullPathString.contains(qt)) {
 										System.out.println("Found! " + node);
 										final TreePath pathn = new TreePath(node.getPath());
 										tree.setSelectionPath(pathn.getParentPath());
@@ -573,7 +573,7 @@ public class FileNavigationPane extends VisibleComponent implements
 		    
 		    		if(value != null && value instanceof the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) {
 		    			the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode node = (the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) value;
-		    			String name = node.toString().toLowerCase();
+		    			String name = node.toString();
 		    			
 			    		if(name.endsWith(".jar")) {
 			    			setIcon(Resources.jarIcon);
