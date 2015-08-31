@@ -311,36 +311,6 @@ public class FileNavigationPane extends VisibleComponent implements
 				ImageRenderer renderer = new ImageRenderer();
 				tree.setCellRenderer(renderer);
 				
-				if(!container.classes.isEmpty()) {
-					for(ClassNode c : container.classes) {
-						String name = c.name;
-						final String[] spl = name.split("/");
-						if (spl.length < 2) {
-							root.add(new MyTreeNode(name+".class"));
-						} else {
-							MyTreeNode parent = root;
-							for (int i1 = 0; i1 < spl.length; i1++) {
-								String s = spl[i1];
-								MyTreeNode child = null;
-								for (int i = 0; i < parent.getChildCount(); i++) {
-									if (((MyTreeNode) parent.getChildAt(i)).getUserObject()
-											.equals(s)) {
-										child = (MyTreeNode) parent.getChildAt(i);
-										break;
-									}
-								}
-								if (child == null) {
-									if(i1 == spl.length-1)
-										child = new MyTreeNode(s+".class");
-									else
-										child = new MyTreeNode(s);
-									parent.add(child);
-								}
-								parent = child;
-							}
-						}
-					}
-				}
 				
 				if(!container.files.isEmpty()) {
 					for (final Entry<String, byte[]> entry : container.files.entrySet()) {
