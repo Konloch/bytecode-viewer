@@ -63,26 +63,28 @@ public class JarUtils {
 			try {
 				final String name = entry.getName();
 				final byte[] bytes = getBytes(jis);
-				if (!name.endsWith(".class")) {
-					if(!entry.isDirectory())
-						files.put(name, bytes);
-				} else {
-					String cafebabe = String.format("%02X", bytes[0])
-							+ String.format("%02X", bytes[1])
-							+ String.format("%02X", bytes[2])
-							+ String.format("%02X", bytes[3]);
-					if(cafebabe.toLowerCase().equals("cafebabe")) {
-						try {
-							final ClassNode cn = getNode(bytes);
-							container.classes.add(cn);
-						} catch(Exception e) {
-							e.printStackTrace();
-						}
+				if(!files.containsKey(name)){
+					if (!name.endsWith(".class")) {
+						if(!entry.isDirectory())
+							files.put(name, bytes);
 					} else {
-						System.out.println(jarFile+">"+name+": Header does not start with CAFEBABE, ignoring.");
+						String cafebabe = String.format("%02X", bytes[0])
+								+ String.format("%02X", bytes[1])
+								+ String.format("%02X", bytes[2])
+								+ String.format("%02X", bytes[3]);
+						if(cafebabe.toLowerCase().equals("cafebabe")) {
+							try {
+								final ClassNode cn = getNode(bytes);
+								container.classes.add(cn);
+							} catch(Exception e) {
+								e.printStackTrace();
+							}
+						} else {
+							System.out.println(jarFile+">"+name+": Header does not start with CAFEBABE, ignoring.");
+						}
+						files.put(name, bytes);
 					}
 				}
-
 			} catch(Exception e) {
 				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 			} finally {

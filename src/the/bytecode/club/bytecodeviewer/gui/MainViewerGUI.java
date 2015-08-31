@@ -2029,8 +2029,12 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		});
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				PluginManager.runPlugin(new AllatoriStringDecrypter());
+			public void actionPerformed(ActionEvent arg0) {
+				if(BytecodeViewer.getLoadedClasses().isEmpty()) {
+					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+					return;
+				}
+				new AllatoriStringDecrypterOptions().setVisible(true);
 			}
 		});
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {

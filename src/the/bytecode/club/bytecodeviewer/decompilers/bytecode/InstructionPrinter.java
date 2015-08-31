@@ -304,7 +304,7 @@ public class InstructionPrinter {
 
 	protected String printInvokeDynamicInsNode(InvokeDynamicInsnNode idin) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(nameOpcode(idin.opcode()) + " " + idin.name + "(");
+		sb.append(nameOpcode(idin.opcode()) + " " + idin.bsm.getName() + "(");
 
 		String desc = idin.desc;
 		String partedDesc = idin.desc.substring(2);
