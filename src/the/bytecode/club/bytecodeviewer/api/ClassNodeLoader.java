@@ -110,7 +110,7 @@ public final class ClassNodeLoader extends ClassLoader {
 		if (classes.containsKey(name)) {
 			return nodeToClass(classes.get(name));
 		} else {
-			return super.loadClass(name);
+			return super.findClass(name);
 		}
 	}
 
