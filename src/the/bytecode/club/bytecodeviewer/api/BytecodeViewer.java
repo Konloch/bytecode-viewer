@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.api;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -62,50 +63,60 @@ public class BytecodeViewer {
 		return cl;
 	}
 
+	
+	
 	/**
 	 * Re-instances the URLClassLoader and loads a jar to it.
-	 * @param path
+	 * 
+	 * @param nodeList
+	 *            The list of ClassNodes to be loaded
 	 * @return The loaded classes into the new URLClassLoader instance
 	 * @author Cafebabe
+	 * @throws IOException
+	 * @throws ClassNotFoundException
 	 */
-    public static List<Class<?>> loadClassesIntoClassLoader()  {
-    	try {
-    		File f = new File(
-    				the.bytecode.club.bytecodeviewer.BytecodeViewer.tempDirectory +
-    				the.bytecode.club.bytecodeviewer.BytecodeViewer.fs +
-    				"loaded_temp.jar");
-    		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), f.getAbsolutePath());
-    		JarFile jarFile = new JarFile(""+f.getAbsolutePath());
-                    Enumeration<JarEntry> e = jarFile.entries();
-                    URL[] urls = { new URL("jar:file:" + ""+f.getAbsolutePath()+"!/") };
-                    cl = URLClassLoader.newInstance(urls);
-                    List<Class<?>> ret = new ArrayList<Class<?>>();
-                   
-                    while (e.hasMoreElements())
-                    {
-                        JarEntry je = (JarEntry) e.nextElement();
-                        if(je.isDirectory() || !je.getName().endsWith(".class"))
-                            continue;
-                        String className = je.getName().replace("/", ".").replace(".class", "");
-                        className = className.replace('/', '.');
-                        try{
-                            ret.add(cl.loadClass(className));
-                        }
-                        catch(Exception e2)
-                        {
-                			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e2);
-                        }
-                    }
-                    jarFile.close();
-                   
-                    return ret;
-            }
-            catch(Exception e)
-            {
-    			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-            }
-    	return null;
-    }
+	@SuppressWarnings("deprecation")
+	public static List<Class<?>> loadClassesIntoClassLoader(
+			ArrayList<ClassNode> nodeList) throws IOException,
+			ClassNotFoundException {
+
+		File f = new File(
+				the.bytecode.club.bytecodeviewer.BytecodeViewer.tempDirectory
+						+ the.bytecode.club.bytecodeviewer.BytecodeViewer.fs
+						+ "loaded_temp.jar");
+		JarUtils.saveAsJarClassesOnly(nodeList, f.getAbsolutePath());
+		
+		JarFile jarFile = new JarFile("" + f.getAbsolutePath());
+		Enumeration<JarEntry> e = jarFile.entries();
+		cl = URLClassLoader.newInstance(new URL[]{ f.toURL() });
+		List<Class<?>> ret = new ArrayList<Class<?>>();
+
+		while (e.hasMoreElements()) {
+			JarEntry je = (JarEntry) e.nextElement();
+			if (je.isDirectory() || !je.getName().endsWith(".class"))
+				continue;
+			String className = je.getName().replace("/", ".").replace(".class", "");
+			className = className.replace('/', '.');
+			ret.add(cl.loadClass(className));
+
+		}
+		jarFile.close();
+
+		return ret;
+
+	}
+	
+	
+	/**
+	 * Re-instances the URLClassLoader and loads a jar to it.
+	 * @return The loaded classes into the new URLClassLoader instance
+	 * @author Cafebabe
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 */
+	public static List<Class<?>> loadAllClassesIntoClassLoader() throws ClassNotFoundException, IOException {
+		return loadClassesIntoClassLoader(getLoadedClasses());
+	}
 
 	/**
 	 * Creates a new instance of the ClassNode loader.
