@@ -28,8 +28,8 @@ Contributors:
     sahitya-pavurala
     priav03
     Afffsdd
-	Szperak
-	Zooty
+    Szperak
+    Zooty
     If I missed you, please feel free to contact me @Konloch or konloch@gmail.com
 
 Contribution Guide Lines/Coding Conventions:
