@@ -833,10 +833,7 @@ public class BytecodeViewer {
 								} else if (fn.endsWith(".class")) {
 									try {
 										byte[] bytes = JarUtils.getBytes(new FileInputStream(f));
-										String cafebabe = String.format("%02X", bytes[0])
-												+ String.format("%02X", bytes[1])
-												+ String.format("%02X", bytes[2])
-												+ String.format("%02X", bytes[3]);
+										String cafebabe = String.format("%02X%02X%02X%02X", bytes[0], bytes[1], bytes[2], bytes[3]);
 										if(cafebabe.toLowerCase().equals("cafebabe")) {
 											final ClassNode cn = JarUtils.getNode(bytes);
 											

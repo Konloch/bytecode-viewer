@@ -104,10 +104,7 @@ public class JarUtils {
 				final String name = entry.getName();
 				if (name.endsWith(".class")) {
 					byte[] bytes = getBytes(jis);
-					String cafebabe = String.format("%02X", bytes[0])
-							+ String.format("%02X", bytes[1])
-							+ String.format("%02X", bytes[2])
-							+ String.format("%02X", bytes[3]);
+					String cafebabe = String.format("%02X%02X%02X%02X", bytes[0], bytes[1], bytes[2], bytes[3]);
 					if(cafebabe.toLowerCase().equals("cafebabe")) {
 						try {
 							final ClassNode cn = getNode(bytes);
