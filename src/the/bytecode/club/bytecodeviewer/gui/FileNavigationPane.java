@@ -79,6 +79,8 @@ public class FileNavigationPane extends VisibleComponent implements
 	JButton open = new JButton("+");
 	JButton close = new JButton("-");
 
+	boolean doNothing = false;
+	
 	MyTreeNode treeRoot = new MyTreeNode("Loaded Files:");
 	MyTree tree = new MyTree(treeRoot);
 	final String quickSearchText = "Quick file search (no file extension)";
@@ -195,16 +197,19 @@ public class FileNavigationPane extends VisibleComponent implements
 		this.close.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				doNothing = true;
 				final TreeNode root = (TreeNode) tree.getModel().getRoot();
 				expandAll(tree, new TreePath(root), false);
 				tree.expandPath(new TreePath(root));
+				doNothing = false;
 			}
 		});
 		
 		this.tree.addMouseListener(new MouseAdapter() {
 			@Override
 		    public void mousePressed(MouseEvent e) {
-		        openPath(tree.getPathForLocation(e.getX(), e.getY()));
+				if(!doNothing)
+					openPath(tree.getPathForLocation(e.getX(), e.getY()));
 		    }
 		});
 
@@ -215,7 +220,9 @@ public class FileNavigationPane extends VisibleComponent implements
 					cancel = false;
 					return;
 				}
-				openPath(arg0.getPath());
+				
+				if(!doNothing)
+					openPath(arg0.getPath());
 			}
 		});
 		

@@ -1,9 +1,12 @@
 package the.bytecode.club.bytecodeviewer;
 
 import java.awt.Desktop;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -102,6 +105,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * 
  * before 3.0.0:
  * EVERYTHING ON THE FUCKING GITHUB ISSUES LOL
+ * EVERYTHING ON THE BYTECODE CLUB ISSUES LOL
  * make it use that global last used inside of export as jar
  * Spiffy up the plugin console with hilighted lines
  * Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
@@ -111,9 +115,10 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * make ez-injection plugin console show all sys.out calls
  * add JEB decompiler optionally, requires them to add jeb library jar externally and disable update check ?
  * add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
- * fix hook inject for EZ-Injection
+ * fix hook inject for EZ-Injection < Move to JVMCommand?
  * fix classfile searcher
  * make the decompilers launch in a separate process?
+ * figure out a way to deploy kratau/enjarify versions without downstreaming the latest version via internet for fatjar mode
  * 
  * -----2.9.9-----:
  * 08/01/2015 - Fixed a pingback concurrency exception issue.
@@ -123,6 +128,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * 08/07/2015 - FernFlower & CFR Decompiler now launch in their own process with the 'slimjar' version.
  * 08/07/2015 - Switched the ClassViewer up slightly so it utilizes the event dispatch thread.
  * 08/07/2015 - Fixed? CFIDE's Bytecode Decompiler on TableSwitchs
+ * 11/08/2015 - A bunch of changes have been implemented, thanks to all the developers who've helped <3.
  * 
  * @author Konloch
  * 
@@ -498,6 +504,17 @@ public class BytecodeViewer {
 		System.setSecurityManager(sm);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			
+	        // HIGHDPI FIX
+	        Font font = UIManager.getFont("Tree.font");
+	        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+	        Graphics g = image.getGraphics();
+	        int fontHeight = g.getFontMetrics(font).getHeight();
+	        int rowHeight = (int) UIManager.get("Tree.rowHeight");
+	        if (rowHeight < fontHeight) {
+	            UIManager.getDefaults().put("Tree.rowHeight", fontHeight);
+	        }
+			
 			if(previewCopy && !CommandLineInput.containsCommand(args))
 				showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when "+version+" is actually out if you use this."+nl+
 							"Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for "+version+"'s release");

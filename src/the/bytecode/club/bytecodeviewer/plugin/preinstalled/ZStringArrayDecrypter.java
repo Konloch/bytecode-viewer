@@ -65,7 +65,7 @@ public class ZStringArrayDecrypter extends Plugin {
 		if (result == 0) {
 			boolean needsWarning = false;
 			try {
-	            for (Class<?> debug : the.bytecode.club.bytecodeviewer.api.BytecodeViewer.loadAllClassesIntoClassLoader()) {
+	            for (Class<?> debug : the.bytecode.club.bytecodeviewer.api.BytecodeViewer.loadClassesIntoClassLoader(BytecodeViewer.getLoadedClasses())) {
 	            	try {
 		            	Field[] fields = debug.getDeclaredFields();
 		                for ( Field field : fields ) {

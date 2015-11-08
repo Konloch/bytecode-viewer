@@ -48,7 +48,6 @@ import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.CodeSequenceDiagram;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.AllatoriStringDecrypter;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowAllStrings;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowMainMethods;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
@@ -2034,7 +2033,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 					BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
 					return;
 				}
-				new AllatoriStringDecrypterOptions().setVisible(true);
+				new AllatoriStringDecryptionOptions().setVisible(true);
 			}
 		});
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
