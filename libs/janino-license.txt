@@ -1,1 +1,0 @@
-http://opensource.org/licenses/BSD-3-Clause
