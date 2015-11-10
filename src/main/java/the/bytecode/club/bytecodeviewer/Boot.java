@@ -33,9 +33,6 @@ import java.nio.file.Path;
  * @created 19 Jul 2015 03:22:37
  */
 public class Boot {
-
-    /*flags*/
-
     private static InitialBootScreen screen;
 
     static {
@@ -47,35 +44,18 @@ public class Boot {
     }
 
     public static void boot(String[] args, boolean CLI) throws Exception {
-        if (!CLI)
+        BytecodeViewer.enjarifyWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify_" + BytecodeViewer.enjarifyVersion + BytecodeViewer.fs + "enjarify-master";
+        BytecodeViewer.krakatauWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion + BytecodeViewer.fs + "Krakatau-master";
+        File enjarifyDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify_" + BytecodeViewer.enjarifyVersion);
+        File krakatauDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion);
+        if (!enjarifyDirectory.exists() || !krakatauDirectory.exists()) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     screen.setVisible(true);
                 }
             });
-
-        create(args.length > 0 ? Boolean.valueOf(args[0]) : true);
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                screen.setVisible(false);
-            }
-        });
-    }
-
-    public static void hide() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                screen.setVisible(false);
-            }
-        });
-    }
-
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private static void create(boolean clean) throws Exception {
+        }
         setState("Bytecode Viewer Boot Screen - Checking Libraries...");
         screen.getProgressBar().setMaximum(3);
 
@@ -90,6 +70,12 @@ public class Boot {
         screen.getProgressBar().setValue(completedCheck);
 
         setState("Bytecode Viewer Boot Screen - Booting!");
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                screen.setVisible(false);
+            }
+        });
     }
 
     public static void setState(String s) {
@@ -112,7 +98,6 @@ public class Boot {
             }
         }
 
-        BytecodeViewer.enjarifyWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify_" + BytecodeViewer.enjarifyVersion + BytecodeViewer.fs + "enjarify-master";
         File enjarifyDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify_" + BytecodeViewer.enjarifyVersion);
         if (!enjarifyDirectory.exists()) {
             try {
@@ -146,8 +131,6 @@ public class Boot {
                 }
             }
         }
-
-        BytecodeViewer.krakatauWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion + BytecodeViewer.fs + "Krakatau-master";
         File krakatauDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion);
         if (!krakatauDirectory.exists()) {
             try {
