@@ -53,8 +53,6 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
     MyTreeNode treeRoot = new MyTreeNode("Loaded Files:");
     MyTree tree = new MyTree(treeRoot);
     final JTextField quickSearch = new JTextField(quickSearchText);
-    boolean cancel = false;
-
     public KeyAdapter search = new KeyAdapter() {
         @Override
         public void keyPressed(final KeyEvent ke) {
@@ -181,20 +179,8 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
             }
         });
 
-        this.tree.addTreeSelectionListener(new TreeSelectionListener() {
-            @Override
-            public void valueChanged(final TreeSelectionEvent arg0) {
-                if (cancel) {
-                    cancel = false;
-                    return;
-                }
-                openPath(arg0.getPath());
-            }
-        });
-
         this.tree.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent e) {
-
             }
             public void keyPressed(KeyEvent e) {
             }
@@ -207,8 +193,6 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
                     }
                 } else if (arg0.getKeyCode() == KeyEvent.VK_F && arg0.isControlDown()) {
                     quickSearch.grabFocus();
-                } else {
-                    cancel = true;
                 }
             }
         });
