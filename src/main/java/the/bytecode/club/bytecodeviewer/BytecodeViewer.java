@@ -108,7 +108,7 @@ public class BytecodeViewer {
 
     /*per version*/
     public static String version = "3.0.0";
-    public static boolean previewCopy = true;
+    public static boolean previewCopy = false;
     /*the rest*/
     public static String[] args;
     public static MainViewerGUI viewer = null;

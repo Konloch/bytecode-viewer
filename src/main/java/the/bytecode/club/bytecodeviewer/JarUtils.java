@@ -261,6 +261,27 @@ public class JarUtils {
 		}
 	}
 
+	public static void saveAsJarClassesOnly(Map<String, byte[]> nodeList, String path) {
+		try {
+			JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
+			ArrayList<String> noDupe = new ArrayList<String>();
+			for (Entry<String, byte[]> cn : nodeList.entrySet()) {
+				String name = cn.getKey();
+				if(!noDupe.contains(name)) {
+					noDupe.add(name);
+					out.putNextEntry(new ZipEntry(name));
+					out.write(cn.getValue());
+					out.closeEntry();
+				}
+			}
+
+			noDupe.clear();
+			out.close();
+		} catch (IOException e) {
+			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+		}
+	}
+
 	/**
 	 * Saves a jar without the manifest
 	 * @param nodeList The loaded ClassNodes

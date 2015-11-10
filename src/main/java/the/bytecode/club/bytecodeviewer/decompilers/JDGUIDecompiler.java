@@ -96,11 +96,11 @@ public class JDGUIDecompiler extends Decompiler {
         }
     }
 
-    private void decompile(final byte[] data, OutputStream to) throws LoaderException {
+    private void decompile(final byte[] data, OutputStream to) throws LoaderException, UnsupportedEncodingException {
         CommonPreferences preferences = new CommonPreferences() {
             @Override
             public boolean isShowLineNumbers() {
-                return false;
+                return true;
             }
 
             @Override
@@ -119,6 +119,6 @@ public class JDGUIDecompiler extends Decompiler {
                 return true;
             }
         };
-        new DecompilerImpl().decompile(preferences, customLoader, new PlainTextPrinter(preferences, new PrintStream(to)), "BytecodeViewer.class");
+        new DecompilerImpl().decompile(preferences, customLoader, new PlainTextPrinter(preferences, new PrintStream(to, false, "UTF-8")), "BytecodeViewer.class");
     }
 }
