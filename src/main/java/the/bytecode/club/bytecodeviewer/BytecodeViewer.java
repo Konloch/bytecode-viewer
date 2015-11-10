@@ -167,10 +167,7 @@ public class BytecodeViewer {
             if (CLI == CommandLineInput.STOP)
                 return;
 
-            if (CLI == CommandLineInput.OPEN_FILE)
-                Boot.boot(args, false);
-            else
-                Boot.boot(args, true);
+            Boot.boot();
 
             if (CLI == CommandLineInput.OPEN_FILE)
                 BytecodeViewer.BOOT(false);

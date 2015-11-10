@@ -79,7 +79,7 @@ public class MiscUtils {
 			sb.append(AN.charAt(rnd.nextInt(AN.length())));
 		return sb.toString();
 	}
-	
+
 	/**
 	 * Checks the file system to ensure it's a unique name
 	 * @param start directory it'll be in

@@ -43,7 +43,7 @@ public class Boot {
         }
     }
 
-    public static void boot(String[] args, boolean CLI) throws Exception {
+    public static void boot() throws Exception {
         BytecodeViewer.enjarifyWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify_" + BytecodeViewer.enjarifyVersion + BytecodeViewer.fs + "enjarify-master";
         BytecodeViewer.krakatauWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion + BytecodeViewer.fs + "Krakatau-master";
         File enjarifyDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify_" + BytecodeViewer.enjarifyVersion);
@@ -56,20 +56,13 @@ public class Boot {
                 }
             });
         }
-        setState("Bytecode Viewer Boot Screen - Checking Libraries...");
-        screen.getProgressBar().setMaximum(3);
-
-        int completedCheck = 0;
-
-        checkKrakatau();
-        completedCheck++;
-        screen.getProgressBar().setValue(completedCheck);
+        screen.getProgressBar().setMaximum(BootSequence.values().length);
+        setState(BootSequence.CHECKING_LIBRARIES);
 
         checkEnjarify();
-        completedCheck++;
-        screen.getProgressBar().setValue(completedCheck);
+        checkKrakatau();
 
-        setState("Bytecode Viewer Boot Screen - Booting!");
+        setState(BootSequence.BOOTING);
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -78,18 +71,18 @@ public class Boot {
         });
     }
 
-    public static void setState(String s) {
-        screen.setTitle(s);
+    public static void setState(BootSequence s) {
+        screen.setTitle("Initialzing Bytecode Viewer - " + s.getMessage());
+        screen.getProgressBar().setValue(s.ordinal());
+        System.out.println(s.getMessage());
     }
 
     public static void checkEnjarify() {
-        setState("Bytecode Viewer Boot Screen - Checking Enjarify...");
-        System.out.println("Checking enjarify");
+        setState(BootSequence.CHECKING_ENJARIFY);
 
         for (File f : new File(BytecodeViewer.getBCVDirectory()).listFiles()) {
             if (f.getName().toLowerCase().startsWith("enjarify_") && !f.getName().split("_")[1].split("\\.")[0].equals(BytecodeViewer.enjarifyVersion)) {
-                setState("Bytecode Viewer Boot Screen - Removing Outdated " + f.getName() + "...");
-                System.out.println("Removing oudated " + f.getName());
+                setState(BootSequence.CLEANING_ENJARIFY);
                 try {
                     FileUtils.deleteDirectory(f);
                 } catch (Exception e) {
@@ -101,6 +94,7 @@ public class Boot {
         File enjarifyDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify_" + BytecodeViewer.enjarifyVersion);
         if (!enjarifyDirectory.exists()) {
             try {
+                setState(BootSequence.MOVING_ENJARIFY);
                 Path temporaryEnjarifyZip = Files.createTempFile("enjarify", ".zip");
                 Files.delete(temporaryEnjarifyZip);
                 InputStream inputStream = Boot.class.getResourceAsStream("/enjarify-2.zip");
@@ -117,13 +111,11 @@ public class Boot {
     }
 
     public static void checkKrakatau() {
-        setState("Bytecode Viewer Boot Screen - Checking Krakatau...");
-        System.out.println("Checking krakatau");
+        setState(BootSequence.CHECKING_KRAKATAU);
 
         for (File f : new File(BytecodeViewer.getBCVDirectory()).listFiles()) {
             if (f.getName().toLowerCase().startsWith("krakatau_") && !f.getName().split("_")[1].split("\\.")[0].equals(BytecodeViewer.krakatauVersion)) {
-                setState("Bytecode Viewer Boot Screen - Removing Outdated " + f.getName() + "...");
-                System.out.println("Removing oudated " + f.getName());
+                setState(BootSequence.CLEANING_KRAKATAU);
                 try {
                     FileUtils.deleteDirectory(f);
                 } catch (Exception e) {
@@ -134,14 +126,13 @@ public class Boot {
         File krakatauDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion);
         if (!krakatauDirectory.exists()) {
             try {
-                setState("Bytecode Viewer Boot Screen - Updating to " + krakatauDirectory.getName() + "...");
+                setState(BootSequence.MOVING_KRAKATAU);
                 Path temporaryKrakatauZip = Files.createTempFile("krakatau", ".zip");
                 Files.delete(temporaryKrakatauZip);
                 InputStream inputStream = Boot.class.getResourceAsStream("/Krakatau-8.zip");
                 Files.copy(inputStream, temporaryKrakatauZip);
                 ZipUtils.unzipFilesToPath(temporaryKrakatauZip.normalize().toString(), krakatauDirectory.getAbsolutePath());
                 Files.delete(temporaryKrakatauZip);
-                System.out.println("Updated to Krakatau v" + BytecodeViewer.krakatauVersion);
             } catch (Exception e) {
                 BytecodeViewer.showMessage("ERROR: There was an issue unzipping Krakatau decompiler (possibly corrupt). Restart BCV." + BytecodeViewer.nl +
                         "If the error persists contact @Konloch.");
@@ -149,4 +140,25 @@ public class Boot {
             }
         }
     }
+
+    enum BootSequence {
+        CHECKING_LIBRARIES("Checking libraries"),
+        CHECKING_ENJARIFY("Checking Enjarify"),
+        CLEANING_ENJARIFY("Cleaning Enjarify"),
+        MOVING_ENJARIFY("Moving Enjarify"),
+        CHECKING_KRAKATAU("Checking Krakatau"),
+        CLEANING_KRAKATAU("Cleaning Krakatau"),
+        MOVING_KRAKATAU("Moving Krakatau"),
+        BOOTING("Booting");
+
+        private String message;
+
+        BootSequence(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return this.message;
+        }
+        }
 }
