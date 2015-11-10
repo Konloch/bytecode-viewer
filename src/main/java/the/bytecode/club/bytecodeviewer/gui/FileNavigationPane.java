@@ -39,7 +39,6 @@ import java.util.Map.Entry;
  * @author Konloch
  * @author WaterWolf
  * @author afffsdd
- *
  */
 
 @SuppressWarnings("serial")
@@ -144,6 +143,8 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
                         }
                     }
                 }
+            } else if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                tree.grabFocus();
             }
         }
     };
@@ -192,6 +193,11 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
         });
 
         this.tree.addKeyListener(new KeyListener() {
+            public void keyTyped(KeyEvent e) {
+
+            }
+            public void keyPressed(KeyEvent e) {
+            }
             @Override
             public void keyReleased(KeyEvent arg0) {
                 if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -199,28 +205,15 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
                         MyTree tree = (MyTree) arg0.getSource();
                         openPath(tree.getSelectionPath());
                     }
+                } else if (arg0.getKeyCode() == KeyEvent.VK_F && arg0.isControlDown()) {
+                    quickSearch.grabFocus();
                 } else {
                     cancel = true;
                 }
             }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                quickSearch.grabFocus();
-                quickSearch.setText("" + e.getKeyChar()); // fuck
-                cancel = true;
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                quickSearch.grabFocus();
-                quickSearch.setText("" + e.getKeyChar()); // fuck
-                cancel = true;
-            }
         });
 
         quickSearch.addKeyListener(search);
-
         quickSearch.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(final FocusEvent arg0) {
@@ -344,7 +337,6 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
     }
 
     public class MyTree extends JTree {
-
         private static final long serialVersionUID = -2355167326094772096L;
         DefaultMutableTreeNode treeRoot;
 
@@ -430,9 +422,7 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
     }
 
     /**
-     *
      * @author http://stackoverflow.com/a/18450804
-     *
      */
     class StringMetrics {
 
@@ -493,10 +483,8 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
     }
 
     /**
-     *
      * @author http://stackoverflow.com/questions/14968005
      * @author Konloch
-     *
      */
     public class ImageRenderer extends DefaultTreeCellRenderer {
 
