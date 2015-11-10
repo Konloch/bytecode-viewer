@@ -145,6 +145,45 @@ public class BytecodeViewer {
     public static boolean deleteForiegnLibraries = true;
 
     /**
+     * Main startup
+     *
+     * @param args files you want to open or CLI
+     */
+    public static void main(String[] args) {
+        System.setSecurityManager(sm);
+        BytecodeViewer.args = args;
+        System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            if (previewCopy && !CommandLineInput.containsCommand(args))
+                showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when " + version + " is actually out if you use this." + nl +
+                        "Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for " + version + "'s release");
+
+            viewer = new MainViewerGUI();
+            Settings.loadGUI();
+
+            int CLI = CommandLineInput.parseCommandLine(args);
+
+            if (CLI == CommandLineInput.STOP)
+                return;
+
+            if (CLI == CommandLineInput.OPEN_FILE)
+                Boot.boot(args, false);
+            else
+                Boot.boot(args, true);
+
+            if (CLI == CommandLineInput.OPEN_FILE)
+                BytecodeViewer.BOOT(false);
+            else {
+                BytecodeViewer.BOOT(true);
+                CommandLineInput.executeCommandLine(args);
+            }
+        } catch (Exception e) {
+            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+        }
+    }
+
+    /**
      * The version checker thread
      */
     private static Thread versionChecker = new Thread() {
@@ -368,45 +407,6 @@ public class BytecodeViewer {
             baos.write(buffer, 0, r);
         }
         return baos.toByteArray();
-    }
-
-    /**
-     * Main startup
-     *
-     * @param args files you want to open or CLI
-     */
-    public static void main(String[] args) {
-        System.setSecurityManager(sm);
-        BytecodeViewer.args = args;
-        System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version);
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            if (previewCopy && !CommandLineInput.containsCommand(args))
-                showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when " + version + " is actually out if you use this." + nl +
-                        "Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for " + version + "'s release");
-
-            viewer = new MainViewerGUI();
-            Settings.loadGUI();
-
-            int CLI = CommandLineInput.parseCommandLine(args);
-
-            if (CLI == CommandLineInput.STOP)
-                return;
-
-            if (CLI == CommandLineInput.OPEN_FILE)
-                Boot.boot(args, false);
-            else
-                Boot.boot(args, true);
-
-            if (CLI == CommandLineInput.OPEN_FILE)
-                BytecodeViewer.BOOT(false);
-            else {
-                BytecodeViewer.BOOT(true);
-                CommandLineInput.executeCommandLine(args);
-            }
-        } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-        }
     }
 
     /**
