@@ -6,28 +6,11 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.JSplitPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
 import me.konloch.kontainer.io.DiskWriter;
@@ -53,9 +36,6 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowAllStrings;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowMainMethods;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZStringArrayDecrypter;
-
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -183,7 +163,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 			}
 	}
 	
-	public void library() {
+	public void library() {;
 		JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(new FileFilter() {
 			@Override
@@ -199,14 +179,51 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fc.setFileHidingEnabled(false);
 		fc.setAcceptAllFileFilterUsed(false);
-		int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
+		final JTextField text = new JTextField();
+		text.setText(BytecodeViewer.library);
+		final JDialog dialog = new JDialog();
+		dialog.setModal(true);
+		dialog.add(text);
+		dialog.setSize(500, 100);
+		dialog.setLocationRelativeTo(BytecodeViewer.viewer);
+        dialog.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
 
-		if (returnVal == JFileChooser.APPROVE_OPTION)
-			try {
-				BytecodeViewer.library = fc.getSelectedFile().getAbsolutePath();
-			} catch (Exception e1) {
-				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
-			}
+            }
+            @Override
+            public void windowClosing(WindowEvent e) {
+                BytecodeViewer.library = text.getText();
+            }
+            @Override
+            public void windowClosed(WindowEvent e) {
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
+        dialog.setVisible(true);
+//		int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
+//
+//		if (returnVal == JFileChooser.APPROVE_OPTION)
+//			try {
+//				BytecodeViewer.library = fc.getSelectedFile().getAbsolutePath();
+//			} catch (Exception e1) {
+//				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
+//			}
 	}
 	
 
