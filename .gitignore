@@ -1,5 +1,4 @@
-/bin/
-.classpath
-.project
-*.iml
+/target
 .idea/
+.git/
+*.iml
