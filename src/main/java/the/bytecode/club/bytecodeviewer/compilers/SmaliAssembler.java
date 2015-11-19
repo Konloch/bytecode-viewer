@@ -1,13 +1,13 @@
 package the.bytecode.club.bytecodeviewer.compilers;
 
-import java.io.File;
-
-import me.konloch.kontainer.io.DiskWriter;
+import org.apache.commons.io.FileUtils;
+import org.zeroturnaround.zip.ZipUtil;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.Enjarify;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
-import the.bytecode.club.bytecodeviewer.ZipUtils;
+
+import java.io.File;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -38,7 +38,7 @@ public class SmaliAssembler extends Compiler {
 
 	@Override
 	public byte[] compile(String contents, String name) {
-		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp";
+		String fileStart = BytecodeViewer.tempDir.getAbsoluteFile() + BytecodeViewer.fs + "temp";
 		int fileNumber = MiscUtils.getClassNumber(fileStart, ".dex");
 
 		final File tempSmaliFolder = new File(fileStart + fileNumber + "-smalifolder"+BytecodeViewer.fs);
@@ -50,7 +50,7 @@ public class SmaliAssembler extends Compiler {
 		File tempJarFolder = new File(fileStart + fileNumber + "-jar"+BytecodeViewer.fs);
 		
 		try {
-			DiskWriter.replaceFile(tempSmali.getAbsolutePath(), contents, false);
+			FileUtils.write(tempSmali, contents, "UTF-8", false);
 		} catch (final Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
@@ -68,7 +68,7 @@ public class SmaliAssembler extends Compiler {
 			 Enjarify.apk2Jar(tempDex, tempJar);
 		
 		try {
-			ZipUtils.unzipFilesToPath(tempJar.getAbsolutePath(), tempJarFolder.getAbsolutePath());
+			ZipUtil.unpack(tempJar, tempJarFolder);
 			
 			File outputClass = null;
 			boolean found = false;

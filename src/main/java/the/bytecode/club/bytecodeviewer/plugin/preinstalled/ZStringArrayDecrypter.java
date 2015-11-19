@@ -1,18 +1,16 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

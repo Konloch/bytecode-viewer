@@ -4,21 +4,33 @@ import jd.cli.preferences.CommonPreferences;
 import jd.cli.printer.text.PlainTextPrinter;
 import jd.core.loader.Loader;
 import jd.core.loader.LoaderException;
+import jd.core.model.classfile.ClassFile;
+import jd.core.model.classfile.ConstantPool;
+import jd.core.model.classfile.attribute.AttributeInnerClasses;
+import jd.core.model.classfile.attribute.InnerClass;
+import jd.core.model.reference.ReferenceMap;
+import jd.core.preferences.Preferences;
+import jd.core.printer.Printer;
 import jd.core.process.DecompilerImpl;
-import org.apache.commons.io.FileUtils;
-import org.benf.cfr.reader.state.ClassFileSourceImpl;
-import org.benf.cfr.reader.state.DCCommonState;
-import org.benf.cfr.reader.util.getopt.GetOptParser;
-import org.benf.cfr.reader.util.getopt.Options;
-import org.benf.cfr.reader.util.getopt.OptionsImpl;
+import jd.core.process.analyzer.classfile.ClassFileAnalyzer;
+import jd.core.process.analyzer.classfile.ReferenceAnalyzer;
+import jd.core.process.deserializer.ClassFileDeserializer;
+import jd.core.process.layouter.ClassFileLayouter;
+import jd.core.process.writer.ClassFileWriter;
 import org.objectweb.asm.tree.ClassNode;
-import org.zeroturnaround.zip.ZipUtil;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.JarUtils;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -46,23 +58,25 @@ import java.util.zip.ZipOutputStream;
  *
  * @author Konloch
  * @author JD-Core developers
- *
  */
 
 public class JDGUIDecompiler extends Decompiler {
+    @Override
+    public String getName() {
+        return "JDGUI";
+    }
 
     @Override
-    public String decompileClassNode(ClassNode cn, final byte[] b) {
+    public String decompileClassNode(ClassNode cn, byte[] b) {
         try {
+            if (cn.version < 49) {
+                b = fixBytes(b);
+            }
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             decompile(b, outputStream);
             return outputStream.toString("UTF-8");
         } catch (Exception e) {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
-            e.printStackTrace();
-            String exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
-            return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+            return parseException(e);
         }
     }
 
@@ -92,7 +106,7 @@ public class JDGUIDecompiler extends Decompiler {
             }
             zipOutputStream.close();
         } catch (Exception e) {
-            e.printStackTrace(); //TODO How to handle exceptions again?
+            handleException(e);
         }
     }
 
@@ -119,6 +133,7 @@ public class JDGUIDecompiler extends Decompiler {
                 return true;
             }
         };
+
         new DecompilerImpl().decompile(preferences, customLoader, new PlainTextPrinter(preferences, new PrintStream(to, false, "UTF-8")), "BytecodeViewer.class");
     }
 }

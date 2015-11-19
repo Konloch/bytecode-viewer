@@ -1,13 +1,6 @@
 package the.bytecode.club.bytecodeviewer.searching;
 
-import java.awt.GridLayout;
-import java.util.Iterator;
-import java.util.ListIterator;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
+import eu.bibl.banalysis.asm.desc.OpcodeInfo;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
@@ -15,7 +8,12 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import eu.bibl.banalysis.asm.desc.OpcodeInfo;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import java.awt.GridLayout;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

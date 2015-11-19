@@ -1,5 +1,9 @@
 package the.bytecode.club.bytecodeviewer;
 
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,12 +17,6 @@ import java.util.Map.Entry;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import me.konloch.kontainer.io.DiskWriter;
-
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.tree.ClassNode;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -282,71 +280,6 @@ public class JarUtils {
 		}
 	}
 
-	/**
-	 * Saves a jar without the manifest
-	 * @param nodeList The loaded ClassNodes
-	 * @param path the exact jar output path
-	 */
-	public static void saveAsJarClassesOnlyToDir(ArrayList<ClassNode> nodeList, String dir) {
-		try {
-			for (ClassNode cn : nodeList) {
-				ClassWriter cw = new ClassWriter(0);
-				cn.accept(cw);
-
-				String name = dir + BytecodeViewer.fs + cn.name + ".class";
-				File f = new File(name);
-				f.mkdirs();
-				
-				DiskWriter.replaceFile(name, cw.toByteArray(), false);
-			}
-		} catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-		}
-	}
-
-	/**
-	 * Saves a jar without the manifest
-	 * @param nodeList The loaded ClassNodes
-	 * @param path the exact jar output path
-	 */
-	public static void saveAsJar(ArrayList<ClassNode> nodeList, String path) {
-		try {
-			JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
-			ArrayList<String> noDupe = new ArrayList<String>();
-			for (ClassNode cn : nodeList) {
-				ClassWriter cw = new ClassWriter(0);
-				cn.accept(cw);
-
-				String name = cn.name + ".class";
-				
-				if(!noDupe.contains(name)) {
-					noDupe.add(name);
-					out.putNextEntry(new ZipEntry(name));
-					out.write(cw.toByteArray());
-					out.closeEntry();
-				}
-			}
-
-			for(FileContainer container : BytecodeViewer.files)
-				for (Entry<String, byte[]> entry : container.files.entrySet()) {
-					String filename = entry.getKey();
-					if (!filename.startsWith("META-INF")) {
-						if(!noDupe.contains(filename)) {
-							noDupe.add(filename);
-							out.putNextEntry(new ZipEntry(filename));
-							out.write(entry.getValue());
-							out.closeEntry();
-						}
-					}
-				}
-
-			noDupe.clear();
-			out.close();
-		} catch (IOException e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-		}
-	}
-
 	public static void saveAsJar(Map<String, byte[]> nodeList, String path) {
 		try {
 			JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
@@ -380,5 +313,4 @@ public class JarUtils {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
 	}
-
 }

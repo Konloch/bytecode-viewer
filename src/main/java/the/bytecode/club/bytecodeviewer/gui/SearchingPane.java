@@ -3,14 +3,29 @@ package the.bytecode.club.bytecodeviewer.gui;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
-import the.bytecode.club.bytecodeviewer.searching.*;
+import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
+import the.bytecode.club.bytecodeviewer.searching.FieldCallSearch;
+import the.bytecode.club.bytecodeviewer.searching.LDCSearch;
+import the.bytecode.club.bytecodeviewer.searching.MethodCallSearch;
+import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
+import the.bytecode.club.bytecodeviewer.searching.RegexSearch;
+import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
+import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
 
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -59,7 +74,7 @@ public class SearchingPane extends VisibleComponent {
     JComboBox searchRadiusBox;
 
     public JButton search = new JButton("Search");
-    BackgroundSearchThread t = new BackgroundSearchThread(true) {
+    transient BackgroundSearchThread t = new BackgroundSearchThread(true) {
         @Override
         public void doSearch() {
             // empty

@@ -1,14 +1,16 @@
 package the.bytecode.club.bytecodeviewer.compilers;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import me.konloch.kontainer.io.DiskWriter;
+import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.JarUtils;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
+import the.bytecode.club.bytecodeviewer.Settings;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -38,12 +40,12 @@ public class KrakatauAssembler extends Compiler {
 
 	@Override
 	public byte[] compile(String contents, String name) {
-		if(BytecodeViewer.python.equals("")) {
+		if(Settings.PYTHON2_LOCATION.isEmpty()) {
 			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
 			BytecodeViewer.viewer.pythonC();
 		}
-		
-		if(BytecodeViewer.python.equals("")) {
+
+		if(Settings.PYTHON2_LOCATION.isEmpty()) {
 			BytecodeViewer.showMessage("You need to set Python!");
 			return null;
 		}
@@ -51,24 +53,28 @@ public class KrakatauAssembler extends Compiler {
 		String origName = name;
 		name = MiscUtils.randomString(20);
 
-		File tempD = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+		File tempD = new File(BytecodeViewer.tempDir, BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
 		tempD.mkdir();
 		
 		File tempJ = new File(tempD.getAbsolutePath() + BytecodeViewer.fs+name+".j");
-		DiskWriter.replaceFile(tempJ.getAbsolutePath(), contents, true);
-		
-		final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+		try {
+			FileUtils.write(tempJ, contents, "UTF-8", false);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		final File tempDirectory = new File(BytecodeViewer.tempDir, BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
 		tempDirectory.mkdir();
-		final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp"+MiscUtils.randomString(32)+".jar");
-		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
+		final File tempJar = new File(BytecodeViewer.tempDir, BytecodeViewer.fs + "temp"+MiscUtils.randomString(32)+".jar");
+		JarUtils.saveAsJar(BytecodeViewer.getLoadedBytes(), tempJar.getAbsolutePath());
 		
 		BytecodeViewer.sm.stopBlocking();
         String log = "";
 		try {
 			ProcessBuilder pb = new ProcessBuilder(
-					BytecodeViewer.python,
+					Settings.PYTHON2_LOCATION.get(),
 					"-O", //love you storyyeller <3
-					BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "assemble.py",
+					BytecodeViewer.krakatauDirectory.getAbsolutePath() + BytecodeViewer.fs + "assemble.py",
 					"-out",
 					tempDirectory.getAbsolutePath(),
 					tempJ.getAbsolutePath()

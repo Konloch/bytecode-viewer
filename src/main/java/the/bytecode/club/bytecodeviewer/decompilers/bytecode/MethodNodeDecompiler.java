@@ -1,9 +1,5 @@
 package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
@@ -11,9 +7,12 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.LocalVariableNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TryCatchBlockNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.decompilers.bytecode.TypeAndName;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -112,7 +111,7 @@ public class MethodNodeDecompiler {
 
 			sb.append(" {");
 
-			if (BytecodeViewer.viewer.debugHelpers.isSelected()) {
+			if (Decompiler.BYTECODE.getSettings().isSelected(ClassNodeDecompiler.Settings.DEBUG_HELPERS)) {
 				if (m.name.equals("<clinit>"))
 					sb.append(" // <clinit>");
 				else if (m.name.equals("<init>"))

@@ -1,15 +1,16 @@
 package the.bytecode.club.bytecodeviewer.compilers;
 
+import org.apache.commons.io.FileUtils;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.JarUtils;
+import the.bytecode.club.bytecodeviewer.MiscUtils;
+import the.bytecode.club.bytecodeviewer.Settings;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import me.konloch.kontainer.io.DiskWriter;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.JarUtils;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -40,27 +41,31 @@ public class JavaCompiler extends Compiler {
 
 	@Override
 	public byte[] compile(String contents, String name) {
-		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp"+MiscUtils.randomString(12)+BytecodeViewer.fs;
-		String fileStart2 = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp"+MiscUtils.randomString(12)+BytecodeViewer.fs;
+		String fileStart = BytecodeViewer.tempDir.getAbsolutePath() + BytecodeViewer.fs + "temp"+MiscUtils.randomString(12)+BytecodeViewer.fs;
+		String fileStart2 = BytecodeViewer.tempDir.getAbsolutePath() + BytecodeViewer.fs + "temp"+MiscUtils.randomString(12)+BytecodeViewer.fs;
 		File java = new File(fileStart + BytecodeViewer.fs + name + ".java");
 		File clazz = new File(fileStart2 + BytecodeViewer.fs + name + ".class");
-		File cp = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "cpath_"+MiscUtils.randomString(12)+".jar");
+		File cp = new File(BytecodeViewer.tempDir, "cpath_"+MiscUtils.randomString(12)+".jar");
 		File tempD = new File(fileStart + BytecodeViewer.fs + name.substring(0,name.length() - name.split("/")[name.split("/").length-1].length()));
 		tempD.mkdirs();
 		new File(fileStart2).mkdirs();
 
-		if(BytecodeViewer.javac.equals("")) {
+		if(Settings.JAVAC_LOCATION.isEmpty()) {
 			BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded."+BytecodeViewer.nl+"(C:/programfiles/Java/JRE_xx/bin/javac.exe)");
 			BytecodeViewer.viewer.javac();
 		}
 		
-		if(BytecodeViewer.javac.equals("")) {
+		if(Settings.JAVAC_LOCATION.isEmpty()) {
 			BytecodeViewer.showMessage("You need to set Javac!");
 			return null;
 		}
-		
-		DiskWriter.replaceFile(java.getAbsolutePath(), contents, false);
-		JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), cp.getAbsolutePath());
+
+		try {
+			FileUtils.write(java, contents, "UTF-8", false);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		JarUtils.saveAsJar(BytecodeViewer.getLoadedBytes(), cp.getAbsolutePath());
 
 		boolean cont = true;
 		BytecodeViewer.sm.stopBlocking();
@@ -68,18 +73,18 @@ public class JavaCompiler extends Compiler {
 			String log = "";
 			ProcessBuilder pb;
 			
-			if(BytecodeViewer.library.isEmpty()) {
+			if(Settings.PATH.isEmpty()) {
 				pb = new ProcessBuilder(
-						BytecodeViewer.javac,
+						Settings.JAVAC_LOCATION.get(),
 						"-d", fileStart2,
 						"-classpath", cp.getAbsolutePath(),
 						java.getAbsolutePath()
 				);
 			} else {
 				pb = new ProcessBuilder(
-						BytecodeViewer.javac,
+						Settings.JAVAC_LOCATION.get(),
 						"-d", fileStart2,
-						"-classpath", cp.getAbsolutePath()+";"+BytecodeViewer.library,
+						"-classpath", cp.getAbsolutePath()+";"+Settings.PATH.get(),
 						java.getAbsolutePath()
 				);
 			}

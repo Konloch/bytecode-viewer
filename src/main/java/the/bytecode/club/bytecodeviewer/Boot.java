@@ -1,9 +1,10 @@
 package the.bytecode.club.bytecodeviewer;
 
 import org.apache.commons.io.FileUtils;
+import org.zeroturnaround.zip.ZipUtil;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -44,8 +45,6 @@ public class Boot {
     }
 
     public static void boot() throws Exception {
-        BytecodeViewer.enjarifyWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify_" + BytecodeViewer.enjarifyVersion + BytecodeViewer.fs + "enjarify-master";
-        BytecodeViewer.krakatauWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion + BytecodeViewer.fs + "Krakatau-master";
         File enjarifyDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify_" + BytecodeViewer.enjarifyVersion);
         File krakatauDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion);
         if (!enjarifyDirectory.exists() || !krakatauDirectory.exists()) {
@@ -99,7 +98,7 @@ public class Boot {
                 Files.delete(temporaryEnjarifyZip);
                 InputStream inputStream = Boot.class.getResourceAsStream("/enjarify-2.zip");
                 Files.copy(inputStream, temporaryEnjarifyZip);
-                ZipUtils.unzipFilesToPath(temporaryEnjarifyZip.normalize().toString(), enjarifyDirectory.getAbsolutePath());
+                ZipUtil.unpack(temporaryEnjarifyZip.toFile(), enjarifyDirectory);
                 Files.delete(temporaryEnjarifyZip);
             } catch (Exception e) {
                 BytecodeViewer.showMessage("ERROR: There was an issue unzipping enjarify (possibly corrupt). Restart BCV." + BytecodeViewer.nl +
@@ -131,7 +130,7 @@ public class Boot {
                 Files.delete(temporaryKrakatauZip);
                 InputStream inputStream = Boot.class.getResourceAsStream("/Krakatau-8.zip");
                 Files.copy(inputStream, temporaryKrakatauZip);
-                ZipUtils.unzipFilesToPath(temporaryKrakatauZip.normalize().toString(), krakatauDirectory.getAbsolutePath());
+                ZipUtil.unpack(temporaryKrakatauZip.toFile(), krakatauDirectory);
                 Files.delete(temporaryKrakatauZip);
             } catch (Exception e) {
                 BytecodeViewer.showMessage("ERROR: There was an issue unzipping Krakatau decompiler (possibly corrupt). Restart BCV." + BytecodeViewer.nl +
@@ -160,5 +159,5 @@ public class Boot {
         public String getMessage() {
             return this.message;
         }
-        }
+    }
 }

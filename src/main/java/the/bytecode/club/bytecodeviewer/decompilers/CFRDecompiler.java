@@ -16,15 +16,20 @@ import org.benf.cfr.reader.util.bytestream.BaseByteData;
 import org.benf.cfr.reader.util.getopt.GetOptParser;
 import org.benf.cfr.reader.util.getopt.Options;
 import org.benf.cfr.reader.util.getopt.OptionsImpl;
-import org.benf.cfr.reader.util.output.*;
+import org.benf.cfr.reader.util.output.Dumper;
+import org.benf.cfr.reader.util.output.FileDumper;
+import org.benf.cfr.reader.util.output.IllegalIdentifierDump;
+import org.benf.cfr.reader.util.output.NopSummaryDumper;
+import org.benf.cfr.reader.util.output.SummaryDumper;
+import org.benf.cfr.reader.util.output.ToStringDumper;
 import org.objectweb.asm.tree.ClassNode;
 import org.zeroturnaround.zip.ZipUtil;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.DecompilerSettings;
 import the.bytecode.club.bytecodeviewer.JarUtils;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -54,6 +59,22 @@ import java.util.List;
  */
 public class CFRDecompiler extends Decompiler {
 
+    public CFRDecompiler() {
+        for (Settings setting : Settings.values()) {
+            settings.registerSetting(setting);
+        }
+    }
+
+    @Override
+    public DecompilerSettings getSettings() {
+        return settings;
+    }
+
+    @Override
+    public String getName() {
+        return "CFR";
+    }
+
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
         try {
@@ -62,11 +83,7 @@ public class CFRDecompiler extends Decompiler {
             DCCommonState dcCommonState = new DCCommonState(options, classFileSource);
             return doClass(dcCommonState, b);
         } catch (Exception e) {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
-            e.printStackTrace();
-            String exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
-            return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+            return parseException(e);
         }
     }
 
@@ -76,129 +93,41 @@ public class CFRDecompiler extends Decompiler {
             Path outputDir = Files.createTempDirectory("cfr_output");
             Path tempJar = Files.createTempFile("cfr_input", ".jar");
             File output = new File(zipName);
-            JarUtils.saveAsJar(BytecodeViewer.getLoadedBytes(), tempJar.toAbsolutePath().toString());
-            Options options = new GetOptParser().parse(generateMainMethod(), OptionsImpl.getFactory());
-            ClassFileSourceImpl classFileSource = new ClassFileSourceImpl(options);
-            DCCommonState dcCommonState = new DCCommonState(options, classFileSource);
-            doJar(dcCommonState, tempJar.toAbsolutePath(), outputDir.toAbsolutePath());
-            ZipUtil.pack(outputDir.toFile(), output);
-            FileUtils.deleteDirectory(outputDir.toFile());
-            Files.delete(tempJar);
+            try {
+                JarUtils.saveAsJar(BytecodeViewer.getLoadedBytes(), tempJar.toAbsolutePath().toString());
+                Options options = new GetOptParser().parse(generateMainMethod(), OptionsImpl.getFactory());
+                ClassFileSourceImpl classFileSource = new ClassFileSourceImpl(options);
+                DCCommonState dcCommonState = new DCCommonState(options, classFileSource);
+                doJar(dcCommonState, tempJar.toAbsolutePath(), outputDir.toAbsolutePath());
+                ZipUtil.pack(outputDir.toFile(), output);
+            } catch (Exception e) {
+                handleException(e);
+            } finally {
+                try {
+                    FileUtils.deleteDirectory(outputDir.toFile());
+                } catch (IOException e) {
+                    handleException(e);
+                }
+                try {
+                    Files.delete(tempJar);
+                } catch (IOException e) {
+                    handleException(e);
+                }
+            }
         } catch (Exception e) {
-            e.printStackTrace(); //TODO How to handle exceptions again?
+            handleException(e);
         }
     }
 
     public String[] generateMainMethod() {
-        return new String[]{
-                "bytecodeviewer",
-                "--decodeenumswitch",
-                String.valueOf(BytecodeViewer.viewer.decodeenumswitch
-                        .isSelected()),
-                "--sugarenums",
-                String.valueOf(BytecodeViewer.viewer.sugarenums.isSelected()),
-                "--decodestringswitch",
-                String.valueOf(BytecodeViewer.viewer.decodestringswitch
-                        .isSelected()),
-                "--arrayiter",
-                String.valueOf(BytecodeViewer.viewer.arrayiter.isSelected()),
-                "--collectioniter",
-                String.valueOf(BytecodeViewer.viewer.collectioniter
-                        .isSelected()),
-                "--innerclasses",
-                String.valueOf(BytecodeViewer.viewer.innerclasses.isSelected()),
-                "--removeboilerplate",
-                String.valueOf(BytecodeViewer.viewer.removeboilerplate
-                        .isSelected()),
-                "--removeinnerclasssynthetics",
-                String.valueOf(BytecodeViewer.viewer.removeinnerclasssynthetics
-                        .isSelected()),
-                "--decodelambdas",
-                String.valueOf(BytecodeViewer.viewer.decodelambdas.isSelected()),
-                "--hidebridgemethods",
-                String.valueOf(BytecodeViewer.viewer.hidebridgemethods
-                        .isSelected()),
-                "--liftconstructorinit",
-                String.valueOf(BytecodeViewer.viewer.liftconstructorinit
-                        .isSelected()),
-                "--removedeadmethods",
-                String.valueOf(BytecodeViewer.viewer.removedeadmethods
-                        .isSelected()),
-                "--removebadgenerics",
-                String.valueOf(BytecodeViewer.viewer.removebadgenerics
-                        .isSelected()),
-                "--sugarasserts",
-                String.valueOf(BytecodeViewer.viewer.sugarasserts.isSelected()),
-                "--sugarboxing",
-                String.valueOf(BytecodeViewer.viewer.sugarboxing.isSelected()),
-                "--showversion",
-                String.valueOf(BytecodeViewer.viewer.showversion.isSelected()),
-                "--decodefinally",
-                String.valueOf(BytecodeViewer.viewer.decodefinally.isSelected()),
-                "--tidymonitors",
-                String.valueOf(BytecodeViewer.viewer.tidymonitors.isSelected()),
-                "--lenient",
-                String.valueOf(BytecodeViewer.viewer.lenient.isSelected()),
-                "--dumpclasspath",
-                String.valueOf(BytecodeViewer.viewer.dumpclasspath.isSelected()),
-                "--comments",
-                String.valueOf(BytecodeViewer.viewer.comments.isSelected()),
-                "--forcetopsort",
-                String.valueOf(BytecodeViewer.viewer.forcetopsort.isSelected()),
-                "--forcetopsortaggress",
-                String.valueOf(BytecodeViewer.viewer.forcetopsortaggress
-                        .isSelected()),
-                "--stringbuffer",
-                String.valueOf(BytecodeViewer.viewer.stringbuffer.isSelected()),
-                "--stringbuilder",
-                String.valueOf(BytecodeViewer.viewer.stringbuilder.isSelected()),
-                "--silent",
-                String.valueOf(BytecodeViewer.viewer.silent.isSelected()),
-                "--recover",
-                String.valueOf(BytecodeViewer.viewer.recover.isSelected()),
-                "--eclipse",
-                String.valueOf(BytecodeViewer.viewer.eclipse.isSelected()),
-                "--override",
-                String.valueOf(BytecodeViewer.viewer.override.isSelected()),
-                "--showinferrable",
-                String.valueOf(BytecodeViewer.viewer.showinferrable
-                        .isSelected()),
-                "--aexagg",
-                String.valueOf(BytecodeViewer.viewer.aexagg.isSelected()),
-                "--forcecondpropagate",
-                String.valueOf(BytecodeViewer.viewer.forcecondpropagate
-                        .isSelected()),
-                "--hideutf",
-                String.valueOf(BytecodeViewer.viewer.hideutf.isSelected()),
-                "--hidelongstrings",
-                String.valueOf(BytecodeViewer.viewer.hidelongstrings
-                        .isSelected()),
-                "--commentmonitors",
-                String.valueOf(BytecodeViewer.viewer.commentmonitor
-                        .isSelected()),
-                "--allowcorrecting",
-                String.valueOf(BytecodeViewer.viewer.allowcorrecting
-                        .isSelected()),
-                "--labelledblocks",
-                String.valueOf(BytecodeViewer.viewer.labelledblocks
-                        .isSelected()),
-                "--j14classobj",
-                String.valueOf(BytecodeViewer.viewer.j14classobj.isSelected()),
-                "--hidelangimports",
-                String.valueOf(BytecodeViewer.viewer.hidelangimports
-                        .isSelected()),
-                "--recovertypeclash",
-                String.valueOf(BytecodeViewer.viewer.recoverytypeclash
-                        .isSelected()),
-                "--recovertypehints",
-                String.valueOf(BytecodeViewer.viewer.recoverytypehints
-                        .isSelected()),
-                "--forcereturningifs",
-                String.valueOf(BytecodeViewer.viewer.forceturningifs
-                        .isSelected()),
-                "--forloopaggcapture",
-                String.valueOf(BytecodeViewer.viewer.forloopaggcapture
-                        .isSelected()),};
+        String[] result = new String[getSettings().size() * 2 + 1];
+        result[0] = "bytecodeviewer";
+        int index = 1;
+        for (Settings setting : Settings.values()) {
+            result[index++] = "--" + setting.getParam();
+            result[index++] = String.valueOf(getSettings().isSelected(setting));
+        }
+        return result;
     }
 
     public static String doClass(DCCommonState dcCommonState, byte[] content1) throws Exception {
@@ -285,6 +214,78 @@ public class CFRDecompiler extends Decompiler {
                     d.close();
                 }
             }
+        }
+    }
+
+    public enum Settings implements DecompilerSettings.Setting {
+        DECODE_ENUM_SWITCH("decodeenumswitch", "Decode Enum Switch", true),
+        SUGAR_ENUMS("sugarenums", "SugarEnums", true),
+        DECODE_STRING_SWITCH("decodestringswitch", "Decode String Switch", true),
+        ARRAYITER("arrayiter", "Arrayiter", true),
+        COLLECTIONITER("collectioniter", "Collectioniter", true),
+        INNER_CLASSES("innerclasses", "Inner Classes", true),
+        REMOVE_BOILER_PLATE("removeboilerplate", "Remove Boiler Plate", true),
+        REMOVE_INNER_CLASS_SYNTHETICS("removeinnerclasssynthetics", "Remove Inner Class Synthetics", true),
+        DECODE_LAMBDAS("decodelambdas", "Decode Lambdas", true),
+        HIDE_BRIDGE_METHODS("hidebridgemethods", "Hide Bridge Methods", true),
+        LIFT_CONSTRUCTOR_INIT("liftconstructorinit", "Lift Constructor Init", true),
+        REMOVE_DEAD_METHODS("removedeadmethods", "Remove Dead Methods", true),
+        REMOVE_BAD_GENERICS("removebadgenerics", "Remove Bad Generics", true),
+        SUGAR_ASSERTS("sugarasserts", "Sugar Asserts", true),
+        SUGAR_BOXING("sugarboxing", "Sugar Boxing", true),
+        SHOW_VERSION("showversion", "Show Version", true),
+        DECODE_FINALLY("decodefinally", "Decode Finally", true),
+        TIDY_MONITORS("tidymonitors", "Tidy Monitors", true),
+        LENIENT("lenient", "Lenient"),
+        DUMP_CLASS_PATH("dumpclasspath", "Dump Classpath"),
+        COMMENTS("comments", "Comments", true),
+        FORCE_TOP_SORT("forcetopsort", "Force Top Sort", true),
+        FORCE_TOP_SORT_AGGRESSIVE("forcetopsortaggress", "Force Top Sort Aggressive", true),
+        STRINGBUFFER("stringbuffer", "StringBuffer"),
+        STRINGBUILDER("stringbuilder", "StringBuilder", true),
+        SILENT("silent", "Silent", true),
+        RECOVER("recover", "Recover", true),
+        ECLIPSE("eclipse", "Eclipse", true),
+        OVERRIDE("override", "Override", true),
+        SHOW_INFERRABLE("showinferrable", "Show Inferrable", true),
+        FORCE_AGGRESSIVE_EXCEPTION_AGG("aexagg", "Force Aggressive Exception Aggregation", true),
+        FORCE_COND_PROPAGATE("forcecondpropagate", "Force Conditional Propogation", true),
+        HIDE_UTF("hideutf", "Hide UTF", true),
+        HIDE_LONG_STRINGS("hidelongstrings", "Hide Long Strings"),
+        COMMENT_MONITORS("commentmonitors", "Comment Monitors"),
+        ALLOW_CORRECTING("allowcorrecting", "Allow Correcting", true),
+        LABELLED_BLOCKS("labelledblocks", "Labelled Blocks", true),
+        J14_CLASS_OBJ("j14classobj", "Java 1.4 Class Objects"),
+        HIDE_LANG_IMPORTS("hidelangimports", "Hide Lang Imports", true),
+        RECOVER_TYPE_CLASH("recovertypeclash", "Recover Type Clash", true),
+        RECOVER_TYPE_HINTS("recovertypehints", "Recover Type Hints", true),
+        FORCE_RETURNING_IFS("forcereturningifs", "Force Returning Ifs", true),
+        FOR_LOOP_AGG_CAPTURE("forloopaggcapture", "For Loop Aggressive Capture", true);
+
+        private String name;
+        private String param;
+        private boolean on;
+
+        Settings(String param, String name) {
+            this(param, name, false);
+        }
+
+        Settings(String param, String name, boolean on) {
+            this.name = name;
+            this.param = param;
+            this.on = on;
+        }
+
+        public String getText() {
+            return name;
+        }
+
+        public boolean isDefaultOn() {
+            return on;
+        }
+
+        public String getParam() {
+            return param;
         }
     }
 }

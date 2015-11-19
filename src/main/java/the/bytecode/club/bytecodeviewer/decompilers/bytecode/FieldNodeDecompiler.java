@@ -1,11 +1,11 @@
 package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

@@ -1,14 +1,13 @@
 package the.bytecode.club.bytecodeviewer.obfuscators.mapping;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.commons.RemappingClassAdapter;
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

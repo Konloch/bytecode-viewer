@@ -2,7 +2,6 @@ package the.bytecode.club.bytecodeviewer.obfuscators.rename;
 
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.obfuscators.JavaObfuscator;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.FieldMappingData;

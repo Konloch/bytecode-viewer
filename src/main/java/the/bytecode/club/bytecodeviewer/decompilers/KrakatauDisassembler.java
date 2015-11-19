@@ -1,20 +1,25 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.objectweb.asm.tree.ClassNode;
+import org.zeroturnaround.zip.ZipUtil;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.JarUtils;
+import the.bytecode.club.bytecodeviewer.MiscUtils;
+import the.bytecode.club.bytecodeviewer.Settings;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import me.konloch.kontainer.io.DiskReader;
-
-import org.objectweb.asm.tree.ClassNode;
-
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.JarUtils;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
-import the.bytecode.club.bytecodeviewer.ZipUtils;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -36,47 +41,49 @@ import the.bytecode.club.bytecodeviewer.ZipUtils;
 
 /**
  * Krakatau Java Disassembler Wrapper, requires Python 2.7
- * 
+ *
  * @author Konloch
  *
  */
 
 public class KrakatauDisassembler extends Decompiler {
+	@Override
+	public String getName() {
+		return "Krakatau Disassembler";
+	}
 
 	public String decompileClassNode(ClassNode cn, byte[] b) {
-		if(BytecodeViewer.python.equals("")) {
+		if(Settings.PYTHON2_LOCATION.isEmpty()) {
 			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
 			BytecodeViewer.viewer.pythonC();
 		}
-		
-		if(BytecodeViewer.python.equals("")) {
+
+		if(Settings.PYTHON2_LOCATION.isEmpty()) {
 			BytecodeViewer.showMessage("You need to set Python!");
 			return "Set your paths";
 		}
-		
+
 		String s = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
-		
-		final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
-		tempDirectory.mkdir();
-		final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp"+MiscUtils.randomString(32)+".jar");
-		JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
-		
-		BytecodeViewer.sm.stopBlocking();
 		try {
+			final Path outputJar = Files.createTempFile("kdisout", ".zip");
+			final Path inputJar = Files.createTempFile("kdisin", ".jar");
+			JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedBytes(), inputJar.toAbsolutePath().toString());
+
+			BytecodeViewer.sm.stopBlocking();
 			ProcessBuilder pb = new ProcessBuilder(
-					BytecodeViewer.python,
+					Settings.PYTHON2_LOCATION.get(),
 					"-O", //love you storyyeller <3
-					BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "disassemble.py",
+					BytecodeViewer.krakatauDirectory.getAbsolutePath() + BytecodeViewer.fs + "disassemble.py",
 					"-path",
-					tempJar.getAbsolutePath(),
+					inputJar.toAbsolutePath().toString(),
 					"-out",
-					tempDirectory.getAbsolutePath(),
+					outputJar.toAbsolutePath().toString(),
 					cn.name+".class"
 			);
 
 	        Process process = pb.start();
 	        BytecodeViewer.createdProcesses.add(process);
-	        
+
 	        //Read out dir output
 	        InputStream is = process.getInputStream();
 	        InputStreamReader isr = new InputStreamReader(is);
@@ -96,15 +103,24 @@ public class KrakatauDisassembler extends Decompiler {
 	            log += BytecodeViewer.nl + line;
 	        }
 	        br.close();
-	        
+
 	        int exitValue = process.waitFor();
 	        log += BytecodeViewer.nl+BytecodeViewer.nl+"Exit Value is " + exitValue;
 			s = log;
-	        
-			//if the motherfucker failed this'll fail, aka wont set.
-			s = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".j");
-			tempDirectory.delete();
-			tempJar.delete();
+
+			ZipFile zipFile=  new ZipFile(outputJar.toFile());
+			Enumeration<? extends ZipEntry> entries = zipFile.entries();
+			byte[] data = null;
+			while (entries.hasMoreElements()) {
+				ZipEntry next = entries.nextElement();
+				if (next.getName().equals(cn.name + ".j")) {
+					data = IOUtils.toByteArray(zipFile.getInputStream(next));
+				}
+			}
+			zipFile.close();
+			Files.delete(inputJar);
+			Files.delete(outputJar);
+			return new String(data, "UTF-8");
 		} catch(Exception e) {
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
@@ -117,25 +133,25 @@ public class KrakatauDisassembler extends Decompiler {
 	}
 
 	@Override public void decompileToZip(String zipName) {
-		if(BytecodeViewer.python.equals("")) {
+		if(Settings.PYTHON2_LOCATION.isEmpty()) {
 			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
 			BytecodeViewer.viewer.pythonC();
 		}
-		
+
 		String ran = MiscUtils.randomString(32);
-		final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + ran + BytecodeViewer.fs);
+		final File tempDirectory = new File(BytecodeViewer.tempDir, ran + BytecodeViewer.fs);
 		tempDirectory.mkdir();
-		final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp.jar");
-		JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
-		
+		final File tempJar = new File(BytecodeViewer.tempDir, "temp.jar");
+		JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedBytes(), tempJar.getAbsolutePath());
+
 		BytecodeViewer.sm.stopBlocking();
 		try {
 			ProcessBuilder pb = new ProcessBuilder(
-					BytecodeViewer.python,
+					Settings.PYTHON2_LOCATION.get(),
 					"-O", //love you storyyeller <3
-					BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "disassemble.py",
+					BytecodeViewer.krakatauDirectory.getAbsolutePath() + BytecodeViewer.fs + "disassemble.py",
 					"-path",
-					BytecodeViewer.rt+";"+tempJar.getAbsolutePath(),
+					Settings.RT_LOCATION.get()+";"+tempJar.getAbsolutePath(),
 					"-out",
 					tempDirectory.getAbsolutePath(),
 					tempJar.getAbsolutePath()
@@ -144,10 +160,9 @@ public class KrakatauDisassembler extends Decompiler {
 	        Process process = pb.start();
 	        BytecodeViewer.createdProcesses.add(process);
 	        process.waitFor();
-			
-	       // ZipUtils.zipDirectory(tempDirectory, new File(zipName));
-	        ZipUtils.zipFolder(tempDirectory.getAbsolutePath(), zipName, ran);
-	        
+
+			ZipUtil.pack(tempDirectory, new File(zipName));
+
 			//tempDirectory.delete();
 			tempJar.delete();
 		} catch(Exception e) {

@@ -1,15 +1,14 @@
 package the.bytecode.club.bytecodeviewer.obfuscators.mapping;
 
+import org.objectweb.asm.commons.Remapper;
+import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.FieldMappingData;
+import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
+import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MethodMappingData;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.objectweb.asm.commons.Remapper;
-
-import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.FieldMappingData;
-import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
-import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MethodMappingData;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -72,7 +71,7 @@ public class RefactorMapper extends Remapper {
     @Override
     public String map(String type) {
         if (sortedClasses.containsKey(type)) {
-        	String map = new String(type + " --> " + sortedClasses.get(type).getRefactoredName() + "\n");
+        	String map = type + " --> " + sortedClasses.get(type).getRefactoredName() + "\n";
         	if (!mappingList.contains(map))
         		mappingList.add(map);
         	
@@ -85,7 +84,7 @@ public class RefactorMapper extends Remapper {
     public String mapFieldName(String owner, String name, String desc) {
         String obfKey = owner + "$$$$" + name + "$$$$" + desc;
         if (sortedFields.containsKey(obfKey)) {
-        	String map = new String(owner + "." + name + " --> " + owner + sortedFields.get(obfKey).getName().getRefactoredName() + "\n");
+        	String map = owner + "." + name + " --> " + owner + sortedFields.get(obfKey).getName().getRefactoredName() + "\n";
         	if (!mappingList.contains(map))
         		mappingList.add(map);
             name = sortedFields.get(obfKey).getName().getRefactoredName();
@@ -97,7 +96,7 @@ public class RefactorMapper extends Remapper {
     public String mapMethodName(String owner, String name, String desc) {
         String obfKey = owner + "$$$$" + name + "$$$$" + desc;
         if (sortedMethods.containsKey(obfKey)) {
-        	String map = new String(owner + "." + name + " --> " + owner + sortedMethods.get(obfKey).getMethodName().getRefactoredName() + "\n");
+        	String map = owner + "." + name + " --> " + owner + sortedMethods.get(obfKey).getMethodName().getRefactoredName() + "\n";
         	if (!mappingList.contains(map))
         		mappingList.add(map);
             name = sortedMethods.get(obfKey).getMethodName().getRefactoredName();

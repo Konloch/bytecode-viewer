@@ -1,5 +1,14 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -8,17 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.util.HashMap;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import org.objectweb.asm.tree.ClassNode;
-
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -156,7 +154,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 	}
 
 	public java.awt.Component[] getLoadedViewers() {
-		return (java.awt.Component[])tabs.getComponents();
+		return tabs.getComponents();
 	}
 	
 	@Override
@@ -193,6 +191,9 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 	}
 
 	public void resetWorkspace() {
+		for (Component component : tabs.getComponents()) {
+			((ClassViewer) component).reset();
+		}
 		tabs.removeAll();
 		tabs.updateUI();
 	}

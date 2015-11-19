@@ -1,13 +1,11 @@
 package the.bytecode.club.bytecodeviewer.plugin.strategies;
 
-import java.io.File;
-
-import me.konloch.kontainer.io.DiskReader;
-
+import org.apache.commons.io.FileUtils;
 import org.codehaus.janino.SimpleCompiler;
-
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
+
+import java.io.File;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -38,7 +36,7 @@ public class JavaPluginLaunchStrategy implements PluginLaunchStrategy {
 
 	@Override
 	public Plugin run(File file) throws Throwable {
-		compiler.cook(DiskReader.loadAsString(file.getAbsolutePath()));
+		compiler.cook(FileUtils.readFileToString(file, "UTF-8"));
 
 		System.out.println(file.getName().substring(0,(int)(file.getName().length()-(".java".length()))));
 		Class<?> clazz = (Class<?>) Class.forName(

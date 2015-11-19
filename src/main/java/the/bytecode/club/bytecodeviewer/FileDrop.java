@@ -335,8 +335,7 @@ public class FileDrop {
 							// Get a useful list
 							final java.util.List fileList = (java.util.List) tr
 									.getTransferData(java.awt.datatransfer.DataFlavor.javaFileListFlavor);
-							final java.util.Iterator iterator = fileList
-									.iterator();
+							final java.util.Iterator iterator = fileList.iterator();
 
 							// Convert list to array
 							final java.io.File[] filesTemp = new java.io.File[fileList
@@ -466,7 +465,7 @@ public class FileDrop {
 			catch (final Exception e) {
 				support = false;
 			} // end catch
-			supportsDnD = new Boolean(support);
+			supportsDnD = support;
 		} // end if: first time through
 		return supportsDnD.booleanValue();
 	} // end supportsDnD

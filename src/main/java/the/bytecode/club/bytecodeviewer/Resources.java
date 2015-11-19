@@ -1,15 +1,13 @@
 package the.bytecode.club.bytecodeviewer;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.util.ArrayList;
+import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-
-import org.apache.commons.codec.binary.Base64;
-import org.imgscalr.Scalr;
+import javax.xml.bind.DatatypeConverter;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -37,7 +35,6 @@ import org.imgscalr.Scalr;
  */
 
 public class Resources {
-	
 	public static ArrayList<BufferedImage> iconList;
 	public static BufferedImage icon;
 	public static ImageIcon nextIcon;
@@ -86,7 +83,7 @@ public class Resources {
 		decodedIcon = new ImageIcon(Resources.class.getClass().getResource("/decoded.png"));
 		javaIcon = new ImageIcon(Resources.class.getClass().getResource("/java.png"));
 		
-		iconList = new ArrayList<BufferedImage>();
+		iconList = new ArrayList<>();
 		int size = 16;
 		for (int i = 0; i < 24; i++) {
 			iconList.add(resize(icon, size, size));
@@ -106,24 +103,13 @@ public class Resources {
 		byte[] imageByte;
 
 		try {
-			imageByte = Base64.decodeBase64(imageString);
+			imageByte = DatatypeConverter.parseBase64Binary(imageString);
 			ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
 			image = ImageIO.read(bis);
 			bis.close();
 		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		}
-
 		return image;
 	}
-	
-	public static String findLibrary(String nameContains) {
-		for(File f : new File(BytecodeViewer.libsDirectory).listFiles()) {
-			if(f.getName().contains(nameContains))
-				return f.getAbsolutePath();
-		}
-		
-		return null;
-	}
-	
 }

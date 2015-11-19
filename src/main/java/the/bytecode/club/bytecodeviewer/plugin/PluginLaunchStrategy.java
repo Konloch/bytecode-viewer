@@ -1,8 +1,8 @@
 package the.bytecode.club.bytecodeviewer.plugin;
 
-import java.io.File;
-
 import the.bytecode.club.bytecodeviewer.api.Plugin;
+
+import java.io.File;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

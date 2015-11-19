@@ -2,9 +2,15 @@ package the.bytecode.club.bytecodeviewer.gui;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.Settings;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Toolkit;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -28,11 +34,10 @@ import java.awt.*;
  * The about frame.
  *
  * @author Konloch
- *
  */
-
 public class AboutWindow extends JFrame {
-    JTextArea textArea = new JTextArea();
+    private static final long serialVersionUID = -8230501978224923296L;
+    private JTextArea textArea = new JTextArea();
 
     public AboutWindow() {
         this.setIconImages(Resources.iconList);
@@ -54,20 +59,21 @@ public class AboutWindow extends JFrame {
     public void setVisible(boolean b) {
         super.setVisible(b);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
-        textArea.setText("Bytecode Viewer " + BytecodeViewer.version + " is an open source program developed and maintained by Konloch (konloch@gmail.com) 100% free and open sourced licensed under GPL v3 CopyLeft\r\n\r\n" +
+        textArea.setText("Bytecode Viewer " + BytecodeViewer.version + " is an open source program developed and maintained by Konloch (konloch@gmail.com) and samczsun 100% free and open sourced licensed under GPL v3 CopyLeft" + BytecodeViewer.nl +
+                BytecodeViewer.nl +
                 "Settings:" + BytecodeViewer.nl +
                 "	Preview Copy: " + BytecodeViewer.previewCopy + BytecodeViewer.nl +
-                "	Java: " + BytecodeViewer.java + BytecodeViewer.nl +
-                "	Javac: " + BytecodeViewer.javac + BytecodeViewer.nl +
+                "	Java: " + Settings.JAVA_LOCATION.get() + BytecodeViewer.nl +
+                "	Javac: " + Settings.JAVAC_LOCATION.get() + BytecodeViewer.nl +
                 "	BCV Dir: " + BytecodeViewer.getBCVDirectory() + BytecodeViewer.nl +
-                "	Python 2.7 (or PyPy): " + BytecodeViewer.python + BytecodeViewer.nl +
-                "	Python 3.X (or PyPy): " + BytecodeViewer.python3 + BytecodeViewer.nl +
-                "	RT.jar:" + BytecodeViewer.rt + BytecodeViewer.nl +
-                "	Optional Lib: " + BytecodeViewer.library + BytecodeViewer.nl +
+                "	Python 2.7 (or PyPy): " + Settings.PYTHON2_LOCATION.get() + BytecodeViewer.nl +
+                "	Python 3.X (or PyPy): " + Settings.PYTHON3_LOCATION.get() + BytecodeViewer.nl +
+                "	RT.jar:" + Settings.RT_LOCATION.get() + BytecodeViewer.nl +
+                "	Optional Lib: " + Settings.PATH.get() + BytecodeViewer.nl +
                 "	BCV Krakatau: v" + BytecodeViewer.krakatauVersion + BytecodeViewer.nl +
-                "	Krakatau Dir: " + BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.nl +
+                "	Krakatau Dir: " + BytecodeViewer.krakatauDirectory.getAbsolutePath() + BytecodeViewer.nl +
                 "	BCV Enjarify: v" + BytecodeViewer.enjarifyVersion + BytecodeViewer.nl +
-                "	Enjarify Dir: " + BytecodeViewer.enjarifyWorkingDirectory + BytecodeViewer.nl + BytecodeViewer.nl +
+                "	Enjarify Dir: " + BytecodeViewer.enjarifyDirectory.getAbsolutePath()+ BytecodeViewer.nl + BytecodeViewer.nl +
                 "Command Line Input:" + BytecodeViewer.nl +
                 "	-help                         Displays the help menu" + BytecodeViewer.nl +
                 "	-list                         Displays the available decompilers" + BytecodeViewer.nl +
@@ -82,11 +88,24 @@ public class AboutWindow extends JFrame {
                 "	CTRL + W: Closes the currently opened tab" + BytecodeViewer.nl +
                 "	CTRL + T: Compile" + BytecodeViewer.nl +
                 "	CTRL + S: Save classes as zip" + BytecodeViewer.nl +
-                "	CTRL + R: Run (EZ-Inject) - dynamically load the classes and invoke a main class" +
-                "\r\n\r\nCode from various projects has been used, including but not limited to:\r\n	J-RET by WaterWolf\r\n	JHexPane by Sam Koivu\r\n	RSynaxPane by Robert Futrell\r\n	Commons IO by Apache\r\n	ASM by OW2\r\n	FernFlower by Stiver\r\n	Procyon by Mstrobel\r\n	CFR by Lee Benfield\r\n	CFIDE by Bibl\r\n	Smali by JesusFreke\r\n	Dex2Jar by pxb1..?\r\n	Krakatau by Storyyeller\r\n	JD-GUI + JD-Core by The Java-Decompiler Team\r\n	Enjarify by Storyyeller\r\n\r\nIf you're interested in Java Reverse Engineering, join The Bytecode Club - https://the.bytecode.club");
-
+                "	CTRL + R: Run (EZ-Inject) - dynamically load the classes and invoke a main class" + BytecodeViewer.nl +
+                BytecodeViewer.nl +
+                "Code from various projects has been used, including but not limited to:" + BytecodeViewer.nl +
+                "	J-RET by WaterWolf" + BytecodeViewer.nl +
+                "	JHexPane by Sam Koivu" + BytecodeViewer.nl +
+                "	RSynaxPane by Robert Futrell" + BytecodeViewer.nl +
+                "	Commons IO by Apache" + BytecodeViewer.nl +
+                "	ASM by OW2" + BytecodeViewer.nl +
+                "	FernFlower by Stiver" + BytecodeViewer.nl +
+                "	Procyon by Mstrobel" + BytecodeViewer.nl +
+                "	CFR by Lee Benfield" + BytecodeViewer.nl +
+                "	CFIDE by Bibl" + BytecodeViewer.nl +
+                "	Smali by JesusFreke" + BytecodeViewer.nl +
+                "	Dex2Jar by pxb1..?" + BytecodeViewer.nl +
+                "	Krakatau by Storyyeller" + BytecodeViewer.nl +
+                "	JD-GUI + JD-Core by The Java-Decompiler Team" + BytecodeViewer.nl +
+                "	Enjarify by Storyyeller" + BytecodeViewer.nl +
+                BytecodeViewer.nl +
+                "If you're interested in Java Reverse Engineering, join The Bytecode Club - https://the.bytecode.club");
     }
-
-    private static final long serialVersionUID = -8230501978224923296L;
-
 }

@@ -1,10 +1,9 @@
 package the.bytecode.club.bytecodeviewer.api;
 
-import java.util.ArrayList;
-
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
+import java.util.ArrayList;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -37,11 +36,11 @@ public abstract class Plugin extends Thread {
 	public void run() {
 		BytecodeViewer.viewer.setIcon(true);
 		try {
-			if(BytecodeViewer.getLoadedClasses().isEmpty()) {
+			if(BytecodeViewer.getLoadedBytes().isEmpty()) {
 				BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
 				return;
 			}
-			execute(BytecodeViewer.getLoadedClasses());
+			execute(BytecodeViewer.loadAllClasses());
 		} catch (Exception e) {
 			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
 		} finally {

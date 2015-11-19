@@ -1,8 +1,15 @@
 package the.bytecode.club.bytecodeviewer;
 
-import javax.swing.*;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.text.html.HTMLEditorKit;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.io.IOException;
 
 /***************************************************************************

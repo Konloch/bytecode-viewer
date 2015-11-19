@@ -1,18 +1,15 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import javax.swing.JFrame;
-
-import java.awt.Dimension;
-
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.MaliciousCodeScanner;
 
-import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

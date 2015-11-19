@@ -1,28 +1,43 @@
 package the.bytecode.club.bytecodeviewer;
 
-import me.konloch.kontainer.io.DiskReader;
-import me.konloch.kontainer.io.DiskWriter;
 import me.konloch.kontainer.io.HTTPRequest;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
-import the.bytecode.club.bytecodeviewer.gui.*;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
+import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
+import the.bytecode.club.bytecodeviewer.gui.FileNavigationPane;
+import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
+import the.bytecode.club.bytecodeviewer.gui.RunOptions;
+import the.bytecode.club.bytecodeviewer.gui.SearchingPane;
+import the.bytecode.club.bytecodeviewer.gui.SystemErrConsole;
+import the.bytecode.club.bytecodeviewer.gui.WorkPane;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
-import java.awt.*;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /***************************************************************************
@@ -107,37 +122,31 @@ import java.util.Map;
 public class BytecodeViewer {
 
     /*per version*/
-    public static String version = "3.0.0";
-    public static boolean previewCopy = false;
+    public static final String version = "3.0.0";
+    public static final String krakatauVersion = "8";
+    public static final String enjarifyVersion = "2";
+    public static final boolean previewCopy = false;
+    /* Constants */
+    public static final String fs = System.getProperty("file.separator");
+    public static final String nl = System.getProperty("line.separator");
+    public static final File dataDir = new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
+    public static final File filesFile = new File(dataDir, "recentfiles.bcv");
+    public static final File pluginsFile = new File(dataDir, "recentplugins.bcv");
+    public static final File settingsFile = new File(dataDir, "settings.bcv");
+    public static final File krakatauDirectory = new File(dataDir + fs + "krakatau_" + krakatauVersion + fs + "Krakatau-master");
+    public static final File enjarifyDirectory = new File(dataDir + fs + "enjarify_" + enjarifyVersion + fs + "enjarify-master");
+    @Deprecated
+    public static final File tempDir = new File(dataDir, "bcv_temp");
+    private static final long start = System.currentTimeMillis();
     /*the rest*/
-    public static String[] args;
     public static MainViewerGUI viewer = null;
-    public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV, however that's highly unlikely.
-    public static SecurityMan sm = new SecurityMan(); //might be insecure due to assholes targeting BCV, however that's highly unlikely.
-    public static String python = "";
-    public static String python3 = "";
-    public static String rt = "";
-    public static String library = "";
-    public static String javac = "";
-    public static String java = "";
+    public static ClassNodeLoader loader = new ClassNodeLoader(); // TODO MAKE SECURE BECAUSE THIS IS INSECURE
+    public static SecurityMan sm = new SecurityMan(); // TODO MAKE SECURE BECAUSE THIS IS INSECURE
     public static ArrayList<FileContainer> files = new ArrayList<FileContainer>(); //all of BCV's loaded files/classes/etc
     private static int maxRecentFiles = 25;
-    public static String fs = System.getProperty("file.separator");
-    public static String nl = System.getProperty("line.separator");
-    private static File BCVDir = new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
-    private static String filesName = getBCVDirectory() + fs + "recentfiles.bcv";
-    private static String pluginsName = getBCVDirectory() + fs + "recentplugins.bcv";
-    public static String settingsName = getBCVDirectory() + fs + "settings.bcv";
-    public static String tempDirectory = getBCVDirectory() + fs + "bcv_temp" + fs;
-    public static String libsDirectory = getBCVDirectory() + fs + "libs" + fs;
-    public static String krakatauWorkingDirectory = "";
-    public static String krakatauVersion = "8";
-    public static String enjarifyWorkingDirectory = "";
-    public static String enjarifyVersion = "2";
-    private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
-    private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
+    private static List<String> recentFiles = new ArrayList<>();
+    private static List<String> recentPlugins = new ArrayList<>();
     public static boolean runningObfuscation = false;
-    private static long start = System.currentTimeMillis();
     public static String lastDirectory = "";
     public static ArrayList<Process> createdProcesses = new ArrayList<Process>();
     public static Refactorer refactorer = new Refactorer();
@@ -150,30 +159,36 @@ public class BytecodeViewer {
      * @param args files you want to open or CLI
      */
     public static void main(String[] args) {
-        System.setSecurityManager(sm);
-        BytecodeViewer.args = args;
-        System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            if (previewCopy && !CommandLineInput.containsCommand(args))
+        } catch (Exception e) {
+            new ExceptionUI(e);
+        }
+        try {
+            System.setSecurityManager(sm);
+            System.out.println("https://the.bytecode.club - Created by @Konloch and @samczsun - Bytecode Viewer " + version);
+            CommandLineInput input = new CommandLineInput(args);
+            if (previewCopy && !input.containsCommand())
                 showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when " + version + " is actually out if you use this." + nl +
                         "Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for " + version + "'s release");
-
-            viewer = new MainViewerGUI();
-            Settings.loadGUI();
-
-            int CLI = CommandLineInput.parseCommandLine(args);
-
-            if (CLI == CommandLineInput.STOP)
-                return;
-
-            Boot.boot();
-
-            if (CLI == CommandLineInput.OPEN_FILE)
-                BytecodeViewer.BOOT(false);
-            else {
-                BytecodeViewer.BOOT(true);
-                CommandLineInput.executeCommandLine(args);
+            if (!filesFile.exists() && !filesFile.createNewFile()) {
+                throw new RuntimeException("Could not create recent files file");
+            }
+            if (!pluginsFile.exists() && !pluginsFile.createNewFile()) {
+                throw new RuntimeException("Could not create recent plugins file");
+            }
+            recentFiles.addAll(FileUtils.readLines(filesFile, "UTF-8"));
+            recentPlugins.addAll(FileUtils.readLines(pluginsFile, "UTF-8"));
+            int CLI = input.parseCommandLine();
+            if (CLI == CommandLineInput.STOP) return;
+            if (CLI == CommandLineInput.OPEN_FILE) {
+                viewer = new MainViewerGUI();
+                Settings.loadGUI();
+                Boot.boot();
+                BytecodeViewer.BOOT(args, false);
+            } else {
+                BytecodeViewer.BOOT(args, true);
+                input.executeCommandLine();
             }
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -183,7 +198,7 @@ public class BytecodeViewer {
     /**
      * The version checker thread
      */
-    private static Thread versionChecker = new Thread() {
+    private static final Thread versionChecker = new Thread() {
         @Override
         public void run() {
             try {
@@ -192,8 +207,7 @@ public class BytecodeViewer {
                 try {
                     int simplemaths = Integer.parseInt(version.replace(".", ""));
                     int simplemaths2 = Integer.parseInt(BytecodeViewer.version.replace(".", ""));
-                    if (simplemaths2 > simplemaths)
-                        return; //developer version
+                    if (simplemaths2 > simplemaths) return; //developer version
                 } catch (Exception e) {
 
                 }
@@ -210,35 +224,21 @@ public class BytecodeViewer {
                             changelog = "";
                             trigger = true;
                         } else if (trigger) {
-                            if (st.startsWith("--- "))
-                                finalTrigger = true;
+                            if (st.startsWith("--- ")) finalTrigger = true;
 
-                            if (finalTrigger)
-                                changelog += st + nl;
+                            if (finalTrigger) changelog += st + nl;
                         }
                     }
 
-                    JOptionPane pane = new JOptionPane("Your version: "
-                            + BytecodeViewer.version
-                            + ", latest version: "
-                            + version
-                            + nl
-                            + nl
-                            + "Changes since your version:"
-                            + nl
-                            + changelog
-                            + nl
-                            + "What would you like to do?");
+                    JOptionPane pane = new JOptionPane("Your version: " + BytecodeViewer.version + ", latest version: " + version + nl + nl + "Changes since your version:" + nl + changelog + nl + "What would you like to do?");
                     Object[] options = new String[]{"Open The Download Page", "Download The Updated Jar", "Do Nothing"};
                     pane.setOptions(options);
-                    JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-                            "Bytecode Viewer - Outdated Version");
+                    JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Outdated Version");
                     dialog.setVisible(true);
                     Object obj = pane.getValue();
                     int result = -1;
                     for (int k = 0; k < options.length; k++)
-                        if (options[k].equals(obj))
-                            result = k;
+                        if (options[k].equals(obj)) result = k;
 
                     if (result == 0) {
                         if (Desktop.isDesktopSupported()) {
@@ -277,17 +277,14 @@ public class BytecodeViewer {
                                 pane = new JOptionPane("The file " + file + " exists, would you like to overwrite it?");
                                 options = new String[]{"Yes", "No"};
                                 pane.setOptions(options);
-                                dialog = pane.createDialog(BytecodeViewer.viewer,
-                                        "Bytecode Viewer - Overwrite File");
+                                dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Overwrite File");
                                 dialog.setVisible(true);
                                 obj = pane.getValue();
                                 result = -1;
                                 for (int k = 0; k < options.length; k++)
-                                    if (options[k].equals(obj))
-                                        result = k;
+                                    if (options[k].equals(obj)) result = k;
 
-                                if (result != 0)
-                                    return;
+                                if (result != 0) return;
 
                                 file.delete();
                             }
@@ -312,11 +309,9 @@ public class BytecodeViewer {
                                                 downloaded += 8192;
                                                 int mbs = downloaded / 1048576;
                                                 if (mbs % 5 == 0 && mbs != 0) {
-                                                    if (!flag)
-                                                        System.out.println("Downloaded " + mbs + "MBs so far");
+                                                    if (!flag) System.out.println("Downloaded " + mbs + "MBs so far");
                                                     flag = true;
-                                                } else
-                                                    flag = false;
+                                                } else flag = false;
                                             }
                                         } finally {
                                             try {
@@ -353,7 +348,7 @@ public class BytecodeViewer {
     /**
      * Pings back to bytecodeviewer.com to be added into the total running statistics
      */
-    private static Thread PingBack = new Thread() {
+    private static final Thread PingBack = new Thread() {
         @Override
         public void run() {
             try {
@@ -365,23 +360,19 @@ public class BytecodeViewer {
     };
 
     public static void pingback() {
-        JOptionPane pane = new JOptionPane(
-                "Would you like to 'pingback' to https://bytecodeviewer.com to be counted in the global users for BCV?");
+        JOptionPane pane = new JOptionPane("Would you like to 'pingback' to https://bytecodeviewer.com to be counted in the global users for BCV?");
         Object[] options = new String[]{"Yes", "No"};
         pane.setOptions(options);
-        JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-                "Bytecode Viewer - Optional Pingback");
+        JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Optional Pingback");
         dialog.setVisible(true);
         Object obj = pane.getValue();
         int result = -1;
         for (int k = 0; k < options.length; k++)
-            if (options[k].equals(obj))
-                result = k;
+            if (options[k].equals(obj)) result = k;
 
         if (result == 0) {
             try {
-                if (!PingBack.isAlive())
-                    PingBack.start();
+                if (!PingBack.isAlive()) PingBack.start();
             } catch (Exception e) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
             }
@@ -389,35 +380,23 @@ public class BytecodeViewer {
     }
 
     /**
-     * Grab the byte array from the loaded Class object
-     *
-     * @param clazz
-     * @return
-     * @throws IOException
-     */
-    public static byte[] getClassFile(Class<?> clazz) throws IOException {
-        InputStream is = clazz.getResourceAsStream("/" + clazz.getName().replace('.', '/') + ".class");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int r = 0;
-        byte[] buffer = new byte[8192];
-        while ((r = is.read(buffer)) >= 0) {
-            baos.write(buffer, 0, r);
-        }
-        return baos.toByteArray();
-    }
-
-    /**
      * Boot after all of the libraries have been loaded
      *
      * @param cli is it running CLI mode or not
      */
-    public static void BOOT(boolean cli) {
+    public static void BOOT(String[] args, boolean cli) {
         cleanup();
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
                 for (Process proc : createdProcesses)
                     proc.destroy();
+                try {
+                    FileUtils.writeLines(filesFile, recentFiles);
+                    FileUtils.writeLines(pluginsFile, recentPlugins);
+                } catch (IOException e) {
+                    new ExceptionUI(e);
+                }
                 Settings.saveGUI();
                 cleanup();
             }
@@ -431,19 +410,15 @@ public class BytecodeViewer {
             pingback = true;
         }
 
-        if (viewer.chckbxmntmNewCheckItem_12.isSelected())
-            versionChecker.start();
+        if (viewer.chckbxmntmNewCheckItem_12.isSelected()) versionChecker.start();
 
-        if (!cli)
-            viewer.setVisible(true);
+        if (!cli) viewer.setVisible(true);
 
         System.out.println("Start up took " + ((System.currentTimeMillis() - start) / 1000) + " seconds");
 
-        if (!cli)
-            if (args.length >= 1)
-                for (String s : args) {
-                    openFiles(new File[]{new File(s)}, true);
-                }
+        if (!cli) if (args.length >= 1) for (String s : args) {
+            openFiles(new File[]{new File(s)}, true);
+        }
     }
 
     /**
@@ -453,32 +428,6 @@ public class BytecodeViewer {
      */
     public static void exit(int i) {
 
-    }
-
-    /**
-     * Returns the java command it can use to launch the decompilers
-     *
-     * @return
-     */
-    public static synchronized String getJavaCommand() {
-        try {
-            sm.stopBlocking();
-            ProcessBuilder pb = new ProcessBuilder("java", "-version");
-            Process p = pb.start();
-            sm.setBlocking();
-            if (p != null)
-                return "java"; //java is set
-        } catch (Exception e) { //ignore
-            sm.setBlocking();
-            boolean empty = java.isEmpty();
-            while (empty) {
-                showMessage("You need to set your Java path, this requires the JRE to be downloaded." + BytecodeViewer.nl +
-                        "(C:/programfiles/Java/JRE_xx/bin/java.exe)");
-                viewer.java();
-                empty = java.isEmpty();
-            }
-        }
-        return java;
     }
 
     /**
@@ -498,11 +447,19 @@ public class BytecodeViewer {
      */
     public static ClassNode getClassNode(String name) {
         for (FileContainer container : files) {
-            if (container.getClassNode(name) != null) {
+            if (container.getData().containsKey(name + ".class")) {
                 return container.getClassNode(name);
             }
         }
+        return null;
+    }
 
+    public static byte[] getClassBytes(String name) {
+        for (FileContainer container : files) {
+            if (container.getData().containsKey(name)) {
+                return container.getData().get(name);
+            }
+        }
         return null;
     }
 
@@ -515,8 +472,7 @@ public class BytecodeViewer {
     public static byte[] getFileContents(String name) {
         for (FileContainer container : files) {
             HashMap<String, byte[]> files = container.files;
-            if (files.containsKey(name))
-                return files.get(name);
+            if (files.containsKey(name)) return files.get(name);
         }
 
         return null;
@@ -530,8 +486,7 @@ public class BytecodeViewer {
      */
     public static void updateNode(ClassNode oldNode, ClassNode newNode) {
         for (FileContainer container : files) {
-            if (container.remove(oldNode))
-                container.add(newNode);
+            if (container.remove(oldNode)) container.add(newNode);
         }
     }
 
@@ -545,8 +500,21 @@ public class BytecodeViewer {
 
         for (FileContainer container : files)
             for (ClassNode c : container.values())
-                if (!a.contains(c))
-                    a.add(c);
+                if (!a.contains(c)) a.add(c);
+
+        return a;
+    }
+
+    public static ArrayList<ClassNode> loadAllClasses() {
+        ArrayList<ClassNode> a = new ArrayList<ClassNode>();
+        for (FileContainer container : files) {
+            for (String s : container.files.keySet()) {
+                ClassNode loaded = container.getClassNode(s.substring(0, s.length() - 6));
+                if (loaded != null) {
+                    a.add(loaded);
+                }
+            }
+        }
 
         return a;
     }
@@ -572,9 +540,13 @@ public class BytecodeViewer {
         for (java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers()) {
             if (c instanceof ClassViewer) {
                 ClassViewer cv = (ClassViewer) c;
-                if (cv.smali1 != null && cv.smali1.isEditable() ||
-                        cv.smali2 != null && cv.smali2.isEditable() ||
-                        cv.smali3 != null && cv.smali3.isEditable()) {
+                boolean valid = false;
+                for (int i = 0; i < cv.panels.size(); i++) {
+                    if (cv.smalis.get(i) != null && cv.smalis.get(i).isEditable()) {
+                        valid = true;
+                    }
+                }
+                if (valid) {
                     actuallyTried = true;
                     Object smali[] = cv.getSmali();
                     if (smali != null) {
@@ -591,11 +563,13 @@ public class BytecodeViewer {
                         }
                     }
                 }
-
-
-                if (cv.krakatau1 != null && cv.krakatau1.isEditable() ||
-                        cv.krakatau2 != null && cv.krakatau2.isEditable() ||
-                        cv.krakatau3 != null && cv.krakatau3.isEditable()) {
+                valid = false;
+                for (int i = 0; i < cv.panels.size(); i++) {
+                    if (cv.krakataus.get(i) != null && cv.krakataus.get(i).isEditable()) {
+                        valid = true;
+                    }
+                }
+                if (valid) {
                     actuallyTried = true;
                     Object krakatau[] = cv.getKrakatau();
                     if (krakatau != null) {
@@ -612,10 +586,13 @@ public class BytecodeViewer {
                         }
                     }
                 }
-
-                if (cv.java1 != null && cv.java1.isEditable() ||
-                        cv.java2 != null && cv.java2.isEditable() ||
-                        cv.java3 != null && cv.java3.isEditable()) {
+                valid = false;
+                for (int i = 0; i < cv.panels.size(); i++) {
+                    if (cv.javas.get(i) != null && cv.javas.get(i).isEditable()) {
+                        valid = true;
+                    }
+                }
+                if (valid) {
                     actuallyTried = true;
                     Object java[] = cv.getJava();
                     if (java != null) {
@@ -642,11 +619,8 @@ public class BytecodeViewer {
             }
         }
 
-        if (message)
-            if (actuallyTried)
-                BytecodeViewer.showMessage("Compiled Successfully.");
-            else
-                BytecodeViewer.showMessage("You have no editable panes opened, make one editable and try again.");
+        if (message) if (actuallyTried) BytecodeViewer.showMessage("Compiled Successfully.");
+        else BytecodeViewer.showMessage("You have no editable panes opened, make one editable and try again.");
 
         BytecodeViewer.viewer.setIcon(false);
         return true;
@@ -661,10 +635,8 @@ public class BytecodeViewer {
      * @param recentFiles if it should append to the recent files menu
      */
     public static void openFiles(final File[] files, boolean recentFiles) {
-        if (recentFiles)
-            for (File f : files)
-                if (f.exists())
-                    BytecodeViewer.addRecentFile(f);
+        if (recentFiles) for (File f : files)
+            if (f.exists()) BytecodeViewer.addRecentFile(f);
 
         BytecodeViewer.viewer.setIcon(true);
         update = true;
@@ -691,12 +663,11 @@ public class BytecodeViewer {
                                     boolean added = false;
                                     for (int i = 0; i < totalFiles.size(); i++) {
                                         File child = totalFiles.get(i);
-                                        if (child.listFiles() != null)
-                                            for (File rocket : child.listFiles())
-                                                if (!totalFiles.contains(rocket)) {
-                                                    totalFiles.add(rocket);
-                                                    added = true;
-                                                }
+                                        if (child.listFiles() != null) for (File rocket : child.listFiles())
+                                            if (!totalFiles.contains(rocket)) {
+                                                totalFiles.add(rocket);
+                                                added = true;
+                                            }
                                     }
 
                                     if (!added) {
@@ -746,7 +717,7 @@ public class BytecodeViewer {
                                         FileContainer container = new FileContainer(f);
 
                                         if (viewer.decodeAPKResources.isSelected()) {
-                                            File decodedResources = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
+                                            File decodedResources = new File(tempDir, MiscUtils.randomString(32) + ".apk");
                                             APKTool.decodeResources(f, decodedResources);
                                             container.files = JarUtils.loadResources(decodedResources);
                                         }
@@ -754,7 +725,7 @@ public class BytecodeViewer {
                                         container.files.putAll(JarUtils.loadResources(f));
 
                                         String name = getRandomizedName() + ".jar";
-                                        File output = new File(tempDirectory + fs + name);
+                                        File output = new File(tempDir, name);
 
                                         if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
                                             Dex2Jar.dex2Jar(f, output);
@@ -777,7 +748,7 @@ public class BytecodeViewer {
                                         FileContainer container = new FileContainer(f);
 
                                         String name = getRandomizedName() + ".jar";
-                                        File output = new File(tempDirectory + fs + name);
+                                        File output = new File(tempDir, name);
 
                                         if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
                                             Dex2Jar.dex2Jar(f, output);
@@ -811,11 +782,10 @@ public class BytecodeViewer {
                     new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                 } finally {
                     BytecodeViewer.viewer.setIcon(false);
-                    if (update)
-                        try {
-                            MainViewerGUI.getComponent(FileNavigationPane.class).updateTree();
-                        } catch (java.lang.NullPointerException e) {
-                        }
+                    if (update) try {
+                        MainViewerGUI.getComponent(FileNavigationPane.class).updateTree();
+                    } catch (java.lang.NullPointerException e) {
+                    }
                 }
             }
         };
@@ -828,8 +798,7 @@ public class BytecodeViewer {
      * @param file the file of the plugin
      */
     public static void startPlugin(File file) {
-        if (!file.exists())
-            return;
+        if (!file.exists()) return;
 
         try {
             PluginManager.runPlugin(file);
@@ -861,18 +830,15 @@ public class BytecodeViewer {
             MainViewerGUI.getComponent(SearchingPane.class).resetWorkspace();
             the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
         } else {
-            JOptionPane pane = new JOptionPane(
-                    "Are you sure you want to reset the workspace?\n\rIt will also reset your file navigator and search.");
+            JOptionPane pane = new JOptionPane("Are you sure you want to reset the workspace?\n\rIt will also reset your file navigator and search.");
             Object[] options = new String[]{"Yes", "No"};
             pane.setOptions(options);
-            JDialog dialog = pane.createDialog(viewer,
-                    "Bytecode Viewer - Reset Workspace");
+            JDialog dialog = pane.createDialog(viewer, "Bytecode Viewer - Reset Workspace");
             dialog.setVisible(true);
             Object obj = pane.getValue();
             int result = -1;
             for (int k = 0; k < options.length; k++)
-                if (options[k].equals(obj))
-                    result = k;
+                if (options[k].equals(obj)) result = k;
 
             if (result == 0) {
                 files.clear();
@@ -894,8 +860,7 @@ public class BytecodeViewer {
     public static void addRecentFile(File f) {
         for (int i = 0; i < recentFiles.size(); i++) { // remove dead strings
             String s = recentFiles.get(i);
-            if (s.isEmpty() || i > maxRecentFiles)
-                killList.add(s);
+            if (s.isEmpty() || i > maxRecentFiles) killList.add(s);
         }
         if (!killList.isEmpty()) {
             for (String s : killList)
@@ -905,11 +870,9 @@ public class BytecodeViewer {
 
         if (recentFiles.contains(f.getAbsolutePath())) // already added on the list
             recentFiles.remove(f.getAbsolutePath());
-        if (recentFiles.size() >= maxRecentFiles)
-            recentFiles.remove(maxRecentFiles - 1); // zero indexing
+        if (recentFiles.size() >= maxRecentFiles) recentFiles.remove(maxRecentFiles - 1); // zero indexing
 
         recentFiles.add(0, f.getAbsolutePath());
-        DiskWriter.replaceFile(filesName, quickConvert(recentFiles), false);
         resetRecentFilesMenu();
     }
 
@@ -923,8 +886,7 @@ public class BytecodeViewer {
     public static void addRecentPlugin(File f) {
         for (int i = 0; i < recentPlugins.size(); i++) { // remove dead strings
             String s = recentPlugins.get(i);
-            if (s.isEmpty() || i > maxRecentFiles)
-                killList2.add(s);
+            if (s.isEmpty() || i > maxRecentFiles) killList2.add(s);
         }
         if (!killList2.isEmpty()) {
             for (String s : killList2)
@@ -934,11 +896,9 @@ public class BytecodeViewer {
 
         if (recentPlugins.contains(f.getAbsolutePath())) // already added on the list
             recentPlugins.remove(f.getAbsolutePath());
-        if (recentPlugins.size() >= maxRecentFiles)
-            recentPlugins.remove(maxRecentFiles - 1); // zero indexing
+        if (recentPlugins.size() >= maxRecentFiles) recentPlugins.remove(maxRecentFiles - 1); // zero indexing
 
         recentPlugins.add(0, f.getAbsolutePath());
-        DiskWriter.replaceFile(pluginsName, quickConvert(recentPlugins), false);
         resetRecentFilesMenu();
     }
 
@@ -974,21 +934,14 @@ public class BytecodeViewer {
             }
     }
 
-    private static File tempF = null;
-
     /**
      * Clears the temp directory
      */
     public static void cleanup() {
-        tempF = new File(tempDirectory);
-
         try {
-            FileUtils.deleteDirectory(tempF);
+            FileUtils.cleanDirectory(tempDir);
         } catch (Exception e) {
         }
-
-        while (!tempF.exists()) // keep making dirs
-            tempF.mkdir();
     }
 
     public static ArrayList<String> createdRandomizedNames = new ArrayList<String>();
@@ -1018,13 +971,11 @@ public class BytecodeViewer {
      * @return the static BCV directory
      */
     public static String getBCVDirectory() {
-        while (!BCVDir.exists())
-            BCVDir.mkdirs();
+        while (!dataDir.exists()) dataDir.mkdirs();
 
-        if (!BCVDir.isHidden() && isWindows())
-            hideFile(BCVDir);
+        if (!dataDir.isHidden() && isWindows()) hideFile(dataDir);
 
-        return BCVDir.getAbsolutePath();
+        return dataDir.getAbsolutePath();
     }
 
     /**
@@ -1052,19 +1003,6 @@ public class BytecodeViewer {
         sm.setBlocking();
     }
 
-    /**
-     * Converts an array list to a string
-     *
-     * @param a array
-     * @return string with newline per array object
-     */
-    private static String quickConvert(ArrayList<String> a) {
-        String s = "";
-        for (String r : a)
-            s += r + nl;
-        return s;
-    }
-
     private static long last = System.currentTimeMillis();
 
     /**
@@ -1073,8 +1011,7 @@ public class BytecodeViewer {
      * @param e
      */
     public static void checkHotKey(KeyEvent e) {
-        if (System.currentTimeMillis() - last <= (4000))
-            return;
+        if (System.currentTimeMillis() - last <= (4000)) return;
 
         if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
             last = System.currentTimeMillis();
@@ -1087,14 +1024,11 @@ public class BytecodeViewer {
             fc.setFileFilter(new FileFilter() {
                 @Override
                 public boolean accept(File f) {
-                    if (f.isDirectory())
-                        return true;
+                    if (f.isDirectory()) return true;
 
                     String extension = MiscUtils.extension(f.getAbsolutePath());
                     if (extension != null)
-                        if (extension.equals("jar") || extension.equals("zip")
-                                || extension.equals("class") || extension.equals("apk")
-                                || extension.equals("dex"))
+                        if (extension.equals("jar") || extension.equals("zip") || extension.equals("class") || extension.equals("apk") || extension.equals("dex"))
                             return true;
 
                     return false;
@@ -1147,8 +1081,7 @@ public class BytecodeViewer {
 
             Thread t = new Thread() {
                 public void run() {
-                    if (viewer.autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
-                        return;
+                    if (viewer.autoCompileSmali.isSelected() && !BytecodeViewer.compile(false)) return;
                     JFileChooser fc = new JFileChooser();
                     fc.setFileFilter(new FileFilter() {
                         @Override
@@ -1166,22 +1099,18 @@ public class BytecodeViewer {
                     int returnVal = fc.showSaveDialog(viewer);
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         File file = fc.getSelectedFile();
-                        if (!file.getAbsolutePath().endsWith(".zip"))
-                            file = new File(file.getAbsolutePath() + ".zip");
+                        if (!file.getAbsolutePath().endsWith(".zip")) file = new File(file.getAbsolutePath() + ".zip");
 
                         if (file.exists()) {
-                            JOptionPane pane = new JOptionPane(
-                                    "Are you sure you wish to overwrite this existing file?");
+                            JOptionPane pane = new JOptionPane("Are you sure you wish to overwrite this existing file?");
                             Object[] options = new String[]{"Yes", "No"};
                             pane.setOptions(options);
-                            JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-                                    "Bytecode Viewer - Overwrite File");
+                            JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Overwrite File");
                             dialog.setVisible(true);
                             Object obj = pane.getValue();
                             int result = -1;
                             for (int k = 0; k < options.length; k++)
-                                if (options[k].equals(obj))
-                                    result = k;
+                                if (options[k].equals(obj)) result = k;
 
                             if (result == 0) {
                                 file.delete();
@@ -1196,8 +1125,7 @@ public class BytecodeViewer {
                         Thread t = new Thread() {
                             @Override
                             public void run() {
-                                JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
-                                        file2.getAbsolutePath());
+                                JarUtils.saveAsJar(BytecodeViewer.getLoadedBytes(), file2.getAbsolutePath());
                                 BytecodeViewer.viewer.setIcon(false);
                             }
                         };

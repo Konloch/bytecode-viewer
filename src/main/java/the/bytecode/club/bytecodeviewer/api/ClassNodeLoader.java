@@ -1,5 +1,8 @@
 package the.bytecode.club.bytecodeviewer.api;
 
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
+
 import java.security.AllPermission;
 import java.security.CodeSource;
 import java.security.Permissions;
@@ -8,9 +11,6 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.tree.ClassNode;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -37,6 +37,10 @@ import org.objectweb.asm.tree.ClassNode;
  */
 
 public final class ClassNodeLoader extends ClassLoader {
+
+	public ClassNodeLoader() {
+		super(ClassLoader.getSystemClassLoader());
+	}
 
 	private HashMap<String, ClassNode> classes = new HashMap<String, ClassNode>();
 

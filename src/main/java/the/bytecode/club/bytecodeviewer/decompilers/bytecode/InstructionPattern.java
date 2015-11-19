@@ -1,7 +1,16 @@
 package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
 
-import java.util.Arrays;
-
+import eu.bibl.banalysis.filter.InstructionFilter;
+import eu.bibl.banalysis.filter.OpcodeFilter;
+import eu.bibl.banalysis.filter.insn.FieldInstructionFilter;
+import eu.bibl.banalysis.filter.insn.IincInstructionFilter;
+import eu.bibl.banalysis.filter.insn.InsnInstructionFilter;
+import eu.bibl.banalysis.filter.insn.JumpInstructionFilter;
+import eu.bibl.banalysis.filter.insn.LdcInstructionFilter;
+import eu.bibl.banalysis.filter.insn.MethodInstructionFilter;
+import eu.bibl.banalysis.filter.insn.MultiANewArrayInstructionFilter;
+import eu.bibl.banalysis.filter.insn.TypeInstructionFilter;
+import eu.bibl.banalysis.filter.insn.VarInstructionFilter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -15,17 +24,7 @@ import org.objectweb.asm.tree.MultiANewArrayInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import eu.bibl.banalysis.filter.InstructionFilter;
-import eu.bibl.banalysis.filter.OpcodeFilter;
-import eu.bibl.banalysis.filter.insn.FieldInstructionFilter;
-import eu.bibl.banalysis.filter.insn.IincInstructionFilter;
-import eu.bibl.banalysis.filter.insn.InsnInstructionFilter;
-import eu.bibl.banalysis.filter.insn.JumpInstructionFilter;
-import eu.bibl.banalysis.filter.insn.LdcInstructionFilter;
-import eu.bibl.banalysis.filter.insn.MethodInstructionFilter;
-import eu.bibl.banalysis.filter.insn.MultiANewArrayInstructionFilter;
-import eu.bibl.banalysis.filter.insn.TypeInstructionFilter;
-import eu.bibl.banalysis.filter.insn.VarInstructionFilter;
+import java.util.Arrays;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

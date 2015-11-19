@@ -1,14 +1,13 @@
 package the.bytecode.club.bytecodeviewer.plugin.strategies;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
+import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-
-import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

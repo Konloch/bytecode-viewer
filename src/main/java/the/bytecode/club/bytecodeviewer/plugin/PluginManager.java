@@ -1,12 +1,5 @@
 package the.bytecode.club.bytecodeviewer.plugin;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import javax.swing.filechooser.FileFilter;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
@@ -15,6 +8,12 @@ import the.bytecode.club.bytecodeviewer.plugin.strategies.GroovyPluginLaunchStra
 import the.bytecode.club.bytecodeviewer.plugin.strategies.JavaPluginLaunchStrategy;
 import the.bytecode.club.bytecodeviewer.plugin.strategies.PythonPluginLaunchStrategy;
 import the.bytecode.club.bytecodeviewer.plugin.strategies.RubyPluginLaunchStrategy;
+
+import javax.swing.filechooser.FileFilter;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

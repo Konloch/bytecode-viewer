@@ -7,15 +7,14 @@ import org.jetbrains.java.decompiler.main.decompiler.PrintStreamLogger;
 import org.jetbrains.java.decompiler.main.extern.IBytecodeProvider;
 import org.jetbrains.java.decompiler.main.extern.IResultSaver;
 import org.objectweb.asm.tree.ClassNode;
-import org.zeroturnaround.zip.ZipUtil;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.DecompilerSettings;
 import the.bytecode.club.bytecodeviewer.JarUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -48,74 +47,89 @@ import java.util.jar.Manifest;
 
 public class FernFlowerDecompiler extends Decompiler {
 
+    public FernFlowerDecompiler() {
+        for (Settings setting : Settings.values()) {
+            settings.registerSetting(setting);
+        }
+    }
+
     @Override
-    public String decompileClassNode(final ClassNode cn, final byte[] b) {
-        Map<String, Object> options = main(generateMainMethod());
+    public String getName() {
+        return "FernFlower";
+    }
 
-        final AtomicReference<String> result = new AtomicReference<String>();
-        result.set(null);
-
-        BaseDecompiler baseDecompiler = new BaseDecompiler(new IBytecodeProvider() {
-            @Override
-            public byte[] getBytecode(String s, String s1) throws IOException {
-                byte[] clone = new byte[b.length];
-                System.arraycopy(b, 0, clone, 0, b.length);
-                return clone;
-            }
-        }, new IResultSaver() {
-            @Override
-            public void saveFolder(String s) {
-
-            }
-
-            @Override
-            public void copyFile(String s, String s1, String s2) {
-
-            }
-
-            @Override
-            public void saveClassFile(String s, String s1, String s2, String s3, int[] ints) {
-                result.set(s3);
-            }
-
-            @Override
-            public void createArchive(String s, String s1, Manifest manifest) {
-
-            }
-
-            @Override
-            public void saveDirEntry(String s, String s1, String s2) {
-
-            }
-
-            @Override
-            public void copyEntry(String s, String s1, String s2, String s3) {
-
-            }
-
-            @Override
-            public void saveClassEntry(String s, String s1, String s2, String s3, String s4) {
-            }
-
-            @Override
-            public void closeArchive(String s, String s1) {
-
-            }
-        }, options, new PrintStreamLogger(System.out));
-
+    @Override
+    public String decompileClassNode(final ClassNode cn, byte[] b) {
         try {
-            baseDecompiler.addSpace(new File("fernflower.class"), true);
-            baseDecompiler.decompileContext();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        while (true) {
-            if (result.get() != null) {
-                break;
+            if (cn.version < 49) {
+                b = fixBytes(b);
             }
+            final byte[] bytesToUse = b;
+
+            Map<String, Object> options = main(generateMainMethod());
+
+            final AtomicReference<String> result = new AtomicReference<String>();
+            result.set(null);
+
+            BaseDecompiler baseDecompiler = new BaseDecompiler(new IBytecodeProvider() {
+                @Override
+                public byte[] getBytecode(String s, String s1) throws IOException {
+                    byte[] clone = new byte[bytesToUse.length];
+                    System.arraycopy(bytesToUse, 0, clone, 0, bytesToUse.length);
+                    return clone;
+                }
+            }, new IResultSaver() {
+                @Override
+                public void saveFolder(String s) {
+
+                }
+
+                @Override
+                public void copyFile(String s, String s1, String s2) {
+
+                }
+
+                @Override
+                public void saveClassFile(String s, String s1, String s2, String s3, int[] ints) {
+                    result.set(s3);
+                }
+
+                @Override
+                public void createArchive(String s, String s1, Manifest manifest) {
+
+                }
+
+                @Override
+                public void saveDirEntry(String s, String s1, String s2) {
+
+                }
+
+                @Override
+                public void copyEntry(String s, String s1, String s2, String s3) {
+
+                }
+
+                @Override
+                public void saveClassEntry(String s, String s1, String s2, String s3, String s4) {
+                }
+
+                @Override
+                public void closeArchive(String s, String s1) {
+
+                }
+            }, options, new PrintStreamLogger(System.out));
+
+            baseDecompiler.addSpace(new File(cn.name + ".class"), true);
+            baseDecompiler.decompileContext();
+            while (true) {
+                if (result.get() != null) {
+                    break;
+                }
+            }
+            return result.get();
+        } catch (Exception e) {
+            return parseException(e);
         }
-        return result.get();
     }
 
     @Override
@@ -132,7 +146,7 @@ public class FernFlowerDecompiler extends Decompiler {
             Files.delete(tempJar);
             FileUtils.deleteDirectory(outputDir.toFile());
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e);
         }
     }
 
@@ -160,29 +174,62 @@ public class FernFlowerDecompiler extends Decompiler {
     }
 
     private String[] generateMainMethod() {
-        return new String[]{
-                "-rbr=" + r(BytecodeViewer.viewer.rbr.isSelected()),
-                "-rsy=" + r(BytecodeViewer.viewer.rsy.isSelected()),
-                "-din=" + r(BytecodeViewer.viewer.din.isSelected()),
-                "-dc4=" + r(BytecodeViewer.viewer.dc4.isSelected()),
-                "-das=" + r(BytecodeViewer.viewer.das.isSelected()),
-                "-hes=" + r(BytecodeViewer.viewer.hes.isSelected()),
-                "-hdc=" + r(BytecodeViewer.viewer.hdc.isSelected()),
-                "-dgs=" + r(BytecodeViewer.viewer.dgs.isSelected()),
-                "-ner=" + r(BytecodeViewer.viewer.ner.isSelected()),
-                "-den=" + r(BytecodeViewer.viewer.den.isSelected()),
-                "-rgn=" + r(BytecodeViewer.viewer.rgn.isSelected()),
-                "-bto=" + r(BytecodeViewer.viewer.bto.isSelected()),
-                "-nns=" + r(BytecodeViewer.viewer.nns.isSelected()),
-                "-uto=" + r(BytecodeViewer.viewer.uto.isSelected()),
-                "-udv=" + r(BytecodeViewer.viewer.udv.isSelected()),
-                "-rer=" + r(BytecodeViewer.viewer.rer.isSelected()),
-                "-fdi=" + r(BytecodeViewer.viewer.fdi.isSelected()),
-                "-asc=" + r(BytecodeViewer.viewer.asc.isSelected())
-        };
+        String[] result = new String[getSettings().size()];
+        int index = 0;
+        for (Settings setting : Settings.values()) {
+            result[index++] = String.format("-%s=%s", setting.getParam(), getSettings().isSelected(setting) ? "1" : "0");
+        }
+        return result;
     }
 
-    private String r(boolean b) {
-        return b ? "1" : "0";
+    public enum Settings implements DecompilerSettings.Setting {
+        HIDE_BRIDGE_METHODS("rbr", "Hide Bridge Methods", true),
+        HIDE_SYNTHETIC_CLASS_MEMBERS("rsy", "Hide Synthetic Class Members"),
+        DECOMPILE_INNER_CLASSES("din", "Decompile Inner Classes", true),
+        COLLAPSE_14_CLASS_REFERENCES("dc4", "Collapse 1.4 Class References", true),
+        DECOMPILE_ASSERTIONS("das", "Decompile Assertions", true),
+        HIDE_EMPTY_SUPER_INVOCATION("hes", "Hide Empty Super Invocation", true),
+        HIDE_EMPTY_DEFAULT_CONSTRUCTOR("hec", "Hide Empty Default Constructor", true),
+        DECOMPILE_GENERIC_SIGNATURES("dgs", "Decompile Generic Signatures"),
+        ASSUME_RETURN_NOT_THROWING_EXCEPTIONS("ner", "Assume return not throwing exceptions", true),
+        DECOMPILE_ENUMS("den", "Decompile enumerations", true),
+        REMOVE_GETCLASS("rgn", "Remove getClass()", true),
+        OUTPUT_NUMBERIC_LITERALS("lit", "Output numeric literals 'as-is'"),
+        ENCODE_UNICODE("asc", "Encode non-ASCII as unicode escapes"),
+        INT_1_AS_BOOLEAN_TRUE("bto", "Assume int 1 is boolean true", true),
+        ALLOW_NOT_SET_SYNTHETIC("nns", "Allow not set synthetic attribute", true),
+        NAMELESS_TYPES_AS_OBJECT("uto", "Consider nameless types as java.lang.Object", true),
+        RECOVER_VARIABLE_NAMES("udv", "Recover variable names", true),
+        REMOVE_EMPTY_EXCEPTIONS("rer", "Remove empty exceptions", true),
+        DEINLINE_FINALLY("fdi", "De-inline finally", true),
+        RENAME_AMBIGIOUS_MEMBERS("ren", "Rename ambigious members"),
+        REMOVE_INTELLIJ_NOTNULL("inn", "Remove IntelliJ @NotNull", true),
+        DECOMPILE_LAMBDA_TO_ANONYMOUS("lac", "Decompile lambdas to anonymous classes");
+
+        private String name;
+        private String param;
+        private boolean on;
+
+        Settings(String param, String name) {
+            this(param, name, false);
+        }
+
+        Settings(String param, String name, boolean on) {
+            this.name = name;
+            this.param = param;
+            this.on = on;
+        }
+
+        public String getText() {
+            return name;
+        }
+
+        public boolean isDefaultOn() {
+            return on;
+        }
+
+        public String getParam() {
+            return param;
+        }
     }
 }
