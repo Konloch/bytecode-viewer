@@ -114,7 +114,7 @@ public class MethodCallSearch implements SearchTypeDetails {
 								+ method.name
 								+ desc2
 								+ " > "
-								+ OpcodeInfo.OPCODES.get(insnNode.getOpcode())
+								+ OpcodeInfo.OPCODES.get(insnNode.opcode())
 										.toLowerCase());
 					} else {
 						if (name != null && !min.name.contains(name)) {
@@ -139,7 +139,7 @@ public class MethodCallSearch implements SearchTypeDetails {
 								+ method.name
 								+ desc2
 								+ " > "
-								+ OpcodeInfo.OPCODES.get(insnNode.getOpcode())
+								+ OpcodeInfo.OPCODES.get(insnNode.opcode())
 										.toLowerCase());
 					}
 				}

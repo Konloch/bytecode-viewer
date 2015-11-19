@@ -138,7 +138,7 @@ public class AllatoriStringDecrypter extends Plugin {
 				
 				
 				
-				if(laststringldconstack != null && methodi.getOpcode() == 0xb8) { // Decryption is always a static call - 0xb8 - invokestatic
+				if(laststringldconstack != null && methodi.opcode() == 0xb8) { // Decryption is always a static call - 0xb8 - invokestatic
 					String decrypterclassname = methodi.owner;
 					String decryptermethodname = methodi.name;
 					
@@ -198,7 +198,7 @@ public class AllatoriStringDecrypter extends Plugin {
 				
 			}else if(i instanceof InvokeDynamicInsnNode){
 				InvokeDynamicInsnNode methodi = (InvokeDynamicInsnNode) i;
-				if(methodi.getOpcode() == 0xba){
+				if(methodi.opcode() == 0xba){
 					// TODO: Safe-reflection deobfuscator here
 					// Allatori replaces invokeinterface and invokestatic with invokedynamic
 					
