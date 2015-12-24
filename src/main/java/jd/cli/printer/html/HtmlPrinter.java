@@ -1,10 +1,10 @@
 package jd.cli.printer.html;
 
-import java.io.PrintStream;
-
 import jd.cli.util.VersionUtil;
 import jd.core.CoreConstants;
 import jd.core.printer.Printer;
+
+import java.io.PrintStream;
 
 /*
  * CSS

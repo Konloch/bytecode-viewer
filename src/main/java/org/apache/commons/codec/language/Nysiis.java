@@ -17,10 +17,10 @@
 
 package org.apache.commons.codec.language;
 
-import java.util.regex.Pattern;
-
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.StringEncoder;
+
+import java.util.regex.Pattern;
 
 /**
  * Encodes a string into a NYSIIS value. NYSIIS is an encoding used to relate similar names, but can also be used as a

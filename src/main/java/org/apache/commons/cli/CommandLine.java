@@ -18,12 +18,7 @@
 package org.apache.commons.cli;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Represents list of arguments parsed against a {@link Options} descriptor.

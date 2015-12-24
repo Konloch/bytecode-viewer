@@ -17,13 +17,13 @@
 
 package org.apache.commons.codec.binary;
 
-import static org.apache.commons.codec.binary.BaseNCodec.EOF;
+import org.apache.commons.codec.binary.BaseNCodec.Context;
 
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.codec.binary.BaseNCodec.Context;
+import static org.apache.commons.codec.binary.BaseNCodec.EOF;
 
 /**
  * Abstract superclass for Base-N input streams.

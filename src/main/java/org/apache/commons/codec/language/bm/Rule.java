@@ -17,22 +17,12 @@
 
 package org.apache.commons.codec.language.bm;
 
+import org.apache.commons.codec.language.bm.Languages.LanguageSet;
+
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.codec.language.bm.Languages.LanguageSet;
 
 /**
  * A phoneme rule.

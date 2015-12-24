@@ -1,12 +1,12 @@
 package jd.cli.loader;
 
+import jd.core.loader.LoaderException;
+
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import jd.core.loader.LoaderException;
 
 
 public class JarLoader extends BaseLoader

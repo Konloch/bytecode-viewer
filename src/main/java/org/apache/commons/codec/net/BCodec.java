@@ -17,15 +17,11 @@
 
 package org.apache.commons.codec.net;
 
+import org.apache.commons.codec.*;
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-
-import org.apache.commons.codec.Charsets;
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.StringDecoder;
-import org.apache.commons.codec.StringEncoder;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Identical to the Base64 encoding defined by <a href="http://www.ietf.org/rfc/rfc1521.txt">RFC 1521</a>

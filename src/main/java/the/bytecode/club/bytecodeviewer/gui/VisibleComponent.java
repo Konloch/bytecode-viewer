@@ -3,7 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
 
-import javax.swing.JInternalFrame;
+import javax.swing.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

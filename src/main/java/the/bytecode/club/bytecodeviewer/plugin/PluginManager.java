@@ -3,11 +3,7 @@ package the.bytecode.club.bytecodeviewer.plugin;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.MiscUtils;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.CompiledJavaPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.GroovyPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.JavaPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.PythonPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.RubyPluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.plugin.strategies.*;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.File;

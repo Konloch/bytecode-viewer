@@ -1,10 +1,10 @@
 package jd.cli.loader;
 
+import jd.core.loader.LoaderException;
+
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import jd.core.loader.LoaderException;
 
 public class LoaderManager 
 {

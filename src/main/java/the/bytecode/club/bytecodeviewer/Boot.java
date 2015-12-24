@@ -4,7 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.zeroturnaround.zip.ZipUtil;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;

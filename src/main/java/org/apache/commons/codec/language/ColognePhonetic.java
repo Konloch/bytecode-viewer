@@ -17,10 +17,10 @@
 
 package org.apache.commons.codec.language;
 
-import java.util.Locale;
-
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.StringEncoder;
+
+import java.util.Locale;
 
 /**
  * Encodes a string into a Cologne Phonetic value.

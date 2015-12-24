@@ -4,10 +4,8 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.util.Iterator;
 
 /***************************************************************************

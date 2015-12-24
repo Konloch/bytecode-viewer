@@ -3,7 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Settings;
 
-import javax.swing.JFileChooser;
+import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
