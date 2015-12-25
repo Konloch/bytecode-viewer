@@ -208,7 +208,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     private final JMenuItem mntmSetOpitonalLibrary = new JMenuItem("Set Optional Library Folder");
     private final JMenuItem mntmPingback = new JMenuItem("Pingback");
     private final JMenu mnFontSize = new JMenu("Font Size");
-    private final JCheckBoxMenuItem chckbxmntmDeleteForiegnoutdatedLibs = new JCheckBoxMenuItem("Delete Foriegn/Outdated Libs");
+    private final JCheckBoxMenuItem chckbxmntmDeleteForiegnoutdatedLibs = new JCheckBoxMenuItem("Delete Foreign/Outdated Libs");
     private final JMenu mnApkConversion = new JMenu("APK Conversion");
     public final ButtonGroup apkConversionGroup = new ButtonGroup();
     public final JRadioButtonMenuItem apkConversionDex = new JRadioButtonMenuItem("Dex2Jar");
