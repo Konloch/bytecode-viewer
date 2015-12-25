@@ -154,8 +154,8 @@ public class BytecodeViewer {
      *            the full name of the ClassNode
      * @return the ClassNode
      */
-    public static ClassNode getClassNode(String name) {
-        return the.bytecode.club.bytecodeviewer.BytecodeViewer.getClassNode(name);
+    public static ClassNode getClassNode(String containerName, String name) {
+        return the.bytecode.club.bytecodeviewer.BytecodeViewer.getClassNode(containerName, name);
     }
 
     /**

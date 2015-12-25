@@ -51,6 +51,7 @@ public class FileViewer extends Viewer {
 	private static final long serialVersionUID = 6103372882168257164L;
 
 	String name;
+	String container;
 	private byte[] contents;
 	RSyntaxTextArea panelArea = new RSyntaxTextArea();
 	JPanel panel = new JPanel(new BorderLayout());
@@ -189,8 +190,9 @@ public class FileViewer extends Viewer {
 	    return asciiEncoder.canEncode(v);
 	}
 	
-	public FileViewer(final String name, final byte[] contents) {
+	public FileViewer(final String name, final String container, final byte[] contents) {
 		this.name = name;
+		this.container = container;
 		this.contents = contents;
 		this.setName(name);
 		this.setLayout(new BorderLayout());

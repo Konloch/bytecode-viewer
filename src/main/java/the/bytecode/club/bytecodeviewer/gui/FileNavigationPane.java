@@ -234,12 +234,12 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
         new FileDrop(this, this);
     }
 
-    public void openClassFileToWorkSpace(final String name, final ClassNode node) {
-        fcn.openClassFile(name, node);
+    public void openClassFileToWorkSpace(final String name, final String container, final ClassNode node) {
+        fcn.openClassFile(name, container, node);
     }
 
-    public void openFileToWorkSpace(String name, byte[] contents) {
-        fcn.openFile(name, contents);
+    public void openFileToWorkSpace(String name, final String container, byte[] contents) {
+        fcn.openFile(name, container, contents);
     }
 
     @Override
@@ -454,13 +454,14 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
         }
 
         String name = nameBuffer.toString();
+		String containerName = path.getPathComponent(1).toString();
         if (name.endsWith(".class")) {
-            final ClassNode cn = BytecodeViewer.getClassNode(name.substring(0, name.length() - ".class".length()));
+            final ClassNode cn = BytecodeViewer.getClassNode(containerName, name.substring(0, name.length() - ".class".length()));
             if (cn != null) {
-                openClassFileToWorkSpace(nameBuffer.toString(), cn);
+                openClassFileToWorkSpace(nameBuffer.toString(), containerName, cn);
             }
         } else {
-            openFileToWorkSpace(nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
+            openFileToWorkSpace(nameBuffer.toString(), containerName, BytecodeViewer.getFileContents(nameBuffer.toString()));
         }
     }
 

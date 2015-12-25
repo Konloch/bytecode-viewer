@@ -54,7 +54,7 @@ public class PaneUpdaterThread extends Thread {
 
 	public void run() {
 		try {
-			final byte[] b = BytecodeViewer.getClassBytes(viewer.cn.name + ".class");
+			final byte[] b = BytecodeViewer.getClassBytes(viewer.container, viewer.cn.name + ".class");
             if (decompiler != Decompiler.HEXCODE) {
                 RSyntaxTextArea panelArea = new RSyntaxTextArea();
                 panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);

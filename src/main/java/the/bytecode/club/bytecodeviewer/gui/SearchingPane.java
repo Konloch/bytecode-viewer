@@ -195,12 +195,13 @@ public class SearchingPane extends VisibleComponent {
             @Override
             public void valueChanged(final TreeSelectionEvent arg0) {
                 String path = arg0.getPath().toString();
+                String containerName = arg0.getPath().getPathComponent(1).toString();
 
                 String className = path.split(", ")[1].split("\\.")[0];
-                final ClassNode fN = BytecodeViewer.getClassNode(className);
+                final ClassNode fN = BytecodeViewer.getClassNode(containerName, className);
                 if (fN != null) {
                     MainViewerGUI.getComponent(FileNavigationPane.class)
-                            .openClassFileToWorkSpace(className + ".class", fN);
+                            .openClassFileToWorkSpace(className + ".class", containerName, fN);
                 }
 
                 System.out.println(className);
@@ -232,7 +233,7 @@ public class SearchingPane extends VisibleComponent {
     }
 
     @Override
-    public void openFile(String name, byte[] contents) {
+    public void openFile(String name, String container, byte[] contents) {
         // TODO Auto-generated method stub
 
     }

@@ -427,21 +427,22 @@ public class BytecodeViewer {
     /**
      * Returns the ClassNode by the specified name
      *
+	 * @param containerName name of the FileContainer that this class is in
      * @param name the class name
      * @return the ClassNode instance
      */
-    public static ClassNode getClassNode(String name) {
+    public static ClassNode getClassNode(String containerName, String name) {
         for (FileContainer container : files) {
-            if (container.getData().containsKey(name + ".class")) {
+            if (container.name.equals(containerName) && container.getData().containsKey(name + ".class")) {
                 return container.getClassNode(name);
             }
         }
         return null;
     }
 
-    public static byte[] getClassBytes(String name) {
+    public static byte[] getClassBytes(String containerName, String name) {
         for (FileContainer container : files) {
-            if (container.getData().containsKey(name)) {
+            if (container.name.equals(containerName) && container.getData().containsKey(name)) {
                 return container.getData().get(name);
             }
         }

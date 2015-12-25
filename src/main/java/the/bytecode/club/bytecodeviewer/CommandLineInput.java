@@ -160,13 +160,14 @@ public class CommandLineInput {
 
             System.out.println("Decompiling " + input.getAbsolutePath() + " with " + use.getName());
             BytecodeViewer.openFiles(new File[]{input}, false);
+            String containerName = BytecodeViewer.files.get(0).name;
             Thread.sleep(5 * 1000);
             if (target.equalsIgnoreCase("all")) {
                 use.decompileToZip(output.getAbsolutePath());
             } else {
                 try {
-                    ClassNode cn = BytecodeViewer.getClassNode(target);
-                    byte[] bytes = BytecodeViewer.getClassBytes(target);
+                    ClassNode cn = BytecodeViewer.getClassNode(containerName, target);
+                    byte[] bytes = BytecodeViewer.getClassBytes(containerName, target);
                     String contents = use.decompileClassNode(cn, bytes);
                     FileUtils.write(output, contents, "UTF-8", false);
                 } catch (Exception e) {

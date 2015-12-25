@@ -791,14 +791,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                             int result = -1;
                             for (int k = 0; k < options.length; k++)
                                 if (options[k].equals(obj)) result = k;
+                            String containerName = BytecodeViewer.files.get(0).name;
 
                             if (result == 0) {
                                 Thread t = new Thread() {
                                     @Override
                                     public void run() {
                                         try {
-                                            ClassNode cn = BytecodeViewer.getClassNode(s);
-                                            byte[] bytes = BytecodeViewer.getClassBytes(s);
+                                            ClassNode cn = BytecodeViewer.getClassNode(containerName, s);
+                                            byte[] bytes = BytecodeViewer.getClassBytes(containerName, s);
                                             String contents = Decompiler.PROCYON.decompileClassNode(cn, bytes);
                                             FileUtils.write(new File(path), contents, "UTF-8", false);
                                             BytecodeViewer.viewer.setIcon(false);
@@ -814,8 +815,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                     @Override
                                     public void run() {
                                         try {
-                                            ClassNode cn = BytecodeViewer.getClassNode(s);
-                                            byte[] bytes = BytecodeViewer.getClassBytes(s);
+                                            ClassNode cn = BytecodeViewer.getClassNode(containerName, s);
+                                            byte[] bytes = BytecodeViewer.getClassBytes(containerName, s);
                                             String contents = Decompiler.CFR.decompileClassNode(cn, bytes);
                                             FileUtils.write(new File(path), contents, "UTF-8", false);
                                             BytecodeViewer.viewer.setIcon(false);
@@ -831,8 +832,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                     @Override
                                     public void run() {
                                         try {
-                                            ClassNode cn = BytecodeViewer.getClassNode(s);
-                                            byte[] bytes = BytecodeViewer.getClassBytes(s);
+                                            ClassNode cn = BytecodeViewer.getClassNode(containerName, s);
+                                            byte[] bytes = BytecodeViewer.getClassBytes(containerName, s);
                                             String contents = Decompiler.FERNFLOWER.decompileClassNode(cn, bytes);
                                             FileUtils.write(new File(path), contents, "UTF-8", false);
                                             BytecodeViewer.viewer.setIcon(false);
@@ -848,8 +849,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                     @Override
                                     public void run() {
                                         try {
-                                            ClassNode cn = BytecodeViewer.getClassNode(s);
-                                            byte[] bytes = BytecodeViewer.getClassBytes(s);
+                                            ClassNode cn = BytecodeViewer.getClassNode(containerName, s);
+                                            byte[] bytes = BytecodeViewer.getClassBytes(containerName, s);
                                             String contents = Decompiler.KRAKATAU.decompileClassNode(cn, bytes);
                                             FileUtils.write(new File(path), contents, "UTF-8", false);
                                             BytecodeViewer.viewer.setIcon(false);
@@ -1258,16 +1259,16 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     }
 
     @Override
-    public void openClassFile(final String name, final ClassNode cn) {
+    public void openClassFile(final String name, String container, final ClassNode cn) {
         for (final VisibleComponent vc : rfComps) {
-            vc.openClassFile(name, cn);
+            vc.openClassFile(name, container, cn);
         }
     }
 
     @Override
-    public void openFile(final String name, byte[] content) {
+    public void openFile(final String name, String container, byte[] content) {
         for (final VisibleComponent vc : rfComps) {
-            vc.openFile(name, content);
+            vc.openFile(name, container, content);
         }
     }
 
