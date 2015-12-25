@@ -86,11 +86,11 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 				final Component c = e.getChild();
 				if (c instanceof ClassViewer) {
 					ClassViewer cv = (ClassViewer) c;
-					workingOn.remove(cv.name + "$" + cv.name);
+					workingOn.remove(cv.container + "$" + cv.name);
 				}
 				if (c instanceof FileViewer) {
 					FileViewer fv = (FileViewer) c;
-					workingOn.remove(fv.name + "$" + fv.name);
+					workingOn.remove(fv.container + "$" + fv.name);
 				}
 			}
 
