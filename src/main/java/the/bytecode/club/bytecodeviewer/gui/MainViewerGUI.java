@@ -205,6 +205,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final ButtonGroup panelGroup1 = new ButtonGroup();
     public final ButtonGroup panelGroup2 = new ButtonGroup();
     public final ButtonGroup panelGroup3 = new ButtonGroup();
+    public final JCheckBox mnShowContainer = new JCheckBox("Show Containing File's Name");
     private final JMenuItem mntmSetOpitonalLibrary = new JMenuItem("Set Optional Library Folder");
     private final JMenuItem mntmPingback = new JMenuItem("Pingback");
     private final JMenu mnFontSize = new JMenu("Font Size");
@@ -1225,11 +1226,24 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         fontSpinner.setSize(new Dimension(42, 20));
         fontSpinner.setModel(new SpinnerNumberModel(12, 1, null, 1));
         viewMenu.add(mnFontSize);
-
         mnFontSize.add(fontSpinner);
 
-
-        panelGroup1.setSelected(allDecompilersRev.get(panelGroup1).get(Decompiler.JDGUI).getModel(), true);
+        viewMenu.add(mnShowContainer);
+        mnShowContainer.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                Component[] components = workPane.tabs.getComponents();
+                for (int i = 0; i < components.length; i++) {
+                    Component c = components[i];
+                    if (c instanceof Viewer) {
+                        ((Viewer) c).updateName();
+                        workPane.tabs.setTabComponentAt(i, new TabbedPane(c.getName(), workPane.tabs));
+                        workPane.tabs.setTitleAt(i, c.getName());
+                    }
+                }
+            }
+        });
+                panelGroup1.setSelected(allDecompilersRev.get(panelGroup1).get(Decompiler.JDGUI).getModel(), true);
         panelGroup2.setSelected(allDecompilersRev.get(panelGroup2).get(Decompiler.BYTECODE).getModel(), true);
         panelGroup3.setSelected(allDecompilersRev.get(panelGroup3).get(null).getModel(), true);
         this.setLocationRelativeTo(null);

@@ -119,8 +119,6 @@ public class ClassViewer extends Viewer {
         return splitter;
     }
 
-    String name;
-    String container;
     JSplitPane sp;
     JSplitPane sp2;
     public List<Decompiler> decompilers = Arrays.asList(null, null, null);
@@ -321,7 +319,7 @@ public class ClassViewer extends Viewer {
         this.name = name;
         this.container = container;
         this.cn = cn;
-        this.setName(name + "(" + container + ")");
+        updateName();
         this.setLayout(new BorderLayout());
 
         this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panels.get(0), panels.get(1));
