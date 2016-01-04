@@ -5,32 +5,17 @@ import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
-import the.bytecode.club.bytecodeviewer.gui.FileNavigationPane;
-import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
-import the.bytecode.club.bytecodeviewer.gui.RunOptions;
-import the.bytecode.club.bytecodeviewer.gui.SearchingPane;
-import the.bytecode.club.bytecodeviewer.gui.SystemErrConsole;
-import the.bytecode.club.bytecodeviewer.gui.WorkPane;
+import the.bytecode.club.bytecodeviewer.gui.*;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-import java.awt.Desktop;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
@@ -442,21 +427,22 @@ public class BytecodeViewer {
     /**
      * Returns the ClassNode by the specified name
      *
+	 * @param containerName name of the FileContainer that this class is in
      * @param name the class name
      * @return the ClassNode instance
      */
-    public static ClassNode getClassNode(String name) {
+    public static ClassNode getClassNode(String containerName, String name) {
         for (FileContainer container : files) {
-            if (container.getData().containsKey(name + ".class")) {
+            if (container.name.equals(containerName) && container.getData().containsKey(name + ".class")) {
                 return container.getClassNode(name);
             }
         }
         return null;
     }
 
-    public static byte[] getClassBytes(String name) {
+    public static byte[] getClassBytes(String containerName, String name) {
         for (FileContainer container : files) {
-            if (container.getData().containsKey(name)) {
+            if (container.name.equals(containerName) && container.getData().containsKey(name)) {
                 return container.getData().get(name);
             }
         }

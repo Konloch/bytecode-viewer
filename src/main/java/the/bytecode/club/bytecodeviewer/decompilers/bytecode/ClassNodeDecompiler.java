@@ -7,6 +7,7 @@ import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.DecompilerSettings;
+import the.bytecode.club.bytecodeviewer.FileContainer;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 
 import java.util.ArrayList;
@@ -51,10 +52,20 @@ public class ClassNodeDecompiler extends Decompiler {
     }
 
     public String decompileClassNode(ClassNode cn, byte[] b) {
-        return decompile(new PrefixedStringBuilder(), new ArrayList<String>(), cn).toString();
+        String containerName = null;
+        for (FileContainer container : BytecodeViewer.files) {
+            String name = cn.name + ".class";
+            if (container.getData().containsKey(name)) {
+                if (container.getClassNode(name) == cn)
+                    containerName = container.name;
+            }
+        }
+        System.out.println(containerName);
+
+        return decompile(new PrefixedStringBuilder(), new ArrayList<String>(), containerName, cn).toString();
     }
 
-    protected static PrefixedStringBuilder decompile(PrefixedStringBuilder sb, ArrayList<String> decompiledClasses, ClassNode cn) {
+    protected static PrefixedStringBuilder decompile(PrefixedStringBuilder sb, ArrayList<String> decompiledClasses, String containerName, ClassNode cn) {
         ArrayList<String> unableToDecompile = new ArrayList<String>();
         decompiledClasses.add(cn.name);
         sb.append(getAccessString(cn.access));
@@ -97,11 +108,11 @@ public class ClassNodeDecompiler extends Decompiler {
             String innerClassName = innerClassNode.name;
             if ((innerClassName != null) && !decompiledClasses.contains(innerClassName)) {
                 decompiledClasses.add(innerClassName);
-                ClassNode cn1 = BytecodeViewer.getClassNode(innerClassName);
+                ClassNode cn1 = BytecodeViewer.getClassNode(containerName, innerClassName);
                 if (cn1 != null) {
                     sb.appendPrefix("     ");
                     sb.append(BytecodeViewer.nl + BytecodeViewer.nl);
-                    sb = decompile(sb, decompiledClasses, cn1);
+                    sb = decompile(sb, decompiledClasses, containerName,cn1);
                     sb.trimPrefix(5);
                     sb.append(BytecodeViewer.nl);
                 } else {

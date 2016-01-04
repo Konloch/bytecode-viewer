@@ -3,7 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
 
-import javax.swing.JInternalFrame;
+import javax.swing.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -49,10 +49,10 @@ public abstract class VisibleComponent extends JInternalFrame implements
 	}
 
 	@Override
-	public void openClassFile(final String name, final ClassNode cn) {
+	public void openClassFile(final String name, String container, final ClassNode cn) {
 	}
 	@Override
-	public void openFile(final String name, byte[] contents) {
+	public void openFile(final String name, String container, byte[] contents) {
 	}
 
 }

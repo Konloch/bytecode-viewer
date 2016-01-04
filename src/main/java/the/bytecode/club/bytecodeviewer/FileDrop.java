@@ -1,11 +1,7 @@
 package the.bytecode.club.bytecodeviewer;
 
 import java.awt.datatransfer.DataFlavor;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.Reader;
+import java.io.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

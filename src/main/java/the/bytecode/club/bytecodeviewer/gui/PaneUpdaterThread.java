@@ -26,11 +26,8 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -57,7 +54,7 @@ public class PaneUpdaterThread extends Thread {
 
 	public void run() {
 		try {
-			final byte[] b = BytecodeViewer.getClassBytes(viewer.cn.name + ".class");
+			final byte[] b = BytecodeViewer.getClassBytes(viewer.container, viewer.cn.name + ".class");
             if (decompiler != Decompiler.HEXCODE) {
                 RSyntaxTextArea panelArea = new RSyntaxTextArea();
                 panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);

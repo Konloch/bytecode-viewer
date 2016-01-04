@@ -17,12 +17,12 @@
 
 package org.apache.commons.codec.binary;
 
-import java.util.Arrays;
-
 import org.apache.commons.codec.BinaryDecoder;
 import org.apache.commons.codec.BinaryEncoder;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.EncoderException;
+
+import java.util.Arrays;
 
 /**
  * Abstract superclass for Base-N encoders and decoders.

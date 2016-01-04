@@ -4,14 +4,10 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ContainerEvent;
@@ -89,10 +85,12 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 			public void componentRemoved(final ContainerEvent e) {
 				final Component c = e.getChild();
 				if (c instanceof ClassViewer) {
-					workingOn.remove(((ClassViewer) c).name);
+					ClassViewer cv = (ClassViewer) c;
+					workingOn.remove(cv.container + "$" + cv.name);
 				}
 				if (c instanceof FileViewer) {
-					workingOn.remove(((FileViewer) c).name);
+					FileViewer fv = (FileViewer) c;
+					workingOn.remove(fv.container + "$" + fv.name);
 				}
 			}
 
@@ -110,43 +108,45 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 
 	int tabCount = 0;
 
-	public void addWorkingFile(final String name, final ClassNode cn) {
-		if (!workingOn.containsKey(name)) {
-			final JPanel tabComp = new ClassViewer(name, cn);
+	public void addWorkingFile(final String name, String container, final ClassNode cn) {
+		String key = container + "$" + name;
+		if (!workingOn.containsKey(key)) {
+			final JPanel tabComp = new ClassViewer(name, container, cn);
 			tabs.add(tabComp);
 			final int tabCount = tabs.indexOfComponent(tabComp);
-			workingOn.put(name, tabCount);
-			tabs.setTabComponentAt(tabCount, new TabbedPane(name,tabs));
+			workingOn.put(key, tabCount);
+			tabs.setTabComponentAt(tabCount, new TabbedPane(name, tabs));
 			tabs.setSelectedIndex(tabCount);
 		} else {
-			tabs.setSelectedIndex(workingOn.get(name));
+			tabs.setSelectedIndex(workingOn.get(key));
 		}
 	}
 	
-	public void addFile(final String name, byte[] contents) {
+	public void addFile(final String name, String container, byte[] contents) {
 		if(contents == null) //a directory
 			return;
-		
-		if (!workingOn.containsKey(name)) {
-			final Component tabComp = new FileViewer(name, contents);
+
+		String key = container + "$" + name;
+		if (!workingOn.containsKey(key)) {
+			final Component tabComp = new FileViewer(name, container, contents);
 			tabs.add(tabComp);
 			final int tabCount = tabs.indexOfComponent(tabComp);
-			workingOn.put(name, tabCount);
-			tabs.setTabComponentAt(tabCount, new TabbedPane(name,tabs));
+			workingOn.put(key, tabCount);
+			tabs.setTabComponentAt(tabCount, new TabbedPane(name, tabs));
 			tabs.setSelectedIndex(tabCount);
 		} else {
-			tabs.setSelectedIndex(workingOn.get(name));
+			tabs.setSelectedIndex(workingOn.get(key));
 		}
 	}
 
 	@Override
-	public void openClassFile(final String name, final ClassNode cn) {
-		addWorkingFile(name, cn);
+	public void openClassFile(final String name, String container, final ClassNode cn) {
+		addWorkingFile(name, container, cn);
 	}
 
 	@Override
-	public void openFile(final String name, byte[] content) {
-		addFile(name, content);
+	public void openFile(final String name, String container, byte[] content) {
+		addFile(name, container, content);
 	}
 
 	public Viewer getCurrentViewer() {

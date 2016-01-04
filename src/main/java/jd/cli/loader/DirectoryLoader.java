@@ -1,12 +1,8 @@
 package jd.cli.loader;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import jd.core.loader.LoaderException;
+
+import java.io.*;
 
 
 public class DirectoryLoader extends BaseLoader

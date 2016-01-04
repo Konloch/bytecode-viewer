@@ -1,39 +1,17 @@
 package org.objectweb.asm.commons.cfg.tree.util;
 
-import static org.objectweb.asm.Opcodes.*;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.cfg.Block;
+import org.objectweb.asm.commons.cfg.tree.NodeTree;
+import org.objectweb.asm.commons.cfg.tree.node.*;
+import org.objectweb.asm.tree.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.objectweb.asm.Opcodes.*;
+
 //import org.nullbool.api.obfuscation.cfg.FlowBlock;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.cfg.Block;
-import org.objectweb.asm.commons.cfg.tree.NodeTree;
-import org.objectweb.asm.commons.cfg.tree.node.AbstractNode;
-import org.objectweb.asm.commons.cfg.tree.node.ArithmeticNode;
-import org.objectweb.asm.commons.cfg.tree.node.ConstantNode;
-import org.objectweb.asm.commons.cfg.tree.node.ConversionNode;
-import org.objectweb.asm.commons.cfg.tree.node.FieldMemberNode;
-import org.objectweb.asm.commons.cfg.tree.node.IincNode;
-import org.objectweb.asm.commons.cfg.tree.node.JumpNode;
-import org.objectweb.asm.commons.cfg.tree.node.MethodMemberNode;
-import org.objectweb.asm.commons.cfg.tree.node.NumberNode;
-import org.objectweb.asm.commons.cfg.tree.node.TypeNode;
-import org.objectweb.asm.commons.cfg.tree.node.VariableNode;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.IincInsnNode;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.IntInsnNode;
-import org.objectweb.asm.tree.JumpInsnNode;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.LookupSwitchInsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.MultiANewArrayInsnNode;
-import org.objectweb.asm.tree.TableSwitchInsnNode;
-import org.objectweb.asm.tree.TypeInsnNode;
-import org.objectweb.asm.tree.VarInsnNode;
 
 /**
  * @author Tyler Sedlar

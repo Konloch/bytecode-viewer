@@ -2,15 +2,7 @@ package the.bytecode.club.bytecodeviewer.gui;
 
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.DecompilerSettings;
-import the.bytecode.club.bytecodeviewer.Dex2Jar;
-import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
-import the.bytecode.club.bytecodeviewer.FileContainer;
-import the.bytecode.club.bytecodeviewer.JarUtils;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
-import the.bytecode.club.bytecodeviewer.Resources;
-import the.bytecode.club.bytecodeviewer.Settings;
+import the.bytecode.club.bytecodeviewer.*;
 import the.bytecode.club.bytecodeviewer.decompilers.CFRDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.FernFlowerDecompiler;
@@ -20,46 +12,15 @@ import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.CodeSequenceDiagram;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowAllStrings;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowMainMethods;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZStringArrayDecrypter;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.*;
 
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.JSpinner;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -244,10 +205,11 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final ButtonGroup panelGroup1 = new ButtonGroup();
     public final ButtonGroup panelGroup2 = new ButtonGroup();
     public final ButtonGroup panelGroup3 = new ButtonGroup();
+    public final JCheckBox mnShowContainer = new JCheckBox("Show Containing File's Name");
     private final JMenuItem mntmSetOpitonalLibrary = new JMenuItem("Set Optional Library Folder");
     private final JMenuItem mntmPingback = new JMenuItem("Pingback");
     private final JMenu mnFontSize = new JMenu("Font Size");
-    private final JCheckBoxMenuItem chckbxmntmDeleteForiegnoutdatedLibs = new JCheckBoxMenuItem("Delete Foriegn/Outdated Libs");
+    private final JCheckBoxMenuItem chckbxmntmDeleteForiegnoutdatedLibs = new JCheckBoxMenuItem("Delete Foreign/Outdated Libs");
     private final JMenu mnApkConversion = new JMenu("APK Conversion");
     public final ButtonGroup apkConversionGroup = new ButtonGroup();
     public final JRadioButtonMenuItem apkConversionDex = new JRadioButtonMenuItem("Dex2Jar");
@@ -830,14 +792,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                             int result = -1;
                             for (int k = 0; k < options.length; k++)
                                 if (options[k].equals(obj)) result = k;
+                            String containerName = BytecodeViewer.files.get(0).name;
 
                             if (result == 0) {
                                 Thread t = new Thread() {
                                     @Override
                                     public void run() {
                                         try {
-                                            ClassNode cn = BytecodeViewer.getClassNode(s);
-                                            byte[] bytes = BytecodeViewer.getClassBytes(s);
+                                            ClassNode cn = BytecodeViewer.getClassNode(containerName, s);
+                                            byte[] bytes = BytecodeViewer.getClassBytes(containerName, s);
                                             String contents = Decompiler.PROCYON.decompileClassNode(cn, bytes);
                                             FileUtils.write(new File(path), contents, "UTF-8", false);
                                             BytecodeViewer.viewer.setIcon(false);
@@ -853,8 +816,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                     @Override
                                     public void run() {
                                         try {
-                                            ClassNode cn = BytecodeViewer.getClassNode(s);
-                                            byte[] bytes = BytecodeViewer.getClassBytes(s);
+                                            ClassNode cn = BytecodeViewer.getClassNode(containerName, s);
+                                            byte[] bytes = BytecodeViewer.getClassBytes(containerName, s);
                                             String contents = Decompiler.CFR.decompileClassNode(cn, bytes);
                                             FileUtils.write(new File(path), contents, "UTF-8", false);
                                             BytecodeViewer.viewer.setIcon(false);
@@ -870,8 +833,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                     @Override
                                     public void run() {
                                         try {
-                                            ClassNode cn = BytecodeViewer.getClassNode(s);
-                                            byte[] bytes = BytecodeViewer.getClassBytes(s);
+                                            ClassNode cn = BytecodeViewer.getClassNode(containerName, s);
+                                            byte[] bytes = BytecodeViewer.getClassBytes(containerName, s);
                                             String contents = Decompiler.FERNFLOWER.decompileClassNode(cn, bytes);
                                             FileUtils.write(new File(path), contents, "UTF-8", false);
                                             BytecodeViewer.viewer.setIcon(false);
@@ -887,8 +850,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                     @Override
                                     public void run() {
                                         try {
-                                            ClassNode cn = BytecodeViewer.getClassNode(s);
-                                            byte[] bytes = BytecodeViewer.getClassBytes(s);
+                                            ClassNode cn = BytecodeViewer.getClassNode(containerName, s);
+                                            byte[] bytes = BytecodeViewer.getClassBytes(containerName, s);
                                             String contents = Decompiler.KRAKATAU.decompileClassNode(cn, bytes);
                                             FileUtils.write(new File(path), contents, "UTF-8", false);
                                             BytecodeViewer.viewer.setIcon(false);
@@ -1263,11 +1226,26 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         fontSpinner.setSize(new Dimension(42, 20));
         fontSpinner.setModel(new SpinnerNumberModel(12, 1, null, 1));
         viewMenu.add(mnFontSize);
-
         mnFontSize.add(fontSpinner);
 
-
-        panelGroup1.setSelected(allDecompilersRev.get(panelGroup1).get(Decompiler.JDGUI).getModel(), true);
+        viewMenu.add(mnShowContainer);
+        mnShowContainer.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                JTabbedPane tabs = workPane.tabs;
+                Component[] components = tabs.getComponents();
+                for (int i = 0; i < components.length; i++) {
+                    Component c = components[i];
+                    if (c instanceof Viewer) {
+                        ((Viewer) c).updateName();
+                        int idx = tabs.indexOfComponent(c);
+                        tabs.setTabComponentAt(idx, new TabbedPane(c.getName(), tabs));
+                        workPane.tabs.setTitleAt(idx, c.getName());
+                    }
+                }
+            }
+        });
+            panelGroup1.setSelected(allDecompilersRev.get(panelGroup1).get(Decompiler.JDGUI).getModel(), true);
         panelGroup2.setSelected(allDecompilersRev.get(panelGroup2).get(Decompiler.BYTECODE).getModel(), true);
         panelGroup3.setSelected(allDecompilersRev.get(panelGroup3).get(null).getModel(), true);
         this.setLocationRelativeTo(null);
@@ -1297,16 +1275,16 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     }
 
     @Override
-    public void openClassFile(final String name, final ClassNode cn) {
+    public void openClassFile(final String name, String container, final ClassNode cn) {
         for (final VisibleComponent vc : rfComps) {
-            vc.openClassFile(name, cn);
+            vc.openClassFile(name, container, cn);
         }
     }
 
     @Override
-    public void openFile(final String name, byte[] content) {
+    public void openFile(final String name, String container, byte[] content) {
         for (final VisibleComponent vc : rfComps) {
-            vc.openFile(name, content);
+            vc.openFile(name, container, content);
         }
     }
 

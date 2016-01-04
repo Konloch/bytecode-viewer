@@ -1,8 +1,8 @@
 package jd.cli.loader;
 
-import java.io.File;
-
 import jd.core.loader.Loader;
+
+import java.io.File;
 
 public abstract class BaseLoader implements Loader
 {

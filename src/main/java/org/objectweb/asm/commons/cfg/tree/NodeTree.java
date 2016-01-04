@@ -1,13 +1,13 @@
 package org.objectweb.asm.commons.cfg.tree;
 
-import static org.objectweb.asm.tree.AbstractInsnNode.LABEL;
-
-import java.util.Arrays;
-
 import org.objectweb.asm.commons.cfg.Block;
 import org.objectweb.asm.commons.cfg.tree.node.AbstractNode;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+
+import java.util.Arrays;
+
+import static org.objectweb.asm.tree.AbstractInsnNode.LABEL;
 
 /**
  * @author Tyler Sedlar

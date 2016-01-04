@@ -11,9 +11,8 @@ import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
 
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;

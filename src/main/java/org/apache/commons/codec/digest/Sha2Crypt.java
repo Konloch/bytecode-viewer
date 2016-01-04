@@ -16,13 +16,13 @@
  */
 package org.apache.commons.codec.digest;
 
+import org.apache.commons.codec.Charsets;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.codec.Charsets;
 
 /**
  * SHA2-based Unix crypt implementation.

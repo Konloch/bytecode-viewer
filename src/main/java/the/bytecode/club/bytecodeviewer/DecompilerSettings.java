@@ -3,7 +3,7 @@ package the.bytecode.club.bytecodeviewer;
 import com.eclipsesource.json.JsonObject;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 
-import javax.swing.JCheckBoxMenuItem;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

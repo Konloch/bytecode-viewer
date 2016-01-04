@@ -2,11 +2,8 @@ package the.bytecode.club.bytecodeviewer.gui;
 
 import the.bytecode.club.bytecodeviewer.Resources;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
