@@ -16,21 +16,12 @@
  */
 package org.apache.commons.codec.language;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-
 import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.StringEncoder;
+
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * Encodes a string into a Daitch-Mokotoff Soundex value.

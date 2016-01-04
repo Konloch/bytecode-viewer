@@ -1,14 +1,14 @@
 package jd.cli;
 
-import java.io.File;
-import java.io.PrintStream;
-
 import jd.cli.loader.DirectoryLoader;
 import jd.cli.preferences.CommonPreferences;
 import jd.cli.printer.text.PlainTextPrinter;
 import jd.cli.util.ClassFileUtil;
 import jd.core.Decompiler;
 import jd.core.process.DecompilerImpl;
+
+import java.io.File;
+import java.io.PrintStream;
 
 
 public class Main 

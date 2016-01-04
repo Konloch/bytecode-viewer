@@ -1,10 +1,10 @@
 package jd.cli.printer.text;
 
-import java.io.PrintStream;
-
 import jd.cli.preferences.CommonPreferences;
 import jd.core.model.instruction.bytecode.instruction.Instruction;
 import jd.core.printer.Printer;
+
+import java.io.PrintStream;
 
 public class PlainTextPrinter implements Printer 
 {	

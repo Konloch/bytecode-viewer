@@ -1,11 +1,5 @@
 package org.objectweb.asm.commons.cfg;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
-
 import org.objectweb.asm.Label;
 import org.objectweb.asm.commons.cfg.query.InsnQuery;
 import org.objectweb.asm.commons.cfg.tree.NodeTree;
@@ -14,6 +8,8 @@ import org.objectweb.asm.commons.util.Assembly;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodNode;
+
+import java.util.*;
 
 /**
  * @author Tyler Sedlar

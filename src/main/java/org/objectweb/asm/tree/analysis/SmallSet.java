@@ -29,11 +29,7 @@
  */
 package org.objectweb.asm.tree.analysis;
 
-import java.util.AbstractSet;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A set of at most two elements.

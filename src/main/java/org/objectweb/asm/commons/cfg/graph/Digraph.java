@@ -1,13 +1,8 @@
 package org.objectweb.asm.commons.cfg.graph;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.objectweb.asm.commons.cfg.Block;
+
+import java.util.*;
 
 /**
  * @author Tyler Sedlar

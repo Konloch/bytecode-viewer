@@ -3,7 +3,7 @@ package the.bytecode.club.bytecodeviewer;
 import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 import javax.xml.bind.DatatypeConverter;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;

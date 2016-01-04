@@ -17,12 +17,12 @@
 
 package org.apache.commons.codec.binary;
 
+import org.apache.commons.codec.CharEncoding;
+import org.apache.commons.codec.Charsets;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-
-import org.apache.commons.codec.CharEncoding;
-import org.apache.commons.codec.Charsets;
 
 /**
  * Converts String to and from bytes using the encodings required by the Java specification. These encodings are

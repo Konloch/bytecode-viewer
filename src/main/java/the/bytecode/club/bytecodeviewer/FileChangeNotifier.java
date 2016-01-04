@@ -28,6 +28,6 @@ import org.objectweb.asm.tree.ClassNode;
  */
 
 public interface FileChangeNotifier {
-	void openClassFile(String name, ClassNode cn);
-	void openFile(String name, byte[] contents);
+	void openClassFile(String name, String container, ClassNode cn);
+	void openFile(String name, String container, byte[] contents);
 }

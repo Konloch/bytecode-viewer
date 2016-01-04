@@ -9,24 +9,12 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -62,7 +50,6 @@ public class FileViewer extends Viewer {
 
 	private static final long serialVersionUID = 6103372882168257164L;
 
-	String name;
 	private byte[] contents;
 	RSyntaxTextArea panelArea = new RSyntaxTextArea();
 	JPanel panel = new JPanel(new BorderLayout());
@@ -201,10 +188,11 @@ public class FileViewer extends Viewer {
 	    return asciiEncoder.canEncode(v);
 	}
 	
-	public FileViewer(final String name, final byte[] contents) {
+	public FileViewer(final String name, final String container, final byte[] contents) {
 		this.name = name;
+		this.container = container;
 		this.contents = contents;
-		this.setName(name);
+		updateName();
 		this.setLayout(new BorderLayout());
 
 		this.add(panel2, BorderLayout.CENTER);

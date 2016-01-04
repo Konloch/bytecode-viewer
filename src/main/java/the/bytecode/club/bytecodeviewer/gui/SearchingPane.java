@@ -3,29 +3,14 @@ package the.bytecode.club.bytecodeviewer.gui;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
-import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
-import the.bytecode.club.bytecodeviewer.searching.FieldCallSearch;
-import the.bytecode.club.bytecodeviewer.searching.LDCSearch;
-import the.bytecode.club.bytecodeviewer.searching.MethodCallSearch;
-import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
-import the.bytecode.club.bytecodeviewer.searching.RegexSearch;
-import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
-import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
+import the.bytecode.club.bytecodeviewer.searching.*;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -210,12 +195,13 @@ public class SearchingPane extends VisibleComponent {
             @Override
             public void valueChanged(final TreeSelectionEvent arg0) {
                 String path = arg0.getPath().toString();
+                String containerName = arg0.getPath().getPathComponent(1).toString();
 
                 String className = path.split(", ")[1].split("\\.")[0];
-                final ClassNode fN = BytecodeViewer.getClassNode(className);
+                final ClassNode fN = BytecodeViewer.getClassNode(containerName, className);
                 if (fN != null) {
                     MainViewerGUI.getComponent(FileNavigationPane.class)
-                            .openClassFileToWorkSpace(className + ".class", fN);
+                            .openClassFileToWorkSpace(className + ".class", containerName, fN);
                 }
 
                 System.out.println(className);
@@ -247,7 +233,7 @@ public class SearchingPane extends VisibleComponent {
     }
 
     @Override
-    public void openFile(String name, byte[] contents) {
+    public void openFile(String name, String container, byte[] contents) {
         // TODO Auto-generated method stub
 
     }

@@ -17,12 +17,12 @@
 
 package org.apache.commons.codec.net;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.binary.StringUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 /**
  * Implements methods common to all codecs defined in RFC 1522.

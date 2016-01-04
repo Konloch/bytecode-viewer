@@ -3,35 +3,17 @@ package the.bytecode.club.bytecodeviewer.gui;
 import com.jhe.hexed.JHexEditor;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
-import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -137,7 +119,6 @@ public class ClassViewer extends Viewer {
         return splitter;
     }
 
-    String name;
     JSplitPane sp;
     JSplitPane sp2;
     public List<Decompiler> decompilers = Arrays.asList(null, null, null);
@@ -291,7 +272,7 @@ public class ClassViewer extends Viewer {
         }
     }
 
-    public ClassViewer(final String name, final ClassNode cn) {
+    public ClassViewer(final String name, final String container, final ClassNode cn) {
         for (int i = 0; i < panels.size(); i++) {
             final JTextField textField = fields.get(i);
             JPanel searchPanel = searches.get(i);
@@ -336,12 +317,13 @@ public class ClassViewer extends Viewer {
         }
 
         this.name = name;
+        this.container = container;
         this.cn = cn;
-        this.setName(name);
+        updateName();
         this.setLayout(new BorderLayout());
 
         this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panels.get(0), panels.get(1));
-        JHexEditor hex = new JHexEditor(BytecodeViewer.getClassBytes(cn.name + ".class"));
+        JHexEditor hex = new JHexEditor(BytecodeViewer.getClassBytes(container, cn.name + ".class"));
         this.sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, panels.get(2));
         this.add(sp2, BorderLayout.CENTER);
 
@@ -383,7 +365,7 @@ public class ClassViewer extends Viewer {
     }
 
     public void startPaneUpdater(final JButton button) {
-        this.cn = BytecodeViewer.getClassNode(cn.name); //update the classnode
+        this.cn = BytecodeViewer.getClassNode(container, cn.name); //update the classnode
         setPanes();
 
         for (JPanel jpanel : panels) {

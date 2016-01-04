@@ -29,10 +29,10 @@
  */
 package org.objectweb.asm.tree;
 
-import java.util.Map;
-
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.util.Printer;
+
+import java.util.Map;
 
 /**
  * A node that represents an instruction with a single int operand.
