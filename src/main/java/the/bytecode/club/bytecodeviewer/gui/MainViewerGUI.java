@@ -1232,18 +1232,20 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         mnShowContainer.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                Component[] components = workPane.tabs.getComponents();
+                JTabbedPane tabs = workPane.tabs;
+                Component[] components = tabs.getComponents();
                 for (int i = 0; i < components.length; i++) {
                     Component c = components[i];
                     if (c instanceof Viewer) {
                         ((Viewer) c).updateName();
-                        workPane.tabs.setTabComponentAt(i, new TabbedPane(c.getName(), workPane.tabs));
-                        workPane.tabs.setTitleAt(i, c.getName());
+                        int idx = tabs.indexOfComponent(c);
+                        tabs.setTabComponentAt(idx, new TabbedPane(c.getName(), tabs));
+                        workPane.tabs.setTitleAt(idx, c.getName());
                     }
                 }
             }
         });
-                panelGroup1.setSelected(allDecompilersRev.get(panelGroup1).get(Decompiler.JDGUI).getModel(), true);
+            panelGroup1.setSelected(allDecompilersRev.get(panelGroup1).get(Decompiler.JDGUI).getModel(), true);
         panelGroup2.setSelected(allDecompilersRev.get(panelGroup2).get(Decompiler.BYTECODE).getModel(), true);
         panelGroup3.setSelected(allDecompilersRev.get(panelGroup3).get(null).getModel(), true);
         this.setLocationRelativeTo(null);
