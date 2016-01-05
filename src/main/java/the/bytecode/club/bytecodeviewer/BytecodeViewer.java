@@ -100,6 +100,9 @@ import java.util.Map;
  * 08/07/2015 - FernFlower & CFR Decompiler now launch in their own process with the 'slimjar' version.
  * 08/07/2015 - Switched the ClassViewer up slightly so it utilizes the event dispatch thread.
  * 08/07/2015 - Fixed? CFIDE's Bytecode Decompiler on TableSwitchs
+ * 01/04/2015 - Afffsdd fixed the same filename from 2 containers.
+ * 01/04/2015 - Afffsdd fixed a typo.
+ * 01/04/2015 - Afffsdd Added an option to show the containing file name.
  *
  * @author Konloch
  */
