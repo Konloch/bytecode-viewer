@@ -792,7 +792,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                             int result = -1;
                             for (int k = 0; k < options.length; k++)
                                 if (options[k].equals(obj)) result = k;
-                            String containerName = BytecodeViewer.files.get(0).name;
+                            final String containerName = BytecodeViewer.files.get(0).name;
 
                             if (result == 0) {
                                 Thread t = new Thread() {
