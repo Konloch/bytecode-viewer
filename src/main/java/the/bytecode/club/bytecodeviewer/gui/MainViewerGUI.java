@@ -792,7 +792,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                             int result = -1;
                             for (int k = 0; k < options.length; k++)
                                 if (options[k].equals(obj)) result = k;
-                            String containerName = BytecodeViewer.files.get(0).name;
+                            final String containerName = BytecodeViewer.files.get(0).name;
 
                             if (result == 0) {
                                 Thread t = new Thread() {
@@ -1245,7 +1245,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 }
             }
         });
-            panelGroup1.setSelected(allDecompilersRev.get(panelGroup1).get(Decompiler.JDGUI).getModel(), true);
+        panelGroup1.setSelected(allDecompilersRev.get(panelGroup1).get(Decompiler.FERNFLOWER).getModel(), true);
         panelGroup2.setSelected(allDecompilersRev.get(panelGroup2).get(Decompiler.BYTECODE).getModel(), true);
         panelGroup3.setSelected(allDecompilersRev.get(panelGroup3).get(null).getModel(), true);
         this.setLocationRelativeTo(null);
