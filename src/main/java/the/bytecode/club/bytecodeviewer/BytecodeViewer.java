@@ -689,7 +689,7 @@ public class BytecodeViewer {
                                             final ClassNode cn = JarUtils.getNode(bytes);
 
                                             FileContainer container = new FileContainer(f);
-                                            container.files.put(fn, bytes);
+                                            container.files.put(cn.name + ".class", bytes);
                                             container.add(cn);
                                             BytecodeViewer.files.add(container);
                                         } else {
