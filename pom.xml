@@ -50,6 +50,26 @@
                                     </excludes>
                                 </filter>
                                 <filter>
+                                    <artifact>ca.benow:jd</artifact>
+                                    <excludes>
+                                        <exclude>org/fife/**</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.jf:baksmali</artifact>
+                                    <excludes>
+                                        <exclude>org/apache/commons/cli/**</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>dex2jar:dex2jar</artifact>
+                                    <excludes>
+                                        <exclude>org/objectweb/asm/xml/Processor.class</exclude>
+                                        <exclude>org/objectweb/asm/util/TraceClassVisitor.class</exclude>
+                                        <exclude>org/objectweb/asm/util/CheckClassAdapter.class</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
                                     <artifact>com.fifesoft:rsyntaxtextarea</artifact>
                                     <includes>
                                         <include>**</include>
