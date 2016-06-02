@@ -291,13 +291,11 @@ public class InstructionPrinter {
     }
 
     public static void saveTo(File file, InstructionPrinter printer) {
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             for (String s : printer.createPrint()) {
                 bw.write(s);
                 bw.newLine();
             }
-            bw.close();
         } catch (IOException e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
