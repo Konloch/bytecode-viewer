@@ -45,6 +45,9 @@ public class BytecodeViewer {
 
     private static URLClassLoader cl;
 
+    private BytecodeViewer() {
+    }
+
     /**
      * Grab the loader instance
      *

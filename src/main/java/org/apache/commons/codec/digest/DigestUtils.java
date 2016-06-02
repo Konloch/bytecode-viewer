@@ -36,6 +36,9 @@ public class DigestUtils {
 
     private static final int STREAM_BUFFER_LENGTH = 1024;
 
+    private DigestUtils() {
+    }
+
     /**
      * Read through an ByteBuffer and returns the digest for the data
      *

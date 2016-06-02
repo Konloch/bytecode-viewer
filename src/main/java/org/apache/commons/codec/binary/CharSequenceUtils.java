@@ -29,6 +29,9 @@ package org.apache.commons.codec.binary;
  */
 public class CharSequenceUtils {
 
+    private CharSequenceUtils() {
+    }
+
     /**
      * Green implementation of regionMatches.
      *

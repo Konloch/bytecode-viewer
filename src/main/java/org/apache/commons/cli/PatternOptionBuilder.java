@@ -87,6 +87,9 @@ public class PatternOptionBuilder
     /** URL class */
     public static final Class<URL> URL_VALUE = URL.class;
 
+    private PatternOptionBuilder() {
+    }
+
     /**
      * Retrieve the class that <code>ch</code> represents.
      *

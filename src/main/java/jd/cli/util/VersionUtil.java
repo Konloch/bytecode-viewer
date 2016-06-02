@@ -2,6 +2,9 @@ package jd.cli.util;
 
 public class VersionUtil 
 {
+	private VersionUtil() {
+	}
+
 	public static String getJDKVersion(int majorVersion, int minorVersion)
 	{
 		StringBuffer sb = new StringBuffer(20);

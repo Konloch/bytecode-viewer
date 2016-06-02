@@ -30,6 +30,9 @@ import org.apache.commons.codec.StringEncoder;
  */
 final class SoundexUtils {
 
+    private SoundexUtils() {
+    }
+
     /**
      * Cleans up the input string before Soundex processing by only returning
      * upper case letters.

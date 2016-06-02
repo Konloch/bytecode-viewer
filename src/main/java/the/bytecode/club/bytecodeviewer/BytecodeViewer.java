@@ -141,6 +141,9 @@ public class BytecodeViewer {
     public static boolean pingback = false;
     public static boolean deleteForiegnLibraries = true;
 
+    private BytecodeViewer() {
+    }
+
     /**
      * Main startup
      *

@@ -41,6 +41,9 @@ import java.util.zip.ZipInputStream;
 
 public class JarUtils {
 
+	private JarUtils() {
+	}
+
 	/**
 	 * Loads the classes and resources from the input jar file
 	 * @param jarFile the input jar file

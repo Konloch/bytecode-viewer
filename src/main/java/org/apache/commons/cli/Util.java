@@ -24,6 +24,9 @@ package org.apache.commons.cli;
  */
 final class Util
 {
+    private Util() {
+    }
+
     /**
      * Remove the hyphens from the beginning of <code>str</code> and
      * return the new String.

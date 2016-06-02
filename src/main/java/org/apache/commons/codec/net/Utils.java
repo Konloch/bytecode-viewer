@@ -29,6 +29,9 @@ import org.apache.commons.codec.DecoderException;
  */
 class Utils {
 
+    private Utils() {
+    }
+
     /**
      * Returns the numeric value of the character <code>b</code> in radix 16.
      *

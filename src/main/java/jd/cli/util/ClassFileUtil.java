@@ -12,10 +12,13 @@ import java.io.*;
 
 
 public class ClassFileUtil {
+    private ClassFileUtil() {
+    }
+
     /*
-     * Lecture rapide de la structure de la classe et extraction du nom du
-     * repoertoire de base.
-     */
+         * Lecture rapide de la structure de la classe et extraction du nom du
+         * repoertoire de base.
+         */
     public static String ExtractDirectoryPath(String pathToClass) throws Exception {
         DataInputStream dis = null;
         String directoryPath = null;

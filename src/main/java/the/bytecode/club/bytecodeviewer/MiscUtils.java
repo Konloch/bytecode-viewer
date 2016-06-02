@@ -36,6 +36,9 @@ public class MiscUtils {
 	private static final String AN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	private static Random rnd = new Random();
 
+	private MiscUtils() {
+	}
+
 	/**
 	 * Returns a random string without numbers
 	 * @param len the length of the String
