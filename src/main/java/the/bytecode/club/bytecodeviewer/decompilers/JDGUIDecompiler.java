@@ -60,9 +60,9 @@ public class JDGUIDecompiler extends Decompiler {
 
     @Override
     public void decompileToZip(String zipName) {
-        try {
-            File output = new File(zipName);
-            ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(output));
+        File output = new File(zipName);
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(output))) {
+            
             for (Map.Entry<String, byte[]> entry : BytecodeViewer.getLoadedBytes().entrySet()) {
                 String name = entry.getKey();
                 if (name.endsWith(".class")) {
@@ -82,7 +82,6 @@ public class JDGUIDecompiler extends Decompiler {
                 }
                 zipOutputStream.closeEntry();
             }
-            zipOutputStream.close();
         } catch (Exception e) {
             handleException(e);
         }
