@@ -61,7 +61,10 @@ public final class PluginManager {
 		launchStrategies.put("rb", ruby);
 		launchStrategies.put("ruby", ruby);
 	}
-	
+
+	private PluginManager() {
+	}
+
 	/**
 	 * Runs a new plugin instance
 	 * @param newPluginInstance the new plugin instance

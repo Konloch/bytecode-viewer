@@ -44,6 +44,9 @@ public final class HmacUtils {
 
     private static final int STREAM_BUFFER_LENGTH = 1024;
 
+    private HmacUtils() {
+    }
+
     /**
      * Returns an initialized <code>Mac</code> for the HmacMD5 algorithm.
      * <p>

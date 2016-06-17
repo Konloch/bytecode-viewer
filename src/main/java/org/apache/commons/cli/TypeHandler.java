@@ -32,6 +32,9 @@ import java.util.Date;
  */
 public class TypeHandler
 {
+    private TypeHandler() {
+    }
+
     /**
      * Returns the <code>Object</code> of type <code>obj</code>
      * with the value of <code>str</code>.

@@ -38,6 +38,9 @@ import java.nio.charset.Charset;
  */
 public class StringUtils {
 
+    private StringUtils() {
+    }
+
     /**
      * <p>
      * Compares two CharSequences, returning <code>true</code> if they represent equal sequences of characters.

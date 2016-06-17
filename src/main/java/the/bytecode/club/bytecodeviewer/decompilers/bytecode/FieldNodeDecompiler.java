@@ -34,8 +34,11 @@ import java.util.List;
 
 public class FieldNodeDecompiler {
 
+	private FieldNodeDecompiler() {
+	}
+
 	public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb,
-			FieldNode f) {
+												  FieldNode f) {
 		String s = getAccessString(f.access);
 		sb.append(s);
 		if (s.length() > 0)
