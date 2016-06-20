@@ -52,7 +52,7 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
     /**
      * For each label that is jumped to by a JSR, we create a BitSet instance.
      */
-    private final Map<LabelNode, BitSet> subroutineHeads = new HashMap<LabelNode, BitSet>();
+    private final Map<LabelNode, BitSet> subroutineHeads = new HashMap<>();
 
     /**
      * This subroutine instance denotes the line of execution that is not
@@ -359,7 +359,7 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
      * subroutine until the code is fully elaborated.
      */
     private void emitCode() {
-        LinkedList<Instantiation> worklist = new LinkedList<Instantiation>();
+        LinkedList<Instantiation> worklist = new LinkedList<>();
         // Create an instantiation of the "root" subroutine, which is just the
         // main routine
         worklist.add(new Instantiation(null, mainSubroutine));
@@ -367,8 +367,8 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
         // Emit instantiations of each subroutine we encounter, including the
         // main subroutine
         InsnList newInstructions = new InsnList();
-        List<TryCatchBlockNode> newTryCatchBlocks = new ArrayList<TryCatchBlockNode>();
-        List<LocalVariableNode> newLocalVariables = new ArrayList<LocalVariableNode>();
+        List<TryCatchBlockNode> newTryCatchBlocks = new ArrayList<>();
+        List<LocalVariableNode> newLocalVariables = new ArrayList<>();
         while (!worklist.isEmpty()) {
             Instantiation inst = worklist.removeFirst();
             emitSubroutine(inst, worklist, newInstructions, newTryCatchBlocks,
@@ -591,7 +591,7 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
          * 
          * @see #findOwner(int)
          */
-        public final Map<LabelNode, LabelNode> rangeTable = new HashMap<LabelNode, LabelNode>();
+        public final Map<LabelNode, LabelNode> rangeTable = new HashMap<>();
 
         /**
          * All returns for this instantiation will be mapped to this label

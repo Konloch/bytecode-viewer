@@ -130,13 +130,13 @@ public class BytecodeViewer {
     public static MainViewerGUI viewer = null;
     public static ClassNodeLoader loader = new ClassNodeLoader(); // TODO MAKE SECURE BECAUSE THIS IS INSECURE
     public static SecurityMan sm = new SecurityMan(); // TODO MAKE SECURE BECAUSE THIS IS INSECURE
-    public static ArrayList<FileContainer> files = new ArrayList<FileContainer>(); //all of BCV's loaded files/classes/etc
+    public static ArrayList<FileContainer> files = new ArrayList<>(); //all of BCV's loaded files/classes/etc
     private static int maxRecentFiles = 25;
     private static List<String> recentFiles = new ArrayList<>();
     private static List<String> recentPlugins = new ArrayList<>();
     public static boolean runningObfuscation = false;
     public static String lastDirectory = "";
-    public static ArrayList<Process> createdProcesses = new ArrayList<Process>();
+    public static ArrayList<Process> createdProcesses = new ArrayList<>();
     public static Refactorer refactorer = new Refactorer();
     public static boolean pingback = false;
     public static boolean deleteForiegnLibraries = true;
@@ -488,7 +488,7 @@ public class BytecodeViewer {
      * @return the loaded classes as an array list
      */
     public static ArrayList<ClassNode> getLoadedClasses() {
-        ArrayList<ClassNode> a = new ArrayList<ClassNode>();
+        ArrayList<ClassNode> a = new ArrayList<>();
 
         for (FileContainer container : files)
             for (ClassNode c : container.values())
@@ -498,7 +498,7 @@ public class BytecodeViewer {
     }
 
     public static ArrayList<ClassNode> loadAllClasses() {
-        ArrayList<ClassNode> a = new ArrayList<ClassNode>();
+        ArrayList<ClassNode> a = new ArrayList<>();
         for (FileContainer container : files) {
             for (String s : container.files.keySet()) {
                 ClassNode loaded = container.getClassNode(s.substring(0, s.length() - 6));
@@ -645,9 +645,9 @@ public class BytecodeViewer {
                         } else {
                             if (f.isDirectory()) {
                                 FileContainer container = new FileContainer(f);
-                                HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+                                HashMap<String, byte[]> files = new HashMap<>();
                                 boolean finished = false;
-                                ArrayList<File> totalFiles = new ArrayList<File>();
+                                ArrayList<File> totalFiles = new ArrayList<>();
                                 totalFiles.add(f);
                                 String dir = f.getAbsolutePath();//f.getAbsolutePath().substring(0, f.getAbsolutePath().length()-f.getName().length());
 
@@ -758,7 +758,7 @@ public class BytecodeViewer {
                                     }
                                     return;
                                 } else {
-                                    HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+                                    HashMap<String, byte[]> files = new HashMap<>();
                                     byte[] bytes = JarUtils.getBytes(new FileInputStream(f));
                                     files.put(f.getName(), bytes);
 
@@ -842,7 +842,7 @@ public class BytecodeViewer {
         }
     }
 
-    private static ArrayList<String> killList = new ArrayList<String>();
+    private static ArrayList<String> killList = new ArrayList<>();
 
     /**
      * Add the recent file
@@ -868,7 +868,7 @@ public class BytecodeViewer {
         resetRecentFilesMenu();
     }
 
-    private static ArrayList<String> killList2 = new ArrayList<String>();
+    private static ArrayList<String> killList2 = new ArrayList<>();
 
     /**
      * Add to the recent plugin list
@@ -936,7 +936,7 @@ public class BytecodeViewer {
         }
     }
 
-    public static ArrayList<String> createdRandomizedNames = new ArrayList<String>();
+    public static ArrayList<String> createdRandomizedNames = new ArrayList<>();
 
     /**
      * Ensures it will only return a uniquely generated names, contains a dupe checker to be sure

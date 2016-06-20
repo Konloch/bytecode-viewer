@@ -42,7 +42,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 
 	private static final String PLUGIN_CLASS_NAME = Plugin.class.getCanonicalName().replace(".", "/");
 
-	private final Set<LoadedPluginData> loaded = new HashSet<LoadedPluginData>();
+	private final Set<LoadedPluginData> loaded = new HashSet<>();
 
 	@Override
 	public Plugin run(File file) throws Throwable {
@@ -76,7 +76,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 		ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
 		ZipEntry entry;
 
-		Set<LoadedNodeData> set = new HashSet<LoadedNodeData>();
+		Set<LoadedNodeData> set = new HashSet<>();
 
 		while ((entry = jis.getNextEntry()) != null) {
 			try {
@@ -150,8 +150,8 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 		public LoadingClassLoader(LoadedNodeData data, Set<LoadedNodeData> set) throws Throwable{
 			this.data = data;
 
-			cache = new HashMap<String, LoadedNodeData>();
-			ccache = new HashMap<String, Class<?>>();
+			cache = new HashMap<>();
+			ccache = new HashMap<>();
 
 			for(LoadedNodeData d: set) {
 				cache.put(d.node.name, d);

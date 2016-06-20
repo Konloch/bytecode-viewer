@@ -66,7 +66,7 @@ public class ClassNodeDecompiler extends Decompiler {
     }
 
     protected static PrefixedStringBuilder decompile(PrefixedStringBuilder sb, ArrayList<String> decompiledClasses, String containerName, ClassNode cn) {
-        ArrayList<String> unableToDecompile = new ArrayList<String>();
+        ArrayList<String> unableToDecompile = new ArrayList<>();
         decompiledClasses.add(cn.name);
         sb.append(getAccessString(cn.access));
         sb.append(" ");
@@ -137,7 +137,7 @@ public class ClassNodeDecompiler extends Decompiler {
     }
 
     public static String getAccessString(int access) {
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokens = new ArrayList<>();
         if ((access & Opcodes.ACC_PUBLIC) != 0) tokens.add("public");
         if ((access & Opcodes.ACC_PRIVATE) != 0) tokens.add("private");
         if ((access & Opcodes.ACC_PROTECTED) != 0) tokens.add("protected");

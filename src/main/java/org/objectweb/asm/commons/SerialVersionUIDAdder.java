@@ -188,9 +188,9 @@ public class SerialVersionUIDAdder extends ClassVisitor {
      */
     protected SerialVersionUIDAdder(final int api, final ClassVisitor cv) {
         super(api, cv);
-        svuidFields = new ArrayList<Item>();
-        svuidConstructors = new ArrayList<Item>();
-        svuidMethods = new ArrayList<Item>();
+        svuidFields = new ArrayList<>();
+        svuidConstructors = new ArrayList<>();
+        svuidMethods = new ArrayList<>();
     }
 
     // ------------------------------------------------------------------------

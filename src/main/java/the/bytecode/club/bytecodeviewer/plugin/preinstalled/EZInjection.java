@@ -44,7 +44,7 @@ import java.util.ArrayList;
 
 public class EZInjection extends Plugin {
 
-	public static ArrayList<BytecodeHook> hookArray = new ArrayList<BytecodeHook>();
+	public static ArrayList<BytecodeHook> hookArray = new ArrayList<>();
 	private static String version = "1.0";
 	private static PluginConsole gui = new PluginConsole("EZ Injection v" + version);
 	private boolean accessModifiers, injectHooks, invokeMethod, useProxy,

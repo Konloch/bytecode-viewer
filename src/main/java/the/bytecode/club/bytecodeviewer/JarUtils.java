@@ -52,7 +52,7 @@ public class JarUtils {
 	 */
 	public static void put(final File jarFile) throws IOException {
 		FileContainer container = new FileContainer(jarFile);
-		HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+		HashMap<String, byte[]> files = new HashMap<>();
 		
 		ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
 		ZipEntry entry;
@@ -82,7 +82,7 @@ public class JarUtils {
 	
 
 	public static ArrayList<ClassNode> loadClasses(final File jarFile) throws IOException {
-		ArrayList<ClassNode> classes = new ArrayList<ClassNode>();
+		ArrayList<ClassNode> classes = new ArrayList<>();
 		ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
 		ZipEntry entry;
 		while ((entry = jis.getNextEntry()) != null) {
@@ -122,7 +122,7 @@ public class JarUtils {
 		if(!zipFile.exists())
 			return null; //just ignore
 		
-		HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+		HashMap<String, byte[]> files = new HashMap<>();
 		
 		ZipInputStream jis = new ZipInputStream(new FileInputStream(zipFile));
 		ZipEntry entry;
@@ -233,7 +233,7 @@ public class JarUtils {
 	 */
 	public static void saveAsJarClassesOnly(ArrayList<ClassNode> nodeList, String path) {
 		try (JarOutputStream out = new JarOutputStream(new FileOutputStream(path))) {
-			ArrayList<String> noDupe = new ArrayList<String>();
+			ArrayList<String> noDupe = new ArrayList<>();
 			for (ClassNode cn : nodeList) {
 				ClassWriter cw = new ClassWriter(0);
 				cn.accept(cw);
@@ -256,7 +256,7 @@ public class JarUtils {
 
 	public static void saveAsJarClassesOnly(Map<String, byte[]> nodeList, String path) {
 		try (JarOutputStream out = new JarOutputStream(new FileOutputStream(path))) {
-			ArrayList<String> noDupe = new ArrayList<String>();
+			ArrayList<String> noDupe = new ArrayList<>();
 			for (Entry<String, byte[]> cn : nodeList.entrySet()) {
 				String name = cn.getKey();
 				if(!noDupe.contains(name)) {
@@ -275,7 +275,7 @@ public class JarUtils {
 
 	public static void saveAsJar(Map<String, byte[]> nodeList, String path) {
 		try (JarOutputStream out = new JarOutputStream(new FileOutputStream(path))) {
-			ArrayList<String> noDupe = new ArrayList<String>();
+			ArrayList<String> noDupe = new ArrayList<>();
 			for (Entry<String, byte[]> entry : nodeList.entrySet()) {
 				String name = entry.getKey();
 				if(!noDupe.contains(name)) {

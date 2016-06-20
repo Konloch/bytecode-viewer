@@ -109,7 +109,7 @@ public class AnnotationNode extends AnnotationVisitor {
     @Override
     public void visit(final String name, final Object value) {
         if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+            values = new ArrayList<>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
             values.add(name);
@@ -121,7 +121,7 @@ public class AnnotationNode extends AnnotationVisitor {
     public void visitEnum(final String name, final String desc,
             final String value) {
         if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+            values = new ArrayList<>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
             values.add(name);
@@ -133,7 +133,7 @@ public class AnnotationNode extends AnnotationVisitor {
     public AnnotationVisitor visitAnnotation(final String name,
             final String desc) {
         if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+            values = new ArrayList<>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
             values.add(name);
@@ -146,12 +146,12 @@ public class AnnotationNode extends AnnotationVisitor {
     @Override
     public AnnotationVisitor visitArray(final String name) {
         if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+            values = new ArrayList<>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
             values.add(name);
         }
-        List<Object> array = new ArrayList<Object>();
+        List<Object> array = new ArrayList<>();
         values.add(array);
         return new AnnotationNode(array);
     }

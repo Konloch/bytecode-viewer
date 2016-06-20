@@ -84,7 +84,7 @@ public class BytecodeViewer {
         JarFile jarFile = new JarFile("" + f.getAbsolutePath());
         Enumeration<JarEntry> e = jarFile.entries();
         cl = URLClassLoader.newInstance(new URL[]{f.toURL()});
-        List<Class<?>> ret = new ArrayList<Class<?>>();
+        List<Class<?>> ret = new ArrayList<>();
 
         while (e.hasMoreElements()) {
             JarEntry je = (JarEntry) e.nextElement();

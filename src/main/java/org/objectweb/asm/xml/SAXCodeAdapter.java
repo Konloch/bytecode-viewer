@@ -66,7 +66,7 @@ public final class SAXCodeAdapter extends MethodVisitor {
         super(Opcodes.ASM5);
         this.sa = sa;
         this.access = access;
-        this.labelNames = new HashMap<Label, String>();
+        this.labelNames = new HashMap<>();
     }
 
     @Override

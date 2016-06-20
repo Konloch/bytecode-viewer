@@ -64,7 +64,7 @@ public class PhoneticEngine {
         private final Set<Rule.Phoneme> phonemes;
 
         private PhonemeBuilder(final Rule.Phoneme phoneme) {
-            this.phonemes = new LinkedHashSet<Rule.Phoneme>();
+            this.phonemes = new LinkedHashSet<>();
             this.phonemes.add(phoneme);
         }
 
@@ -93,7 +93,7 @@ public class PhoneticEngine {
          * @param maxPhonemes   the maximum number of phonemes to build up
          */
         public void apply(final Rule.PhonemeExpr phonemeExpr, final int maxPhonemes) {
-            final Set<Rule.Phoneme> newPhonemes = new LinkedHashSet<Rule.Phoneme>(maxPhonemes);
+            final Set<Rule.Phoneme> newPhonemes = new LinkedHashSet<>(maxPhonemes);
 
             EXPR: for (final Rule.Phoneme left : this.phonemes) {
                 for (final Rule.Phoneme right : phonemeExpr.getPhonemes()) {
@@ -221,20 +221,20 @@ public class PhoneticEngine {
         }
     }
 
-    private static final Map<NameType, Set<String>> NAME_PREFIXES = new EnumMap<NameType, Set<String>>(NameType.class);
+    private static final Map<NameType, Set<String>> NAME_PREFIXES = new EnumMap<>(NameType.class);
 
     static {
         NAME_PREFIXES.put(NameType.ASHKENAZI,
                 Collections.unmodifiableSet(
-                        new HashSet<String>(Arrays.asList("bar", "ben", "da", "de", "van", "von"))));
+                        new HashSet<>(Arrays.asList("bar", "ben", "da", "de", "van", "von"))));
         NAME_PREFIXES.put(NameType.SEPHARDIC,
                 Collections.unmodifiableSet(
-                        new HashSet<String>(Arrays.asList("al", "el", "da", "dal", "de", "del", "dela", "de la",
-                                                          "della", "des", "di", "do", "dos", "du", "van", "von"))));
+                        new HashSet<>(Arrays.asList("al", "el", "da", "dal", "de", "del", "dela", "de la",
+                                "della", "des", "di", "do", "dos", "du", "van", "von"))));
         NAME_PREFIXES.put(NameType.GENERIC,
                 Collections.unmodifiableSet(
-                        new HashSet<String>(Arrays.asList("da", "dal", "de", "del", "dela", "de la", "della",
-                                                          "des", "di", "do", "dos", "du", "van", "von"))));
+                        new HashSet<>(Arrays.asList("da", "dal", "de", "del", "dela", "de la", "della",
+                                "des", "di", "do", "dos", "du", "van", "von"))));
     }
 
     /**
@@ -325,7 +325,7 @@ public class PhoneticEngine {
         }
 
         final Map<Rule.Phoneme, Rule.Phoneme> phonemes =
-            new TreeMap<Rule.Phoneme, Rule.Phoneme>(Rule.Phoneme.COMPARATOR);
+                new TreeMap<>(Rule.Phoneme.COMPARATOR);
 
         for (final Rule.Phoneme phoneme : phonemeBuilder.getPhonemes()) {
             PhonemeBuilder subBuilder = PhonemeBuilder.empty(phoneme.getLanguages());
@@ -413,7 +413,7 @@ public class PhoneticEngine {
         }
 
         final List<String> words = Arrays.asList(input.split("\\s+"));
-        final List<String> words2 = new ArrayList<String>();
+        final List<String> words2 = new ArrayList<>();
 
         // special-case handling of word prefixes based upon the name type
         switch (this.nameType) {

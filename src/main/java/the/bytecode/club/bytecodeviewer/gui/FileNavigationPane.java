@@ -516,8 +516,8 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
                 } else if (node.getChildCount() <= 0) { //random file
                     setIcon(Resources.fileIcon);
                 } else { //folder
-                    ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
-                    ArrayList<TreeNode> totalNodes = new ArrayList<TreeNode>();
+                    ArrayList<TreeNode> nodes = new ArrayList<>();
+                    ArrayList<TreeNode> totalNodes = new ArrayList<>();
 
                     nodes.add(node);
                     totalNodes.add(node);

@@ -164,7 +164,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public boolean isMaximized = false;
     public JSplitPane sp1;
     public JSplitPane sp2;
-    static ArrayList<VisibleComponent> rfComps = new ArrayList<VisibleComponent>();
+    static ArrayList<VisibleComponent> rfComps = new ArrayList<>();
     public final JMenuItem mntmNewWorkspace = new JMenuItem("New Workspace");
     public JMenu mnRecentFiles = new JMenu("Recent Files");
     public final JMenuItem mntmNewMenuItem = new JMenuItem("Decompile & Save All Classes..");
@@ -412,7 +412,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                     if (options[k].equals(obj)) result = k;
 
                 if (result == 0) {
-                    ArrayList<File> reopen = new ArrayList<File>();
+                    ArrayList<File> reopen = new ArrayList<>();
                     for (FileContainer container : BytecodeViewer.files)
                         reopen.add(container.file);
 

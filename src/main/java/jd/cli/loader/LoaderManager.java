@@ -15,7 +15,7 @@ public class LoaderManager
 
 	public LoaderManager()
 	{
-		this.map = new ConcurrentHashMap<String, BaseLoader>();
+		this.map = new ConcurrentHashMap<>();
 	}
 	
 	public BaseLoader getLoader(String codebase) throws LoaderException

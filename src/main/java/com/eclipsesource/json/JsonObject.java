@@ -80,8 +80,8 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
    * Creates a new empty JsonObject.
    */
   public JsonObject() {
-    names = new ArrayList<String>();
-    values = new ArrayList<JsonValue>();
+    names = new ArrayList<>();
+    values = new ArrayList<>();
     table = new HashIndexTable();
   }
 
@@ -103,8 +103,8 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
       names = Collections.unmodifiableList(object.names);
       values = Collections.unmodifiableList(object.values);
     } else {
-      names = new ArrayList<String>(object.names);
-      values = new ArrayList<JsonValue>(object.values);
+      names = new ArrayList<>(object.names);
+      values = new ArrayList<>(object.values);
     }
     table = new HashIndexTable();
     updateHashIndex();

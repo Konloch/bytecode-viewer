@@ -101,8 +101,8 @@ public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes 
     public void visitCode() {
         mv.visitCode();
         if (constructor) {
-            stackFrame = new ArrayList<Object>();
-            branches = new HashMap<Label, List<Object>>();
+            stackFrame = new ArrayList<>();
+            branches = new HashMap<>();
         } else {
             superInitialized = true;
             onMethodEnter();
@@ -553,7 +553,7 @@ public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes 
             String type) {
         super.visitTryCatchBlock(start, end, handler, type);
         if (constructor && !branches.containsKey(handler)) {
-            List<Object> stackFrame = new ArrayList<Object>();
+            List<Object> stackFrame = new ArrayList<>();
             stackFrame.add(OTHER);
             branches.put(handler, stackFrame);
         }
@@ -570,7 +570,7 @@ public abstract class AdviceAdapter extends GeneratorAdapter implements Opcodes 
         if (branches.containsKey(label)) {
             return;
         }
-        branches.put(label, new ArrayList<Object>(stackFrame));
+        branches.put(label, new ArrayList<>(stackFrame));
     }
 
     private Object popValue() {

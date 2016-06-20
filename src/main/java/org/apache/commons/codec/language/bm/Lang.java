@@ -84,7 +84,7 @@ public class Lang {
         }
     }
 
-    private static final Map<NameType, Lang> Langs = new EnumMap<NameType, Lang>(NameType.class);
+    private static final Map<NameType, Lang> Langs = new EnumMap<>(NameType.class);
 
     private static final String LANGUAGE_RULES_RN = "org/apache/commons/codec/language/bm/%s_lang.txt";
 
@@ -118,7 +118,7 @@ public class Lang {
      * @return a Lang encapsulating the loaded language-guessing rules.
      */
     public static Lang loadFromResource(final String languageRulesResourceName, final Languages languages) {
-        final List<LangRule> rules = new ArrayList<LangRule>();
+        final List<LangRule> rules = new ArrayList<>();
         final InputStream lRulesIS = Lang.class.getClassLoader().getResourceAsStream(languageRulesResourceName);
 
         if (lRulesIS == null) {
@@ -165,7 +165,7 @@ public class Lang {
                         final String[] langs = parts[1].split("\\+");
                         final boolean accept = parts[2].equals("true");
 
-                        rules.add(new LangRule(pattern, new HashSet<String>(Arrays.asList(langs)), accept));
+                        rules.add(new LangRule(pattern, new HashSet<>(Arrays.asList(langs)), accept));
                     }
                 }
             }
@@ -205,7 +205,7 @@ public class Lang {
     public Languages.LanguageSet guessLanguages(final String input) {
         final String text = input.toLowerCase(Locale.ENGLISH);
 
-        final Set<String> langs = new HashSet<String>(this.languages.getLanguages());
+        final Set<String> langs = new HashSet<>(this.languages.getLanguages());
         for (final LangRule rule : this.rules) {
             if (rule.matches(text)) {
                 if (rule.acceptOnMatch) {

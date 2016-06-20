@@ -214,7 +214,7 @@ public class MethodNodeDecompiler {
 	private static String getAccessString(int access) {
 		// public, protected, private, abstract, static,
 		// final, synchronized, native & strictfp are permitted
-		List<String> tokens = new ArrayList<String>();
+		List<String> tokens = new ArrayList<>();
 		if ((access & Opcodes.ACC_PUBLIC) != 0)
 			tokens.add("public");
 		if ((access & Opcodes.ACC_PRIVATE) != 0)

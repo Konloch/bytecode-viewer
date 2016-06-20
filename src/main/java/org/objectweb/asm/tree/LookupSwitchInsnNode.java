@@ -76,8 +76,8 @@ public class LookupSwitchInsnNode extends AbstractInsnNode {
             final LabelNode[] labels) {
         super(Opcodes.LOOKUPSWITCH);
         this.dflt = dflt;
-        this.keys = new ArrayList<Integer>(keys == null ? 0 : keys.length);
-        this.labels = new ArrayList<LabelNode>(labels == null ? 0
+        this.keys = new ArrayList<>(keys == null ? 0 : keys.length);
+        this.labels = new ArrayList<>(labels == null ? 0
                 : labels.length);
         if (keys != null) {
             for (int i = 0; i < keys.length; ++i) {

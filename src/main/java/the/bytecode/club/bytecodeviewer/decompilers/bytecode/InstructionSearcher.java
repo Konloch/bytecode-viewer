@@ -51,7 +51,7 @@ public class InstructionSearcher implements Opcodes {
 	public InstructionSearcher(InsnList insns, InstructionPattern pattern) {
 		this.insns = insns;
 		this.pattern = pattern;
-		matches = new ArrayList<AbstractInsnNode[]>();
+		matches = new ArrayList<>();
 	}
 
 	public boolean search() {

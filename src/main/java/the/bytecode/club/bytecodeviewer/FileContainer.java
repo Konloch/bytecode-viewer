@@ -42,8 +42,8 @@ public class FileContainer {
 	public File file;
 	public String name;
 	
-	public HashMap<String, byte[]> files = new HashMap<String, byte[]>();
-	private Map<String, ClassNode> classes = new HashMap<String, ClassNode>();
+	public HashMap<String, byte[]> files = new HashMap<>();
+	private Map<String, ClassNode> classes = new HashMap<>();
 
 	public ClassNode getClassNode(String name) {
 		if (!classes.containsKey(name)) {

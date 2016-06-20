@@ -43,7 +43,7 @@ class SmallSet<E> extends AbstractSet<E> implements Iterator<E> {
     E e1, e2;
 
     static final <T> Set<T> emptySet() {
-        return new SmallSet<T>(null, null);
+        return new SmallSet<>(null, null);
     }
 
     SmallSet(final E e1, final E e2) {
@@ -57,7 +57,7 @@ class SmallSet<E> extends AbstractSet<E> implements Iterator<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new SmallSet<E>(e1, e2);
+        return new SmallSet<>(e1, e2);
     }
 
     @Override
@@ -102,7 +102,7 @@ class SmallSet<E> extends AbstractSet<E> implements Iterator<E> {
         }
         if (s.e2 == null) { // s contains exactly one element
             if (e2 == null) {
-                return new SmallSet<E>(e1, s.e1); // necessarily e1 != s.e1
+                return new SmallSet<>(e1, s.e1); // necessarily e1 != s.e1
             } else if (s.e1 == e1 || s.e1 == e2) { // s is included in this
                 return this;
             }
@@ -116,7 +116,7 @@ class SmallSet<E> extends AbstractSet<E> implements Iterator<E> {
             }
         }
         // here we know that there are at least 3 distinct elements
-        HashSet<E> r = new HashSet<E>(4);
+        HashSet<E> r = new HashSet<>(4);
         r.add(e1);
         if (e2 != null) {
             r.add(e2);

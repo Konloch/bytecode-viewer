@@ -50,7 +50,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 	JPanel buttonPanel;
 	JButton refreshClass;
 
-	HashMap<String, Integer> workingOn = new HashMap<String, Integer>();
+	HashMap<String, Integer> workingOn = new HashMap<>();
 
 	public static int SyntaxFontHeight = 12;
 

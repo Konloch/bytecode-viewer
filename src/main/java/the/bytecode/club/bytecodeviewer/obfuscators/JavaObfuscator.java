@@ -55,7 +55,7 @@ public abstract class JavaObfuscator extends Thread {
 
 	public static int MAX_STRING_LENGTH = 25;
 	public static int MIN_STRING_LENGTH = 5;
-	private ArrayList<String> names = new ArrayList<String>();
+	private ArrayList<String> names = new ArrayList<>();
 
 	protected String generateUniqueName(int length) {
 		boolean found = false;

@@ -113,7 +113,7 @@ public class Languages {
                 return this;
             } else {
                 final SomeLanguages sl = (SomeLanguages) other;
-                final Set<String> ls = new HashSet<String>(Math.min(languages.size(), sl.languages.size()));
+                final Set<String> ls = new HashSet<>(Math.min(languages.size(), sl.languages.size()));
                 for (String lang : languages) {
                     if (sl.languages.contains(lang)) {
                         ls.add(lang);
@@ -131,7 +131,7 @@ public class Languages {
                 return other;
             } else {
                 final SomeLanguages sl = (SomeLanguages) other;
-                final Set<String> ls = new HashSet<String>(languages);
+                final Set<String> ls = new HashSet<>(languages);
                 for (String lang : sl.languages) {
                   ls.add(lang);
                 }
@@ -148,7 +148,7 @@ public class Languages {
 
     public static final String ANY = "any";
 
-    private static final Map<NameType, Languages> LANGUAGES = new EnumMap<NameType, Languages>(NameType.class);
+    private static final Map<NameType, Languages> LANGUAGES = new EnumMap<>(NameType.class);
 
     static {
         for (final NameType s : NameType.values()) {
@@ -162,7 +162,7 @@ public class Languages {
 
     public static Languages getInstance(final String languagesResourceName) {
         // read languages list
-        final Set<String> ls = new HashSet<String>();
+        final Set<String> ls = new HashSet<>();
         final InputStream langIS = Languages.class.getClassLoader().getResourceAsStream(languagesResourceName);
 
         if (langIS == null) {

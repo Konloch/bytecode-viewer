@@ -33,7 +33,7 @@ import java.util.List;
 public class PosixParser extends Parser
 {
     /** holder for flattened tokens */
-    private final List<String> tokens = new ArrayList<String>();
+    private final List<String> tokens = new ArrayList<>();
 
     /** specifies if bursting should continue */
     private boolean eatTheRest;

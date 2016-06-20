@@ -211,10 +211,10 @@ public class DaitchMokotoffSoundex implements StringEncoder {
     private static final int MAX_LENGTH = 6;
 
     /** Transformation rules indexed by the first character of their pattern. */
-    private static final Map<Character, List<Rule>> RULES = new HashMap<Character, List<Rule>>();
+    private static final Map<Character, List<Rule>> RULES = new HashMap<>();
 
     /** Folding rules. */
-    private static final Map<Character, Character> FOLDINGS = new HashMap<Character, Character>();
+    private static final Map<Character, Character> FOLDINGS = new HashMap<>();
 
     static {
         final InputStream rulesIS = DaitchMokotoffSoundex.class.getClassLoader().getResourceAsStream(RESOURCE_FILE);
@@ -305,7 +305,7 @@ public class DaitchMokotoffSoundex implements StringEncoder {
                             final char patternKey = r.pattern.charAt(0);
                             List<Rule> rules = ruleMapping.get(patternKey);
                             if (rules == null) {
-                                rules = new ArrayList<Rule>();
+                                rules = new ArrayList<>();
                                 ruleMapping.put(patternKey, rules);
                             }
                             rules.add(r);
@@ -480,7 +480,7 @@ public class DaitchMokotoffSoundex implements StringEncoder {
 
         final String input = cleanup(source);
 
-        final Set<Branch> currentBranches = new LinkedHashSet<Branch>();
+        final Set<Branch> currentBranches = new LinkedHashSet<>();
         currentBranches.add(new Branch());
 
         char lastChar = '\0';

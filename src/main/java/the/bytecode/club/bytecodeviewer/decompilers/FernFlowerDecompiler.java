@@ -68,7 +68,7 @@ public class FernFlowerDecompiler extends Decompiler {
 
             Map<String, Object> options = main(generateMainMethod());
 
-            final AtomicReference<String> result = new AtomicReference<String>();
+            final AtomicReference<String> result = new AtomicReference<>();
             result.set(null);
 
             BaseDecompiler baseDecompiler = new BaseDecompiler(new IBytecodeProvider() {

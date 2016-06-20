@@ -572,9 +572,9 @@ public class HelpFormatter
         StringBuffer buff = new StringBuffer(getSyntaxPrefix()).append(app).append(" ");
 
         // create a list for processed option groups
-        Collection<OptionGroup> processedGroups = new ArrayList<OptionGroup>();
+        Collection<OptionGroup> processedGroups = new ArrayList<>();
 
-        List<Option> optList = new ArrayList<Option>(options.getOptions());
+        List<Option> optList = new ArrayList<>(options.getOptions());
         if (getOptionComparator() != null)
         {
             Collections.sort(optList, getOptionComparator());
@@ -638,7 +638,7 @@ public class HelpFormatter
             buff.append("[");
         }
 
-        List<Option> optList = new ArrayList<Option>(group.getOptions());
+        List<Option> optList = new ArrayList<>(group.getOptions());
         if (getOptionComparator() != null)
         {
             Collections.sort(optList, getOptionComparator());
@@ -788,7 +788,7 @@ public class HelpFormatter
         // the longest opt string this list will be then used to 
         // sort options ascending
         int max = 0;
-        List<StringBuffer> prefixList = new ArrayList<StringBuffer>();
+        List<StringBuffer> prefixList = new ArrayList<>();
 
         List<Option> optList = options.helpOptions();
 

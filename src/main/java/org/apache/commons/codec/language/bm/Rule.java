@@ -197,15 +197,15 @@ public class Rule {
     private static final String HASH_INCLUDE = "#include";
 
     private static final Map<NameType, Map<RuleType, Map<String, Map<String, List<Rule>>>>> RULES =
-            new EnumMap<NameType, Map<RuleType, Map<String, Map<String, List<Rule>>>>>(NameType.class);
+            new EnumMap<>(NameType.class);
 
     static {
         for (final NameType s : NameType.values()) {
             final Map<RuleType, Map<String, Map<String, List<Rule>>>> rts =
-                    new EnumMap<RuleType, Map<String, Map<String, List<Rule>>>>(RuleType.class);
+                    new EnumMap<>(RuleType.class);
 
             for (final RuleType rt : RuleType.values()) {
-                final Map<String, Map<String, List<Rule>>> rs = new HashMap<String, Map<String, List<Rule>>>();
+                final Map<String, Map<String, List<Rule>>> rs = new HashMap<>();
 
                 final Languages ls = Languages.getInstance(s);
                 for (final String l : ls.getLanguages()) {
@@ -288,7 +288,7 @@ public class Rule {
     public static List<Rule> getInstance(final NameType nameType, final RuleType rt,
                                          final Languages.LanguageSet langs) {
         final Map<String, List<Rule>> ruleMap = getInstanceMap(nameType, rt, langs);
-        final List<Rule> allRules = new ArrayList<Rule>();
+        final List<Rule> allRules = new ArrayList<>();
         for (final List<Rule> rules : ruleMap.values()) {
             allRules.addAll(rules);
         }
@@ -307,7 +307,7 @@ public class Rule {
      * @return a list of Rules that apply
      */
     public static List<Rule> getInstance(final NameType nameType, final RuleType rt, final String lang) {
-        return getInstance(nameType, rt, LanguageSet.from(new HashSet<String>(Arrays.asList(lang))));
+        return getInstance(nameType, rt, LanguageSet.from(new HashSet<>(Arrays.asList(lang))));
     }
 
     /**
@@ -360,7 +360,7 @@ public class Rule {
             }
             final String before = ph.substring(0, open);
             final String in = ph.substring(open + 1, ph.length() - 1);
-            final Set<String> langs = new HashSet<String>(Arrays.asList(in.split("[+]")));
+            final Set<String> langs = new HashSet<>(Arrays.asList(in.split("[+]")));
 
             return new Phoneme(before, Languages.LanguageSet.from(langs));
         } else {
@@ -374,7 +374,7 @@ public class Rule {
                 throw new IllegalArgumentException("Phoneme starts with '(' so must end with ')'");
             }
 
-            final List<Phoneme> phs = new ArrayList<Phoneme>();
+            final List<Phoneme> phs = new ArrayList<>();
             final String body = ph.substring(1, ph.length() - 1);
             for (final String part : body.split("[|]")) {
                 phs.add(parsePhoneme(part));
@@ -390,7 +390,7 @@ public class Rule {
     }
 
     private static Map<String, List<Rule>> parseRules(final Scanner scanner, final String location) {
-        final Map<String, List<Rule>> lines = new HashMap<String, List<Rule>>();
+        final Map<String, List<Rule>> lines = new HashMap<>();
         int currentLine = 0;
 
         boolean inMultilineComment = false;
@@ -462,7 +462,7 @@ public class Rule {
                                 final String patternKey = r.pattern.substring(0,1);
                                 List<Rule> rules = lines.get(patternKey);
                                 if (rules == null) {
-                                    rules = new ArrayList<Rule>();
+                                    rules = new ArrayList<>();
                                     lines.put(patternKey, rules);
                                 }
                                 rules.add(r);

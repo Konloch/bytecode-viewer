@@ -234,7 +234,7 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     /**
      * Types of the local variables of the method visited by this adapter.
      */
-    private final List<Type> localTypes = new ArrayList<Type>();
+    private final List<Type> localTypes = new ArrayList<>();
 
     /**
      * Creates a new {@link GeneratorAdapter}. <i>Subclasses must not use this

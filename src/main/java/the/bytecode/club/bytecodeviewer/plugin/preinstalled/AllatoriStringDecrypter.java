@@ -165,8 +165,8 @@ public class AllatoriStringDecrypter extends Plugin {
 									System.out.println("loading " + decrypterclassname);
 
 									List<Class<?>> decrypterclasslist = the.bytecode.club.bytecodeviewer.api.BytecodeViewer
-											.loadClassesIntoClassLoader(new ArrayList<ClassNode>(
-													Arrays.asList(new ClassNode[] { decrypterclassnode })));
+											.loadClassesIntoClassLoader(new ArrayList<>(
+													Arrays.asList(new ClassNode[]{decrypterclassnode})));
 
 									String decrypted = invokeDecrypter(decrypterclasslist.get(0), decryptermethodname, (String) laststringldconstack.cst);
 

@@ -59,7 +59,7 @@ public class Method {
     private static final Map<String, String> DESCRIPTORS;
 
     static {
-        DESCRIPTORS = new HashMap<String, String>();
+        DESCRIPTORS = new HashMap<>();
         DESCRIPTORS.put("void", "V");
         DESCRIPTORS.put("byte", "B");
         DESCRIPTORS.put("char", "C");

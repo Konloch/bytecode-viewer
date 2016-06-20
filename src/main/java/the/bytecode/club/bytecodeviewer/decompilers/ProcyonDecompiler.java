@@ -173,7 +173,7 @@ public class ProcyonDecompiler extends Decompiler {
             decompilationOptions.setFullDecompilation(true);
 
             Enumeration<JarEntry> ent = jfile.entries();
-            Set<JarEntry> history = new HashSet<JarEntry>();
+            Set<JarEntry> history = new HashSet<>();
             while (ent.hasMoreElements()) {
                 JarEntry entry = ent.nextElement();
                 if (entry.getName().endsWith(".class")) {

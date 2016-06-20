@@ -117,7 +117,7 @@ public class Analyzer<V extends Value> implements Opcodes {
             for (int j = begin; j < end; ++j) {
                 List<TryCatchBlockNode> insnHandlers = handlers[j];
                 if (insnHandlers == null) {
-                    insnHandlers = new ArrayList<TryCatchBlockNode>();
+                    insnHandlers = new ArrayList<>();
                     handlers[j] = insnHandlers;
                 }
                 insnHandlers.add(tcb);
@@ -126,8 +126,8 @@ public class Analyzer<V extends Value> implements Opcodes {
 
         // computes the subroutine for each instruction:
         Subroutine main = new Subroutine(null, m.maxLocals, null);
-        List<AbstractInsnNode> subroutineCalls = new ArrayList<AbstractInsnNode>();
-        Map<LabelNode, Subroutine> subroutineHeads = new HashMap<LabelNode, Subroutine>();
+        List<AbstractInsnNode> subroutineCalls = new ArrayList<>();
+        Map<LabelNode, Subroutine> subroutineHeads = new HashMap<>();
         findSubroutine(0, main, subroutineCalls);
         while (!subroutineCalls.isEmpty()) {
             JumpInsnNode jsr = (JumpInsnNode) subroutineCalls.remove(0);
@@ -411,7 +411,7 @@ public class Analyzer<V extends Value> implements Opcodes {
      * @return the created frame.
      */
     protected Frame<V> newFrame(final int nLocals, final int nStack) {
-        return new Frame<V>(nLocals, nStack);
+        return new Frame<>(nLocals, nStack);
     }
 
     /**
@@ -422,7 +422,7 @@ public class Analyzer<V extends Value> implements Opcodes {
      * @return the created frame.
      */
     protected Frame<V> newFrame(final Frame<? extends V> src) {
-        return new Frame<V>(src);
+        return new Frame<>(src);
     }
 
     /**

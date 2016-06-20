@@ -68,7 +68,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
    * Creates a new empty JsonArray.
    */
   public JsonArray() {
-    values = new ArrayList<JsonValue>();
+    values = new ArrayList<>();
   }
 
   /**
@@ -88,7 +88,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
     if (unmodifiable) {
       values = Collections.unmodifiableList(array.values);
     } else {
-      values = new ArrayList<JsonValue>(array.values);
+      values = new ArrayList<>(array.values);
     }
   }
 

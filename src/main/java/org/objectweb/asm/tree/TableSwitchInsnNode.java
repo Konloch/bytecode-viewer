@@ -85,7 +85,7 @@ public class TableSwitchInsnNode extends AbstractInsnNode {
         this.min = min;
         this.max = max;
         this.dflt = dflt;
-        this.labels = new ArrayList<LabelNode>();
+        this.labels = new ArrayList<>();
         if (labels != null) {
             this.labels.addAll(Arrays.asList(labels));
         }

@@ -168,7 +168,7 @@ public class FrameNode extends AbstractInsnNode {
         FrameNode clone = new FrameNode();
         clone.type = type;
         if (local != null) {
-            clone.local = new ArrayList<Object>();
+            clone.local = new ArrayList<>();
             for (int i = 0; i < local.size(); ++i) {
                 Object l = local.get(i);
                 if (l instanceof LabelNode) {
@@ -178,7 +178,7 @@ public class FrameNode extends AbstractInsnNode {
             }
         }
         if (stack != null) {
-            clone.stack = new ArrayList<Object>();
+            clone.stack = new ArrayList<>();
             for (int i = 0; i < stack.size(); ++i) {
                 Object s = stack.get(i);
                 if (s instanceof LabelNode) {

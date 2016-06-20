@@ -32,9 +32,9 @@ public class HookMap {
 	protected List<MethodMappingData> methods;
 	
 	public HookMap() {
-		classes = new ArrayList<MappingData>();
-		fields = new ArrayList<FieldMappingData>();
-		methods = new ArrayList<MethodMappingData>();
+		classes = new ArrayList<>();
+		fields = new ArrayList<>();
+		methods = new ArrayList<>();
 	}
 	
 	public void addClass(MappingData clazz) {

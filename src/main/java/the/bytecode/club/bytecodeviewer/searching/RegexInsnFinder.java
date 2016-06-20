@@ -204,7 +204,7 @@ public class RegexInsnFinder {
     }
 
     private AbstractInsnNode[] cleanInsn(final InsnList insnList) {
-        final List<AbstractInsnNode> il = new ArrayList<AbstractInsnNode>();
+        final List<AbstractInsnNode> il = new ArrayList<>();
 
         final Iterator<AbstractInsnNode> iIt = insnList.iterator();
         while (iIt.hasNext()) {
@@ -222,7 +222,7 @@ public class RegexInsnFinder {
      */
     public void refresh() {
         origInstructions = cleanInsn(mn.instructions);
-        final List<AbstractInsnNode> il = new ArrayList<AbstractInsnNode>();
+        final List<AbstractInsnNode> il = new ArrayList<>();
         for (final AbstractInsnNode ain : mn.instructions.toArray())
             if (ain.opcode() >= 0) {
                 il.add(ain);
@@ -343,7 +343,7 @@ public class RegexInsnFinder {
      * @return a list with all sets of matching instructions
      */
     public List<AbstractInsnNode[]> findAll(final String regex) {
-        final List<AbstractInsnNode[]> results = new ArrayList<AbstractInsnNode[]>();
+        final List<AbstractInsnNode[]> results = new ArrayList<>();
         try {
             final Matcher regexMatcher = Pattern.compile(processRegex(regex),
                     Pattern.MULTILINE).matcher(insnString);
@@ -392,7 +392,7 @@ public class RegexInsnFinder {
      * @return a list with all sets of groups with matching instructions
      */
     public List<AbstractInsnNode[][]> findAllGroups(final String regex) {
-        final List<AbstractInsnNode[][]> results = new ArrayList<AbstractInsnNode[][]>();
+        final List<AbstractInsnNode[][]> results = new ArrayList<>();
         try {
             final Matcher regexMatcher = Pattern.compile(processRegex(regex),
                     Pattern.MULTILINE).matcher(insnString);

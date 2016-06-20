@@ -1200,7 +1200,7 @@ public class Textifier extends Printer {
      */
     protected void appendLabel(final Label l) {
         if (labelNames == null) {
-            labelNames = new HashMap<Label, String>();
+            labelNames = new HashMap<>();
         }
         String name = labelNames.get(l);
         if (name == null) {
