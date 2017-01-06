@@ -3,6 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!-- Todo: add assembly plugin, -->
+    <!-- TODO: add testing and plugin compile goals -->
+    <!-- Todo: add Style checking -->
 
     <groupId>the.bytecode.club</groupId>
     <artifactId>bytecode-viewer</artifactId>
@@ -84,17 +87,17 @@
         </plugins>
     </build>
 
+    <!-- Local repo -->
     <repositories>
         <repository>
             <id>bytecode-viewer</id>
             <name>Bytecode Viewer Repository</name>
-            <url>http://repo.samczsun.com/content/repositories/bytecode-viewer/</url>
+            <url>file:///libs/</url>
         </repository>
     </repositories>
 
     <dependencies>
-        <!-- the library source is within bytecode-viewer source, should be moved out there -->
-        <!--        <dependency>
+        <dependency>
             <groupId>org.imgscalr</groupId>
             <artifactId>imgscalr-lib</artifactId>
             <version>4.2</version>
@@ -108,16 +111,16 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.10</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>janino</artifactId>
-            <version>2.7.8</version>
+            <version>RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <version>RELEASE</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -139,62 +142,102 @@
             <artifactId>isoparser</artifactId>
             <version>1.1.9</version>
         </dependency>
-<!--        <dependency>
+        <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-all</artifactId>
             <version>5.0.4</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.zeroturnaround</groupId>
             <artifactId>zt-zip</artifactId>
             <version>1.8</version>
         </dependency>
 
+
+
         <dependency>
-            <groupId>com.strobel</groupId>
-            <artifactId>procyon</artifactId>
-            <version>0.5.30</version>
+            <groupId>org.bitbucket.mstrobel</groupId>
+            <artifactId>procyon-compilertools</artifactId>
+            <version>0.5.29</version>
         </dependency>
         <dependency>
-            <groupId>org.benf</groupId>
-            <artifactId>cfr</artifactId>
-            <version>0.115</version>
+            <groupId>org.bitbucket.mstrobel</groupId>
+            <artifactId>procyon-core</artifactId>
+            <version>0.5.29</version>
         </dependency>
+
+        <!-- local libraries -->
+        <!-- TODO: Find a better way to reference local dependencies -->
+
         <dependency>
-            <groupId>ca.benow</groupId>
-            <artifactId>jd</artifactId>
-            <version>1.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.bibl</groupId>
-            <artifactId>byteanalysis</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>brut</groupId>
-            <artifactId>apktool</artifactId>
-            <version>2.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.java</groupId>
-            <artifactId>decompiler</artifactId>
-            <version>2015-1</version>
-        </dependency>
-        <dependency>
-            <groupId>dex2jar</groupId>
-            <artifactId>dex2jar</artifactId>
-            <version>0.0.1</version>
+        <groupId>com.strobel</groupId>
+        <artifactId>decompiler</artifactId>
+        <version>RELEASE</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/libs/procyon-decompiler-0.5.30.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.jf</groupId>
             <artifactId>smali</artifactId>
-            <classifier>patched</classifier>
             <version>2.0.3</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/smali-2.0.3-obf-patched.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>org.jf</groupId>
+            <groupId>org.smali</groupId>
             <artifactId>baksmali</artifactId>
-            <version>2.0.3</version>
+            <version>RELEASE</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/baksmali-2.0.3_obf.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>org.benf</groupId>
+            <artifactId>cfr</artifactId>
+            <version>RELEASE</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/cfr_0_115.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ca.benow</groupId>
+            <artifactId>jd</artifactId>
+            <version>RELEASE</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jd-gui-1.0.0-RC4.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>eu.bibl</groupId>
+            <artifactId>byteanalysis</artifactId>
+            <version>RELEASE</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/byteanalysis-1.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>brut</groupId>
+            <artifactId>apktool</artifactId>
+            <version>RELEASE</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/apktool_2.0.1_obf-2.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>dex2jar</groupId>
+            <artifactId>dex2jar</artifactId>
+            <version>RELEASE</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/dex_obf.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.java</groupId>
+            <artifactId>decompiler</artifactId>
+            <version>RELEASE</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/fernflower-2016.jar</systemPath>
+        </dependency>
+
+        <!-- TODO: only dep missing -->
+        <!--<dependency>-->
+        <!--<groupId>org.jetbrains.java</groupId>-->
+        <!--<artifactId>decompiler</artifactId>-->
+        <!--<version>RELEASE</version>-->
+        <!--</dependency>-->
     </dependencies>
 </project>
