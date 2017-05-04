@@ -162,6 +162,12 @@ public class BytecodeViewer {
             if (previewCopy && !input.containsCommand())
                 showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when " + version + " is actually out if you use this." + nl +
                         "Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for " + version + "'s release");
+            if (!dataDir.exists() && !dataDir.mkdirs()) {
+                throw new RuntimeException("Could not create working directory");
+            }
+            if (!settingsFile.exists() && !settingsFile.createNewFile()) {
+                throw new RuntimeException("Could not create settings file");
+            }
             if (!filesFile.exists() && !filesFile.createNewFile()) {
                 throw new RuntimeException("Could not create recent files file");
             }
