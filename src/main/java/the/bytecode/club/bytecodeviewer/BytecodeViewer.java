@@ -139,7 +139,6 @@ public class BytecodeViewer {
     public static ArrayList<Process> createdProcesses = new ArrayList<Process>();
     public static Refactorer refactorer = new Refactorer();
     public static boolean pingback = false;
-    public static boolean deleteForiegnLibraries = true;
 
     private BytecodeViewer() {
     }
@@ -179,8 +178,8 @@ public class BytecodeViewer {
             int CLI = input.parseCommandLine();
             if (CLI == CommandLineInput.STOP) return;
             if (CLI == CommandLineInput.OPEN_FILE) {
+                Settings.loadSettings();
                 viewer = new MainViewerGUI();
-                Settings.loadGUI();
                 Boot.boot();
                 BytecodeViewer.BOOT(args, false);
             } else {
@@ -394,7 +393,7 @@ public class BytecodeViewer {
                 } catch (IOException e) {
                     new ExceptionUI(e);
                 }
-                Settings.saveGUI();
+                Settings.saveSettings();
                 cleanup();
             }
         });
@@ -407,7 +406,7 @@ public class BytecodeViewer {
             pingback = true;
         }
 
-        if (viewer.chckbxmntmNewCheckItem_12.isSelected()) versionChecker.start();
+        if (viewer.updateCheck.isSelected()) versionChecker.start();
 
         if (!cli) viewer.setVisible(true);
 
@@ -1079,7 +1078,7 @@ public class BytecodeViewer {
 
             Thread t = new Thread() {
                 public void run() {
-                    if (viewer.autoCompileSmali.isSelected() && !BytecodeViewer.compile(false)) return;
+                    if (viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false)) return;
                     JFileChooser fc = new JFileChooser();
                     fc.setFileFilter(new FileFilter() {
                         @Override

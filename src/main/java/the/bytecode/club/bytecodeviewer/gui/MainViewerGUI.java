@@ -160,7 +160,36 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         }
     }
 
-    public FileNavigationPane cn = new FileNavigationPane(this);
+    private static void addSettingsMenuItem(JMenu menu, final JCheckBoxMenuItem menuItem, final Settings<Boolean> settings) {
+        menuItem.setSelected(settings.get());
+        menuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                settings.set(menuItem.isSelected());
+            }
+        });
+        menu.add(menuItem);
+    }
+
+    private static void setUISize(Component component, final Settings<Integer> width, final Settings<Integer> height) {
+        component.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                Component component = (Component) e.getSource();
+                width.set(component.getWidth());
+                height.set(component.getHeight());
+            }
+        });
+        if (width.get() != null && height.get() != null) {
+            Dimension dimension = new Dimension(width.get(), height.get());
+            if (component.getParent() == null) {
+                component.setSize(dimension);
+            } else {
+                component.setPreferredSize(dimension);
+            }
+        }
+    }
+
+    public FileNavigationPane fileNavigationPane = new FileNavigationPane(this);
+    public SearchingPane searchingPane = new SearchingPane(this);
     public boolean isMaximized = false;
     public JSplitPane sp1;
     public JSplitPane sp2;
@@ -178,7 +207,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JMenuItem mntmShowMainMethods = new JMenuItem("Show Main Methods");
     public final JMenuItem mntmNewMenuItem_3 = new JMenuItem("Save As Runnable Jar..");
     public final JMenuItem mntmReplaceStrings = new JMenuItem("Replace Strings");
-    public final JCheckBoxMenuItem chckbxmntmNewCheckItem_12 = new JCheckBoxMenuItem("Update Check");
+    public final JCheckBoxMenuItem updateCheck = new JCheckBoxMenuItem("Update Check");
     public final JMenuItem mntmNewMenuItem_6 = new JMenuItem("Rename Fields");
     public final JMenuItem mntmNewMenuItem_7 = new JMenuItem("Rename Methods");
     public final JMenuItem mntmNewMenuItem_8 = new JMenuItem("Move All Classes Into Root Package");
@@ -194,9 +223,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public AboutWindow aboutWindow = new AboutWindow();
     public final JMenuItem mntmSaveAsApk = new JMenuItem("Save As DEX..");
     public final JMenuItem mntmCodeSequenceDiagram = new JMenuItem("Code Sequence Diagram");
-    public final JCheckBoxMenuItem autoCompileSmali = new JCheckBoxMenuItem("Compile On Save");
+    public final JCheckBoxMenuItem compileOnSave = new JCheckBoxMenuItem("Compile On Save");
     public final JMenuItem mntmNewMenuItem_13 = new JMenuItem("Compile");
-    public final JCheckBoxMenuItem autoCompileOnRefresh = new JCheckBoxMenuItem("Compile On Refresh");
+    public final JCheckBoxMenuItem compileOnRefresh = new JCheckBoxMenuItem("Compile On Refresh");
     public final JMenuItem mntmSetPythonDirectory = new JMenuItem("Set Python 2.7 Executable");
     public final JMenuItem mntmSetJreRt = new JMenuItem("Set JRE RT Library");
     public final JMenuItem mntmZstringarrayDecrypter = new JMenuItem("ZStringArray Decrypter");
@@ -209,7 +238,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     private final JMenuItem mntmSetOpitonalLibrary = new JMenuItem("Set Optional Library Folder");
     private final JMenuItem mntmPingback = new JMenuItem("Pingback");
     private final JMenu mnFontSize = new JMenu("Font Size");
-    private final JCheckBoxMenuItem chckbxmntmDeleteForiegnoutdatedLibs = new JCheckBoxMenuItem("Delete Foreign/Outdated Libs");
+    private final JCheckBoxMenuItem deleteOutdatedLibs = new JCheckBoxMenuItem("Delete Foreign/Outdated Libs");
     private final JMenu mnApkConversion = new JMenu("APK Conversion");
     public final ButtonGroup apkConversionGroup = new ButtonGroup();
     public final JRadioButtonMenuItem apkConversionDex = new JRadioButtonMenuItem("Dex2Jar");
@@ -341,7 +370,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 }
                 Thread t = new Thread() {
                     public void run() {
-                        if (autoCompileSmali.isSelected() && !BytecodeViewer.compile(false)) return;
+                        if (compileOnSave.isSelected() && !BytecodeViewer.compile(false)) return;
                         JFileChooser fc = new JFileChooser();
                         fc.setFileFilter(new FileFilter() {
                             @Override
@@ -436,7 +465,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 }
                 Thread t = new Thread() {
                     public void run() {
-                        if (autoCompileSmali.isSelected() && !BytecodeViewer.compile(false)) return;
+                        if (compileOnSave.isSelected() && !BytecodeViewer.compile(false)) return;
                         JFileChooser fc = new JFileChooser();
                         fc.setFileFilter(new FileFilter() {
                             @Override
@@ -521,7 +550,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                 Thread t = new Thread() {
                     public void run() {
-                        if (autoCompileSmali.isSelected() && !BytecodeViewer.compile(false)) return;
+                        if (compileOnSave.isSelected() && !BytecodeViewer.compile(false)) return;
                         JFileChooser fc = new JFileChooser();
                         fc.setFileFilter(new FileFilter() {
                             @Override
@@ -600,7 +629,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                 Thread t = new Thread() {
                     public void run() {
-                        if (autoCompileSmali.isSelected() && !BytecodeViewer.compile(false)) return;
+                        if (compileOnSave.isSelected() && !BytecodeViewer.compile(false)) return;
                         JFileChooser fc = new JFileChooser();
                         fc.setFileFilter(new FileFilter() {
                             @Override
@@ -740,7 +769,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                 Thread t = new Thread() {
                     public void run() {
-                        if (autoCompileSmali.isSelected() && !BytecodeViewer.compile(false)) return;
+                        if (compileOnSave.isSelected() && !BytecodeViewer.compile(false)) return;
                         final String s = workPane.getCurrentViewer().name;
 
                         JFileChooser fc = new JFileChooser();
@@ -920,20 +949,13 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         viewMenu.add(generatePane(1));
         viewMenu.add(generatePane(2));
 
-
-        autoCompileSmali.setSelected(true);
-
-        settingsMenu.add(autoCompileSmali);
-        autoCompileOnRefresh.setSelected(true);
-
-        settingsMenu.add(autoCompileOnRefresh);
-
-        settingsMenu.add(refreshOnChange);
+        addSettingsMenuItem(settingsMenu, compileOnSave, Settings.COMPILE_ON_SAVE);
+        addSettingsMenuItem(settingsMenu, compileOnRefresh, Settings.COMPILE_ON_REFRESH);
+        addSettingsMenuItem(settingsMenu, refreshOnChange, Settings.REFRESH_ON_CHANGE);
 
         settingsMenu.add(new JSeparator());
-        decodeAPKResources.setSelected(true);
 
-        settingsMenu.add(decodeAPKResources);
+        addSettingsMenuItem(settingsMenu, decodeAPKResources, Settings.DECODE_APK_RESOURCES);
 
         settingsMenu.add(mnApkConversion);
 
@@ -942,19 +964,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         mnApkConversion.add(apkConversionEnjarify);
 
         settingsMenu.add(new JSeparator());
-        chckbxmntmNewCheckItem_12.setSelected(true);
-        settingsMenu.add(chckbxmntmNewCheckItem_12);
-        chckbxmntmDeleteForiegnoutdatedLibs.addActionListener(new ActionListener() {
+
+        addSettingsMenuItem(settingsMenu, updateCheck, Settings.UPDATE_CHECK);
+
+        addSettingsMenuItem(settingsMenu, deleteOutdatedLibs, Settings.DELETE_OUTDATED_LIBS);
+        deleteOutdatedLibs.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                if (!chckbxmntmDeleteForiegnoutdatedLibs.isSelected()) {
+                if (!deleteOutdatedLibs.isSelected()) {
                     BytecodeViewer.showMessage("WARNING: With this being toggled off outdated libraries will NOT be removed. It's also a security issue. ONLY TURN IT OFF IF YOU KNOW WHAT YOU'RE DOING.");
                 }
-                BytecodeViewer.deleteForiegnLibraries = chckbxmntmDeleteForiegnoutdatedLibs.isSelected();
             }
         });
-        chckbxmntmDeleteForiegnoutdatedLibs.setSelected(true);
-
-        settingsMenu.add(chckbxmntmDeleteForiegnoutdatedLibs);
 
         settingsMenu.add(new JSeparator());
         mntmSetPythonDirectory.addActionListener(new ActionListener() {
@@ -1037,7 +1057,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 }
                 new RenameFields().start();
                 workPane.refreshClass.doClick();
-                cn.tree.updateUI();
+                fileNavigationPane.tree.updateUI();
             }
         });
 
@@ -1060,7 +1080,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 }
                 new RenameMethods().start();
                 workPane.refreshClass.doClick();
-                cn.tree.updateUI();
+                fileNavigationPane.tree.updateUI();
             }
         });
 
@@ -1074,7 +1094,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 }
                 new RenameClasses().start();
                 workPane.refreshClass.doClick();
-                cn.tree.updateUI();
+                fileNavigationPane.tree.updateUI();
             }
         });
 
@@ -1189,7 +1209,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
             }
         });
 
-        setSize(new Dimension(800, 400));
+        setUISize(this, Settings.GUI_WIDTH, Settings.GUI_HEIGHT);
         if (BytecodeViewer.previewCopy)
             setTitle("Bytecode Viewer " + BytecodeViewer.version + " Preview - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
         else
@@ -1197,25 +1217,22 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
-        // scrollPane.setViewportView(tree);
-        cn.setMinimumSize(new Dimension(200, 50));
-        // panel.add(cn);
-        SearchingPane s = new SearchingPane(this);
-        s.setPreferredSize(new Dimension(200, 50));
-        s.setMinimumSize(new Dimension(200, 50));
-        s.setMaximumSize(new Dimension(200, 2147483647));
-        // panel.add(s);
-        sp1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, cn, s);
-        // panel.add(sp1);
-        cn.setPreferredSize(new Dimension(200, 50));
-        cn.setMaximumSize(new Dimension(200, 2147483647));
+        setUISize(fileNavigationPane, Settings.FILE_NAVIGATION_PANE_WIDTH, Settings.FILE_NAVIGATION_PANE_HEIGHT);
+        fileNavigationPane.setMinimumSize(new Dimension(200, 50));
+        fileNavigationPane.setMaximumSize(new Dimension(200, 2147483647));
+
+        setUISize(searchingPane, Settings.SEARCHING_PANE_WIDTH, Settings.SEARCHING_PANE_HEIGHT);
+        searchingPane.setMinimumSize(new Dimension(200, 50));
+        searchingPane.setMaximumSize(new Dimension(200, 2147483647));
+
+        sp1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, fileNavigationPane, searchingPane);
         sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp1, workPane);
         getContentPane().add(sp2);
         sp2.setResizeWeight(0.05);
         sp1.setResizeWeight(0.5);
-        rfComps.add(cn);
 
-        rfComps.add(s);
+        rfComps.add(fileNavigationPane);
+        rfComps.add(searchingPane);
         rfComps.add(workPane);
 
         apkConversionGroup.add(apkConversionDex);
@@ -1245,9 +1262,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 }
             }
         });
-        panelGroup1.setSelected(allDecompilersRev.get(panelGroup1).get(Decompiler.FERNFLOWER).getModel(), true);
-        panelGroup2.setSelected(allDecompilersRev.get(panelGroup2).get(Decompiler.BYTECODE).getModel(), true);
-        panelGroup3.setSelected(allDecompilersRev.get(panelGroup3).get(null).getModel(), true);
+
+        for (int i = 0; i < allPanes.size(); i++) {
+            ButtonGroup pane = allPanes.get(i);
+            Decompiler decompiler = null;
+            try {
+                decompiler = Settings.PANES.get().get(i);
+            } catch (Exception ignored) {}
+            pane.setSelected(allDecompilersRev.get(pane).get(decompiler).getModel(), true);
+        }
         this.setLocationRelativeTo(null);
     }
 
@@ -1271,7 +1294,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     }
 
     public void calledAfterLoad() {
-        chckbxmntmDeleteForiegnoutdatedLibs.setSelected(BytecodeViewer.deleteForiegnLibraries);
     }
 
     @Override

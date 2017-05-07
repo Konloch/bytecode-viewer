@@ -161,7 +161,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 	public void actionPerformed(final ActionEvent arg0) {
 		Thread t = new Thread() {
 			public void run() {
-				if(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected())
+				if(BytecodeViewer.viewer.compileOnRefresh.isSelected())
 					try {
 						if(!BytecodeViewer.compile(false))
 							return;
