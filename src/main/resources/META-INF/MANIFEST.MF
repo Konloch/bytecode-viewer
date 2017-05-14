@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Class-Path: libs/apktool_2.0.1_obf-2.jar libs/baksmali-2.0.3_obf.jar l
+ ibs/byteanalysis-1.0.jar libs/cfr_0_121.jar libs/commons-codec-1.9.ja
+ r libs/commons-compiler.jar libs/commons-io-2.4.jar libs/commons-lang
+ 3-3.3.2.jar libs/dex_obf.jar libs/enjarify-2.zip libs/fernflower-2017
+ .jar libs/imgscalr-lib-4.2.jar libs/janino.jar libs/jar-rename-1.6.ja
+ r libs/jasmin-p2.5.jar libs/jd-gui-1.0.0-RC4.jar libs/jgraphx.jar lib
+ s/Krakatau-9.zip libs/procyon-decompiler-0.5.30.jar libs/rsyntaxtexta
+ rea.jar libs/slf4j-api-1.7.18.jar libs/slf4j-nop-1.7.18.jar libs/smal
+ i-2.0.3-obf-patched.jar libs/zt-zip-1.8.jar
+Main-Class: the.bytecode.club.bytecodeviewer.BytecodeViewer
+
