@@ -195,7 +195,7 @@
             <artifactId>cfr</artifactId>
             <version>RELEASE</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/cfr_0_115.jar</systemPath>
+            <systemPath>${project.basedir}/libs/cfr_0_121.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>ca.benow</groupId>
@@ -230,7 +230,7 @@
             <artifactId>decompiler</artifactId>
             <version>RELEASE</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/fernflower-2016.jar</systemPath>
+            <systemPath>${project.basedir}/libs/fernflower-2017.jar</systemPath>
         </dependency>
 
         <!-- TODO: only dep missing -->
