@@ -220,6 +220,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JMenuItem mntmNewMenuItem_12 = new JMenuItem("Decompile & Save Opened Class..");
     public WorkPane workPane = new WorkPane(this);
     public final JCheckBoxMenuItem refreshOnChange = new JCheckBoxMenuItem("Refresh On View Change");
+    public final JCheckBoxMenuItem synchronizeViewing = new JCheckBoxMenuItem("Synchronize Viewing");
+    public final JCheckBoxMenuItem showMethodsList = new JCheckBoxMenuItem("Show Methods List");
     public AboutWindow aboutWindow = new AboutWindow();
     public final JMenuItem mntmSaveAsApk = new JMenuItem("Save As DEX..");
     public final JMenuItem mntmCodeSequenceDiagram = new JMenuItem("Code Sequence Diagram");
@@ -952,6 +954,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         addSettingsMenuItem(settingsMenu, compileOnSave, Settings.COMPILE_ON_SAVE);
         addSettingsMenuItem(settingsMenu, compileOnRefresh, Settings.COMPILE_ON_REFRESH);
         addSettingsMenuItem(settingsMenu, refreshOnChange, Settings.REFRESH_ON_CHANGE);
+        addSettingsMenuItem(settingsMenu, synchronizeViewing, Settings.SYNCHRONIZE_VIEWING);
+        addSettingsMenuItem(settingsMenu, showMethodsList, Settings.SHOW_METHODS_LIST);
 
         settingsMenu.add(new JSeparator());
 

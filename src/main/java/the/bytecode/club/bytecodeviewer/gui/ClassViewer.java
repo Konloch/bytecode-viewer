@@ -7,8 +7,10 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.gui.Methods.*;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
@@ -42,16 +44,18 @@ import java.util.Map;
  *
  * @author Konloch
  * @author WaterWolf
+ * @author DreamSworK
  */
 
 public class ClassViewer extends Viewer {
     private static final long serialVersionUID = -8650495368920680024L;
+    private final MainViewerGUI gui = BytecodeViewer.viewer;
     private List<Thread> decompileThreads = new ArrayList<>();
 
     public void setPanes() {
-        for (int i = 0; i < BytecodeViewer.viewer.allPanes.size(); i++) {
-            ButtonGroup group = BytecodeViewer.viewer.allPanes.get(i);
-            for (Map.Entry<JRadioButtonMenuItem, Decompiler> entry : BytecodeViewer.viewer.allDecompilers.get(group).entrySet()) {
+        for (int i = 0; i < gui.allPanes.size(); i++) {
+            ButtonGroup group = gui.allPanes.get(i);
+            for (Map.Entry<JRadioButtonMenuItem, Decompiler> entry : gui.allDecompilers.get(group).entrySet()) {
                 if (group.isSelected(entry.getKey().getModel())) {
                     decompilers.set(i, entry.getValue());
                 }
@@ -61,9 +65,9 @@ public class ClassViewer extends Viewer {
 
     public boolean isPaneEditable(int pane) {
         setPanes();
-        ButtonGroup buttonGroup = BytecodeViewer.viewer.allPanes.get(pane);
+        ButtonGroup buttonGroup = gui.allPanes.get(pane);
         Decompiler selected = decompilers.get(pane);
-        if (buttonGroup != null && BytecodeViewer.viewer.editButtons.get(buttonGroup) != null && BytecodeViewer.viewer.editButtons.get(buttonGroup).get(selected)!= null && BytecodeViewer.viewer.editButtons.get(buttonGroup).get(selected).isSelected()) {
+        if (buttonGroup != null && gui.editButtons.get(buttonGroup) != null && gui.editButtons.get(buttonGroup).get(selected)!= null && gui.editButtons.get(buttonGroup).get(selected).isSelected()) {
             return true;
         }
         return false;
@@ -126,9 +130,128 @@ public class ClassViewer extends Viewer {
     public List<JPanel> searches = Arrays.asList(new JPanel(new BorderLayout()), new JPanel(new BorderLayout()), new JPanel(new BorderLayout()));
     public List<JCheckBox> exacts = Arrays.asList(new JCheckBox("Exact"), new JCheckBox("Exact"), new JCheckBox("Exact"));
     public List<JTextField> fields = Arrays.asList(new JTextField(), new JTextField(), new JTextField());
+    public List<Methods> methods = Arrays.asList(new Methods(), new Methods(), new Methods());
+    public List<Integer> activeLines = Arrays.asList(0, 0, 0);
     public List<RSyntaxTextArea> javas = Arrays.asList(null, null, null);
     public List<RSyntaxTextArea> smalis = Arrays.asList(null, null, null);
     public List<RSyntaxTextArea> krakataus = Arrays.asList(null, null, null);
+
+    public static void selectMethod(RSyntaxTextArea area, int methodLine) {
+        if (methodLine != area.getCaretLineNumber()) {
+            setCaretLine(area, methodLine);
+            setViewLine(area, methodLine);
+        }
+    }
+
+    public static void selectMethod(ClassViewer classViewer, int paneId, Method method) {
+        RSyntaxTextArea area = classViewer.javas.get(paneId);
+        if (area != null) {
+            Methods methods = classViewer.methods.get(paneId);
+            if (methods != null) {
+                int methodLine = methods.findMethod(method);
+                if (methodLine != -1) {
+                    selectMethod(area, methodLine);
+                }
+            }
+        }
+    }
+
+    public static String getLineText(RSyntaxTextArea area, int line) {
+        try {
+            if (line < area.getLineCount()) {
+                int start = area.getLineStartOffset(line);
+                int end = area.getLineEndOffset(line);
+                return area.getText(start, end - start).trim();
+            }
+        } catch (BadLocationException ignored) {}
+        return "";
+    }
+
+    public static int getMaxViewLine(RSyntaxTextArea area) {
+        Container parent = area.getParent();
+        if (parent instanceof JViewport) {
+            JViewport viewport = (JViewport) parent;
+            int y = viewport.getViewSize().height - viewport.getExtentSize().height;
+            int lineHeight = area.getLineHeight();
+            return y >= lineHeight ? y / lineHeight : 0;
+        }
+        return 0;
+    }
+
+    public static int getViewLine(RSyntaxTextArea area) {
+        Container parent = area.getParent();
+        if (parent instanceof JViewport) {
+            JViewport viewport = (JViewport) parent;
+            Point point = viewport.getViewPosition();
+            int lineHeight = area.getLineHeight();
+            return point.y >= lineHeight ? point.y / lineHeight : 0;
+        }
+        return 0;
+    }
+
+    public static void setViewLine(RSyntaxTextArea area, int line) {
+        Container parent = area.getParent();
+        if (parent instanceof JViewport) {
+            JViewport viewport = (JViewport) parent;
+            int maxLine = ClassViewer.getMaxViewLine(area);
+            line = line < maxLine ? line : maxLine;
+            viewport.setViewPosition(new Point(0, line * area.getLineHeight()));
+        }
+    }
+
+    public static void setCaretLine(RSyntaxTextArea area, int line) {
+        try {
+            area.setCaretPosition(area.getLineStartOffset(line));
+        } catch (BadLocationException ignored) {}
+    }
+
+    static class SynchronizeActionListener implements ActionListener {
+        private ClassViewer classViewer;
+        private int activePaneId;
+
+        public SynchronizeActionListener(ClassViewer classViewer, int paneId) {
+            this.classViewer = classViewer;
+            this.activePaneId = paneId;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            int activePanes = 0;
+            for (int i = 0; i < classViewer.javas.size(); i++) {
+                if (classViewer.javas.get(i) != null)
+                    activePanes++;
+            }
+            if (activePanes > 1) {
+                final RSyntaxTextArea activeArea = classViewer.javas.get(activePaneId);
+                if (activeArea != null) {
+                    Methods activeMethods = classViewer.methods.get(activePaneId);
+                    if (activeMethods != null) {
+                        int activeLine = classViewer.activeLines.get(activePaneId);
+                        int activeMethodLine = activeMethods.findActiveMethod(activeLine);
+                        if (activeMethodLine != -1) {
+                            selectMethod(activeArea, activeMethodLine);
+                            Method activeMethod = activeMethods.getMethod(activeMethodLine);
+                            if (activeMethod != null) {
+                                for (int i = 0; i < classViewer.javas.size(); i++) {
+                                    if (i != activePaneId) {
+                                        RSyntaxTextArea area = classViewer.javas.get(i);
+                                        if (area != null) {
+                                            Methods methods = classViewer.methods.get(i);
+                                            if (methods != null) {
+                                                int methodLine = methods.findMethod(activeMethod);
+                                                if (methodLine != -1) {
+                                                    selectMethod(area, methodLine);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * This was really interesting to write.
@@ -330,7 +453,7 @@ public class ClassViewer extends Viewer {
         hex.setMaximumSize(new Dimension(0, Integer.MAX_VALUE));
         hex.setSize(0, Integer.MAX_VALUE);
 
-        BytecodeViewer.viewer.setIcon(true);
+        gui.setIcon(true);
         startPaneUpdater(null);
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {

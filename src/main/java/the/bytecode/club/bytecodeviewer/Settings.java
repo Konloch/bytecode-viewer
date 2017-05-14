@@ -57,6 +57,8 @@ public class Settings<T> {
     public static final Settings<Integer> FILE_NAVIGATION_PANE_HEIGHT = new Settings<>("fileNavigationPaneHeight", 50);
     public static final Settings<Integer> SEARCHING_PANE_WIDTH = new Settings<>("searchingPaneWidth", 200);
     public static final Settings<Integer> SEARCHING_PANE_HEIGHT = new Settings<>("searchingPaneHeight", 50);
+    public static final Settings<Boolean> SYNCHRONIZE_VIEWING = new Settings<>("synchronizeViewing", false);
+    public static final Settings<Boolean> SHOW_METHODS_LIST = new Settings<>("showMethodsList", false);
 
     private String key;
     private T value;
