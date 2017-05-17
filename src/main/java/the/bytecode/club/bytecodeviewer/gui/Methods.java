@@ -37,29 +37,34 @@ public class Methods {
         return string;
     }
 
+    private static String getLastPart(String string, int character) {
+        int ch = string.lastIndexOf(character);
+        if (ch != -1) {
+            string = string.substring(ch + 1);
+        }
+        return string;
+    }
+
     public void addMethod(int line, String name, String params) {
-        String[] args = {};
-        if (!params.isEmpty()) {
-            params = removeBrackets(params);
-            args = params.split(",");
-            for (int i = 0; i < args.length; i++) {
-                args[i] = args[i].trim();
-                if (args[i].indexOf(' ') != -1) {
-                    String[] strings = args[i].split(" ");
-                    args[i] = strings[strings.length - 2];
-                }
-                int dot = args[i].lastIndexOf('.');
-                if (dot != -1) {
-                    args[i] = args[i].substring(dot + 1);
-                }
-                int dollar = args[i].lastIndexOf('$');
-                if (dollar != -1) {
-                    args[i] = args[i].substring(dollar + 1);
+        if (!name.isEmpty()) {
+            name = getLastPart(name,'.');
+            String[] args = {};
+            if (!params.isEmpty()) {
+                params = removeBrackets(params);
+                args = params.split(",");
+                for (int i = 0; i < args.length; i++) {
+                    args[i] = args[i].trim();
+                    if (args[i].indexOf(' ') != -1) {
+                        String[] strings = args[i].split(" ");
+                        args[i] = strings[strings.length - 2];
+                    }
+                    args[i] = getLastPart(args[i],'.');
+                    args[i] = getLastPart(args[i],'$');
                 }
             }
+            Method method = new Method(name, Arrays.asList(args));
+            methods.put(line, method);
         }
-        Method method = new Method(name, Arrays.asList(args));
-        methods.put(line, method);
     }
 
     public boolean isEmpty() {
