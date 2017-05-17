@@ -26,7 +26,7 @@ public class Methods {
         }
     }
 
-    public static final Pattern regex = Pattern.compile("\\s*(?:static|public|private|protected|final|abstract)[\\w\\s.<>\\[\\]]*\\s+(?<name>[\\w]+)\\s*\\((?<params>[\\w\\s,.<>\\[\\]$?]*)\\)");
+    public static final Pattern regex = Pattern.compile("\\s*(?:static|public|private|protected|final|abstract)[\\w\\s.<>\\[\\]]*\\s+(?<name>[\\w.]+)\\s*\\((?<params>[\\w\\s,.<>\\[\\]$?]*)\\)");
 
     private TreeMap<Integer, Method> methods = new TreeMap<>();
 
