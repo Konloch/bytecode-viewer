@@ -152,6 +152,7 @@ public class BytecodeViewer {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    SwingUtilities.updateComponentTreeUI(this);
         } catch (Exception e) {
             new ExceptionUI(e);
         }
