@@ -26,11 +26,11 @@ package the.bytecode.club.bytecodeviewer.gui;
 
 public abstract class PaneUpdaterThread extends Thread {
 
-    public abstract void doShit();
+    public abstract void doStuff();
 
     @Override
     public void run() {
-        doShit();
+        doStuff();
     }
 
 }

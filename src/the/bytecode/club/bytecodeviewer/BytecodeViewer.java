@@ -95,7 +95,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * 3.0.0: (RETIREMENT PARTY, WOHOOO)
  * Add obfuscation:
  * - Add integer boxing and other obfuscation methods contra implemented
- * - Insert unadded/debug opcodes to try to fuck up decompilers
+ * - Insert unadded/debug opcodes to try to screw up decompilers
  * - ClassAnylyzterAdapter
  * Add the jump/save mark system Ida Pro has.
  * Add class annotations to bytecode decompiler.
@@ -104,12 +104,12 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * Make the tabs menu and middle mouse button click work on the tab itself not just the close button.
  * <p>
  * before 3.0.0:
- * EVERYTHING ON THE FUCKING GITHUB ISSUES LOL
+ * EVERYTHING ON THE GITHUB ISSUES LOL
  * EVERYTHING ON THE BYTECODE CLUB ISSUES LOL
  * make it use that global last used inside of export as jar
  * Spiffy up the plugin console with hilighted lines
  * Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
- * make zipfile not include the decode shit
+ * make zipfile not include the decode stuff
  * add stackmapframes to bytecode decompiler
  * add stackmapframes remover?
  * make ez-injection plugin console show all sys.out calls
@@ -194,7 +194,7 @@ public class BytecodeViewer {
                 }
 
                 if (!BytecodeViewer.version.equals(version)) {
-                    r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/README.txt"));
+                    r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/CHANGELOG.md"));
                     String[] readme = r.read();
 
                     String changelog = "Unable to load change log, please try again later." + nl;

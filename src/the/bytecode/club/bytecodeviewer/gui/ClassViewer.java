@@ -631,7 +631,7 @@ public class ClassViewer extends Viewer {
         final byte[] b = cw.toByteArray();
         Thread t1 = new PaneUpdaterThread() {
             @Override
-            public void doShit() {
+            public void doStuff() {
                 try {
                     if (pane1 == 1) { // procyon
                         RSyntaxTextArea panelArea = new RSyntaxTextArea();
@@ -978,7 +978,7 @@ public class ClassViewer extends Viewer {
 
         Thread t2 = new PaneUpdaterThread() {
             @Override
-            public void doShit() {
+            public void doStuff() {
                 try {
                     if (pane2 == 1) {
                         RSyntaxTextArea panelArea = new RSyntaxTextArea();
@@ -1320,7 +1320,7 @@ public class ClassViewer extends Viewer {
 
         Thread t3 = new PaneUpdaterThread() {
             @Override
-            public void doShit() {
+            public void doStuff() {
                 try {
                     if (pane3 == 1) {
                         RSyntaxTextArea panelArea = new RSyntaxTextArea();
