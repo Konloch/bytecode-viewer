@@ -39,13 +39,13 @@ public class ClassNodeDecompiler extends Decompiler {
 
     public String decompileClassNode(ClassNode cn, byte[] b) {
         return decompile(new PrefixedStringBuilder(),
-                new ArrayList<String>(), cn).toString();
+                new ArrayList<>(), cn).toString();
     }
 
     protected static PrefixedStringBuilder decompile(
             PrefixedStringBuilder sb, ArrayList<String> decompiledClasses,
             ClassNode cn) {
-        ArrayList<String> unableToDecompile = new ArrayList<String>();
+        ArrayList<String> unableToDecompile = new ArrayList<>();
         decompiledClasses.add(cn.name);
         sb.append(getAccessString(cn.access));
         sb.append(" ");
@@ -59,9 +59,6 @@ public class ClassNodeDecompiler extends Decompiler {
         if (amountOfInterfaces > 0) {
             sb.append(" implements ");
             sb.append(cn.interfaces.get(0));
-            if (amountOfInterfaces > 1) {
-                // sb.append(",");
-            }
             for (int i = 1; i < amountOfInterfaces; i++) {
                 sb.append(", ");
                 sb.append(cn.interfaces.get(i));
@@ -69,7 +66,7 @@ public class ClassNodeDecompiler extends Decompiler {
         }
         sb.append(" {");
         sb.append(BytecodeViewer.nl);
-        for (FieldNode fn : (List<FieldNode>) cn.fields) {
+        for (FieldNode fn : cn.fields) {
             sb.append(BytecodeViewer.nl);
             sb.append("     ");
             FieldNodeDecompiler.decompile(sb, fn);
@@ -77,7 +74,7 @@ public class ClassNodeDecompiler extends Decompiler {
         if (cn.fields.size() > 0) {
             sb.append(BytecodeViewer.nl);
         }
-        for (MethodNode mn : (List<MethodNode>) cn.methods) {
+        for (MethodNode mn : cn.methods) {
             sb.append(BytecodeViewer.nl);
             MethodNodeDecompiler.decompile(sb, mn, cn);
         }
