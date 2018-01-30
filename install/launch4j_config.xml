@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch4jConfig>
-  <dontWrapJar>false</dontWrapJar>
-  <headerType>gui</headerType>
-  <obj>w32api/crt2.o</obj>
-  <obj>head/guihead.o</obj>
-  <obj>head/head.o</obj>
-  <lib>w32api/libmingw32.a</lib>
-  <lib>w32api/libgcc.a</lib>
-  <lib>w32api/libmsvcrt.a</lib>
-  <lib>w32api/libkernel32.a</lib>
-  <lib>w32api/libuser32.a</lib>
-  <lib>w32api/libadvapi32.a</lib>
-  <lib>w32api/libshell32.a</lib>
-  <jar>H:\Repo\BCV\bytecode-viewer\BytecodeViewer 2.9.8.jar</jar>
-  <outfile>H:\Repo\BCV\bytecode-viewer\BytecodeViewer.exe</outfile>
-  <errTitle></errTitle>
-  <cmdLine></cmdLine>
-  <chdir>.</chdir>
-  <priority>normal</priority>
-  <downloadUrl>http://java.com/download</downloadUrl>
-  <supportUrl></supportUrl>
-  <stayAlive>false</stayAlive>
-  <restartOnCrash>false</restartOnCrash>
-  <manifest></manifest>
-  <icon>H:\Repo\BCV\bytecode-viewer\BCV Icon.ico</icon>
-  <jre>
-    <path></path>
-    <bundledJre64Bit>false</bundledJre64Bit>
-    <bundledJreAsFallback>false</bundledJreAsFallback>
-    <minVersion>1.7.0_00</minVersion>
-    <maxVersion></maxVersion>
-    <jdkPreference>preferJre</jdkPreference>
-    <runtimeBits>64/32</runtimeBits>
-  </jre>
-  <versionInfo>
-    <fileVersion>0.2.9.7</fileVersion>
-    <txtFileVersion>http://the.bytecode.club</txtFileVersion>
-    <fileDescription>Bytecode Viewer</fileDescription>
-    <copyright>http://bytecodeviewer.com</copyright>
-    <productVersion>0.2.9.6</productVersion>
-    <txtProductVersion>http://the.bytecode.club</txtProductVersion>
-    <productName>Bytecode Viewer</productName>
-    <companyName></companyName>
-    <internalName>BCV</internalName>
-    <originalFilename>Bytecode_Viewer.exe</originalFilename>
-  </versionInfo>
+    <dontWrapJar>false</dontWrapJar>
+    <headerType>gui</headerType>
+    <obj>w32api/crt2.o</obj>
+    <obj>head/guihead.o</obj>
+    <obj>head/head.o</obj>
+    <lib>w32api/libmingw32.a</lib>
+    <lib>w32api/libgcc.a</lib>
+    <lib>w32api/libmsvcrt.a</lib>
+    <lib>w32api/libkernel32.a</lib>
+    <lib>w32api/libuser32.a</lib>
+    <lib>w32api/libadvapi32.a</lib>
+    <lib>w32api/libshell32.a</lib>
+    <jar>H:\Repo\BCV\bytecode-viewer\BytecodeViewer 2.9.8.jar</jar>
+    <outfile>H:\Repo\BCV\bytecode-viewer\BytecodeViewer.exe</outfile>
+    <errTitle></errTitle>
+    <cmdLine></cmdLine>
+    <chdir>.</chdir>
+    <priority>normal</priority>
+    <downloadUrl>http://java.com/download</downloadUrl>
+    <supportUrl></supportUrl>
+    <stayAlive>false</stayAlive>
+    <restartOnCrash>false</restartOnCrash>
+    <manifest></manifest>
+    <icon>H:\Repo\BCV\bytecode-viewer\BCV Icon.ico</icon>
+    <jre>
+        <path></path>
+        <bundledJre64Bit>false</bundledJre64Bit>
+        <bundledJreAsFallback>false</bundledJreAsFallback>
+        <minVersion>1.7.0_00</minVersion>
+        <maxVersion></maxVersion>
+        <jdkPreference>preferJre</jdkPreference>
+        <runtimeBits>64/32</runtimeBits>
+    </jre>
+    <versionInfo>
+        <fileVersion>0.2.9.7</fileVersion>
+        <txtFileVersion>http://the.bytecode.club</txtFileVersion>
+        <fileDescription>Bytecode Viewer</fileDescription>
+        <copyright>http://bytecodeviewer.com</copyright>
+        <productVersion>0.2.9.6</productVersion>
+        <txtProductVersion>http://the.bytecode.club</txtProductVersion>
+        <productName>Bytecode Viewer</productName>
+        <companyName></companyName>
+        <internalName>BCV</internalName>
+        <originalFilename>Bytecode_Viewer.exe</originalFilename>
+    </versionInfo>
 </launch4jConfig>

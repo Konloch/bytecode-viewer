@@ -30,7 +30,6 @@ Contributors:
     Afffsdd
     Szperak
     Zooty
-    samczsun
     If I missed you, please feel free to contact me @Konloch or konloch@gmail.com
 
 Contribution Guide Lines/Coding Conventions:
