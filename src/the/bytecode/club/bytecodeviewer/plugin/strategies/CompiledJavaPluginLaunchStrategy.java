@@ -41,158 +41,160 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
  */
 public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 
-	private static final String PLUGIN_CLASS_NAME = Plugin.class.getCanonicalName().replace(".", "/");
+    private static final String PLUGIN_CLASS_NAME = Plugin.class.getCanonicalName().replace(".", "/");
 
-	private final Set<LoadedPluginData> loaded = new HashSet<LoadedPluginData>();
+    private final Set<LoadedPluginData> loaded = new HashSet<LoadedPluginData>();
 
-	@Override
-	public Plugin run(File file) throws Throwable {
-		Set<LoadedNodeData> set = loadData(file);
+    @Override
+    public Plugin run(File file) throws Throwable {
+        Set<LoadedNodeData> set = loadData(file);
 
-		LoadedNodeData pdata = null;
-		for(LoadedNodeData d : set) {
-			ClassNode cn = d.node;
-			if(cn.superName.equals(PLUGIN_CLASS_NAME)) {
-				if(pdata == null) {
-					pdata = d;
-				} else {
-					throw new RuntimeException("Multiple plugin subclasses.");
-				}
-			}
-		}
+        LoadedNodeData pdata = null;
+        for (LoadedNodeData d : set) {
+            ClassNode cn = d.node;
+            if (cn.superName.equals(PLUGIN_CLASS_NAME)) {
+                if (pdata == null) {
+                    pdata = d;
+                } else {
+                    throw new RuntimeException("Multiple plugin subclasses.");
+                }
+            }
+        }
 
-		LoadingClassLoader cl = new LoadingClassLoader(pdata, set);
-		Plugin p = cl.pluginKlass.newInstance();
-		LoadedPluginData npdata = new LoadedPluginData(pdata, cl, p);
-		loaded.add(npdata);
+        LoadingClassLoader cl = new LoadingClassLoader(pdata, set);
+        Plugin p = cl.pluginKlass.newInstance();
+        LoadedPluginData npdata = new LoadedPluginData(pdata, cl, p);
+        loaded.add(npdata);
 
-		return p;
-	}
+        return p;
+    }
 
-	public Set<LoadedPluginData> getLoaded() {
-		return loaded;
-	}
+    public Set<LoadedPluginData> getLoaded() {
+        return loaded;
+    }
 
-	private static Set<LoadedNodeData> loadData(File jarFile) throws Throwable {
-		ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
-		ZipEntry entry;
+    private static Set<LoadedNodeData> loadData(File jarFile) throws Throwable {
+        ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
+        ZipEntry entry;
 
-		Set<LoadedNodeData> set = new HashSet<LoadedNodeData>();
+        Set<LoadedNodeData> set = new HashSet<LoadedNodeData>();
 
-		while ((entry = jis.getNextEntry()) != null) {
-			try {
-				String name = entry.getName();
-				if(name.endsWith(".class")){
-					byte[] bytes = JarUtils.getBytes(jis);
-					String magic = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
-					if(magic.toLowerCase().equals("cafebabe")) {
-						try {
-							ClassReader cr = new ClassReader(bytes);
-							ClassNode cn = new ClassNode();
-							cr.accept(cn, 0);
-							LoadedNodeData data = new LoadedNodeData(bytes, cn);
-							set.add(data);
-						} catch(Exception e) {
-							e.printStackTrace();
-						}
-					} else {
-						System.out.println(jarFile + ">" + name + ": Header does not start with CAFEBABE, ignoring.");
-					}
-				}
-			} catch(Exception e) {
-				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-			} finally {
-				jis.closeEntry();
-			}
-		}
-		jis.close();
+        while ((entry = jis.getNextEntry()) != null) {
+            try {
+                String name = entry.getName();
+                if (name.endsWith(".class")) {
+                    byte[] bytes = JarUtils.getBytes(jis);
+                    String magic = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
+                    if (magic.toLowerCase().equals("cafebabe")) {
+                        try {
+                            ClassReader cr = new ClassReader(bytes);
+                            ClassNode cn = new ClassNode();
+                            cr.accept(cn, 0);
+                            LoadedNodeData data = new LoadedNodeData(bytes, cn);
+                            set.add(data);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        System.out.println(jarFile + ">" + name + ": Header does not start with CAFEBABE, ignoring.");
+                    }
+                }
+            } catch (Exception e) {
+                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            } finally {
+                jis.closeEntry();
+            }
+        }
+        jis.close();
 
-		return set;
-	}
+        return set;
+    }
 
-	public static class LoadedNodeData {
-		private final byte[] bytes;
-		private final ClassNode node;
-		public LoadedNodeData(byte[] bytes, ClassNode node) {
-			this.bytes = bytes;
-			this.node = node;
-		}
-	}
+    public static class LoadedNodeData {
+        private final byte[] bytes;
+        private final ClassNode node;
 
-	public static class LoadedPluginData {
-		private final LoadedNodeData data;
-		private final LoadingClassLoader classLoader;
-		private final Plugin plugin;
+        public LoadedNodeData(byte[] bytes, ClassNode node) {
+            this.bytes = bytes;
+            this.node = node;
+        }
+    }
 
-		public LoadedPluginData(LoadedNodeData data, LoadingClassLoader classLoader, Plugin plugin) {
-			this.data = data;
-			this.classLoader = classLoader;
-			this.plugin = plugin;
-		}
+    public static class LoadedPluginData {
+        private final LoadedNodeData data;
+        private final LoadingClassLoader classLoader;
+        private final Plugin plugin;
 
-		public LoadedNodeData getData() {
-			return data;
-		}
-		public LoadingClassLoader getClassLoader() {
-			return classLoader;
-		}
+        public LoadedPluginData(LoadedNodeData data, LoadingClassLoader classLoader, Plugin plugin) {
+            this.data = data;
+            this.classLoader = classLoader;
+            this.plugin = plugin;
+        }
 
-		public Plugin getPlugin() {
-			return plugin;
-		}
-	}
+        public LoadedNodeData getData() {
+            return data;
+        }
 
-	public static class LoadingClassLoader extends ClassLoader {
-		private final LoadedNodeData data;
-		private Map<String, LoadedNodeData> cache;
-		private Map<String, Class<?>> ccache;
-		private final Class<? extends Plugin> pluginKlass;
+        public LoadingClassLoader getClassLoader() {
+            return classLoader;
+        }
 
-		public LoadingClassLoader(LoadedNodeData data, Set<LoadedNodeData> set) throws Throwable{
-			this.data = data;
+        public Plugin getPlugin() {
+            return plugin;
+        }
+    }
 
-			cache = new HashMap<String, LoadedNodeData>();
-			ccache = new HashMap<String, Class<?>>();
+    public static class LoadingClassLoader extends ClassLoader {
+        private final LoadedNodeData data;
+        private Map<String, LoadedNodeData> cache;
+        private Map<String, Class<?>> ccache;
+        private final Class<? extends Plugin> pluginKlass;
 
-			for(LoadedNodeData d: set) {
-				cache.put(d.node.name, d);
-			}
+        public LoadingClassLoader(LoadedNodeData data, Set<LoadedNodeData> set) throws Throwable {
+            this.data = data;
 
-			@SuppressWarnings("unchecked")
-			Class<? extends Plugin> pluginKlass = (Class<? extends Plugin>) loadClass(data.node.name.replace("/", "."));
+            cache = new HashMap<String, LoadedNodeData>();
+            ccache = new HashMap<String, Class<?>>();
 
-			if(pluginKlass == null)
-				throw new RuntimeException();
+            for (LoadedNodeData d : set) {
+                cache.put(d.node.name, d);
+            }
 
-			this.pluginKlass = pluginKlass;
-		}
+            @SuppressWarnings("unchecked")
+            Class<? extends Plugin> pluginKlass = (Class<? extends Plugin>) loadClass(data.node.name.replace("/", "."));
 
-		@Override
-		public Class<?> findClass(String name) throws ClassNotFoundException {
-			name = name.replace(".", "/");
-			
-			System.out.println("finding " + name);
+            if (pluginKlass == null)
+                throw new RuntimeException();
 
-			if(ccache.containsKey(name))
-				return ccache.get(name);
+            this.pluginKlass = pluginKlass;
+        }
 
-			LoadedNodeData data = cache.get(name);
-			if(data != null) {
-				byte[] bytes = data.bytes;
-				Class<?> klass = defineClass(data.node.name.replace("/", "."), bytes, 0, bytes.length);
-				ccache.put(name, klass);
-				return klass;
-			}
+        @Override
+        public Class<?> findClass(String name) throws ClassNotFoundException {
+            name = name.replace(".", "/");
 
-			return super.findClass(name);
-		}
+            System.out.println("finding " + name);
 
-		public LoadedNodeData getPluginNode() {
-			return data;
-		}
+            if (ccache.containsKey(name))
+                return ccache.get(name);
 
-		public Class<? extends Plugin> getPluginKlass() {
-			return pluginKlass;
-		}
-	}
+            LoadedNodeData data = cache.get(name);
+            if (data != null) {
+                byte[] bytes = data.bytes;
+                Class<?> klass = defineClass(data.node.name.replace("/", "."), bytes, 0, bytes.length);
+                ccache.put(name, klass);
+                return klass;
+            }
+
+            return super.findClass(name);
+        }
+
+        public LoadedNodeData getPluginNode() {
+            return data;
+        }
+
+        public Class<? extends Plugin> getPluginKlass() {
+            return pluginKlass;
+        }
+    }
 }

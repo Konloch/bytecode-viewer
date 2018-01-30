@@ -3,3 +3,4 @@
 .project
 *.iml
 .idea/
+out/

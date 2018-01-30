@@ -34,222 +34,220 @@ import the.bytecode.club.bytecodeviewer.decompilers.bytecode.TypeAndName;
  ***************************************************************************/
 
 /**
- * 
  * @author Konloch
  * @author Bibl
- * 
  */
 
 public class MethodNodeDecompiler {
 
-	@SuppressWarnings("unused")
-	public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb,
-			MethodNode m, ClassNode cn) {
-		String package_ = null;
-		String class_ = null;
-		if (cn.name.contains("/")) {
-			package_ = cn.name.substring(0, cn.name.lastIndexOf("/"));
-			class_ = cn.name.substring(cn.name.lastIndexOf("/") + 1);
-		} else {
-			class_ = cn.name;
-		}
+    @SuppressWarnings("unused")
+    public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb,
+                                                  MethodNode m, ClassNode cn) {
+        String package_ = null;
+        String class_ = null;
+        if (cn.name.contains("/")) {
+            package_ = cn.name.substring(0, cn.name.lastIndexOf("/"));
+            class_ = cn.name.substring(cn.name.lastIndexOf("/") + 1);
+        } else {
+            class_ = cn.name;
+        }
 
-		String s = getAccessString(m.access);
-		sb.append("     ");
-		sb.append(s);
-		if (s.length() > 0)
-			sb.append(" ");
+        String s = getAccessString(m.access);
+        sb.append("     ");
+        sb.append(s);
+        if (s.length() > 0)
+            sb.append(" ");
 
-		if (m.name.equals("<init>")) {
-			sb.append(class_);
-		} else if (m.name.equals("<clinit>")) {
-		} else {
-			sb.append(m.name);
-		}
+        if (m.name.equals("<init>")) {
+            sb.append(class_);
+        } else if (m.name.equals("<clinit>")) {
+        } else {
+            sb.append(m.name);
+        }
 
-		TypeAndName[] args = new TypeAndName[0];
+        TypeAndName[] args = new TypeAndName[0];
 
-		if (!m.name.equals("<clinit>")) {
-			sb.append("(");
+        if (!m.name.equals("<clinit>")) {
+            sb.append("(");
 
-			final Type[] argTypes = Type.getArgumentTypes(m.desc);
-			args = new TypeAndName[argTypes.length];
+            final Type[] argTypes = Type.getArgumentTypes(m.desc);
+            args = new TypeAndName[argTypes.length];
 
-			for (int i = 0; i < argTypes.length; i++) {
-				final Type type = argTypes[i];
+            for (int i = 0; i < argTypes.length; i++) {
+                final Type type = argTypes[i];
 
-				final TypeAndName tan = new TypeAndName();
-				final String argName = "arg" + i;
+                final TypeAndName tan = new TypeAndName();
+                final String argName = "arg" + i;
 
-				tan.name = argName;
-				tan.type = type;
+                tan.name = argName;
+                tan.type = type;
 
-				args[i] = tan;
+                args[i] = tan;
 
-				sb.append(type.getClassName() + " " + argName
-						+ (i < argTypes.length - 1 ? ", " : ""));
-			}
+                sb.append(type.getClassName() + " " + argName
+                        + (i < argTypes.length - 1 ? ", " : ""));
+            }
 
-			sb.append(")");
-		}
+            sb.append(")");
+        }
 
-		int amountOfThrows = m.exceptions.size();
-		if (amountOfThrows > 0) {
-			sb.append(" throws ");
-			sb.append(m.exceptions.get(0));// exceptions is list<string>
-			for (int i = 1; i < amountOfThrows; i++) {
-				sb.append(", ");
-				sb.append(m.exceptions.get(i));
-			}
-		}
+        int amountOfThrows = m.exceptions.size();
+        if (amountOfThrows > 0) {
+            sb.append(" throws ");
+            sb.append(m.exceptions.get(0));// exceptions is list<string>
+            for (int i = 1; i < amountOfThrows; i++) {
+                sb.append(", ");
+                sb.append(m.exceptions.get(i));
+            }
+        }
 
-		if (s.contains("abstract")) {
-			sb.append(" {}");
-			sb.append(" //");
-			sb.append(m.desc);
-			sb.append(BytecodeViewer.nl);
-		} else {
+        if (s.contains("abstract")) {
+            sb.append(" {}");
+            sb.append(" //");
+            sb.append(m.desc);
+            sb.append(BytecodeViewer.nl);
+        } else {
 
-			sb.append(" {");
+            sb.append(" {");
 
-			if (BytecodeViewer.viewer.debugHelpers.isSelected()) {
-				if (m.name.equals("<clinit>"))
-					sb.append(" // <clinit>");
-				else if (m.name.equals("<init>"))
-					sb.append(" // <init>");
-			}
+            if (BytecodeViewer.viewer.debugHelpers.isSelected()) {
+                if (m.name.equals("<clinit>"))
+                    sb.append(" // <clinit>");
+                else if (m.name.equals("<init>"))
+                    sb.append(" // <init>");
+            }
 
-			sb.append(" //");
-			sb.append(m.desc);
+            sb.append(" //");
+            sb.append(m.desc);
 
-			sb.append(BytecodeViewer.nl);
+            sb.append(BytecodeViewer.nl);
 
-			if (m.signature != null) {
-				sb.append("         <sig:").append(m.signature).append(">");
-			}
-			
-			if (m.annotationDefault != null) {
-				sb.append(m.annotationDefault);
-				sb.append("\n");
-			}
+            if (m.signature != null) {
+                sb.append("         <sig:").append(m.signature).append(">");
+            }
 
-			InstructionPrinter insnPrinter = new InstructionPrinter(m, args);
+            if (m.annotationDefault != null) {
+                sb.append(m.annotationDefault);
+                sb.append("\n");
+            }
 
-			addAttrList(m.attrs, "attr", sb, insnPrinter);
-			addAttrList(m.invisibleAnnotations, "invisAnno", sb, insnPrinter);
-			addAttrList(m.invisibleAnnotations, "invisLocalVarAnno", sb,
-					insnPrinter);
-			addAttrList(m.invisibleTypeAnnotations, "invisTypeAnno", sb,
-					insnPrinter);
-			addAttrList(m.localVariables, "localVar", sb, insnPrinter);
-			addAttrList(m.visibleAnnotations, "visAnno", sb, insnPrinter);
-			addAttrList(m.visibleLocalVariableAnnotations, "visLocalVarAnno",
-					sb, insnPrinter);
-			addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb,
-					insnPrinter);
+            InstructionPrinter insnPrinter = new InstructionPrinter(m, args);
 
-			for (Object o : m.tryCatchBlocks) {
-				TryCatchBlockNode tcbn = (TryCatchBlockNode) o;
-				sb.append("         ");
-				sb.append("TryCatch: L");
-				sb.append(insnPrinter.resolveLabel(tcbn.start));
-				sb.append(" to L");
-				sb.append(insnPrinter.resolveLabel(tcbn.end));
-				sb.append(" handled by L");
-				sb.append(insnPrinter.resolveLabel(tcbn.handler));
-				sb.append(": ");
-				if (tcbn.type != null)
-					sb.append(tcbn.type);
-				else
-					sb.append("Type is null.");
-				sb.append(BytecodeViewer.nl);
-			}
-			for (String insn : insnPrinter.createPrint()) {
-				sb.append("         ");
-				sb.append(insn);
-				sb.append(BytecodeViewer.nl);
-			}
-			sb.append("     }" + BytecodeViewer.nl);
-		}
-		return sb;
-	}
+            addAttrList(m.attrs, "attr", sb, insnPrinter);
+            addAttrList(m.invisibleAnnotations, "invisAnno", sb, insnPrinter);
+            addAttrList(m.invisibleAnnotations, "invisLocalVarAnno", sb,
+                    insnPrinter);
+            addAttrList(m.invisibleTypeAnnotations, "invisTypeAnno", sb,
+                    insnPrinter);
+            addAttrList(m.localVariables, "localVar", sb, insnPrinter);
+            addAttrList(m.visibleAnnotations, "visAnno", sb, insnPrinter);
+            addAttrList(m.visibleLocalVariableAnnotations, "visLocalVarAnno",
+                    sb, insnPrinter);
+            addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb,
+                    insnPrinter);
 
-	private static void addAttrList(List<?> list, String name,
-			PrefixedStringBuilder sb, InstructionPrinter insnPrinter) {
-		if (list == null)
-			return;
-		if (list.size() > 0) {
-			for (Object o : list) {
-				sb.append("         <");
-				sb.append(name);
-				sb.append(":");
-				sb.append(printAttr(o, insnPrinter));
-				sb.append(">");
-				sb.append("\n");
-			}
-			sb.append("\n");
-		}
-	}
+            for (Object o : m.tryCatchBlocks) {
+                TryCatchBlockNode tcbn = (TryCatchBlockNode) o;
+                sb.append("         ");
+                sb.append("TryCatch: L");
+                sb.append(insnPrinter.resolveLabel(tcbn.start));
+                sb.append(" to L");
+                sb.append(insnPrinter.resolveLabel(tcbn.end));
+                sb.append(" handled by L");
+                sb.append(insnPrinter.resolveLabel(tcbn.handler));
+                sb.append(": ");
+                if (tcbn.type != null)
+                    sb.append(tcbn.type);
+                else
+                    sb.append("Type is null.");
+                sb.append(BytecodeViewer.nl);
+            }
+            for (String insn : insnPrinter.createPrint()) {
+                sb.append("         ");
+                sb.append(insn);
+                sb.append(BytecodeViewer.nl);
+            }
+            sb.append("     }" + BytecodeViewer.nl);
+        }
+        return sb;
+    }
 
-	private static String printAttr(Object o, InstructionPrinter insnPrinter) {
-		if (o instanceof LocalVariableNode) {
-			LocalVariableNode lvn = (LocalVariableNode) o;
-			return "index=" + lvn.index + " , name=" + lvn.name + " , desc="
-					+ lvn.desc + ", sig=" + lvn.signature + ", start=L"
-					+ insnPrinter.resolveLabel(lvn.start) + ", end=L"
-					+ insnPrinter.resolveLabel(lvn.end);
-		} else if (o instanceof AnnotationNode) {
-			AnnotationNode an = (AnnotationNode) o;
-			StringBuilder sb = new StringBuilder();
-			sb.append("desc = ");
-			sb.append(an.desc);
-			sb.append(" , values = ");
-			if (an.values != null) {
-				sb.append(Arrays.toString(an.values.toArray()));
-			} else {
-				sb.append("[]");
-			}
-			return sb.toString();
-		}
-		if (o == null)
-			return "";
-		return o.toString();
-	}
+    private static void addAttrList(List<?> list, String name,
+                                    PrefixedStringBuilder sb, InstructionPrinter insnPrinter) {
+        if (list == null)
+            return;
+        if (list.size() > 0) {
+            for (Object o : list) {
+                sb.append("         <");
+                sb.append(name);
+                sb.append(":");
+                sb.append(printAttr(o, insnPrinter));
+                sb.append(">");
+                sb.append("\n");
+            }
+            sb.append("\n");
+        }
+    }
 
-	private static String getAccessString(int access) {
-		// public, protected, private, abstract, static,
-		// final, synchronized, native & strictfp are permitted
-		List<String> tokens = new ArrayList<String>();
-		if ((access & Opcodes.ACC_PUBLIC) != 0)
-			tokens.add("public");
-		if ((access & Opcodes.ACC_PRIVATE) != 0)
-			tokens.add("private");
-		if ((access & Opcodes.ACC_PROTECTED) != 0)
-			tokens.add("protected");
-		if ((access & Opcodes.ACC_STATIC) != 0)
-			tokens.add("static");
-		if ((access & Opcodes.ACC_ABSTRACT) != 0)
-			tokens.add("abstract");
-		if ((access & Opcodes.ACC_FINAL) != 0)
-			tokens.add("final");
-		if ((access & Opcodes.ACC_SYNCHRONIZED) != 0)
-			tokens.add("synchronized");
-		if ((access & Opcodes.ACC_NATIVE) != 0)
-			tokens.add("native");
-		if ((access & Opcodes.ACC_STRICT) != 0)
-			tokens.add("strictfp");
-		if ((access & Opcodes.ACC_BRIDGE) != 0)
-			tokens.add("bridge");
-		if ((access & Opcodes.ACC_VARARGS) != 0)
-			tokens.add("varargs");
-		if (tokens.size() == 0)
-			return "";
-		// hackery delimeters
-		StringBuilder sb = new StringBuilder(tokens.get(0));
-		for (int i = 1; i < tokens.size(); i++) {
-			sb.append(" ");
-			sb.append(tokens.get(i));
-		}
-		return sb.toString();
-	}
+    private static String printAttr(Object o, InstructionPrinter insnPrinter) {
+        if (o instanceof LocalVariableNode) {
+            LocalVariableNode lvn = (LocalVariableNode) o;
+            return "index=" + lvn.index + " , name=" + lvn.name + " , desc="
+                    + lvn.desc + ", sig=" + lvn.signature + ", start=L"
+                    + insnPrinter.resolveLabel(lvn.start) + ", end=L"
+                    + insnPrinter.resolveLabel(lvn.end);
+        } else if (o instanceof AnnotationNode) {
+            AnnotationNode an = (AnnotationNode) o;
+            StringBuilder sb = new StringBuilder();
+            sb.append("desc = ");
+            sb.append(an.desc);
+            sb.append(" , values = ");
+            if (an.values != null) {
+                sb.append(Arrays.toString(an.values.toArray()));
+            } else {
+                sb.append("[]");
+            }
+            return sb.toString();
+        }
+        if (o == null)
+            return "";
+        return o.toString();
+    }
+
+    private static String getAccessString(int access) {
+        // public, protected, private, abstract, static,
+        // final, synchronized, native & strictfp are permitted
+        List<String> tokens = new ArrayList<String>();
+        if ((access & Opcodes.ACC_PUBLIC) != 0)
+            tokens.add("public");
+        if ((access & Opcodes.ACC_PRIVATE) != 0)
+            tokens.add("private");
+        if ((access & Opcodes.ACC_PROTECTED) != 0)
+            tokens.add("protected");
+        if ((access & Opcodes.ACC_STATIC) != 0)
+            tokens.add("static");
+        if ((access & Opcodes.ACC_ABSTRACT) != 0)
+            tokens.add("abstract");
+        if ((access & Opcodes.ACC_FINAL) != 0)
+            tokens.add("final");
+        if ((access & Opcodes.ACC_SYNCHRONIZED) != 0)
+            tokens.add("synchronized");
+        if ((access & Opcodes.ACC_NATIVE) != 0)
+            tokens.add("native");
+        if ((access & Opcodes.ACC_STRICT) != 0)
+            tokens.add("strictfp");
+        if ((access & Opcodes.ACC_BRIDGE) != 0)
+            tokens.add("bridge");
+        if ((access & Opcodes.ACC_VARARGS) != 0)
+            tokens.add("varargs");
+        if (tokens.size() == 0)
+            return "";
+        // hackery delimeters
+        StringBuilder sb = new StringBuilder(tokens.get(0));
+        for (int i = 1; i < tokens.size(); i++) {
+            sb.append(" ");
+            sb.append(tokens.get(i));
+        }
+        return sb.toString();
+    }
 }

@@ -40,161 +40,160 @@ import the.bytecode.club.bytecodeviewer.FileChangeNotifier;
 
 /**
  * The pane that contains all of the classes as tabs.
- * 
+ *
  * @author Konloch
  * @author WaterWolf
- * 
  */
 
 public class WorkPane extends VisibleComponent implements ActionListener {
 
-	private static final long serialVersionUID = 6542337997679487946L;
+    private static final long serialVersionUID = 6542337997679487946L;
 
-	FileChangeNotifier fcn;
-	public JTabbedPane tabs;
+    FileChangeNotifier fcn;
+    public JTabbedPane tabs;
 
-	JPanel buttonPanel;
-	JButton refreshClass;
+    JPanel buttonPanel;
+    JButton refreshClass;
 
-	HashMap<String, Integer> workingOn = new HashMap<String, Integer>();
+    HashMap<String, Integer> workingOn = new HashMap<String, Integer>();
 
-	public static int SyntaxFontHeight = 12;
+    public static int SyntaxFontHeight = 12;
 
-	public WorkPane(final FileChangeNotifier fcn) {
-		super("WorkPanel");
-		setTitle("Work Space");
+    public WorkPane(final FileChangeNotifier fcn) {
+        super("WorkPanel");
+        setTitle("Work Space");
 
-		this.tabs = new JTabbedPane();
-		this.fcn = fcn;
+        this.tabs = new JTabbedPane();
+        this.fcn = fcn;
 
-		getContentPane().setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
 
-		getContentPane().add(tabs, BorderLayout.CENTER);
+        getContentPane().add(tabs, BorderLayout.CENTER);
 
-		buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel = new JPanel(new FlowLayout());
 
-		refreshClass = new JButton("Refresh");
-		refreshClass.addActionListener(this);
+        refreshClass = new JButton("Refresh");
+        refreshClass.addActionListener(this);
 
-		buttonPanel.add(refreshClass);
+        buttonPanel.add(refreshClass);
 
-		buttonPanel.setVisible(false);
-		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        buttonPanel.setVisible(false);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-		tabs.addContainerListener(new ContainerListener() {
+        tabs.addContainerListener(new ContainerListener() {
 
-			@Override
-			public void componentAdded(final ContainerEvent e) {
-			}
+            @Override
+            public void componentAdded(final ContainerEvent e) {
+            }
 
-			@Override
-			public void componentRemoved(final ContainerEvent e) {
-				final Component c = e.getChild();
-				if (c instanceof ClassViewer) {
-					workingOn.remove(((ClassViewer) c).name);
-				}
-				if (c instanceof FileViewer) {
-					workingOn.remove(((FileViewer) c).name);
-				}
-			}
+            @Override
+            public void componentRemoved(final ContainerEvent e) {
+                final Component c = e.getChild();
+                if (c instanceof ClassViewer) {
+                    workingOn.remove(((ClassViewer) c).name);
+                }
+                if (c instanceof FileViewer) {
+                    workingOn.remove(((FileViewer) c).name);
+                }
+            }
 
-		});
-		tabs.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(final ChangeEvent arg0) {
-				buttonPanel.setVisible(tabs.getSelectedIndex() != -1);
-			}
-		});
+        });
+        tabs.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(final ChangeEvent arg0) {
+                buttonPanel.setVisible(tabs.getSelectedIndex() != -1);
+            }
+        });
 
-		this.setVisible(true);
+        this.setVisible(true);
 
-	}
+    }
 
-	int tabCount = 0;
+    int tabCount = 0;
 
-	public void addWorkingFile(final String name, final ClassNode cn) {
-		if (!workingOn.containsKey(name)) {
-			final JPanel tabComp = new ClassViewer(name, cn);
-			tabs.add(tabComp);
-			final int tabCount = tabs.indexOfComponent(tabComp);
-			workingOn.put(name, tabCount);
-			tabs.setTabComponentAt(tabCount, new TabbedPane(name,tabs));
-			tabs.setSelectedIndex(tabCount);
-		} else {
-			tabs.setSelectedIndex(workingOn.get(name));
-		}
-	}
-	
-	public void addFile(final String name, byte[] contents) {
-		if(contents == null) //a directory
-			return;
-		
-		if (!workingOn.containsKey(name)) {
-			final Component tabComp = new FileViewer(name, contents);
-			tabs.add(tabComp);
-			final int tabCount = tabs.indexOfComponent(tabComp);
-			workingOn.put(name, tabCount);
-			tabs.setTabComponentAt(tabCount, new TabbedPane(name,tabs));
-			tabs.setSelectedIndex(tabCount);
-		} else {
-			tabs.setSelectedIndex(workingOn.get(name));
-		}
-	}
+    public void addWorkingFile(final String name, final ClassNode cn) {
+        if (!workingOn.containsKey(name)) {
+            final JPanel tabComp = new ClassViewer(name, cn);
+            tabs.add(tabComp);
+            final int tabCount = tabs.indexOfComponent(tabComp);
+            workingOn.put(name, tabCount);
+            tabs.setTabComponentAt(tabCount, new TabbedPane(name, tabs));
+            tabs.setSelectedIndex(tabCount);
+        } else {
+            tabs.setSelectedIndex(workingOn.get(name));
+        }
+    }
 
-	@Override
-	public void openClassFile(final String name, final ClassNode cn) {
-		addWorkingFile(name, cn);
-	}
+    public void addFile(final String name, byte[] contents) {
+        if (contents == null) //a directory
+            return;
 
-	@Override
-	public void openFile(final String name, byte[] content) {
-		addFile(name, content);
-	}
+        if (!workingOn.containsKey(name)) {
+            final Component tabComp = new FileViewer(name, contents);
+            tabs.add(tabComp);
+            final int tabCount = tabs.indexOfComponent(tabComp);
+            workingOn.put(name, tabCount);
+            tabs.setTabComponentAt(tabCount, new TabbedPane(name, tabs));
+            tabs.setSelectedIndex(tabCount);
+        } else {
+            tabs.setSelectedIndex(workingOn.get(name));
+        }
+    }
 
-	public Viewer getCurrentViewer() {
-		return (Viewer) tabs.getSelectedComponent();
-	}
+    @Override
+    public void openClassFile(final String name, final ClassNode cn) {
+        addWorkingFile(name, cn);
+    }
 
-	public java.awt.Component[] getLoadedViewers() {
-		return (java.awt.Component[])tabs.getComponents();
-	}
-	
-	@Override
-	public void actionPerformed(final ActionEvent arg0) {
-		Thread t = new Thread() {
-			public void run() {
-				if(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected())
-					try {
-						if(!BytecodeViewer.compile(false))
-							return;
-					} catch(java.lang.NullPointerException e) {
-						
-					}
-				final JButton src = (JButton) arg0.getSource();
-				if (src == refreshClass) {
-					final Component tabComp = tabs.getSelectedComponent();
-					if (tabComp != null) {
-						if(tabComp instanceof ClassViewer) {
-							src.setEnabled(false);
-							BytecodeViewer.viewer.setIcon(true);
-							((ClassViewer) tabComp).startPaneUpdater(src);
-							BytecodeViewer.viewer.setIcon(false);
-						} else if(tabComp instanceof FileViewer) {
-							src.setEnabled(false);
-							BytecodeViewer.viewer.setIcon(true);
-							((FileViewer) tabComp).refresh(src);
-							BytecodeViewer.viewer.setIcon(false);
-						}
-					}
-				}
-			}
-		};
-		t.start();
-	}
+    @Override
+    public void openFile(final String name, byte[] content) {
+        addFile(name, content);
+    }
 
-	public void resetWorkspace() {
-		tabs.removeAll();
-		tabs.updateUI();
-	}
+    public Viewer getCurrentViewer() {
+        return (Viewer) tabs.getSelectedComponent();
+    }
+
+    public java.awt.Component[] getLoadedViewers() {
+        return (java.awt.Component[]) tabs.getComponents();
+    }
+
+    @Override
+    public void actionPerformed(final ActionEvent arg0) {
+        Thread t = new Thread() {
+            public void run() {
+                if (BytecodeViewer.viewer.autoCompileOnRefresh.isSelected())
+                    try {
+                        if (!BytecodeViewer.compile(false))
+                            return;
+                    } catch (java.lang.NullPointerException e) {
+
+                    }
+                final JButton src = (JButton) arg0.getSource();
+                if (src == refreshClass) {
+                    final Component tabComp = tabs.getSelectedComponent();
+                    if (tabComp != null) {
+                        if (tabComp instanceof ClassViewer) {
+                            src.setEnabled(false);
+                            BytecodeViewer.viewer.setIcon(true);
+                            ((ClassViewer) tabComp).startPaneUpdater(src);
+                            BytecodeViewer.viewer.setIcon(false);
+                        } else if (tabComp instanceof FileViewer) {
+                            src.setEnabled(false);
+                            BytecodeViewer.viewer.setIcon(true);
+                            ((FileViewer) tabComp).refresh(src);
+                            BytecodeViewer.viewer.setIcon(false);
+                        }
+                    }
+                }
+            }
+        };
+        t.start();
+    }
+
+    public void resetWorkspace() {
+        tabs.removeAll();
+        tabs.updateUI();
+    }
 
 }

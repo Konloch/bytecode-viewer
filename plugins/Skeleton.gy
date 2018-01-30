@@ -5,10 +5,10 @@ import the.bytecode.club.bytecodeviewer.decompilers.*;
 
 public class Skeleton extends Plugin {
 
-	@Override
-	public void execute(ArrayList<ClassNode> classNodesList) {
-		PluginConsole gui = new PluginConsole("Skeleton");
-		gui.setVisible(true);
-		gui.appendText("executed skeleton");
-	}
+    @Override
+    public void execute(ArrayList<ClassNode> classNodesList) {
+        PluginConsole gui = new PluginConsole("Skeleton");
+        gui.setVisible(true);
+        gui.appendText("executed skeleton");
+    }
 }

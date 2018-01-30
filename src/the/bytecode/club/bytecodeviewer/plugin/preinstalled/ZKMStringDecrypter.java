@@ -27,16 +27,15 @@ import java.util.ArrayList;
 
 /**
  * Coming soon
- * 
+ *
  * @author Konloch
- * 
  */
 
 public class ZKMStringDecrypter extends Plugin {
 
     @Override
     public void execute(ArrayList<ClassNode> classNodeList) {
-		BytecodeViewer.showMessage("This is a planned feature.");
+        BytecodeViewer.showMessage("This is a planned feature.");
     }
 
 }
