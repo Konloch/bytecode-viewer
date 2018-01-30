@@ -67,6 +67,23 @@ public class ClassNodeDecompiler extends Decompiler {
         }
         sb.append(" {");
         sb.append(BytecodeViewer.nl);
+        if (cn.sourceDebug != null) {
+            sb.append("     ");
+            sb.append("<SourceDebug=" + cn.sourceDebug + ">");
+            sb.append(BytecodeViewer.nl);
+        }
+
+        if (cn.sourceFile != null) {
+            sb.append("     ");
+            sb.append("<SourceFile=" + cn.sourceFile + ">");
+            sb.append(BytecodeViewer.nl);
+        }
+
+        if (cn.signature != null) {
+            sb.append("     ");
+            sb.append("<Sig=" + cn.signature + ">");
+        }
+
         for (FieldNode fn : cn.fields) {
             sb.append(BytecodeViewer.nl);
             sb.append("     ");
@@ -113,24 +130,6 @@ public class ClassNodeDecompiler extends Decompiler {
             for (Attribute attr : cn.attrs) {
                 sb.append(attr.type + ": " + attr.value.toString());
             }
-        }
-
-        if (cn.sourceDebug != null) {
-            sb.append(BytecodeViewer.nl);
-            sb.append("     ");
-            sb.append("SourceDebug: " + cn.sourceDebug);
-        }
-
-        if (cn.sourceFile != null) {
-            sb.append(BytecodeViewer.nl);
-            sb.append("     ");
-            sb.append("SourceFile: " + cn.sourceFile);
-        }
-
-        if (cn.signature != null) {
-            sb.append(BytecodeViewer.nl);
-            sb.append("     ");
-            sb.append("Signature: " + cn.sourceFile);
         }
 
         sb.append(BytecodeViewer.nl);

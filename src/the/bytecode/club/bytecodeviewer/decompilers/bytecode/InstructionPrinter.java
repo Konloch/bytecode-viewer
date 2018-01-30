@@ -328,10 +328,10 @@ public class InstructionPrinter {
         StringBuilder sb = new StringBuilder();
         sb.append(nameOpcode(frame.opcode()) + " ");
 
-        sb.append("(Locals: ");
+        sb.append("(Locals");
         if (frame.local != null
                 && frame.local.size() > 0) {
-            sb.append(frame.local.size());
+            sb.append("[" + frame.local.size() + "]:");
             sb.append(" ");
             sb.append(frame.local.get(0).toString());
             if (frame.local.size() > 1) {
@@ -341,14 +341,14 @@ public class InstructionPrinter {
                 }
             }
         } else {
-            sb.append("0, null");
+            sb.append("[0]: null");
         }
         sb.append(") ");
 
-        sb.append("(Stack: ");
+        sb.append("(Stack");
         if (frame.stack != null
                 && frame.stack.size() > 0) {
-            sb.append(frame.stack.size());
+            sb.append("[" + frame.stack.size() + "]:");
             sb.append(" ");
             sb.append(frame.stack.get(0).toString());
             if (frame.stack.size() > 1) {
@@ -358,7 +358,7 @@ public class InstructionPrinter {
                 }
             }
         } else {
-            sb.append("0, null");
+            sb.append("[0]: null");
         }
         sb.append(")");
 

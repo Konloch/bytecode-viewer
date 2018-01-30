@@ -67,12 +67,12 @@ public class CFRDecompiler extends Decompiler {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
 
-        String fuckery = fuckery(fileStart);
-        if (!BytecodeViewer.fatJar) {
+        String fileThing = fileThing(fileStart);
+        /*if (!BytecodeViewer.fatJar) {
             try {
                 ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
                         new String[]{BytecodeViewer.getJavaCommand(), "-jar", Resources.findLibrary("cfr")},
-                        generateMainMethod(tempClass.getAbsolutePath(), fuckery)
+                        generateMainMethod(tempClass.getAbsolutePath(), fileThing)
                 ));
                 BytecodeViewer.sm.stopBlocking();
                 Process p = pb.start();
@@ -84,19 +84,19 @@ public class CFRDecompiler extends Decompiler {
                 BytecodeViewer.sm.setBlocking();
             }
         } else {
-            org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
-        }
+            org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fileThing));
+        }*/
+        org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fileThing));
 
         tempClass.delete();
 
-        return findFile(new File(fuckery).listFiles());
-
+        return findFile(new File(fileThing).listFiles());
     }
 
     Random r = new Random();
     File f;
 
-    public String fuckery(String start) {
+    public String fileThing(String start) {
         boolean b = false;
         while (!b) {
             f = new File(start + r.nextInt(Integer.MAX_VALUE));
@@ -257,21 +257,21 @@ public class CFRDecompiler extends Decompiler {
 
         String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
 
-        String fuckery = fuckery(fileStart);
+        String fileThing = fileThing(fileStart);
 
         org.benf.cfr.reader.Main.main(generateMainMethod(
-                tempZip.getAbsolutePath(), fuckery));
+                tempZip.getAbsolutePath(), fileThing));
 
         tempZip.delete();
-        File fuck = new File(fuckery);
+        File file = new File(fileThing);
 
         try {
-            zip(fuck, new File(zipName));
+            zip(file, new File(zipName));
         } catch (IOException e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
 
-        fuck.delete();
+        file.delete();
     }
 
     @SuppressWarnings("resource")

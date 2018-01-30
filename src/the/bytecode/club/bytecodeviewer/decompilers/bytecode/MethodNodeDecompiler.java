@@ -237,6 +237,8 @@ public class MethodNodeDecompiler {
             tokens.add("strictfp");
         if ((access & Opcodes.ACC_BRIDGE) != 0)
             tokens.add("bridge");
+        if ((access & Opcodes.ACC_SYNTHETIC) != 0)
+            tokens.add("synthetic");
         if ((access & Opcodes.ACC_VARARGS) != 0)
             tokens.add("varargs");
         if (tokens.size() == 0)
