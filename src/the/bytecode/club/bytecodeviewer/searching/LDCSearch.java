@@ -72,7 +72,8 @@ public class LDCSearch implements SearchTypeDetails {
                     .iterator();
             while (instructions.hasNext()) {
                 final AbstractInsnNode insnNode = instructions.next();
-                if (insnNode instanceof LdcInsnNode) {
+                if (insnNode instanceof LdcInsnNode
+                        && ((LdcInsnNode) insnNode).cst instanceof String) {
                     final LdcInsnNode ldcObject = ((LdcInsnNode) insnNode);
                     final String ldcString = ldcObject.cst.toString();
                     String desc2 = method.desc;
