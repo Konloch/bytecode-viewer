@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.objectweb.asm.Attribute;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
@@ -107,6 +108,32 @@ public class ClassNodeDecompiler extends Decompiler {
             sb.append(BytecodeViewer.nl);
         }
 
+        if (cn.attrs != null) {
+            sb.append(BytecodeViewer.nl);
+            for (Attribute attr : cn.attrs) {
+                sb.append(attr.type + ": " + attr.value.toString());
+            }
+        }
+
+        if (cn.sourceDebug != null) {
+            sb.append(BytecodeViewer.nl);
+            sb.append("     ");
+            sb.append("SourceDebug: " + cn.sourceDebug);
+        }
+
+        if (cn.sourceFile != null) {
+            sb.append(BytecodeViewer.nl);
+            sb.append("     ");
+            sb.append("SourceFile: " + cn.sourceFile);
+        }
+
+        if (cn.signature != null) {
+            sb.append(BytecodeViewer.nl);
+            sb.append("     ");
+            sb.append("Signature: " + cn.sourceFile);
+        }
+
+        sb.append(BytecodeViewer.nl);
         sb.append("}");
         // System.out.println("Wrote end for " + cn.name +
         // " with prefix length: " + sb.prefix.length());

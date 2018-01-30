@@ -45,7 +45,7 @@ public class Attribute {
     /**
      * The raw value of this attribute, used only for unknown attributes.
      */
-    byte[] value;
+    public byte[] value;
 
     /**
      * The next attribute in this attribute list. May be <tt>null</tt>.
