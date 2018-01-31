@@ -40,11 +40,10 @@ import the.bytecode.club.bytecodeviewer.decompilers.bytecode.TypeAndName;
 
 public class MethodNodeDecompiler {
 
-    @SuppressWarnings("unused")
     public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb,
                                                   MethodNode m, ClassNode cn) {
         String package_ = null;
-        String class_ = null;
+        String class_;
         if (cn.name.contains("/")) {
             package_ = cn.name.substring(0, cn.name.lastIndexOf("/"));
             class_ = cn.name.substring(cn.name.lastIndexOf("/") + 1);
@@ -238,6 +237,8 @@ public class MethodNodeDecompiler {
             tokens.add("strictfp");
         if ((access & Opcodes.ACC_BRIDGE) != 0)
             tokens.add("bridge");
+        if ((access & Opcodes.ACC_SYNTHETIC) != 0)
+            tokens.add("synthetic");
         if ((access & Opcodes.ACC_VARARGS) != 0)
             tokens.add("varargs");
         if (tokens.size() == 0)

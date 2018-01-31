@@ -31,6 +31,7 @@ import org.objectweb.asm.tree.TableSwitchInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
+import org.objectweb.asm.tree.analysis.Frame;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import eu.bibl.banalysis.asm.desc.OpcodeInfo;
 
@@ -61,12 +62,12 @@ public class InstructionPrinter {
     /**
      * The MethodNode to print
      **/
-    protected MethodNode mNode;
+    private MethodNode mNode;
     private TypeAndName[] args;
 
     protected int[] pattern;
     protected boolean match;
-    protected InstructionSearcher searcher;
+    private InstructionSearcher searcher;
 
     protected List<AbstractInsnNode> matchedInsns;
     protected Map<LabelNode, Integer> labels;
@@ -140,7 +141,7 @@ public class InstructionPrinter {
             } else if (ain instanceof TypeInsnNode) {
                 line = printTypeInsnNode((TypeInsnNode) ain);
             } else if (ain instanceof FrameNode) {
-                line = "";
+                line = printFrameNode((FrameNode) ain);
             } else if (ain instanceof IincInsnNode) {
                 line = printIincInsnNode((IincInsnNode) ain);
             } else if (ain instanceof TableSwitchInsnNode) {
@@ -200,8 +201,8 @@ public class InstructionPrinter {
 
     protected String printMethodInsnNode(MethodInsnNode min, ListIterator<?> it) {
         StringBuilder sb = new StringBuilder();
-        sb.append(nameOpcode(min.opcode()) + " " + min.owner + " "
-                + min.name + "(");
+        sb.append(nameOpcode(min.opcode()) + " " + min.owner + "."
+                + min.name);
 
         String desc = min.desc;
         try {
@@ -215,8 +216,6 @@ public class InstructionPrinter {
         }
 
         sb.append(desc);
-
-        sb.append(");");
 
         return sb.toString();
     }
@@ -304,23 +303,56 @@ public class InstructionPrinter {
 
     protected String printInvokeDynamicInsNode(InvokeDynamicInsnNode idin) {
         StringBuilder sb = new StringBuilder();
-        sb.append(nameOpcode(idin.opcode()) + " " + idin.name + "(");
+        sb.append(nameOpcode(idin.opcode()) + " " + idin.bsm.getOwner() + '.' + idin.bsm.getName() + idin.bsm.getDesc()
+        + " : " + idin.name + idin.desc);
 
-        String desc = idin.desc;
-        String partedDesc = idin.desc.substring(2);
-        try {
-            if (Type.getType(partedDesc) != null)
-                desc = Type.getType(partedDesc).getClassName();
-
-            if (desc == null || desc.equals("null"))
-                desc = idin.desc;
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
-
+        if (idin.bsmArgs != null) {
+            for (Object o : idin.bsmArgs) {
+                sb.append(" ");
+                sb.append(o.toString());
+            }
         }
 
-        sb.append(desc);
+        return sb.toString();
+    }
 
-        sb.append(");");
+    private String printFrameNode(FrameNode frame) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(nameOpcode(frame.opcode()) + " ");
+
+        sb.append("(Locals");
+        if (frame.local != null
+                && frame.local.size() > 0) {
+            sb.append("[" + frame.local.size() + "]:");
+            sb.append(" ");
+            sb.append(frame.local.get(0).toString());
+            if (frame.local.size() > 1) {
+                for (int i = 1; i < frame.local.size(); i++) {
+                    sb.append(", ");
+                    sb.append(frame.local.get(i).toString());
+                }
+            }
+        } else {
+            sb.append("[0]: null");
+        }
+        sb.append(") ");
+
+        sb.append("(Stack");
+        if (frame.stack != null
+                && frame.stack.size() > 0) {
+            sb.append("[" + frame.stack.size() + "]:");
+            sb.append(" ");
+            sb.append(frame.stack.get(0).toString());
+            if (frame.stack.size() > 1) {
+                for (int i = 1; i < frame.stack.size(); i++) {
+                    sb.append(", ");
+                    sb.append(frame.stack.get(i).toString());
+                }
+            }
+        } else {
+            sb.append("[0]: null");
+        }
+        sb.append(")");
 
         return sb.toString();
     }
