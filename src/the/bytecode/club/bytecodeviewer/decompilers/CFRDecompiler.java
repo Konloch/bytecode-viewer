@@ -68,7 +68,7 @@ public class CFRDecompiler extends Decompiler {
         }
 
         String fuckery = fuckery(fileStart);
-        if (!BytecodeViewer.fatJar) {
+        /*if (!BytecodeViewer.fatJar) {
             try {
                 ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
                         new String[]{BytecodeViewer.getJavaCommand(), "-jar", Resources.findLibrary("cfr")},
@@ -85,7 +85,8 @@ public class CFRDecompiler extends Decompiler {
             }
         } else {
             org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
-        }
+        }*/
+        org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
 
         tempClass.delete();
 
