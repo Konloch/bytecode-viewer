@@ -121,7 +121,7 @@ public class ClassNodeDecompiler extends Decompiler {
         }
 
         if (!unableToDecompile.isEmpty()) {
-            sb.append("//the following inner classes couldn't be decompiled: ");
+            sb.append("// The following inner classes couldn't be decompiled: ");
             for (String s : unableToDecompile) {
                 sb.append(s);
                 sb.append(" ");
