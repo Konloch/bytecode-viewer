@@ -188,7 +188,7 @@ public class BytecodeViewer {
                 }
 
                 if (!BytecodeViewer.version.equals(version)) {
-                    r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/README.txt"));
+                    r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/CHANGELOG.md"));
                     String[] readme = r.read();
 
                     String changelog = "Unable to load change log, please try again later." + nl;
