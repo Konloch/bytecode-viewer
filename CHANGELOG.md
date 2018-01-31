@@ -342,4 +342,12 @@ Changelog:
 07/30/2015 - Affssdd fixed the File Navigator Pane's Quick Class Search.
 07/30/2015 - Fixed a process leak in KrakatauDisassembler.
 07/30/2015 - Started working on converting all the decompilers to launch in their own process in an effort to reduce BCV resources (only for non-fatjar version).
+--- 2.9.10 ---;
+1/30/2018 - Reverted back to what seemed like a stable 2.9.9 build and screwed around with it.
+1/31/2018 - That build was bugged, screw this and let's start over back from 2.9.8.
+1/31/2018 - Fixed CFR not showing (bug from 2.9.9)
+1/31/2018 - Beefed up Bytecode decompiler.
+1/31/2018 - Fomatted all the classes so GitHub doesn't show them as a mess.
+1/31/2018 - Made Krakatau and Enjarify work offline (assuming you have the libraries).
+1/31/2018 - Added stackframes remover.
 ```
