@@ -47,12 +47,7 @@ import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.CodeSequenceDiagram;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.AllatoriStringDecrypter;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowAllStrings;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowMainMethods;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZStringArrayDecrypter;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.*;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -299,6 +294,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public JMenuBar menuBar = new JMenuBar();
     public final JMenuItem mntmReplaceStrings = new JMenuItem(
             "Replace Strings");
+    public final JMenuItem mntmStackFramesRemover = new JMenuItem(
+            "StackFrames Remover");
     public final JMenuItem mntmNewMenuItem_4 = new JMenuItem("");
     public final JMenu mnNewMenu_3 = new JMenu("CFR");
     public final JMenu mnNewMenu_4 = new JMenu("Procyon");
@@ -2002,7 +1999,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
             }
         });
 
+        mntmStackFramesRemover.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PluginManager.runPlugin(new StackFramesRemover());
+            }
+        });
+
         mnNewMenu_1.add(mntmZstringarrayDecrypter);
+        mnNewMenu_1.add(mntmStackFramesRemover);
 
         menuBar.add(mntmNewMenuItem_4);
 
