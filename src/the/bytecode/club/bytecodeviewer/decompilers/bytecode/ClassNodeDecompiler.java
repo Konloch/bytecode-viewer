@@ -67,6 +67,10 @@ public class ClassNodeDecompiler extends Decompiler {
         }
         sb.append(" {");
         sb.append(BytecodeViewer.nl);
+        sb.append("     ");
+        sb.append("<ClassVersion=" + cn.version + ">");
+        sb.append(BytecodeViewer.nl);
+
         if (cn.sourceDebug != null) {
             sb.append("     ");
             sb.append("<SourceDebug=" + cn.sourceDebug + ">");
@@ -132,7 +136,7 @@ public class ClassNodeDecompiler extends Decompiler {
             }
         }
 
-        sb.append(BytecodeViewer.nl);
+        //sb.append(BytecodeViewer.nl);
         sb.append("}");
         // System.out.println("Wrote end for " + cn.name +
         // " with prefix length: " + sb.prefix.length());
