@@ -61,30 +61,30 @@ import org.apache.commons.codec.StringEncoder;
  * <p>
  * This class is immutable and thread-safe.
  *
+ * @version $Id$
  * @see <a href="http://en.wikipedia.org/wiki/NYSIIS">NYSIIS on Wikipedia</a>
  * @see <a href="http://www.dropby.com/NYSIIS.html">NYSIIS on dropby.com</a>
  * @see Soundex
  * @since 1.7
- * @version $Id$
  */
 public class Nysiis implements StringEncoder {
 
-    private static final char[] CHARS_A   = new char[] { 'A' };
-    private static final char[] CHARS_AF  = new char[] { 'A', 'F' };
-    private static final char[] CHARS_C   = new char[] { 'C' };
-    private static final char[] CHARS_FF  = new char[] { 'F', 'F' };
-    private static final char[] CHARS_G   = new char[] { 'G' };
-    private static final char[] CHARS_N   = new char[] { 'N' };
-    private static final char[] CHARS_NN  = new char[] { 'N', 'N' };
-    private static final char[] CHARS_S   = new char[] { 'S' };
-    private static final char[] CHARS_SSS = new char[] { 'S', 'S', 'S' };
+    private static final char[] CHARS_A = new char[]{'A'};
+    private static final char[] CHARS_AF = new char[]{'A', 'F'};
+    private static final char[] CHARS_C = new char[]{'C'};
+    private static final char[] CHARS_FF = new char[]{'F', 'F'};
+    private static final char[] CHARS_G = new char[]{'G'};
+    private static final char[] CHARS_N = new char[]{'N'};
+    private static final char[] CHARS_NN = new char[]{'N', 'N'};
+    private static final char[] CHARS_S = new char[]{'S'};
+    private static final char[] CHARS_SSS = new char[]{'S', 'S', 'S'};
 
-    private static final Pattern PAT_MAC    = Pattern.compile("^MAC");
-    private static final Pattern PAT_KN     = Pattern.compile("^KN");
-    private static final Pattern PAT_K      = Pattern.compile("^K");
-    private static final Pattern PAT_PH_PF  = Pattern.compile("^(PH|PF)");
-    private static final Pattern PAT_SCH    = Pattern.compile("^SCH");
-    private static final Pattern PAT_EE_IE  = Pattern.compile("(EE|IE)$");
+    private static final Pattern PAT_MAC = Pattern.compile("^MAC");
+    private static final Pattern PAT_KN = Pattern.compile("^KN");
+    private static final Pattern PAT_K = Pattern.compile("^K");
+    private static final Pattern PAT_PH_PF = Pattern.compile("^(PH|PF)");
+    private static final Pattern PAT_SCH = Pattern.compile("^SCH");
+    private static final Pattern PAT_EE_IE = Pattern.compile("(EE|IE)$");
     private static final Pattern PAT_DT_ETC = Pattern.compile("(DT|RT|RD|NT|ND)$");
 
     private static final char SPACE = ' ';
@@ -93,8 +93,7 @@ public class Nysiis implements StringEncoder {
     /**
      * Tests if the given character is a vowel.
      *
-     * @param c
-     *            the character to test
+     * @param c the character to test
      * @return <code>true</code> if the character is a vowel, <code>false</code> otherwise
      */
     private static boolean isVowel(final char c) {
@@ -105,14 +104,10 @@ public class Nysiis implements StringEncoder {
      * Transcodes the remaining parts of the String. The method operates on a sliding window, looking at 4 characters at
      * a time: [i-1, i, i+1, i+2].
      *
-     * @param prev
-     *            the previous character
-     * @param curr
-     *            the current character
-     * @param next
-     *            the next character
-     * @param aNext
-     *            the after next character
+     * @param prev  the previous character
+     * @param curr  the current character
+     * @param next  the next character
+     * @param aNext the after next character
      * @return a transcoded array of characters, starting from the current position
      */
     private static char[] transcodeRemaining(final char prev, final char curr, final char next, final char aNext) {
@@ -156,18 +151,20 @@ public class Nysiis implements StringEncoder {
 
         // 5. H -> If previous or next is a non vowel, previous.
         if (curr == 'H' && (!isVowel(prev) || !isVowel(next))) {
-            return new char[] { prev };
+            return new char[]{prev};
         }
 
         // 6. W -> If previous is vowel, previous.
         if (curr == 'W' && isVowel(prev)) {
-            return new char[] { prev };
+            return new char[]{prev};
         }
 
-        return new char[] { curr };
+        return new char[]{curr};
     }
 
-    /** Indicates the strict mode. */
+    /**
+     * Indicates the strict mode.
+     */
     private final boolean strict;
 
     /**
@@ -180,14 +177,13 @@ public class Nysiis implements StringEncoder {
 
     /**
      * Create an instance of the {@link Nysiis} encoder with the specified strict mode:
-     *
+     * <p>
      * <ul>
-     *  <li><code>true</code>: encoded strings have a maximum length of 6</li>
-     *  <li><code>false</code>: encoded strings may have arbitrary length</li>
+     * <li><code>true</code>: encoded strings have a maximum length of 6</li>
+     * <li><code>false</code>: encoded strings may have arbitrary length</li>
      * </ul>
      *
-     * @param strict
-     *            the strict mode
+     * @param strict the strict mode
      */
     public Nysiis(final boolean strict) {
         this.strict = strict;
@@ -198,13 +194,10 @@ public class Nysiis implements StringEncoder {
      * Encoder interface, and will throw an {@link EncoderException} if the supplied object is not of type
      * {@link String}.
      *
-     * @param obj
-     *            Object to encode
+     * @param obj Object to encode
      * @return An object (or a {@link String}) containing the NYSIIS code which corresponds to the given String.
-     * @throws EncoderException
-     *            if the parameter supplied is not of a {@link String}
-     * @throws IllegalArgumentException
-     *            if a character is not mapped
+     * @throws EncoderException         if the parameter supplied is not of a {@link String}
+     * @throws IllegalArgumentException if a character is not mapped
      */
     @Override
     public Object encode(final Object obj) throws EncoderException {
@@ -217,11 +210,9 @@ public class Nysiis implements StringEncoder {
     /**
      * Encodes a String using the NYSIIS algorithm.
      *
-     * @param str
-     *            A String object to encode
+     * @param str A String object to encode
      * @return A Nysiis code corresponding to the String supplied
-     * @throws IllegalArgumentException
-     *            if a character is not mapped
+     * @throws IllegalArgumentException if a character is not mapped
      */
     @Override
     public String encode(final String str) {
@@ -240,8 +231,7 @@ public class Nysiis implements StringEncoder {
     /**
      * Retrieves the NYSIIS code for a given String object.
      *
-     * @param str
-     *            String to encode using the NYSIIS algorithm
+     * @param str String to encode using the NYSIIS algorithm
      * @return A NYSIIS code for the String supplied
      */
     public String nysiis(String str) {
@@ -315,5 +305,4 @@ public class Nysiis implements StringEncoder {
         final String string = key.toString();
         return this.isStrict() ? string.substring(0, Math.min(TRUE_LENGTH, string.length())) : string;
     }
-
 }

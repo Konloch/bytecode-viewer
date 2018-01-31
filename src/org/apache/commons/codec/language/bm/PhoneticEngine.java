@@ -47,8 +47,8 @@ import org.apache.commons.codec.language.bm.Rule.Phoneme;
  * <p>
  * Ported from phoneticengine.php
  *
- * @since 1.6
  * @version $Id$
+ * @since 1.6
  */
 public class PhoneticEngine {
 
@@ -66,7 +66,7 @@ public class PhoneticEngine {
          * phoneme from scratch.
          *
          * @param languages the set of languages
-         * @return  a new, empty phoneme builder
+         * @return a new, empty phoneme builder
          */
         public static PhonemeBuilder empty(final Languages.LanguageSet languages) {
             return new PhonemeBuilder(new Rule.Phoneme("", languages));
@@ -86,7 +86,7 @@ public class PhoneticEngine {
         /**
          * Creates a new phoneme builder containing all phonemes in this one extended by <code>str</code>.
          *
-         * @param str   the characters to append to the phonemes
+         * @param str the characters to append to the phonemes
          */
         public void append(final CharSequence str) {
             for (final Rule.Phoneme ph : this.phonemes) {
@@ -100,13 +100,14 @@ public class PhoneticEngine {
          * This will lengthen phonemes that have compatible language sets to the expression, and drop those that are
          * incompatible.
          *
-         * @param phonemeExpr   the expression to apply
-         * @param maxPhonemes   the maximum number of phonemes to build up
+         * @param phonemeExpr the expression to apply
+         * @param maxPhonemes the maximum number of phonemes to build up
          */
         public void apply(final Rule.PhonemeExpr phonemeExpr, final int maxPhonemes) {
             final Set<Rule.Phoneme> newPhonemes = new LinkedHashSet<Rule.Phoneme>(maxPhonemes);
 
-            EXPR: for (final Rule.Phoneme left : this.phonemes) {
+            EXPR:
+            for (final Rule.Phoneme left : this.phonemes) {
                 for (final Rule.Phoneme right : phonemeExpr.getPhonemes()) {
                     final LanguageSet languages = left.getLanguages().restrictTo(right.getLanguages());
                     if (!languages.isEmpty()) {
@@ -128,7 +129,7 @@ public class PhoneticEngine {
         /**
          * Gets underlying phoneme set. Please don't mutate.
          *
-         * @return  the phoneme set
+         * @return the phoneme set
          */
         public Set<Rule.Phoneme> getPhonemes() {
             return this.phonemes;
@@ -139,7 +140,7 @@ public class PhoneticEngine {
          * joined with a pipe. This is explicitly provided in place of toString as it is a potentially
          * expensive operation, which should be avoided when debugging.
          *
-         * @return  the stringified phoneme set
+         * @return the stringified phoneme set
          */
         public String makeString() {
             final StringBuilder sb = new StringBuilder();
@@ -162,9 +163,10 @@ public class PhoneticEngine {
      * processed already), and <code>found</code> indicates if a matching rule was found or not. In the case where a
      * matching rule was found, <code>phonemeBuilder</code> is replaced with a new builder containing the phonemes
      * updated by the matching rule.
-     *
+     * <p>
      * Although this class is not thread-safe (it has mutable unprotected fields), it is not shared between threads
      * as it is constructed as needed by the calling methods.
+     *
      * @since 1.6
      */
     private static final class RulesApplication {
@@ -206,7 +208,7 @@ public class PhoneticEngine {
         public RulesApplication invoke() {
             this.found = false;
             int patternLength = 1;
-            final List<Rule> rules = this.finalRules.get(input.subSequence(i, i+patternLength));
+            final List<Rule> rules = this.finalRules.get(input.subSequence(i, i + patternLength));
             if (rules != null) {
                 for (final Rule rule : rules) {
                     final String pattern = rule.getPattern();
@@ -241,17 +243,18 @@ public class PhoneticEngine {
         NAME_PREFIXES.put(NameType.SEPHARDIC,
                 Collections.unmodifiableSet(
                         new HashSet<String>(Arrays.asList("al", "el", "da", "dal", "de", "del", "dela", "de la",
-                                                          "della", "des", "di", "do", "dos", "du", "van", "von"))));
+                                "della", "des", "di", "do", "dos", "du", "van", "von"))));
         NAME_PREFIXES.put(NameType.GENERIC,
                 Collections.unmodifiableSet(
                         new HashSet<String>(Arrays.asList("da", "dal", "de", "del", "dela", "de la", "della",
-                                                          "des", "di", "do", "dos", "du", "van", "von"))));
+                                "des", "di", "do", "dos", "du", "van", "von"))));
     }
 
     /**
      * Joins some strings with an internal separator.
-     * @param strings   Strings to join
-     * @param sep       String to separate them with
+     *
+     * @param strings Strings to join
+     * @param sep     String to separate them with
      * @return a single String consisting of each element of <code>strings</code> interleaved by <code>sep</code>
      */
     private static String join(final Iterable<String> strings, final String sep) {
@@ -282,12 +285,9 @@ public class PhoneticEngine {
     /**
      * Generates a new, fully-configured phonetic engine.
      *
-     * @param nameType
-     *            the type of names it will use
-     * @param ruleType
-     *            the type of rules it will apply
-     * @param concat
-     *            if it will concatenate multiple encodings
+     * @param nameType the type of names it will use
+     * @param ruleType the type of rules it will apply
+     * @param concat   if it will concatenate multiple encodings
      */
     public PhoneticEngine(final NameType nameType, final RuleType ruleType, final boolean concat) {
         this(nameType, ruleType, concat, DEFAULT_MAX_PHONEMES);
@@ -296,14 +296,10 @@ public class PhoneticEngine {
     /**
      * Generates a new, fully-configured phonetic engine.
      *
-     * @param nameType
-     *            the type of names it will use
-     * @param ruleType
-     *            the type of rules it will apply
-     * @param concat
-     *            if it will concatenate multiple encodings
-     * @param maxPhonemes
-     *            the maximum number of phonemes that will be handled
+     * @param nameType    the type of names it will use
+     * @param ruleType    the type of rules it will apply
+     * @param concat      if it will concatenate multiple encodings
+     * @param maxPhonemes the maximum number of phonemes that will be handled
      * @since 1.7
      */
     public PhoneticEngine(final NameType nameType, final RuleType ruleType, final boolean concat,
@@ -323,7 +319,7 @@ public class PhoneticEngine {
      * language-independent representation.
      *
      * @param phonemeBuilder the current phonemes
-     * @param finalRules the final rules to apply
+     * @param finalRules     the final rules to apply
      * @return the resulting phonemes
      */
     private PhonemeBuilder applyFinalRules(final PhonemeBuilder phonemeBuilder,
@@ -336,13 +332,13 @@ public class PhoneticEngine {
         }
 
         final Map<Rule.Phoneme, Rule.Phoneme> phonemes =
-            new TreeMap<Rule.Phoneme, Rule.Phoneme>(Rule.Phoneme.COMPARATOR);
+                new TreeMap<Rule.Phoneme, Rule.Phoneme>(Rule.Phoneme.COMPARATOR);
 
         for (final Rule.Phoneme phoneme : phonemeBuilder.getPhonemes()) {
             PhonemeBuilder subBuilder = PhonemeBuilder.empty(phoneme.getLanguages());
             final String phonemeText = phoneme.getPhonemeText().toString();
 
-            for (int i = 0; i < phonemeText.length();) {
+            for (int i = 0; i < phonemeText.length(); ) {
                 final RulesApplication rulesApplication =
                         new RulesApplication(finalRules, phonemeText, subBuilder, i, maxPhonemes).invoke();
                 final boolean found = rulesApplication.isFound();
@@ -376,8 +372,7 @@ public class PhoneticEngine {
     /**
      * Encodes a string to its phonetic representation.
      *
-     * @param input
-     *            the String to encode
+     * @param input the String to encode
      * @return the encoding of the input
      */
     public String encode(final String input) {
@@ -388,12 +383,10 @@ public class PhoneticEngine {
     /**
      * Encodes an input string into an output phonetic representation, given a set of possible origin languages.
      *
-     * @param input
-     *            String to phoneticise; a String with dashes or spaces separating each word
-     * @param languageSet
-     *            set of possible origin languages
+     * @param input       String to phoneticise; a String with dashes or spaces separating each word
+     * @param languageSet set of possible origin languages
      * @return a phonetic representation of the input; a String containing '-'-separated phonetic representations of the
-     *         input
+     * input
      */
     public String encode(String input, final Languages.LanguageSet languageSet) {
         final Map<String, List<Rule>> rules = Rule.getInstanceMap(this.nameType, RuleType.RULES, languageSet);
@@ -428,23 +421,23 @@ public class PhoneticEngine {
 
         // special-case handling of word prefixes based upon the name type
         switch (this.nameType) {
-        case SEPHARDIC:
-            for (final String aWord : words) {
-                final String[] parts = aWord.split("'");
-                final String lastPart = parts[parts.length - 1];
-                words2.add(lastPart);
-            }
-            words2.removeAll(NAME_PREFIXES.get(this.nameType));
-            break;
-        case ASHKENAZI:
-            words2.addAll(words);
-            words2.removeAll(NAME_PREFIXES.get(this.nameType));
-            break;
-        case GENERIC:
-            words2.addAll(words);
-            break;
-        default:
-            throw new IllegalStateException("Unreachable case: " + this.nameType);
+            case SEPHARDIC:
+                for (final String aWord : words) {
+                    final String[] parts = aWord.split("'");
+                    final String lastPart = parts[parts.length - 1];
+                    words2.add(lastPart);
+                }
+                words2.removeAll(NAME_PREFIXES.get(this.nameType));
+                break;
+            case ASHKENAZI:
+                words2.addAll(words);
+                words2.removeAll(NAME_PREFIXES.get(this.nameType));
+                break;
+            case GENERIC:
+                words2.addAll(words);
+                break;
+            default:
+                throw new IllegalStateException("Unreachable case: " + this.nameType);
         }
 
         if (this.concat) {
@@ -466,7 +459,7 @@ public class PhoneticEngine {
         PhonemeBuilder phonemeBuilder = PhonemeBuilder.empty(languageSet);
 
         // loop over each char in the input - we will handle the increment manually
-        for (int i = 0; i < input.length();) {
+        for (int i = 0; i < input.length(); ) {
             final RulesApplication rulesApplication =
                     new RulesApplication(rules, input, phonemeBuilder, i, maxPhonemes).invoke();
             i = rulesApplication.getI();

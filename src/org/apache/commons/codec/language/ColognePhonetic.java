@@ -32,11 +32,11 @@ import org.apache.commons.codec.StringEncoder;
  * The <i>K&ouml;lner Phonetik</i> is a phonetic algorithm which is optimized for the German language. It is related to
  * the well-known soundex algorithm.
  * </p>
- *
+ * <p>
  * <h2>Algorithm</h2>
- *
+ * <p>
  * <ul>
- *
+ * <p>
  * <li>
  * <h3>Step 1:</h3>
  * After preprocessing (conversion to upper case, transcription of <a
@@ -57,7 +57,7 @@ import org.apache.commons.codec.StringEncoder;
  * <td align="center">0</td>
  * </tr>
  * <tr>
- *
+ * <p>
  * <td>H</td>
  * <td></td>
  * <td align="center">-</td>
@@ -70,7 +70,7 @@ import org.apache.commons.codec.StringEncoder;
  * <tr>
  * <td>P</td>
  * <td>not before H</td>
- *
+ * <p>
  * </tr>
  * <tr>
  * <td>D, T</td>
@@ -83,7 +83,7 @@ import org.apache.commons.codec.StringEncoder;
  * <td rowspan="2" align="center">3</td>
  * </tr>
  * <tr>
- *
+ * <p>
  * <td>P</td>
  * <td>before H</td>
  * </tr>
@@ -95,7 +95,7 @@ import org.apache.commons.codec.StringEncoder;
  * <tr>
  * <td rowspan="2">C</td>
  * <td>at onset before A, H, K, L, O, Q, R, U, X</td>
- *
+ * <p>
  * </tr>
  * <tr>
  * <td>before A, H, K, O, Q, U, X except after S, Z</td>
@@ -108,7 +108,7 @@ import org.apache.commons.codec.StringEncoder;
  * <tr>
  * <td>L</td>
  * <td></td>
- *
+ * <p>
  * <td align="center">5</td>
  * </tr>
  * <tr>
@@ -121,7 +121,7 @@ import org.apache.commons.codec.StringEncoder;
  * <td></td>
  * <td align="center">7</td>
  * </tr>
- *
+ * <p>
  * <tr>
  * <td>S, Z</td>
  * <td></td>
@@ -134,7 +134,7 @@ import org.apache.commons.codec.StringEncoder;
  * <tr>
  * <td>at onset except before A, H, K, L, O, Q, R, U, X</td>
  * </tr>
- *
+ * <p>
  * <tr>
  * <td>not before A, H, K, O, Q, U, X</td>
  * </tr>
@@ -148,30 +148,30 @@ import org.apache.commons.codec.StringEncoder;
  * </tr>
  * </tbody>
  * </table>
- *
+ * <p>
  * <h4>Example:</h4>
- *
+ * <p>
  * <code>"M</code>&uuml;<code>ller-L</code>&uuml;
  * <code>denscheidt" =&gt; "MULLERLUDENSCHEIDT" =&gt; "6005507500206880022"</code>
- *
+ * <p>
  * </li>
- *
+ * <p>
  * <li>
  * <h3>Step 2:</h3>
  * Collapse of all multiple consecutive code digits.
  * <h4>Example:</h4>
  * <code>"6005507500206880022" =&gt; "6050750206802"</code></li>
- *
+ * <p>
  * <li>
  * <h3>Step 3:</h3>
  * Removal of all codes "0" except at the beginning. This means that two or more identical consecutive digits can occur
  * if they occur after removing the "0" digits.
- *
+ * <p>
  * <h4>Example:</h4>
  * <code>"6050750206802" =&gt; "65752682"</code></li>
- *
+ * <p>
  * </ul>
- *
+ * <p>
  * <p>
  * This class is thread-safe.
  * </p>
@@ -182,15 +182,15 @@ import org.apache.commons.codec.StringEncoder;
 public class ColognePhonetic implements StringEncoder {
 
     // Predefined char arrays for better performance and less GC load
-    private static final char[] AEIJOUY = new char[] { 'A', 'E', 'I', 'J', 'O', 'U', 'Y' };
-    private static final char[] SCZ = new char[] { 'S', 'C', 'Z' };
-    private static final char[] WFPV = new char[] { 'W', 'F', 'P', 'V' };
-    private static final char[] GKQ = new char[] { 'G', 'K', 'Q' };
-    private static final char[] CKQ = new char[] { 'C', 'K', 'Q' };
-    private static final char[] AHKLOQRUX = new char[] { 'A', 'H', 'K', 'L', 'O', 'Q', 'R', 'U', 'X' };
-    private static final char[] SZ = new char[] { 'S', 'Z' };
-    private static final char[] AHOUKQX = new char[] { 'A', 'H', 'O', 'U', 'K', 'Q', 'X' };
-    private static final char[] TDX = new char[] { 'T', 'D', 'X' };
+    private static final char[] AEIJOUY = new char[]{'A', 'E', 'I', 'J', 'O', 'U', 'Y'};
+    private static final char[] SCZ = new char[]{'S', 'C', 'Z'};
+    private static final char[] WFPV = new char[]{'W', 'F', 'P', 'V'};
+    private static final char[] GKQ = new char[]{'G', 'K', 'Q'};
+    private static final char[] CKQ = new char[]{'C', 'K', 'Q'};
+    private static final char[] AHKLOQRUX = new char[]{'A', 'H', 'K', 'L', 'O', 'Q', 'R', 'U', 'X'};
+    private static final char[] SZ = new char[]{'S', 'Z'};
+    private static final char[] AHOUKQX = new char[]{'A', 'H', 'O', 'U', 'K', 'Q', 'X'};
+    private static final char[] TDX = new char[]{'T', 'D', 'X'};
 
     /**
      * This class is not thread-safe; the field {@link #length} is mutable.
@@ -287,10 +287,10 @@ public class ColognePhonetic implements StringEncoder {
      * </ul>
      */
     private static final char[][] PREPROCESS_MAP = new char[][]{
-        {'\u00C4', 'A'}, // capital a, umlaut mark
-        {'\u00DC', 'U'}, // capital u, umlaut mark
-        {'\u00D6', 'O'}, // capital o, umlaut mark
-        {'\u00DF', 'S'} // small sharp s, German
+            {'\u00C4', 'A'}, // capital a, umlaut mark
+            {'\u00DC', 'U'}, // capital u, umlaut mark
+            {'\u00D6', 'O'}, // capital o, umlaut mark
+            {'\u00DF', 'S'} // small sharp s, German
     };
 
     /*
@@ -405,10 +405,10 @@ public class ColognePhonetic implements StringEncoder {
     public Object encode(final Object object) throws EncoderException {
         if (!(object instanceof String)) {
             throw new EncoderException("This method's parameter was expected to be of the type " +
-                String.class.getName() +
-                ". But actually it was of the type " +
-                object.getClass().getName() +
-                ".");
+                    String.class.getName() +
+                    ". But actually it was of the type " +
+                    object.getClass().getName() +
+                    ".");
         }
         return encode((String) object);
     }

@@ -35,7 +35,7 @@ import org.objectweb.asm.Opcodes;
 /**
  * An {@link AnnotationVisitor} that prints the annotations it visits with a
  * {@link Printer}.
- * 
+ *
  * @author Eric Bruneton
  */
 public final class TraceAnnotationVisitor extends AnnotationVisitor {
@@ -59,14 +59,14 @@ public final class TraceAnnotationVisitor extends AnnotationVisitor {
 
     @Override
     public void visitEnum(final String name, final String desc,
-            final String value) {
+                          final String value) {
         p.visitEnum(name, desc, value);
         super.visitEnum(name, desc, value);
     }
 
     @Override
     public AnnotationVisitor visitAnnotation(final String name,
-            final String desc) {
+                                             final String desc) {
         Printer p = this.p.visitAnnotation(name, desc);
         AnnotationVisitor av = this.av == null ? null : this.av
                 .visitAnnotation(name, desc);

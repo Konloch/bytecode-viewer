@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,8 +22,7 @@ package org.apache.commons.cli;
  *
  * @version $Id: Util.java 1443102 2013-02-06 18:12:16Z tn $
  */
-final class Util
-{
+final class Util {
     /**
      * Remove the hyphens from the beginning of <code>str</code> and
      * return the new String.
@@ -32,18 +31,13 @@ final class Util
      *
      * @return the new String.
      */
-    static String stripLeadingHyphens(String str)
-    {
-        if (str == null)
-        {
+    static String stripLeadingHyphens(String str) {
+        if (str == null) {
             return null;
         }
-        if (str.startsWith("--"))
-        {
+        if (str.startsWith("--")) {
             return str.substring(2, str.length());
-        }
-        else if (str.startsWith("-"))
-        {
+        } else if (str.startsWith("-")) {
             return str.substring(1, str.length());
         }
 
@@ -59,14 +53,12 @@ final class Util
      *
      * @return The string without the leading and trailing quotes.
      */
-    static String stripLeadingAndTrailingQuotes(String str)
-    {
+    static String stripLeadingAndTrailingQuotes(String str) {
         int length = str.length();
-        if (length > 1 && str.startsWith("\"") && str.endsWith("\"") && str.substring(1, length - 1).indexOf('"') == -1)
-        {
+        if (length > 1 && str.startsWith("\"") && str.endsWith("\"") && str.substring(1, length - 1).indexOf('"') == -1) {
             str = str.substring(1, length - 1);
         }
-        
+
         return str;
     }
 }

@@ -35,18 +35,18 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
  */
 public class RubyPluginLaunchStrategy implements PluginLaunchStrategy {
 
-	@Override
-	public Plugin run(File file) throws Throwable {
-		ScriptEngineManager manager = new ScriptEngineManager();
-		ScriptEngine engine = manager.getEngineByName("jruby");
+    @Override
+    public Plugin run(File file) throws Throwable {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("jruby");
 
-		if (engine == null)
-			throw new Exception(
-					"Cannot find jRuby script engine! Please contact Konloch.");
+        if (engine == null)
+            throw new Exception(
+                    "Cannot find jRuby script engine! Please contact Konloch.");
 
-		Reader reader = new FileReader(file);
-		engine.eval(reader);
+        Reader reader = new FileReader(file);
+        engine.eval(reader);
 
-		return (Plugin) engine.eval(file.getName().replace(".rb", "").replace(".ruby", "") + ".new");
-	}
+        return (Plugin) engine.eval(file.getName().replace(".rb", "").replace(".ruby", "") + ".new");
+    }
 }

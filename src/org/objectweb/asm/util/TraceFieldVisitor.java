@@ -38,7 +38,7 @@ import org.objectweb.asm.TypePath;
 /**
  * A {@link FieldVisitor} that prints the fields it visits with a
  * {@link Printer}.
- * 
+ *
  * @author Eric Bruneton
  */
 public final class TraceFieldVisitor extends FieldVisitor {
@@ -56,7 +56,7 @@ public final class TraceFieldVisitor extends FieldVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
+                                             final boolean visible) {
         Printer p = this.p.visitFieldAnnotation(desc, visible);
         AnnotationVisitor av = fv == null ? null : fv.visitAnnotation(desc,
                 visible);
@@ -65,7 +65,7 @@ public final class TraceFieldVisitor extends FieldVisitor {
 
     @Override
     public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
+                                                 TypePath typePath, String desc, boolean visible) {
         Printer p = this.p.visitFieldTypeAnnotation(typeRef, typePath, desc,
                 visible);
         AnnotationVisitor av = fv == null ? null : fv.visitTypeAnnotation(

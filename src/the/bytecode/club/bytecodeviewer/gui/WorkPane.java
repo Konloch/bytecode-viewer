@@ -196,5 +196,4 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 		tabs.removeAll();
 		tabs.updateUI();
 	}
-
 }

@@ -36,7 +36,7 @@ import org.objectweb.asm.MethodVisitor;
 /**
  * A node that represents a line number declaration. These nodes are pseudo
  * instruction nodes in order to be inserted in an instruction list.
- * 
+ *
  * @author Eric Bruneton
  */
 public class LineNumberNode extends AbstractInsnNode {
@@ -54,12 +54,10 @@ public class LineNumberNode extends AbstractInsnNode {
 
     /**
      * Constructs a new {@link LineNumberNode}.
-     * 
-     * @param line
-     *            a line number. This number refers to the source file from
-     *            which the class was compiled.
-     * @param start
-     *            the first instruction corresponding to this line number.
+     *
+     * @param line  a line number. This number refers to the source file from
+     *              which the class was compiled.
+     * @param start the first instruction corresponding to this line number.
      */
     public LineNumberNode(final int line, final LabelNode start) {
         super(-1);

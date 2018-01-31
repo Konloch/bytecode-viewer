@@ -12,10 +12,10 @@ import org.objectweb.asm.tree.MethodNode;
 public class CallVisitor extends MethodVisitor {
 
     public CallVisitor() {
-		super(Opcodes.ASM5);
-	}
+        super(Opcodes.ASM5);
+    }
 
-	public final CallGraph graph = new CallGraph();
+    public final CallGraph graph = new CallGraph();
 
     private MethodNode mn;
 
@@ -23,16 +23,16 @@ public class CallVisitor extends MethodVisitor {
         this.mn = mn;
         mn.accept(this);
     }
-    
+
     @Override
-	public void visitMethodInsn(int opcode, String owner, String name, String desc) {
+    public void visitMethodInsn(int opcode, String owner, String name, String desc) {
         graph.addMethodCall(mn.handle, new Handle(0, owner, name, desc));
 
     }
-    
+
     @Override
-	public void visitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf) {
+    public void visitMethodInsn(int opcode, String owner, String name,
+                                String desc, boolean itf) {
         graph.addMethodCall(mn.handle, new Handle(0, owner, name, desc));
 
     }

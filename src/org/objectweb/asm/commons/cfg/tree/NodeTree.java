@@ -26,12 +26,12 @@ public class NodeTree extends AbstractNode {
     }
 
     @Override
-	public MethodNode method() {
+    public MethodNode method() {
         return mn;
     }
 
     @Override
-	public void accept(NodeVisitor nv) {
+    public void accept(NodeVisitor nv) {
         if (!nv.validate()) return;
         nv.visitCode();
         for (AbstractNode node : this)
@@ -47,7 +47,7 @@ public class NodeTree extends AbstractNode {
     }
 
     @Override
-	public AbstractInsnNode[] collapse() {
+    public AbstractInsnNode[] collapse() {
         AbstractInsnNode[] instructions = super.collapse();
         int i = instructions.length > 1 && instructions[instructions.length - 2].type() == LABEL ? 2 : 1;
         return Arrays.copyOf(instructions, instructions.length - i);

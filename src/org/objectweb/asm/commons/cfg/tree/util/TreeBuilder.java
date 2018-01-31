@@ -41,6 +41,9 @@ import org.objectweb.asm.tree.VarInsnNode;
 public class TreeBuilder {
 
     public static final int[] CDS, PDS;
+    private int treeIndex = -1;
+    public long create = 0;
+    public long iterate = 0;
 
     static {
         CDS = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 3, 4, 3, 3, 3, 3, 1, 2, 1, 2, 3, 2, 3, 4, 2, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 2, 4, 1, 2, 1, 2, 2, 3, 2, 3, 2, 3, 2, 4, 2, 4, 2, 4, 0, 1, 1, 1, 2, 2, 2, 1, 1, 1, 2, 2, 2, 1, 1, 1, 4, 2, 2, 4, 4, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 1, 1, 1, 2, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0};
@@ -135,8 +138,6 @@ public class TreeBuilder {
         }
     }
 
-    private int treeIndex = -1;
-
     private AbstractNode iterate(List<AbstractNode> nodes) {
         if (treeIndex < 0) {
             return null;
@@ -166,9 +167,6 @@ public class TreeBuilder {
         }
         return node;
     }
-
-    public long create = 0;
-    public long iterate = 0;
 
     public NodeTree build(MethodNode mn) {
         NodeTree tree = new NodeTree(mn);
@@ -205,7 +203,7 @@ public class TreeBuilder {
         iterate += (end - start);
         return tree;
     }
-    
+
 //    public NodeTree build(MethodNode method, FlowBlock block) {
 //        NodeTree tree = new NodeTree(method);
 //        List<AbstractNode> nodes = new ArrayList<>();

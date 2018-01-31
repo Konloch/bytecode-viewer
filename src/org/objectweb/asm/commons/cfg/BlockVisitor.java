@@ -15,5 +15,6 @@ public abstract class BlockVisitor implements Opcodes {
 
     public abstract void visit(Block block);
 
-    public void visitEnd() {}
+    public void visitEnd() {
+    }
 }

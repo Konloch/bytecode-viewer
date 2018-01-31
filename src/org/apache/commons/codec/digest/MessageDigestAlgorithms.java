@@ -27,10 +27,10 @@ import java.security.MessageDigest;
  * </p>
  * TODO 2.0 This should be an enum.
  *
- * @see <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/security/StandardNames.html">Java Cryptography
- *      Architecture Standard Algorithm Name Documentation</a>
- * @since 1.7
  * @version $Id$
+ * @see <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/security/StandardNames.html">Java Cryptography
+ * Architecture Standard Algorithm Name Documentation</a>
+ * @since 1.7
  */
 public class MessageDigestAlgorithms {
 
@@ -54,11 +54,11 @@ public class MessageDigestAlgorithms {
     public static final String SHA_1 = "SHA-1";
 
     /**
-     * The SHA-224 hash algorithm defined in the FIPS PUB 180-4. 
+     * The SHA-224 hash algorithm defined in the FIPS PUB 180-4.
      * <p>
      * Java 8 only.
      * </p>
-     * 
+     *
      * @since 1.11
      */
     public static final String SHA_224 = "SHA-224";
@@ -77,5 +77,4 @@ public class MessageDigestAlgorithms {
      * The SHA-512 hash algorithm defined in the FIPS PUB 180-2.
      */
     public static final String SHA_512 = "SHA-512";
-
 }

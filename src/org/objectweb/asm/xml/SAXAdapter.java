@@ -35,7 +35,7 @@ import org.xml.sax.SAXException;
 
 /**
  * SAXAdapter
- * 
+ *
  * @author Eugene Kuleshov
  */
 public class SAXAdapter {

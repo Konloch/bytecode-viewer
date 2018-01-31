@@ -39,7 +39,7 @@ import org.objectweb.asm.TypePath;
 
 /**
  * A {@link ClassVisitor} for type remapping.
- * 
+ *
  * @author Eugene Kuleshov
  */
 public class RemappingClassAdapter extends ClassVisitor {
@@ -53,17 +53,17 @@ public class RemappingClassAdapter extends ClassVisitor {
     }
 
     protected RemappingClassAdapter(final int api, final ClassVisitor cv,
-            final Remapper remapper) {
+                                    final Remapper remapper) {
         super(api, cv);
         this.remapper = remapper;
     }
 
     @Override
     public void visit(int version, int access, String name, String signature,
-            String superName, String[] interfaces) {
+                      String superName, String[] interfaces) {
         this.className = name;
         super.visit(version, access, remapper.mapType(name), remapper
-                .mapSignature(signature, false), remapper.mapType(superName),
+                        .mapSignature(signature, false), remapper.mapType(superName),
                 interfaces == null ? null : remapper.mapTypes(interfaces));
     }
 
@@ -76,7 +76,7 @@ public class RemappingClassAdapter extends ClassVisitor {
 
     @Override
     public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
+                                                 TypePath typePath, String desc, boolean visible) {
         AnnotationVisitor av = super.visitTypeAnnotation(typeRef, typePath,
                 remapper.mapDesc(desc), visible);
         return av == null ? null : createRemappingAnnotationAdapter(av);
@@ -84,7 +84,7 @@ public class RemappingClassAdapter extends ClassVisitor {
 
     @Override
     public FieldVisitor visitField(int access, String name, String desc,
-            String signature, Object value) {
+                                   String signature, Object value) {
         FieldVisitor fv = super.visitField(access,
                 remapper.mapFieldName(className, name, desc),
                 remapper.mapDesc(desc), remapper.mapSignature(signature, true),
@@ -94,7 +94,7 @@ public class RemappingClassAdapter extends ClassVisitor {
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc,
-            String signature, String[] exceptions) {
+                                     String signature, String[] exceptions) {
         String newDesc = remapper.mapMethodDesc(desc);
         MethodVisitor mv = super.visitMethod(access, remapper.mapMethodName(
                 className, name, desc), newDesc, remapper.mapSignature(
@@ -106,7 +106,7 @@ public class RemappingClassAdapter extends ClassVisitor {
 
     @Override
     public void visitInnerClass(String name, String outerName,
-            String innerName, int access) {
+                                String innerName, int access) {
         // TODO should innerName be changed?
         super.visitInnerClass(remapper.mapType(name), outerName == null ? null
                 : remapper.mapType(outerName), innerName, access);
@@ -115,7 +115,7 @@ public class RemappingClassAdapter extends ClassVisitor {
     @Override
     public void visitOuterClass(String owner, String name, String desc) {
         super.visitOuterClass(remapper.mapType(owner), name == null ? null
-                : remapper.mapMethodName(owner, name, desc),
+                        : remapper.mapMethodName(owner, name, desc),
                 desc == null ? null : remapper.mapMethodDesc(desc));
     }
 
@@ -124,7 +124,7 @@ public class RemappingClassAdapter extends ClassVisitor {
     }
 
     protected MethodVisitor createRemappingMethodAdapter(int access,
-            String newDesc, MethodVisitor mv) {
+                                                         String newDesc, MethodVisitor mv) {
         return new RemappingMethodAdapter(access, newDesc, mv, remapper);
     }
 

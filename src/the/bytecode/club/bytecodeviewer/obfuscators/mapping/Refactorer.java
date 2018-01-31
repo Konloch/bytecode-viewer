@@ -38,7 +38,7 @@ public class Refactorer {
     public Refactorer() {
         hooks = new HookMap();
     }
-    
+
     public HookMap getHooks() {
         return hooks;
     }
@@ -46,7 +46,7 @@ public class Refactorer {
     public void run() {
         if (getHooks() == null)
             return;
-        
+
         RefactorMapper mapper = new RefactorMapper(getHooks());
         Map<String, ClassNode> refactored = new HashMap<>();
         for (ClassNode cn : BytecodeViewer.getLoadedClasses()) {
@@ -56,7 +56,7 @@ public class Refactorer {
             RemappingClassAdapter rca = new RemappingClassAdapter(cw, mapper);
             cr.accept(rca, ClassReader.EXPAND_FRAMES);
             cr = new ClassReader(cw.toByteArray());
-            cn  = new ClassNode();
+            cn = new ClassNode();
             cr.accept(cn, 0);
             refactored.put(oldName, cn);
         }

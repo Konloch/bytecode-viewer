@@ -22,18 +22,24 @@ package org.apache.commons.codec.language.bm;
  * <code>GENERIC</code> NameType should work reasonably well for non-name words. The other encodings are
  * specifically tuned to family names, and may not work well at all for general text.
  *
- * @since 1.6
  * @version $Id$
+ * @since 1.6
  */
 public enum NameType {
 
-    /** Ashkenazi family names */
+    /**
+     * Ashkenazi family names
+     */
     ASHKENAZI("ash"),
 
-    /** Generic names and words */
+    /**
+     * Generic names and words
+     */
     GENERIC("gen"),
 
-    /** Sephardic family names */
+    /**
+     * Sephardic family names
+     */
     SEPHARDIC("sep");
 
     private final String name;

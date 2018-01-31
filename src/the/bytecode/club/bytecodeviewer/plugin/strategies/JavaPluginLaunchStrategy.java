@@ -34,19 +34,19 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
  */
 public class JavaPluginLaunchStrategy implements PluginLaunchStrategy {
 
-	private static SimpleCompiler compiler = new SimpleCompiler();
+    private static SimpleCompiler compiler = new SimpleCompiler();
 
-	@Override
-	public Plugin run(File file) throws Throwable {
-		compiler.cook(DiskReader.loadAsString(file.getAbsolutePath()));
+    @Override
+    public Plugin run(File file) throws Throwable {
+        compiler.cook(DiskReader.loadAsString(file.getAbsolutePath()));
 
-		System.out.println(file.getName().substring(0,(int)(file.getName().length()-(".java".length()))));
-		Class<?> clazz = (Class<?>) Class.forName(
-			file.getName().substring(0,(int)file.getName().length()-".java".length()),
-			true,
-			compiler.getClassLoader()
-		);
-		
-		return (Plugin) clazz.newInstance();
-	}
+        System.out.println(file.getName().substring(0, (int) (file.getName().length() - (".java".length()))));
+        Class<?> clazz = (Class<?>) Class.forName(
+                file.getName().substring(0, (int) file.getName().length() - ".java".length()),
+                true,
+                compiler.getClassLoader()
+        );
+
+        return (Plugin) clazz.newInstance();
+    }
 }

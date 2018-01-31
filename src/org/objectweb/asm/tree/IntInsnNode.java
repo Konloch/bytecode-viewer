@@ -36,7 +36,7 @@ import org.objectweb.asm.util.Printer;
 
 /**
  * A node that represents an instruction with a single int operand.
- * 
+ *
  * @author Eric Bruneton
  */
 public class IntInsnNode extends AbstractInsnNode {
@@ -48,12 +48,10 @@ public class IntInsnNode extends AbstractInsnNode {
 
     /**
      * Constructs a new {@link IntInsnNode}.
-     * 
-     * @param opcode
-     *            the opcode of the instruction to be constructed. This opcode
-     *            must be BIPUSH, SIPUSH or NEWARRAY.
-     * @param operand
-     *            the operand of the instruction to be constructed.
+     *
+     * @param opcode  the opcode of the instruction to be constructed. This opcode
+     *                must be BIPUSH, SIPUSH or NEWARRAY.
+     * @param operand the operand of the instruction to be constructed.
      */
     public IntInsnNode(final int opcode, final int operand) {
         super(opcode);
@@ -62,13 +60,12 @@ public class IntInsnNode extends AbstractInsnNode {
 
     /**
      * Sets the opcode of this instruction.
-     * 
-     * @param opcode
-     *            the new instruction opcode. This opcode must be BIPUSH, SIPUSH
-     *            or NEWARRAY.
+     *
+     * @param opcode the new instruction opcode. This opcode must be BIPUSH, SIPUSH
+     *               or NEWARRAY.
      */
     @Override
-	public void setOpcode(final int opcode) {
+    public void setOpcode(final int opcode) {
         this.opcode = opcode;
     }
 
@@ -87,9 +84,9 @@ public class IntInsnNode extends AbstractInsnNode {
     public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels) {
         return new IntInsnNode(opcode, operand).cloneAnnotations(this);
     }
-    
+
     @Override
-	public String toString() {
-    	return Printer.OPCODES[opcode()] + ", " + operand;
+    public String toString() {
+        return Printer.OPCODES[opcode()] + ", " + operand;
     }
 }

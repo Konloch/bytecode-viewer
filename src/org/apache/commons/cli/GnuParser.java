@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,8 +28,7 @@ import java.util.List;
  * @deprecated since 1.3, use the {@link DefaultParser} instead
  */
 @Deprecated
-public class GnuParser extends Parser
-{
+public class GnuParser extends Parser {
     /**
      * This flatten method does so using the following rules:
      * <ol>
@@ -48,61 +47,43 @@ public class GnuParser extends Parser
      * @return a String array of the flattened arguments
      */
     @Override
-    protected String[] flatten(Options options, String[] arguments, boolean stopAtNonOption)
-    {
+    protected String[] flatten(Options options, String[] arguments, boolean stopAtNonOption) {
         List<String> tokens = new ArrayList<String>();
 
         boolean eatTheRest = false;
 
-        for (int i = 0; i < arguments.length; i++)
-        {
+        for (int i = 0; i < arguments.length; i++) {
             String arg = arguments[i];
 
-            if ("--".equals(arg))
-            {
+            if ("--".equals(arg)) {
                 eatTheRest = true;
                 tokens.add("--");
-            }
-            else if ("-".equals(arg))
-            {
+            } else if ("-".equals(arg)) {
                 tokens.add("-");
-            }
-            else if (arg.startsWith("-"))
-            {
+            } else if (arg.startsWith("-")) {
                 String opt = Util.stripLeadingHyphens(arg);
 
-                if (options.hasOption(opt))
-                {
+                if (options.hasOption(opt)) {
                     tokens.add(arg);
-                }
-                else
-                {
-                    if (opt.indexOf('=') != -1 && options.hasOption(opt.substring(0, opt.indexOf('='))))
-                    {
+                } else {
+                    if (opt.indexOf('=') != -1 && options.hasOption(opt.substring(0, opt.indexOf('=')))) {
                         // the format is --foo=value or -foo=value
                         tokens.add(arg.substring(0, arg.indexOf('='))); // --foo
                         tokens.add(arg.substring(arg.indexOf('=') + 1)); // value
-                    }
-                    else if (options.hasOption(arg.substring(0, 2)))
-                    {
+                    } else if (options.hasOption(arg.substring(0, 2))) {
                         // the format is a special properties option (-Dproperty=value)
                         tokens.add(arg.substring(0, 2)); // -D
                         tokens.add(arg.substring(2)); // property=value
-                    }
-                    else
-                    {
+                    } else {
                         eatTheRest = stopAtNonOption;
                         tokens.add(arg);
                     }
                 }
-            }
-            else
-            {
+            } else {
                 tokens.add(arg);
             }
 
-            if (eatTheRest)
-            {
+            if (eatTheRest) {
                 for (i++; i < arguments.length; i++) //NOPMD
                 {
                     tokens.add(arguments[i]);

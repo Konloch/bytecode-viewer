@@ -51,10 +51,10 @@ public class JarArchive {
             throw new RuntimeException("Error building classes (" + file.getName() + "): ", e.getCause());
         } finally {
             try {
-            	if(jar != null)
-            		jar.close();
-			} catch (IOException e) {
-			}
+                if (jar != null)
+                    jar.close();
+            } catch (IOException e) {
+            }
         }
         return nodes;
     }

@@ -36,7 +36,7 @@ import org.objectweb.asm.Opcodes;
 
 /**
  * A node that represents an IINC instruction.
- * 
+ *
  * @author Eric Bruneton
  */
 public class IincInsnNode extends AbstractInsnNode {
@@ -53,11 +53,9 @@ public class IincInsnNode extends AbstractInsnNode {
 
     /**
      * Constructs a new {@link IincInsnNode}.
-     * 
-     * @param var
-     *            index of the local variable to be incremented.
-     * @param incr
-     *            increment amount to increment the local variable by.
+     *
+     * @param var  index of the local variable to be incremented.
+     * @param incr increment amount to increment the local variable by.
      */
     public IincInsnNode(final int var, final int incr) {
         super(Opcodes.IINC);

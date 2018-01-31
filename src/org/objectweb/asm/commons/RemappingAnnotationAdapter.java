@@ -35,7 +35,7 @@ import org.objectweb.asm.Opcodes;
 
 /**
  * An {@link AnnotationVisitor} adapter for type remapping.
- * 
+ *
  * @author Eugene Kuleshov
  */
 public class RemappingAnnotationAdapter extends AnnotationVisitor {
@@ -43,12 +43,12 @@ public class RemappingAnnotationAdapter extends AnnotationVisitor {
     protected final Remapper remapper;
 
     public RemappingAnnotationAdapter(final AnnotationVisitor av,
-            final Remapper remapper) {
+                                      final Remapper remapper) {
         this(Opcodes.ASM5, av, remapper);
     }
 
     protected RemappingAnnotationAdapter(final int api,
-            final AnnotationVisitor av, final Remapper remapper) {
+                                         final AnnotationVisitor av, final Remapper remapper) {
         super(api, av);
         this.remapper = remapper;
     }

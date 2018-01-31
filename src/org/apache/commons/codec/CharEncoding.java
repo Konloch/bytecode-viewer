@@ -19,7 +19,7 @@ package org.apache.commons.codec;
 
 /**
  * Character encoding names required of every implementation of the Java platform.
- *
+ * <p>
  * From the Java documentation <a
  * href="http://download.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html">Standard charsets</a>:
  * <p>
@@ -27,7 +27,7 @@ package org.apache.commons.codec;
  * release documentation for your implementation to see if any other encodings are supported. Consult the release
  * documentation for your implementation to see if any other encodings are supported.</cite>
  * </p>
- *
+ * <p>
  * <ul>
  * <li><code>US-ASCII</code><br>
  * Seven-bit ASCII, a.k.a. ISO646-US, a.k.a. the Basic Latin block of the Unicode character set.</li>
@@ -43,17 +43,17 @@ package org.apache.commons.codec;
  * Sixteen-bit Unicode Transformation Format, byte order specified by a mandatory initial byte-order mark (either order
  * accepted on input, big-endian used on output.)</li>
  * </ul>
- *
+ * <p>
  * This perhaps would best belong in the [lang] project. Even if a similar interface is defined in [lang], it is not
  * foreseen that [codec] would be made to depend on [lang].
- *
+ * <p>
  * <p>
  * This class is immutable and thread-safe.
  * </p>
  *
+ * @version $Id$
  * @see <a href="http://download.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
  * @since 1.4
- * @version $Id$
  */
 public class CharEncoding {
     /**

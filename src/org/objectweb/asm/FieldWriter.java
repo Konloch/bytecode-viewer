@@ -31,7 +31,7 @@ package org.objectweb.asm;
 
 /**
  * An {@link FieldVisitor} that generates Java fields in bytecode form.
- * 
+ *
  * @author Eric Bruneton
  */
 final class FieldWriter extends FieldVisitor {
@@ -102,22 +102,16 @@ final class FieldWriter extends FieldVisitor {
 
     /**
      * Constructs a new {@link FieldWriter}.
-     * 
-     * @param cw
-     *            the class writer to which this field must be added.
-     * @param access
-     *            the field's access flags (see {@link Opcodes}).
-     * @param name
-     *            the field's name.
-     * @param desc
-     *            the field's descriptor (see {@link Type}).
-     * @param signature
-     *            the field's signature. May be <tt>null</tt>.
-     * @param value
-     *            the field's constant value. May be <tt>null</tt>.
+     *
+     * @param cw        the class writer to which this field must be added.
+     * @param access    the field's access flags (see {@link Opcodes}).
+     * @param name      the field's name.
+     * @param desc      the field's descriptor (see {@link Type}).
+     * @param signature the field's signature. May be <tt>null</tt>.
+     * @param value     the field's constant value. May be <tt>null</tt>.
      */
     FieldWriter(final ClassWriter cw, final int access, final String name,
-            final String desc, final String signature, final Object value) {
+                final String desc, final String signature, final Object value) {
         super(Opcodes.ASM5);
         if (cw.firstField == null) {
             cw.firstField = this;
@@ -143,7 +137,7 @@ final class FieldWriter extends FieldVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
+                                             final boolean visible) {
         if (!ClassReader.ANNOTATIONS) {
             return null;
         }
@@ -163,7 +157,7 @@ final class FieldWriter extends FieldVisitor {
 
     @Override
     public AnnotationVisitor visitTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+                                                 final TypePath typePath, final String desc, final boolean visible) {
         if (!ClassReader.ANNOTATIONS) {
             return null;
         }
@@ -200,7 +194,7 @@ final class FieldWriter extends FieldVisitor {
 
     /**
      * Returns the size of this field.
-     * 
+     *
      * @return the size of this field.
      */
     int getSize() {
@@ -248,9 +242,8 @@ final class FieldWriter extends FieldVisitor {
 
     /**
      * Puts the content of this field into the given byte vector.
-     * 
-     * @param out
-     *            where the content of this field must be put.
+     *
+     * @param out where the content of this field must be put.
      */
     void put(final ByteVector out) {
         final int FACTOR = ClassWriter.TO_ACC_SYNTHETIC;

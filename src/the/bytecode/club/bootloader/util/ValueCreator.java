@@ -24,5 +24,5 @@ package the.bytecode.club.bootloader.util;
  */
 public abstract interface ValueCreator<V> {
 
-	public abstract V create();
+    public abstract V create();
 }

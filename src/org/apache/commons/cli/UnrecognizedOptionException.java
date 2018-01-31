@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,8 +23,7 @@ package org.apache.commons.cli;
  *
  * @version $Id: UnrecognizedOptionException.java 1443102 2013-02-06 18:12:16Z tn $
  */
-public class UnrecognizedOptionException extends ParseException
-{
+public class UnrecognizedOptionException extends ParseException {
     /**
      * This exception {@code serialVersionUID}.
      */
@@ -39,8 +38,7 @@ public class UnrecognizedOptionException extends ParseException
      *
      * @param message the detail message
      */
-    public UnrecognizedOptionException(String message)
-    {
+    public UnrecognizedOptionException(String message) {
         super(message);
     }
 
@@ -52,8 +50,7 @@ public class UnrecognizedOptionException extends ParseException
      * @param option  the unrecognized option
      * @since 1.2
      */
-    public UnrecognizedOptionException(String message, String option)
-    {
+    public UnrecognizedOptionException(String message, String option) {
         this(message);
         this.option = option;
     }
@@ -64,8 +61,7 @@ public class UnrecognizedOptionException extends ParseException
      * @return the related option
      * @since 1.2
      */
-    public String getOption()
-    {
+    public String getOption() {
         return option;
     }
 }

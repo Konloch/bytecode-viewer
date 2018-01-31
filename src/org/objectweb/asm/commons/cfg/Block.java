@@ -20,8 +20,8 @@ import org.objectweb.asm.tree.MethodNode;
  */
 public class Block implements Comparable<Block> {
 
-	public static boolean PRINT_INSNS = true;
-	
+    public static boolean PRINT_INSNS = true;
+
     public MethodNode owner = null;
 
     public final Label label;
@@ -106,7 +106,7 @@ public class Block implements Comparable<Block> {
      * Gets the matched instruction at the given index
      *
      * @param opcode The opcode of the instruction to match
-     * @param index The index to match at
+     * @param index  The index to match at
      * @return The matched instruction at the given index
      */
     public AbstractInsnNode get(int opcode, int index) {
@@ -159,46 +159,46 @@ public class Block implements Comparable<Block> {
     public AbstractInsnNode get(InsnQuery query) {
         return get(query, 0);
     }
-    
+
     @Override
     public int compareTo(Block block) {
         return index > block.index ? 1 : -1;
     }
 
     public int size() {
-    	//there is always 1 label which identifies the block, so we dont count that.
-    	return instructions.size() - 1;
+        //there is always 1 label which identifies the block, so we dont count that.
+        return instructions.size() - 1;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(headerString()).append(String.format(" (len=%d)", size()));
-        
-        if(PRINT_INSNS && size() > 0) {
-        	sb.append(System.lineSeparator());
-        	
-        	Iterator<AbstractInsnNode> it = instructions.iterator();
-        	while(it.hasNext()) {
-        		AbstractInsnNode ain = it.next();
-        		if(!(ain instanceof LabelNode)) {
-        			if(it.hasNext()) {
-        				sb.append(String.format("   %s%n", Assembly.toString(ain)));
-        			} else {
-        				sb.append(String.format("   %s", Assembly.toString(ain)));
-        			}
-        		}
-        	}
+
+        if (PRINT_INSNS && size() > 0) {
+            sb.append(System.lineSeparator());
+
+            Iterator<AbstractInsnNode> it = instructions.iterator();
+            while (it.hasNext()) {
+                AbstractInsnNode ain = it.next();
+                if (!(ain instanceof LabelNode)) {
+                    if (it.hasNext()) {
+                        sb.append(String.format("   %s%n", Assembly.toString(ain)));
+                    } else {
+                        sb.append(String.format("   %s", Assembly.toString(ain)));
+                    }
+                }
+            }
         }
-        
+
         sb.append(System.lineSeparator());
-        
-        for(Block b : preds) {
-        	sb.append("   pred: ").append(b.headerString()).append(System.lineSeparator());
+
+        for (Block b : preds) {
+            sb.append("   pred: ").append(b.headerString()).append(System.lineSeparator());
         }
         return sb.toString();
     }
-    
+
     public String headerString() {
-    	return String.format("Block #%d", index);
+        return String.format("Block #%d", index);
     }
 }

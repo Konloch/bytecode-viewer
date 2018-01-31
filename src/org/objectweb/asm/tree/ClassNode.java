@@ -45,7 +45,7 @@ import org.objectweb.asm.TypePath;
 
 /**
  * A node that represents a class.
- * 
+ *
  * @author Eric Bruneton
  */
 public class ClassNode extends ClassVisitor {
@@ -120,7 +120,7 @@ public class ClassNode extends ClassVisitor {
     /**
      * The runtime visible annotations of this class. This list is a list of
      * {@link AnnotationNode} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates org.objectweb.asm.tree.AnnotationNode
      * @label visible
      */
@@ -129,7 +129,7 @@ public class ClassNode extends ClassVisitor {
     /**
      * The runtime invisible annotations of this class. This list is a list of
      * {@link AnnotationNode} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates org.objectweb.asm.tree.AnnotationNode
      * @label invisible
      */
@@ -138,7 +138,7 @@ public class ClassNode extends ClassVisitor {
     /**
      * The runtime visible type annotations of this class. This list is a list
      * of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates org.objectweb.asm.tree.TypeAnnotationNode
      * @label visible
      */
@@ -147,7 +147,7 @@ public class ClassNode extends ClassVisitor {
     /**
      * The runtime invisible type annotations of this class. This list is a list
      * of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates org.objectweb.asm.tree.TypeAnnotationNode
      * @label invisible
      */
@@ -156,7 +156,7 @@ public class ClassNode extends ClassVisitor {
     /**
      * The non standard attributes of this class. This list is a list of
      * {@link Attribute} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates org.objectweb.asm.Attribute
      */
     public List<Attribute> attrs;
@@ -164,7 +164,7 @@ public class ClassNode extends ClassVisitor {
     /**
      * Informations about the inner classes of this class. This list is a list
      * of {@link InnerClassNode} objects.
-     * 
+     *
      * @associates org.objectweb.asm.tree.InnerClassNode
      */
     public List<InnerClassNode> innerClasses;
@@ -172,7 +172,7 @@ public class ClassNode extends ClassVisitor {
     /**
      * The fields of this class. This list is a list of {@link FieldNode}
      * objects.
-     * 
+     *
      * @associates org.objectweb.asm.tree.FieldNode
      */
     public List<FieldNode> fields;
@@ -180,20 +180,19 @@ public class ClassNode extends ClassVisitor {
     /**
      * The methods of this class. This list is a list of {@link MethodNode}
      * objects.
-     * 
+     *
      * @associates org.objectweb.asm.tree.MethodNode
      */
     public List<MethodNode> methods;
 
     public Set<String> references;
-    
+
     /**
      * Constructs a new {@link ClassNode}. <i>Subclasses must not use this
      * constructor</i>. Instead, they must use the {@link #ClassNode(int)}
      * version.
-     * 
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     *
+     * @throws IllegalStateException If a subclass calls this constructor.
      */
     public ClassNode() {
         this(Opcodes.ASM5);
@@ -204,9 +203,8 @@ public class ClassNode extends ClassVisitor {
 
     /**
      * Constructs a new {@link ClassNode}.
-     * 
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
+     *
+     * @param api the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
      */
     public ClassNode(final int api) {
@@ -215,7 +213,7 @@ public class ClassNode extends ClassVisitor {
         this.innerClasses = new ArrayList<InnerClassNode>();
         this.fields = new ArrayList<FieldNode>();
         this.methods = new ArrayList<MethodNode>();
-        references =  new HashSet<String>();
+        references = new HashSet<String>();
     }
 
     // ------------------------------------------------------------------------
@@ -224,8 +222,8 @@ public class ClassNode extends ClassVisitor {
 
     @Override
     public void visit(final int version, final int access, final String name,
-            final String signature, final String superName,
-            final String[] interfaces) {
+                      final String signature, final String superName,
+                      final String[] interfaces) {
         this.version = version;
         this.access = access;
         this.name = name;
@@ -244,7 +242,7 @@ public class ClassNode extends ClassVisitor {
 
     @Override
     public void visitOuterClass(final String owner, final String name,
-            final String desc) {
+                                final String desc) {
         outerClass = owner;
         outerMethod = name;
         outerMethodDesc = desc;
@@ -252,7 +250,7 @@ public class ClassNode extends ClassVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
+                                             final boolean visible) {
         AnnotationNode an = new AnnotationNode(desc);
         if (visible) {
             if (visibleAnnotations == null) {
@@ -270,7 +268,7 @@ public class ClassNode extends ClassVisitor {
 
     @Override
     public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
+                                                 TypePath typePath, String desc, boolean visible) {
         TypeAnnotationNode an = new TypeAnnotationNode(typeRef, typePath, desc);
         if (visible) {
             if (visibleTypeAnnotations == null) {
@@ -296,7 +294,7 @@ public class ClassNode extends ClassVisitor {
 
     @Override
     public void visitInnerClass(final String name, final String outerName,
-            final String innerName, final int access) {
+                                final String innerName, final int access) {
         InnerClassNode icn = new InnerClassNode(name, outerName, innerName,
                 access);
         innerClasses.add(icn);
@@ -304,7 +302,7 @@ public class ClassNode extends ClassVisitor {
 
     @Override
     public FieldVisitor visitField(final int access, final String name,
-            final String desc, final String signature, final Object value) {
+                                   final String desc, final String signature, final Object value) {
         FieldNode fn = new FieldNode(this, access, name, desc, signature, value);
         fields.add(fn);
         return fn;
@@ -312,7 +310,7 @@ public class ClassNode extends ClassVisitor {
 
     @Override
     public MethodVisitor visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
+                                     final String desc, final String signature, final String[] exceptions) {
         MethodNode mn = new MethodNode(this, access, name, desc, signature,
                 exceptions);
         methods.add(mn);
@@ -332,9 +330,8 @@ public class ClassNode extends ClassVisitor {
      * This methods checks that this node, and all its nodes recursively, do not
      * contain elements that were introduced in more recent versions of the ASM
      * API than the given version.
-     * 
-     * @param api
-     *            an ASM API version. Must be one of {@link Opcodes#ASM4} or
+     *
+     * @param api an ASM API version. Must be one of {@link Opcodes#ASM4} or
      *            {@link Opcodes#ASM5}.
      */
     public void check(final int api) {
@@ -358,9 +355,8 @@ public class ClassNode extends ClassVisitor {
 
     /**
      * Makes the given class visitor visit this class.
-     * 
-     * @param cv
-     *            a class visitor.
+     *
+     * @param cv a class visitor.
      */
     public void accept(final ClassVisitor cv) {
         // visits header
@@ -419,138 +415,138 @@ public class ClassNode extends ClassVisitor {
         // visits end
         cv.visitEnd();
     }
-    
+
     public List<String> constructors() {
-		List<String> constructors = new ArrayList<>();
-		for (MethodNode mn : methods) {
-			if (mn.name.equals("<init>"))
-				constructors.add(mn.desc);
-		}
-		return constructors;
-	}
+        List<String> constructors = new ArrayList<>();
+        for (MethodNode mn : methods) {
+            if (mn.name.equals("<init>"))
+                constructors.add(mn.desc);
+        }
+        return constructors;
+    }
 
-	public MethodNode getMethodByName(String name) {
-		for (MethodNode mn : methods) {
-			if (mn.name.equals(name))
-				return mn;
-		}
-		return null;
-	}
+    public MethodNode getMethodByName(String name) {
+        for (MethodNode mn : methods) {
+            if (mn.name.equals(name))
+                return mn;
+        }
+        return null;
+    }
 
-	public FieldNode getField(String field, String desc, boolean ignoreStatic) {
-		for (FieldNode fn : fields) {
-			if (ignoreStatic && (fn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
-				continue;
-			if ((field == null || fn.name.equals(field)) && (desc == null || desc.equals(fn.desc)))
-				return fn;
-		}
-		return null;
-	}
+    public FieldNode getField(String field, String desc, boolean ignoreStatic) {
+        for (FieldNode fn : fields) {
+            if (ignoreStatic && (fn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
+                continue;
+            if ((field == null || fn.name.equals(field)) && (desc == null || desc.equals(fn.desc)))
+                return fn;
+        }
+        return null;
+    }
 
-	public FieldNode getField(String field, String desc) {
-		return getField(field, desc, true);
-	}
+    public FieldNode getField(String field, String desc) {
+        return getField(field, desc, true);
+    }
 
-	public FieldNode getPublicField(String field, String desc, boolean ignoreStatic) {
-		for (FieldNode fn : fields) {
-			if ((fn.access & Opcodes.ACC_PUBLIC) != Opcodes.ACC_PUBLIC)
-				continue;
-			if (ignoreStatic && (fn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
-				continue;
-			if ((field == null || fn.name.equals(field)) && (desc == null || desc.equals(fn.desc)))
-				return fn;
-		}
-		return null;
-	}
+    public FieldNode getPublicField(String field, String desc, boolean ignoreStatic) {
+        for (FieldNode fn : fields) {
+            if ((fn.access & Opcodes.ACC_PUBLIC) != Opcodes.ACC_PUBLIC)
+                continue;
+            if (ignoreStatic && (fn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
+                continue;
+            if ((field == null || fn.name.equals(field)) && (desc == null || desc.equals(fn.desc)))
+                return fn;
+        }
+        return null;
+    }
 
-	public FieldNode getPublicField(String field, String desc) {
-		return getPublicField(field, desc, true);
-	}
+    public FieldNode getPublicField(String field, String desc) {
+        return getPublicField(field, desc, true);
+    }
 
-	public MethodNode getMethod(String method, String desc) {
-		for (MethodNode mn : methods) {
-			if (mn.name.equals(method) && (desc == null || desc.equals(mn.desc)))
-				return mn;
-		}
-		return null;
-	}
+    public MethodNode getMethod(String method, String desc) {
+        for (MethodNode mn : methods) {
+            if (mn.name.equals(method) && (desc == null || desc.equals(mn.desc)))
+                return mn;
+        }
+        return null;
+    }
 
-	public MethodNode getMethod(String desc) {
-		for (MethodNode mn : methods) {
-			if (desc.endsWith(mn.desc))
-				return mn;
-		}
-		return null;
-	}
+    public MethodNode getMethod(String desc) {
+        for (MethodNode mn : methods) {
+            if (desc.endsWith(mn.desc))
+                return mn;
+        }
+        return null;
+    }
 
-	public int methodCount(String desc, boolean ignoreStatic) {
-		int count = 0;
-		for (MethodNode mn : methods) {
-			if (ignoreStatic && (mn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC) {
-				continue;
-			}
-			if (mn.desc.equals(desc)) {
-				count++;
-			}
-		}
-		return count;
-	}
+    public int methodCount(String desc, boolean ignoreStatic) {
+        int count = 0;
+        for (MethodNode mn : methods) {
+            if (ignoreStatic && (mn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC) {
+                continue;
+            }
+            if (mn.desc.equals(desc)) {
+                count++;
+            }
+        }
+        return count;
+    }
 
-	public int methodCount(String desc) {
-		return methodCount(desc, true);
-	}
+    public int methodCount(String desc) {
+        return methodCount(desc, true);
+    }
 
-	public int fieldCount(String desc, boolean ignoreStatic) {
-		int count = 0;
-		for (FieldNode fn : fields) {
-			if (ignoreStatic && (fn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
-				continue;
-			if (fn.desc.equals(desc))
-				count++;
-		}
-		return count;
-	}
+    public int fieldCount(String desc, boolean ignoreStatic) {
+        int count = 0;
+        for (FieldNode fn : fields) {
+            if (ignoreStatic && (fn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
+                continue;
+            if (fn.desc.equals(desc))
+                count++;
+        }
+        return count;
+    }
 
-	public int fieldCount(String desc) {
-		return fieldCount(desc, true);
-	}
+    public int fieldCount(String desc) {
+        return fieldCount(desc, true);
+    }
 
-	public int getAbnormalFieldCount(boolean ignoreStatic) {
-		int count = 0;
-		for (FieldNode fn : fields) {
-			if (ignoreStatic && (fn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
-				continue;
-			if (fn.desc.contains("L") && fn.desc.endsWith(";") && !fn.desc.contains("java"))
-				count++;
-		}
-		return count;
-	}
+    public int getAbnormalFieldCount(boolean ignoreStatic) {
+        int count = 0;
+        for (FieldNode fn : fields) {
+            if (ignoreStatic && (fn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
+                continue;
+            if (fn.desc.contains("L") && fn.desc.endsWith(";") && !fn.desc.contains("java"))
+                count++;
+        }
+        return count;
+    }
 
-	public int getAbnormalFieldCount() {
-		return getAbnormalFieldCount(true);
-	}
+    public int getAbnormalFieldCount() {
+        return getAbnormalFieldCount(true);
+    }
 
-	public int getFieldTypeCount(boolean ignoreStatic) {
-		List<String> types = new ArrayList<>();
-		for (FieldNode fn : fields) {
-			if (ignoreStatic && (fn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
-				continue;
-			if (!types.contains(fn.desc))
-				types.add(fn.desc);
-		}
-		return types.size();
-	}
+    public int getFieldTypeCount(boolean ignoreStatic) {
+        List<String> types = new ArrayList<>();
+        for (FieldNode fn : fields) {
+            if (ignoreStatic && (fn.access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC)
+                continue;
+            if (!types.contains(fn.desc))
+                types.add(fn.desc);
+        }
+        return types.size();
+    }
 
-	public int getFieldTypeCount() {
-		return getFieldTypeCount(true);
-	}
+    public int getFieldTypeCount() {
+        return getFieldTypeCount(true);
+    }
 
-	public boolean ownerless() {
-		return superName.equals("java/lang/Object");
-	}
-	
-	@Override
-	public String toString(){
-		return name;
-	}
+    public boolean ownerless() {
+        return superName.equals("java/lang/Object");
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

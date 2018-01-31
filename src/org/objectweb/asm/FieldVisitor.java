@@ -33,7 +33,7 @@ package org.objectweb.asm;
  * A visitor to visit a Java field. The methods of this class must be called in
  * the following order: ( <tt>visitAnnotation</tt> |
  * <tt>visitTypeAnnotation</tt> | <tt>visitAttribute</tt> )* <tt>visitEnd</tt>.
- * 
+ *
  * @author Eric Bruneton
  */
 public abstract class FieldVisitor {
@@ -52,9 +52,8 @@ public abstract class FieldVisitor {
 
     /**
      * Constructs a new {@link FieldVisitor}.
-     * 
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
+     *
+     * @param api the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
      */
     public FieldVisitor(final int api) {
@@ -63,12 +62,10 @@ public abstract class FieldVisitor {
 
     /**
      * Constructs a new {@link FieldVisitor}.
-     * 
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
+     *
+     * @param api the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param fv
-     *            the field visitor to which this visitor must delegate method
+     * @param fv  the field visitor to which this visitor must delegate method
      *            calls. May be null.
      */
     public FieldVisitor(final int api, final FieldVisitor fv) {
@@ -81,13 +78,11 @@ public abstract class FieldVisitor {
 
     /**
      * Visits an annotation of the field.
-     * 
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
+     *
+     * @param desc    the class descriptor of the annotation class.
+     * @param visible <tt>true</tt> if the annotation is visible at runtime.
      * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
+     * this visitor is not interested in visiting this annotation.
      */
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
         if (fv != null) {
@@ -98,24 +93,20 @@ public abstract class FieldVisitor {
 
     /**
      * Visits an annotation on the type of the field.
-     * 
-     * @param typeRef
-     *            a reference to the annotated type. The sort of this type
-     *            reference must be {@link TypeReference#FIELD FIELD}. See
-     *            {@link TypeReference}.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
+     *
+     * @param typeRef  a reference to the annotated type. The sort of this type
+     *                 reference must be {@link TypeReference#FIELD FIELD}. See
+     *                 {@link TypeReference}.
+     * @param typePath the path to the annotated type argument, wildcard bound, array
+     *                 element type, or static inner type within 'typeRef'. May be
+     *                 <tt>null</tt> if the annotation targets 'typeRef' as a whole.
+     * @param desc     the class descriptor of the annotation class.
+     * @param visible  <tt>true</tt> if the annotation is visible at runtime.
      * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
+     * this visitor is not interested in visiting this annotation.
      */
     public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
+                                                 TypePath typePath, String desc, boolean visible) {
         if (api < Opcodes.ASM5) {
             throw new RuntimeException();
         }
@@ -127,9 +118,8 @@ public abstract class FieldVisitor {
 
     /**
      * Visits a non standard attribute of the field.
-     * 
-     * @param attr
-     *            an attribute.
+     *
+     * @param attr an attribute.
      */
     public void visitAttribute(Attribute attr) {
         if (fv != null) {

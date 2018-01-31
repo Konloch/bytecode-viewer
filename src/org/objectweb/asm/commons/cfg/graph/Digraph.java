@@ -65,69 +65,69 @@ public class Digraph<V, E> implements Iterable<V> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        
+
         Iterator<V> it = graph.keySet().iterator();
-        while(it.hasNext()) {
-        	V v = it.next();
-        	sb.append(String.format("%s", v));
-        	
-        	Set<E> set = graph.get(v);
-        	if(set.size() > 0) {
-        		sb.append(System.lineSeparator());
-        		
-        		Iterator<E> it2 = set.iterator();
-            	while(it2.hasNext()) {
-            		E e = it2.next();
-            		sb.append("     > ").append(toString(e));
-            		if(it2.hasNext())
-            			sb.append(System.lineSeparator());
-            	}
-        	}
-        	
-        	if(it.hasNext())
-        		sb.append(System.lineSeparator());
+        while (it.hasNext()) {
+            V v = it.next();
+            sb.append(String.format("%s", v));
+
+            Set<E> set = graph.get(v);
+            if (set.size() > 0) {
+                sb.append(System.lineSeparator());
+
+                Iterator<E> it2 = set.iterator();
+                while (it2.hasNext()) {
+                    E e = it2.next();
+                    sb.append("     > ").append(toString(e));
+                    if (it2.hasNext())
+                        sb.append(System.lineSeparator());
+                }
+            }
+
+            if (it.hasNext())
+                sb.append(System.lineSeparator());
         }
-        
+
         return sb.toString();
     }
-    
+
     public String toString(E e) {
-    	String s = null;
-        if(e instanceof Block) {
-        	s = ((Block) e).headerString();
+        String s = null;
+        if (e instanceof Block) {
+            s = ((Block) e).headerString();
         } else {
-        	s = e.toString();
+            s = e.toString();
         }
         return s;
     }
-    
+
     public String toString(Set<E> set) {
         Iterator<E> it = set.iterator();
-        if (! it.hasNext())
+        if (!it.hasNext())
             return "emtpy";
 
         StringBuilder sb = new StringBuilder();
-        for (;;) {
+        for (; ; ) {
             E e = it.next();
             String s = null;
-            if(e instanceof Block) {
-            	s = ((Block) e).headerString();
+            if (e instanceof Block) {
+                s = ((Block) e).headerString();
             } else {
-            	s = e.toString();
+                s = e.toString();
             }
-            
+
             sb.append(e == this ? "(this Collection)" : s);
-            if (! it.hasNext())
+            if (!it.hasNext())
                 return sb.toString();
             sb.append(',').append(' ');
         }
     }
 
     public Map<V, Set<E>> graph() {
-		return graph;
-	}
+        return graph;
+    }
 
-	public void flush() {
+    public void flush() {
         graph.clear();
     }
 }

@@ -35,18 +35,18 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
  */
 public class PythonPluginLaunchStrategy implements PluginLaunchStrategy {
 
-	@Override
-	public Plugin run(File file) throws Throwable {
-		ScriptEngineManager manager = new ScriptEngineManager();
-		ScriptEngine engine = manager.getEngineByName("python");
+    @Override
+    public Plugin run(File file) throws Throwable {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("python");
 
-		if (engine == null)
-			throw new Exception(
-					"Cannot find Jython script engine! Please contact Konloch.");
+        if (engine == null)
+            throw new Exception(
+                    "Cannot find Jython script engine! Please contact Konloch.");
 
-		Reader reader = new FileReader(file);
-		engine.eval(reader);
+        Reader reader = new FileReader(file);
+        engine.eval(reader);
 
-		return (Plugin) engine.eval(file.getName().replace(".py", "").replace(".python", "") + "()");
-	}
+        return (Plugin) engine.eval(file.getName().replace(".py", "").replace(".python", "") + "()");
+    }
 }

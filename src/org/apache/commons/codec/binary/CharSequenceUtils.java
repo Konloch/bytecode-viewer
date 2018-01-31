@@ -32,22 +32,16 @@ public class CharSequenceUtils {
     /**
      * Green implementation of regionMatches.
      *
-     * @param cs
-     *            the <code>CharSequence</code> to be processed
-     * @param ignoreCase
-     *            whether or not to be case insensitive
-     * @param thisStart
-     *            the index to start on the <code>cs</code> CharSequence
-     * @param substring
-     *            the <code>CharSequence</code> to be looked for
-     * @param start
-     *            the index to start on the <code>substring</code> CharSequence
-     * @param length
-     *            character length of the region
+     * @param cs         the <code>CharSequence</code> to be processed
+     * @param ignoreCase whether or not to be case insensitive
+     * @param thisStart  the index to start on the <code>cs</code> CharSequence
+     * @param substring  the <code>CharSequence</code> to be looked for
+     * @param start      the index to start on the <code>substring</code> CharSequence
+     * @param length     character length of the region
      * @return whether the region matched
      */
     static boolean regionMatches(final CharSequence cs, final boolean ignoreCase, final int thisStart,
-            final CharSequence substring, final int start, final int length) {
+                                 final CharSequence substring, final int start, final int length) {
         if (cs instanceof String && substring instanceof String) {
             return ((String) cs).regionMatches(ignoreCase, thisStart, (String) substring, start, length);
         }

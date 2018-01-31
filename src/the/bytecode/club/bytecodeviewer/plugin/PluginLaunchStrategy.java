@@ -28,5 +28,5 @@ import the.bytecode.club.bytecodeviewer.api.Plugin;
  */
 public abstract interface PluginLaunchStrategy {
 
-	public abstract Plugin run(File file) throws Throwable;
+    public abstract Plugin run(File file) throws Throwable;
 }

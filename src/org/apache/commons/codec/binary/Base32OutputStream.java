@@ -45,8 +45,7 @@ public class Base32OutputStream extends BaseNCodecOutputStream {
     /**
      * Creates a Base32OutputStream such that all data written is Base32-encoded to the original provided OutputStream.
      *
-     * @param out
-     *            OutputStream to wrap.
+     * @param out OutputStream to wrap.
      */
     public Base32OutputStream(final OutputStream out) {
         this(out, true);
@@ -56,10 +55,8 @@ public class Base32OutputStream extends BaseNCodecOutputStream {
      * Creates a Base32OutputStream such that all data written is either Base32-encoded or Base32-decoded to the
      * original provided OutputStream.
      *
-     * @param out
-     *            OutputStream to wrap.
-     * @param doEncode
-     *            true if we should encode all data written to us, false if we should decode.
+     * @param out      OutputStream to wrap.
+     * @param doEncode true if we should encode all data written to us, false if we should decode.
      */
     public Base32OutputStream(final OutputStream out, final boolean doEncode) {
         super(out, new Base32(false), doEncode);
@@ -69,21 +66,16 @@ public class Base32OutputStream extends BaseNCodecOutputStream {
      * Creates a Base32OutputStream such that all data written is either Base32-encoded or Base32-decoded to the
      * original provided OutputStream.
      *
-     * @param out
-     *            OutputStream to wrap.
-     * @param doEncode
-     *            true if we should encode all data written to us, false if we should decode.
-     * @param lineLength
-     *            If doEncode is true, each line of encoded data will contain lineLength characters (rounded down to
-     *            nearest multiple of 4). If lineLength &lt;= 0, the encoded data is not divided into lines. If doEncode
-     *            is false, lineLength is ignored.
-     * @param lineSeparator
-     *            If doEncode is true, each line of encoded data will be terminated with this byte sequence (e.g. \r\n).
-     *            If lineLength &lt;= 0, the lineSeparator is not used. If doEncode is false lineSeparator is ignored.
+     * @param out           OutputStream to wrap.
+     * @param doEncode      true if we should encode all data written to us, false if we should decode.
+     * @param lineLength    If doEncode is true, each line of encoded data will contain lineLength characters (rounded down to
+     *                      nearest multiple of 4). If lineLength &lt;= 0, the encoded data is not divided into lines. If doEncode
+     *                      is false, lineLength is ignored.
+     * @param lineSeparator If doEncode is true, each line of encoded data will be terminated with this byte sequence (e.g. \r\n).
+     *                      If lineLength &lt;= 0, the lineSeparator is not used. If doEncode is false lineSeparator is ignored.
      */
     public Base32OutputStream(final OutputStream out, final boolean doEncode,
                               final int lineLength, final byte[] lineSeparator) {
         super(out, new Base32(lineLength, lineSeparator), doEncode);
     }
-
 }

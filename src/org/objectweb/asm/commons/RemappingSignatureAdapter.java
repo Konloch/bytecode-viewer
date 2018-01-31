@@ -35,7 +35,7 @@ import org.objectweb.asm.signature.SignatureVisitor;
 
 /**
  * A {@link SignatureVisitor} adapter for type mapping.
- * 
+ *
  * @author Eugene Kuleshov
  */
 public class RemappingSignatureAdapter extends SignatureVisitor {
@@ -47,12 +47,12 @@ public class RemappingSignatureAdapter extends SignatureVisitor {
     private String className;
 
     public RemappingSignatureAdapter(final SignatureVisitor v,
-            final Remapper remapper) {
+                                     final Remapper remapper) {
         this(Opcodes.ASM5, v, remapper);
     }
 
     protected RemappingSignatureAdapter(final int api,
-            final SignatureVisitor v, final Remapper remapper) {
+                                        final SignatureVisitor v, final Remapper remapper) {
         super(api);
         this.v = v;
         this.remapper = remapper;

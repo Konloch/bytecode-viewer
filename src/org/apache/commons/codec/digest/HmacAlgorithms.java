@@ -20,15 +20,15 @@ package org.apache.commons.codec.digest;
 /**
  * Standard {@link HmacUtils} algorithm names from the <cite>Java Cryptography Architecture Standard Algorithm Name
  * Documentation</cite>.
- *
+ * <p>
  * <p>
  * <strong>Note: Not all JCE implementations supports all algorithms in this enum.</strong>
  * </p>
  *
- * @see <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/security/StandardNames.html">Java Cryptography
- *      Architecture Standard Algorithm Name Documentation</a>
- * @since 1.10
  * @version $Id$
+ * @see <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/security/StandardNames.html">Java Cryptography
+ * Architecture Standard Algorithm Name Documentation</a>
+ * @since 1.10
  */
 public enum HmacAlgorithms {
 
@@ -81,14 +81,13 @@ public enum HmacAlgorithms {
     /**
      * The algorithm name
      *
-     * @see <a
-     *      href="http://docs.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html#SunJCEProvider">Java
-     *      Cryptography Architecture Sun Providers Documentation</a>
      * @return The algorithm name ("HmacSHA512" for example)
+     * @see <a
+     * href="http://docs.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html#SunJCEProvider">Java
+     * Cryptography Architecture Sun Providers Documentation</a>
      */
     @Override
     public String toString() {
         return algorithm;
     }
-
 }

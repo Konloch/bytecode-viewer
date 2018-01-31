@@ -25,54 +25,53 @@ import the.bytecode.club.bytecodeviewer.MiscUtils;
 
 /**
  * An unfinished obfuscator.
- * 
- * @author Konloch
  *
+ * @author Konloch
  */
 
 public abstract class JavaObfuscator extends Thread {
 
-	@Override
-	public void run() {
-		System.out.println("mibbzz is gay");
-		BytecodeViewer.viewer.setIcon(true);
-		BytecodeViewer.runningObfuscation = true;
-		obfuscate();
-		BytecodeViewer.refactorer.run();
-		BytecodeViewer.runningObfuscation = false;
-		BytecodeViewer.viewer.setIcon(false);
-	}
+    @Override
+    public void run() {
+        System.out.println("mibbzz is gay");
+        BytecodeViewer.viewer.setIcon(true);
+        BytecodeViewer.runningObfuscation = true;
+        obfuscate();
+        BytecodeViewer.refactorer.run();
+        BytecodeViewer.runningObfuscation = false;
+        BytecodeViewer.viewer.setIcon(false);
+    }
 
-	public int getStringLength() {
-		if (BytecodeViewer.viewer.obfuscatorGroup
-				.isSelected(BytecodeViewer.viewer.strongObf.getModel())) {
-			return MAX_STRING_LENGTH;
-		} else { // if(BytecodeViewer.viewer.obfuscatorGroup.isSelected(BytecodeViewer.viewer.lightObf.getModel()))
-					// {
-			return MIN_STRING_LENGTH;
-		}
-	}
+    public int getStringLength() {
+        if (BytecodeViewer.viewer.obfuscatorGroup
+                .isSelected(BytecodeViewer.viewer.strongObf.getModel())) {
+            return MAX_STRING_LENGTH;
+        } else { // if(BytecodeViewer.viewer.obfuscatorGroup.isSelected(BytecodeViewer.viewer.lightObf.getModel()))
+            // {
+            return MIN_STRING_LENGTH;
+        }
+    }
 
-	public static int MAX_STRING_LENGTH = 25;
-	public static int MIN_STRING_LENGTH = 5;
-	private ArrayList<String> names = new ArrayList<String>();
+    public static int MAX_STRING_LENGTH = 25;
+    public static int MIN_STRING_LENGTH = 5;
+    private ArrayList<String> names = new ArrayList<String>();
 
-	protected String generateUniqueName(int length) {
-		boolean found = false;
-		String name = "";
-		while (!found) {
-			String nameTry = MiscUtils.randomString(1) + MiscUtils.randomStringNum(length - 1);
-			if (!Character.isJavaIdentifierStart(nameTry.toCharArray()[0]))
-				continue;
-			
-			if (!names.contains(nameTry)) {
-				names.add(nameTry);
-				name = nameTry;
-				found = true;
-			}
-		}
-		return name;
-	}
+    protected String generateUniqueName(int length) {
+        boolean found = false;
+        String name = "";
+        while (!found) {
+            String nameTry = MiscUtils.randomString(1) + MiscUtils.randomStringNum(length - 1);
+            if (!Character.isJavaIdentifierStart(nameTry.toCharArray()[0]))
+                continue;
 
-	public abstract void obfuscate();
+            if (!names.contains(nameTry)) {
+                names.add(nameTry);
+                name = nameTry;
+                found = true;
+            }
+        }
+        return name;
+    }
+
+    public abstract void obfuscate();
 }

@@ -35,7 +35,7 @@ import org.objectweb.asm.TypeReference;
 
 /**
  * A node that represents a type annotationn.
- * 
+ *
  * @author Eric Bruneton
  */
 public class TypeAnnotationNode extends AnnotationNode {
@@ -56,20 +56,16 @@ public class TypeAnnotationNode extends AnnotationNode {
      * Constructs a new {@link AnnotationNode}. <i>Subclasses must not use this
      * constructor</i>. Instead, they must use the
      * {@link #TypeAnnotationNode(int, int, TypePath, String)} version.
-     * 
-     * @param typeRef
-     *            a reference to the annotated type. See {@link TypeReference}.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     *
+     * @param typeRef  a reference to the annotated type. See {@link TypeReference}.
+     * @param typePath the path to the annotated type argument, wildcard bound, array
+     *                 element type, or static inner type within 'typeRef'. May be
+     *                 <tt>null</tt> if the annotation targets 'typeRef' as a whole.
+     * @param desc     the class descriptor of the annotation class.
+     * @throws IllegalStateException If a subclass calls this constructor.
      */
     public TypeAnnotationNode(final int typeRef, final TypePath typePath,
-            final String desc) {
+                              final String desc) {
         this(Opcodes.ASM5, typeRef, typePath, desc);
         if (getClass() != TypeAnnotationNode.class) {
             throw new IllegalStateException();
@@ -78,21 +74,17 @@ public class TypeAnnotationNode extends AnnotationNode {
 
     /**
      * Constructs a new {@link AnnotationNode}.
-     * 
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param typeRef
-     *            a reference to the annotated type. See {@link TypeReference}.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
-     * @param desc
-     *            the class descriptor of the annotation class.
+     *
+     * @param api      the ASM API version implemented by this visitor. Must be one
+     *                 of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
+     * @param typeRef  a reference to the annotated type. See {@link TypeReference}.
+     * @param typePath the path to the annotated type argument, wildcard bound, array
+     *                 element type, or static inner type within 'typeRef'. May be
+     *                 <tt>null</tt> if the annotation targets 'typeRef' as a whole.
+     * @param desc     the class descriptor of the annotation class.
      */
     public TypeAnnotationNode(final int api, final int typeRef,
-            final TypePath typePath, final String desc) {
+                              final TypePath typePath, final String desc) {
         super(api, desc);
         this.typeRef = typeRef;
         this.typePath = typePath;

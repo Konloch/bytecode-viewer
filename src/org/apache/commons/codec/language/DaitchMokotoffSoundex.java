@@ -62,11 +62,10 @@ import org.apache.commons.codec.StringEncoder;
  * This class is thread-safe.
  * </p>
  *
+ * @version $Id$
  * @see Soundex
  * @see <a href="http://en.wikipedia.org/wiki/Daitch%E2%80%93Mokotoff_Soundex"> Wikipedia - Daitch-Mokotoff Soundex</a>
  * @see <a href="http://www.avotaynu.com/soundex.htm">Avotaynu - Soundexing and Genealogy</a>
- *
- * @version $Id$
  * @since 1.10
  */
 public class DaitchMokotoffSoundex implements StringEncoder {
@@ -127,10 +126,8 @@ public class DaitchMokotoffSoundex implements StringEncoder {
         /**
          * Process the next replacement to be added to this branch.
          *
-         * @param replacement
-         *            the next replacement to append
-         * @param forceAppend
-         *            indicates if the default processing shall be overridden
+         * @param replacement the next replacement to append
+         * @param forceAppend indicates if the default processing shall be overridden
          */
         public void processNextReplacement(final String replacement, final boolean forceAppend) {
             final boolean append = lastReplacement == null || !lastReplacement.endsWith(replacement) || forceAppend;
@@ -166,7 +163,7 @@ public class DaitchMokotoffSoundex implements StringEncoder {
         private final String[] replacementDefault;
 
         protected Rule(final String pattern, final String replacementAtStart, final String replacementBeforeVowel,
-                final String replacementDefault) {
+                       final String replacementDefault) {
             this.pattern = pattern;
             this.replacementAtStart = replacementAtStart.split("\\|");
             this.replacementBeforeVowel = replacementBeforeVowel.split("\\|");
@@ -213,16 +210,24 @@ public class DaitchMokotoffSoundex implements StringEncoder {
 
     private static final String MULTILINE_COMMENT_START = "/*";
 
-    /** The resource file containing the replacement and folding rules */
+    /**
+     * The resource file containing the replacement and folding rules
+     */
     private static final String RESOURCE_FILE = "org/apache/commons/codec/language/dmrules.txt";
 
-    /** The code length of a DM soundex value. */
+    /**
+     * The code length of a DM soundex value.
+     */
     private static final int MAX_LENGTH = 6;
 
-    /** Transformation rules indexed by the first character of their pattern. */
+    /**
+     * Transformation rules indexed by the first character of their pattern.
+     */
     private static final Map<Character, List<Rule>> RULES = new HashMap<Character, List<Rule>>();
 
-    /** Folding rules. */
+    /**
+     * Folding rules.
+     */
     private static final Map<Character, Character> FOLDINGS = new HashMap<Character, Character>();
 
     static {
@@ -248,7 +253,7 @@ public class DaitchMokotoffSoundex implements StringEncoder {
     }
 
     private static void parseRules(final Scanner scanner, final String location,
-            final Map<Character, List<Rule>> ruleMapping, final Map<Character, Character> asciiFoldings) {
+                                   final Map<Character, List<Rule>> ruleMapping, final Map<Character, Character> asciiFoldings) {
         int currentLine = 0;
         boolean inMultilineComment = false;
 
@@ -340,7 +345,9 @@ public class DaitchMokotoffSoundex implements StringEncoder {
         return str;
     }
 
-    /** Whether to use ASCII folding prior to encoding. */
+    /**
+     * Whether to use ASCII folding prior to encoding.
+     */
     private final boolean folding;
 
     /**
@@ -357,8 +364,7 @@ public class DaitchMokotoffSoundex implements StringEncoder {
      * è -&gt; e.
      * </p>
      *
-     * @param folding
-     *            if ASCII-folding shall be performed before encoding
+     * @param folding if ASCII-folding shall be performed before encoding
      */
     public DaitchMokotoffSoundex(final boolean folding) {
         this.folding = folding;
@@ -370,8 +376,7 @@ public class DaitchMokotoffSoundex implements StringEncoder {
      * Removes all whitespace characters and performs ASCII folding if enabled.
      * </p>
      *
-     * @param input
-     *            the input string to cleanup
+     * @param input the input string to cleanup
      * @return a cleaned up string
      */
     private String cleanup(final String input) {
@@ -397,16 +402,12 @@ public class DaitchMokotoffSoundex implements StringEncoder {
      * EncoderException if the supplied object is not of type java.lang.String.
      * </p>
      *
-     * @see #soundex(String)
-     *
-     * @param obj
-     *            Object to encode
+     * @param obj Object to encode
      * @return An object (of type java.lang.String) containing the DM soundex code, which corresponds to the String
-     *         supplied.
-     * @throws EncoderException
-     *             if the parameter supplied is not of type java.lang.String
-     * @throws IllegalArgumentException
-     *             if a character is not mapped
+     * supplied.
+     * @throws EncoderException         if the parameter supplied is not of type java.lang.String
+     * @throws IllegalArgumentException if a character is not mapped
+     * @see #soundex(String)
      */
     @Override
     public Object encode(final Object obj) throws EncoderException {
@@ -420,13 +421,10 @@ public class DaitchMokotoffSoundex implements StringEncoder {
     /**
      * Encodes a String using the Daitch-Mokotoff soundex algorithm without branching.
      *
-     * @see #soundex(String)
-     *
-     * @param source
-     *            A String object to encode
+     * @param source A String object to encode
      * @return A DM Soundex code corresponding to the String supplied
-     * @throws IllegalArgumentException
-     *             if a character is not mapped
+     * @throws IllegalArgumentException if a character is not mapped
+     * @see #soundex(String)
      */
     @Override
     public String encode(final String source) {
@@ -453,11 +451,9 @@ public class DaitchMokotoffSoundex implements StringEncoder {
      * Thus the result will be "097400|097500".
      * </p>
      *
-     * @param source
-     *            A String object to encode
+     * @param source A String object to encode
      * @return A string containing a set of DM Soundex codes corresponding to the String supplied
-     * @throws IllegalArgumentException
-     *             if a character is not mapped
+     * @throws IllegalArgumentException if a character is not mapped
      */
     public String soundex(final String source) {
         final String[] branches = soundex(source, true);
@@ -475,12 +471,10 @@ public class DaitchMokotoffSoundex implements StringEncoder {
     /**
      * Perform the actual DM Soundex algorithm on the input string.
      *
-     * @param source
-     *            A String object to encode
-     * @param branching
-     *            If branching shall be performed
+     * @param source    A String object to encode
+     * @param branching If branching shall be performed
      * @return A string array containing all DM Soundex codes corresponding to the String supplied depending on the
-     *         selected branching mode
+     * selected branching mode
      */
     private String[] soundex(final String source, final boolean branching) {
         if (source == null) {
@@ -508,8 +502,7 @@ public class DaitchMokotoffSoundex implements StringEncoder {
             }
 
             // use an EMPTY_LIST to avoid false positive warnings wrt potential null pointer access
-            @SuppressWarnings("unchecked")
-            final List<Branch> nextBranches = branching ? new ArrayList<Branch>() : Collections.EMPTY_LIST;
+            @SuppressWarnings("unchecked") final List<Branch> nextBranches = branching ? new ArrayList<Branch>() : Collections.EMPTY_LIST;
 
             for (final Rule rule : rules) {
                 if (rule.matches(inputContext)) {

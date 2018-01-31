@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,8 +22,7 @@ package org.apache.commons.cli;
  *
  * @version $Id: ParseException.java 1443102 2013-02-06 18:12:16Z tn $
  */
-public class ParseException extends Exception
-{
+public class ParseException extends Exception {
     /**
      * This exception {@code serialVersionUID}.
      */
@@ -35,8 +34,7 @@ public class ParseException extends Exception
      *
      * @param message the detail message
      */
-    public ParseException(String message)
-    {
+    public ParseException(String message) {
         super(message);
     }
 }

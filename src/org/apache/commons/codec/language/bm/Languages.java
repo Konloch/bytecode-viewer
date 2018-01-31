@@ -47,8 +47,8 @@ import java.util.Set;
  * <p>
  * This class is immutable and thread-safe.
  *
- * @since 1.6
  * @version $Id$
+ * @since 1.6
  */
 public class Languages {
     // Implementation note: This class is divided into two sections. The first part is a static factory interface that
@@ -139,7 +139,7 @@ public class Languages {
                 final SomeLanguages sl = (SomeLanguages) other;
                 final Set<String> ls = new HashSet<String>(languages);
                 for (String lang : sl.languages) {
-                  ls.add(lang);
+                    ls.add(lang);
                 }
                 return from(ls);
             }

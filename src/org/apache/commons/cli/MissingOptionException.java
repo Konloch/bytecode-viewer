@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,8 +25,7 @@ import java.util.Iterator;
  *
  * @version $Id: MissingOptionException.java 1443102 2013-02-06 18:12:16Z tn $
  */
-public class MissingOptionException extends ParseException
-{
+public class MissingOptionException extends ParseException {
     /** This exception {@code serialVersionUID}. */
     private static final long serialVersionUID = 8161889051578563249L;
 
@@ -39,8 +38,7 @@ public class MissingOptionException extends ParseException
      *
      * @param message the detail message
      */
-    public MissingOptionException(String message)
-    {
+    public MissingOptionException(String message) {
         super(message);
     }
 
@@ -51,8 +49,7 @@ public class MissingOptionException extends ParseException
      * @param missingOptions the list of missing options and groups
      * @since 1.2
      */
-    public MissingOptionException(List missingOptions)
-    {
+    public MissingOptionException(List missingOptions) {
         this(createMessage(missingOptions));
         this.missingOptions = missingOptions;
     }
@@ -64,8 +61,7 @@ public class MissingOptionException extends ParseException
      *         options, and OptionGroup instances for required option groups.
      * @since 1.2
      */
-    public List getMissingOptions()
-    {
+    public List getMissingOptions() {
         return missingOptions;
     }
 
@@ -75,18 +71,15 @@ public class MissingOptionException extends ParseException
      * @param missingOptions the list of missing options and groups
      * @since 1.2
      */
-    private static String createMessage(List<?> missingOptions)
-    {
+    private static String createMessage(List<?> missingOptions) {
         StringBuilder buf = new StringBuilder("Missing required option");
         buf.append(missingOptions.size() == 1 ? "" : "s");
         buf.append(": ");
 
         Iterator<?> it = missingOptions.iterator();
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             buf.append(it.next());
-            if (it.hasNext())
-            {
+            if (it.hasNext()) {
                 buf.append(", ");
             }
         }

@@ -40,31 +40,49 @@ import org.apache.commons.codec.Charsets;
  */
 public class Sha2Crypt {
 
-    /** Default number of rounds if not explicitly specified. */
+    /**
+     * Default number of rounds if not explicitly specified.
+     */
     private static final int ROUNDS_DEFAULT = 5000;
 
-    /** Maximum number of rounds. */
+    /**
+     * Maximum number of rounds.
+     */
     private static final int ROUNDS_MAX = 999999999;
 
-    /** Minimum number of rounds. */
+    /**
+     * Minimum number of rounds.
+     */
     private static final int ROUNDS_MIN = 1000;
 
-    /** Prefix for optional rounds specification. */
+    /**
+     * Prefix for optional rounds specification.
+     */
     private static final String ROUNDS_PREFIX = "rounds=";
 
-    /** The number of bytes the final hash value will have (SHA-256 variant). */
+    /**
+     * The number of bytes the final hash value will have (SHA-256 variant).
+     */
     private static final int SHA256_BLOCKSIZE = 32;
 
-    /** The prefixes that can be used to identify this crypt() variant (SHA-256). */
+    /**
+     * The prefixes that can be used to identify this crypt() variant (SHA-256).
+     */
     static final String SHA256_PREFIX = "$5$";
 
-    /** The number of bytes the final hash value will have (SHA-512 variant). */
+    /**
+     * The number of bytes the final hash value will have (SHA-512 variant).
+     */
     private static final int SHA512_BLOCKSIZE = 64;
 
-    /** The prefixes that can be used to identify this crypt() variant (SHA-512). */
+    /**
+     * The prefixes that can be used to identify this crypt() variant (SHA-512).
+     */
     static final String SHA512_PREFIX = "$6$";
 
-    /** The pattern to match valid salt values. */
+    /**
+     * The pattern to match valid salt values.
+     */
     private static final Pattern SALT_PATTERN = Pattern
             .compile("^\\$([56])\\$(rounds=(\\d+)\\$)?([\\.\\/a-zA-Z0-9]{1,16}).*");
 
@@ -73,11 +91,9 @@ public class Sha2Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext to hash
+     * @param keyBytes plaintext to hash
      * @return complete hash value
-     * @throws RuntimeException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws RuntimeException when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String sha256Crypt(final byte[] keyBytes) {
         return sha256Crypt(keyBytes, null);
@@ -88,15 +104,11 @@ public class Sha2Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext to hash
-     * @param salt
-     *            real salt value without prefix or "rounds="
+     * @param keyBytes plaintext to hash
+     * @param salt     real salt value without prefix or "rounds="
      * @return complete hash value including salt
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws RuntimeException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws RuntimeException         when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String sha256Crypt(final byte[] keyBytes, String salt) {
         if (salt == null) {
@@ -113,25 +125,18 @@ public class Sha2Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext to hash
-     * @param salt
-     *            real salt value without prefix or "rounds="
-     * @param saltPrefix
-     *            either $5$ or $6$
-     * @param blocksize
-     *            a value that differs between $5$ and $6$
-     * @param algorithm
-     *            {@link MessageDigest} algorithm identifier string
+     * @param keyBytes   plaintext to hash
+     * @param salt       real salt value without prefix or "rounds="
+     * @param saltPrefix either $5$ or $6$
+     * @param blocksize  a value that differs between $5$ and $6$
+     * @param algorithm  {@link MessageDigest} algorithm identifier string
      * @return complete hash value including prefix and salt
-     * @throws IllegalArgumentException
-     *             if the given salt is <code>null</code> or does not match the allowed pattern
-     * @throws IllegalArgumentException
-     *             when a {@link NoSuchAlgorithmException} is caught
+     * @throws IllegalArgumentException if the given salt is <code>null</code> or does not match the allowed pattern
+     * @throws IllegalArgumentException when a {@link NoSuchAlgorithmException} is caught
      * @see MessageDigestAlgorithms
      */
     private static String sha2Crypt(final byte[] keyBytes, final String salt, final String saltPrefix,
-            final int blocksize, final String algorithm) {
+                                    final int blocksize, final String algorithm) {
 
         final int keyLen = keyBytes.length;
 
@@ -511,11 +516,9 @@ public class Sha2Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext to hash
+     * @param keyBytes plaintext to hash
      * @return complete hash value
-     * @throws RuntimeException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws RuntimeException when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String sha512Crypt(final byte[] keyBytes) {
         return sha512Crypt(keyBytes, null);
@@ -526,15 +529,11 @@ public class Sha2Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext to hash
-     * @param salt
-     *            real salt value without prefix or "rounds="
+     * @param keyBytes plaintext to hash
+     * @param salt     real salt value without prefix or "rounds="
      * @return complete hash value including salt
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws RuntimeException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws RuntimeException         when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String sha512Crypt(final byte[] keyBytes, String salt) {
         if (salt == null) {

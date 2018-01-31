@@ -24,5 +24,5 @@ package the.bytecode.club.bootloader;
  */
 public abstract interface LoaderFactory<T> {
 
-	public abstract ILoader<T> spawnLoader();
+    public abstract ILoader<T> spawnLoader();
 }

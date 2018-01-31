@@ -43,7 +43,7 @@ import org.objectweb.asm.tree.MethodInsnNode;
 
 /**
  * An {@link Interpreter} for {@link SourceValue} values.
- * 
+ *
  * @author Eric Bruneton
  */
 public class SourceInterpreter extends Interpreter<SourceValue> implements
@@ -69,96 +69,96 @@ public class SourceInterpreter extends Interpreter<SourceValue> implements
     public SourceValue newOperation(final AbstractInsnNode insn) {
         int size;
         switch (insn.opcode()) {
-        case LCONST_0:
-        case LCONST_1:
-        case DCONST_0:
-        case DCONST_1:
-            size = 2;
-            break;
-        case LDC:
-            Object cst = ((LdcInsnNode) insn).cst;
-            size = cst instanceof Long || cst instanceof Double ? 2 : 1;
-            break;
-        case GETSTATIC:
-            size = Type.getType(((FieldInsnNode) insn).desc).getSize();
-            break;
-        default:
-            size = 1;
+            case LCONST_0:
+            case LCONST_1:
+            case DCONST_0:
+            case DCONST_1:
+                size = 2;
+                break;
+            case LDC:
+                Object cst = ((LdcInsnNode) insn).cst;
+                size = cst instanceof Long || cst instanceof Double ? 2 : 1;
+                break;
+            case GETSTATIC:
+                size = Type.getType(((FieldInsnNode) insn).desc).getSize();
+                break;
+            default:
+                size = 1;
         }
         return new SourceValue(size, insn);
     }
 
     @Override
     public SourceValue copyOperation(final AbstractInsnNode insn,
-            final SourceValue value) {
+                                     final SourceValue value) {
         return new SourceValue(value.getSize(), insn);
     }
 
     @Override
     public SourceValue unaryOperation(final AbstractInsnNode insn,
-            final SourceValue value) {
+                                      final SourceValue value) {
         int size;
         switch (insn.opcode()) {
-        case LNEG:
-        case DNEG:
-        case I2L:
-        case I2D:
-        case L2D:
-        case F2L:
-        case F2D:
-        case D2L:
-            size = 2;
-            break;
-        case GETFIELD:
-            size = Type.getType(((FieldInsnNode) insn).desc).getSize();
-            break;
-        default:
-            size = 1;
+            case LNEG:
+            case DNEG:
+            case I2L:
+            case I2D:
+            case L2D:
+            case F2L:
+            case F2D:
+            case D2L:
+                size = 2;
+                break;
+            case GETFIELD:
+                size = Type.getType(((FieldInsnNode) insn).desc).getSize();
+                break;
+            default:
+                size = 1;
         }
         return new SourceValue(size, insn);
     }
 
     @Override
     public SourceValue binaryOperation(final AbstractInsnNode insn,
-            final SourceValue value1, final SourceValue value2) {
+                                       final SourceValue value1, final SourceValue value2) {
         int size;
         switch (insn.opcode()) {
-        case LALOAD:
-        case DALOAD:
-        case LADD:
-        case DADD:
-        case LSUB:
-        case DSUB:
-        case LMUL:
-        case DMUL:
-        case LDIV:
-        case DDIV:
-        case LREM:
-        case DREM:
-        case LSHL:
-        case LSHR:
-        case LUSHR:
-        case LAND:
-        case LOR:
-        case LXOR:
-            size = 2;
-            break;
-        default:
-            size = 1;
+            case LALOAD:
+            case DALOAD:
+            case LADD:
+            case DADD:
+            case LSUB:
+            case DSUB:
+            case LMUL:
+            case DMUL:
+            case LDIV:
+            case DDIV:
+            case LREM:
+            case DREM:
+            case LSHL:
+            case LSHR:
+            case LUSHR:
+            case LAND:
+            case LOR:
+            case LXOR:
+                size = 2;
+                break;
+            default:
+                size = 1;
         }
         return new SourceValue(size, insn);
     }
 
     @Override
     public SourceValue ternaryOperation(final AbstractInsnNode insn,
-            final SourceValue value1, final SourceValue value2,
-            final SourceValue value3) {
+                                        final SourceValue value1, final SourceValue value2,
+                                        final SourceValue value3) {
         return new SourceValue(1, insn);
     }
 
     @Override
     public SourceValue naryOperation(final AbstractInsnNode insn,
-            final List<? extends SourceValue> values) {
+                                     final List<? extends SourceValue> values) {
         int size;
         int opcode = insn.opcode();
         if (opcode == MULTIANEWARRAY) {
@@ -173,7 +173,7 @@ public class SourceInterpreter extends Interpreter<SourceValue> implements
 
     @Override
     public void returnOperation(final AbstractInsnNode insn,
-            final SourceValue value, final SourceValue expected) {
+                                final SourceValue value, final SourceValue expected) {
     }
 
     @Override

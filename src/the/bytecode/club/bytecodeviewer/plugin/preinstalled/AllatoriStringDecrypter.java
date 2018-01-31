@@ -27,16 +27,14 @@ import the.bytecode.club.bytecodeviewer.api.Plugin;
 
 /**
  * Coming soon.
- * 
+ *
  * @author Konloch
- * 
  */
 
 public class AllatoriStringDecrypter extends Plugin {
 
-	@Override
-	public void execute(ArrayList<ClassNode> classNodeList) {
-		BytecodeViewer.showMessage("This is a planned feature.");
-	}
-
+    @Override
+    public void execute(ArrayList<ClassNode> classNodeList) {
+        BytecodeViewer.showMessage("This is a planned feature.");
+    }
 }

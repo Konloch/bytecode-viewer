@@ -31,7 +31,7 @@ import org.apache.commons.codec.Charsets;
  * crypt-md5.c @ freebsd.org</a><br>
  * <p>
  * Source:
- *
+ * <p>
  * <pre>
  * $FreeBSD: src/lib/libcrypt/crypt-md5.c,v 1.1 1999/01/21 13:50:09 brandon Exp $
  * </pre>
@@ -47,26 +47,32 @@ import org.apache.commons.codec.Charsets;
  */
 public class Md5Crypt {
 
-    /** The Identifier of the Apache variant. */
+    /**
+     * The Identifier of the Apache variant.
+     */
     static final String APR1_PREFIX = "$apr1$";
 
-    /** The number of bytes of the final hash. */
+    /**
+     * The number of bytes of the final hash.
+     */
     private static final int BLOCKSIZE = 16;
 
-    /** The Identifier of this crypt() variant. */
+    /**
+     * The Identifier of this crypt() variant.
+     */
     static final String MD5_PREFIX = "$1$";
 
-    /** The number of rounds of the big loop. */
+    /**
+     * The number of rounds of the big loop.
+     */
     private static final int ROUNDS = 1000;
 
     /**
      * See {@link #apr1Crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext string to hash.
+     * @param keyBytes plaintext string to hash.
      * @return the hash value
-     * @throws RuntimeException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught. *
+     * @throws RuntimeException when a {@link java.security.NoSuchAlgorithmException} is caught. *
      */
     public static String apr1Crypt(final byte[] keyBytes) {
         return apr1Crypt(keyBytes, APR1_PREFIX + B64.getRandomSalt(8));
@@ -75,14 +81,11 @@ public class Md5Crypt {
     /**
      * See {@link #apr1Crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext string to hash.
-     * @param salt An APR1 salt.
+     * @param keyBytes plaintext string to hash.
+     * @param salt     An APR1 salt.
      * @return the hash value
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws RuntimeException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws RuntimeException         when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String apr1Crypt(final byte[] keyBytes, String salt) {
         // to make the md5Crypt regex happy
@@ -95,11 +98,9 @@ public class Md5Crypt {
     /**
      * See {@link #apr1Crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext string to hash.
+     * @param keyBytes plaintext string to hash.
      * @return the hash value
-     * @throws RuntimeException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws RuntimeException when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String apr1Crypt(final String keyBytes) {
         return apr1Crypt(keyBytes.getBytes(Charsets.UTF_8));
@@ -111,16 +112,12 @@ public class Md5Crypt {
      * The algorithm is identical to the crypt(3) "$1$" one but produces different outputs due to the different salt
      * prefix.
      *
-     * @param keyBytes
-     *            plaintext string to hash.
-     * @param salt
-     *            salt string including the prefix and optionally garbage at the end. Will be generated randomly if
-     *            null.
+     * @param keyBytes plaintext string to hash.
+     * @param salt     salt string including the prefix and optionally garbage at the end. Will be generated randomly if
+     *                 null.
      * @return the hash value
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws RuntimeException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws RuntimeException         when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String apr1Crypt(final String keyBytes, final String salt) {
         return apr1Crypt(keyBytes.getBytes(Charsets.UTF_8), salt);
@@ -131,11 +128,9 @@ public class Md5Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext string to hash.
+     * @param keyBytes plaintext string to hash.
      * @return the hash value
-     * @throws RuntimeException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws RuntimeException when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String md5Crypt(final byte[] keyBytes) {
         return md5Crypt(keyBytes, MD5_PREFIX + B64.getRandomSalt(8));
@@ -146,16 +141,12 @@ public class Md5Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext string to hash.
-     * @param salt
-     *            salt string including the prefix and optionally garbage at the end. Will be generated randomly if
-     *            null.
+     * @param keyBytes plaintext string to hash.
+     * @param salt     salt string including the prefix and optionally garbage at the end. Will be generated randomly if
+     *                 null.
      * @return the hash value
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws RuntimeException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws RuntimeException         when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String md5Crypt(final byte[] keyBytes, final String salt) {
         return md5Crypt(keyBytes, salt, MD5_PREFIX);
@@ -166,15 +157,12 @@ public class Md5Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} or {@link #apr1Crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext string to hash.
-     * @param salt May be null.
-     * @param prefix salt prefix
+     * @param keyBytes plaintext string to hash.
+     * @param salt     May be null.
+     * @param prefix   salt prefix
      * @return the hash value
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws RuntimeException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws RuntimeException         when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String md5Crypt(final byte[] keyBytes, final String salt, final String prefix) {
         final int keyLen = keyBytes.length;

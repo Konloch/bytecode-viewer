@@ -35,7 +35,7 @@ import org.objectweb.asm.MethodVisitor;
 
 /**
  * A node that represents a try catch block.
- * 
+ *
  * @author Eric Bruneton
  */
 public class TryCatchBlockNode {
@@ -65,7 +65,7 @@ public class TryCatchBlockNode {
      * The runtime visible type annotations on the exception handler type. This
      * list is a list of {@link TypeAnnotationNode} objects. May be
      * <tt>null</tt>.
-     * 
+     *
      * @associates org.objectweb.asm.tree.TypeAnnotationNode
      * @label visible
      */
@@ -75,7 +75,7 @@ public class TryCatchBlockNode {
      * The runtime invisible type annotations on the exception handler type.
      * This list is a list of {@link TypeAnnotationNode} objects. May be
      * <tt>null</tt>.
-     * 
+     *
      * @associates org.objectweb.asm.tree.TypeAnnotationNode
      * @label invisible
      */
@@ -83,20 +83,16 @@ public class TryCatchBlockNode {
 
     /**
      * Constructs a new {@link TryCatchBlockNode}.
-     * 
-     * @param start
-     *            beginning of the exception handler's scope (inclusive).
-     * @param end
-     *            end of the exception handler's scope (exclusive).
-     * @param handler
-     *            beginning of the exception handler's code.
-     * @param type
-     *            internal name of the type of exceptions handled by the
-     *            handler, or <tt>null</tt> to catch any exceptions (for
-     *            "finally" blocks).
+     *
+     * @param start   beginning of the exception handler's scope (inclusive).
+     * @param end     end of the exception handler's scope (exclusive).
+     * @param handler beginning of the exception handler's code.
+     * @param type    internal name of the type of exceptions handled by the
+     *                handler, or <tt>null</tt> to catch any exceptions (for
+     *                "finally" blocks).
      */
     public TryCatchBlockNode(final LabelNode start, final LabelNode end,
-            final LabelNode handler, final String type) {
+                             final LabelNode handler, final String type) {
         this.start = start;
         this.end = end;
         this.handler = handler;
@@ -107,10 +103,9 @@ public class TryCatchBlockNode {
      * Updates the index of this try catch block in the method's list of try
      * catch block nodes. This index maybe stored in the 'target' field of the
      * type annotations of this block.
-     * 
-     * @param index
-     *            the new index of this try catch block in the method's list of
-     *            try catch block nodes.
+     *
+     * @param index the new index of this try catch block in the method's list of
+     *              try catch block nodes.
      */
     public void updateIndex(final int index) {
         int newTypeRef = 0x42000000 | (index << 8);
@@ -128,9 +123,8 @@ public class TryCatchBlockNode {
 
     /**
      * Makes the given visitor visit this try catch block.
-     * 
-     * @param mv
-     *            a method visitor.
+     *
+     * @param mv a method visitor.
      */
     public void accept(final MethodVisitor mv) {
         mv.visitTryCatchBlock(start.getLabel(), end.getLabel(),

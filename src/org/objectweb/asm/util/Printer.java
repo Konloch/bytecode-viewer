@@ -41,7 +41,7 @@ import org.objectweb.asm.TypePath;
 
 /**
  * An abstract converter from visit events to text.
- * 
+ *
  * @author Eric Bruneton
  */
 public abstract class Printer {
@@ -153,8 +153,8 @@ public abstract class Printer {
      * Class header. See {@link org.objectweb.asm.ClassVisitor#visit}.
      */
     public abstract void visit(final int version, final int access,
-            final String name, final String signature, final String superName,
-            final String[] interfaces);
+                               final String name, final String signature, final String superName,
+                               final String[] interfaces);
 
     /**
      * Class source. See {@link org.objectweb.asm.ClassVisitor#visitSource}.
@@ -166,21 +166,21 @@ public abstract class Printer {
      * {@link org.objectweb.asm.ClassVisitor#visitOuterClass}.
      */
     public abstract void visitOuterClass(final String owner, final String name,
-            final String desc);
+                                         final String desc);
 
     /**
      * Class annotation. See
      * {@link org.objectweb.asm.ClassVisitor#visitAnnotation}.
      */
     public abstract Printer visitClassAnnotation(final String desc,
-            final boolean visible);
+                                                 final boolean visible);
 
     /**
      * Class type annotation. See
      * {@link org.objectweb.asm.ClassVisitor#visitTypeAnnotation}.
      */
     public Printer visitClassTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+                                            final TypePath typePath, final String desc, final boolean visible) {
         throw new RuntimeException("Must be overriden");
     }
 
@@ -195,19 +195,19 @@ public abstract class Printer {
      * {@link org.objectweb.asm.ClassVisitor#visitInnerClass}.
      */
     public abstract void visitInnerClass(final String name,
-            final String outerName, final String innerName, final int access);
+                                         final String outerName, final String innerName, final int access);
 
     /**
      * Class field. See {@link org.objectweb.asm.ClassVisitor#visitField}.
      */
     public abstract Printer visitField(final int access, final String name,
-            final String desc, final String signature, final Object value);
+                                       final String desc, final String signature, final Object value);
 
     /**
      * Class method. See {@link org.objectweb.asm.ClassVisitor#visitMethod}.
      */
     public abstract Printer visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions);
+                                        final String desc, final String signature, final String[] exceptions);
 
     /**
      * Class end. See {@link org.objectweb.asm.ClassVisitor#visitEnd}.
@@ -228,7 +228,7 @@ public abstract class Printer {
      * {@link org.objectweb.asm.AnnotationVisitor#visitEnum}.
      */
     public abstract void visitEnum(final String name, final String desc,
-            final String value);
+                                   final String value);
 
     /**
      * Nested annotation value. See
@@ -256,14 +256,14 @@ public abstract class Printer {
      * {@link org.objectweb.asm.FieldVisitor#visitAnnotation}.
      */
     public abstract Printer visitFieldAnnotation(final String desc,
-            final boolean visible);
+                                                 final boolean visible);
 
     /**
      * Field type annotation. See
      * {@link org.objectweb.asm.FieldVisitor#visitTypeAnnotation}.
      */
     public Printer visitFieldTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+                                            final TypePath typePath, final String desc, final boolean visible) {
         throw new RuntimeException("Must be overriden");
     }
 
@@ -301,14 +301,14 @@ public abstract class Printer {
      * {@link org.objectweb.asm.MethodVisitor#visitAnnotation}.
      */
     public abstract Printer visitMethodAnnotation(final String desc,
-            final boolean visible);
+                                                  final boolean visible);
 
     /**
      * Method type annotation. See
      * {@link org.objectweb.asm.MethodVisitor#visitTypeAnnotation}.
      */
     public Printer visitMethodTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+                                             final TypePath typePath, final String desc, final boolean visible) {
         throw new RuntimeException("Must be overriden");
     }
 
@@ -317,7 +317,7 @@ public abstract class Printer {
      * {@link org.objectweb.asm.MethodVisitor#visitParameterAnnotation}.
      */
     public abstract Printer visitParameterAnnotation(final int parameter,
-            final String desc, final boolean visible);
+                                                     final String desc, final boolean visible);
 
     /**
      * Method attribute. See
@@ -335,7 +335,7 @@ public abstract class Printer {
      * {@link org.objectweb.asm.MethodVisitor#visitFrame}.
      */
     public abstract void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack);
+                                    final Object[] local, final int nStack, final Object[] stack);
 
     /**
      * Method instruction. See {@link org.objectweb.asm.MethodVisitor#visitInsn}
@@ -366,7 +366,7 @@ public abstract class Printer {
      * {@link org.objectweb.asm.MethodVisitor#visitFieldInsn}.
      */
     public abstract void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc);
+                                        final String name, final String desc);
 
     /**
      * Method instruction. See
@@ -374,7 +374,7 @@ public abstract class Printer {
      */
     @Deprecated
     public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc) {
+                                final String name, final String desc) {
         if (api >= Opcodes.ASM5) {
             boolean itf = opcode == Opcodes.INVOKEINTERFACE;
             visitMethodInsn(opcode, owner, name, desc, itf);
@@ -388,7 +388,7 @@ public abstract class Printer {
      * {@link org.objectweb.asm.MethodVisitor#visitMethodInsn}.
      */
     public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
+                                final String name, final String desc, final boolean itf) {
         if (api < Opcodes.ASM5) {
             if (itf != (opcode == Opcodes.INVOKEINTERFACE)) {
                 throw new IllegalArgumentException(
@@ -405,7 +405,7 @@ public abstract class Printer {
      * {@link org.objectweb.asm.MethodVisitor#visitInvokeDynamicInsn}.
      */
     public abstract void visitInvokeDynamicInsn(String name, String desc,
-            Handle bsm, Object... bsmArgs);
+                                                Handle bsm, Object... bsmArgs);
 
     /**
      * Method instruction. See
@@ -435,28 +435,28 @@ public abstract class Printer {
      * {@link org.objectweb.asm.MethodVisitor#visitTableSwitchInsn}.
      */
     public abstract void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels);
+                                              final Label dflt, final Label... labels);
 
     /**
      * Method instruction. See
      * {@link org.objectweb.asm.MethodVisitor#visitLookupSwitchInsn}.
      */
     public abstract void visitLookupSwitchInsn(final Label dflt,
-            final int[] keys, final Label[] labels);
+                                               final int[] keys, final Label[] labels);
 
     /**
      * Method instruction. See
      * {@link org.objectweb.asm.MethodVisitor#visitMultiANewArrayInsn}.
      */
     public abstract void visitMultiANewArrayInsn(final String desc,
-            final int dims);
+                                                 final int dims);
 
     /**
      * Instruction type annotation. See
      * {@link org.objectweb.asm.MethodVisitor#visitInsnAnnotation}.
      */
     public Printer visitInsnAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+                                       final TypePath typePath, final String desc, final boolean visible) {
         throw new RuntimeException("Must be overriden");
     }
 
@@ -465,14 +465,14 @@ public abstract class Printer {
      * {@link org.objectweb.asm.MethodVisitor#visitTryCatchBlock}.
      */
     public abstract void visitTryCatchBlock(final Label start, final Label end,
-            final Label handler, final String type);
+                                            final Label handler, final String type);
 
     /**
      * Try catch block type annotation. See
      * {@link org.objectweb.asm.MethodVisitor#visitTryCatchAnnotation}.
      */
     public Printer visitTryCatchAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+                                           final TypePath typePath, final String desc, final boolean visible) {
         throw new RuntimeException("Must be overriden");
     }
 
@@ -481,16 +481,16 @@ public abstract class Printer {
      * {@link org.objectweb.asm.MethodVisitor#visitLocalVariable}.
      */
     public abstract void visitLocalVariable(final String name,
-            final String desc, final String signature, final Label start,
-            final Label end, final int index);
+                                            final String desc, final String signature, final Label start,
+                                            final Label end, final int index);
 
     /**
      * Local variable type annotation. See
      * {@link org.objectweb.asm.MethodVisitor#visitTryCatchAnnotation}.
      */
     public Printer visitLocalVariableAnnotation(final int typeRef,
-            final TypePath typePath, final Label[] start, final Label[] end,
-            final int[] index, final String desc, final boolean visible) {
+                                                final TypePath typePath, final Label[] start, final Label[] end,
+                                                final int[] index, final String desc, final boolean visible) {
         throw new RuntimeException("Must be overriden");
     }
 
@@ -513,7 +513,7 @@ public abstract class Printer {
 
     /**
      * Returns the text constructed by this visitor.
-     * 
+     *
      * @return the text constructed by this visitor.
      */
     public List<Object> getText() {
@@ -522,9 +522,8 @@ public abstract class Printer {
 
     /**
      * Prints the text constructed by this visitor.
-     * 
-     * @param pw
-     *            the print writer to be used.
+     *
+     * @param pw the print writer to be used.
      */
     public void print(final PrintWriter pw) {
         printList(pw, text);
@@ -532,11 +531,9 @@ public abstract class Printer {
 
     /**
      * Appends a quoted string to a given buffer.
-     * 
-     * @param buf
-     *            the buffer where the string must be added.
-     * @param s
-     *            the string to be added.
+     *
+     * @param buf the buffer where the string must be added.
+     * @param s   the string to be added.
      */
     public static void appendString(final StringBuffer buf, final String s) {
         buf.append('\"');
@@ -569,12 +566,10 @@ public abstract class Printer {
 
     /**
      * Prints the given string tree.
-     * 
-     * @param pw
-     *            the writer to be used to print the tree.
-     * @param l
-     *            a string tree, i.e., a string list that can contain other
-     *            string lists, and so on recursively.
+     *
+     * @param pw the writer to be used to print the tree.
+     * @param l  a string tree, i.e., a string list that can contain other
+     *           string lists, and so on recursively.
      */
     static void printList(final PrintWriter pw, final List<?> l) {
         for (int i = 0; i < l.size(); ++i) {

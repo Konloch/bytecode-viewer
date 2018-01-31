@@ -29,71 +29,69 @@ import the.bytecode.club.bytecodeviewer.ZipUtils;
 
 /**
  * Smali Assembler Wrapper for Java
- * 
- * @author Konloch
  *
+ * @author Konloch
  */
 
 public class SmaliAssembler extends Compiler {
 
-	@Override
-	public byte[] compile(String contents, String name) {
-		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp";
-		int fileNumber = MiscUtils.getClassNumber(fileStart, ".dex");
+    @Override
+    public byte[] compile(String contents, String name) {
+        String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp";
+        int fileNumber = MiscUtils.getClassNumber(fileStart, ".dex");
 
-		final File tempSmaliFolder = new File(fileStart + fileNumber + "-smalifolder"+BytecodeViewer.fs);
-		tempSmaliFolder.mkdir();
-		
-		File tempSmali = new File(tempSmaliFolder.getAbsolutePath() +BytecodeViewer.fs + fileNumber + ".smali");
-		File tempDex = new File(fileStart + fileNumber + ".dex");
-		File tempJar = new File(fileStart + fileNumber + ".jar");
-		File tempJarFolder = new File(fileStart + fileNumber + "-jar"+BytecodeViewer.fs);
-		
-		try {
-			DiskWriter.replaceFile(tempSmali.getAbsolutePath(), contents, false);
-		} catch (final Exception e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-		}
-		
-		try {
-			org.jf.smali.main.main(new String[]{tempSmaliFolder.getAbsolutePath(), "-o", tempDex.getAbsolutePath()});
-		} catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-		}
-		
+        final File tempSmaliFolder = new File(fileStart + fileNumber + "-smalifolder" + BytecodeViewer.fs);
+        tempSmaliFolder.mkdir();
 
-		if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
-			 Dex2Jar.dex2Jar(tempDex, tempJar);
-		else if(BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
-			 Enjarify.apk2Jar(tempDex, tempJar);
-		
-		try {
-			ZipUtils.unzipFilesToPath(tempJar.getAbsolutePath(), tempJarFolder.getAbsolutePath());
-			
-			File outputClass = null;
-			boolean found = false;
-			File current = tempJarFolder;
-			try {
-				while(!found) {
-					File f = current.listFiles()[0];
-					if(f.isDirectory())
-						current = f;
-					else {
-						outputClass = f;
-						found = true;
-					}
-						
-				}
-				
-				return org.apache.commons.io.FileUtils.readFileToByteArray(outputClass);
-			} catch (java.lang.NullPointerException e) {
-				
-			}
-		} catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-		}
-		
-		return null;
-	}
-	
+        File tempSmali = new File(tempSmaliFolder.getAbsolutePath() + BytecodeViewer.fs + fileNumber + ".smali");
+        File tempDex = new File(fileStart + fileNumber + ".dex");
+        File tempJar = new File(fileStart + fileNumber + ".jar");
+        File tempJarFolder = new File(fileStart + fileNumber + "-jar" + BytecodeViewer.fs);
+
+        try {
+            DiskWriter.replaceFile(tempSmali.getAbsolutePath(), contents, false);
+        } catch (final Exception e) {
+            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+        }
+
+        try {
+            org.jf.smali.main.main(new String[]{tempSmaliFolder.getAbsolutePath(), "-o", tempDex.getAbsolutePath()});
+        } catch (Exception e) {
+            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+        }
+
+
+        if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
+            Dex2Jar.dex2Jar(tempDex, tempJar);
+        else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
+            Enjarify.apk2Jar(tempDex, tempJar);
+
+        try {
+            ZipUtils.unzipFilesToPath(tempJar.getAbsolutePath(), tempJarFolder.getAbsolutePath());
+
+            File outputClass = null;
+            boolean found = false;
+            File current = tempJarFolder;
+            try {
+                while (!found) {
+                    File f = current.listFiles()[0];
+                    if (f.isDirectory())
+                        current = f;
+                    else {
+                        outputClass = f;
+                        found = true;
+                    }
+
+                }
+
+                return org.apache.commons.io.FileUtils.readFileToByteArray(outputClass);
+            } catch (java.lang.NullPointerException e) {
+
+            }
+        } catch (Exception e) {
+            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+        }
+
+        return null;
+    }
 }

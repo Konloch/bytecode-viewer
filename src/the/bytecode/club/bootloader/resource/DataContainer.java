@@ -28,19 +28,19 @@ import java.util.Map;
  */
 public abstract class DataContainer<T> extends ArrayList<T> {
 
-	private static final long serialVersionUID = -9022506488647444546L;
+    private static final long serialVersionUID = -9022506488647444546L;
 
-	public DataContainer() {
-		this(16);
-	}
+    public DataContainer() {
+        this(16);
+    }
 
-	public DataContainer(int cap) {
-		super(cap);
-	}
+    public DataContainer(int cap) {
+        super(cap);
+    }
 
-	public DataContainer(Collection<T> data) {
-		addAll(data);
-	}
+    public DataContainer(Collection<T> data) {
+        addAll(data);
+    }
 
-	public abstract Map<String, T> namedMap();
+    public abstract Map<String, T> namedMap();
 }

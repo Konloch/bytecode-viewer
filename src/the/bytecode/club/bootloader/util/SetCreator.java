@@ -27,8 +27,8 @@ import java.util.Set;
  */
 public class SetCreator<T> implements ValueCreator<Set<T>> {
 
-	@Override 
-	public Set<T> create() {
-		return new HashSet<T>();
-	}
+    @Override
+    public Set<T> create() {
+        return new HashSet<T>();
+    }
 }

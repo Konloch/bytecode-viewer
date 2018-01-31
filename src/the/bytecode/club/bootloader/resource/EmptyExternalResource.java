@@ -27,18 +27,18 @@ import java.net.URL;
  */
 public class EmptyExternalResource<T> extends ExternalResource<T> {
 
-	/**
-	 * @param location
-	 */
-	public EmptyExternalResource(URL location) {
-		super(location);
-	}
+    /**
+     * @param location
+     */
+    public EmptyExternalResource(URL location) {
+        super(location);
+    }
 
-	/* (non-Javadoc)
-	 * @see the.bytecode.club.bootloader.resource.ExternalResource#load()
-	 */
-	@Override
-	public T load() throws IOException {
-		throw new UnsupportedOperationException();
-	}
+    /* (non-Javadoc)
+     * @see the.bytecode.club.bootloader.resource.ExternalResource#load()
+     */
+    @Override
+    public T load() throws IOException {
+        throw new UnsupportedOperationException();
+    }
 }

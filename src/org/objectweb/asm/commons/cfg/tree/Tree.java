@@ -8,15 +8,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Tree<E extends Tree<E>> extends CopyOnWriteArrayList<E> {
 
-	protected Tree<E> parent;
+    protected Tree<E> parent;
 
-	public Tree() {
-		super();
-	}
+    public Tree() {
+        super();
+    }
 
-	public Tree(Collection<? extends E> collection) {
-		super(collection);
-	}
+    public Tree(Collection<? extends E> collection) {
+        super(collection);
+    }
 
     public void addFirst(E e) {
         Collection<E> list = new ArrayList<>();
@@ -44,54 +44,54 @@ public class Tree<E extends Tree<E>> extends CopyOnWriteArrayList<E> {
         parent.addAll(es);
     }
 
-	@SuppressWarnings("unchecked")
-	public E parent() {
-		return (E) parent;
-	}
+    @SuppressWarnings("unchecked")
+    public E parent() {
+        return (E) parent;
+    }
 
-	public boolean hasParent() {
-		return parent() != null;
-	}
+    public boolean hasParent() {
+        return parent() != null;
+    }
 
-	public E previous() {
-		Tree<E> p = parent;
-		if (p == null) {
-			return null;
-		}
-		Iterator<E> it = parent.iterator();
-		E prev = null;
-		while (it.hasNext()) {
-			E e = it.next();
-			if (e.equals(this)) {
-				return prev;
-			}
-			prev = e;
-		}
-		return null;
-	}
+    public E previous() {
+        Tree<E> p = parent;
+        if (p == null) {
+            return null;
+        }
+        Iterator<E> it = parent.iterator();
+        E prev = null;
+        while (it.hasNext()) {
+            E e = it.next();
+            if (e.equals(this)) {
+                return prev;
+            }
+            prev = e;
+        }
+        return null;
+    }
 
-	public boolean hasPrevious() {
-		return previous() != null;
-	}
+    public boolean hasPrevious() {
+        return previous() != null;
+    }
 
-	public E next() {
-		Tree<E> p = parent;
-		if (p == null) {
-			return null;
-		}
-		Iterator<E> it = parent.iterator();
-		while (it.hasNext()) {
-			E e = it.next();
-			if (e.equals(this)) {
-				return it.hasNext() ? it.next() : null;
-			}
-		}
-		return null;
-	}
+    public E next() {
+        Tree<E> p = parent;
+        if (p == null) {
+            return null;
+        }
+        Iterator<E> it = parent.iterator();
+        while (it.hasNext()) {
+            E e = it.next();
+            if (e.equals(this)) {
+                return it.hasNext() ? it.next() : null;
+            }
+        }
+        return null;
+    }
 
-	public boolean hasNext() {
-		return next() != null;
-	}
+    public boolean hasNext() {
+        return next() != null;
+    }
 
     @Override
     public int hashCode() {

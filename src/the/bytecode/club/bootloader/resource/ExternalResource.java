@@ -27,47 +27,47 @@ import java.net.URL;
  */
 public abstract class ExternalResource<T> {
 
-	private final URL location;
+    private final URL location;
 
-	public ExternalResource(URL location) {
-		if(location == null)
-			throw new IllegalArgumentException();
-		this.location = location;
-	}
+    public ExternalResource(URL location) {
+        if (location == null)
+            throw new IllegalArgumentException();
+        this.location = location;
+    }
 
-	public URL getLocation() {
-		return location;
-	}
-	
-	public abstract T load() throws IOException;
+    public URL getLocation() {
+        return location;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((location == null) ? 0 : location.hashCode());
-		return result;
-	}
+    public abstract T load() throws IOException;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ExternalResource<?> other = (ExternalResource<?>) obj;
-		if (location == null) {
-			if (other.location != null)
-				return false;
-		} else if (!location.equals(other.location))
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((location == null) ? 0 : location.hashCode());
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return "Library @" + location.toExternalForm();
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ExternalResource<?> other = (ExternalResource<?>) obj;
+        if (location == null) {
+            if (other.location != null)
+                return false;
+        } else if (!location.equals(other.location))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Library @" + location.toExternalForm();
+    }
 }

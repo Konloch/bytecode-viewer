@@ -33,68 +33,68 @@ import the.bytecode.club.bytecodeviewer.ZipUtils;
 
 /**
  * Smali Disassembler Wrapper
- * 
- * @author Konloch
  *
+ * @author Konloch
  */
 
 public class SmaliDisassembler extends Decompiler {
-	
-	public String decompileClassNode(ClassNode cn, byte[] b) {
-		String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
-				+ "temp";
-		
-		String start = MiscUtils.getUniqueName(fileStart, ".class");
 
-		final File tempClass = new File(start + ".class");
-		final File tempZip = new File(start + ".jar");
-		final File tempDex = new File(start + ".dex");
-		final File tempSmali = new File(start + "-smali"); //output directory
-		
-		try {
-			final FileOutputStream fos = new FileOutputStream(tempClass);
+    public String decompileClassNode(ClassNode cn, byte[] b) {
+        String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
+                + "temp";
 
-			fos.write(b);
+        String start = MiscUtils.getUniqueName(fileStart, ".class");
 
-			fos.close();
-		} catch (final IOException e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-		}
-		
-		ZipUtils.zipFile(tempClass, tempZip);
+        final File tempClass = new File(start + ".class");
+        final File tempZip = new File(start + ".jar");
+        final File tempDex = new File(start + ".dex");
+        final File tempSmali = new File(start + "-smali"); //output directory
 
-		Dex2Jar.saveAsDex(tempZip, tempDex);
-		
-		try {
-			org.jf.baksmali.main.main(new String[]{"-o", tempSmali.getAbsolutePath(), "-x", tempDex.getAbsolutePath()});
-		} catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-		}
-		
-		File outputSmali = null;
-		
-		boolean found = false;
-		File current = tempSmali;
-		while(!found) {
-			File f = current.listFiles()[0];
-			if(f.isDirectory())
-				current = f;
-			else {
-				outputSmali = f;
-				found = true;
-			}
-				
-		}
-		try {
-			return DiskReader.loadAsString(outputSmali.getAbsolutePath());
-		} catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-		}
-		
-		return null;
-	}
+        try {
+            final FileOutputStream fos = new FileOutputStream(tempClass);
 
-	@Override public void decompileToZip(String zipName) {
-		
-	}
+            fos.write(b);
+
+            fos.close();
+        } catch (final IOException e) {
+            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+        }
+
+        ZipUtils.zipFile(tempClass, tempZip);
+
+        Dex2Jar.saveAsDex(tempZip, tempDex);
+
+        try {
+            org.jf.baksmali.main.main(new String[]{"-o", tempSmali.getAbsolutePath(), "-x", tempDex.getAbsolutePath()});
+        } catch (Exception e) {
+            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+        }
+
+        File outputSmali = null;
+
+        boolean found = false;
+        File current = tempSmali;
+        while (!found) {
+            File f = current.listFiles()[0];
+            if (f.isDirectory())
+                current = f;
+            else {
+                outputSmali = f;
+                found = true;
+            }
+
+        }
+        try {
+            return DiskReader.loadAsString(outputSmali.getAbsolutePath());
+        } catch (Exception e) {
+            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+        }
+
+        return null;
+    }
+
+    @Override
+    public void decompileToZip(String zipName) {
+
+    }
 }

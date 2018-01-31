@@ -9,98 +9,97 @@ import java.util.Random;
 
 /**
  * Used to load from the disk, optional caching
- * 
+ *
  * @author Konloch
- * 
  */
 
 public class DiskReader {
 
-	public static Random random = new Random();
-	public static HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+    public static Random random = new Random();
+    public static HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
 
-	/**
-	 * Used to load from file, allows caching
-	 */
-	public synchronized static ArrayList<String> loadArrayList(String fileName,
-			boolean cache) {
-		ArrayList<String> array = new ArrayList<String>();
-		if (!map.containsKey(fileName)) {
-			try {
-				File file = new File(fileName);
-				if (!file.exists()) // doesnt exist, return empty
-					return array;
+    /**
+     * Used to load from file, allows caching
+     */
+    public synchronized static ArrayList<String> loadArrayList(String fileName,
+                                                               boolean cache) {
+        ArrayList<String> array = new ArrayList<String>();
+        if (!map.containsKey(fileName)) {
+            try {
+                File file = new File(fileName);
+                if (!file.exists()) // doesnt exist, return empty
+                    return array;
 
-				BufferedReader reader = new BufferedReader(new FileReader(file));
-				String add;
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String add;
 
-				while ((add = reader.readLine()) != null)
-					array.add(add);
+                while ((add = reader.readLine()) != null)
+                    array.add(add);
 
-				reader.close();
+                reader.close();
 
-				if (cache)
-					map.put(fileName, array);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			array = map.get(fileName);
-		}
+                if (cache)
+                    map.put(fileName, array);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            array = map.get(fileName);
+        }
 
-		return array;
+        return array;
 
-	}
+    }
 
-	/**
-	 * Used to load from file
-	 */
-	public synchronized static String loadAsString(String fileName)
-			throws Exception {
-		String s = "";
+    /**
+     * Used to load from file
+     */
+    public synchronized static String loadAsString(String fileName)
+            throws Exception {
+        String s = "";
 
-		BufferedReader reader = new BufferedReader(new FileReader(new File(
-				fileName)));
-		String add;
+        BufferedReader reader = new BufferedReader(new FileReader(new File(
+                fileName)));
+        String add;
 
-		while ((add = reader.readLine()) != null)
-			s += add + System.getProperty("line.separator");
+        while ((add = reader.readLine()) != null)
+            s += add + System.getProperty("line.separator");
 
-		reader.close();
+        reader.close();
 
-		return s;
-	}
+        return s;
+    }
 
-	/**
-	 * Used to load a string via line number lineNumber = -1 means random.
-	 */
-	public static String loadString(String fileName, int lineNumber,
-			boolean cache) throws Exception {
+    /**
+     * Used to load a string via line number lineNumber = -1 means random.
+     */
+    public static String loadString(String fileName, int lineNumber,
+                                    boolean cache) throws Exception {
 
-		ArrayList<String> array;
-		if (!map.containsKey(fileName)) {
-			array = new ArrayList<String>();
-			File file = new File(fileName);
+        ArrayList<String> array;
+        if (!map.containsKey(fileName)) {
+            array = new ArrayList<String>();
+            File file = new File(fileName);
 
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String add;
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String add;
 
-			while ((add = reader.readLine()) != null)
-				array.add(add);
+            while ((add = reader.readLine()) != null)
+                array.add(add);
 
-			reader.close();
+            reader.close();
 
-			if (cache)
-				map.put(fileName, array);
-		} else {
-			array = map.get(fileName);
-		}
+            if (cache)
+                map.put(fileName, array);
+        } else {
+            array = map.get(fileName);
+        }
 
-		if (lineNumber == -1) {
-			int size = array.size();
-			return array.get(random.nextInt(size));
-		} else
-			return array.get(lineNumber);
-	}
+        if (lineNumber == -1) {
+            int size = array.size();
+            return array.get(random.nextInt(size));
+        } else
+            return array.get(lineNumber);
+    }
 
 }

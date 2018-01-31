@@ -6,24 +6,24 @@ import org.objectweb.asm.commons.cfg.tree.node.*;
 
 public abstract class NodeVisitor implements Opcodes {
 
-	private NodeVisitor nv;
+    private NodeVisitor nv;
     private BlockVisitor bv;
 
     public boolean validate() {
         return bv == null || bv.validate();
     }
 
-	public NodeVisitor() {
+    public NodeVisitor() {
         this.nv = null;
-	}
+    }
 
     public NodeVisitor(BlockVisitor bv) {
         this.bv = bv;
     }
 
-	public NodeVisitor(NodeVisitor nv) {
-		this.nv = nv;
-	}
+    public NodeVisitor(NodeVisitor nv) {
+        this.nv = nv;
+    }
 
     public void visitAny(AbstractNode n) {
         if (nv != null)

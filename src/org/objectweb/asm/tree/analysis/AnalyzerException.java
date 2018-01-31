@@ -33,7 +33,7 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 
 /**
  * Thrown if a problem occurs during the analysis of a method.
- * 
+ *
  * @author Bing Ran
  * @author Eric Bruneton
  */
@@ -48,13 +48,13 @@ public class AnalyzerException extends Exception {
     }
 
     public AnalyzerException(final AbstractInsnNode node, final String msg,
-            final Throwable exception) {
+                             final Throwable exception) {
         super(msg, exception);
         this.node = node;
     }
 
     public AnalyzerException(final AbstractInsnNode node, final String msg,
-            final Object expected, final Value encountered) {
+                             final Object expected, final Value encountered) {
         super((msg == null ? "Expected " : msg + ": expected ") + expected
                 + ", but found " + encountered);
         this.node = node;

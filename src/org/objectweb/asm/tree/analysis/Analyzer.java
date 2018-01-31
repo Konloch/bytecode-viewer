@@ -50,10 +50,8 @@ import org.objectweb.asm.tree.VarInsnNode;
 /**
  * A semantic bytecode analyzer. <i>This class does not fully check that JSR and
  * RET instructions are valid.</i>
- * 
- * @param <V>
- *            type of the Value used for the analysis.
- * 
+ *
+ * @param <V> type of the Value used for the analysis.
  * @author Eric Bruneton
  */
 public class Analyzer<V extends Value> implements Opcodes {
@@ -78,10 +76,9 @@ public class Analyzer<V extends Value> implements Opcodes {
 
     /**
      * Constructs a new {@link Analyzer}.
-     * 
-     * @param interpreter
-     *            the interpreter to be used to symbolically interpret the
-     *            bytecode instructions.
+     *
+     * @param interpreter the interpreter to be used to symbolically interpret the
+     *                    bytecode instructions.
      */
     public Analyzer(final Interpreter<V> interpreter) {
         this.interpreter = interpreter;
@@ -89,18 +86,15 @@ public class Analyzer<V extends Value> implements Opcodes {
 
     /**
      * Analyzes the given method.
-     * 
-     * @param owner
-     *            the internal name of the class to which the method belongs.
-     * @param m
-     *            the method to be analyzed.
+     *
+     * @param owner the internal name of the class to which the method belongs.
+     * @param m     the method to be analyzed.
      * @return the symbolic state of the execution stack frame at each bytecode
-     *         instruction of the method. The size of the returned array is
-     *         equal to the number of instructions (and labels) of the method. A
-     *         given frame is <tt>null</tt> if and only if the corresponding
-     *         instruction cannot be reached (dead code).
-     * @throws AnalyzerException
-     *             if a problem occurs during the analysis.
+     * instruction of the method. The size of the returned array is
+     * equal to the number of instructions (and labels) of the method. A
+     * given frame is <tt>null</tt> if and only if the corresponding
+     * instruction cannot be reached (dead code).
+     * @throws AnalyzerException if a problem occurs during the analysis.
      */
     @SuppressWarnings("unchecked")
     public Frame<V>[] analyze(final String owner, final MethodNode m)
@@ -303,7 +297,7 @@ public class Analyzer<V extends Value> implements Opcodes {
     }
 
     private void findSubroutine(int insn, final Subroutine sub,
-            final List<AbstractInsnNode> calls) throws AnalyzerException {
+                                final List<AbstractInsnNode> calls) throws AnalyzerException {
         while (true) {
             if (insn < 0 || insn >= n) {
                 throw new AnalyzerException(null,
@@ -351,18 +345,18 @@ public class Analyzer<V extends Value> implements Opcodes {
 
             // if insn does not falls through to the next instruction, return.
             switch (node.opcode()) {
-            case GOTO:
-            case RET:
-            case TABLESWITCH:
-            case LOOKUPSWITCH:
-            case IRETURN:
-            case LRETURN:
-            case FRETURN:
-            case DRETURN:
-            case ARETURN:
-            case RETURN:
-            case ATHROW:
-                return;
+                case GOTO:
+                case RET:
+                case TABLESWITCH:
+                case LOOKUPSWITCH:
+                case IRETURN:
+                case LRETURN:
+                case FRETURN:
+                case DRETURN:
+                case ARETURN:
+                case RETURN:
+                case ATHROW:
+                    return;
             }
             insn++;
         }
@@ -371,13 +365,13 @@ public class Analyzer<V extends Value> implements Opcodes {
     /**
      * Returns the symbolic stack frame for each instruction of the last
      * recently analyzed method.
-     * 
+     *
      * @return the symbolic state of the execution stack frame at each bytecode
-     *         instruction of the method. The size of the returned array is
-     *         equal to the number of instructions (and labels) of the method. A
-     *         given frame is <tt>null</tt> if the corresponding instruction
-     *         cannot be reached, or if an error occured during the analysis of
-     *         the method.
+     * instruction of the method. The size of the returned array is
+     * equal to the number of instructions (and labels) of the method. A
+     * given frame is <tt>null</tt> if the corresponding instruction
+     * cannot be reached, or if an error occured during the analysis of
+     * the method.
      */
     public Frame<V>[] getFrames() {
         return frames;
@@ -385,10 +379,9 @@ public class Analyzer<V extends Value> implements Opcodes {
 
     /**
      * Returns the exception handlers for the given instruction.
-     * 
-     * @param insn
-     *            the index of an instruction of the last recently analyzed
-     *            method.
+     *
+     * @param insn the index of an instruction of the last recently analyzed
+     *             method.
      * @return a list of {@link TryCatchBlockNode} objects.
      */
     public List<TryCatchBlockNode> getHandlers(final int insn) {
@@ -399,24 +392,19 @@ public class Analyzer<V extends Value> implements Opcodes {
      * Initializes this analyzer. This method is called just before the
      * execution of control flow analysis loop in #analyze. The default
      * implementation of this method does nothing.
-     * 
-     * @param owner
-     *            the internal name of the class to which the method belongs.
-     * @param m
-     *            the method to be analyzed.
-     * @throws AnalyzerException
-     *             if a problem occurs.
+     *
+     * @param owner the internal name of the class to which the method belongs.
+     * @param m     the method to be analyzed.
+     * @throws AnalyzerException if a problem occurs.
      */
     protected void init(String owner, MethodNode m) throws AnalyzerException {
     }
 
     /**
      * Constructs a new frame with the given size.
-     * 
-     * @param nLocals
-     *            the maximum number of local variables of the frame.
-     * @param nStack
-     *            the maximum stack size of the frame.
+     *
+     * @param nLocals the maximum number of local variables of the frame.
+     * @param nStack  the maximum stack size of the frame.
      * @return the created frame.
      */
     protected Frame<V> newFrame(final int nLocals, final int nStack) {
@@ -425,9 +413,8 @@ public class Analyzer<V extends Value> implements Opcodes {
 
     /**
      * Constructs a new frame that is identical to the given frame.
-     * 
-     * @param src
-     *            a frame.
+     *
+     * @param src a frame.
      * @return the created frame.
      */
     protected Frame<V> newFrame(final Frame<? extends V> src) {
@@ -439,11 +426,9 @@ public class Analyzer<V extends Value> implements Opcodes {
      * method does nothing. It can be overriden in order to construct the
      * control flow graph of a method (this method is called by the
      * {@link #analyze analyze} method during its visit of the method's code).
-     * 
-     * @param insn
-     *            an instruction index.
-     * @param successor
-     *            index of a successor instruction.
+     *
+     * @param insn      an instruction index.
+     * @param successor index of a successor instruction.
      */
     protected void newControlFlowEdge(final int insn, final int successor) {
     }
@@ -454,17 +439,15 @@ public class Analyzer<V extends Value> implements Opcodes {
      * overridden in order to construct the control flow graph of a method (this
      * method is called by the {@link #analyze analyze} method during its visit
      * of the method's code).
-     * 
-     * @param insn
-     *            an instruction index.
-     * @param successor
-     *            index of a successor instruction.
+     *
+     * @param insn      an instruction index.
+     * @param successor index of a successor instruction.
      * @return true if this edge must be considered in the data flow analysis
-     *         performed by this analyzer, or false otherwise. The default
-     *         implementation of this method always returns true.
+     * performed by this analyzer, or false otherwise. The default
+     * implementation of this method always returns true.
      */
     protected boolean newControlFlowExceptionEdge(final int insn,
-            final int successor) {
+                                                  final int successor) {
         return true;
     }
 
@@ -476,26 +459,24 @@ public class Analyzer<V extends Value> implements Opcodes {
      * construct the control flow graph of a method (this method is called by
      * the {@link #analyze analyze} method during its visit of the method's
      * code).
-     * 
-     * @param insn
-     *            an instruction index.
-     * @param tcb
-     *            TryCatchBlockNode corresponding to this edge.
+     *
+     * @param insn an instruction index.
+     * @param tcb  TryCatchBlockNode corresponding to this edge.
      * @return true if this edge must be considered in the data flow analysis
-     *         performed by this analyzer, or false otherwise. The default
-     *         implementation of this method delegates to
-     *         {@link #newControlFlowExceptionEdge(int, int)
-     *         newControlFlowExceptionEdge(int, int)}.
+     * performed by this analyzer, or false otherwise. The default
+     * implementation of this method delegates to
+     * {@link #newControlFlowExceptionEdge(int, int)
+     * newControlFlowExceptionEdge(int, int)}.
      */
     protected boolean newControlFlowExceptionEdge(final int insn,
-            final TryCatchBlockNode tcb) {
+                                                  final TryCatchBlockNode tcb) {
         return newControlFlowExceptionEdge(insn, insns.indexOf(tcb.handler));
     }
 
     // -------------------------------------------------------------------------
 
     private void merge(final int insn, final Frame<V> frame,
-            final Subroutine subroutine) throws AnalyzerException {
+                       final Subroutine subroutine) throws AnalyzerException {
         Frame<V> oldFrame = frames[insn];
         Subroutine oldSubroutine = subroutines[insn];
         boolean changes;
@@ -524,8 +505,8 @@ public class Analyzer<V extends Value> implements Opcodes {
     }
 
     private void merge(final int insn, final Frame<V> beforeJSR,
-            final Frame<V> afterRET, final Subroutine subroutineBeforeJSR,
-            final boolean[] access) throws AnalyzerException {
+                       final Frame<V> afterRET, final Subroutine subroutineBeforeJSR,
+                       final boolean[] access) throws AnalyzerException {
         Frame<V> oldFrame = frames[insn];
         Subroutine oldSubroutine = subroutines[insn];
         boolean changes;

@@ -20,9 +20,9 @@ import java.util.Random;
 
 /**
  * Base64 like method to convert binary bytes into ASCII chars.
- *
+ * <p>
  * TODO: Can Base64 be reused?
- *
+ * <p>
  * <p>
  * This class is immutable and thread-safe.
  * </p>
@@ -40,16 +40,11 @@ class B64 {
     /**
      * Base64 like conversion of bytes to ASCII chars.
      *
-     * @param b2
-     *            A byte from the result.
-     * @param b1
-     *            A byte from the result.
-     * @param b0
-     *            A byte from the result.
-     * @param outLen
-     *            The number of expected output chars.
-     * @param buffer
-     *            Where the output chars is appended to.
+     * @param b2     A byte from the result.
+     * @param b1     A byte from the result.
+     * @param b0     A byte from the result.
+     * @param outLen The number of expected output chars.
+     * @param buffer Where the output chars is appended to.
      */
     static void b64from24bit(final byte b2, final byte b1, final byte b0, final int outLen,
                              final StringBuilder buffer) {
@@ -66,8 +61,7 @@ class B64 {
     /**
      * Generates a string of random chars from the B64T set.
      *
-     * @param num
-     *            Number of chars to generate.
+     * @param num Number of chars to generate.
      */
     static String getRandomSalt(final int num) {
         final StringBuilder saltString = new StringBuilder();

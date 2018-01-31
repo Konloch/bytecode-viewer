@@ -22,7 +22,7 @@ import org.apache.commons.codec.StringEncoder;
 
 /**
  * Utility methods for {@link Soundex} and {@link RefinedSoundex} classes.
- *
+ * <p>
  * <p>This class is immutable and thread-safe.</p>
  *
  * @version $Id$
@@ -34,8 +34,7 @@ final class SoundexUtils {
      * Cleans up the input string before Soundex processing by only returning
      * upper case letters.
      *
-     * @param str
-     *                  The String to clean.
+     * @param str The String to clean.
      * @return A clean String.
      */
     static String clean(final String str) {
@@ -66,21 +65,15 @@ final class SoundexUtils {
      * <li>For refined Soundex, the return value can be greater than 4.</li>
      * </ul>
      *
-     * @param encoder
-     *                  The encoder to use to encode the Strings.
-     * @param s1
-     *                  A String that will be encoded and compared.
-     * @param s2
-     *                  A String that will be encoded and compared.
+     * @param encoder The encoder to use to encode the Strings.
+     * @param s1      A String that will be encoded and compared.
+     * @param s2      A String that will be encoded and compared.
      * @return The number of characters in the two Soundex encoded Strings that
-     *             are the same.
-     *
-     * @see #differenceEncoded(String,String)
+     * are the same.
+     * @throws EncoderException if an error occurs encoding one of the strings
+     * @see #differenceEncoded(String, String)
      * @see <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/tsqlref/ts_de-dz_8co5.asp">
-     *          MS T-SQL DIFFERENCE</a>
-     *
-     * @throws EncoderException
-     *                  if an error occurs encoding one of the strings
+     * MS T-SQL DIFFERENCE</a>
      */
     static int difference(final StringEncoder encoder, final String s1, final String s2) throws EncoderException {
         return differenceEncoded(encoder.encode(s1), encoder.encode(s2));
@@ -96,15 +89,12 @@ final class SoundexUtils {
      * <li>For refined Soundex, the return value can be greater than 4.</li>
      * </ul>
      *
-     * @param es1
-     *                  An encoded String.
-     * @param es2
-     *                  An encoded String.
+     * @param es1 An encoded String.
+     * @param es2 An encoded String.
      * @return The number of characters in the two Soundex encoded Strings that
-     *             are the same.
-     *
+     * are the same.
      * @see <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/tsqlref/ts_de-dz_8co5.asp">
-     *          MS T-SQL DIFFERENCE</a>
+     * MS T-SQL DIFFERENCE</a>
      */
     static int differenceEncoded(final String es1, final String es2) {
 
@@ -120,5 +110,4 @@ final class SoundexUtils {
         }
         return diff;
     }
-
 }

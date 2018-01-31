@@ -35,18 +35,18 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
  */
 public class GroovyPluginLaunchStrategy implements PluginLaunchStrategy {
 
-	@Override
-	public Plugin run(File file) throws Throwable {
-		ScriptEngineManager manager = new ScriptEngineManager();
-		ScriptEngine engine = manager.getEngineByName("groovy");
+    @Override
+    public Plugin run(File file) throws Throwable {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("groovy");
 
-		if (engine == null)
-			throw new Exception(
-					"Cannot find Groovy script engine! Please contact Konloch.");
+        if (engine == null)
+            throw new Exception(
+                    "Cannot find Groovy script engine! Please contact Konloch.");
 
-		Reader reader = new FileReader(file);
-		engine.eval(reader);
+        Reader reader = new FileReader(file);
+        engine.eval(reader);
 
-		return (Plugin) engine.eval("new " + file.getName().replace(".gy", "").replace(".groovy", "") + "();");
-	}
+        return (Plugin) engine.eval("new " + file.getName().replace(".gy", "").replace(".groovy", "") + "();");
+    }
 }
