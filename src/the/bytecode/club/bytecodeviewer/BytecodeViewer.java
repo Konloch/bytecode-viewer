@@ -426,6 +426,9 @@ public class BytecodeViewer {
                             }
                         }
 
+                        Boot.checkEnjarify();
+                        Boot.checkKrakatau();
+
                         Boot.globalstop = false;
                         Boot.hide();
 
