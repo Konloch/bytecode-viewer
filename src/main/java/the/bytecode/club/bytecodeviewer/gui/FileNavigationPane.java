@@ -107,10 +107,10 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
                 } else {
                     {
                         @SuppressWarnings("unchecked")
-                        Enumeration<MyTreeNode> enums = curNode.depthFirstEnumeration();
+                        Enumeration<TreeNode> enums = curNode.depthFirstEnumeration();
                         while (enums != null && enums.hasMoreElements()) {
 
-                            MyTreeNode node = enums.nextElement();
+                            MyTreeNode node = (MyTreeNode) enums.nextElement();
                             if (node.isLeaf()) {
                                 if (((String) (node.getUserObject())).contains(path[path.length - 1])) {
                                     TreeNode pathArray[] = node.getPath();
@@ -371,18 +371,18 @@ public class FileNavigationPane extends VisibleComponent implements FileDrop.Lis
         @SuppressWarnings("unchecked")
         private void recursiveSort(final MyTreeNode node) {
             Collections.sort(node.children, nodeComparator);
-            final Iterator<MyTreeNode> it = node.children.iterator();
+            Iterator<TreeNode> it = Collections.list(node.children()).iterator();
             while (it.hasNext()) {
-                final MyTreeNode nextNode = it.next();
+                final TreeNode nextNode = it.next();
                 if (nextNode.getChildCount() > 0) {
-                    recursiveSort(nextNode);
+                    recursiveSort((MyTreeNode) nextNode);
                 }
             }
         }
 
-        protected Comparator<MyTreeNode> nodeComparator = new Comparator<MyTreeNode>() {
+        protected Comparator<TreeNode> nodeComparator = new Comparator<TreeNode>() {
             @Override
-            public int compare(final MyTreeNode o1, final MyTreeNode o2) {
+            public int compare(final TreeNode o1, final TreeNode o2) {
                 // To make sure nodes with children are always on top
                 final int firstOffset = o1.getChildCount() > 0 ? -1000 : 0;
                 final int secondOffset = o2.getChildCount() > 0 ? 1000 : 0;
