@@ -3,6 +3,5 @@
 .project
 *.iml
 .idea/
-target/
-dependency-reduced-pom.xml
-
+out/
+.DS_Store
