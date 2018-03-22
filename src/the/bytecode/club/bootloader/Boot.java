@@ -301,7 +301,7 @@ public class Boot {
         req.setTimeout(30000);
         for (String s : req.read())
             if (s.contains("href=\"/Konloch/bytecode-viewer/blob/master/libs/")) {
-                urlList.add("https://github.com" + s.split("<a href=")[1].split("\"")[1]);
+                urlList.add("https://github.com" + s.split("href=")[1].split("\"")[1]);
             }
     }
 
