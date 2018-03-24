@@ -63,6 +63,19 @@ public class Boot {
     }
 
     public static void boot(String[] args, boolean CLI) throws Exception {
+    	/*if(System.getProperty("java.version").startsWith("9."))
+    	{
+    		BytecodeViewer.showMessage("Java 9.x is not supported yet, please wait till BCV 2.9.11\n\rJava 8 should work <3");
+    		System.exit(0);
+    		return;
+    	}
+    	if(System.getProperty("java.version").startsWith("10."))
+    	{
+    		BytecodeViewer.showMessage("Java 10.x is not supported yet, please wait till BCV 2.9.11\n\rJava 8 should work <3");
+    		System.exit(0);
+    		return;
+    	}*/
+    	
         bootstrap();
         ILoader<?> loader = findLoader();
 
@@ -176,6 +189,10 @@ public class Boot {
                         System.out.println("Verifying " + fileName + "...");
 
                         File f = new File(BytecodeViewer.tempDirectory, "temp");
+                        if(!f.exists())
+                        {
+                        	f.getParentFile().mkdirs();
+                        }
                         ZipUtils.zipFile(file, f);
                         f.delete();
 

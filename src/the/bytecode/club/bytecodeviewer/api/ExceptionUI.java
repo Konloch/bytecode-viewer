@@ -91,6 +91,8 @@ public class ExceptionUI extends JFrame {
         txtrBytecodeViewerIs.setText("Bytecode Viewer Version: " + BytecodeViewer.version +
                 ", Preview Copy: " + BytecodeViewer.previewCopy +
                 ", Fat Jar: " + BytecodeViewer.fatJar +
+                ", OS: " + System.getProperty("os.name") +
+                ", Java: " + System.getProperty("java.version") +
                 BytecodeViewer.nl + BytecodeViewer.nl + sw.toString());
         this.setLocationRelativeTo(null);
         this.setVisible(true);

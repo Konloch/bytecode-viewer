@@ -130,9 +130,9 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 public class BytecodeViewer {
 
     /*per version*/
-    public static String version = "2.9.10";
+    public static String version = "2.9.11";
     public static boolean previewCopy = false;
-    public static boolean fatJar = false; //could be automatic by checking if it's loaded a class named whatever for a library
+    public static boolean fatJar = true; //could be automatic by checking if it's loaded a class named whatever for a library
     /*the rest*/
     public static boolean verify = false; //eventually may be a setting
     public static String[] args;
@@ -195,7 +195,9 @@ public class BytecodeViewer {
                     boolean trigger = false;
                     boolean finalTrigger = false;
                     for (String st : readme) {
-                        if (st.equals("--- " + BytecodeViewer.version + " ---:")) {
+                    	if(st.equals("```")) {
+                    		continue;
+                    	} else if (st.equals("--- " + BytecodeViewer.version + " ---:")) {
                             changelog = "";
                             trigger = true;
                         } else if (trigger) {
@@ -322,7 +324,49 @@ public class BytecodeViewer {
                                         System.out.println("Download finished!");
                                         showMessage("Download successful! You can find the updated program at " + finalFile.getAbsolutePath());
                                     } catch (FileNotFoundException e) {
-                                        showMessage("Unable to download, the zip file has not been uploaded yet, please try again in about 10 minutes.");
+                                    	try
+                                    	{
+                                            InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/releases/download/v" + version + "/BytecodeViewer." + version + ".jar").openConnection().getInputStream();
+                                            FileOutputStream fos = new FileOutputStream(finalFile);
+                                            try {
+                                                System.out.println("Downloading from https://github.com/Konloch/bytecode-viewer/releases/download/v" + version + "/BytecodeViewer." + version + ".jar");
+                                                byte[] buffer = new byte[8192];
+                                                int len;
+                                                int downloaded = 0;
+                                                boolean flag = false;
+                                                showMessage("Downloading the jar in the background, when it's finished you will be alerted with another message box." + nl + nl + "Expect this to take several minutes.");
+                                                while ((len = is.read(buffer)) > 0) {
+                                                    fos.write(buffer, 0, len);
+                                                    fos.flush();
+                                                    downloaded += 8192;
+                                                    int mbs = downloaded / 1048576;
+                                                    if (mbs % 5 == 0 && mbs != 0) {
+                                                        if (!flag)
+                                                            System.out.println("Downloaded " + mbs + "MBs so far");
+                                                        flag = true;
+                                                    } else
+                                                        flag = false;
+                                                }
+                                            } finally {
+                                                try {
+                                                    if (is != null) {
+                                                        is.close();
+                                                    }
+                                                } finally {
+                                                    if (fos != null) {
+                                                        fos.flush();
+                                                        fos.close();
+                                                    }
+                                                }
+                                            }
+                                            System.out.println("Download finished!");
+                                            showMessage("Download successful! You can find the updated program at " + finalFile.getAbsolutePath());
+                                    	} catch (FileNotFoundException ex) {
+                                    	     showMessage("Unable to download, the zip file has not been uploaded yet, please try again in about 10 minutes.");
+                                    	} catch (Exception ex) {
+                                            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(ex);
+                                        }
+                                    	
                                     } catch (Exception e) {
                                         new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                                     }
@@ -498,7 +542,7 @@ public class BytecodeViewer {
      */
     public static void main(String[] args) {
         BytecodeViewer.args = args;
-        System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version);
+        System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version+", FatJar: " + fatJar);
         System.setSecurityManager(sm);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
