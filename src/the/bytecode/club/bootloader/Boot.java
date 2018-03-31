@@ -323,7 +323,7 @@ public class Boot {
     }
 
     public static void populateLibsDirectory() {
-        if (libsDir() != null)
+        if (libsDir() != null && libsDir().exists())
             for (File f : libsDir().listFiles()) {
                 libsList.add(f.getName());
                 libsFileList.add(f.getAbsolutePath());
