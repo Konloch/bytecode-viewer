@@ -285,11 +285,11 @@ public class Boot {
     }
 
     public static File libsDir() {
-        File dir = new File(System.getProperty("user.home"), ".Bytecode-Viewer");
+        File dir = new File(System.getProperty("user.home"), ".Bytecode-Viewer/libs");
         while (!dir.exists())
             dir.mkdirs();
 
-        return new File(dir, "libs");
+        return dir;
     }
 
     public static void setState(String s) {
