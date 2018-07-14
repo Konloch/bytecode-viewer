@@ -321,6 +321,8 @@ public class FileNavigationPane extends VisibleComponent implements
                             MyTreeNode parent = root;
                             for (int i1 = 0; i1 < spl.length; i1++) {
                                 String s = spl[i1];
+                                if (i1 == spl.length - 1)
+                                    s += ".class";
                                 MyTreeNode child = null;
                                 for (int i = 0; i < parent.getChildCount(); i++) {
                                     if (((MyTreeNode) parent.getChildAt(i)).getUserObject()
@@ -330,10 +332,7 @@ public class FileNavigationPane extends VisibleComponent implements
                                     }
                                 }
                                 if (child == null) {
-                                    if (i1 == spl.length - 1)
-                                        child = new MyTreeNode(s + ".class");
-                                    else
-                                        child = new MyTreeNode(s);
+                                    child = new MyTreeNode(s);
                                     parent.add(child);
                                 }
                                 parent = child;
