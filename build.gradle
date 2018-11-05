@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+}
+
+group 'the.bytecode.club'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile name: 'apktool_2.0.1_obf-2'
+    compile name: 'baksmali-2.0.3_obf'
+    compile name: 'byteanalysis-1.0'
+    compile name: 'cfr_0_125'
+    compile name: 'commons-codec-1.9'
+    compile name: 'commons-io-2.4'
+    compile name: 'commons-lang3-3.3.2'
+    compile name: 'dex_obf'
+//    compile name: 'enjarify-3'
+    compile name: 'fernflower-2017'
+    compile name: 'imgscalr-lib-4.2'
+    compile name: 'janino'
+    compile name: 'jar-rename-1.6'
+    compile name: 'jasmin-p2.5'
+    compile name: 'jd-gui-1.0.0-RC4'
+    compile name: 'jgraphx'
+    compile name: 'procyon-decompiler-0.5.30'
+    compile name: 'rsyntaxtextarea'
+    compile name: 'smali-2.0.3-obf-patched'
+}

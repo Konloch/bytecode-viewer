@@ -5,3 +5,4 @@
 .idea/
 out/
 .DS_Store
+.gradle/
