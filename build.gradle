@@ -14,6 +14,16 @@ repositories {
     }
 }
 
+jar {
+    manifest {
+        attributes "Main-Class": "the.bytecode.club.bytecodeviewer.BytecodeViewer"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile name: 'apktool_2.0.1_obf-2'
