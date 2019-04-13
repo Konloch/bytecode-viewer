@@ -95,7 +95,7 @@ public class ProcyonDecompiler extends Decompiler {
                 .isSelected());
         settings.setUnicodeOutputEnabled(BytecodeViewer.viewer.chckbxmntmNewCheckItem_1
                 .isSelected());
-        settings.setFormattingOptions(JavaFormattingOptions.createDefault());
+        settings.setJavaFormattingOptions(JavaFormattingOptions.createDefault());
         return settings;
     }
 

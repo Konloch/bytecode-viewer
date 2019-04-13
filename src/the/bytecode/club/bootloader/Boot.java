@@ -450,6 +450,7 @@ public class Boot {
         File krakatauZip = null;
         for (File f : new File(BytecodeViewer.libsDirectory).listFiles()) {
             if (f.getName().toLowerCase().startsWith("krakatau-")) {
+                //System.out.println(f.getName());
                 BytecodeViewer.krakatauVersion = f.getName().split("-")[1].split("\\.")[0];
                 krakatauZip = f;
             }
@@ -467,7 +468,8 @@ public class Boot {
             }
         }
 
-        BytecodeViewer.krakatauWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion + BytecodeViewer.fs + "Krakatau-master";
+        BytecodeViewer.krakatauWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" +
+                BytecodeViewer.krakatauVersion + BytecodeViewer.fs + "Krakatau-master";
         File krakatauDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion);
         if (!krakatauDirectory.exists()) {
             try {
