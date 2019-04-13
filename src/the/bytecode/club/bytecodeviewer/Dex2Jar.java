@@ -35,7 +35,6 @@ public class Dex2Jar {
      * @param output the output .jar file
      */
     public static synchronized void dex2Jar(File input, File output) {
-        System.out.println("TEST: " + input.getAbsolutePath()+", " +output.getAbsolutePath());
         try {
             com.googlecode.dex2jar.tools.Dex2jarCmd.main(new String[]{input.getAbsolutePath()});
             String realOutput = input.getName().replaceAll("\\.dex", "-dex2jar.jar").replaceAll("\\.apk", "-dex2jar.jar");

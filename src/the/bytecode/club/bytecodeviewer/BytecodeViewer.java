@@ -122,7 +122,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 public class BytecodeViewer
 {
     /*per version*/
-    public static String version = "2.9.14";
+    public static String version = "2.9.15";
     public static boolean previewCopy = false;
     public static boolean fatJar = true; //could be automatic by checking if it's loaded a class named whatever for a library
     /*the rest*/
