@@ -122,7 +122,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 public class BytecodeViewer
 {
     /*per version*/
-    public static String version = "2.9.13";
+    public static String version = "2.9.14";
     public static boolean previewCopy = false;
     public static boolean fatJar = true; //could be automatic by checking if it's loaded a class named whatever for a library
     /*the rest*/
@@ -490,30 +490,6 @@ public class BytecodeViewer
             }
         }
     };
-
-    public static void pingback() {
-        JOptionPane pane = new JOptionPane(
-                "Would you like to 'pingback' to https://bytecodeviewer.com to be counted in the global users for BCV?");
-        Object[] options = new String[]{"Yes", "No"};
-        pane.setOptions(options);
-        JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-                "Bytecode Viewer - Optional Pingback");
-        dialog.setVisible(true);
-        Object obj = pane.getValue();
-        int result = -1;
-        for (int k = 0; k < options.length; k++)
-            if (options[k].equals(obj))
-                result = k;
-
-        if (result == 0) {
-            try {
-                if (!PingBack.isAlive())
-                    PingBack.start();
-            } catch (Exception e) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-            }
-        }
-    }
 
     /**
      * Grab the byte array from the loaded Class object
@@ -1386,6 +1362,11 @@ public class BytecodeViewer
             krakatauTempDir = null;
             krakatauTempJar = null;
         }*/
+
+        if(krakatauTempJar != null && !krakatauTempJar.exists())
+        {
+            needsReDump = true;
+        }
 
         if(needsReDump && krakatauTempJar != null)
         {

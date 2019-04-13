@@ -394,7 +394,7 @@ public class Settings {
             BytecodeViewer.viewer.panel3Fern_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 103, false)));
             BytecodeViewer.viewer.panel3Krakatau_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 104, false)));
             BytecodeViewer.viewer.panel3Smali_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 105, false)));
-           // BytecodeViewer.viewer.decodeAPKResources.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 106, false)));
+            BytecodeViewer.viewer.decodeAPKResources.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 106, false)));
             BytecodeViewer.library = DiskReader.loadString(BytecodeViewer.settingsName, 107, false);
             BytecodeViewer.pingback = Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 108, false));
             BytecodeViewer.viewer.panel1JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 109, false)));

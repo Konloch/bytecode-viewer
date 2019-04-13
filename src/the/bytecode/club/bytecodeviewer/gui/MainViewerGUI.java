@@ -607,7 +607,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final ButtonGroup panelGroup2 = new ButtonGroup();
     public final ButtonGroup panelGroup3 = new ButtonGroup();
     private final JMenuItem mntmSetOpitonalLibrary = new JMenuItem("Set Optional Library Folder");
-    private final JMenuItem mntmPingback = new JMenuItem("Pingback");
     private final JMenu mnJdgui = new JMenu("JD-GUI");
     public final JRadioButtonMenuItem panel3JDGUI = new JRadioButtonMenuItem("Java");
     private final JSeparator separator_33 = new JSeparator();
@@ -1403,14 +1402,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 }
             }
         });
-        mntmPingback.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                BytecodeViewer.pingback();
-            }
-        });
 
-        mnNewMenu.add(mntmPingback);
         mnNewMenu.add(mntmExit);
 
         menuBar.add(mnNewMenu_6);
@@ -1619,8 +1611,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         mnSettings.add(refreshOnChange);
 
         mnSettings.add(separator_38);
-        decodeAPKResources.setSelected(false);
-        decodeAPKResources.setEnabled(false);
+        decodeAPKResources.setSelected(true);
+        //decodeAPKResources.setEnabled(false);
 
         mnSettings.add(decodeAPKResources);
 
