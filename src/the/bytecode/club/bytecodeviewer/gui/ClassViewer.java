@@ -1699,6 +1699,18 @@ public class ClassViewer extends Viewer {
             @Override
             public void run()
             {
+                while(BytecodeViewer.currentlyDumping)
+                {
+                    //wait until it's not dumping
+                    try
+                    {
+                        Thread.sleep(100);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
                 BytecodeViewer.dumpTempFile();
 
                 if (pane1 > 0)

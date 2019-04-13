@@ -140,6 +140,7 @@ public class BytecodeViewer
     public static File krakatauTempDir;
     public static File krakatauTempJar;
     public static int krakatauHash;
+    public static boolean currentlyDumping = false;
     public static boolean needsReDump = true;
     public static ArrayList<FileContainer> files = new ArrayList<FileContainer>(); //all of BCV's loaded files/classes/etc
     private static int maxRecentFiles = 25;
@@ -1376,7 +1377,7 @@ public class BytecodeViewer
 
     public static void dumpTempFile()
     {
-        /*int tempHash = classNodeLoaderHash(loader);
+        /*int tempHash = fileContainersHash(files);
 
         if(tempHash != krakatauHash && krakatauTempJar != null)
         {
@@ -1412,12 +1413,14 @@ public class BytecodeViewer
         if(krakatauTempJar != null || !passes)
             return;
 
+        currentlyDumping = true;
         needsReDump = false;
         //krakatauHash = tempHash;
         krakatauTempDir = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
         krakatauTempDir.mkdir();
         krakatauTempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) + ".jar");
         JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), krakatauTempJar.getAbsolutePath());
+        currentlyDumping = false;
     }
 
     public static void rtCheck()
@@ -1428,12 +1431,16 @@ public class BytecodeViewer
         }
     }
 
-    public static int classNodeLoaderHash(ClassNodeLoader loader)
+    public static int fileContainersHash(ArrayList<FileContainer> fileContainers)
     {
         StringBuilder block = new StringBuilder();
-        for(ClassNode node : loader.getAll())
+        for(FileContainer container : fileContainers)
         {
-            block.append(node.name);
+            block.append(container.name);
+            for(ClassNode node : container.classes)
+            {
+                block.append(node.name);
+            }
         }
 
         return block.hashCode();

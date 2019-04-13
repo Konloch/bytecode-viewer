@@ -1620,6 +1620,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         mnSettings.add(separator_38);
         decodeAPKResources.setSelected(false);
+        decodeAPKResources.setEnabled(false);
 
         mnSettings.add(decodeAPKResources);
 
