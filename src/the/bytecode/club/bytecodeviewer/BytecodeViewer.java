@@ -92,7 +92,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * 3.0.0: (RETIREMENT PARTY, WOHOOO)
  * Add obfuscation:
  * - Add integer boxing and other obfuscation methods contra implemented
- * - Insert unadded/debug opcodes to try to fuck up decompilers
+ * - Insert unadded/debug opcodes to try to butterfly up decompilers
  * - ClassAnylyzterAdapter
  * Add the jump/save mark system Ida Pro has.
  * Add class annotations to bytecode decompiler.
@@ -101,7 +101,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  * Make the tabs menu and middle mouse button click work on the tab itself not just the close button.
  * <p>
  * before 3.0.0:
- * EVERYTHING ON THE FUCKING GITHUB ISSUES LOL
+ * EVERYTHING ON THE butterflyING GITHUB ISSUES LOL
  * make it use that global last used inside of export as jar
  * Spiffy up the plugin console with hilighted lines
  * Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
