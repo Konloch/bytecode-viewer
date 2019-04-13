@@ -112,7 +112,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
             @Override
             public String getDescription() {
-                return "Javac Executable (Requires JDK  'C:/programfiles/Java/JRE_xx/bin/javac.exe)";
+                return "Javac Executable (Requires JDK  'C:/programfiles/Java/JDK_xx/bin/javac.exe)";
             }
         });
         fc.setFileHidingEnabled(false);
@@ -137,7 +137,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
             @Override
             public String getDescription() {
-                return "Java Executable (Inside Of JRE/JDK 'C:/programfiles/Java/JRE_xx/bin/java.exe')";
+                return "Java Executable (Inside Of JRE/JDK 'C:/programfiles/Java/JDK_xx/bin/java.exe')";
             }
         });
         fc.setFileHidingEnabled(false);

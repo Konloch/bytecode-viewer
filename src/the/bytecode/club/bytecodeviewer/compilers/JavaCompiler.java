@@ -48,12 +48,12 @@ public class JavaCompiler extends Compiler {
         tempD.mkdirs();
         new File(fileStart2).mkdirs();
 
-        if (BytecodeViewer.javac.equals("")) {
-            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + BytecodeViewer.nl + "(C:/programfiles/Java/JRE_xx/bin/javac.exe)");
+        if (BytecodeViewer.javac.equals("") || !new File(BytecodeViewer.javac).exists()) {
+            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + BytecodeViewer.nl + "(C:/programfiles/Java/JDK_xx/bin/javac.exe)");
             BytecodeViewer.viewer.javac();
         }
 
-        if (BytecodeViewer.javac.equals("")) {
+        if (BytecodeViewer.javac.equals("") || !new File(BytecodeViewer.javac).exists()) {
             BytecodeViewer.showMessage("You need to set Javac!");
             return null;
         }

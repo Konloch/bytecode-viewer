@@ -122,7 +122,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 public class BytecodeViewer
 {
     /*per version*/
-    public static String version = "2.9.15";
+    public static String version = "2.9.16";
     public static boolean previewCopy = false;
     public static boolean fatJar = true; //could be automatic by checking if it's loaded a class named whatever for a library
     /*the rest*/
@@ -620,7 +620,7 @@ public class BytecodeViewer
             boolean empty = java.isEmpty();
             while (empty) {
                 showMessage("You need to set your Java path, this requires the JRE to be downloaded." + BytecodeViewer.nl +
-                        "(C:/programfiles/Java/JRE_xx/bin/java.exe)");
+                        "(C:/programfiles/Java/JDK_xx/bin/java.exe)");
                 viewer.java();
                 empty = java.isEmpty();
             }

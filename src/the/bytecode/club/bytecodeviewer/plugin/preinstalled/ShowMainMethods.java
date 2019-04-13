@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
 import java.util.ArrayList;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
@@ -30,23 +31,44 @@ import the.bytecode.club.bytecodeviewer.api.PluginConsole;
  * Simply shows all classes that have a public static void main(String[])
  *
  * @author Konloch
+ * @author Sh1ftchg
  */
 
-public class ShowMainMethods extends Plugin {
+public class ShowMainMethods extends Plugin
+{
+    private static final int PUBLIC_STATIC = Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC;
 
     @Override
     public void execute(ArrayList<ClassNode> classNodeList) {
         PluginConsole frame = new PluginConsole("Show Main Methods");
+        StringBuilder sb = new StringBuilder();
         for (ClassNode classNode : classNodeList) {
             for (Object o : classNode.methods.toArray()) {
                 MethodNode m = (MethodNode) o;
 
-                if (m.name.equals("main")
-                        && m.desc.equals("([Ljava/lang/String;)V"))
-                    frame.appendText(classNode.name + "." + m.name + ""
-                            + m.desc);
+                if ((m.access & (PUBLIC_STATIC)) == PUBLIC_STATIC)
+                {
+                    if (m.name.equals("main") && m.desc.equals("([Ljava/lang/String;)V"))
+                    {
+                        sb.append(classNode.name);
+                        sb.append(".");
+                        sb.append(m.name);
+                        sb.append(m.desc);
+                        sb.append("\n");
+                    }
+                }
             }
         }
+
+        if(sb.length() == 0)
+        {
+            frame.appendText("No main methods found.");
+        }
+        else
+        {
+            frame.appendText(sb.toString());
+        }
+
         frame.setVisible(true);
     }
 }
