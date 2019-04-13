@@ -65,7 +65,7 @@ public class SmaliDisassembler extends Decompiler {
         Dex2Jar.saveAsDex(tempZip, tempDex);
 
         try {
-            org.jf.baksmali.main.main(new String[]{"-o", tempSmali.getAbsolutePath(), "-x", tempDex.getAbsolutePath()});
+            com.googlecode.d2j.smali.SmaliCmd.main(new String[]{"-o", tempSmali.getAbsolutePath(), "-x", tempDex.getAbsolutePath()});
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
