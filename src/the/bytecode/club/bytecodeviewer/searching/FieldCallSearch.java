@@ -114,7 +114,7 @@ public class FieldCallSearch implements SearchTypeDetails {
                                 + method.name
                                 + desc2
                                 + " > "
-                                + OpcodeInfo.OPCODES.get(insnNode.opcode())
+                                + OpcodeInfo.OPCODES.get(insnNode.getOpcode())
                                 .toLowerCase());
                     } else {
 
@@ -140,7 +140,7 @@ public class FieldCallSearch implements SearchTypeDetails {
                                 + method.name
                                 + desc2
                                 + " > "
-                                + OpcodeInfo.OPCODES.get(insnNode.opcode())
+                                + OpcodeInfo.OPCODES.get(insnNode.getOpcode())
                                 .toLowerCase());
                     }
                 }

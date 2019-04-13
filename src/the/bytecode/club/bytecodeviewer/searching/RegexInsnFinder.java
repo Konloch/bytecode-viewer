@@ -219,7 +219,7 @@ public class RegexInsnFinder {
         final Iterator<AbstractInsnNode> iIt = insnList.iterator();
         while (iIt.hasNext()) {
             final AbstractInsnNode node = iIt.next();
-            if (node.opcode() >= 0) {
+            if (node.getOpcode() >= 0) {
                 il.add(node);
             }
         }
@@ -234,7 +234,7 @@ public class RegexInsnFinder {
         origInstructions = cleanInsn(mn.instructions);
         final List<AbstractInsnNode> il = new ArrayList<AbstractInsnNode>();
         for (final AbstractInsnNode ain : mn.instructions.toArray())
-            if (ain.opcode() >= 0) {
+            if (ain.getOpcode() >= 0) {
                 il.add(ain);
             }
         instructions = il.toArray(new AbstractInsnNode[il.size()]);
@@ -243,19 +243,19 @@ public class RegexInsnFinder {
         for (int i = 0; i < instructions.length; i++) {
             offsets[i] = -1;
             final AbstractInsnNode ain = instructions[i];
-            if (ain.opcode() >= 0) {
-                if (ain.opcode() >= opcodes.length) {
+            if (ain.getOpcode() >= 0) {
+                if (ain.getOpcode() >= opcodes.length) {
                     try {
                         throw new UnexpectedException(
                                 "Unknown opcode encountered: "
-                                        + ain.opcode());
+                                        + ain.getOpcode());
                     } catch (final UnexpectedException e) {
                         new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                     }
                 }
                 offsets[i] = insnString.length();
-                insnString += opcodes[ain.opcode()];
-                switch (ain.type()) {
+                insnString += opcodes[ain.getOpcode()];
+                switch (ain.getType()) {
                     case AbstractInsnNode.INT_INSN:
                         final IntInsnNode iin = (IntInsnNode) ain;
                         insnString += "{" + iin.operand + "}";

@@ -132,7 +132,8 @@ public class ClassNodeDecompiler extends Decompiler {
         if (cn.attrs != null) {
             sb.append(BytecodeViewer.nl);
             for (Attribute attr : cn.attrs) {
-                sb.append(attr.type + ": " + attr.value.toString());
+                //TODO: finish attributes
+                sb.append(attr.type + ": ");// + attr.content.toString());
             }
         }
 

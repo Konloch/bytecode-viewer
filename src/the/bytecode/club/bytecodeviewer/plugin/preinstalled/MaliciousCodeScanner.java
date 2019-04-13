@@ -145,10 +145,10 @@ public class MaliciousCodeScanner extends Plugin {
 
                     // Check if the security manager is getting set to null
                     if ((a instanceof InsnNode)
-                            && (a.opcode() == Opcodes.ACONST_NULL)) {
+                            && (a.getOpcode() == Opcodes.ACONST_NULL)) {
                         prevInsn_aconst_null = true;
                     } else if ((a instanceof MethodInsnNode)
-                            && (a.opcode() == Opcodes.INVOKESTATIC)) {
+                            && (a.getOpcode() == Opcodes.INVOKESTATIC)) {
                         final String owner = ((MethodInsnNode) a).owner;
                         final String name = ((MethodInsnNode) a).name;
                         if ((NSM && prevInsn_aconst_null

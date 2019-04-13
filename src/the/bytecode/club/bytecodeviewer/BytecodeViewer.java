@@ -13,8 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,69 +70,59 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
 /**
  * A lightweight Java Reverse Engineering suite, developed by Konloch - http://konloch.me
- * <p>
+ *
  * Are you a Java Reverse Engineer? Or maybe you want to learn Java Reverse Engineering?
- * Join The Bytecode Club, we're noob friendly, and censorship free.
- * <p>
- * http://the.bytecode.club
- * <p>
- * All you have to do is add a jar or class file into the workspace, select the
- * file you want then it will start decompiling the class in the background,
- * when it's done it will show the Source code, Bytecode and Hexcode of the
- * class file you chose.
- * <p>
- * There is also a plugin system that will allow you to interact with the loaded
- * classfiles, for example you can write a String deobfuscator, a malicious code
- * searcher, or something else you can think of. You can either use one of the
- * pre-written plugins, or write your own. It supports groovy
- * scripting. Once a plugin is activated, it will send a ClassNode ArrayList of
- * every single class loaded in the file system to the execute function, this
- * allows the user to handle it completely using ASM.
- * <p>
- * TODO:
- * <p>
- * 3.0.0: (RETIREMENT PARTY, WOHOOO)
- * Add obfuscation:
- * - Add integer boxing and other obfuscation methods contra implemented
- * - Insert unadded/debug opcodes to try to fuck up decompilers
- * - ClassAnylyzterAdapter
- * Add the jump/save mark system Ida Pro has.
- * Add class annotations to bytecode decompiler.
- * EVERYTHING BUG FREE, CHECK 100%
- * bytecode editor that works by editing per method instead of entire class, methods are in a pane like the file navigator
- * Make the tabs menu and middle mouse button click work on the tab itself not just the close button.
- * <p>
- * before 3.0.0:
- * EVERYTHING ON THE FUCKING GITHUB ISSUES LOL
- * make it use that global last used inside of export as jar
- * Spiffy up the plugin console with hilighted lines
- * Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
- * make zipfile not include the decode shit
- * add stackmapframes to bytecode decompiler
- * add stackmapframes remover?
- * make ez-injection plugin console show all sys.out calls
- * add JEB decompiler optionally, requires them to add jeb library jar externally and disable update check ?
- * add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
- * fix hook inject for EZ-Injection
- * fix classfile searcher
- * make the decompilers launch in a separate process?
- * <p>
- * -----2.9.9-----:
- * 08/01/2015 - Fixed a pingback concurrency exception issue.
- * 08/03/2015 - Fixed a typo for FernFlower decompiler.
- * 08/03/2015 - Fixed an issue with Krakatau Decompiler as zip.
- * 08/07/2015 - "Fixed" an issue with Enjarify and latest PyPy3 bin.
- * 08/07/2015 - FernFlower & CFR Decompiler now launch in their own process with the 'slimjar' version.
- * 08/07/2015 - Switched the ClassViewer up slightly so it utilizes the event dispatch thread.
- * 08/07/2015 - Fixed? CFIDE's Bytecode Decompiler on TableSwitchs
+ *      Join The Bytecode Club, we're noob friendly, and censorship free.
+ *                        http://the.bytecode.club
+ *
+ *
+ * All you have to do is add a jar or class file into the workspace,
+ * select the file you want then it will start decompiling the class in the background,
+ * when it's done it will show the Source code, Bytecode and Hexcode of the class file you chose.
+ *
+ * There is also a plugin system that will allow you to interact with the loaded classfiles,
+ * for example you can write a String deobfuscator, a malicious code searcher,
+ * or something else you can think of.
+ *
+ * You can either use one of the pre-written plugins, or write your own.
+ * It supports groovy scripting. Once a plugin is activated,
+ * it will send a ClassNode ArrayList of every single class loaded in the file system to the execute function,
+ * this allows the user to handle it completely using ASM.
+ *
+ *  TODO:
+ *      3.0.0: (RETIREMENT PARTY, WOHOOO)
+ *      Add obfuscation:
+ *          - Add integer boxing and other obfuscation methods contra implemented
+ *          - Insert unadded/debug opcodes to try to fuck up decompilers
+ *          - ClassAnylyzterAdapter
+ *          Add the jump/save mark system Ida Pro has.
+ *          Add class annotations to bytecode decompiler.
+ *          EVERYTHING BUG FREE, CHECK 100%
+ *          bytecode editor that works by editing per method instead of entire class, methods are in a pane like the file navigator
+ *          Make the tabs menu and middle mouse button click work on the tab itself not just the close button.
+ *
+ *  before 3.0.0:
+ *      EVERYTHING ON THE FUCKING GITHUB ISSUES LOL
+ *      make it use that global last used inside of export as jar
+ *      Spiffy up the plugin console with hilighted lines
+ *      Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
+ *      make zipfile not include the decode shit
+ *      add stackmapframes to bytecode decompiler
+ *      add stackmapframes remover?
+ *      make ez-injection plugin console show all sys.out calls
+ *      add JEB decompiler optionally, requires them to add jeb library jar externally and disable update check ?
+ *      add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
+ *      fix hook inject for EZ-Injection
+ *      fix classfile searcher
+ *      make the decompilers launch in a separate process?
  *
  * @author Konloch
  */
 
-public class BytecodeViewer {
-
+public class BytecodeViewer
+{
     /*per version*/
-    public static String version = "2.9.12";
+    public static String version = "2.9.13";
     public static boolean previewCopy = false;
     public static boolean fatJar = true; //could be automatic by checking if it's loaded a class named whatever for a library
     /*the rest*/
@@ -145,11 +137,16 @@ public class BytecodeViewer {
     public static String library = "";
     public static String javac = "";
     public static String java = "";
+    public static File krakatauTempDir;
+    public static File krakatauTempJar;
+    public static int krakatauHash;
+    public static boolean needsReDump = true;
     public static ArrayList<FileContainer> files = new ArrayList<FileContainer>(); //all of BCV's loaded files/classes/etc
     private static int maxRecentFiles = 25;
     public static String fs = System.getProperty("file.separator");
     public static String nl = System.getProperty("line.separator");
     private static File BCVDir = new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
+    public static File RJ_JAR = new File(System.getProperty("java.home") + fs + "lib" + fs + "rt.jar");
     private static String filesName = getBCVDirectory() + fs + "recentfiles.bcv";
     private static String pluginsName = getBCVDirectory() + fs + "recentplugins.bcv";
     public static String settingsName = getBCVDirectory() + fs + "settings.bcv";
@@ -832,6 +829,7 @@ public class BytecodeViewer {
 
         BytecodeViewer.viewer.setIcon(true);
         update = true;
+        needsReDump = true;
 
         Thread t = new Thread() {
             @Override
@@ -1374,5 +1372,70 @@ public class BytecodeViewer {
             if (viewer.workPane.getCurrentViewer() != null)
                 viewer.workPane.tabs.remove(viewer.workPane.getCurrentViewer());
         }
+    }
+
+    public static void dumpTempFile()
+    {
+        /*int tempHash = classNodeLoaderHash(loader);
+
+        if(tempHash != krakatauHash && krakatauTempJar != null)
+        {
+            krakatauTempDir.delete();
+            krakatauTempJar.delete();
+            krakatauTempDir = null;
+            krakatauTempJar = null;
+        }*/
+
+        if(needsReDump && krakatauTempJar != null)
+        {
+            krakatauTempDir.delete();
+            krakatauTempJar.delete();
+            krakatauTempDir = null;
+            krakatauTempJar = null;
+        }
+
+        boolean passes = false;
+
+        if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Krakatau.getModel()))
+            passes = true;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel()))
+            passes = true;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Krakatau.getModel()))
+            passes = true;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel()))
+            passes = true;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Krakatau.getModel()))
+            passes = true;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel()))
+            passes = true;
+
+        if(krakatauTempJar != null || !passes)
+            return;
+
+        needsReDump = false;
+        //krakatauHash = tempHash;
+        krakatauTempDir = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+        krakatauTempDir.mkdir();
+        krakatauTempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) + ".jar");
+        JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), krakatauTempJar.getAbsolutePath());
+    }
+
+    public static void rtCheck()
+    {
+        if(rt.equals("") && RJ_JAR.exists())
+        {
+            rt = RJ_JAR.getAbsolutePath();
+        }
+    }
+
+    public static int classNodeLoaderHash(ClassNodeLoader loader)
+    {
+        StringBuilder block = new StringBuilder();
+        for(ClassNode node : loader.getAll())
+        {
+            block.append(node.name);
+        }
+
+        return block.hashCode();
     }
 }

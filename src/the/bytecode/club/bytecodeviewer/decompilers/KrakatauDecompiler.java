@@ -55,6 +55,8 @@ public class KrakatauDecompiler extends Decompiler {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
         }
+
+        BytecodeViewer.rtCheck();
         if (BytecodeViewer.rt.equals("")) {
             BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
             BytecodeViewer.viewer.rtC();
@@ -72,11 +74,6 @@ public class KrakatauDecompiler extends Decompiler {
 
         String s = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
 
-        final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
-        tempDirectory.mkdir();
-        final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) + ".jar");
-        JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
-
         BytecodeViewer.sm.stopBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
@@ -86,9 +83,9 @@ public class KrakatauDecompiler extends Decompiler {
                     "-skip", //love you storyyeller <3
                     "-nauto",
                     "-path",
-                    BytecodeViewer.rt + ";" + tempJar.getAbsolutePath() + quick(),
+                    BytecodeViewer.rt + ";" + BytecodeViewer.krakatauTempJar.getAbsolutePath() + quick(),
                     "-out",
-                    tempDirectory.getAbsolutePath(),
+                    BytecodeViewer.krakatauTempDir.getAbsolutePath(),
                     cn.name + ".class"
             );
 
@@ -120,9 +117,7 @@ public class KrakatauDecompiler extends Decompiler {
             s = log;
 
             //if the motherfucker failed this'll fail, aka wont set.
-            s = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".java");
-            tempDirectory.delete();
-            tempJar.delete();
+            s = DiskReader.loadAsString(BytecodeViewer.krakatauTempDir.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".java");
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
@@ -140,6 +135,7 @@ public class KrakatauDecompiler extends Decompiler {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
         }
+        BytecodeViewer.rtCheck();
         if (BytecodeViewer.rt.equals("")) {
             BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
             BytecodeViewer.viewer.rtC();

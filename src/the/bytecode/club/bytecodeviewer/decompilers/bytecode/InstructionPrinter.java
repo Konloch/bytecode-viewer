@@ -151,7 +151,7 @@ public class InstructionPrinter {
             } else if (ain instanceof InvokeDynamicInsnNode) {
                 line = printInvokeDynamicInsNode((InvokeDynamicInsnNode) ain);
             } else {
-                line += "UNADDED OPCODE: " + nameOpcode(ain.opcode()) + " "
+                line += "UNADDED OPCODE: " + nameOpcode(ain.getOpcode()) + " "
                         + ain.toString();
             }
             if (!line.equals("")) {
@@ -170,7 +170,7 @@ public class InstructionPrinter {
 
     protected String printVarInsnNode(VarInsnNode vin, ListIterator<?> it) {
         StringBuilder sb = new StringBuilder();
-        sb.append(nameOpcode(vin.opcode()));
+        sb.append(nameOpcode(vin.getOpcode()));
         sb.append(vin.var);
         if (BytecodeViewer.viewer.debugHelpers.isSelected()) {
             if (vin.var == 0 && !Modifier.isStatic(mNode.access)) {
@@ -188,32 +188,34 @@ public class InstructionPrinter {
     }
 
     protected String printIntInsnNode(IntInsnNode iin, ListIterator<?> it) {
-        return nameOpcode(iin.opcode()) + " " + iin.operand;
+        return nameOpcode(iin.getOpcode()) + " " + iin.operand;
     }
 
     protected String printFieldInsnNode(FieldInsnNode fin, ListIterator<?> it) {
         String desc = Type.getType(fin.desc).getClassName();
         if (desc == null || desc.equals("null"))
             desc = fin.desc;
-        return nameOpcode(fin.opcode()) + " " + fin.owner + "." + fin.name
+        return nameOpcode(fin.getOpcode()) + " " + fin.owner + "." + fin.name
                 + ":" + desc;
     }
 
     protected String printMethodInsnNode(MethodInsnNode min, ListIterator<?> it) {
         StringBuilder sb = new StringBuilder();
-        sb.append(nameOpcode(min.opcode()) + " " + min.owner + "."
+        sb.append(nameOpcode(min.getOpcode()) + " " + min.owner + "."
                 + min.name);
 
         String desc = min.desc;
         try {
             if (Type.getType(min.desc) != null)
                 desc = Type.getType(min.desc).getClassName();
-
-            if (desc == null || desc.equals("null"))
-                desc = min.desc;
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
-
+        } catch (java.lang.AssertionError e) {
+            //e.printStackTrace();
+        } catch (java.lang.Exception e) {
+            e.printStackTrace();
         }
+
+        if (desc == null || desc.equals("null"))
+            desc = min.desc;
 
         sb.append(desc);
 
@@ -222,21 +224,21 @@ public class InstructionPrinter {
 
     protected String printLdcInsnNode(LdcInsnNode ldc, ListIterator<?> it) {
         if (ldc.cst instanceof String)
-            return nameOpcode(ldc.opcode()) + " \""
+            return nameOpcode(ldc.getOpcode()) + " \""
                     + StringEscapeUtils.escapeJava(ldc.cst.toString()) + "\" ("
                     + ldc.cst.getClass().getCanonicalName() + ")";
 
-        return nameOpcode(ldc.opcode()) + " "
+        return nameOpcode(ldc.getOpcode()) + " "
                 + StringEscapeUtils.escapeJava(ldc.cst.toString()) + " ("
                 + ldc.cst.getClass().getCanonicalName() + ")";
     }
 
     protected String printInsnNode(InsnNode in, ListIterator<?> it) {
-        return nameOpcode(in.opcode());
+        return nameOpcode(in.getOpcode());
     }
 
     protected String printJumpInsnNode(JumpInsnNode jin, ListIterator<?> it) {
-        String line = nameOpcode(jin.opcode()) + " L"
+        String line = nameOpcode(jin.getOpcode()) + " L"
                 + resolveLabel(jin.label);
         return line;
     }
@@ -261,19 +263,18 @@ public class InstructionPrinter {
             } catch (java.lang.ArrayIndexOutOfBoundsException e) {
 
             }
-            return nameOpcode(tin.opcode()) + " " + desc;
+            return nameOpcode(tin.getOpcode()) + " " + desc;
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            return nameOpcode(tin.getOpcode()) + " " + tin.desc;
         }
-        return "//error";
     }
 
     protected String printIincInsnNode(IincInsnNode iin) {
-        return nameOpcode(iin.opcode()) + " " + iin.var + " " + iin.incr;
+        return nameOpcode(iin.getOpcode()) + " " + iin.var + " " + iin.incr;
     }
 
     protected String printTableSwitchInsnNode(TableSwitchInsnNode tin) {
-        String line = nameOpcode(tin.opcode()) + " \n";
+        String line = nameOpcode(tin.getOpcode()) + " \n";
         List<?> labels = tin.labels;
         int count = 0;
         for (int i = tin.min; i < tin.max + 1; i++) {
@@ -286,7 +287,7 @@ public class InstructionPrinter {
     }
 
     protected String printLookupSwitchInsnNode(LookupSwitchInsnNode lin) {
-        String line = nameOpcode(lin.opcode()) + ": \n";
+        String line = nameOpcode(lin.getOpcode()) + ": \n";
         List<?> keys = lin.keys;
         List<?> labels = lin.labels;
 
@@ -303,7 +304,7 @@ public class InstructionPrinter {
 
     protected String printInvokeDynamicInsNode(InvokeDynamicInsnNode idin) {
         StringBuilder sb = new StringBuilder();
-        sb.append(nameOpcode(idin.opcode()) + " " + idin.bsm.getOwner() + '.' + idin.bsm.getName() + idin.bsm.getDesc()
+        sb.append(nameOpcode(idin.getOpcode()) + " " + idin.bsm.getOwner() + '.' + idin.bsm.getName() + idin.bsm.getDesc()
         + " : " + idin.name + idin.desc);
 
         if (idin.bsmArgs != null) {
@@ -318,7 +319,7 @@ public class InstructionPrinter {
 
     private String printFrameNode(FrameNode frame) {
         StringBuilder sb = new StringBuilder();
-        sb.append(nameOpcode(frame.opcode()) + " ");
+        sb.append(nameOpcode(frame.getOpcode()) + " ");
 
         sb.append("(Locals");
         if (frame.local != null

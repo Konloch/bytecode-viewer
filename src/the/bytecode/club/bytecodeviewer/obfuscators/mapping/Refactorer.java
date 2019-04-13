@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.commons.RemappingClassAdapter;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -53,7 +52,7 @@ public class Refactorer {
             String oldName = cn.name;
             ClassReader cr = new ClassReader(getClassNodeBytes(cn));
             ClassWriter cw = new ClassWriter(cr, 0);
-            RemappingClassAdapter rca = new RemappingClassAdapter(cw, mapper);
+            RemappingClassAdapter rca = new RemappingClassAdapter(cw, (RefactorMapper) mapper);
             cr.accept(rca, ClassReader.EXPAND_FRAMES);
             cr = new ClassReader(cw.toByteArray());
             cn = new ClassNode();

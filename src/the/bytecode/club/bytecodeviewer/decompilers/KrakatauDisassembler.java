@@ -55,11 +55,6 @@ public class KrakatauDisassembler extends Decompiler {
 
         String s = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
 
-        final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
-        tempDirectory.mkdir();
-        final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) + ".jar");
-        JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
-
         BytecodeViewer.sm.stopBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
@@ -67,9 +62,9 @@ public class KrakatauDisassembler extends Decompiler {
                     "-O", //love you storyyeller <3
                     BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "disassemble.py",
                     "-path",
-                    tempJar.getAbsolutePath(),
+                    BytecodeViewer.krakatauTempJar.getAbsolutePath(),
                     "-out",
-                    tempDirectory.getAbsolutePath(),
+                    BytecodeViewer.krakatauTempDir.getAbsolutePath(),
                     cn.name + ".class"
             );
 
@@ -101,9 +96,7 @@ public class KrakatauDisassembler extends Decompiler {
             s = log;
 
             //if the motherfucker failed this'll fail, aka wont set.
-            s = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".j");
-            tempDirectory.delete();
-            tempJar.delete();
+            s = DiskReader.loadAsString(BytecodeViewer.krakatauTempDir.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".j");
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));

@@ -172,26 +172,26 @@ public class InstructionPattern implements Opcodes {
         if (ain instanceof LdcInsnNode) {
             return new LdcInstructionFilter(((LdcInsnNode) ain).cst);
         } else if (ain instanceof TypeInsnNode) {
-            return new TypeInstructionFilter(ain.opcode(),
+            return new TypeInstructionFilter(ain.getOpcode(),
                     ((TypeInsnNode) ain).desc);
         } else if (ain instanceof FieldInsnNode) {
-            return new FieldInstructionFilter(ain.opcode(),
+            return new FieldInstructionFilter(ain.getOpcode(),
                     ((FieldInsnNode) ain).owner, ((FieldInsnNode) ain).name,
                     ((FieldInsnNode) ain).desc);
         } else if (ain instanceof MethodInsnNode) {
-            return new MethodInstructionFilter(ain.opcode(),
+            return new MethodInstructionFilter(ain.getOpcode(),
                     ((MethodInsnNode) ain).owner, ((MethodInsnNode) ain).name,
                     ((MethodInsnNode) ain).desc);
         } else if (ain instanceof VarInsnNode) {
-            return new VarInstructionFilter(ain.opcode(),
+            return new VarInstructionFilter(ain.getOpcode(),
                     ((VarInsnNode) ain).var);
         } else if (ain instanceof InsnNode) {
-            return new InsnInstructionFilter(ain.opcode());
+            return new InsnInstructionFilter(ain.getOpcode());
         } else if (ain instanceof IincInsnNode) {
             return new IincInstructionFilter(((IincInsnNode) ain).incr,
                     ((IincInsnNode) ain).var);
         } else if (ain instanceof JumpInsnNode) {
-            return new JumpInstructionFilter(ain.opcode());
+            return new JumpInstructionFilter(ain.getOpcode());
         } else if (ain instanceof LabelNode) {
             return InstructionFilter.ACCEPT_ALL; // TODO: Cache labels and
             // check. // TODO: That's a

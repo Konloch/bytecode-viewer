@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.objectweb.asm.commons.Remapper;
-
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.FieldMappingData;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MethodMappingData;

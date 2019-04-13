@@ -146,10 +146,6 @@ public class ClassTree {
         }
     }
 
-    public Set<MethodNode> getMethodsFromSuper(MethodNode m) {
-        return getMethodsFromSuper(m.owner, m.name, m.desc);
-    }
-
     public Set<MethodNode> getMethodsFromSuper(ClassNode node, String name, String desc) {
         Set<MethodNode> methods = new HashSet<MethodNode>();
         for (ClassNode super_ : getSupers(node)) {
@@ -160,10 +156,6 @@ public class ClassTree {
             }
         }
         return methods;
-    }
-
-    public Set<MethodNode> getMethodsFromDelegates(MethodNode m) {
-        return getMethodsFromDelegates(m.owner, m.name, m.desc);
     }
 
     public Set<MethodNode> getMethodsFromDelegates(ClassNode node, String name, String desc) {
@@ -195,10 +187,6 @@ public class ClassTree {
 
     public boolean isInherited(ClassNode cn, String name, String desc) {
         return getFirstMethodFromSuper(cn, name, desc) != null;
-    }
-
-    public boolean isInherited(ClassNode first, MethodNode mn) {
-        return mn.owner.name.equals(first.name) && isInherited(mn.owner, mn.name, mn.desc);
     }
 
     private Set<ClassNode> getSupers0(ClassNode cn) {
