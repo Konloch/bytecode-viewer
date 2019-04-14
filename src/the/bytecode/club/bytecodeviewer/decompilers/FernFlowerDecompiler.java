@@ -71,7 +71,7 @@ public class FernFlowerDecompiler extends Decompiler {
 
     @Override
     public String decompileClassNode(final ClassNode cn, byte[] b) {
-        String start = MiscUtils.getUniqueName("", ".class");
+        String start = BytecodeViewer.tempDirectory + BytecodeViewer.fs+MiscUtils.getUniqueName("", ".class");
 
         final File tempClass = new File(start + ".class");
 
@@ -95,7 +95,7 @@ public class FernFlowerDecompiler extends Decompiler {
             try {
                 ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
                         new String[]{BytecodeViewer.getJavaCommand(), "-jar", Resources.findLibrary("fernflower")},
-                        generateMainMethod(tempClass.getAbsolutePath(), ".")
+                        generateMainMethod(tempClass.getAbsolutePath(), new File(BytecodeViewer.tempDirectory).getAbsolutePath())
                 ));
                 BytecodeViewer.sm.stopBlocking();
                 Process p = pb.start();
@@ -106,11 +106,22 @@ public class FernFlowerDecompiler extends Decompiler {
             } finally {
                 BytecodeViewer.sm.setBlocking();
             }
-        } else
-            org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(
-                    generateMainMethod(tempClass.getAbsolutePath(), "."));
+        }
+        else
+        {
+            try
+            {
+                org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClass.getAbsolutePath(), new File(BytecodeViewer.tempDirectory).getAbsolutePath()));
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
 
         tempClass.delete();
+
+        System.out.println(start + ".java");
 
         final File outputJava = new File(start + ".java");
         if (outputJava.exists()) {

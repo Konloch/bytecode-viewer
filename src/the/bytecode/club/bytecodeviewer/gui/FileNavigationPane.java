@@ -92,8 +92,12 @@ public class FileNavigationPane extends VisibleComponent implements
                 final String qt = quickSearch.getText();
                 quickSearch.setText("");
 
+                if(qt.isEmpty()) //NOPE
+                    return;
+
 
                 String[] path = null;
+                int found = 0;
 
                 if (qt.contains(".")) {
                     path = qt.split("\\.");
@@ -122,12 +126,18 @@ public class FileNavigationPane extends VisibleComponent implements
                             if (((String) child.getUserObject()).equals(pathName)) {
                                 curNode = child;
                                 if (isLast) {
+                                    System.out.println("Found! " + curNode);
+                                    found++;
+                                    if(found >= 30)
+                                    {
+                                        BytecodeViewer.showMessage("Uh oh, there could be more results but you've triggered the 30 classes at once limit. Try refining your search.");
+                                        return;
+                                    }
                                     final TreePath pathn = new TreePath(curNode.getPath());
                                     tree.setSelectionPath(pathn);
                                     tree.makeVisible(pathn);
                                     tree.scrollPathToVisible(pathn);
                                     openPath(pathn); //auto open
-                                    System.out.println("Found! " + curNode);
                                     break pathLoop;
                                 }
                                 continue pathLoop;
@@ -161,6 +171,12 @@ public class FileNavigationPane extends VisibleComponent implements
                                     String fullPathString = fullPath.toString();
                                     if (fullPathString != null && fullPathString.toLowerCase().contains(qt.toLowerCase())) {
                                         System.out.println("Found! " + node);
+                                        found++;
+                                        if(found >= 30)
+                                        {
+                                            BytecodeViewer.showMessage("Uh oh, there could be more results but you've triggered the 30 classes at once limit. Try refining your search.");
+                                            return;
+                                        }
                                         final TreePath pathn = new TreePath(node.getPath());
                                         tree.setSelectionPath(pathn.getParentPath());
                                         tree.setSelectionPath(pathn);
@@ -221,29 +237,33 @@ public class FileNavigationPane extends VisibleComponent implements
 
         this.tree.addKeyListener(new KeyListener() {
             @Override
-            public void keyReleased(KeyEvent arg0) {
-                if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (arg0.getSource() instanceof MyTree) {
-                        MyTree tree = (MyTree) arg0.getSource();
-                        openPath(tree.getSelectionPath());
-                    }
-                } else {
-                    cancel = true;
-                }
+            public void keyReleased(KeyEvent e) {
             }
 
             @Override
             public void keyTyped(KeyEvent e) {
-                quickSearch.grabFocus();
-                quickSearch.setText("" + e.getKeyChar()); // fuck
-                cancel = true;
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                quickSearch.grabFocus();
-                quickSearch.setText("" + e.getKeyChar()); // fuck
-                cancel = true;
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                {
+                    if (e.getSource() instanceof MyTree)
+                    {
+                        MyTree tree = (MyTree) e.getSource();
+                        openPath(tree.getSelectionPath());
+                    }
+                }
+                else if((int)e.getKeyChar() != 0 && (int)e.getKeyChar() != 65535)
+                {
+                    quickSearch.grabFocus();
+                    quickSearch.setText("" + e.getKeyChar());
+                    cancel = true;
+                }
+                else
+                {
+                    cancel = true;
+                }
             }
         });
 

@@ -628,6 +628,7 @@ public class ClassViewer extends Viewer {
             } catch (InterruptedException e1) {
             }
         }
+
         final byte[] b = cw.toByteArray();
         Thread t1 = new PaneUpdaterThread() {
             @Override
@@ -1722,6 +1723,18 @@ public class ClassViewer extends Viewer {
             }
         };
         t.start();
+
+        if(isPanel1Editable() || isPanel2Editable() || isPanel3Editable())
+        {
+            if(!BytecodeViewer.warnForEditing)
+            {
+                BytecodeViewer.warnForEditing = true;
+                if(!BytecodeViewer.viewer.autoCompileOnRefresh.isSelected() && !BytecodeViewer.viewer.autoCompileSmali.isSelected())
+                {
+                    BytecodeViewer.showMessage("Make sure to File>Compile (Ctrl + T) whenever you want to test or export your changes.\nYou can set compile automatically on refresh or on save in the settings menu.");
+                }
+            }
+        }
     }
 
     public Object[] getSmali() {

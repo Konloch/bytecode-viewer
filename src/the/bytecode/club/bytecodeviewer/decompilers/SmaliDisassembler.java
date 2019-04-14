@@ -43,7 +43,7 @@ public class SmaliDisassembler extends Decompiler {
         String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
                 + "temp";
 
-        String start = MiscUtils.getUniqueName(fileStart, ".class");
+        String start = BytecodeViewer.tempDirectory + BytecodeViewer.fs+MiscUtils.getUniqueName(fileStart, ".class");
 
         final File tempClass = new File(start + ".class");
         final File tempZip = new File(start + ".jar");

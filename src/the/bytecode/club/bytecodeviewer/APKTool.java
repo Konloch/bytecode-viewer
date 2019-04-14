@@ -28,7 +28,9 @@ public class APKTool {
         try {
             File dir = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "Decoded Resources");
             FileUtils.deleteDirectory(dir);
-            brut.apktool.Main.main(new String[]{"-s", "-f", "-o", dir.getAbsolutePath(), "decode", input.getAbsolutePath()});
+            File temp = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(12));
+            temp.mkdirs();
+            brut.apktool.Main.main(new String[]{"--frame-path", temp.getAbsolutePath(), "-s", "-f", "-o", dir.getAbsolutePath(), "decode", input.getAbsolutePath()});
             File original = new File(dir.getAbsolutePath() + BytecodeViewer.fs + "original");
             FileUtils.deleteDirectory(original);
             File classes = new File(dir.getAbsolutePath() + BytecodeViewer.fs + "classes.dex");

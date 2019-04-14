@@ -142,6 +142,7 @@ public class BytecodeViewer
     public static int krakatauHash;
     public static boolean currentlyDumping = false;
     public static boolean needsReDump = true;
+    public static boolean warnForEditing = false;
     public static ArrayList<FileContainer> files = new ArrayList<FileContainer>(); //all of BCV's loaded files/classes/etc
     private static int maxRecentFiles = 25;
     public static String fs = System.getProperty("file.separator");

@@ -179,8 +179,8 @@ public class Settings {
 
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.refreshOnChange.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.isMaximized), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileSmali.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, "deprecated", false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, "deprecated", false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.lastDirectory, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.python, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.rt, false);
@@ -214,6 +214,8 @@ public class Settings {
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.python3, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.javac, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.java, false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileSmali.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()), false);
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
@@ -374,8 +376,6 @@ public class Settings {
                 BytecodeViewer.viewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 BytecodeViewer.viewer.isMaximized = true;
             }
-            BytecodeViewer.viewer.autoCompileSmali.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 86, false)));
-            BytecodeViewer.viewer.autoCompileOnRefresh.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 87, false)));
             BytecodeViewer.lastDirectory = DiskReader.loadString(BytecodeViewer.settingsName, 88, false);
             BytecodeViewer.python = DiskReader.loadString(BytecodeViewer.settingsName, 89, false);
             BytecodeViewer.rt = DiskReader.loadString(BytecodeViewer.settingsName, 90, false);
@@ -410,6 +410,8 @@ public class Settings {
             BytecodeViewer.python3 = DiskReader.loadString(BytecodeViewer.settingsName, 115, false);
             BytecodeViewer.javac = DiskReader.loadString(BytecodeViewer.settingsName, 116, false);
             BytecodeViewer.java = DiskReader.loadString(BytecodeViewer.settingsName, 117, false);
+            BytecodeViewer.viewer.autoCompileSmali.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 118, false)));
+            BytecodeViewer.viewer.autoCompileOnRefresh.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 119, false)));
         } catch (Exception e) {
             //ignore because errors are expected, first start up and outdated settings.
             //e.printStackTrace();

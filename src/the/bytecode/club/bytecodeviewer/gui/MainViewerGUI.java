@@ -1601,10 +1601,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         mnPane_1.add(panel3Hexcode);
 
         menuBar.add(mnSettings);
-        autoCompileSmali.setSelected(true);
+        autoCompileSmali.setSelected(false);
 
         mnSettings.add(autoCompileSmali);
-        autoCompileOnRefresh.setSelected(true);
+        autoCompileOnRefresh.setSelected(false);
 
         mnSettings.add(autoCompileOnRefresh);
 

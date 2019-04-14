@@ -86,12 +86,42 @@ public class JavaCompiler extends Compiler {
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
 
+            Thread failSafe = new Thread()
+            {
+                @Override
+                public void run()
+                {
+                    long started = System.currentTimeMillis();
+                    while(System.currentTimeMillis()-started <= 10_000)
+                    {
+                        try
+                        {
+                            Thread.sleep(100);
+                        }
+                        catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if(process.isAlive())
+                    {
+                        System.out.println("Force killing javac process, assuming it's gotten stuck");
+                        process.destroyForcibly().destroy();
+                    }
+                }
+            };
+            failSafe.start();
+
+            int exitValue = process.waitFor();
+
             //Read out dir output
             InputStream is = process.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line;
-            while ((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null)
+            {
                 log += BytecodeViewer.nl + line;
             }
             br.close();
@@ -105,7 +135,6 @@ public class JavaCompiler extends Compiler {
             }
             br.close();
 
-            int exitValue = process.waitFor();
             log += BytecodeViewer.nl + BytecodeViewer.nl + "Exit Value is " + exitValue;
             System.out.println(log);
 
