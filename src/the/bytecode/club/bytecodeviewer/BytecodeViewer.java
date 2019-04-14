@@ -885,23 +885,28 @@ public class BytecodeViewer
                                 } else if (fn.endsWith(".apk")) {
                                     try {
                                         BytecodeViewer.viewer.setIcon(true);
-                                        FileContainer container = new FileContainer(f);
+
+                                        File tempCopy = new File(tempDirectory+fs+MiscUtils.randomString(32)+".apk");
+
+                                        FileUtils.copyFile(f, tempCopy);
+
+                                        FileContainer container = new FileContainer(tempCopy, f.getName());
 
                                         if (viewer.decodeAPKResources.isSelected()) {
                                             File decodedResources = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
-                                            APKTool.decodeResources(f, decodedResources);
+                                            APKTool.decodeResources(tempCopy, decodedResources);
                                             container.files = JarUtils.loadResources(decodedResources);
                                         }
 
-                                        container.files.putAll(JarUtils.loadResources(f));
+                                        container.files.putAll(JarUtils.loadResources(tempCopy)); //copy and rename to prevent unicode filenames
 
                                         String name = getRandomizedName() + ".jar";
                                         File output = new File(tempDirectory + fs + name);
 
                                         if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
-                                            Dex2Jar.dex2Jar(f, output);
+                                            Dex2Jar.dex2Jar(tempCopy, output);
                                         else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
-                                            Enjarify.apk2Jar(f, output);
+                                            Enjarify.apk2Jar(tempCopy, output);
 
                                         container.classes = JarUtils.loadClasses(output);
 
@@ -914,15 +919,20 @@ public class BytecodeViewer
                                 } else if (fn.endsWith(".dex")) {
                                     try {
                                         BytecodeViewer.viewer.setIcon(true);
-                                        FileContainer container = new FileContainer(f);
+
+                                        File tempCopy = new File(tempDirectory+fs+MiscUtils.randomString(32)+".dex");
+
+                                        FileUtils.copyFile(f, tempCopy); //copy and rename to prevent unicode filenames
+
+                                        FileContainer container = new FileContainer(tempCopy, f.getName());
 
                                         String name = getRandomizedName() + ".jar";
                                         File output = new File(tempDirectory + fs + name);
 
                                         if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
-                                            Dex2Jar.dex2Jar(f, output);
+                                            Dex2Jar.dex2Jar(tempCopy, output);
                                         else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
-                                            Enjarify.apk2Jar(f, output);
+                                            Enjarify.apk2Jar(tempCopy, output);
 
                                         container.classes = JarUtils.loadClasses(output);
 

@@ -182,6 +182,6 @@ public class ClassNodeDecompiler extends Decompiler {
     }
 
     @Override
-    public void decompileToZip(String zipName) {
+    public void decompileToZip(String sourceJar, String zipName) {
     }
 }

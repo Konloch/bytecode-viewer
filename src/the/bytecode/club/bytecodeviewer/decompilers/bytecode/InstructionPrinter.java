@@ -13,23 +13,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.FrameNode;
-import org.objectweb.asm.tree.IincInsnNode;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.IntInsnNode;
-import org.objectweb.asm.tree.InvokeDynamicInsnNode;
-import org.objectweb.asm.tree.JumpInsnNode;
-import org.objectweb.asm.tree.LabelNode;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.LineNumberNode;
-import org.objectweb.asm.tree.LookupSwitchInsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.TableSwitchInsnNode;
-import org.objectweb.asm.tree.TypeInsnNode;
-import org.objectweb.asm.tree.VarInsnNode;
+import org.objectweb.asm.tree.*;
 
 import org.objectweb.asm.tree.analysis.Frame;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -150,6 +134,8 @@ public class InstructionPrinter {
                 line = printLookupSwitchInsnNode((LookupSwitchInsnNode) ain);
             } else if (ain instanceof InvokeDynamicInsnNode) {
                 line = printInvokeDynamicInsNode((InvokeDynamicInsnNode) ain);
+            } else if (ain instanceof MultiANewArrayInsnNode) {
+                line = printMultiANewArrayInsNode((MultiANewArrayInsnNode) ain);
             } else {
                 line += "UNADDED OPCODE: " + nameOpcode(ain.getOpcode()) + " "
                         + ain.toString();
@@ -313,6 +299,14 @@ public class InstructionPrinter {
                 sb.append(o.toString());
             }
         }
+
+        return sb.toString();
+    }
+
+    protected String printMultiANewArrayInsNode(MultiANewArrayInsnNode mana)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append(nameOpcode(mana.getOpcode()) + " " + mana.dims + " : "  + mana.desc);
 
         return sb.toString();
     }

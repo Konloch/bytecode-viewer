@@ -247,23 +247,15 @@ public class CFRDecompiler extends Decompiler {
     byte[] buffer = new byte[1024];
 
     @Override
-    public void decompileToZip(String zipName) {
-        File tempZip = new File(BytecodeViewer.tempDirectory
-                + BytecodeViewer.fs + "temp.jar");
-        if (tempZip.exists())
-            tempZip.delete();
-
-        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
-                tempZip.getAbsolutePath());
+    public void decompileToZip(String sourceJar, String zipName)
+    {
+        File tempZip = new File(sourceJar);
 
         String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
-
         String fuckery = fuckery(fileStart);
 
-        org.benf.cfr.reader.Main.main(generateMainMethod(
-                tempZip.getAbsolutePath(), fuckery));
+        org.benf.cfr.reader.Main.main(generateMainMethod(tempZip.getAbsolutePath(), fuckery));
 
-        tempZip.delete();
         File fuck = new File(fuckery);
 
         try {

@@ -296,7 +296,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
             "Replace Strings");
     public final JMenuItem mntmStackFramesRemover = new JMenuItem(
             "StackFrames Remover");
-    public final JMenuItem mntmNewMenuItem_4 = new JMenuItem("");
+    public final JMenuItem[] waitIcons;
     public final JMenu mnNewMenu_3 = new JMenu("CFR");
     public final JMenu mnNewMenu_4 = new JMenu("Procyon");
     public final JCheckBoxMenuItem decodeenumswitch = new JCheckBoxMenuItem(
@@ -586,19 +586,38 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JRadioButtonMenuItem panel3Bytecode = new JRadioButtonMenuItem("Bytecode");
     public final JRadioButtonMenuItem panel3Hexcode = new JRadioButtonMenuItem("Hexcode");
 
-    public void setIcon(final boolean busy) {
+    public synchronized void setIcon(final boolean busy) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 if (busy) {
-                    try {
-                        mntmNewMenuItem_4.setIcon(Resources.busyIcon);
-                    } catch (NullPointerException e) {
-                        mntmNewMenuItem_4.setIcon(Resources.busyB64Icon);
+                    for(int i = 0; i < 10; i++)
+                    {
+                        if(waitIcons[i].getIcon() == null)
+                        {
+                            try {
+                                waitIcons[i].setIcon(Resources.busyIcon);
+                            } catch (NullPointerException e) {
+                                waitIcons[i].setIcon(Resources.busyB64Icon);
+                            }
+                            waitIcons[i].updateUI();
+                            break;
+                        }
                     }
-                } else
-                    mntmNewMenuItem_4.setIcon(null);
-                mntmNewMenuItem_4.updateUI();
+                }
+                else
+                {
+
+                    for(int i = 0; i < 10; i++)
+                    {
+                        if(waitIcons[i].getIcon() != null)
+                        {
+                            waitIcons[i].setIcon(null);
+                            waitIcons[i].updateUI();
+                            break;
+                        }
+                    }
+                }
             }
         });
     }
@@ -841,10 +860,20 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                 if (result == 0) {
                     ArrayList<File> reopen = new ArrayList<File>();
+
                     for (FileContainer container : BytecodeViewer.files)
+                    {
+                        File newFile = new File(container.file.getParent() + BytecodeViewer.fs + container.name);
+                        if(!container.file.getAbsolutePath().equals(newFile.getAbsolutePath())) //APKs & dex get renamed
+                        {
+                            container.file.renameTo(newFile);
+                            container.file = newFile;
+                        }
                         reopen.add(container.file);
+                    }
 
                     BytecodeViewer.files.clear();
+
                     BytecodeViewer.openFiles(reopen.toArray(new File[reopen.size()]), false);
 
                     //refresh panes
@@ -1081,13 +1110,14 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                 }
                             }
 
-                            BytecodeViewer.viewer.setIcon(true);
+                            final File javaSucks = file;
+
                             final String path = MiscUtils.append(file, ".zip");    // cheap hax cause
                             // string is final
 
                             JOptionPane pane = new JOptionPane(
                                     "What decompiler will you use?");
-                            Object[] options = new String[]{"Procyon", "CFR",
+                            Object[] options = new String[]{"All", "Procyon", "CFR",
                                     "Fernflower", "Krakatau", "Cancel"};
                             pane.setOptions(options);
                             JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
@@ -1099,12 +1129,21 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                 if (options[k].equals(obj))
                                     result = k;
 
-                            if (result == 0) {
+                            BytecodeViewer.viewer.setIcon(true);
+
+                            File tempZip = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp_"+BytecodeViewer.getRandomizedName()+".jar");
+                            if (tempZip.exists())
+                                tempZip.delete();
+
+                            JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempZip.getAbsolutePath());
+
+                            if (result == 0)
+                            {
                                 Thread t = new Thread() {
                                     @Override
                                     public void run() {
                                         try {
-                                            Decompiler.procyon.decompileToZip(path);
+                                            Decompiler.procyon.decompileToZip(tempZip.getAbsolutePath(), MiscUtils.append(javaSucks, "-proycon.zip"));
                                             BytecodeViewer.viewer.setIcon(false);
                                         } catch (Exception e) {
                                             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -1112,13 +1151,52 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                     }
                                 };
                                 t.start();
+                                Thread t2 = new Thread() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            BytecodeViewer.viewer.setIcon(true);
+                                            Decompiler.cfr.decompileToZip(tempZip.getAbsolutePath(), MiscUtils.append(javaSucks, "-CFR.zip"));
+                                            BytecodeViewer.viewer.setIcon(false);
+                                        } catch (Exception e) {
+                                            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                                        }
+                                    }
+                                };
+                                t2.start();
+                                Thread t3 = new Thread() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            BytecodeViewer.viewer.setIcon(true);
+                                            Decompiler.fernflower.decompileToZip(tempZip.getAbsolutePath(), MiscUtils.append(javaSucks, "-fernflower.zip"));
+                                            BytecodeViewer.viewer.setIcon(false);
+                                        } catch (Exception e) {
+                                            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                                        }
+                                    }
+                                };
+                                t3.start();
+                                Thread t4 = new Thread() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            BytecodeViewer.viewer.setIcon(true);
+                                            Decompiler.krakatau.decompileToZip(tempZip.getAbsolutePath(), MiscUtils.append(javaSucks, "-kraktau.zip"));
+                                            BytecodeViewer.viewer.setIcon(false);
+                                        } catch (Exception e) {
+                                            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                                        }
+                                    }
+                                };
+                                t4.start();
                             }
                             if (result == 1) {
                                 Thread t = new Thread() {
                                     @Override
                                     public void run() {
                                         try {
-                                            Decompiler.cfr.decompileToZip(path);
+                                            Decompiler.procyon.decompileToZip(tempZip.getAbsolutePath(), path);
                                             BytecodeViewer.viewer.setIcon(false);
                                         } catch (Exception e) {
                                             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -1132,7 +1210,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                     @Override
                                     public void run() {
                                         try {
-                                            Decompiler.fernflower.decompileToZip(path);
+                                            Decompiler.cfr.decompileToZip(tempZip.getAbsolutePath(), path);
                                             BytecodeViewer.viewer.setIcon(false);
                                         } catch (Exception e) {
                                             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -1141,13 +1219,12 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                 };
                                 t.start();
                             }
-
                             if (result == 3) {
                                 Thread t = new Thread() {
                                     @Override
                                     public void run() {
                                         try {
-                                            Decompiler.krakatau.decompileToZip(path);
+                                            Decompiler.fernflower.decompileToZip(tempZip.getAbsolutePath(), path);
                                             BytecodeViewer.viewer.setIcon(false);
                                         } catch (Exception e) {
                                             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -1158,6 +1235,21 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                             }
 
                             if (result == 4) {
+                                Thread t = new Thread() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Decompiler.krakatau.decompileToZip(tempZip.getAbsolutePath(), path);
+                                            BytecodeViewer.viewer.setIcon(false);
+                                        } catch (Exception e) {
+                                            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                                        }
+                                    }
+                                };
+                                t.start();
+                            }
+
+                            if (result == 5) {
                                 BytecodeViewer.viewer.setIcon(false);
                             }
                         }
@@ -1178,7 +1270,11 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                     public void run() {
                         if (autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
                             return;
-                        final String s = workPane.getCurrentViewer().name;
+
+                        final String s = workPane.getCurrentViewer().cn.name;
+
+                        if(s == null)
+                            return;
 
                         JFileChooser fc = new JFileChooser();
                         fc.setFileFilter(new FileFilter() {
@@ -1225,7 +1321,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                             JOptionPane pane = new JOptionPane(
                                     "What decompiler will you use?");
-                            Object[] options = new String[]{"Procyon", "CFR",
+                            Object[] options = new String[]{"All", "Procyon", "CFR",
                                     "Fernflower", "Krakatau", "Cancel"};
                             pane.setOptions(options);
                             JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
@@ -1254,12 +1350,47 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                                 } catch (InterruptedException e1) {
                                                 }
                                             }
-                                            String contents = Decompiler.procyon.decompileClassNode(cn, cw.toByteArray());
-                                            DiskWriter.replaceFile(path, contents, false);
+
+                                            try
+                                            {
+                                                DiskWriter.replaceFile(MiscUtils.append(file, "-proycon.java"), Decompiler.procyon.decompileClassNode(cn, cw.toByteArray()), false);
+                                            }
+                                            catch(Exception e)
+                                            {
+                                                e.printStackTrace();
+                                            }
+
+                                            try
+                                            {
+                                                DiskWriter.replaceFile(MiscUtils.append(file, "-CFR.java"), Decompiler.cfr.decompileClassNode(cn, cw.toByteArray()), false);
+                                            }
+                                            catch(Exception e)
+                                            {
+                                                e.printStackTrace();
+                                            }
+
+                                            try
+                                            {
+                                                DiskWriter.replaceFile(MiscUtils.append(file, "-fernflower.java"), Decompiler.fernflower.decompileClassNode(cn, cw.toByteArray()), false);
+                                            }
+                                            catch(Exception e)
+                                            {
+                                                e.printStackTrace();
+                                            }
+
+                                            try
+                                            {
+                                                DiskWriter.replaceFile(MiscUtils.append(file, "-kraktau.java"), Decompiler.krakatau.decompileClassNode(cn, cw.toByteArray()), false);
+                                            }
+                                            catch(Exception e)
+                                            {
+                                                e.printStackTrace();
+                                            }
+
                                             BytecodeViewer.viewer.setIcon(false);
                                         } catch (Exception e) {
-                                            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(
-                                                    e);
+                                            BytecodeViewer.viewer.setIcon(false);
+                                            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                                         }
                                     }
                                 };
@@ -1282,10 +1413,11 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                                 } catch (InterruptedException e1) {
                                                 }
                                             }
-                                            String contents = Decompiler.cfr.decompileClassNode(cn, cw.toByteArray());
+                                            String contents = Decompiler.procyon.decompileClassNode(cn, cw.toByteArray());
                                             DiskWriter.replaceFile(path, contents, false);
                                             BytecodeViewer.viewer.setIcon(false);
                                         } catch (Exception e) {
+                                            BytecodeViewer.viewer.setIcon(false);
                                             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(
                                                     e);
                                         }
@@ -1298,7 +1430,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                     @Override
                                     public void run() {
                                         try {
-
                                             ClassNode cn = BytecodeViewer.getClassNode(s);
                                             final ClassWriter cw = new ClassWriter(0);
                                             try {
@@ -1311,10 +1442,11 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                                 } catch (InterruptedException e1) {
                                                 }
                                             }
-                                            String contents = Decompiler.fernflower.decompileClassNode(cn, cw.toByteArray());
+                                            String contents = Decompiler.cfr.decompileClassNode(cn, cw.toByteArray());
                                             DiskWriter.replaceFile(path, contents, false);
                                             BytecodeViewer.viewer.setIcon(false);
                                         } catch (Exception e) {
+                                            BytecodeViewer.viewer.setIcon(false);
                                             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(
                                                     e);
                                         }
@@ -1335,14 +1467,16 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                                 e.printStackTrace();
                                                 try {
                                                     Thread.sleep(200);
-                                                    cn.accept(cw);
+                                                    if(cn != null)
+                                                        cn.accept(cw);
                                                 } catch (InterruptedException e1) {
                                                 }
                                             }
-                                            String contents = Decompiler.krakatau.decompileClassNode(cn, cw.toByteArray());
+                                            String contents = Decompiler.fernflower.decompileClassNode(cn, cw.toByteArray());
                                             DiskWriter.replaceFile(path, contents, false);
                                             BytecodeViewer.viewer.setIcon(false);
                                         } catch (Exception e) {
+                                            BytecodeViewer.viewer.setIcon(false);
                                             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(
                                                     e);
                                         }
@@ -1351,6 +1485,35 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                                 t.start();
                             }
                             if (result == 4) {
+                                Thread t = new Thread() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            ClassNode cn = BytecodeViewer.getClassNode(s);
+                                            final ClassWriter cw = new ClassWriter(0);
+                                            try {
+                                                cn.accept(cw);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                try {
+                                                    Thread.sleep(200);
+                                                    cn.accept(cw);
+                                                } catch (InterruptedException e1) {
+                                                }
+                                            }
+                                            String contents = Decompiler.krakatau.decompileClassNode(cn, cw.toByteArray());
+                                            DiskWriter.replaceFile(path, contents, false);
+                                            BytecodeViewer.viewer.setIcon(false);
+                                        } catch (Exception e) {
+                                            BytecodeViewer.viewer.setIcon(false);
+                                            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(
+                                                    e);
+                                        }
+                                    }
+                                };
+                                t.start();
+                            }
+                            if (result == 5) {
                                 BytecodeViewer.viewer.setIcon(false);
                             }
                         }
@@ -2002,7 +2165,13 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         mnNewMenu_1.add(mntmZstringarrayDecrypter);
         mnNewMenu_1.add(mntmStackFramesRemover);
 
-        menuBar.add(mntmNewMenuItem_4);
+        waitIcons = new JMenuItem[10];
+        for(int i = 0; i < 10; i++)
+        {
+            waitIcons[i] = new JMenuItem("");
+            waitIcons[i].setMaximumSize(new Dimension(20, 50));
+            menuBar.add(waitIcons[i]);
+        }
 
         mntmStartExternalPlugin.addActionListener(new ActionListener() {
             @Override

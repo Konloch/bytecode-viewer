@@ -37,6 +37,11 @@ public class FileContainer {
         this.name = f.getName();
     }
 
+    public FileContainer(File f, String name) {
+        this.file = f;
+        this.name = name;
+    }
+
     public File file;
     public String name;
 

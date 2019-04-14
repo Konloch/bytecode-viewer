@@ -150,17 +150,9 @@ public class ProcyonDecompiler extends Decompiler {
     }
 
     @Override
-    public void decompileToZip(String zipName) {
-        File tempZip = new File(BytecodeViewer.tempDirectory
-                + BytecodeViewer.fs + "temp.jar");
-        if (tempZip.exists())
-            tempZip.delete();
-
-        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
-                tempZip.getAbsolutePath());
-
+    public void decompileToZip(String sourceJar, String zipName) {
         try {
-            doSaveJarDecompiled(tempZip, new File(zipName));
+            doSaveJarDecompiled(new File(sourceJar), new File(zipName));
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }

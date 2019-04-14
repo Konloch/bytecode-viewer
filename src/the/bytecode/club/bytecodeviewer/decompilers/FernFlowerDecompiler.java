@@ -44,29 +44,19 @@ import the.bytecode.club.bytecodeviewer.Resources;
 public class FernFlowerDecompiler extends Decompiler {
 
     @Override
-    public void decompileToZip(String zipName) {
-        File tempZip = new File(BytecodeViewer.tempDirectory + "temp.zip");
-        if (tempZip.exists())
-            tempZip.delete();
+    public void decompileToZip(String sourceJar, String zipName) {
+        File tempZip = new File(sourceJar);
 
-        File f = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs
-                + "temp" + BytecodeViewer.fs);
+        File f = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + BytecodeViewer.fs);
         f.mkdir();
-
-        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
-                tempZip.getAbsolutePath());
 
         org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempZip.getAbsolutePath(), BytecodeViewer.tempDirectory + "./temp/"));
 
-        File tempZip2 = new File(BytecodeViewer.tempDirectory
-                + BytecodeViewer.fs + "temp" + BytecodeViewer.fs
-                + tempZip.getName());
+        File tempZip2 = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + BytecodeViewer.fs + tempZip.getName());
         if (tempZip2.exists())
             tempZip2.renameTo(new File(zipName));
 
-        tempZip.delete();
-        new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp")
-                .delete();
+        f.delete();
     }
 
     @Override
@@ -120,8 +110,6 @@ public class FernFlowerDecompiler extends Decompiler {
         }
 
         tempClass.delete();
-
-        System.out.println(start + ".java");
 
         final File outputJava = new File(start + ".java");
         if (outputJava.exists()) {

@@ -41,5 +41,5 @@ public abstract class Decompiler {
 
     public abstract String decompileClassNode(ClassNode cn, byte[] b);
 
-    public abstract void decompileToZip(String zipName);
+    public abstract void decompileToZip(String sourceJar, String zipName);
 }

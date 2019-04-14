@@ -182,6 +182,12 @@ public class CommandLineInput {
             //if its zip/jar/apk/dex attempt unzip as whole zip
             //if its just class allow any
 
+            File tempZip = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp_"+BytecodeViewer.getRandomizedName()+".jar");
+            if (tempZip.exists())
+                tempZip.delete();
+
+            JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempZip.getAbsolutePath());
+
             if (decompiler.equalsIgnoreCase("procyon")) {
                 System.out.println("Decompiling " + input.getAbsolutePath() + " with Procyon");
                 BytecodeViewer.openFiles(new File[]{input}, false);
@@ -189,7 +195,7 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompiler.procyon.decompileToZip(output.getAbsolutePath());
+                    Decompiler.procyon.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
@@ -207,7 +213,7 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompiler.cfr.decompileToZip(output.getAbsolutePath());
+                    Decompiler.cfr.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
@@ -225,7 +231,7 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompiler.fernflower.decompileToZip(output.getAbsolutePath());
+                    Decompiler.fernflower.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
@@ -243,7 +249,7 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompiler.krakatau.decompileToZip(output.getAbsolutePath());
+                    Decompiler.krakatau.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);

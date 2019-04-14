@@ -130,7 +130,7 @@ public class KrakatauDecompiler extends Decompiler {
         return s;
     }
 
-    public void decompileToZip(String zipName) {
+    public void decompileToZip(String sourceJar, String zipName) {
         if (BytecodeViewer.python.equals("")) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
@@ -144,10 +144,12 @@ public class KrakatauDecompiler extends Decompiler {
         String ran = MiscUtils.randomString(32);
         final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + ran + BytecodeViewer.fs);
         tempDirectory.mkdir();
-        final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp.jar");
-        JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
+
+
+        final File tempJar = new File(sourceJar);
 
         BytecodeViewer.sm.stopBlocking();
+
         try {
             ProcessBuilder pb = new ProcessBuilder(
                     BytecodeViewer.python,
@@ -167,11 +169,7 @@ public class KrakatauDecompiler extends Decompiler {
             process.waitFor();
             MiscUtils.printProcess(process);
 
-            // ZipUtils.zipDirectory(tempDirectory, new File(zipName));
             ZipUtils.zipFolder(tempDirectory.getAbsolutePath(), zipName, ran);
-
-            //tempDirectory.delete();
-            tempJar.delete();
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         } finally {
