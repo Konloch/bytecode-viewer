@@ -583,6 +583,10 @@ public class FileNavigationPane extends VisibleComponent implements
             if (cn != null) {
                 openClassFileToWorkSpace(container, nameBuffer.toString(), cn);
             }
+            else
+            {
+                openFileToWorkSpace(container, nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
+            }
         } else {
             openFileToWorkSpace(container, nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
         }

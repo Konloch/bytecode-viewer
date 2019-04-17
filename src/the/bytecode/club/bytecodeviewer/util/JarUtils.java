@@ -1,20 +1,24 @@
 package the.bytecode.club.bytecodeviewer.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
 import me.konloch.kontainer.io.DiskWriter;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.apache.commons.compress.utils.IOUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
@@ -76,10 +80,14 @@ public class JarUtils {
                             e.printStackTrace();
                         }
                     } else {
-                        System.out.println(jarFile + ">" + name + ": Header does not start with CAFEBABE, ignoring.");
+                        if (!entry.isDirectory())
+                            files.put(name, bytes);
+                        //System.out.println(jarFile + ">" + name + ": Header does not start with CAFEBABE, ignoring.");
                     }
                 }
 
+            } catch (ZipException e) {
+                //ignore cause apache unzip
             } catch (Exception e) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
             } finally {
@@ -89,7 +97,57 @@ public class JarUtils {
         jis.close();
         container.files = files;
         BytecodeViewer.files.add(container);
+    }
 
+    public static void put2(final File jarFile) throws IOException {
+        //TODO try zip libraries till one works, worst case import Sun's jarsigner code from JDK 7 re-sign the jar to rebuilt the CRC, should also rebuild the archive byte offsets
+
+        FileContainer container = new FileContainer(jarFile);
+        HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+
+
+        Path path = jarFile.toPath();
+
+        String fileBaseName = FilenameUtils.getBaseName(path.getFileName().toString());
+        Path destFolderPath = Paths.get(path.getParent().toString(), fileBaseName);
+
+        try (ZipFile zipFile = new ZipFile(jarFile))
+        {
+            Enumeration<? extends ZipArchiveEntry> entries = zipFile.getEntries();
+            while (entries.hasMoreElements()) {
+                ZipArchiveEntry entry = entries.nextElement();
+                Path entryPath = destFolderPath.resolve(entry.getName());
+                String name = entry.getName();
+                if (entry.isDirectory()) {
+                    //directory
+                } else {
+                    try (InputStream in = zipFile.getInputStream(entry))
+                    {
+
+                        final byte[] bytes = getBytes(in);
+                        if (!name.endsWith(".class")) {
+                            files.put(name, bytes);
+                        } else {
+                            String cafebabe = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
+                            if (cafebabe.toLowerCase().equals("cafebabe")) {
+                                try {
+                                    final ClassNode cn = getNode(bytes);
+                                    container.classes.add(cn);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                files.put(name, bytes);
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        container.files = files;
+        BytecodeViewer.files.add(container);
     }
 
 

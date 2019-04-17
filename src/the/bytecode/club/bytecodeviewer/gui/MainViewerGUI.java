@@ -2387,7 +2387,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         });
 
         visualSettings.add(synchronizedViewing);
-        showClassMethods.setSelected(true);
+        showClassMethods.setSelected(false);
         visualSettings.add(showClassMethods);
 
 

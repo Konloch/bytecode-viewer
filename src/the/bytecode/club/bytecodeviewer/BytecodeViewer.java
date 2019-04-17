@@ -109,7 +109,7 @@ import the.bytecode.club.bytecodeviewer.util.*;
 public class BytecodeViewer
 {
     /*per version*/
-    public static final String VERSION = "2.9.16";
+    public static final String VERSION = "2.9.17";
     public static String krakatauVersion = "12";
     public static String enjarifyVersion = "4";
     public static final boolean BLOCK_TAB_MENU = true;
@@ -847,6 +847,13 @@ public class BytecodeViewer
                                 if (fn.endsWith(".jar") || fn.endsWith(".zip")) {
                                     try {
                                         JarUtils.put(f);
+                                    } catch (final java.util.zip.ZipException z) {
+                                        try {
+                                            JarUtils.put2(f);
+                                        } catch (final Exception e) {
+                                            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                                            update = false;
+                                        }
                                     } catch (final Exception e) {
                                         new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                                         update = false;
