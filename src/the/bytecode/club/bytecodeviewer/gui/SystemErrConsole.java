@@ -311,7 +311,7 @@ public class SystemErrConsole extends JFrame {
     }
 
     class CustomOutputStream extends OutputStream {
-        private StringBuffer sb = new StringBuffer();
+        private StringBuilder sb = new StringBuilder();
         private JTextArea textArea;
 
         public CustomOutputStream(JTextArea textArea) {

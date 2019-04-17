@@ -16,6 +16,7 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodNode;
 
 import eu.bibl.banalysis.asm.desc.OpcodeInfo;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -44,9 +45,19 @@ import eu.bibl.banalysis.asm.desc.OpcodeInfo;
 
 public class FieldCallSearch implements SearchTypeDetails {
 
-    JTextField mOwner = new JTextField(""), mName = new JTextField(""),
-            mDesc = new JTextField("");
+    JTextField mOwner = new JTextField(""), mName = new JTextField(""), mDesc = new JTextField("");
+
     JPanel myPanel = null;
+
+    public FieldCallSearch()
+    {
+        mOwner = new JTextField("");
+        mOwner.addKeyListener(EnterKeyEvent.SINGLETON);
+        mName = new JTextField("");
+        mName.addKeyListener(EnterKeyEvent.SINGLETON);
+        mDesc = new JTextField("");
+        mDesc.addKeyListener(EnterKeyEvent.SINGLETON);
+    }
 
     @Override
     public JPanel getPanel() {
@@ -64,8 +75,7 @@ public class FieldCallSearch implements SearchTypeDetails {
     }
 
     @Override
-    public void search(final ClassNode node, final SearchResultNotifier srn,
-                       boolean exact) {
+    public void search(final FileContainer container, final ClassNode node, final SearchResultNotifier srn, boolean exact) {
         final Iterator<MethodNode> methods = node.methods.iterator();
         String owner = mOwner.getText();
         if (owner.isEmpty()) {
@@ -109,7 +119,7 @@ public class FieldCallSearch implements SearchTypeDetails {
                         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
 
                         }
-                        srn.notifyOfResult(node.name
+                        srn.notifyOfResult(container.name+">"+node.name
                                 + "."
                                 + method.name
                                 + desc2
@@ -135,7 +145,7 @@ public class FieldCallSearch implements SearchTypeDetails {
                         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
 
                         }
-                        srn.notifyOfResult(node.name
+                        srn.notifyOfResult(container.name+">"+node.name
                                 + "."
                                 + method.name
                                 + desc2

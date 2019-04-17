@@ -15,6 +15,7 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -43,8 +44,14 @@ import org.objectweb.asm.tree.MethodNode;
 
 public class LDCSearch implements SearchTypeDetails {
 
-    JTextField searchText = new JTextField("");
+    JTextField searchText = null;
     JPanel myPanel = null;
+
+    public LDCSearch()
+    {
+        searchText = new JTextField("");
+        searchText.addKeyListener(EnterKeyEvent.SINGLETON);
+    }
 
     @Override
     public JPanel getPanel() {
@@ -58,8 +65,8 @@ public class LDCSearch implements SearchTypeDetails {
     }
 
     @Override
-    public void search(final ClassNode node, final SearchResultNotifier srn,
-                       boolean exact) {
+    public void search(final FileContainer container, final ClassNode node, final SearchResultNotifier srn, boolean exact)
+    {
         final Iterator<MethodNode> methods = node.methods.iterator();
         final String srchText = searchText.getText();
         if (srchText.isEmpty())
@@ -83,9 +90,10 @@ public class LDCSearch implements SearchTypeDetails {
                     } catch (java.lang.ArrayIndexOutOfBoundsException e) {
 
                     }
-                    if ((exact && ldcString.equals(srchText))
-                            || (!exact && ldcString.contains(srchText))) {
-                        srn.notifyOfResult(node.name + "." + method.name
+
+                    if ((exact && ldcString.equals(srchText)) || (!exact && ldcString.contains(srchText)))
+                    {
+                        srn.notifyOfResult(container.name+">"+node.name + "." + method.name
                                 + desc2
                                 + " -> \"" + ldcString + "\" > "
                                 + ldcObject.cst.getClass().getCanonicalName());
@@ -105,7 +113,7 @@ public class LDCSearch implements SearchTypeDetails {
 
             }
             if (field.value instanceof String) {
-                srn.notifyOfResult(node.name + "." + field.name + desc2
+                srn.notifyOfResult(container.name+">"+node.name + "." + field.name + desc2
                         + " -> \"" + field.value + "\" > field");
             }
         }

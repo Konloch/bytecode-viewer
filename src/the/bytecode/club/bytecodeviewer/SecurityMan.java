@@ -43,7 +43,7 @@ public class SecurityMan extends SecurityManager {
                 executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.FernFlowerDecompiler") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.JDGUIDecompiler") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.KrakatauAssembler") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.Enjarify") ||
+                executedClass.equals("the.bytecode.club.bytecodeviewer.util.Enjarify") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.BytecodeViewer") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.JavaCompiler")) {
             blocking = false;

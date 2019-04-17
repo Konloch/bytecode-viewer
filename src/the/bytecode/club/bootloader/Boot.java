@@ -16,7 +16,7 @@ import me.konloch.kontainer.io.HTTPRequest;
 import the.bytecode.club.bootloader.resource.EmptyExternalResource;
 import the.bytecode.club.bootloader.resource.ExternalResource;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.ZipUtils;
+import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 
 /***************************************************************************
@@ -62,20 +62,8 @@ public class Boot {
         }
     }
 
-    public static void boot(String[] args, boolean CLI) throws Exception {
-    	/*if(System.getProperty("java.version").startsWith("9."))
-    	{
-    		BytecodeViewer.showMessage("Java 9.x is not supported yet, please wait till BCV 2.9.11\n\rJava 8 should work <3");
-    		System.exit(0);
-    		return;
-    	}
-    	if(System.getProperty("java.version").startsWith("10."))
-    	{
-    		BytecodeViewer.showMessage("Java 10.x is not supported yet, please wait till BCV 2.9.11\n\rJava 8 should work <3");
-    		System.exit(0);
-    		return;
-    	}*/
-    	
+    public static void boot(String[] args, boolean CLI) throws Exception
+    {
         bootstrap();
         ILoader<?> loader = findLoader();
 
@@ -241,7 +229,7 @@ public class Boot {
             }
             if (delete) {
                 f.delete();
-                System.out.println("Detected & Deleted Foriegn/Outdated Jar/File: " + f.getName());
+                System.out.println("Detected & Deleted Foreign/Outdated Jar/File: " + f.getName());
             }
         }
 
@@ -328,6 +316,82 @@ public class Boot {
                 libsList.add(f.getName());
                 libsFileList.add(f.getAbsolutePath());
             }
+    }
+
+    public static void dropKrakatau()
+    {
+        File krakatauDirectory = new File(BytecodeViewer.krakatauWorkingDirectory);
+        BytecodeViewer.krakatauWorkingDirectory = BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "Krakatau-master";
+        if (!krakatauDirectory.exists())
+        {
+            setState("Bytecode Viewer Boot Screen - Extracting Krakatau");
+            System.out.println("Extracting Krakatau");
+            try
+            {
+                File temp = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion + ".zip");
+
+                while (temp.exists())
+                    temp.delete();
+
+                InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("Krakatau-" + BytecodeViewer.krakatauVersion + ".zip");
+                FileOutputStream baos = new FileOutputStream(temp);
+
+                int r = 0;
+                byte[] buffer = new byte[8192];
+                while ((r = is.read(buffer)) >= 0)
+                {
+                    baos.write(buffer, 0, r);
+                }
+
+                baos.close();
+                ZipUtils.unzipFilesToPath(temp.getAbsolutePath(), krakatauDirectory.getAbsolutePath());
+                temp.delete();
+                System.out.println("Succesfully extracted Krakatau");
+            }
+            catch (Exception e)
+            {
+                setState("Bytecode Viewer Boot Screen - ERROR, please contact @Konloch with your stacktrace.");
+                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            }
+        }
+    }
+
+    public static void dropEnjarify()
+    {
+        File enjarifyDirectory = new File(BytecodeViewer.enjarifyWorkingDirectory);
+        BytecodeViewer.enjarifyWorkingDirectory = BytecodeViewer.enjarifyWorkingDirectory + BytecodeViewer.fs + "enjarify-master";
+        if (!enjarifyDirectory.exists())
+        {
+            setState("Bytecode Viewer Boot Screen - Extracting Enjarify");
+            System.out.println("Extracting Enjarify");
+            try
+            {
+                File temp = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify" + BytecodeViewer.enjarifyVersion + ".zip");
+
+                while (temp.exists())
+                    temp.delete();
+
+                InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("enjarify-" + BytecodeViewer.enjarifyVersion + ".zip");
+                FileOutputStream baos = new FileOutputStream(temp);
+
+                int r = 0;
+                byte[] buffer = new byte[8192];
+                while ((r = is.read(buffer)) >= 0)
+                {
+                    baos.write(buffer, 0, r);
+                }
+
+                baos.close();
+                ZipUtils.unzipFilesToPath(temp.getAbsolutePath(), enjarifyDirectory.getAbsolutePath());
+                temp.delete();
+                System.out.println("Succesfully extracted Enjarify");
+            }
+            catch (Exception e)
+            {
+                setState("Bytecode Viewer Boot Screen - ERROR, please contact @Konloch with your stacktrace.");
+                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            }
+        }
     }
 
     public static void downloadZipsOnly() throws Exception {
@@ -470,6 +534,7 @@ public class Boot {
 
         BytecodeViewer.krakatauWorkingDirectory = BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" +
                 BytecodeViewer.krakatauVersion + BytecodeViewer.fs + "Krakatau-master";
+
         File krakatauDirectory = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion);
         if (!krakatauDirectory.exists()) {
             try {

@@ -26,6 +26,8 @@ import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.*;
 import the.bytecode.club.bytecodeviewer.searching.*;
+import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -53,30 +55,35 @@ import the.bytecode.club.bytecodeviewer.searching.*;
  */
 
 @SuppressWarnings("rawtypes")
-public class SearchingPane extends VisibleComponent {
+public class SearchingPane extends VisibleComponent
+{
 
     private static final long serialVersionUID = -1098524689236993932L;
 
     FileChangeNotifier fcn;
 
     JCheckBox exact = new JCheckBox("Exact");
-    DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode("Root");
+    DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode("Results");
     JTree tree;
+    JComboBox typeBox;
 
     SearchType searchType = null;
     JComboBox searchRadiusBox;
 
     public JButton search = new JButton("Search");
-    BackgroundSearchThread t = new BackgroundSearchThread(true) {
+    BackgroundSearchThread t = new BackgroundSearchThread(true)
+    {
         @Override
-        public void doSearch() {
+        public void doSearch()
+        {
             // empty
         }
 
     };
 
     @SuppressWarnings("unchecked")
-    public SearchingPane(final FileChangeNotifier fcn) {
+    public SearchingPane(final FileChangeNotifier fcn)
+    {
         super("Search");
 
         this.fcn = fcn;
@@ -90,7 +97,8 @@ public class SearchingPane extends VisibleComponent {
         searchRadiusOpt.add(new JLabel("Search from "), BorderLayout.WEST);
 
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        for (final SearchRadius st : SearchRadius.values()) {
+        for (final SearchRadius st : SearchRadius.values())
+        {
             model.addElement(st);
         }
 
@@ -101,16 +109,19 @@ public class SearchingPane extends VisibleComponent {
         searchOpts.add(searchRadiusOpt);
 
         model = new DefaultComboBoxModel();
-        for (final SearchType st : SearchType.values()) {
+        for (final SearchType st : SearchType.values())
+        {
             model.addElement(st);
         }
 
-        final JComboBox typeBox = new JComboBox(model);
+        typeBox = new JComboBox(model);
         final JPanel searchOptPanel = new JPanel();
 
-        final ItemListener il = new ItemListener() {
+        final ItemListener il = new ItemListener()
+        {
             @Override
-            public void itemStateChanged(final ItemEvent arg0) {
+            public void itemStateChanged(final ItemEvent arg0)
+            {
                 searchOptPanel.removeAll();
                 searchType = (SearchType) typeBox.getSelectedItem();
                 searchOptPanel.add(searchType.details.getPanel());
@@ -122,7 +133,7 @@ public class SearchingPane extends VisibleComponent {
 
         typeBox.addItemListener(il);
 
-        typeBox.setSelectedItem(SearchType.LDC);
+        typeBox.setSelectedItem(SearchType.Strings);
         il.itemStateChanged(null);
 
         searchOpts.add(typeBox);
@@ -136,57 +147,12 @@ public class SearchingPane extends VisibleComponent {
 
         optionPanel.add(p2, BorderLayout.CENTER);
 
-        search.addActionListener(new ActionListener() {
+        search.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                treeRoot.removeAllChildren();
-                searchType = (SearchType) typeBox.getSelectedItem();
-                final SearchRadius radius = (SearchRadius) searchRadiusBox
-                        .getSelectedItem();
-                final SearchResultNotifier srn = new SearchResultNotifier() {
-                    @Override
-                    public void notifyOfResult(String debug) {
-                        treeRoot.add(new DefaultMutableTreeNode(debug));
-                    }
-                };
-                if (radius == SearchRadius.All_Classes) {
-                    if (t.finished) {
-                        t = new BackgroundSearchThread() {
-                            @Override
-                            public void doSearch() {
-
-                                try {
-                                    Pattern.compile(RegexInsnFinder.processRegex(RegexSearch.searchText.getText()), Pattern.MULTILINE);
-                                } catch (PatternSyntaxException ex) {
-                                    BytecodeViewer.showMessage("You have an error in your regex syntax.");
-                                }
-
-                                for (ClassNode cln : BytecodeViewer.getLoadedClasses())
-                                    searchType.details.search(cln, srn, exact.isSelected());
-
-                                MainViewerGUI.getComponent(SearchingPane.class).search.setEnabled(true);
-                                MainViewerGUI.getComponent(SearchingPane.class).search.setText("Search");
-                                tree.expandPath(new TreePath(tree.getModel().getRoot()));
-                                tree.updateUI();
-                            }
-
-                        };
-                        MainViewerGUI.getComponent(SearchingPane.class).search
-                                .setEnabled(false);
-                        MainViewerGUI.getComponent(SearchingPane.class).search
-                                .setText("Searching, please wait..");
-                        t.start();
-                    } else { // this should really never be called.
-                        BytecodeViewer
-                                .showMessage("You currently have a search performing in the background, please wait for that to finish.");
-                    }
-                } else if (radius == SearchRadius.Current_Class) {
-                    final Viewer cv = MainViewerGUI.getComponent(WorkPane.class).getCurrentViewer();
-                    if (cv != null) {
-                        searchType.details.search(cv.cn, srn,
-                                exact.isSelected());
-                    }
-                }
+            public void actionPerformed(final ActionEvent arg0)
+            {
+                search();
             }
         });
 
@@ -199,19 +165,28 @@ public class SearchingPane extends VisibleComponent {
         getContentPane().add(new JScrollPane(optionPanel), BorderLayout.NORTH);
         getContentPane().add(new JScrollPane(tree), BorderLayout.CENTER);
 
-        this.tree.addTreeSelectionListener(new TreeSelectionListener() {
+        this.tree.addTreeSelectionListener(new TreeSelectionListener()
+        {
             @Override
-            public void valueChanged(final TreeSelectionEvent arg0) {
-                String path = arg0.getPath().toString();
+            public void valueChanged(final TreeSelectionEvent arg0)
+            {
+                if(arg0.getPath().getPathComponent(0).equals("Results"))
+                    return;
 
-                String className = path.split(", ")[1].split("\\.")[0];
-                final ClassNode fN = BytecodeViewer.getClassNode(className);
-                if (fN != null) {
-                    MainViewerGUI.getComponent(FileNavigationPane.class)
-                            .openClassFileToWorkSpace(className + ".class", fN);
+                String cheapHax = arg0.getPath().getPathComponent(1).toString();
+
+                String path = arg0.getPath().getPathComponent(1).toString();
+
+                String containerName = path.split(">",2)[0];
+                String className = path.split(">",2)[1].split("\\.")[0];
+                FileContainer container = BytecodeViewer.getFileContainer(containerName);
+
+                final ClassNode fN = container.getClassNode(className);
+
+                if (fN != null)
+                {
+                    MainViewerGUI.getComponent(FileNavigationPane.class).openClassFileToWorkSpace(container, className + ".class", fN);
                 }
-
-                System.out.println(className);
             }
         });
 
@@ -219,9 +194,63 @@ public class SearchingPane extends VisibleComponent {
 
     }
 
+    public void search()
+    {
+        treeRoot.removeAllChildren();
+        searchType = (SearchType) typeBox.getSelectedItem();
+        final SearchRadius radius = (SearchRadius) searchRadiusBox
+                .getSelectedItem();
+        final SearchResultNotifier srn = new SearchResultNotifier() {
+            @Override
+            public void notifyOfResult(String debug) {
+                treeRoot.add(new DefaultMutableTreeNode(debug));
+            }
+        };
+        if (radius == SearchRadius.All_Classes) {
+            if (t.finished) {
+                t = new BackgroundSearchThread() {
+                    @Override
+                    public void doSearch() {
+
+                        try {
+                            Pattern.compile(RegexInsnFinder.processRegex(RegexSearch.searchText.getText()), Pattern.MULTILINE);
+                        } catch (PatternSyntaxException ex) {
+                            BytecodeViewer.showMessage("You have an error in your regex syntax.");
+                        }
+
+                        for (FileContainer container : BytecodeViewer.files)
+                            for (ClassNode c : container.classes)
+                                searchType.details.search(container, c, srn, exact.isSelected());
+
+                        MainViewerGUI.getComponent(SearchingPane.class).search.setEnabled(true);
+                        MainViewerGUI.getComponent(SearchingPane.class).search.setText("Search");
+                        tree.expandPath(new TreePath(tree.getModel().getRoot()));
+                        tree.updateUI();
+                    }
+
+                };
+                MainViewerGUI.getComponent(SearchingPane.class).search
+                        .setEnabled(false);
+                MainViewerGUI.getComponent(SearchingPane.class).search
+                        .setText("Searching, please wait..");
+                t.start();
+            } else { // this should really never be called.
+                BytecodeViewer
+                        .showMessage("You currently have a search performing in the background, please wait for that to finish.");
+            }
+        } else if (radius == SearchRadius.Current_Class) {
+            final Viewer cv = MainViewerGUI.getComponent(WorkPane.class).getCurrentViewer();
+            if (cv != null) {
+                searchType.details.search(cv.container, cv.cn, srn, exact.isSelected());
+            }
+        }
+    }
+
     public enum SearchType {
-        LDC(new LDCSearch()), Regex(new RegexSearch()), MethodCall(
-                new MethodCallSearch()), FieldCall(new FieldCallSearch());
+        Strings(new LDCSearch()),
+        Regex(new RegexSearch()),
+        MethodCall(new MethodCallSearch()),
+        FieldCall(new FieldCallSearch());
 
         public final SearchTypeDetails details;
 
@@ -240,6 +269,6 @@ public class SearchingPane extends VisibleComponent {
     }
 
     @Override
-    public void openFile(String name, byte[] contents) {
+    public void openFile(final FileContainer container, String name, byte[] contents) {
     }
 }

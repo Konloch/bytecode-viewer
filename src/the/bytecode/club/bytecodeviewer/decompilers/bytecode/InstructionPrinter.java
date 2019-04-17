@@ -255,36 +255,38 @@ public class InstructionPrinter {
         }
     }
 
-    protected String printIincInsnNode(IincInsnNode iin) {
+    protected String printIincInsnNode(IincInsnNode iin)
+    {
         return nameOpcode(iin.getOpcode()) + " " + iin.var + " " + iin.incr;
     }
 
-    protected String printTableSwitchInsnNode(TableSwitchInsnNode tin) {
+    protected String printTableSwitchInsnNode(TableSwitchInsnNode tin)
+    {
         String line = nameOpcode(tin.getOpcode()) + " \n";
         List<?> labels = tin.labels;
         int count = 0;
-        for (int i = tin.min; i < tin.max + 1; i++) {
-            line += "                val: " + i + " -> " + "L"
-                    + resolveLabel((LabelNode) labels.get(count++)) + "\n";
+        for (int i = tin.min; i < tin.max + 1; i++)
+        {
+            line += "                val: " + i + " -> " + "L" + resolveLabel((LabelNode) labels.get(count++)) + "\n";
         }
-        line += "                default" + " -> L" + resolveLabel(tin.dflt)
-                + "";
+        line += "                default" + " -> L" + resolveLabel(tin.dflt) + "";
         return line;
     }
 
-    protected String printLookupSwitchInsnNode(LookupSwitchInsnNode lin) {
+    protected String printLookupSwitchInsnNode(LookupSwitchInsnNode lin)
+    {
         String line = nameOpcode(lin.getOpcode()) + ": \n";
         List<?> keys = lin.keys;
         List<?> labels = lin.labels;
 
-        for (int i = 0; i < keys.size(); i++) {
+        for (int i = 0; i < keys.size(); i++)
+        {
             int key = (Integer) keys.get(i);
             LabelNode label = (LabelNode) labels.get(i);
-            line += "                val: " + key + " -> " + "L"
-                    + resolveLabel(label) + "\n";
+            line += "                val: " + key + " -> " + "L" + resolveLabel(label) + "\n";
         }
-        line += "                default" + " -> L" + resolveLabel(lin.dflt)
-                + "";
+
+        line += "                default" + " -> L" + resolveLabel(lin.dflt) + "";
         return line;
     }
 

@@ -1,12 +1,8 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -42,8 +38,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
  ***************************************************************************/
 
 /**
- * Component to be used as tabComponent; Contains a JLabel to show the text and
- * a JButton to close the tab it belongs to
+ * Component to be used as tabComponent; Contains a JLabel to show the text and a JButton to close the tab it belongs to
  *
  * @author Konloch
  * @author WaterWolf
@@ -51,13 +46,24 @@ import javax.swing.plaf.basic.BasicButtonUI;
 public class TabbedPane extends JPanel {
 
     private static final long serialVersionUID = -4774885688297538774L;
+    public static final Color BLANK = new Color(0,0,0,0);
     private final JTabbedPane pane;
-    final JButton button = new TabButton();
+    public final JLabel label;
+    private final JButton button = new TabButton();
     private static long zero = System.currentTimeMillis();
+    private long startedDragging = 0;
+    private boolean dragging = false;
+    private DelayTabbedPaneThread probablyABadIdea;
+    private TabbedPane THIS = this;
+    public String tabName;
+    public String fileContainerName;
 
-    public TabbedPane(String name, final JTabbedPane pane) {
+    public TabbedPane(String fileContainerName, String name, final JTabbedPane pane) {
         // unset default FlowLayout' gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
+
+        this.tabName = name;
+        this.fileContainerName = fileContainerName;
 
         if (pane == null)
             throw new NullPointerException("TabbedPane is null");
@@ -66,7 +72,7 @@ public class TabbedPane extends JPanel {
         setOpaque(false);
 
         // make JLabel read titles from JTabbedPane
-        final JLabel label = new JLabel() {
+        label = new JLabel() {
             private static final long serialVersionUID = -5511025206527893360L;
 
             @Override
@@ -110,7 +116,6 @@ public class TabbedPane extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = e.getActionCommand().split(": ")[1];
-                System.out.println(name);
                 boolean removedAll = false;
                 while (!removedAll) {
                     int thisID = pane.indexOfTab(name);
@@ -128,6 +133,7 @@ public class TabbedPane extends JPanel {
 
         pop_up.add(closealltab);
         pop_up.add(closetab);
+        //setComponentPopupMenu(pop_up);
         button.setComponentPopupMenu(pop_up);
 
         button.addMouseListener(new MouseListener() {
@@ -143,23 +149,94 @@ public class TabbedPane extends JPanel {
                 }
             }
 
-            @Override
-            public void mouseEntered(MouseEvent arg0) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent arg0) {
-            }
-
-            @Override
-            public void mousePressed(MouseEvent arg0) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
+            @Override public void mouseEntered(MouseEvent arg0) { }
+            @Override public void mouseExited(MouseEvent arg0) { }
+            @Override public void mousePressed(MouseEvent arg0) { }
+            @Override public void mouseReleased(MouseEvent e) { }
         });
+        /*this.addMouseListener(new MouseListener() {
+            @Override public void mouseClicked(MouseEvent e) {}
+            @Override public void mouseEntered(MouseEvent arg0) {
+            }
+            @Override public void mouseExited(MouseEvent arg0) {
+            }
+            @Override public void mousePressed(MouseEvent e) {
+                if(e.getButton() == 1)
+                {
+                    startedDragging = System.currentTimeMillis();
+                    dragging = true;
+                    if (probablyABadIdea != null)
+                    {
+                        probablyABadIdea.stopped = true;
+                    }
+                    probablyABadIdea = new DelayTabbedPaneThread(THIS);
+                    probablyABadIdea.start();
+                    repaint();
+                    System.out.println(e.getX()+", "+e.getY());
+                    Rectangle bounds = new Rectangle(1, 1, e.getX(), e.getY());
+                    for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
+                    {
+                        Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
+                        if(c != null && bounds.intersects(c.getBounds()))
+                        {
+                            BytecodeViewer.viewer.workPane.tabs.setSelectedIndex(i);
+                        }
+                    }
+                }
+                else
+                {
+                    stopDragging(e.getX(), e.getY());
+                }
+            }
+            @Override public void mouseReleased(MouseEvent e) {
+                stopDragging(e.getX(), e.getY());
+            }
+        });*/
+    }
+
+    private void stopDragging(int mouseX, int mouseY)
+    {
+        if(System.currentTimeMillis()-startedDragging >= 210)
+        {
+            Rectangle bounds = new Rectangle(1, 1, mouseX, mouseY);
+            System.out.println("debug-5: " + mouseX+", " + mouseY);
+            int totalTabs = BytecodeViewer.viewer.workPane.tabs.getTabCount();
+            int index = -1;
+            for(int i = 0; i < totalTabs; i++)
+            {
+                Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
+                if(c != null && bounds.intersects(c.getBounds()))
+                {
+                    index = i; //replace this tabs position
+                }
+            }
+
+            if(index == -1)
+            {
+                for (int i = 0; i < totalTabs; i++)
+                {
+                    Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
+                    //do some check to see if it's past the X or Y
+                    if(c != null)
+                    {
+                        System.out.println("debug-6: " + c.getBounds());
+                    }
+                }
+            }
+
+            if(index != -1)
+            {
+                BytecodeViewer.viewer.workPane.tabs.remove(this);
+                BytecodeViewer.viewer.workPane.tabs.setTabComponentAt(index, this);
+            }
+        }
+        dragging = false;
+        label.setBackground(BLANK);
+        if(probablyABadIdea != null)
+        {
+            probablyABadIdea.stopped = true;
+        }
+        label.updateUI();
     }
 
     private class TabButton extends JButton implements ActionListener {
@@ -199,7 +276,8 @@ public class TabbedPane extends JPanel {
 
         // paint the cross
         @Override
-        protected void paintComponent(final Graphics g) {
+        protected void paintComponent(final Graphics g)
+        {
             super.paintComponent(g);
             final Graphics2D g2 = (Graphics2D) g.create();
             // shift the image for pressed buttons

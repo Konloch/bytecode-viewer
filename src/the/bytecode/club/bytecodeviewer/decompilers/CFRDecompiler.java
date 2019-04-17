@@ -17,13 +17,10 @@ import java.util.zip.ZipOutputStream;
 
 import me.konloch.kontainer.io.DiskReader;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.JarUtils;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
-import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -55,6 +52,7 @@ public class CFRDecompiler extends Decompiler {
     public String decompileClassNode(ClassNode cn, byte[] b) {
         String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
 
+        String exception = "";
         final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
         try {
@@ -86,11 +84,27 @@ public class CFRDecompiler extends Decompiler {
         } else {
             org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
         }*/
-        org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
+        try
+        {
+            org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
+        }
+        catch(StackOverflowError | Exception e)
+        {
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            e.printStackTrace();
+
+            exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+        }
 
         tempClass.delete();
+        File file = new File(fuckery);
 
-        return findFile(new File(fuckery).listFiles());
+        if(file.exists())
+            return findFile(file.listFiles());
+
+        return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+
 
     }
 
@@ -121,7 +135,7 @@ public class CFRDecompiler extends Decompiler {
                     e.printStackTrace(new PrintWriter(sw));
                     e.printStackTrace();
 
-                    String exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+                    String exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
                     return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
                 }
                 return s;

@@ -75,7 +75,7 @@ public class ExceptionUI extends JFrame {
 
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(600, 400));
-        setTitle("Bytecode Viewer " + BytecodeViewer.version
+        setTitle("Bytecode Viewer " + BytecodeViewer.VERSION
                 + " - Stack Trace - Send this to " + author);
         getContentPane().setLayout(new CardLayout(0, 0));
 
@@ -88,9 +88,9 @@ public class ExceptionUI extends JFrame {
         e.printStackTrace(new PrintWriter(sw));
         e.printStackTrace();
 
-        txtrBytecodeViewerIs.setText("Bytecode Viewer Version: " + BytecodeViewer.version +
-                ", Preview Copy: " + BytecodeViewer.previewCopy +
-                ", Fat Jar: " + BytecodeViewer.fatJar +
+        txtrBytecodeViewerIs.setText("Bytecode Viewer Version: " + BytecodeViewer.VERSION +
+                ", Preview Copy: " + BytecodeViewer.PREVIEW_COPY +
+                ", Fat Jar: " + BytecodeViewer.FAT_JAR +
                 ", OS: " + System.getProperty("os.name") +
                 ", Java: " + System.getProperty("java.version") +
                 BytecodeViewer.nl + BytecodeViewer.nl + sw.toString());
@@ -101,7 +101,7 @@ public class ExceptionUI extends JFrame {
     private void setup(String e, String author) {
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(600, 400));
-        setTitle("Bytecode Viewer " + BytecodeViewer.version
+        setTitle("Bytecode Viewer " + BytecodeViewer.VERSION
                 + " - Stack Trace - Send this to " + author);
         getContentPane().setLayout(new CardLayout(0, 0));
 

@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -38,14 +39,22 @@ import org.objectweb.asm.tree.MethodNode;
 
 public class RegexSearch implements SearchTypeDetails {
 
-    public static JTextField searchText = new JTextField("");
+    public static JTextField searchText;
     JPanel myPanel = null;
+
+    public RegexSearch()
+    {
+        searchText = new JTextField("");
+        searchText.addKeyListener(EnterKeyEvent.SINGLETON);
+    }
 
     private static RegexInsnFinder regexFinder;
 
     @Override
-    public JPanel getPanel() {
-        if (myPanel == null) {
+    public JPanel getPanel()
+    {
+        if (myPanel == null)
+        {
             myPanel = new JPanel(new GridLayout(1, 2));
             myPanel.add(new JLabel("Search Regex: "));
             myPanel.add(searchText);
@@ -55,31 +64,43 @@ public class RegexSearch implements SearchTypeDetails {
     }
 
     @Override
-    public void search(final ClassNode node, final SearchResultNotifier srn,
-                       boolean exact) {
+    public void search(final FileContainer container, final ClassNode node, final SearchResultNotifier srn, boolean exact)
+    {
         final Iterator<MethodNode> methods = node.methods.iterator();
         final String srchText = searchText.getText();
+
         if (srchText.isEmpty())
             return;
-        while (methods.hasNext()) {
+
+        while (methods.hasNext())
+        {
             final MethodNode method = methods.next();
 
-            if (regexFinder == null) {
+            if (regexFinder == null)
+            {
                 regexFinder = new RegexInsnFinder(node, method);
-            } else {
+            }
+            else
+            {
                 regexFinder.setMethod(node, method);
             }
 
-            if (regexFinder.find(srchText).length > 0) {
+            if (regexFinder.find(srchText).length > 0)
+            {
                 String desc2 = method.desc;
-                try {
+                try
+                {
                     desc2 = Type.getType(method.desc).toString();
+
                     if (desc2 == null || desc2.equals("null"))
                         desc2 = method.desc;
-                } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+                }
+                catch (java.lang.ArrayIndexOutOfBoundsException e)
+                {
 
                 }
-                srn.notifyOfResult(node.name + "." + method.name + desc2);
+
+                srn.notifyOfResult(container.name+">"+node.name + "." + method.name + desc2);
             }
         }
     }

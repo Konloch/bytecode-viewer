@@ -34,8 +34,8 @@ public abstract class Decompiler {
     public final static Decompiler fernflower = new FernFlowerDecompiler();
     public final static Decompiler procyon = new ProcyonDecompiler();
     public final static Decompiler cfr = new CFRDecompiler();
-    public final static Decompiler krakatau = new KrakatauDecompiler();
-    public final static Decompiler krakatauDA = new KrakatauDisassembler();
+    public final static KrakatauDecompiler krakatau = new KrakatauDecompiler();
+    public final static KrakatauDisassembler krakatauDA = new KrakatauDisassembler();
     public final static Decompiler smali = new SmaliDisassembler();
     public final static Decompiler jdgui = new JDGUIDecompiler();
 

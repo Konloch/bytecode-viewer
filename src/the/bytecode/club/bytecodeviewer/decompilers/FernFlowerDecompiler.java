@@ -12,8 +12,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.JarUtils;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.Resources;
 
 /***************************************************************************
@@ -50,7 +49,14 @@ public class FernFlowerDecompiler extends Decompiler {
         File f = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + BytecodeViewer.fs);
         f.mkdir();
 
-        org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempZip.getAbsolutePath(), BytecodeViewer.tempDirectory + "./temp/"));
+        try
+        {
+            org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempZip.getAbsolutePath(), BytecodeViewer.tempDirectory + "./temp/"));
+        }
+        catch(StackOverflowError | Exception e)
+        {
+
+        }
 
         File tempZip2 = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + BytecodeViewer.fs + tempZip.getName());
         if (tempZip2.exists())
@@ -77,11 +83,11 @@ public class FernFlowerDecompiler extends Decompiler {
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
         }
 
 
-        if (!BytecodeViewer.fatJar) {
+        if (!BytecodeViewer.FAT_JAR) {
             try {
                 ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
                         new String[]{BytecodeViewer.getJavaCommand(), "-jar", Resources.findLibrary("fernflower")},
@@ -103,9 +109,13 @@ public class FernFlowerDecompiler extends Decompiler {
             {
                 org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClass.getAbsolutePath(), new File(BytecodeViewer.tempDirectory).getAbsolutePath()));
             }
-            catch(Exception e)
+            catch(StackOverflowError | Exception e)
             {
+                StringWriter sw = new StringWriter();
+                e.printStackTrace(new PrintWriter(sw));
                 e.printStackTrace();
+
+                exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
             }
         }
 

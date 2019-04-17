@@ -34,6 +34,7 @@ import org.imgscalr.Scalr;
 import com.jhe.hexed.JHexEditor;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.Resources;
 
 /***************************************************************************
@@ -73,6 +74,7 @@ public class FileViewer extends Viewer {
     final JTextField field = new JTextField();
     public BufferedImage image;
     boolean canRefresh = false;
+    public TabbedPane tabbedPane;
 
     public void setContents() {
         String name = this.name.toLowerCase();
@@ -126,7 +128,9 @@ public class FileViewer extends Viewer {
                 } catch (Exception e) {
                     new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                 }
-            } else {
+            }
+            else if(BytecodeViewer.viewer.forcePureAsciiAsText.isSelected())
+            {
                 JHexEditor hex = new JHexEditor(contents);
                 panel2.add(hex);
                 return;
@@ -209,9 +213,10 @@ public class FileViewer extends Viewer {
         return asciiEncoder.canEncode(v);
     }
 
-    public FileViewer(final String name, final byte[] contents) {
+    public FileViewer(final FileContainer container, final String name, final byte[] contents) {
         this.name = name;
         this.contents = contents;
+        this.container = container;
         this.setName(name);
         this.setLayout(new BorderLayout());
 

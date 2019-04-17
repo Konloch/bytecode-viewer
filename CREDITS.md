@@ -1,0 +1,30 @@
+## Code from various projects has been used, including but not limited to
+* J-RET by WaterWolf
+* JHexPane by Sam Koivu
+* RSynaxPane by Robert Futrell
+* Commons IO by Apache
+* ASM by OW2
+* FernFlower by Stiver
+* Procyon by Mstrobel
+* CFR by Lee Benfield
+* CFIDE by Bibl
+* Smali by JesusFreke
+* Dex2Jar by pxb1988
+* Krakatau by Storyyeller
+* JD GUI/JD Core by The Java-Decompiler Team
+* Enjarify by Storyyeller
+
+## Contributors
+* Konloch
+* Bibl
+* Fluke
+* Righteous
+* sahitya-pavurala
+* priav03
+* Afffsdd
+* Szperak
+* Zooty
+* samczsun
+* ItzSomebody
+* DreamSworK
+* If I missed you, please feel free to contact me @Konloch or konloch@gmail.com

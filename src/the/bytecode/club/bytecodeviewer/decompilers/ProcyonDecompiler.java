@@ -35,8 +35,7 @@ import com.strobel.assembler.metadata.TypeDefinition;
 import com.strobel.assembler.metadata.TypeReference;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.JarUtils;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -134,17 +133,16 @@ public class ProcyonDecompiler extends Decompiler {
                 throw new Exception("Unable to resolve type.");
             }
             StringWriter stringwriter = new StringWriter();
-            settings.getLanguage().decompileType(resolvedType,
-                    new PlainTextOutput(stringwriter), decompilationOptions);
+            settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(stringwriter), decompilationOptions);
             String decompiledSource = stringwriter.toString();
 
             return decompiledSource;
-        } catch (Exception e) {
+        } catch (StackOverflowError | Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
         }
         return "Procyon error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
     }
@@ -153,7 +151,7 @@ public class ProcyonDecompiler extends Decompiler {
     public void decompileToZip(String sourceJar, String zipName) {
         try {
             doSaveJarDecompiled(new File(sourceJar), new File(zipName));
-        } catch (Exception e) {
+        } catch (StackOverflowError | Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
     }

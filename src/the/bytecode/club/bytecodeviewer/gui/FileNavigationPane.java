@@ -42,6 +42,9 @@ import javax.swing.tree.TreePath;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.*;
+import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.FileDrop;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -158,7 +161,7 @@ public class FileNavigationPane extends VisibleComponent implements
                                 if (((String) (node.getUserObject())).toLowerCase().contains(path[path.length - 1].toLowerCase())) {
                                     TreeNode pathArray[] = node.getPath();
                                     int k = 0;
-                                    StringBuffer fullPath = new StringBuffer();
+                                    StringBuilder fullPath = new StringBuilder();
                                     while (pathArray != null
                                             && k < pathArray.length) {
                                         MyTreeNode n = (MyTreeNode) pathArray[k];
@@ -212,8 +215,9 @@ public class FileNavigationPane extends VisibleComponent implements
             @Override
             public void actionPerformed(ActionEvent e) {
                 final TreeNode root = (TreeNode) tree.getModel().getRoot();
-                expandAll(tree, new TreePath(root), false);
-                tree.expandPath(new TreePath(root));
+                final TreePath path = new TreePath(root);
+                expandAll(tree, path, false);
+                tree.expandPath(path);
             }
         });
 
@@ -254,11 +258,15 @@ public class FileNavigationPane extends VisibleComponent implements
                         openPath(tree.getSelectionPath());
                     }
                 }
-                else if((int)e.getKeyChar() != 0 && (int)e.getKeyChar() != 65535)
+                else if((int)e.getKeyChar() != 0 && (int)e.getKeyChar() != 65535 && !e.isControlDown() && !e.isAltDown())
                 {
                     quickSearch.grabFocus();
                     quickSearch.setText("" + e.getKeyChar());
                     cancel = true;
+                }
+                else if(e.isControlDown() && (int)e.getKeyChar() == 6) //ctrl + f
+                {
+                    quickSearch.grabFocus();
                 }
                 else
                 {
@@ -307,12 +315,12 @@ public class FileNavigationPane extends VisibleComponent implements
         new FileDrop(this, this);
     }
 
-    public void openClassFileToWorkSpace(final String name, final ClassNode node) {
-        fcn.openClassFile(name, node);
+    public void openClassFileToWorkSpace(final FileContainer container, final String name, final ClassNode node) {
+        fcn.openClassFile(container, name, node);
     }
 
-    public void openFileToWorkSpace(String name, byte[] contents) {
-        fcn.openFile(name, contents);
+    public void openFileToWorkSpace(final FileContainer container, String name, byte[] contents) {
+        fcn.openFile(container, name, contents);
     }
 
     @Override
@@ -545,10 +553,12 @@ public class FileNavigationPane extends VisibleComponent implements
         tree.updateUI();
     }
 
-    public void openPath(TreePath path) {
+    public void openPath(TreePath path)
+    {
         if (path == null)
             return;
-        final StringBuffer nameBuffer = new StringBuffer();
+
+        final StringBuilder nameBuffer = new StringBuilder();
         for (int i = 2; i < path.getPathCount(); i++) {
             nameBuffer.append(path.getPathComponent(i));
             if (i < path.getPathCount() - 1) {
@@ -556,14 +566,25 @@ public class FileNavigationPane extends VisibleComponent implements
             }
         }
 
+        String cheapHax = path.getPathComponent(1).toString();
+        FileContainer container = null;
+
+        for(FileContainer c : BytecodeViewer.files)
+        {
+            if(c.name.equals(cheapHax))
+                container = c;
+        }
+
         String name = nameBuffer.toString();
-        if (name.endsWith(".class")) {
-            final ClassNode cn = BytecodeViewer.getClassNode(name.substring(0, name.length() - ".class".length()));
+        if (name.endsWith(".class"))
+        {
+
+            final ClassNode cn = BytecodeViewer.getClassNode(container, name.substring(0, name.length() - ".class".length()));
             if (cn != null) {
-                openClassFileToWorkSpace(nameBuffer.toString(), cn);
+                openClassFileToWorkSpace(container, nameBuffer.toString(), cn);
             }
         } else {
-            openFileToWorkSpace(nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
+            openFileToWorkSpace(container, nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
         }
     }
 

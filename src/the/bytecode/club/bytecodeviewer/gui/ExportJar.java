@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

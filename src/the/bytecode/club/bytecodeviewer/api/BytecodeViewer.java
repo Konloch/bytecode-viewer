@@ -11,7 +11,7 @@ import java.util.jar.JarFile;
 
 import org.objectweb.asm.tree.ClassNode;
 
-import the.bytecode.club.bytecodeviewer.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
 

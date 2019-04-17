@@ -8,7 +8,7 @@ import java.util.Set;
 import javax.swing.filechooser.FileFilter;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.strategies.CompiledJavaPluginLaunchStrategy;
 import the.bytecode.club.bytecodeviewer.plugin.strategies.GroovyPluginLaunchStrategy;

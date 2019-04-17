@@ -13,10 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +47,7 @@ import the.bytecode.club.bytecodeviewer.gui.SystemErrConsole;
 import the.bytecode.club.bytecodeviewer.gui.WorkPane;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.util.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -71,60 +70,53 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 /**
  * A lightweight Java Reverse Engineering suite, developed by Konloch - http://konloch.me
  *
+ * All you have to do is add a jar or class file into the workspace,
+ * select the file you want then it will start decompiling the class in the background.
+ * When it's done it will show the Source code, Bytecode and Hexcode of the class file you chose.
+ *
+ * There is also a plugin system that will allow you to interact with the loaded classfiles.
+ * For example you can write a String deobfuscator, a malicious code searcher,
+ * or anything else you can think of.
+ *
+ * You can either use one of the pre-written plugins, or write your own. It supports java scripting.
+ * Once a plugin is activated, it will send a ClassNode ArrayList of every single class loaded in the
+ * file system to the execute function, this allows the user to handle it completely using ASM.
+ *
  * Are you a Java Reverse Engineer? Or maybe you want to learn Java Reverse Engineering?
  *      Join The Bytecode Club, we're noob friendly, and censorship free.
  *                        http://the.bytecode.club
  *
- *
- * All you have to do is add a jar or class file into the workspace,
- * select the file you want then it will start decompiling the class in the background,
- * when it's done it will show the Source code, Bytecode and Hexcode of the class file you chose.
- *
- * There is also a plugin system that will allow you to interact with the loaded classfiles,
- * for example you can write a String deobfuscator, a malicious code searcher,
- * or something else you can think of.
- *
- * You can either use one of the pre-written plugins, or write your own.
- * It supports groovy scripting. Once a plugin is activated,
- * it will send a ClassNode ArrayList of every single class loaded in the file system to the execute function,
- * this allows the user to handle it completely using ASM.
- *
  *  TODO:
- *      3.0.0: (RETIREMENT PARTY, WOHOOO)
- *      Add obfuscation:
- *          - Add integer boxing and other obfuscation methods contra implemented
- *          - Insert unadded/debug opcodes to try to fuck up decompilers
- *          - ClassAnylyzterAdapter
- *          Add the jump/save mark system Ida Pro has.
- *          Add class annotations to bytecode decompiler.
- *          EVERYTHING BUG FREE, CHECK 100%
- *          bytecode editor that works by editing per method instead of entire class, methods are in a pane like the file navigator
- *          Make the tabs menu and middle mouse button click work on the tab itself not just the close button.
- *
- *  before 3.0.0:
- *      EVERYTHING ON THE FUCKING GITHUB ISSUES LOL
+ *      Update fernflower for it's 2019 version
+ *      Finish dragging code
+ *      Finish right-click tab menu detection
  *      make it use that global last used inside of export as jar
- *      Spiffy up the plugin console with hilighted lines
- *      Take https://github.com/ptnkjke/Java-Bytecode-Editor visualize
+ *      Add https://github.com/ptnkjke/Java-Bytecode-Editor visualize as a plugin
  *      make zipfile not include the decode shit
  *      add stackmapframes to bytecode decompiler
- *      add stackmapframes remover?
  *      make ez-injection plugin console show all sys.out calls
  *      add JEB decompiler optionally, requires them to add jeb library jar externally and disable update check ?
  *      add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
+ *      add decompile all as zip for CLI
  *      fix hook inject for EZ-Injection
  *      fix classfile searcher
- *      make the decompilers launch in a separate process?
+ *      make the decompilers launch in a separate process
  *
  * @author Konloch
+ * @author The entire BCV community
  */
 
 public class BytecodeViewer
 {
     /*per version*/
-    public static String version = "2.9.16";
-    public static boolean previewCopy = false;
-    public static boolean fatJar = true; //could be automatic by checking if it's loaded a class named whatever for a library
+    public static final String VERSION = "2.9.16";
+    public static String krakatauVersion = "12";
+    public static String enjarifyVersion = "4";
+    public static final boolean BLOCK_TAB_MENU = true;
+    public static final boolean PREVIEW_COPY = false;
+    public static final boolean FAT_JAR = true; //could be automatic by checking if it's loaded a class named whatever for a library
+    public static final boolean OFFLINE_MODE = true; //disables the automatic updater
+
     /*the rest*/
     public static boolean verify = false; //eventually may be a setting
     public static String[] args;
@@ -137,9 +129,10 @@ public class BytecodeViewer
     public static String library = "";
     public static String javac = "";
     public static String java = "";
-    public static File krakatauTempDir;
-    public static File krakatauTempJar;
+    private static File krakatauTempDir;
+    private static File krakatauTempJar;
     public static int krakatauHash;
+    public static boolean displayParentInTab = false; //also change in the main GUI
     public static boolean currentlyDumping = false;
     public static boolean needsReDump = true;
     public static boolean warnForEditing = false;
@@ -154,10 +147,8 @@ public class BytecodeViewer
     public static String settingsName = getBCVDirectory() + fs + "settings.bcv";
     public static String tempDirectory = getBCVDirectory() + fs + "bcv_temp" + fs;
     public static String libsDirectory = getBCVDirectory() + fs + "libs" + fs;
-    public static String krakatauWorkingDirectory = "";
-    public static String krakatauVersion = "";
-    public static String enjarifyWorkingDirectory = "";
-    public static String enjarifyVersion = "";
+    public static String krakatauWorkingDirectory = getBCVDirectory() + fs + "krakatau_" + krakatauVersion;
+    public static String enjarifyWorkingDirectory = getBCVDirectory() + fs + "enjarify_" + enjarifyVersion;
     private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
     private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
     public static boolean runningObfuscation = false;
@@ -166,7 +157,7 @@ public class BytecodeViewer
     public static ArrayList<Process> createdProcesses = new ArrayList<Process>();
     public static Refactorer refactorer = new Refactorer();
     public static boolean pingback = false;
-    public static boolean deleteForiegnLibraries = true;
+    public static boolean deleteForeignLibraries = true;
 
     /**
      * The version checker thread
@@ -179,44 +170,19 @@ public class BytecodeViewer
                 final String version = r.readSingle();
                 try {
                     int simplemaths = Integer.parseInt(version.replace(".", ""));
-                    int simplemaths2 = Integer.parseInt(BytecodeViewer.version.replace(".", ""));
+                    int simplemaths2 = Integer.parseInt(BytecodeViewer.VERSION.replace(".", ""));
                     if (simplemaths2 > simplemaths)
                         return; //developer version
                 } catch (Exception e) {
 
                 }
 
-                if (!BytecodeViewer.version.equals(version)) {
-                    r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/CHANGELOG.md"));
-                    String[] readme = r.read();
-
-                    String changelog = "Unable to load change log, please try again later." + nl;
-                    boolean trigger = false;
-                    boolean finalTrigger = false;
-                    for (String st : readme) {
-                    	if(st.equals("```")) {
-                    		continue;
-                    	} else if (st.equals("--- " + BytecodeViewer.version + " ---:")) {
-                            changelog = "";
-                            trigger = true;
-                        } else if (trigger) {
-                            if (st.startsWith("--- "))
-                                finalTrigger = true;
-
-                            if (finalTrigger)
-                                changelog += st + nl;
-                        }
-                    }
-
+                if (!BytecodeViewer.VERSION.equals(version))
+                {
                     JOptionPane pane = new JOptionPane("Your version: "
-                            + BytecodeViewer.version
+                            + BytecodeViewer.VERSION
                             + ", latest version: "
                             + version
-                            + nl
-                            + nl
-                            + "Changes since your version:"
-                            + nl
-                            + changelog
                             + nl
                             + "What would you like to do?");
                     Object[] options = new String[]{"Open The Download Page", "Download The Updated Jar", "Do Nothing"};
@@ -403,11 +369,19 @@ public class BytecodeViewer
         @Override
         public void run() {
             try {
-                Boot.populateUrlList();
-                Boot.populateLibsDirectory();
-                Boot.downloadZipsOnly();
-                Boot.checkKrakatau();
-                Boot.checkEnjarify();
+                if(BytecodeViewer.OFFLINE_MODE)
+                {
+                    Boot.dropKrakatau();
+                    Boot.dropEnjarify();
+                }
+                else
+                {
+                    Boot.populateUrlList();
+                    Boot.populateLibsDirectory();
+                    Boot.downloadZipsOnly();
+                    Boot.checkKrakatau();
+                    Boot.checkEnjarify();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -517,23 +491,24 @@ public class BytecodeViewer
      */
     public static void main(String[] args) {
         BytecodeViewer.args = args;
-        System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + version+", FatJar: " + fatJar);
+        System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + VERSION +", Fat-Jar: " + FAT_JAR);
         System.setSecurityManager(sm);
         try {
+            UIManager.put("MenuItem.disabledAreNavigable", Boolean.FALSE);
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            if (previewCopy && !CommandLineInput.containsCommand(args))
-                showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when " + version + " is actually out if you use this." + nl +
-                        "Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for " + version + "'s release");
+            if (PREVIEW_COPY && !CommandLineInput.containsCommand(args))
+                showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when " + VERSION + " is actually out if you use this." + nl +
+                        "Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for " + VERSION + "'s release");
 
             viewer = new MainViewerGUI();
-            Settings.loadGUI();
+            Settings.loadSettings();
 
             int CLI = CommandLineInput.parseCommandLine(args);
 
             if (CLI == CommandLineInput.STOP)
                 return;
 
-            if (!fatJar) {
+            if (!FAT_JAR) {
                 bootCheck.start();
 
                 if (CLI == CommandLineInput.OPEN_FILE)
@@ -566,7 +541,7 @@ public class BytecodeViewer
             public void run() {
                 for (Process proc : createdProcesses)
                     proc.destroy();
-                Settings.saveGUI();
+                Settings.saveSettings();
                 cleanup();
             }
         });
@@ -649,6 +624,22 @@ public class BytecodeViewer
             for (ClassNode c : container.classes)
                 if (c.name.equals(name))
                     return c;
+
+        return null;
+    }
+
+    public static FileContainer getFileContainer(String name) {
+        for (FileContainer container : files)
+            if (container.name.equals(name))
+                return container;
+
+        return null;
+    }
+
+    public static ClassNode getClassNode(FileContainer container, String name) {
+        for (ClassNode c : container.classes)
+            if (c.name.equals(name))
+                return c;
 
         return null;
     }
@@ -864,10 +855,7 @@ public class BytecodeViewer
                                 } else if (fn.endsWith(".class")) {
                                     try {
                                         byte[] bytes = JarUtils.getBytes(new FileInputStream(f));
-                                        String cafebabe = String.format("%02X", bytes[0])
-                                                + String.format("%02X", bytes[1])
-                                                + String.format("%02X", bytes[2])
-                                                + String.format("%02X", bytes[3]);
+                                        String cafebabe = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
                                         if (cafebabe.toLowerCase().equals("cafebabe")) {
                                             final ClassNode cn = JarUtils.getNode(bytes);
 
@@ -1002,14 +990,10 @@ public class BytecodeViewer
      *
      * @param ask if should require user input or not
      */
-    public static void resetWorkSpace(boolean ask) {
-        if (!ask) {
-            files.clear();
-            MainViewerGUI.getComponent(FileNavigationPane.class).resetWorkspace();
-            MainViewerGUI.getComponent(WorkPane.class).resetWorkspace();
-            MainViewerGUI.getComponent(SearchingPane.class).resetWorkspace();
-            the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
-        } else {
+    public static void resetWorkSpace(boolean ask)
+    {
+        if(ask)
+        {
             JOptionPane pane = new JOptionPane(
                     "Are you sure you want to reset the workspace?\n\rIt will also reset your file navigator and search.");
             Object[] options = new String[]{"Yes", "No"};
@@ -1023,14 +1007,16 @@ public class BytecodeViewer
                 if (options[k].equals(obj))
                     result = k;
 
-            if (result == 0) {
-                files.clear();
-                MainViewerGUI.getComponent(FileNavigationPane.class).resetWorkspace();
-                MainViewerGUI.getComponent(WorkPane.class).resetWorkspace();
-                MainViewerGUI.getComponent(SearchingPane.class).resetWorkspace();
-                the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
-            }
+            if (result != 0)
+                return;
         }
+
+        files.clear();
+        LazyNameUtil.reset();
+        MainViewerGUI.getComponent(FileNavigationPane.class).resetWorkspace();
+        MainViewerGUI.getComponent(WorkPane.class).resetWorkspace();
+        MainViewerGUI.getComponent(SearchingPane.class).resetWorkspace();
+        the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
     }
 
     private static ArrayList<String> killList = new ArrayList<String>();
@@ -1296,7 +1282,7 @@ public class BytecodeViewer
 
             Thread t = new Thread() {
                 public void run() {
-                    if (viewer.autoCompileSmali.isSelected() && !BytecodeViewer.compile(false))
+                    if (viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
                         return;
                     JFileChooser fc = new JFileChooser();
                     fc.setFileFilter(new FileFilter() {
@@ -1362,57 +1348,69 @@ public class BytecodeViewer
         }
     }
 
-    public static void dumpTempFile()
+    public static File[] dumpTempFile(FileContainer container)
     {
-        /*int tempHash = fileContainersHash(files);
-
-        if(tempHash != krakatauHash && krakatauTempJar != null)
+        File[] files = new File[2];
+        //currently won't optimize if you've got two containers with the same name, will need to add this later
+        if(!LazyNameUtil.SAME_NAME_JAR_WORKSPACE)
         {
-            krakatauTempDir.delete();
-            krakatauTempJar.delete();
-            krakatauTempDir = null;
-            krakatauTempJar = null;
-        }*/
+            if (krakatauTempJar != null && !krakatauTempJar.exists())
+            {
+                needsReDump = true;
+            }
 
-        if(krakatauTempJar != null && !krakatauTempJar.exists())
+            if (needsReDump && krakatauTempJar != null)
+            {
+                krakatauTempDir = null;
+                krakatauTempJar = null;
+            }
+
+            boolean passes = false;
+
+            if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Krakatau.getModel()))
+                passes = true;
+            else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel()))
+                passes = true;
+            else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Krakatau.getModel()))
+                passes = true;
+            else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel()))
+                passes = true;
+            else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Krakatau.getModel()))
+                passes = true;
+            else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel()))
+                passes = true;
+
+            if (krakatauTempJar != null || !passes)
+            {
+                files[0] = krakatauTempJar;
+                files[1] = krakatauTempDir;
+                return files;
+            }
+
+            currentlyDumping = true;
+            needsReDump = false;
+            krakatauTempDir = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+            krakatauTempDir.mkdir();
+            krakatauTempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) + ".jar");
+            //krakatauTempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) + ".jar."+container.name);
+            JarUtils.saveAsJarClassesOnly(container.classes, krakatauTempJar.getAbsolutePath());
+            currentlyDumping = false;
+        }
+        else
         {
-            needsReDump = true;
+            currentlyDumping = true;
+            needsReDump = false;
+            krakatauTempDir = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+            krakatauTempDir.mkdir();
+            krakatauTempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) + ".jar");
+            //krakatauTempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) + ".jar."+container.name);
+            JarUtils.saveAsJarClassesOnly(container.classes, krakatauTempJar.getAbsolutePath());
+            currentlyDumping = false;
         }
 
-        if(needsReDump && krakatauTempJar != null)
-        {
-            krakatauTempDir.delete();
-            krakatauTempJar.delete();
-            krakatauTempDir = null;
-            krakatauTempJar = null;
-        }
-
-        boolean passes = false;
-
-        if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Krakatau.getModel()))
-            passes = true;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel()))
-            passes = true;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Krakatau.getModel()))
-            passes = true;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel()))
-            passes = true;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Krakatau.getModel()))
-            passes = true;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel()))
-            passes = true;
-
-        if(krakatauTempJar != null || !passes)
-            return;
-
-        currentlyDumping = true;
-        needsReDump = false;
-        //krakatauHash = tempHash;
-        krakatauTempDir = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
-        krakatauTempDir.mkdir();
-        krakatauTempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) + ".jar");
-        JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), krakatauTempJar.getAbsolutePath());
-        currentlyDumping = false;
+        files[0] = krakatauTempJar;
+        files[1] = krakatauTempDir;
+        return files;
     }
 
     public static void rtCheck()

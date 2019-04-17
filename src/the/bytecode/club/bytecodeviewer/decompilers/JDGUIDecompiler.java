@@ -16,7 +16,7 @@ import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import jd.cli.printer.text.PlainTextPrinter;
 
 /***************************************************************************
@@ -112,7 +112,7 @@ public class JDGUIDecompiler extends Decompiler {
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception = "Bytecode Viewer Version: " + BytecodeViewer.version + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
         }
         return "JD-GUI error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
     }

@@ -12,6 +12,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -49,7 +50,7 @@ public class CommandLineInput {
 
     static {
         options.addOption("help", false, "prints the help menu.");
-        options.addOption("list", false, "lists all the available decompilers for BCV " + BytecodeViewer.version + ".");
+        options.addOption("list", false, "lists all the available decompilers for BCV " + BytecodeViewer.VERSION + ".");
         options.addOption("decompiler", true, "sets the decompiler, procyon by default.");
         options.addOption("i", true, "sets the input.");
         options.addOption("o", true, "sets the output.");
@@ -320,7 +321,7 @@ public class CommandLineInput {
             }
 
             System.out.println("Finished.");
-            System.out.println("Bytecode Viewer CLI v" + BytecodeViewer.version + " by @Konloch - http://bytecodeviewer.com");
+            System.out.println("Bytecode Viewer CLI v" + BytecodeViewer.VERSION + " by @Konloch - http://bytecodeviewer.com");
             System.exit(0);
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);

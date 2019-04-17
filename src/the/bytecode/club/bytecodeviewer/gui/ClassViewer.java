@@ -1,10 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -13,28 +9,14 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.BoxView;
-import javax.swing.text.ComponentView;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Element;
-import javax.swing.text.Highlighter;
-import javax.swing.text.IconView;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.LabelView;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledEditorKit;
-import javax.swing.text.View;
-import javax.swing.text.ViewFactory;
+import javax.swing.*;
+import javax.swing.text.*;
 import javax.swing.text.html.ParagraphView;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -47,8 +29,13 @@ import org.objectweb.asm.tree.ClassNode;
 import com.jhe.hexed.JHexEditor;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.Settings;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.util.MethodParser;
+
+import static the.bytecode.club.bytecodeviewer.util.MethodParser.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -75,169 +62,8 @@ import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
  * @author WaterWolf
  */
 
-public class ClassViewer extends Viewer {
-
-    public void setPanes() {
-        if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1None.getModel()))
-            pane1 = 0;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Proc.getModel()))
-            pane1 = 1;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1CFR.getModel()))
-            pane1 = 2;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Fern.getModel()))
-            pane1 = 3;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Bytecode.getModel()))
-            pane1 = 4;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Hexcode.getModel()))
-            pane1 = 5;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Smali.getModel()))
-            pane1 = 6;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Krakatau.getModel()))
-            pane1 = 7;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel()))
-            pane1 = 8;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1JDGUI.getModel()))
-            pane1 = 9;
-
-        if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
-            pane2 = 0;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Proc.getModel()))
-            pane2 = 1;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2CFR.getModel()))
-            pane2 = 2;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Fern.getModel()))
-            pane2 = 3;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Bytecode.getModel()))
-            pane2 = 4;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Hexcode.getModel()))
-            pane2 = 5;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Smali.getModel()))
-            pane2 = 6;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Krakatau.getModel()))
-            pane2 = 7;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel()))
-            pane2 = 8;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2JDGUI.getModel()))
-            pane2 = 9;
-
-        if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
-            pane3 = 0;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Proc.getModel()))
-            pane3 = 1;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3CFR.getModel()))
-            pane3 = 2;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Fern.getModel()))
-            pane3 = 3;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Bytecode.getModel()))
-            pane3 = 4;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Hexcode.getModel()))
-            pane3 = 5;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Smali.getModel()))
-            pane3 = 6;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Krakatau.getModel()))
-            pane3 = 7;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel()))
-            pane3 = 8;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3JDGUI.getModel()))
-            pane3 = 9;
-    }
-
-    public boolean isPanel1Editable() {
-        setPanes();
-
-        if (pane1 == 1 && BytecodeViewer.viewer.panel1Proc_E.isSelected())
-            return true;
-        if (pane1 == 2 && BytecodeViewer.viewer.panel1CFR_E.isSelected())
-            return true;
-        if (pane1 == 3 && BytecodeViewer.viewer.panel1Fern_E.isSelected())
-            return true;
-        if (pane1 == 6 && BytecodeViewer.viewer.panel1Smali_E.isSelected())
-            return true;
-        if (pane1 == 9 && BytecodeViewer.viewer.panel1JDGUI_E.isSelected())
-            return true;
-        if ((pane1 == 7 || pane1 == 8) && BytecodeViewer.viewer.panel1Krakatau_E.isSelected())
-            return true;
-
-
-        return false;
-    }
-
-    public boolean isPanel2Editable() {
-        setPanes();
-
-        if (pane2 == 1 && BytecodeViewer.viewer.panel2Proc_E.isSelected())
-            return true;
-        if (pane2 == 2 && BytecodeViewer.viewer.panel2CFR_E.isSelected())
-            return true;
-        if (pane2 == 3 && BytecodeViewer.viewer.panel2Fern_E.isSelected())
-            return true;
-        if (pane2 == 6 && BytecodeViewer.viewer.panel2Smali_E.isSelected())
-            return true;
-        if (pane2 == 9 && BytecodeViewer.viewer.panel2JDGUI_E.isSelected())
-            return true;
-        if ((pane2 == 7 || pane2 == 8) && BytecodeViewer.viewer.panel2Krakatau_E.isSelected())
-            return true;
-
-
-        return false;
-    }
-
-    public boolean isPanel3Editable() {
-        setPanes();
-
-        if (pane3 == 1 && BytecodeViewer.viewer.panel3Proc_E.isSelected())
-            return true;
-        if (pane3 == 2 && BytecodeViewer.viewer.panel3CFR_E.isSelected())
-            return true;
-        if (pane3 == 3 && BytecodeViewer.viewer.panel3Fern_E.isSelected())
-            return true;
-        if (pane3 == 6 && BytecodeViewer.viewer.panel3Smali_E.isSelected())
-            return true;
-        if (pane3 == 9 && BytecodeViewer.viewer.panel3JDGUI_E.isSelected())
-            return true;
-        if ((pane3 == 7 || pane3 == 8) && BytecodeViewer.viewer.panel3Krakatau_E.isSelected())
-            return true;
-
-
-        return false;
-    }
-
-    /**
-     * Whoever wrote this function, THANK YOU!
-     *
-     * @param splitter
-     * @param proportion
-     * @return
-     */
-    public static JSplitPane setDividerLocation(final JSplitPane splitter,
-                                                final double proportion) {
-        if (splitter.isShowing()) {
-            if (splitter.getWidth() > 0 && splitter.getHeight() > 0) {
-                splitter.setDividerLocation(proportion);
-            } else {
-                splitter.addComponentListener(new ComponentAdapter() {
-                    @Override
-                    public void componentResized(ComponentEvent ce) {
-                        splitter.removeComponentListener(this);
-                        setDividerLocation(splitter, proportion);
-                    }
-                });
-            }
-        } else {
-            splitter.addHierarchyListener(new HierarchyListener() {
-                @Override
-                public void hierarchyChanged(HierarchyEvent e) {
-                    if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0
-                            && splitter.isShowing()) {
-                        splitter.removeHierarchyListener(this);
-                        setDividerLocation(splitter, proportion);
-                    }
-                }
-            });
-        }
-        return splitter;
-    }
-
+public class ClassViewer extends Viewer
+{
     private static final long serialVersionUID = -8650495368920680024L;
     ArrayList<MethodData> lnData = new ArrayList<MethodData>();
     String name;
@@ -255,6 +81,8 @@ public class ClassViewer extends Viewer {
     int pane1 = -1;
     int pane2 = -1;
     int pane3 = -1;
+    public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
+    public List<Integer> activeLines = Arrays.asList(0, 0, 0);
     public RSyntaxTextArea smali1 = null;
     public RSyntaxTextArea smali2 = null;
     public RSyntaxTextArea smali3 = null;
@@ -264,14 +92,18 @@ public class ClassViewer extends Viewer {
     public RSyntaxTextArea java1 = null;
     public RSyntaxTextArea java2 = null;
     public RSyntaxTextArea java3 = null;
+    public File[] tempFiles;
+    public ClassViewer THIS = this;
 
     /**
      * This was really interesting to write.
      *
      * @author Konloch
      */
-    public void search(int pane, String search, boolean next) {
-        try {
+    public void search(int pane, String search, boolean next)
+    {
+        try
+        {
             Component[] com = null;
             if (pane == 0) // bytecode
                 com = panel1.getComponents();
@@ -283,41 +115,54 @@ public class ClassViewer extends Viewer {
             if (com == null) // someone fucked up, lets prevent a nullpointer.
                 return;
 
-            for (Component c : com) {
-                if (c instanceof RTextScrollPane) {
+            for (Component c : com)
+            {
+                if (c instanceof RTextScrollPane)
+                {
                     RSyntaxTextArea area = (RSyntaxTextArea) ((RTextScrollPane) c)
                             .getViewport().getComponent(0);
 
-                    if (search.isEmpty()) {
+                    if (search.isEmpty())
+                    {
                         highlight(pane, area, "");
                         return;
                     }
 
                     int startLine = area.getDocument().getDefaultRootElement()
                             .getElementIndex(area.getCaretPosition()) + 1;
+
                     int currentLine = 1;
                     boolean canSearch = false;
                     String[] test = null;
+
                     if (area.getText().split("\n").length >= 2)
                         test = area.getText().split("\n");
                     else
                         test = area.getText().split("\r");
+
                     int lastGoodLine = -1;
                     int firstPos = -1;
                     boolean found = false;
 
-                    if (next) {
-                        for (String s : test) {
-                            if (pane == 0 && !check1.isSelected() || pane == 1
-                                    && !check2.isSelected()) {
+                    if (next)
+                    {
+                        for (String s : test)
+                        {
+                            if (pane == 0 && !check1.isSelected() ||
+                                    pane == 1 && !check2.isSelected())
+                            {
                                 s = s.toLowerCase();
                                 search = search.toLowerCase();
                             }
 
-                            if (currentLine == startLine) {
+                            if (currentLine == startLine)
+                            {
                                 canSearch = true;
-                            } else if (s.contains(search)) {
-                                if (canSearch) {
+                            }
+                            else if (s.contains(search))
+                            {
+                                if (canSearch)
+                                {
                                     area.setCaretPosition(area.getDocument()
                                             .getDefaultRootElement()
                                             .getElement(currentLine - 1)
@@ -338,9 +183,12 @@ public class ClassViewer extends Viewer {
                                     .getDefaultRootElement()
                                     .getElement(firstPos - 1).getStartOffset());
                         }
-                    } else {
+                    }
+                    else
+                    {
                         canSearch = true;
-                        for (String s : test) {
+                        for (String s : test)
+                        {
                             if (pane == 0 && !check1.isSelected() || pane == 1
                                     && !check2.isSelected() || pane == 2
                                     && !check3.isSelected()) {
@@ -348,7 +196,8 @@ public class ClassViewer extends Viewer {
                                 search = search.toLowerCase();
                             }
 
-                            if (s.contains(search)) {
+                            if (s.contains(search))
+                            {
                                 if (lastGoodLine != -1 && canSearch)
                                     area.setCaretPosition(area.getDocument()
                                             .getDefaultRootElement()
@@ -366,8 +215,8 @@ public class ClassViewer extends Viewer {
                         if (lastGoodLine != -1
                                 && area.getDocument()
                                 .getDefaultRootElement()
-                                .getElementIndex(
-                                        area.getCaretPosition()) + 1 == startLine) {
+                                .getElementIndex(area.getCaretPosition()) + 1 == startLine)
+                        {
                             area.setCaretPosition(area.getDocument()
                                     .getDefaultRootElement()
                                     .getElement(lastGoodLine - 1)
@@ -377,7 +226,9 @@ public class ClassViewer extends Viewer {
                     highlight(pane, area, search);
                 }
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
     }
@@ -420,8 +271,10 @@ public class ClassViewer extends Viewer {
     final JTextField field1 = new JTextField();
     final JTextField field2 = new JTextField();
     final JTextField field3 = new JTextField();
+    public TabbedPane tabbedPane;
 
-    public ClassViewer(final String name, final ClassNode cn) {
+    public ClassViewer(final FileContainer container, final String name, final ClassNode cn) {
+        this.container = container;
         JButton byteSearchNext = new JButton();
         JButton byteSearchPrev = new JButton();
         JPanel byteButtonPane = new JPanel(new BorderLayout());
@@ -551,7 +404,6 @@ public class ClassViewer extends Viewer {
         hex.setMaximumSize(new Dimension(0, Integer.MAX_VALUE));
         hex.setSize(0, Integer.MAX_VALUE);
 
-        BytecodeViewer.viewer.setIcon(true);
         startPaneUpdater(null);
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
@@ -590,7 +442,7 @@ public class ClassViewer extends Viewer {
     PaneUpdaterThread t3;
 
     public void startPaneUpdater(final JButton button) {
-        this.cn = BytecodeViewer.getClassNode(cn.name); //update the classnode
+        this.cn = BytecodeViewer.getClassNode(container, cn.name); //update the classnode
         setPanes();
 
         panel1.removeAll();
@@ -630,17 +482,23 @@ public class ClassViewer extends Viewer {
         }
 
         final byte[] b = cw.toByteArray();
-        Thread t1 = new PaneUpdaterThread() {
+        t1 = new PaneUpdaterThread() {
             @Override
             public void doShit() {
                 try {
+                    paneId = 0;
+                    viewer = THIS;
+                    decompiler = pane1;
+
+                    BytecodeViewer.viewer.setIcon(true);
                     if (pane1 == 1) { // procyon
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.procyon.decompileClassNode(cn, b));
+
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel1Editable());
                         panelArea.addKeyListener(new KeyListener() {
@@ -674,11 +532,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 2) {// cfr
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.cfr.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel1Editable());
@@ -719,11 +577,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 3) {// fern
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.fernflower.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel1Editable());
@@ -764,11 +622,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 4) {// bytecode
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.bytecode.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(false);
@@ -822,12 +680,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 6) {//smali bytecode
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(
-                                panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.smali.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel1Editable());
@@ -867,13 +724,12 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 7) {// krakatau
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(
-                                panelArea);
-                        panelArea.setText(Decompiler.krakatau.decompileClassNode(cn, b));
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.krakatau.decompileClassNode(tempFiles[0], tempFiles[1], cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel1Editable());
                         panelArea.addKeyListener(new KeyListener()
@@ -914,12 +770,12 @@ public class ClassViewer extends Viewer {
 
 
                     if (pane1 == 8) {// kraktau bytecode
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-                        panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn, b));
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.krakatauDA.decompileClassNode(tempFiles[0], tempFiles[1], cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel1Editable());
                         krakatau1 = panelArea;
@@ -958,13 +814,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 9) {// JD-GUI
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
-                        panelArea
-                                .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(
-                                panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.jdgui.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel1Editable());
@@ -1017,16 +871,21 @@ public class ClassViewer extends Viewer {
         };
 
 
-        Thread t2 = new PaneUpdaterThread() {
+        t2 = new PaneUpdaterThread() {
             @Override
             public void doShit() {
                 try {
+                    paneId = 1;
+                    viewer = THIS;
+                    decompiler = pane2;
+
+                    BytecodeViewer.viewer.setIcon(true);
                     if (pane2 == 1) {
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.procyon.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel2Editable());
@@ -1060,12 +919,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 2) {
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
-                        panelArea
-                                .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.cfr.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel2Editable());
@@ -1099,12 +957,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 3) {
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
-                        panelArea
-                                .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.fernflower.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel2Editable());
@@ -1138,11 +995,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 4) {
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.bytecode.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(false);
@@ -1188,11 +1045,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 6) {
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.smali.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel2Editable());
@@ -1226,14 +1083,12 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 7) {// krakatau
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
-                        panelArea
-                                .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(
-                                panelArea);
-                        panelArea.setText(Decompiler.krakatau.decompileClassNode(cn, b));
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.krakatau.decompileClassNode(tempFiles[0], tempFiles[1], cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel2Editable());
                         panelArea.addKeyListener(new KeyListener() {
@@ -1266,14 +1121,12 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 8) {// kraktau bytecode
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
-                        panelArea
-                                .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(
-                                panelArea);
-                        panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn, b));
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.krakatauDA.decompileClassNode(tempFiles[0], tempFiles[1], cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel2Editable());
                         krakatau2 = panelArea;
@@ -1306,13 +1159,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 9) {// JD-GUI
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
-                        panelArea
-                                .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(
-                                panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.jdgui.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel2Editable());
@@ -1358,17 +1209,21 @@ public class ClassViewer extends Viewer {
         };
 
 
-        Thread t3 = new PaneUpdaterThread() {
+        t3 = new PaneUpdaterThread() {
             @Override
             public void doShit() {
                 try {
+                    paneId = 2;
+                    viewer = THIS;
+                    decompiler = pane3;
+
+                    BytecodeViewer.viewer.setIcon(true);
                     if (pane3 == 1) {
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
-                        panelArea
-                                .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.procyon.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel3Editable());
@@ -1402,12 +1257,12 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 2) {
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea
                                 .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.cfr.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel3Editable());
@@ -1441,12 +1296,12 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 3) {
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea
                                 .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.fernflower.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel3Editable());
@@ -1480,11 +1335,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 4) {
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.bytecode.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(false);
@@ -1530,11 +1385,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 6) {
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.smali.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel3Editable());
@@ -1568,12 +1423,12 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 7) {// krakatau
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
+                        panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
-                        panelArea.setText(Decompiler.krakatau.decompileClassNode(cn, b));
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.krakatau.decompileClassNode(tempFiles[0], tempFiles[1], cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel3Editable());
                         panelArea.addKeyListener(new KeyListener() {
@@ -1605,14 +1460,12 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 8) {// kraktau bytecode
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
-                        panelArea
-                                .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(
-                                panelArea);
-                        panelArea.setText(Decompiler.krakatauDA.decompileClassNode(cn, b));
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.krakatauDA.decompileClassNode(tempFiles[0], tempFiles[1], cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel3Editable());
                         krakatau3 = panelArea;
@@ -1645,13 +1498,11 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 9) {// JD-GUI
-                        RSyntaxTextArea panelArea = new RSyntaxTextArea();
-                        panelArea
-                                .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
-                        final RTextScrollPane scrollPane = new RTextScrollPane(
-                                panelArea);
+                        scrollPane = new RTextScrollPane(panelArea);
                         panelArea.setText(Decompiler.jdgui.decompileClassNode(cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel3Editable());
@@ -1700,6 +1551,7 @@ public class ClassViewer extends Viewer {
             @Override
             public void run()
             {
+                BytecodeViewer.viewer.setIcon(true);
                 while(BytecodeViewer.currentlyDumping)
                 {
                     //wait until it's not dumping
@@ -1712,7 +1564,9 @@ public class ClassViewer extends Viewer {
                         e.printStackTrace();
                     }
                 }
-                BytecodeViewer.dumpTempFile();
+                tempFiles = BytecodeViewer.dumpTempFile(container);
+
+                BytecodeViewer.viewer.setIcon(false);
 
                 if (pane1 > 0)
                     t1.start();
@@ -1729,9 +1583,10 @@ public class ClassViewer extends Viewer {
             if(!BytecodeViewer.warnForEditing)
             {
                 BytecodeViewer.warnForEditing = true;
-                if(!BytecodeViewer.viewer.autoCompileOnRefresh.isSelected() && !BytecodeViewer.viewer.autoCompileSmali.isSelected())
+                if(!BytecodeViewer.viewer.autoCompileOnRefresh.isSelected() && !BytecodeViewer.viewer.compileOnSave.isSelected())
                 {
-                    BytecodeViewer.showMessage("Make sure to File>Compile (Ctrl + T) whenever you want to test or export your changes.\nYou can set compile automatically on refresh or on save in the settings menu.");
+                    BytecodeViewer.showMessage("Make sure to compile (File>Compile or Ctrl + T) whenever you want to test or export your changes.\nYou can set compile automatically on refresh or on save in the settings menu.");
+                    Settings.saveSettings();
                 }
             }
         }
@@ -1784,7 +1639,7 @@ public class ClassViewer extends Viewer {
         }
 
         public String constructPattern() {
-            final StringBuffer pattern = new StringBuffer();
+            final StringBuilder pattern = new StringBuilder();
             pattern.append(name + " *\\(");
             final org.objectweb.asm.Type[] types = org.objectweb.asm.Type
                     .getArgumentTypes(desc);
@@ -1842,5 +1697,256 @@ public class ClassViewer extends Viewer {
         public float getMinimumSpan(final int axis) {
             return super.getPreferredSpan(axis);
         }
+    }
+
+
+    public void setPanes() {
+        if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1None.getModel()))
+            pane1 = 0;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Proc.getModel()))
+            pane1 = 1;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1CFR.getModel()))
+            pane1 = 2;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Fern.getModel()))
+            pane1 = 3;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Bytecode.getModel()))
+            pane1 = 4;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Hexcode.getModel()))
+            pane1 = 5;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Smali.getModel()))
+            pane1 = 6;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Krakatau.getModel()))
+            pane1 = 7;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel()))
+            pane1 = 8;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1JDGUI.getModel()))
+            pane1 = 9;
+
+        if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
+            pane2 = 0;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Proc.getModel()))
+            pane2 = 1;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2CFR.getModel()))
+            pane2 = 2;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Fern.getModel()))
+            pane2 = 3;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Bytecode.getModel()))
+            pane2 = 4;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Hexcode.getModel()))
+            pane2 = 5;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Smali.getModel()))
+            pane2 = 6;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Krakatau.getModel()))
+            pane2 = 7;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel()))
+            pane2 = 8;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2JDGUI.getModel()))
+            pane2 = 9;
+
+        if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
+            pane3 = 0;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Proc.getModel()))
+            pane3 = 1;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3CFR.getModel()))
+            pane3 = 2;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Fern.getModel()))
+            pane3 = 3;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Bytecode.getModel()))
+            pane3 = 4;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Hexcode.getModel()))
+            pane3 = 5;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Smali.getModel()))
+            pane3 = 6;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Krakatau.getModel()))
+            pane3 = 7;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel()))
+            pane3 = 8;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3JDGUI.getModel()))
+            pane3 = 9;
+    }
+
+    public boolean isPanel1Editable()
+    {
+        setPanes();
+
+        if (pane1 == 1 && BytecodeViewer.viewer.panel1Proc_E.isSelected())
+            return true;
+        if (pane1 == 2 && BytecodeViewer.viewer.panel1CFR_E.isSelected())
+            return true;
+        if (pane1 == 3 && BytecodeViewer.viewer.panel1Fern_E.isSelected())
+            return true;
+        if (pane1 == 6 && BytecodeViewer.viewer.panel1Smali_E.isSelected())
+            return true;
+        if (pane1 == 9 && BytecodeViewer.viewer.panel1JDGUI_E.isSelected())
+            return true;
+        if ((pane1 == 7 || pane1 == 8) && BytecodeViewer.viewer.panel1Krakatau_E.isSelected())
+            return true;
+
+
+        return false;
+    }
+
+    public boolean isPanel2Editable() {
+        setPanes();
+
+        if (pane2 == 1 && BytecodeViewer.viewer.panel2Proc_E.isSelected())
+            return true;
+        if (pane2 == 2 && BytecodeViewer.viewer.panel2CFR_E.isSelected())
+            return true;
+        if (pane2 == 3 && BytecodeViewer.viewer.panel2Fern_E.isSelected())
+            return true;
+        if (pane2 == 6 && BytecodeViewer.viewer.panel2Smali_E.isSelected())
+            return true;
+        if (pane2 == 9 && BytecodeViewer.viewer.panel2JDGUI_E.isSelected())
+            return true;
+        if ((pane2 == 7 || pane2 == 8) && BytecodeViewer.viewer.panel2Krakatau_E.isSelected())
+            return true;
+
+
+        return false;
+    }
+
+    public boolean isPanel3Editable() {
+        setPanes();
+
+        if (pane3 == 1 && BytecodeViewer.viewer.panel3Proc_E.isSelected())
+            return true;
+        if (pane3 == 2 && BytecodeViewer.viewer.panel3CFR_E.isSelected())
+            return true;
+        if (pane3 == 3 && BytecodeViewer.viewer.panel3Fern_E.isSelected())
+            return true;
+        if (pane3 == 6 && BytecodeViewer.viewer.panel3Smali_E.isSelected())
+            return true;
+        if (pane3 == 9 && BytecodeViewer.viewer.panel3JDGUI_E.isSelected())
+            return true;
+        if ((pane3 == 7 || pane3 == 8) && BytecodeViewer.viewer.panel3Krakatau_E.isSelected())
+            return true;
+
+
+        return false;
+    }
+
+    /**
+     * Whoever wrote this function, THANK YOU!
+     *
+     * @param splitter
+     * @param proportion
+     * @return
+     */
+    public static JSplitPane setDividerLocation(final JSplitPane splitter,
+                                                final double proportion) {
+        if (splitter.isShowing()) {
+            if (splitter.getWidth() > 0 && splitter.getHeight() > 0) {
+                splitter.setDividerLocation(proportion);
+            } else {
+                splitter.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentResized(ComponentEvent ce) {
+                        splitter.removeComponentListener(this);
+                        setDividerLocation(splitter, proportion);
+                    }
+                });
+            }
+        } else {
+            splitter.addHierarchyListener(new HierarchyListener() {
+                @Override
+                public void hierarchyChanged(HierarchyEvent e) {
+                    if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0
+                            && splitter.isShowing()) {
+                        splitter.removeHierarchyListener(this);
+                        setDividerLocation(splitter, proportion);
+                    }
+                }
+            });
+        }
+        return splitter;
+    }
+
+
+
+
+
+    public static void selectMethod(RSyntaxTextArea area, int methodLine) {
+        if (methodLine != area.getCaretLineNumber()) {
+            setCaretLine(area, methodLine);
+            setViewLine(area, methodLine);
+        }
+    }
+
+    public static void selectMethod(ClassViewer classViewer, int paneId, Method method) {
+        RSyntaxTextArea area = null;
+        switch(paneId)
+        {
+            case 0:
+                area = classViewer.t1.panelArea;
+                break;
+            case 1:
+                area = classViewer.t2.panelArea;
+                break;
+            case 2:
+                area = classViewer.t3.panelArea;
+                break;
+        }
+
+        if (area != null)
+        {
+            MethodParser methods = classViewer.methods.get(paneId);
+            if (methods != null) {
+                int methodLine = methods.findMethod(method);
+                if (methodLine != -1) {
+                    selectMethod(area, methodLine);
+                }
+            }
+        }
+    }
+
+    public static String getLineText(RSyntaxTextArea area, int line) {
+        try {
+            if (line < area.getLineCount()) {
+                int start = area.getLineStartOffset(line);
+                int end = area.getLineEndOffset(line);
+                return area.getText(start, end - start).trim();
+            }
+        } catch (BadLocationException ignored) {
+        }
+        return "";
+    }
+
+    public static int getMaxViewLine(RSyntaxTextArea area) {
+        Container parent = area.getParent();
+        if (parent instanceof JViewport) {
+            JViewport viewport = (JViewport) parent;
+            int y = viewport.getViewSize().height - viewport.getExtentSize().height;
+            int lineHeight = area.getLineHeight();
+            return y >= lineHeight ? y / lineHeight : 0;
+        }
+        return 0;
+    }
+
+    public static int getViewLine(RSyntaxTextArea area) {
+        Container parent = area.getParent();
+        if (parent instanceof JViewport) {
+            JViewport viewport = (JViewport) parent;
+            Point point = viewport.getViewPosition();
+            int lineHeight = area.getLineHeight();
+            return point.y >= lineHeight ? point.y / lineHeight : 0;
+        }
+        return 0;
+    }
+
+    public static void setViewLine(RSyntaxTextArea area, int line) {
+        Container parent = area.getParent();
+        if (parent instanceof JViewport) {
+            JViewport viewport = (JViewport) parent;
+            int maxLine = ClassViewer.getMaxViewLine(area);
+            line = line < maxLine ? line : maxLine;
+            viewport.setViewPosition(new Point(0, line * area.getLineHeight()));
+        }
+    }
+
+    public static void setCaretLine(RSyntaxTextArea area, int line) {
+        try {
+            area.setCaretPosition(area.getLineStartOffset(line));
+        } catch (BadLocationException ignored) {}
     }
 }

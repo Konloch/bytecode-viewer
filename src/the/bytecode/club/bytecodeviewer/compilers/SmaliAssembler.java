@@ -4,10 +4,10 @@ import java.io.File;
 
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Dex2Jar;
-import the.bytecode.club.bytecodeviewer.Enjarify;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
-import the.bytecode.club.bytecodeviewer.ZipUtils;
+import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
+import the.bytecode.club.bytecodeviewer.util.Enjarify;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
