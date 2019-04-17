@@ -10,15 +10,17 @@ Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 * Tons of bug fixes and general improvements
 * Updated most libraries to their 2019 versions (still a WIP)
 
-Website: https://bytecodeviewer.com
-Source Code: https://github.com/konloch/bytecode-viewer
-Bin/Archive: https://github.com/konloch/bytecode-viewer/releases
-Java Docs: https://the.bytecode.club/docs/bytecode-viewer/
-License (Copyleft): https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/LICENSE
-Credits: https://github.com/Konloch/bytecode-viewer/blob/master/CREDITS.md
-Contributing: https://github.com/Konloch/bytecode-viewer/blob/master/CONTRIBUTING.md
-Report Bugs: https://github.com/Konloch/bytecode-viewer/issues
-Discussion Forum: https://the.bytecode.club/forumdisplay.php?fid=69
+
+#### Links
+* Website: https://bytecodeviewer.com
+* Source Code: https://github.com/konloch/bytecode-viewer
+* Bin/Archive: https://github.com/konloch/bytecode-viewer/releases
+* Java Docs: https://the.bytecode.club/docs/bytecode-viewer/
+* License (Copyleft): https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/LICENSE
+* Credits: https://github.com/Konloch/bytecode-viewer/blob/master/CREDITS.md
+* Contributing: https://github.com/Konloch/bytecode-viewer/blob/master/CONTRIBUTING.md
+* Report Bugs: https://github.com/Konloch/bytecode-viewer/issues
+* Discussion Forum: https://the.bytecode.club/forumdisplay.php?fid=69
 
 #### Key Features
 * Krakatau Integration for Bytecode assembly/disassembly.
