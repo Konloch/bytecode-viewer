@@ -121,6 +121,10 @@ public class SecurityMan extends SecurityManager {
 
     @Override
     public void checkExit(int status) {
+        if(!BytecodeViewer.canExit)
+        {
+            throw new SecurityException("BCV is awesome, blocking System.exit("+status+");");
+        }
     }
 
     @Override

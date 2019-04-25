@@ -13,7 +13,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -685,7 +684,7 @@ public class ClassViewer extends Viewer
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
                         scrollPane = new RTextScrollPane(panelArea);
-                        panelArea.setText(Decompiler.smali.decompileClassNode(cn, b));
+                        panelArea.setText(Decompiler.smali.decompileClassNode(container, cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel1Editable());
                         smali1 = panelArea;
@@ -845,6 +844,51 @@ public class ClassViewer extends Viewer
                             }
                         });
                         scrollPane.setColumnHeaderView(new JLabel("JD-GUI Decompiler - Editable: " + panelArea.isEditable()));
+                        panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
+
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                panel1.add(scrollPane);
+                            }
+                        });
+
+                        java1 = panelArea;
+                    }
+
+                    if (pane1 == 10) {// JADX
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea.setCodeFoldingEnabled(true);
+                        panelArea.setAntiAliasingEnabled(true);
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.jadx.decompileClassNode(cn, b));
+                        panelArea.setCaretPosition(0);
+                        panelArea.setEditable(isPanel1Editable());
+                        panelArea.addKeyListener(new KeyListener()
+                        {
+                            public void keyPressed(KeyEvent e)
+                            {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                {
+                                    field1.requestFocus();
+                                }
+
+                                BytecodeViewer.checkHotKey(e);
+                            }
+
+                            @Override
+                            public void keyReleased(KeyEvent arg0)
+                            {
+                            }
+
+                            @Override
+                            public void keyTyped(KeyEvent arg0)
+                            {
+                            }
+                        });
+                        scrollPane.setColumnHeaderView(new JLabel("JADX Decompiler - Editable: " + panelArea.isEditable()));
                         panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
 
                         SwingUtilities.invokeLater(new Runnable()
@@ -1050,7 +1094,7 @@ public class ClassViewer extends Viewer
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
                         scrollPane = new RTextScrollPane(panelArea);
-                        panelArea.setText(Decompiler.smali.decompileClassNode(cn, b));
+                        panelArea.setText(Decompiler.smali.decompileClassNode(container, cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel2Editable());
                         smali2 = panelArea;
@@ -1189,6 +1233,51 @@ public class ClassViewer extends Viewer
 
                         SwingUtilities.invokeLater(new Runnable() {
                             public void run() {
+                                panel2.add(scrollPane);
+                            }
+                        });
+
+                        java2 = panelArea;
+                    }
+
+                    if (pane2 == 10) {// JADX
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea.setCodeFoldingEnabled(true);
+                        panelArea.setAntiAliasingEnabled(true);
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.jadx.decompileClassNode(cn, b));
+                        panelArea.setCaretPosition(0);
+                        panelArea.setEditable(isPanel2Editable());
+                        panelArea.addKeyListener(new KeyListener()
+                        {
+                            public void keyPressed(KeyEvent e)
+                            {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                {
+                                    field1.requestFocus();
+                                }
+
+                                BytecodeViewer.checkHotKey(e);
+                            }
+
+                            @Override
+                            public void keyReleased(KeyEvent arg0)
+                            {
+                            }
+
+                            @Override
+                            public void keyTyped(KeyEvent arg0)
+                            {
+                            }
+                        });
+                        scrollPane.setColumnHeaderView(new JLabel("JADX Decompiler - Editable: " + panelArea.isEditable()));
+                        panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
+
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
                                 panel2.add(scrollPane);
                             }
                         });
@@ -1390,7 +1479,7 @@ public class ClassViewer extends Viewer
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
                         scrollPane = new RTextScrollPane(panelArea);
-                        panelArea.setText(Decompiler.smali.decompileClassNode(cn, b));
+                        panelArea.setText(Decompiler.smali.decompileClassNode(container, cn, b));
                         panelArea.setCaretPosition(0);
                         panelArea.setEditable(isPanel3Editable());
                         smali3 = panelArea;
@@ -1532,6 +1621,51 @@ public class ClassViewer extends Viewer
                                 panel3.add(scrollPane);
                             }
                         });
+                    }
+
+                    if (pane3 == 10) {// JADX
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea.setCodeFoldingEnabled(true);
+                        panelArea.setAntiAliasingEnabled(true);
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.jadx.decompileClassNode(cn, b));
+                        panelArea.setCaretPosition(0);
+                        panelArea.setEditable(isPanel3Editable());
+                        panelArea.addKeyListener(new KeyListener()
+                        {
+                            public void keyPressed(KeyEvent e)
+                            {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                {
+                                    field1.requestFocus();
+                                }
+
+                                BytecodeViewer.checkHotKey(e);
+                            }
+
+                            @Override
+                            public void keyReleased(KeyEvent arg0)
+                            {
+                            }
+
+                            @Override
+                            public void keyTyped(KeyEvent arg0)
+                            {
+                            }
+                        });
+                        scrollPane.setColumnHeaderView(new JLabel("JADX Decompiler - Editable: " + panelArea.isEditable()));
+                        panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
+
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                panel3.add(scrollPane);
+                            }
+                        });
+
+                        java3 = panelArea;
                     }
                 } catch (java.lang.IndexOutOfBoundsException | java.lang.NullPointerException e) {
                     //ignore
@@ -1721,6 +1855,8 @@ public class ClassViewer extends Viewer
             pane1 = 8;
         else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1JDGUI.getModel()))
             pane1 = 9;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.jadxJ1.getModel()))
+            pane1 = 10;
 
         if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
             pane2 = 0;
@@ -1742,6 +1878,8 @@ public class ClassViewer extends Viewer
             pane2 = 8;
         else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2JDGUI.getModel()))
             pane2 = 9;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.jadxJ2.getModel()))
+            pane2 = 10;
 
         if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
             pane3 = 0;
@@ -1763,6 +1901,8 @@ public class ClassViewer extends Viewer
             pane3 = 8;
         else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3JDGUI.getModel()))
             pane3 = 9;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.jadxJ3.getModel()))
+            pane3 = 10;
     }
 
     public boolean isPanel1Editable()

@@ -45,8 +45,8 @@ public class FileContainer {
     public File file;
     public String name;
 
-    public HashMap<String, byte[]> files = new HashMap<String, byte[]>();
-    public ArrayList<ClassNode> classes = new ArrayList<ClassNode>();
+    public HashMap<String, byte[]> files = new HashMap<>();
+    public ArrayList<ClassNode> classes = new ArrayList<>();
 
     public ClassNode getClassNode(String name) {
         for (ClassNode c : classes)

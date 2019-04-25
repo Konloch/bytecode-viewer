@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import me.konloch.kontainer.io.DiskWriter;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
-import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -59,7 +57,7 @@ public class JarUtils {
      */
     public static void put(final File jarFile) throws IOException {
         FileContainer container = new FileContainer(jarFile);
-        HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+        HashMap<String, byte[]> files = new HashMap<>();
 
         ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
         ZipEntry entry;
@@ -86,7 +84,7 @@ public class JarUtils {
                     }
                 }
 
-            } catch (ZipException e) {
+            } catch (java.io.EOFException | ZipException e) {
                 //ignore cause apache unzip
             } catch (Exception e) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -99,12 +97,12 @@ public class JarUtils {
         BytecodeViewer.files.add(container);
     }
 
-    public static void put2(final File jarFile) throws IOException {
-        //TODO try zip libraries till one works, worst case import Sun's jarsigner code from JDK 7 re-sign the jar to rebuilt the CRC, should also rebuild the archive byte offsets
+    public static void put2(final File jarFile) throws IOException
+    {
+        //if this ever fails, worst case import Sun's jarsigner code from JDK 7 re-sign the jar to rebuild the CRC, should also rebuild the archive byte offsets
 
         FileContainer container = new FileContainer(jarFile);
-        HashMap<String, byte[]> files = new HashMap<String, byte[]>();
-
+        HashMap<String, byte[]> files = new HashMap<>();
 
         Path path = jarFile.toPath();
 
@@ -114,29 +112,42 @@ public class JarUtils {
         try (ZipFile zipFile = new ZipFile(jarFile))
         {
             Enumeration<? extends ZipArchiveEntry> entries = zipFile.getEntries();
-            while (entries.hasMoreElements()) {
+            while (entries.hasMoreElements())
+            {
                 ZipArchiveEntry entry = entries.nextElement();
                 Path entryPath = destFolderPath.resolve(entry.getName());
                 String name = entry.getName();
-                if (entry.isDirectory()) {
+                if (entry.isDirectory())
+                {
                     //directory
-                } else {
+                }
+                else
+                {
                     try (InputStream in = zipFile.getInputStream(entry))
                     {
-
                         final byte[] bytes = getBytes(in);
-                        if (!name.endsWith(".class")) {
+
+                        if(!name.endsWith(".class"))
+                        {
                             files.put(name, bytes);
-                        } else {
+                        }
+                        else
+                        {
                             String cafebabe = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
-                            if (cafebabe.toLowerCase().equals("cafebabe")) {
-                                try {
+                            if (cafebabe.toLowerCase().equals("cafebabe"))
+                            {
+                                try
+                                {
                                     final ClassNode cn = getNode(bytes);
                                     container.classes.add(cn);
-                                } catch (Exception e) {
+                                }
+                                catch (Exception e)
+                                {
                                     e.printStackTrace();
                                 }
-                            } else {
+                            }
+                            else
+                            {
                                 files.put(name, bytes);
                             }
                         }
@@ -193,7 +204,7 @@ public class JarUtils {
         if (!zipFile.exists())
             return null; //just ignore
 
-        HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+        HashMap<String, byte[]> files = new HashMap<>();
 
         ZipInputStream jis = new ZipInputStream(new FileInputStream(zipFile));
         ZipEntry entry;

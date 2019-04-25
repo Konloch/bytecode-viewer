@@ -36,8 +36,9 @@ public abstract class Decompiler {
     public final static Decompiler cfr = new CFRDecompiler();
     public final static KrakatauDecompiler krakatau = new KrakatauDecompiler();
     public final static KrakatauDisassembler krakatauDA = new KrakatauDisassembler();
-    public final static Decompiler smali = new SmaliDisassembler();
+    public final static SmaliDisassembler smali = new SmaliDisassembler();
     public final static Decompiler jdgui = new JDGUIDecompiler();
+    public final static Decompiler jadx = new JADXDecompiler();
 
     public abstract String decompileClassNode(ClassNode cn, byte[] b);
 

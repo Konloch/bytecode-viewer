@@ -125,7 +125,7 @@ public class ProcyonDecompiler extends Decompiler {
                     .getCanonicalPath());
 
             DecompilationOptions decompilationOptions = new DecompilationOptions();
-            decompilationOptions.setSettings(DecompilerSettings.javaDefaults());
+            decompilationOptions.setSettings(settings);
             decompilationOptions.setFullDecompilation(true);
 
             TypeDefinition resolvedType = null;

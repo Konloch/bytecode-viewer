@@ -250,6 +250,7 @@ public class FileNavigationPane extends VisibleComponent implements
 
             @Override
             public void keyPressed(KeyEvent e) {
+                System.out.println((int)e.getKeyChar());
                 if (e.getKeyCode() == KeyEvent.VK_ENTER)
                 {
                     if (e.getSource() instanceof MyTree)
@@ -258,7 +259,7 @@ public class FileNavigationPane extends VisibleComponent implements
                         openPath(tree.getSelectionPath());
                     }
                 }
-                else if((int)e.getKeyChar() != 0 && (int)e.getKeyChar() != 65535 && !e.isControlDown() && !e.isAltDown())
+                else if((int)e.getKeyChar() != 0 &&(int)e.getKeyChar() != 8 &&(int)e.getKeyChar() != 127 && (int)e.getKeyChar() != 65535 && !e.isControlDown() && !e.isAltDown())
                 {
                     quickSearch.grabFocus();
                     quickSearch.setText("" + e.getKeyChar());
@@ -614,7 +615,7 @@ public class FileNavigationPane extends VisibleComponent implements
                 the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode node = (the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) value;
                 String name = node.toString().toLowerCase();
 
-                if (name.endsWith(".jar")) {
+                if (name.endsWith(".jar") || name.endsWith(".war")) {
                     setIcon(Resources.jarIcon);
                 } else if (name.endsWith(".zip")) {
                     setIcon(Resources.zipIcon);

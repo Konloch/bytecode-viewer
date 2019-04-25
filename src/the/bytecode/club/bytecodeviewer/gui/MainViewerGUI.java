@@ -413,6 +413,17 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
     public final JRadioButtonMenuItem panel1JDGUI = new JRadioButtonMenuItem("Java");
     private final JSeparator separator_35 = new JSeparator();
     public final JCheckBoxMenuItem panel1JDGUI_E = new JCheckBoxMenuItem("Editable");
+
+    private final JMenu jadx1 = new JMenu("JADX");
+    public final JRadioButtonMenuItem jadxJ1 = new JRadioButtonMenuItem("Java");
+    public final JCheckBoxMenuItem jadxE1 = new JCheckBoxMenuItem("Editable");
+    private final JMenu jadx2 = new JMenu("JADX");
+    public final JRadioButtonMenuItem jadxJ2 = new JRadioButtonMenuItem("Java");
+    public final JCheckBoxMenuItem jadxE2 = new JCheckBoxMenuItem("Editable");
+    private final JMenu jadx3 = new JMenu("JADX");
+    public final JRadioButtonMenuItem jadxJ3 = new JRadioButtonMenuItem("Java");
+    public final JCheckBoxMenuItem jadxE3 = new JCheckBoxMenuItem("Editable");
+
     private final JMenu mnFontSize = new JMenu("Font Size");
     private final JMenu visualSettings = new JMenu("Visual Settings");
     public final JSpinner fontSpinner = new JSpinner();
@@ -488,7 +499,14 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         obfuscatorGroup.add(strongObf);
         obfuscatorGroup.add(lightObf);
         obfuscatorGroup.setSelected(strongObf.getModel(), true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                BytecodeViewer.canExit = true;
+                System.exit(0);
+            }
+        });
         // procyon
         /* none */
 
@@ -512,7 +530,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                JFileChooser fc = new JFileChooser();
+
+                final JFileChooser fc = new JFileChooser();
+
                 try
                 {
                     File f = new File(BytecodeViewer.lastDirectory);
@@ -523,6 +543,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
                 {
 
                 }
+
+                fc.setDialogTitle("Select File or Folder to open in BCV");
+                fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                fc.setAcceptAllFileFilterUsed(true);
                 fc.setFileFilter(new FileFilter()
                 {
                     @Override
@@ -535,7 +559,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
                         if (extension != null)
                             if (extension.equals("jar") || extension.equals("zip")
                                     || extension.equals("class") || extension.equals("apk")
-                                    || extension.equals("dex"))
+                                    || extension.equals("dex") || extension.equals("war") || extension.equals("jsp"))
                                 return true;
 
                         return false;
@@ -544,11 +568,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
                     @Override
                     public String getDescription()
                     {
-                        return "APKs, DEX, Class Files or Zip/Jar Archives";
+                        return "APKs, DEX, Class Files or Zip/Jar/War Archives";
                     }
                 });
-                fc.setFileHidingEnabled(false);
-                fc.setAcceptAllFileFilterUsed(false);
+
                 int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
 
                 if (returnVal == JFileChooser.APPROVE_OPTION)
@@ -557,8 +580,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
                     try
                     {
                         BytecodeViewer.viewer.setIcon(true);
-                        BytecodeViewer.openFiles(new File[]{fc
-                                .getSelectedFile()}, true);
+                        BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()}, true);
                         BytecodeViewer.viewer.setIcon(false);
                     }
                     catch (Exception e1)
@@ -568,6 +590,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
                 }
             }
         });
+
         mnNewMenu.add(mntmLoadJar);
 
         mnNewMenu.add(separator_40);
@@ -1566,6 +1589,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
 
                 if (result == 0)
                 {
+                    BytecodeViewer.canExit = true;
                     System.exit(0);
                 }
             }
@@ -1590,6 +1614,22 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         panel1Proc.addActionListener(listener);
 
         mnNewMenu_7.add(mnCfr);
+
+        jadx1.add(jadxJ1);
+        jadx1.add(separator_19);
+        jadx1.add(jadxE1);
+
+        jadx2.add(jadxJ2);
+        jadx2.add(separator_19);
+        jadx2.add(jadxE2);
+
+        jadx3.add(jadxJ3);
+        jadx3.add(separator_19);
+        jadx3.add(jadxE3);
+
+        mnNewMenu_7.add(jadx1);
+
+
         mnCfr.add(panel1CFR);
         panel1CFR.addActionListener(listener);
 
@@ -1656,6 +1696,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
 
         mnPane.add(menu_2);
 
+        mnPane.add(jadx2);
+
         menu_2.add(panel2CFR);
 
         menu_2.add(separator_11);
@@ -1719,6 +1761,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         menu_7.add(panel3Proc_E);
 
         mnPane_1.add(menu_8);
+        mnPane_1.add(jadx3);
 
         menu_8.add(panel3CFR);
 
@@ -1889,6 +1932,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
 
         mnNewMenu_4.add(chckbxmntmNewCheckItem_4);
 
+        chckbxmntmNewCheckItem_7.setSelected(true);
         mnNewMenu_4.add(chckbxmntmNewCheckItem_7);
 
         mnNewMenu_4.add(chckbxmntmSimplifyMemberReferences);
@@ -2338,6 +2382,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         panelGroup1.add(panel1None);
         panelGroup1.add(panel1Proc);
         panelGroup1.add(panel1CFR);
+        panelGroup1.add(jadxJ1);
         panelGroup1.add(panel1JDGUI);
         panelGroup1.add(panel1Fern);
         panelGroup1.add(panel1Krakatau);
@@ -2349,6 +2394,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         panelGroup2.add(panel2None);
         panelGroup2.add(panel2Proc);
         panelGroup2.add(panel2CFR);
+        panelGroup2.add(jadxJ2);
         panelGroup2.add(panel2JDGUI);
         panelGroup2.add(panel2Fern);
         panelGroup2.add(panel2Krakatau);
@@ -2360,6 +2406,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         panelGroup3.add(panel3None);
         panelGroup3.add(panel3Proc);
         panelGroup3.add(panel3CFR);
+        panelGroup3.add(jadxJ3);
         panelGroup3.add(panel3JDGUI);
         panelGroup3.add(panel3Fern);
         panelGroup3.add(panel3Krakatau);

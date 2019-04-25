@@ -5,6 +5,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.io.IOException;
 
 import javax.swing.JEditorPane;
@@ -13,6 +16,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.text.html.HTMLEditorKit;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 
 /***************************************************************************
@@ -44,7 +48,14 @@ public class InitialBootScreen extends JFrame {
     private JProgressBar progressBar = new JProgressBar();
 
     public InitialBootScreen() throws IOException {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                BytecodeViewer.canExit = true;
+                System.exit(0);
+            }
+        });
         this.setIconImages(Resources.iconList);
 
         int i = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();

@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 import java.io.File;
 
 /***************************************************************************
@@ -55,14 +57,35 @@ public class Dex2Jar {
      * @param output the output .dex file
      */
     public static synchronized void saveAsDex(File input, File output) {
+        saveAsDex(input, output, true);
+    }
+
+    public static synchronized void saveAsDex(File input, File output, boolean delete) {
         try {
-            com.googlecode.dex2jar.tools.Dex2jarCmd.main(new String[]{input.getAbsolutePath()});
-            String realOutput = input.getName().replaceAll("\\.jar", "-jar2dex.dex");
-            File realOutputF = new File(realOutput);
-            realOutputF.renameTo(output);
-            File realOutputF2 = new File(realOutput);
-            while (realOutputF2.exists())
-                realOutputF2.delete();
+            com.googlecode.dex2jar.tools.Jar2Dex.main(new String[]{input.getAbsolutePath()});
+            File currentDexLocation = new File("./"+input.getName());
+
+            if(currentDexLocation.getAbsolutePath().toLowerCase().endsWith(".jar"))
+            {
+                currentDexLocation = new File(currentDexLocation.getAbsolutePath().replaceFirst("\\.jar", "-jar2dex.dex"));
+            }
+            else if(currentDexLocation.getAbsolutePath().toLowerCase().endsWith(".apk"))
+            {
+                currentDexLocation = new File(currentDexLocation.getAbsolutePath().replaceFirst("\\.apk", "-jar2dex.dex"));
+            }
+            else if(currentDexLocation.getAbsolutePath().toLowerCase().endsWith(".dex"))
+            {
+                currentDexLocation = new File(currentDexLocation.getAbsolutePath().replaceFirst("\\.dex", "-jar2dex.dex"));
+            }
+            else if(currentDexLocation.getAbsolutePath().toLowerCase().endsWith(".zip"))
+            {
+                currentDexLocation = new File(currentDexLocation.getAbsolutePath().replaceFirst("\\.zip", "-jar2dex.dex"));
+            }
+
+            currentDexLocation.renameTo(output);
+
+            if(delete)
+                input.delete();
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }

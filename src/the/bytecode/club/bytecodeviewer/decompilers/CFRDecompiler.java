@@ -48,11 +48,51 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 public class CFRDecompiler extends Decompiler {
 
+    private static final String[] WINDOWS_IS_GREAT = new String[]
+            {
+                      "CON",
+                      "PRN",
+                      "AUX",
+                      "NUL",
+                      "COM1",
+                      "COM2",
+                      "COM3",
+                      "COM4",
+                      "COM5",
+                      "COM6",
+                      "COM7",
+                      "COM8",
+                      "COM9",
+                      "LPT1",
+                      "LPT2",
+                      "LPT3",
+                      "LPT4",
+                      "LPT5",
+                      "LPT6",
+                      "LPT7",
+                      "LPT8",
+                      "LPT9"
+            };
+
+    public static String windowsFun(String base)
+    {
+        for(String s : WINDOWS_IS_GREAT)
+        {
+            if(base.contains(s.toLowerCase()))
+            {
+                base = base.replace(s.toLowerCase(), "BCV");
+            }
+        }
+
+        return base;
+    }
+
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
-        String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
+        String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs.toLowerCase();
 
         String exception = "";
+        //final File tempClass = new File(windowsFun(MiscUtils.getUniqueName(fileStart, ".class") + ".class"));
         final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
         try {
@@ -66,6 +106,7 @@ public class CFRDecompiler extends Decompiler {
         }
 
         String fuckery = fuckery(fileStart);
+
         /*if (!BytecodeViewer.fatJar) {
             try {
                 ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
@@ -84,6 +125,7 @@ public class CFRDecompiler extends Decompiler {
         } else {
             org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
         }*/
+
         try
         {
             org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
@@ -104,8 +146,6 @@ public class CFRDecompiler extends Decompiler {
             return findFile(file.listFiles());
 
         return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
-
-
     }
 
     Random r = new Random();

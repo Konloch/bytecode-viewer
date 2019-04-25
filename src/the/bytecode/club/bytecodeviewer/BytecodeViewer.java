@@ -16,8 +16,12 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.JarOutputStream;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -26,12 +30,14 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 
+import com.google.gson.reflect.TypeToken;
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 import me.konloch.kontainer.io.HTTPRequest;
 
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
+import com.google.gson.*;
 
 import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bootloader.ILoader;
@@ -68,6 +74,10 @@ import the.bytecode.club.bytecodeviewer.util.*;
  ***************************************************************************/
 
 /**
+ * TODO:
+ *      open as folder doesn't actually work
+ *      smali compile
+ *
  * A lightweight Java Reverse Engineering suite, developed by Konloch - http://konloch.me
  *
  * All you have to do is add a jar or class file into the workspace,
@@ -109,7 +119,7 @@ import the.bytecode.club.bytecodeviewer.util.*;
 public class BytecodeViewer
 {
     /*per version*/
-    public static final String VERSION = "2.9.17";
+    public static final String VERSION = "2.9.18";
     public static String krakatauVersion = "12";
     public static String enjarifyVersion = "4";
     public static final boolean BLOCK_TAB_MENU = true;
@@ -142,22 +152,46 @@ public class BytecodeViewer
     public static String nl = System.getProperty("line.separator");
     private static File BCVDir = new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
     public static File RJ_JAR = new File(System.getProperty("java.home") + fs + "lib" + fs + "rt.jar");
-    private static String filesName = getBCVDirectory() + fs + "recentfiles.bcv";
-    private static String pluginsName = getBCVDirectory() + fs + "recentplugins.bcv";
+    private static String filesName = getBCVDirectory() + fs + "recentfiles.json";
+    private static String pluginsName = getBCVDirectory() + fs + "recentplugins.json";
     public static String settingsName = getBCVDirectory() + fs + "settings.bcv";
     public static String tempDirectory = getBCVDirectory() + fs + "bcv_temp" + fs;
     public static String libsDirectory = getBCVDirectory() + fs + "libs" + fs;
     public static String krakatauWorkingDirectory = getBCVDirectory() + fs + "krakatau_" + krakatauVersion;
     public static String enjarifyWorkingDirectory = getBCVDirectory() + fs + "enjarify_" + enjarifyVersion;
-    private static ArrayList<String> recentFiles = DiskReader.loadArrayList(filesName, false);
-    private static ArrayList<String> recentPlugins = DiskReader.loadArrayList(pluginsName, false);
     public static boolean runningObfuscation = false;
     private static long start = System.currentTimeMillis();
-    public static String lastDirectory = "";
+    public static String lastDirectory = ".";
     public static ArrayList<Process> createdProcesses = new ArrayList<Process>();
     public static Refactorer refactorer = new Refactorer();
     public static boolean pingback = false;
     public static boolean deleteForeignLibraries = true;
+    public static boolean canExit = false;
+    public static Gson gson;
+
+    private static ArrayList<String> recentPlugins;
+    private static ArrayList<String> recentFiles;
+
+    static
+    {
+        try
+        {
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            if(new File(filesName).exists())
+                recentFiles = gson.fromJson(DiskReader.loadAsString(filesName), new TypeToken<ArrayList<String>>() {}.getType());
+            else
+                recentFiles = DiskReader.loadArrayList(getBCVDirectory() + fs + "recentfiles.bcv", false);
+
+            if(new File(pluginsName).exists())
+                recentPlugins = gson.fromJson(DiskReader.loadAsString(pluginsName), new TypeToken<ArrayList<String>>() {}.getType());
+            else
+                recentPlugins = DiskReader.loadArrayList(getBCVDirectory() + fs + "recentplugins.bcv", false);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * The version checker thread
@@ -812,7 +846,7 @@ public class BytecodeViewer
                         } else {
                             if (f.isDirectory()) {
                                 FileContainer container = new FileContainer(f);
-                                HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+                                HashMap<String, byte[]> files = new HashMap<>();
                                 boolean finished = false;
                                 ArrayList<File> totalFiles = new ArrayList<File>();
                                 totalFiles.add(f);
@@ -844,10 +878,10 @@ public class BytecodeViewer
                                 container.files = files;
                                 BytecodeViewer.files.add(container);
                             } else {
-                                if (fn.endsWith(".jar") || fn.endsWith(".zip")) {
+                                if (fn.endsWith(".jar") || fn.endsWith(".zip") || fn.endsWith(".war")) {
                                     try {
                                         JarUtils.put(f);
-                                    } catch (final java.util.zip.ZipException z) {
+                                    } catch (java.io.IOException z) {
                                         try {
                                             JarUtils.put2(f);
                                         } catch (final Exception e) {
@@ -938,7 +972,7 @@ public class BytecodeViewer
                                     }
                                     return;
                                 } else {
-                                    HashMap<String, byte[]> files = new HashMap<String, byte[]>();
+                                    HashMap<String, byte[]> files = new HashMap<>();
                                     byte[] bytes = JarUtils.getBytes(new FileInputStream(f));
                                     files.put(f.getName(), bytes);
 
@@ -1201,10 +1235,7 @@ public class BytecodeViewer
      * @return string with newline per array object
      */
     private static String quickConvert(ArrayList<String> a) {
-        String s = "";
-        for (String r : a)
-            s += r + nl;
-        return s;
+        return gson.toJson(a);
     }
 
     private static long last = System.currentTimeMillis();

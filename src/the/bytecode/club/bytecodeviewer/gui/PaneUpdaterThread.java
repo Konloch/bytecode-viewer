@@ -29,8 +29,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.regex.Matcher;
 
 import static the.bytecode.club.bytecodeviewer.gui.TabbedPane.BLANK;
@@ -57,6 +56,38 @@ public abstract class PaneUpdaterThread extends Thread
     public void run() {
         doShit();
         synchronizePane();
+        //attachCtrlMouseWheelZoom(scrollPane, panelArea); //freezes the UI for some reason, probably cause BCV is doing dumb shit with the swing thread
+    }
+
+    public void attachCtrlMouseWheelZoom(RTextScrollPane scrollPane, RSyntaxTextArea panelArea)
+    {
+        if(scrollPane == null)
+            return;
+
+        scrollPane.addMouseWheelListener(new MouseWheelListener()
+        {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e)
+            {
+                if(panelArea == null || panelArea.getText().isEmpty())
+                    return;
+
+                if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                {
+                    Font font = panelArea.getFont();
+                    int size = font.getSize();
+                    if(e.getWheelRotation() > 0)
+                    { //Up
+                        panelArea.setFont(new Font(font.getName(), font.getStyle(), --size >= 2 ? --size : 2));
+                    }
+                    else
+                    { //Down
+                        panelArea.setFont(new Font(font.getName(), font.getStyle(), ++size));
+                    }
+                }
+                e.consume();
+            }
+        });
     }
 
     public final CaretListener caretListener = new CaretListener()
