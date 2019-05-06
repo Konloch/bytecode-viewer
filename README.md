@@ -3,12 +3,14 @@
 Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 
 #### New Features
+* WAR & JSP Loading
+* JADX-Core Decompiler
 * Fixed APK & dex loading
 * Fixed Java 10+ classfiles
 * Better visual feedback due to the new busy icon system
 * Synchronized viewing pane option & quick method selection
+* Updated most libraries to their 2019 version
 * Tons of bug fixes and general improvements
-* Updated most libraries to their 2019 versions (still a WIP)
 
 
 #### Links

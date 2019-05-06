@@ -75,6 +75,7 @@ public class JarUtils {
                             final ClassNode cn = getNode(bytes);
                             container.classes.add(cn);
                         } catch (Exception e) {
+                            System.err.println("Skipping: " + name);
                             e.printStackTrace();
                         }
                     } else {
@@ -255,7 +256,7 @@ public class JarUtils {
      * @param bytez the class file's byte[]
      * @return the ClassNode instance
      */
-    public static ClassNode getNode(final byte[] bytez) {
+    public static ClassNode getNode(final byte[] bytez) throws Exception {
         ClassReader cr = new ClassReader(bytez);
         ClassNode cn = new ClassNode();
         try {
@@ -264,7 +265,7 @@ public class JarUtils {
             try {
                 cr.accept(cn, ClassReader.SKIP_FRAMES);
             } catch (Exception e2) {
-                e2.printStackTrace(); //just skip it
+                throw e2;
             }
         }
         cr = null;

@@ -97,7 +97,6 @@ import the.bytecode.club.bytecodeviewer.util.*;
  *                        http://the.bytecode.club
  *
  *  TODO:
- *      Update fernflower for it's 2019 version
  *      Finish dragging code
  *      Finish right-click tab menu detection
  *      make it use that global last used inside of export as jar
@@ -119,7 +118,7 @@ import the.bytecode.club.bytecodeviewer.util.*;
 public class BytecodeViewer
 {
     /*per version*/
-    public static final String VERSION = "2.9.18";
+    public static final String VERSION = "2.9.19";
     public static String krakatauVersion = "12";
     public static String enjarifyVersion = "4";
     public static final boolean BLOCK_TAB_MENU = true;
@@ -746,8 +745,15 @@ public class BytecodeViewer
                         String smaliText = (String) smali[1];
                         byte[] smaliCompiled = the.bytecode.club.bytecodeviewer.compilers.Compiler.smali.compile(smaliText, origNode.name);
                         if (smaliCompiled != null) {
-                            ClassNode newNode = JarUtils.getNode(smaliCompiled);
-                            BytecodeViewer.updateNode(origNode, newNode);
+                            try
+                            {
+                                ClassNode newNode = JarUtils.getNode(smaliCompiled);
+                                BytecodeViewer.updateNode(origNode, newNode);
+                            }
+                            catch(Exception e)
+                            {
+                                e.printStackTrace();
+                            }
                         } else {
                             BytecodeViewer.showMessage("There has been an error with assembling your Smali code, please check this. Class: " + origNode.name);
                             BytecodeViewer.viewer.setIcon(false);
@@ -767,8 +773,15 @@ public class BytecodeViewer
                         String krakatauText = (String) krakatau[1];
                         byte[] krakatauCompiled = the.bytecode.club.bytecodeviewer.compilers.Compiler.krakatau.compile(krakatauText, origNode.name);
                         if (krakatauCompiled != null) {
-                            ClassNode newNode = JarUtils.getNode(krakatauCompiled);
-                            BytecodeViewer.updateNode(origNode, newNode);
+                            try
+                            {
+                                ClassNode newNode = JarUtils.getNode(krakatauCompiled);
+                                BytecodeViewer.updateNode(origNode, newNode);
+                            }
+                            catch(Exception e)
+                            {
+                                e.printStackTrace();
+                            }
                         } else {
                             BytecodeViewer.showMessage("There has been an error with assembling your Krakatau Bytecode, please check this. Class: " + origNode.name);
                             BytecodeViewer.viewer.setIcon(false);
@@ -791,8 +804,15 @@ public class BytecodeViewer
 
                         byte[] javaCompiled = the.bytecode.club.bytecodeviewer.compilers.Compiler.java.compile(javaText, origNode.name);
                         if (javaCompiled != null) {
-                            ClassNode newNode = JarUtils.getNode(javaCompiled);
-                            BytecodeViewer.updateNode(origNode, newNode);
+                            try
+                            {
+                                ClassNode newNode = JarUtils.getNode(javaCompiled);
+                                BytecodeViewer.updateNode(origNode, newNode);
+                            }
+                            catch(Exception e)
+                            {
+                                e.printStackTrace();
+                            }
                             errConsole.finished();
                         } else {
                             errConsole.pretty();

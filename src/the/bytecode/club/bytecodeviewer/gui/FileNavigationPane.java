@@ -639,7 +639,7 @@ public class FileNavigationPane extends VisibleComponent implements
                     setIcon(Resources.textIcon);
                 } else if (name.equals("decoded resources")) {
                     setIcon(Resources.decodedIcon);
-                } else if (name.endsWith(".properties") || name.endsWith(".xml") || name.endsWith(".mf") || name.endsWith(".config") || name.endsWith(".cfg")) {
+                } else if (name.endsWith(".properties") || name.endsWith(".xml") || name.endsWith(".jsp") || name.endsWith(".mf") || name.endsWith(".config") || name.endsWith(".cfg")) {
                     setIcon(Resources.configIcon);
                 } else if (node.getChildCount() <= 0) { //random file
                     setIcon(Resources.fileIcon);

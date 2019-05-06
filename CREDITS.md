@@ -6,13 +6,15 @@
 * ASM by OW2
 * FernFlower by Stiver
 * Procyon by Mstrobel
+* Luyten by DeathMarine
 * CFR by Lee Benfield
 * CFIDE by Bibl
 * Smali by JesusFreke
-* Dex2Jar by pxb1988
+* Dex2Jar by pxb1988 & Lanchon
 * Krakatau by Storyyeller
 * JD GUI/JD Core by The Java-Decompiler Team
 * Enjarify by Storyyeller
+* JADX by Skylot
 
 ## Contributors
 * Konloch

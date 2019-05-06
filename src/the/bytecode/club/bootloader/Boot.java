@@ -320,15 +320,18 @@ public class Boot {
 
     public static void dropKrakatau()
     {
+        File temp = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion + ".zip");
         File krakatauDirectory = new File(BytecodeViewer.krakatauWorkingDirectory);
         BytecodeViewer.krakatauWorkingDirectory = BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "Krakatau-master";
-        if (!krakatauDirectory.exists())
+        if (!krakatauDirectory.exists() || temp.exists())
         {
+            if(temp.exists())
+                temp.delete();
+
             setState("Bytecode Viewer Boot Screen - Extracting Krakatau");
             System.out.println("Extracting Krakatau");
             try
             {
-                File temp = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "krakatau_" + BytecodeViewer.krakatauVersion + ".zip");
 
                 while (temp.exists())
                     temp.delete();
@@ -358,15 +361,17 @@ public class Boot {
 
     public static void dropEnjarify()
     {
+        File temp = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify" + BytecodeViewer.enjarifyVersion + ".zip");
         File enjarifyDirectory = new File(BytecodeViewer.enjarifyWorkingDirectory);
         BytecodeViewer.enjarifyWorkingDirectory = BytecodeViewer.enjarifyWorkingDirectory + BytecodeViewer.fs + "enjarify-master";
-        if (!enjarifyDirectory.exists())
+        if (!enjarifyDirectory.exists() || temp.exists())
         {
+            if(temp.exists())
+                temp.delete();
             setState("Bytecode Viewer Boot Screen - Extracting Enjarify");
             System.out.println("Extracting Enjarify");
             try
             {
-                File temp = new File(BytecodeViewer.getBCVDirectory() + BytecodeViewer.fs + "enjarify" + BytecodeViewer.enjarifyVersion + ".zip");
 
                 while (temp.exists())
                     temp.delete();
