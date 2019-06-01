@@ -43,7 +43,7 @@ public final class ZipUtils {
 
         // fist get all directories,
         // then make those directory on the destination Path
-        for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements(); ) {
+        /*for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements(); ) {
             JarEntry entry = (JarEntry) enums.nextElement();
 
             String fileName = destinationDir + File.separator + entry.getName();
@@ -53,7 +53,7 @@ public final class ZipUtils {
                 f.mkdirs();
             }
 
-        }
+        }*/
 
         //now create all files
         for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements(); ) {
@@ -61,6 +61,12 @@ public final class ZipUtils {
 
             String fileName = destinationDir + File.separator + entry.getName();
             File f = new File(fileName);
+
+            File parent = f.getParentFile();
+            if(!parent.exists())
+            {
+                parent.mkdirs();
+            }
 
             if (!fileName.endsWith("/")) {
                 InputStream is = jar.getInputStream(entry);
@@ -119,6 +125,18 @@ public final class ZipUtils {
         zip.close();
     }
 
+    public static void zipFolderAPKTool(String srcFolder, String destZipFile) throws Exception {
+        ZipOutputStream zip = null;
+        FileOutputStream fileWriter = null;
+
+        fileWriter = new FileOutputStream(destZipFile);
+        zip = new ZipOutputStream(fileWriter);
+
+        addFolderToZipAPKTool("", srcFolder, zip);
+        zip.flush();
+        zip.close();
+    }
+
     public static void addFileToZip(String path, String srcFile, ZipOutputStream zip, String ignore)
             throws Exception {
 
@@ -142,6 +160,38 @@ public final class ZipUtils {
         }
     }
 
+    public static void addFileToZipAPKTool(String path, String srcFile, ZipOutputStream zip) throws Exception
+    {
+        File folder = new File(srcFile);
+
+        String check = path.toLowerCase();
+        //if(check.startsWith("decoded resources/unknown") || check.startsWith("decoded resources/lib") || check.startsWith("decoded resources/assets") || check.startsWith("decoded resources/original") || check.startsWith("decoded resources/smali") || check.startsWith("decoded resources/apktool.yml"))
+        if(check.startsWith("decoded resources/original") || check.startsWith("decoded resources/smali") || check.startsWith("decoded resources/apktool.yml"))
+            return;
+
+        //if(path.equals("original") || path.equals("classes.dex") || path.equals("apktool.yml"))
+        //    continue;
+
+        if (folder.isDirectory())
+        {
+            addFolderToZipAPKTool(path, srcFile, zip);
+        } else {
+            byte[] buf = new byte[1024];
+            int len;
+            FileInputStream in = new FileInputStream(srcFile);
+            ZipEntry entry = null;
+
+            entry = new ZipEntry(path + "/" + folder.getName());
+            zip.putNextEntry(entry);
+
+            while ((len = in.read(buf)) > 0)
+            {
+                zip.write(buf, 0, len);
+            }
+            in.close();
+        }
+    }
+
     public static void addFolderToZip(String path, String srcFolder, ZipOutputStream zip, String ignore)
             throws Exception {
         File folder = new File(srcFolder);
@@ -151,6 +201,21 @@ public final class ZipUtils {
                 addFileToZip(folder.getName(), srcFolder + "/" + fileName, zip, ignore);
             } else {
                 addFileToZip(path + "/" + folder.getName(), srcFolder + "/" + fileName, zip, ignore);
+            }
+        }
+    }
+
+    public static void addFolderToZipAPKTool(String path, String srcFolder, ZipOutputStream zip) throws Exception
+    {
+        File folder = new File(srcFolder);
+
+        for (String fileName : folder.list())
+        {
+            if (path.equals(""))
+            {
+                addFileToZipAPKTool(folder.getName(), srcFolder + "/" + fileName, zip);
+            } else {
+                addFileToZipAPKTool(path + "/" + folder.getName(), srcFolder + "/" + fileName, zip);
             }
         }
     }

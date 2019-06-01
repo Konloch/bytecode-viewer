@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -37,7 +38,7 @@ import org.imgscalr.Scalr;
 
 public class Resources {
 
-    public static ArrayList<BufferedImage> iconList;
+    public static List<BufferedImage> iconList;
     public static BufferedImage icon;
     public static ImageIcon nextIcon;
     public static ImageIcon prevIcon;

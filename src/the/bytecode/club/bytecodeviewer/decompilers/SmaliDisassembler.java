@@ -41,8 +41,7 @@ public class SmaliDisassembler extends Decompiler {
 
     public String decompileClassNode(FileContainer container, ClassNode cn, byte[] b) {
         String exception = "";
-        String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
-                + "temp";
+        String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp";
 
         String start = MiscUtils.getUniqueName(fileStart, ".class");
 
@@ -62,9 +61,7 @@ public class SmaliDisassembler extends Decompiler {
 
         //ZipUtils.zipFile(tempClass, tempZip);
 
-        Dex2Jar.saveAsDex(container.file, tempDex, false);
-
-        System.out.println("FOR SHOW: " + tempDex.getName().replaceFirst("\\.dex", "-out")); //tempSmali.getAbsolutePath()
+        Dex2Jar.saveAsDex(tempClass, tempDex, true);
 
         try
         {
@@ -93,9 +90,6 @@ public class SmaliDisassembler extends Decompiler {
 
             exception += "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
         }
-
-        System.out.println("FOR SHOW1: " + rename.getAbsolutePath());
-        System.out.println("FOR SHOW2: " + tempSmali.getAbsolutePath());
 
         File outputSmali = null;
 

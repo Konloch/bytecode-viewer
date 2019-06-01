@@ -1,8 +1,21 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import me.konloch.kontainer.io.DiskReader;
+import me.konloch.kontainer.io.DiskWriter;
+import org.apache.commons.io.IOUtils;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
+import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
+import java.util.jar.JarOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -80,6 +93,10 @@ public class Dex2Jar {
             else if(currentDexLocation.getAbsolutePath().toLowerCase().endsWith(".zip"))
             {
                 currentDexLocation = new File(currentDexLocation.getAbsolutePath().replaceFirst("\\.zip", "-jar2dex.dex"));
+            }
+            else if(currentDexLocation.getAbsolutePath().toLowerCase().endsWith(".class"))
+            {
+                currentDexLocation = new File(currentDexLocation.getAbsolutePath().replaceFirst("\\.class", "-jar2dex.dex"));
             }
 
             currentDexLocation.renameTo(output);

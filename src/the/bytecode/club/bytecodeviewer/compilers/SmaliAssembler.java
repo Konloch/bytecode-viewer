@@ -44,7 +44,7 @@ public class SmaliAssembler extends Compiler {
         tempSmaliFolder.mkdir();
 
         File tempSmali = new File(tempSmaliFolder.getAbsolutePath() + BytecodeViewer.fs + fileNumber + ".smali");
-        File tempDex = new File(fileStart + fileNumber + ".dex");
+        File tempDex = new File("./out.dex");
         File tempJar = new File(fileStart + fileNumber + ".jar");
         File tempJarFolder = new File(fileStart + fileNumber + "-jar" + BytecodeViewer.fs);
 
@@ -68,6 +68,7 @@ public class SmaliAssembler extends Compiler {
             Enjarify.apk2Jar(tempDex, tempJar);
 
         try {
+            System.out.println("Unzipping to " + tempJarFolder.getAbsolutePath());
             ZipUtils.unzipFilesToPath(tempJar.getAbsolutePath(), tempJarFolder.getAbsolutePath());
 
             File outputClass = null;

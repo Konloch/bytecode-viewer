@@ -16,12 +16,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.JarOutputStream;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -118,7 +114,7 @@ import the.bytecode.club.bytecodeviewer.util.*;
 public class BytecodeViewer
 {
     /*per version*/
-    public static final String VERSION = "2.9.19";
+    public static final String VERSION = "2.9.20";
     public static String krakatauVersion = "12";
     public static String enjarifyVersion = "4";
     public static final boolean BLOCK_TAB_MENU = true;
@@ -145,12 +141,13 @@ public class BytecodeViewer
     public static boolean currentlyDumping = false;
     public static boolean needsReDump = true;
     public static boolean warnForEditing = false;
-    public static ArrayList<FileContainer> files = new ArrayList<FileContainer>(); //all of BCV's loaded files/classes/etc
+    public static List<FileContainer> files = new ArrayList<FileContainer>(); //all of BCV's loaded files/classes/etc
     private static int maxRecentFiles = 25;
     public static String fs = System.getProperty("file.separator");
     public static String nl = System.getProperty("line.separator");
     private static File BCVDir = new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
-    public static File RJ_JAR = new File(System.getProperty("java.home") + fs + "lib" + fs + "rt.jar");
+    public static File RT_JAR = new File(System.getProperty("java.home") + fs + "lib" + fs + "rt.jar");
+    public static File RT_JAR_DUMPED = new File(getBCVDirectory() + fs +  "rt.jar");
     private static String filesName = getBCVDirectory() + fs + "recentfiles.json";
     private static String pluginsName = getBCVDirectory() + fs + "recentplugins.json";
     public static String settingsName = getBCVDirectory() + fs + "settings.bcv";
@@ -161,15 +158,15 @@ public class BytecodeViewer
     public static boolean runningObfuscation = false;
     private static long start = System.currentTimeMillis();
     public static String lastDirectory = ".";
-    public static ArrayList<Process> createdProcesses = new ArrayList<Process>();
+    public static List<Process> createdProcesses = new ArrayList<Process>();
     public static Refactorer refactorer = new Refactorer();
     public static boolean pingback = false;
     public static boolean deleteForeignLibraries = true;
     public static boolean canExit = false;
     public static Gson gson;
 
-    private static ArrayList<String> recentPlugins;
-    private static ArrayList<String> recentFiles;
+    private static List<String> recentPlugins;
+    private static List<String> recentFiles;
 
     static
     {
@@ -669,6 +666,10 @@ public class BytecodeViewer
         return null;
     }
 
+    public static List<FileContainer> getFiles() {
+        return files;
+    }
+
     public static ClassNode getClassNode(FileContainer container, String name) {
         for (ClassNode c : container.classes)
             if (c.name.equals(name))
@@ -943,7 +944,7 @@ public class BytecodeViewer
 
                                         if (viewer.decodeAPKResources.isSelected()) {
                                             File decodedResources = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
-                                            APKTool.decodeResources(tempCopy, decodedResources);
+                                            APKTool.decodeResources(tempCopy, decodedResources, container);
                                             container.files = JarUtils.loadResources(decodedResources);
                                         }
 
@@ -1080,7 +1081,7 @@ public class BytecodeViewer
         the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
     }
 
-    private static ArrayList<String> killList = new ArrayList<String>();
+    private static List<String> killList = new ArrayList<String>();
 
     /**
      * Add the recent file
@@ -1109,7 +1110,7 @@ public class BytecodeViewer
         resetRecentFilesMenu();
     }
 
-    private static ArrayList<String> killList2 = new ArrayList<String>();
+    private static List<String> killList2 = new ArrayList<String>();
 
     /**
      * Add to the recent plugin list
@@ -1187,7 +1188,7 @@ public class BytecodeViewer
             tempF.mkdir();
     }
 
-    public static ArrayList<String> createdRandomizedNames = new ArrayList<String>();
+    public static List<String> createdRandomizedNames = new ArrayList<String>();
 
     /**
      * Ensures it will only return a uniquely generated names, contains a dupe checker to be sure
@@ -1254,7 +1255,7 @@ public class BytecodeViewer
      * @param a array
      * @return string with newline per array object
      */
-    private static String quickConvert(ArrayList<String> a) {
+    private static String quickConvert(List<String> a) {
         return gson.toJson(a);
     }
 
@@ -1471,11 +1472,30 @@ public class BytecodeViewer
         return files;
     }
 
-    public static void rtCheck()
+    public synchronized static void rtCheck()
     {
-        if(rt.equals("") && RJ_JAR.exists())
+        if(rt.equals(""))
         {
-            rt = RJ_JAR.getAbsolutePath();
+            if(RT_JAR.exists())
+            {
+                rt = RT_JAR.getAbsolutePath();
+            }
+            else if(RT_JAR_DUMPED.exists())
+            {
+                rt = RT_JAR_DUMPED.getAbsolutePath();
+            }
+            else
+            {
+                try
+                {
+                    JRTExtractor.extractRT(RT_JAR_DUMPED.getAbsolutePath());
+                    rt = RT_JAR_DUMPED.getAbsolutePath();
+                }
+                catch (Throwable t)
+                {
+                    t.printStackTrace();
+                }
+            }
         }
     }
 

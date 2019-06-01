@@ -9,6 +9,7 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -261,7 +262,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         }
     }
 
-    public final JMenuItem mntmSaveAsApk = new JMenuItem("Save As DEX..");
+    public final JMenuItem mntmSaveAsDEX = new JMenuItem("Save As DEX..");
+    public final JMenuItem mntmSaveAsAPK = new JMenuItem("Save As APK..");
     public final JMenuItem mntmCodeSequenceDiagram = new JMenuItem("Code Sequence Diagram");
     public final JSeparator separator_7 = new JSeparator();
     public final JSeparator separator_8 = new JSeparator();
@@ -842,7 +844,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         mnNewMenu.add(separator_18);
 
         mnNewMenu.add(mntmNewMenuItem_3);
-        mntmSaveAsApk.addActionListener(new ActionListener()
+        mntmSaveAsDEX.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent arg0)
@@ -940,8 +942,151 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
                 t.start();
             }
         });
+        mntmSaveAsAPK.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent arg0)
+            {
+                if (BytecodeViewer.getLoadedClasses().isEmpty())
+                {
+                    BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+                    return;
+                }
 
-        mnNewMenu.add(mntmSaveAsApk);
+                //if theres only one file in the container don't bother asking
+                List<FileContainer> containers = BytecodeViewer.getFiles();
+                List<FileContainer> validContainers = new ArrayList<>();
+                List<String> validContainersNames = new ArrayList<>();
+                FileContainer container = null;
+
+                for(FileContainer fileContainer : containers)
+                {
+                    if(fileContainer.APKToolContents != null && fileContainer.APKToolContents.exists())
+                    {
+                        validContainersNames.add(fileContainer.name);
+                        validContainers.add(fileContainer);
+                    }
+                }
+
+                if(!validContainers.isEmpty())
+                {
+                    container = validContainers.get(0);
+
+                    if(validContainers.size() >= 2)
+                    {
+                        JOptionPane pane = new JOptionPane("Which file would you like to export as an APK?");
+                        Object[] options = validContainersNames.toArray(new String[0]);
+
+                        pane.setOptions(options);
+                        JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Select APK");
+                        dialog.setVisible(true);
+                        Object obj = pane.getValue();
+                        int result = -1;
+                        for (int k = 0; k < options.length; k++)
+                            if (options[k].equals(obj))
+                                result = k;
+
+                        container = containers.get(result);
+                    }
+                }
+                else
+                {
+                    BytecodeViewer.showMessage("You can only export as APK from a valid APK file. Make sure Settings>Decode Resources is ticked on.\n\nTip: Try exporting as DEX, it doesn't rely on decoded APK resources");
+                    return;
+                }
+
+                final FileContainer finalContainer = container;
+
+                Thread t = new Thread()
+                {
+                    public void run()
+                    {
+                        if (compileOnSave.isSelected() && !BytecodeViewer.compile(false))
+                            return;
+                        JFileChooser fc = new JFileChooser();
+                        fc.setFileFilter(new FileFilter()
+                        {
+                            @Override
+                            public boolean accept(File f)
+                            {
+                                return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("apk");
+                            }
+
+                            @Override
+                            public String getDescription()
+                            {
+                                return "Android APK";
+                            }
+                        });
+                        fc.setFileHidingEnabled(false);
+                        fc.setAcceptAllFileFilterUsed(false);
+                        int returnVal = fc.showSaveDialog(MainViewerGUI.this);
+                        if (returnVal == JFileChooser.APPROVE_OPTION)
+                        {
+                            final File file = fc.getSelectedFile();
+                            String output = file.getAbsolutePath();
+                            if (!output.endsWith(".apk"))
+                                output = output + ".apk";
+
+                            final File file2 = new File(output);
+
+                            if (file2.exists())
+                            {
+                                JOptionPane pane = new JOptionPane(
+                                        "Are you sure you wish to overwrite this existing file?");
+                                Object[] options = new String[]{"Yes", "No"};
+                                pane.setOptions(options);
+                                JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
+                                        "Bytecode Viewer - Overwrite File");
+                                dialog.setVisible(true);
+                                Object obj = pane.getValue();
+                                int result = -1;
+                                for (int k = 0; k < options.length; k++)
+                                    if (options[k].equals(obj))
+                                        result = k;
+
+                                if (result == 0)
+                                {
+                                    file.delete();
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            }
+
+                            Thread t = new Thread()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    BytecodeViewer.viewer.setIcon(true);
+                                    final String input = BytecodeViewer.tempDirectory + BytecodeViewer.fs + BytecodeViewer.getRandomizedName() + ".jar";
+                                    JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
+
+                                    Thread t = new Thread()
+                                    {
+                                        @Override
+                                        public void run()
+                                        {
+                                            APKTool.buildAPK(new File(input), file2, finalContainer);
+
+                                            BytecodeViewer.viewer.setIcon(false);
+                                        }
+                                    };
+                                    t.start();
+                                }
+                            };
+                            t.start();
+                        }
+                    }
+                };
+                t.start();
+            }
+        });
+
+        //mnNewMenu.add(mntmSaveAsAPK);
+        mnNewMenu.add(mntmSaveAsDEX);
         mnNewMenu.add(mntmSave);
         mntmNewMenuItem.addActionListener(new ActionListener()
         {

@@ -231,9 +231,7 @@ public class EZInjection extends Plugin {
                         MethodInsnNode mn = (MethodInsnNode) m.instructions
                                 .get(1);
                         if (mn.owner
-                                .equals("the/bytecode/club/bytecodeviewer/plugins/EZInjection")) // already
-                            // been
-                            // injected
+                                .equals(EZInjection.class.getName().replace(".", "/")))//"the/bytecode/club/bytecodeviewer/plugins/EZInjection")) // already been injected
                             inject = false;
                     }
                     if (inject) {
@@ -241,7 +239,7 @@ public class EZInjection extends Plugin {
                         m.instructions
                                 .insert(new MethodInsnNode(
                                         Opcodes.INVOKESTATIC,
-                                        "the/bytecode/club/bytecodeviewer/plugins/EZInjection",
+                                        EZInjection.class.getName().replace(".", "/"),//"the/bytecode/club/bytecodeviewer/plugins/EZInjection",
                                         "hook", "(Ljava/lang/String;)V"));
                         m.instructions.insert(new LdcInsnNode(classNode.name
                                 + "." + m.name + m.desc));

@@ -44,6 +44,7 @@ public class FileContainer {
 
     public File file;
     public String name;
+    public File APKToolContents = null;
 
     public HashMap<String, byte[]> files = new HashMap<>();
     public ArrayList<ClassNode> classes = new ArrayList<>();
