@@ -1761,15 +1761,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         mnNewMenu_7.add(mnCfr);
 
         jadx1.add(jadxJ1);
-        jadx1.add(separator_19);
+        jadx1.add(new JSeparator());
         jadx1.add(jadxE1);
 
         jadx2.add(jadxJ2);
-        jadx2.add(separator_19);
+        jadx2.add(new JSeparator());
         jadx2.add(jadxE2);
 
         jadx3.add(jadxJ3);
-        jadx3.add(separator_19);
+        jadx3.add(new JSeparator());
         jadx3.add(jadxE3);
 
         mnNewMenu_7.add(jadx1);

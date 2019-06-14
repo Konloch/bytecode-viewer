@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer;
 
-import java.awt.Desktop;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -114,7 +114,7 @@ import the.bytecode.club.bytecodeviewer.util.*;
 public class BytecodeViewer
 {
     /*per version*/
-    public static final String VERSION = "2.9.20";
+    public static final String VERSION = "2.9.21";
     public static String krakatauVersion = "12";
     public static String enjarifyVersion = "4";
     public static final boolean BLOCK_TAB_MENU = true;

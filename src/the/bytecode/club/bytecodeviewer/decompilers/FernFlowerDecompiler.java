@@ -107,7 +107,8 @@ public class FernFlowerDecompiler extends Decompiler {
         {
             try
             {
-                org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClass.getAbsolutePath(), new File(BytecodeViewer.tempDirectory).getAbsolutePath()));
+                org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClass.getAbsolutePath(),
+                        new File(BytecodeViewer.tempDirectory).getAbsolutePath()));
             }
             catch(StackOverflowError | Exception e)
             {
