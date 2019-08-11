@@ -134,6 +134,8 @@ public class Settings {
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
             else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1JDGUI.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "9", false);
+            else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.jadxJ1.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "10", false);
             else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.asmText1.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "11", false);
 
@@ -157,6 +159,8 @@ public class Settings {
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
             else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2JDGUI.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "9", false);
+            else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.jadxJ2.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "10", false);
             else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.asmText2.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "11", false);
 
@@ -180,6 +184,8 @@ public class Settings {
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
             else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3JDGUI.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "9", false);
+            else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.jadxJ3.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "10", false);
             else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.asmText3.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "11", false);
 
