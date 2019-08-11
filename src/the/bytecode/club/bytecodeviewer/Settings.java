@@ -362,7 +362,7 @@ public class Settings {
             else if (decompiler == 9)
                 BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2JDGUI.getModel(), true);
             else if (decompiler == 10)
-                BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.jadxJ2.getModel(), true);
+                BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.jadxJ2.getModel(), true);
             else if (decompiler == 11)
                 BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.asmText2.getModel(), true);
 
@@ -388,7 +388,7 @@ public class Settings {
             else if (decompiler == 9)
                 BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3JDGUI.getModel(), true);
             else if (decompiler == 10)
-                BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.jadxJ3.getModel(), true);
+                BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.jadxJ3.getModel(), true);
             else if (decompiler == 11)
                 BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.asmText3.getModel(), true);
 
