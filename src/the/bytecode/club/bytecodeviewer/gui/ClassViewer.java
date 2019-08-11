@@ -901,6 +901,50 @@ public class ClassViewer extends Viewer
 
                         java1 = panelArea;
                     }
+
+                    if (pane1 == 11) {// asm text
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea.setAntiAliasingEnabled(true);
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.textifier.decompileClassNode(cn, b));
+                        panelArea.setCaretPosition(0);
+                        panelArea.setEditable(false);
+                        panelArea.addKeyListener(new KeyListener()
+                        {
+                            public void keyPressed(KeyEvent e)
+                            {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                {
+                                    field1.requestFocus();
+                                }
+
+                                BytecodeViewer.checkHotKey(e);
+                            }
+
+                            @Override
+                            public void keyReleased(KeyEvent arg0)
+                            {
+                            }
+
+                            @Override
+                            public void keyTyped(KeyEvent arg0)
+                            {
+                            }
+                        });
+                        scrollPane.setColumnHeaderView(new JLabel("ASM Textified - Editable: " + panelArea.isEditable()));
+                        panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
+
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                panel1.add(scrollPane);
+                            }
+                        });
+                        java1 = panelArea;
+                    }
+
                 } catch (java.lang.IndexOutOfBoundsException | java.lang.NullPointerException e) {
                     //ignore
                 } catch (Exception e) {
@@ -1282,6 +1326,49 @@ public class ClassViewer extends Viewer
                             }
                         });
 
+                        java2 = panelArea;
+                    }
+
+                    if (pane2 == 11) {// asm text
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea.setAntiAliasingEnabled(true);
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.textifier.decompileClassNode(cn, b));
+                        panelArea.setCaretPosition(0);
+                        panelArea.setEditable(false);
+                        panelArea.addKeyListener(new KeyListener()
+                        {
+                            public void keyPressed(KeyEvent e)
+                            {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                {
+                                    field2.requestFocus();
+                                }
+
+                                BytecodeViewer.checkHotKey(e);
+                            }
+
+                            @Override
+                            public void keyReleased(KeyEvent arg0)
+                            {
+                            }
+
+                            @Override
+                            public void keyTyped(KeyEvent arg0)
+                            {
+                            }
+                        });
+                        scrollPane.setColumnHeaderView(new JLabel("ASM Textified - Editable: " + panelArea.isEditable()));
+                        panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
+
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                panel2.add(scrollPane);
+                            }
+                        });
                         java2 = panelArea;
                     }
                 } catch (java.lang.IndexOutOfBoundsException | java.lang.NullPointerException e) {
@@ -1667,6 +1754,49 @@ public class ClassViewer extends Viewer
 
                         java3 = panelArea;
                     }
+
+                    if (pane3 == 11) {// asm text
+                        panelArea = new RSyntaxTextArea();
+                        panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+                        panelArea.setAntiAliasingEnabled(true);
+                        scrollPane = new RTextScrollPane(panelArea);
+                        panelArea.setText(Decompiler.textifier.decompileClassNode(cn, b));
+                        panelArea.setCaretPosition(0);
+                        panelArea.setEditable(false);
+                        panelArea.addKeyListener(new KeyListener()
+                        {
+                            public void keyPressed(KeyEvent e)
+                            {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                {
+                                    field3.requestFocus();
+                                }
+
+                                BytecodeViewer.checkHotKey(e);
+                            }
+
+                            @Override
+                            public void keyReleased(KeyEvent arg0)
+                            {
+                            }
+
+                            @Override
+                            public void keyTyped(KeyEvent arg0)
+                            {
+                            }
+                        });
+                        scrollPane.setColumnHeaderView(new JLabel("ASM Textified - Editable: " + panelArea.isEditable()));
+                        panelArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
+
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                panel3.add(scrollPane);
+                            }
+                        });
+                        java3 = panelArea;
+                    }
                 } catch (java.lang.IndexOutOfBoundsException | java.lang.NullPointerException e) {
                     //ignore
                 } catch (Exception e) {
@@ -1857,6 +1987,8 @@ public class ClassViewer extends Viewer
             pane1 = 9;
         else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.jadxJ1.getModel()))
             pane1 = 10;
+        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.asmText1.getModel()))
+            pane1 = 11;
 
         if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
             pane2 = 0;
@@ -1880,6 +2012,8 @@ public class ClassViewer extends Viewer
             pane2 = 9;
         else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.jadxJ2.getModel()))
             pane2 = 10;
+        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.asmText2.getModel()))
+            pane2 = 11;
 
         if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
             pane3 = 0;
@@ -1903,6 +2037,8 @@ public class ClassViewer extends Viewer
             pane3 = 9;
         else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.jadxJ3.getModel()))
             pane3 = 10;
+        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.asmText3.getModel()))
+            pane3 = 11;
     }
 
     public boolean isPanel1Editable()

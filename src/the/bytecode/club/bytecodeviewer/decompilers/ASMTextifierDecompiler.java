@@ -1,8 +1,11 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.util.Textifier;
+import org.objectweb.asm.util.TraceClassVisitor;
 
-import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -23,25 +26,20 @@ import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler
  ***************************************************************************/
 
 /**
- * Used to represent all of the decompilers/disassemblers BCV contains.
+ * Objectweb ASM Textifier output
  *
- * @author Konloch
+ * @author Thiakil
  */
+public class ASMTextifierDecompiler extends Decompiler {
+	@Override
+	public String decompileClassNode(ClassNode cn, byte[] b) {
+		StringWriter writer = new StringWriter();
+		cn.accept(new TraceClassVisitor(null, new Textifier(), new PrintWriter(writer)));
+		return writer.toString();
+	}
 
-public abstract class Decompiler {
+	@Override
+	public void decompileToZip(String sourceJar, String zipName) {
 
-    public final static Decompiler bytecode = new ClassNodeDecompiler();
-    public final static Decompiler fernflower = new FernFlowerDecompiler();
-    public final static Decompiler procyon = new ProcyonDecompiler();
-    public final static Decompiler cfr = new CFRDecompiler();
-    public final static KrakatauDecompiler krakatau = new KrakatauDecompiler();
-    public final static KrakatauDisassembler krakatauDA = new KrakatauDisassembler();
-    public final static SmaliDisassembler smali = new SmaliDisassembler();
-    public final static Decompiler jdgui = new JDGUIDecompiler();
-    public final static Decompiler jadx = new JADXDecompiler();
-    public final static Decompiler textifier = new ASMTextifierDecompiler();
-
-    public abstract String decompileClassNode(ClassNode cn, byte[] b);
-
-    public abstract void decompileToZip(String sourceJar, String zipName);
+	}
 }
