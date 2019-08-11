@@ -134,6 +134,10 @@ public class Settings {
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
             else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1JDGUI.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "9", false);
+            else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.jadxJ1.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "10", false);
+            else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.asmText1.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "11", false);
 
             if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
@@ -155,6 +159,10 @@ public class Settings {
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
             else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2JDGUI.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "9", false);
+            else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.jadxJ2.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "10", false);
+            else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.asmText2.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "11", false);
 
             if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
@@ -176,6 +184,10 @@ public class Settings {
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
             else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3JDGUI.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "9", false);
+            else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.jadxJ3.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "10", false);
+            else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.asmText3.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "11", false);
 
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.refreshOnChange.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.isMaximized), false);
@@ -331,6 +343,8 @@ public class Settings {
                 BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1JDGUI.getModel(), true);
             else if (decompiler == 10)
                 BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.jadxJ1.getModel(), true);
+            else if (decompiler == 11)
+                BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.asmText1.getModel(), true);
 
             decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 82, false));
             if (decompiler == 0)
@@ -354,7 +368,9 @@ public class Settings {
             else if (decompiler == 9)
                 BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2JDGUI.getModel(), true);
             else if (decompiler == 10)
-                BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.jadxJ2.getModel(), true);
+                BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.jadxJ2.getModel(), true);
+            else if (decompiler == 11)
+                BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.asmText2.getModel(), true);
 
             decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 83, false));
             if (decompiler == 0)
@@ -378,7 +394,9 @@ public class Settings {
             else if (decompiler == 9)
                 BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3JDGUI.getModel(), true);
             else if (decompiler == 10)
-                BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.jadxJ3.getModel(), true);
+                BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.jadxJ3.getModel(), true);
+            else if (decompiler == 11)
+                BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.asmText3.getModel(), true);
 
             BytecodeViewer.viewer.refreshOnChange.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 84, false)));
 
