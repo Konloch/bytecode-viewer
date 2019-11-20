@@ -1,50 +1,25 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import java.awt.BorderLayout;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.*;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-
+import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import org.objectweb.asm.tree.ClassNode;
-
-import the.bytecode.club.bytecodeviewer.*;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
+import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
+
+import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.util.*;
+import java.util.Map.Entry;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -195,6 +170,60 @@ public class FileNavigationPane extends VisibleComponent implements
         }
     };
 
+    private void showPopMenu(MyTree tree, TreePath selPath, int x, int y) {
+        if (selPath == null) {
+            return;
+        }
+
+        final JPopupMenu pop = new JPopupMenu();
+        pop.add(new AbstractAction("Remove") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
+                DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                Enumeration enumeration = treeRoot.children();
+                while (enumeration.hasMoreElements()) {
+                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumeration.nextElement();
+                    if (node.isNodeAncestor(selectNode)) {
+                        DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
+                        root.remove(node);
+                        for (FileContainer fileContainer : BytecodeViewer.files) {
+                            if (fileContainer.name.equals(selectNode.toString())) {
+                                removeFile(fileContainer);
+                                break;
+                            }
+                        }
+                        updateTree();
+                        return;
+                    }
+                }
+            }
+        });
+
+        pop.add(new AbstractAction("Expand", WindowsTreeUI.ExpandedIcon.createExpandedIcon()) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
+                expandAll(tree, selPath, true);
+            }
+        });
+
+        pop.add(new AbstractAction("Collapse", WindowsTreeUI.CollapsedIcon.createCollapsedIcon()) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
+                expandAll(tree, selPath, false);
+            }
+        });
+
+        pop.show(this.tree, x, y);
+    }
+
+    private void removeFile(FileContainer fileContainer) {
+        BytecodeViewer.files.remove(fileContainer);
+        LazyNameUtil.removeName(fileContainer.name);
+    }
+
     public FileNavigationPane(final FileChangeNotifier fcn) {
         super("ClassNavigation");
         this.fcn = fcn;
@@ -202,6 +231,30 @@ public class FileNavigationPane extends VisibleComponent implements
         tree.setShowsRootHandles(true);
         quickSearch.setForeground(Color.gray);
         setTitle("Files");
+
+        tree.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.isMetaDown()) {
+                    MyTree tree = (MyTree) e.getSource();
+                    TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(e.getX(), e.getY());
+                    if (selPath == null) {
+                        return;
+                    }
+
+                    DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                    Enumeration enumeration = treeRoot.children();
+                    while (enumeration.hasMoreElements()) {
+                        DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumeration.nextElement();
+                        if (node.isNodeAncestor(selectNode)) {
+                            // pop.show(tree, e.getX(), e.getY());
+                            showPopMenu(tree, selPath, e.getX(), e.getY());
+                            break;
+                        }
+                    }
+                }
+            }
+        });
 
         this.open.addActionListener(new ActionListener() {
             @Override
@@ -513,6 +566,7 @@ public class FileNavigationPane extends VisibleComponent implements
                 return hash;
             }
         };
+
     }
 
     /**
@@ -556,8 +610,9 @@ public class FileNavigationPane extends VisibleComponent implements
 
     public void openPath(TreePath path)
     {
-        if (path == null)
+        if (path == null || path.getPathCount() == 1) {
             return;
+        }
 
         final StringBuilder nameBuffer = new StringBuilder();
         for (int i = 2; i < path.getPathCount(); i++) {
