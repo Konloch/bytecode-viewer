@@ -35,6 +35,7 @@ import com.strobel.assembler.metadata.TypeDefinition;
 import com.strobel.assembler.metadata.TypeReference;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
@@ -134,9 +135,8 @@ public class ProcyonDecompiler extends Decompiler {
             }
             StringWriter stringwriter = new StringWriter();
             settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(stringwriter), decompilationOptions);
-            String decompiledSource = stringwriter.toString();
 
-            return decompiledSource;
+            return EncodeUtils.unicodeToString(stringwriter.toString());
         } catch (StackOverflowError | Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
