@@ -78,7 +78,7 @@ public class JavaCompiler extends Compiler {
                 pb = new ProcessBuilder(
                         BytecodeViewer.javac,
                         "-d", fileStart2,
-                        "-classpath", cp.getAbsolutePath() + ";" + BytecodeViewer.library,
+                        "-classpath", cp.getAbsolutePath() + System.getProperty("path.separator") + BytecodeViewer.library,
                         java.getAbsolutePath()
                 );
             }
