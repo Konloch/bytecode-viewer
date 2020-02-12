@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer.searching;
 
 import java.awt.GridLayout;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,6 +12,8 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
+
+import static the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder.processRegex;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -71,21 +74,13 @@ public class RegexSearch implements SearchTypeDetails {
 
         if (srchText.isEmpty())
             return;
-
+        Pattern pattern = Pattern.compile(processRegex(srchText),
+                Pattern.MULTILINE);
         while (methods.hasNext())
         {
             final MethodNode method = methods.next();
 
-            if (regexFinder == null)
-            {
-                regexFinder = new RegexInsnFinder(node, method);
-            }
-            else
-            {
-                regexFinder.setMethod(node, method);
-            }
-
-            if (regexFinder.find(srchText).length > 0)
+            if (RegexInsnFinder.staticScan(node, method, pattern))
             {
                 String desc2 = method.desc;
                 try
