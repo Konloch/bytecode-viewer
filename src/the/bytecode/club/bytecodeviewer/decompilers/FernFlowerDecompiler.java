@@ -161,7 +161,8 @@ public class FernFlowerDecompiler extends Decompiler {
                 "-udv=" + r(BytecodeViewer.viewer.udv.isSelected()),
                 "-rer=" + r(BytecodeViewer.viewer.rer.isSelected()),
                 "-fdi=" + r(BytecodeViewer.viewer.fdi.isSelected()),
-                "-asc=" + r(BytecodeViewer.viewer.asc.isSelected()), className,
+                "-asc=" + r(BytecodeViewer.viewer.asc.isSelected()),
+                "-ren=" + r(BytecodeViewer.viewer.ren.isSelected()), className,
                 folder};
     }
 

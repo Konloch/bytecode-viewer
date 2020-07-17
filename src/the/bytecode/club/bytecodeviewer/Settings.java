@@ -233,6 +233,7 @@ public class Settings {
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.forcePureAsciiAsText.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.synchronizedViewing.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.showClassMethods.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.ren.isSelected()), false);
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
@@ -449,6 +450,7 @@ public class Settings {
             BytecodeViewer.viewer.forcePureAsciiAsText.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 122, false)));
             BytecodeViewer.viewer.synchronizedViewing.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 123, false)));
             BytecodeViewer.viewer.showClassMethods.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 124, false)));
+            BytecodeViewer.viewer.ren.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 125, false)));
         } catch (Exception e) {
             //ignore because errors are expected, first start up and outdated settings.
             //e.printStackTrace();

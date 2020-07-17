@@ -93,6 +93,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
     public JCheckBoxMenuItem rer = new JCheckBoxMenuItem("Remove empty exception ranges");
     public JCheckBoxMenuItem fdi = new JCheckBoxMenuItem("Deinline finally structures");
     public JCheckBoxMenuItem asc = new JCheckBoxMenuItem("Allow only ASCII characters in strings");
+    public JCheckBoxMenuItem ren = new JCheckBoxMenuItem("Rename ambiguous classes and class elements");
     public final JMenuItem mntmNewWorkspace = new JMenuItem("New Workspace");
     public JMenu mnRecentFiles = new JMenu("Recent Files");
     public final JMenuItem mntmNewMenuItem = new JMenuItem("Decompile & Save All Classes..");
@@ -2250,6 +2251,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         udv.setSelected(true);
         fdi.setSelected(true);
         asc.setSelected(false);
+        ren.setSelected(false);
 
         JMenu mnDecompilerSettings = new JMenu("FernFlower");
         mnSettings.add(mnDecompilerSettings);
@@ -2279,6 +2281,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier
         mnDecompilerSettings.add(udv);
         mnDecompilerSettings.add(fdi);
         mnDecompilerSettings.add(asc);
+        mnDecompilerSettings.add(ren);
         debugHelpers.setSelected(true);
         // other
         chckbxmntmAppendBrackets.setSelected(true);
