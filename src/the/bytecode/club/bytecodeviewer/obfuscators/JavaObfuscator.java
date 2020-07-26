@@ -33,7 +33,6 @@ public abstract class JavaObfuscator extends Thread {
 
     @Override
     public void run() {
-        System.out.println("mibbzz is gay");
         BytecodeViewer.viewer.setIcon(true);
         BytecodeViewer.runningObfuscation = true;
         obfuscate();
