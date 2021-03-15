@@ -114,7 +114,7 @@ import the.bytecode.club.bytecodeviewer.util.*;
 public class BytecodeViewer
 {
     /*per version*/
-    public static final String VERSION = "2.9.22";
+    public static final String VERSION = "2.9.23";
     public static String krakatauVersion = "12";
     public static String enjarifyVersion = "4";
     public static final boolean BLOCK_TAB_MENU = true;
