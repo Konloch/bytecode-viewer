@@ -255,46 +255,81 @@ public class RegexInsnFinder {
                 }
                 offsets[i] = insnString.length();
                 insnString += opcodes[ain.getOpcode()];
-                switch (ain.getType()) {
-                    case AbstractInsnNode.INT_INSN:
-                        final IntInsnNode iin = (IntInsnNode) ain;
-                        insnString += "{" + iin.operand + "}";
-                        break;
-                    case AbstractInsnNode.LDC_INSN:
-                        final LdcInsnNode lin = (LdcInsnNode) ain;
-                        insnString += "{" + lin.cst.toString().replace("}", "\\}")
-                                + "}";
-                        break;
-                    case AbstractInsnNode.VAR_INSN:
-                        final VarInsnNode vin = (VarInsnNode) ain;
-                        insnString += "_" + vin.var;
-                        break;
-                    case AbstractInsnNode.IINC_INSN:
-                        final IincInsnNode iiin = (IincInsnNode) ain;
-                        insnString += "{" + iiin.var + "," + iiin.incr + "}";
-                        break;
-                    case AbstractInsnNode.FIELD_INSN:
-                        final FieldInsnNode fin = (FieldInsnNode) ain;
-                        insnString += "{" + fin.desc + "," + fin.owner + ","
-                                + fin.name + "}";
-                        break;
-                    case AbstractInsnNode.METHOD_INSN:
-                        final MethodInsnNode min = (MethodInsnNode) ain;
-                        insnString += "{" + min.desc + "," + min.owner + ","
-                                + min.name + "}";
-                        break;
-                    case AbstractInsnNode.TYPE_INSN:
-                        final TypeInsnNode tin = (TypeInsnNode) ain;
-                        insnString += "{" + tin.desc + "}";
-                        break;
-                    case AbstractInsnNode.MULTIANEWARRAY_INSN:
-                        final MultiANewArrayInsnNode manain = (MultiANewArrayInsnNode) ain;
-                        insnString += "{" + manain.dims + "," + manain.desc + "}";
-                        break;
-                }
+                insnString = getInsString(ain);
                 insnString += " ";
             }
         }
+    }
+
+    // Do a pattern check against each instruction directly,
+    // without building a string of the whole method.
+    public static boolean staticScan(ClassNode node, MethodNode mn, Pattern pattern) {
+        final List<AbstractInsnNode> il = new ArrayList<AbstractInsnNode>();
+        for (final AbstractInsnNode ain : mn.instructions.toArray())
+            if (ain.getOpcode() >= 0) {
+                il.add(ain);
+            }
+        return il.stream().anyMatch(ain -> {
+            if (ain.getOpcode() >= 0) {
+                if (ain.getOpcode() >= opcodes.length) {
+                    try {
+                        throw new UnexpectedException(
+                                "Unknown opcode encountered: "
+                                        + ain.getOpcode());
+                    } catch (final UnexpectedException e) {
+                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                    }
+                }
+                String insnString = getInsString(ain);
+                boolean result = pattern.matcher(insnString).find();
+                if(result) {
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
+    private static String getInsString(AbstractInsnNode ain) {
+        String insnString = "";
+        switch (ain.getType()) {
+            case AbstractInsnNode.INT_INSN:
+                final IntInsnNode iin = (IntInsnNode) ain;
+                insnString += "{" + iin.operand + "}";
+                break;
+            case AbstractInsnNode.LDC_INSN:
+                final LdcInsnNode lin = (LdcInsnNode) ain;
+                insnString += "{" + lin.cst.toString().replace("}", "\\}")
+                        + "}";
+                break;
+            case AbstractInsnNode.VAR_INSN:
+                final VarInsnNode vin = (VarInsnNode) ain;
+                insnString += "_" + vin.var;
+                break;
+            case AbstractInsnNode.IINC_INSN:
+                final IincInsnNode iiin = (IincInsnNode) ain;
+                insnString += "{" + iiin.var + "," + iiin.incr + "}";
+                break;
+            case AbstractInsnNode.FIELD_INSN:
+                final FieldInsnNode fin = (FieldInsnNode) ain;
+                insnString += "{" + fin.desc + "," + fin.owner + ","
+                        + fin.name + "}";
+                break;
+            case AbstractInsnNode.METHOD_INSN:
+                final MethodInsnNode min = (MethodInsnNode) ain;
+                insnString += "{" + min.desc + "," + min.owner + ","
+                        + min.name + "}";
+                break;
+            case AbstractInsnNode.TYPE_INSN:
+                final TypeInsnNode tin = (TypeInsnNode) ain;
+                insnString += "{" + tin.desc + "}";
+                break;
+            case AbstractInsnNode.MULTIANEWARRAY_INSN:
+                final MultiANewArrayInsnNode manain = (MultiANewArrayInsnNode) ain;
+                insnString += "{" + manain.dims + "," + manain.desc + "}";
+                break;
+        }
+        return insnString;
     }
 
     public void setMethod(final ClassNode ci, final MethodNode mi) {
