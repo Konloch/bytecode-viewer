@@ -30,4 +30,5 @@
 * ItzSomebody
 * DreamSworK
 * BitScorpio
+* HyperSpeeed
 * If I missed you, please feel free to contact me @Konloch or konloch@gmail.com

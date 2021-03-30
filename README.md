@@ -5,6 +5,7 @@ Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 #### New Features
 * Updated ASM library to version 9.1
 * Added support to Java files compiled using JDK > 13
+* Migrated to Maven
 
 
 #### Links
