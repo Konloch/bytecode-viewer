@@ -1,0 +1,295 @@
+Krakatau Assembly Syntax
+For a list of previous changes to the assembly syntax, see changelog.txt
+
+Note: This documents the officially supported syntax of the assembler. The assembler accepts some files that don't fully conform to this syntax, but this behavior may change without warning in the future.
+
+Lexical structure
+Comments: Comments begin with a semicolon and go to the end of the line. Since no valid tokens start with a semicolon, there is no ambiguity. Comments are ignored during parsing.
+
+Whitespace: At least one consecutive space or tab character
+
+Lines that are empty except for whitespace or a comment are ignored. Many grammar productions require certain parts to be separated by a newline (LF/CRLF/CR). This is represented below by the terminal EOL. Due to the rules above, EOL can represent an optional comment, followed by a newline, followed by any number of empty/comment lines. There are no line continuations.
+
+Integer, Long, Float, and Double literals use the same syntax as Java with a few differences:
+* No underscores are allowed
+* Doubles cannot be suffixed with d or D.
+* Decimal floating point literals with values that can’t be represented exactly in the target type aren’t guaranteed to round the same way as in Java. If the exact value is significant, you should use a hexidecimal floating point literal.
+* If a decimal point is present, there must be at least one digit before and after it (0.5 is ok, but .5 is not. 5.0 is ok but 5. is not).
+* A leading plus or minus sign is allowed.
+* Only decimal and hexadecimal literals are allowed (no binary or octal)
+* For doubles, special values can be represented by +Infinity, -Infinity, +NaN, and -NaN (case insensitive). For floats, these should be suffixed by f or F.
+* NaNs with a specific binary representation can be represented by suffixing with the hexadecimal value in angle brackets. For example, -NaN<0x7ff0123456789abc> or +NaN<0xFFABCDEF>f
+
+Note: NaN requires a leading sign, even though it is ignored. This is to avoid ambiguity with WORDs. The binary representation of a NaN with no explicit representation may be any valid encoding of NaN. If you care about the binary representation in the classfile, you should specify it explicitly as described above.
+
+String literals use the same syntax as Java string literals with the following exceptions
+* Non printable and non-ascii characters, including tabs, are not allowed. These can be represented by escape sequences as usual. For example \t means tab.
+* Either single or double quotes can be used. If single quotes are used, double quotes can appear unescaped inside the string and vice versa.
+* There are three additional types of escape sequences allowed: \xDD, \uDDDD, and \UDDDDDDDD where D is a hexadecimal digit. The later two are only allowed in unicode strings (see below). In the case of \U, the digits must correspond to a number less than 0x00110000. \x represents a byte or code point up to 255. \u represents a code point up to 65535. \U represents a code point up to 1114111 (0x10FFFF), which will be split into a surrogate pair when encoded if it is above 0xFFFF.
+* There are two types of string literals - bytes and unicode. Unicode strings are the default and represent a sequence of code points which will be MUTF8 encoded when written to the classfile. A byte string, represented by prefixing with b or B, represents a raw sequence of bytes which will be written unchanged. For example, "\0" is encoded to a two byte sequence while b"\0" puts an actual null byte in the classfile (which is invalid, but potentially useful for testing).
+
+Reference: The classfile format has a large number of places where an index is made into the constant pool or bootstrap methods table. The assembly format allows you to specify the definition inline, and the assembler will automatically add an entry as appropriate and fill in the index. However, this isn’t acceptable in cases where the exact binary layout is important or where a definition is large and you want to refer to it many times without copying the definition each time.
+
+For the first case, there are numeric references, designated by a decimal integer in square brackets with no leading zeroes. For example, [43] refers to the index 43 in the constant pool. For the second case, there are symbolic references, which is a sequence of lowercase ascii, digits, and underscores inside square brackets, not beginning with a digit. For example, [foo_bar4].
+
+Bootstrap method references are the same except preceded by "bs:". For example, [bs:43] or [bs:foo_bar4]. These are represented by the terminal BSREF. Bootstrap method references are only used in very specific circumstances so you probably won’t need them. All other references are constant pool references and have no prefix, designated by the terminal CPREF.
+
+Note: Constant pools and bootstrap method tables are class-specific. So definitions inside one class do not affect any other classes assembled from the same source file.
+
+Labels refer to a position within a method’s bytecode. The assembler will automatically fill in each label with the calculated numerical offset. Labels consist of a capital L followed by ascii letters, digits, and underscores. A label definition (LBLDEF) is a label followed by a colon (with no space). For example, "LSTART:". Label uses are included in the WORD token type defined below since they don’t have a colon.
+
+Note: Labels refer to positions in the bytecode of the enclosing Code attribute where they appear. They may not appear outside of a Code attribute.
+
+Word: A string beginning with a word_start_character, followed by zero or more word_start_character or word_rest_characters. Furthermore, if the first character is a [, it must be followed by another [ or a capital letter (A-Z).
+
+word_start_character: a-z, A-Z, _, $, (, <, [
+word_rest_character: 0-9, ), >, /, ;, *, +, -
+
+Words are used to specify names, identifiers, descriptors, and so on. If you need to specify a name that can’t be represented as a word (such as using forbidden characters), a string literal can be used instead. Words are represented in the grammar by the terminal WORD.
+
+For example, 42 is not a valid word because it begins with a digit. A class named 42 can be defined as follows:
+
+.class "42"
+
+In addition, when used in a context following flags, words cannot be any of the possible flag names. These are currently public, private, protected, static, final, super, synchronized, open, transitive, volatile, bridge, static_phase, transient, varargs, native, interface, abstract, strict, synthetic, annotation, enum, module, and mandated. In addition, strictfp is disallowed to avoid confusion. So if you wanted to have a string field named bridge, you’d have to do
+
+.field "bridge" Ljava/lang/String;
+
+Format of grammar rules
+Nonterminals are specified in lowercase. Terminals with a specific value required are specified in quotes. e.g. "Foo" means that the exact text Foo (case sensitive) has to appear at that point. Terminals that require a value of a given token type are represented in all caps, e.g. EOL, INT_LITERAL, FLOAT_LITERAL, LONG_LITERAL, DOUBLE_LITERAL, STRING_LITERAL, CPREF, BSREF, WORD, LBLDEF.
+
+*, +, ?, |, and () have their usual meanings in regular expressions.
+
+Common constant rules
+s8: INT_LITERAL
+u8: INT_LITERAL
+s16: INT_LITERAL
+u16: INT_LITERAL
+s32: INT_LITERAL
+u32: INT_LITERAL
+
+ident: WORD | STRING_LITERAL
+utfref: CPREF | ident
+clsref: CPREF | ident
+natref: CPREF | ident utfref
+fmimref: CPREF | fmim_tagged_const
+bsref: BSREF | bsnotref
+invdynref: CPREF | invdyn_tagged_const
+
+handlecode: "getField" | "getStatic" | "putField" | "putStatic" | "invokeVirtual" | "invokeStatic" | "invokeSpecial" | "newInvokeSpecial" | "invokeInterface"
+mhandlenotref: handlecode (CPREF | fmim_tagged_const)
+mhandleref: CPREF | mhandlenotref
+
+cmhmt_tagged_const: "Class" utfref | "MethodHandle" mhandlenotref | "MethodType" utfref
+ilfds_tagged_const: "Integer" INT_LITERAL | "Float" FLOAT_LITERAL | "Long" LONG_LITERAL | "Double" DOUBLE_LITERAL | "String" STRING_LITERAL
+simple_tagged_const: "Utf8" ident |  "NameAndType" utfref utfref
+fmim_tagged_const: ("Field" | "Method" | "InterfaceMethod") clsref natref
+invdyn_tagged_const: "InvokeDynamic" bsref natref
+
+ref_or_tagged_const_ldc: CPREF | cmhmt_tagged_const | ilfds_tagged_const
+ref_or_tagged_const_all: ref_or_tagged_ldconst | simple_tagged_const | fmim_tagged_const | invdyn_tagged_const
+
+bsnotref: mhandlenotref ref_or_tagged_const_ldc* ":"
+ref_or_tagged_bootstrap: BSREF | "Bootstrap" bsnotref
+
+Note: The most deeply nested possible valid constant is 6 levels (InvokeDynamic -> Bootstrap -> MethodHandle -> Method -> NameAndType -> Utf8). It is possible to create a more deeply nested constant definitions in this grammar by using references with invalid types, but the assembler may reject them.
+
+ldc_rhs: CPREF | INT_LITERAL | FLOAT_LITERAL | LONG_LITERAL | DOUBLE_LITERAL | STRING_LITERAL | cmhmt_tagged_const
+
+flag: "public" | "private" | "protected" | "static" | "final" | "super" | "synchronized" | "volatile" | "bridge" | "transient" | "varargs" | "native" | "interface" | "abstract" | "strict" | "synthetic" | "annotation" | "enum" | "mandated"
+Basic assembly structure
+
+assembly_file: EOL? class_definition*
+class_definition: version? class_start class_item* class_end
+
+version: ".version" u16 u16 EOL
+class_start: class_directive super_directive interface_directive*
+class_directive: ".class" flag* clsref EOL
+super_directive: ".super" clsref EOL
+interface_directive: ".implements" clsref EOL
+class_end: ".end" "class" EOL
+
+class_item: const_def | bootstrap_def | field_def | method_def | attribute
+
+const_def: ".const" CPREF "=" ref_or_tagged_const_all EOL
+bootstrap_def: ".bootstrap" BSREF "=" ref_or_tagged_bootstrap EOL
+
+Note: If the right hand side is a reference, the left hand side must be a symbolic reference. For example, the following two are valid.
+.const [foo] = [bar]
+.const [foo] = [42]
+
+While these are not valid.
+.const [42] = [foo]
+.const [42] = [32]
+
+field_def: ".field" flag* utfref utfref initial_value? field_attributes? EOL
+initial_value: "=" ldc_rhs
+field_attributes: ".fieldattributes" EOL attribute* ".end" ".fieldattributes"
+
+method_def: method_start (method_body | legacy_method_body) method_end
+method_start: ".method" flag* utfref ":" utfref EOL
+method_end: ".end" "method" EOL
+
+method_body: attribute*
+legacy_method_body: limit_directive+ code_body
+limit_directive: ".limit" ("stack" | "locals") u16 EOL
+
+Attributes
+attribute: (named_attribute | generic_attribute) EOL
+generic_attribute: ".attribute" utfref length_override? attribute_data
+length_override: "length" u32
+attribute_data: named_attribute | STRING_LITERAL
+
+named_attribute: annotation_default | bootstrap_methods | code | constant_value | deprecated | enclosing_method | exceptions | inner_classes | line_number_table | local_variable_table | local_variable_type_table | method_parameters | runtime_annotations | runtime_visible_parameter_annotations | runtime_visible_type_annotations | signature | source_debug_extension | source_file | stack_map_table | synthetic
+
+annotation_default: ".annotationdefault" element_value
+
+bootstrap_methods: ".bootstrapmethods"
+Note: The content of a BootstrapMethods attribute is automatically filled in based on the implicitly and explicitly defined bootstrap methods in the class. If this attribute’s contents are nonempty and the attribute isn’t specified explicitly, one will be added implicitly. This means that you generally don’t have to specify it. It’s only useful if you care about the exact binary layout of the classfile.
+
+
+code: code_start code_body code_end
+code_start: ".code" "stack" code_limit_t "locals" code_limit_t EOL
+code_limit_t: u8 | u16
+code_end: ".end" "code"
+
+Note: A Code attribute can only appear as a method attribute. This means that they cannot be nested.
+
+constant_value: ".constantvalue" ldc_rhs
+
+deprecated: ".deprecated"
+
+enclosing_method: ".enclosing" "method" clsref natref
+
+exceptions: ".exceptions" clsref*
+
+inner_classes: ".innerclasses" EOL inner_classes_item* ".end" "innerclasses"
+inner_classes_item: cpref cpref utfref flag* EOL
+
+line_number_table: ".linenumbertable" EOL line_number* ".end" "linenumbertable"
+line_number: label u16 EOL
+
+local_variable_table: ".localvariabletable" EOL local_variable* ".end" "localvariabletable"
+local_variable: u16 "is" utfref utfref code_range EOL
+
+local_variable_type_table: ".localvariabletypetable" EOL local_variable_type* ".end" "localvariabletypetable"
+local_variable_type: u16 "is" utfref utfref code_range EOL
+
+method_parameters: ".methodparameters" EOL method_parameter_item* ".end" "methodparameters"
+method_parameter_item: utfref flag* EOL
+
+runtime_annotations: ".runtime" visibility (normal_annotations | parameter_annotations | type_annotations) ".end" "runtime"
+visibility: "visible" | "invisible"
+normal_annotations: "annotations" EOL annotation_line*
+parameter_annotations:  "paramannotations" EOL parameter_annotation_line*
+type_annotations: "typeannotations" EOL type_annotation_line*
+
+
+signature: ".signature" utfref
+
+source_debug_extension: ".sourcedebugextension" STRING_LITERAL
+
+source_file: ".sourcefile" utfref
+
+stack_map_table: ".stackmaptable"
+
+Note: The content of a StackMapTable attribute is automatically filled in based on the stack directives in the enclosing code attribute. If this attribute’s contents are nonempty and the attribute isn’t specified explicitly, one will be added implicitly. This means that you generally don’t have to specify it. It’s only useful if you care about the exact binary layout of the classfile.
+
+Note: The StackMapTable attribute depends entirely on the .stack directives specified. Krakatau will not calculate a new stack map for you from bytecode that does not have any stack information. If you want to do this, you should try using ASM.
+
+synthetic: ".synthetic"
+
+Code
+
+code_body: (instruction_line | code_directive)* attribute*
+code_directive: catch_directive | stack_directive | ".noimplicitstackmap"
+
+catch_directive: ".catch" clsref code_range "using" label EOL
+code_range: "from" label "to" label
+
+stack_directive: ".stack" stackmapitem EOL
+stackmapitem: stackmapitem_simple | stackmapitem_stack1 | stackmapitem_append | stackmapitem_full
+stackmapitem_simple: "same" | "same_extended" | "chop" INT_LITERAL
+stackmapitem_stack1: ("stack_1" | "stack_1_extended") verification_type
+stackmapitem_append: "append" vt1to3
+vt1to3: verification_type verification_type? verification_type?
+stackmapitem_full: "full" EOL "locals" vtlist "stack" vtlist ".end" "stack"
+vtlist: verification_type* EOL
+
+verification_type: "Top" | "Integer" | "Float" | "Double" | "Long" | "Null" | "UninitializedThis" | "Object" clsref | "Uninitialized" label
+
+instruction_line: (LBLDEF | LBLDEF? instruction) EOL
+instruction: simple_instruction | complex_instruction
+simple_instruction: op_none | op_short u8 | op_iinc u8 s8 | op_bipush s8 | op_sipush s16 | op_lbl label | op_fmim fmimref | on_invint fmimref u8? | op_invdyn invdynref | op_cls clsref | op_cls_int clsref u8 | op_ldc ldc_rhs
+
+op_none: "nop" | "aconst_null" | "iconst_m1" | "iconst_0" | "iconst_1" | "iconst_2" | "iconst_3" | "iconst_4" | "iconst_5" | "lconst_0" | "lconst_1" | "fconst_0" | "fconst_1" | "fconst_2" | "dconst_0" | "dconst_1" | "iload_0" | "iload_1" | "iload_2" | "iload_3" | "lload_0" | "lload_1" | "lload_2" | "lload_3" | "fload_0" | "fload_1" | "fload_2" | "fload_3" | "dload_0" | "dload_1" | "dload_2" | "dload_3" | "aload_0" | "aload_1" | "aload_2" | "aload_3" | "iaload" | "laload" | "faload" | "daload" | "aaload" | "baload" | "caload" | "saload" | "istore_0" | "istore_1" | "istore_2" | "istore_3" | "lstore_0" | "lstore_1" | "lstore_2" | "lstore_3" | "fstore_0" | "fstore_1" | "fstore_2" | "fstore_3" | "dstore_0" | "dstore_1" | "dstore_2" | "dstore_3" | "astore_0" | "astore_1" | "astore_2" | "astore_3" | "iastore" | "lastore" | "fastore" | "dastore" | "aastore" | "bastore" | "castore" | "sastore" | "pop" | "pop2" | "dup" | "dup_x1" | "dup_x2" | "dup2" | "dup2_x1" | "dup2_x2" | "swap" | "iadd" | "ladd" | "fadd" | "dadd" | "isub" | "lsub" | "fsub" | "dsub" | "imul" | "lmul" | "fmul" | "dmul" | "idiv" | "ldiv" | "fdiv" | "ddiv" | "irem" | "lrem" | "frem" | "drem" | "ineg" | "lneg" | "fneg" | "dneg" | "ishl" | "lshl" | "ishr" | "lshr" | "iushr" | "lushr" | "iand" | "land" | "ior" | "lor" | "ixor" | "lxor" | "i2l" | "i2f" | "i2d" | "l2i" | "l2f" | "l2d" | "f2i" | "f2l" | "f2d" | "d2i" | "d2l" | "d2f" | "i2b" | "i2c" | "i2s" | "lcmp" | "fcmpl" | "fcmpg" | "dcmpl" | "dcmpg" | "ireturn" | "lreturn" | "freturn" | "dreturn" | "areturn" | "return" | "arraylength" | "athrow" | "monitorenter" | "monitorexit"
+
+op_short: "iload" | "lload" | "fload" | "dload" | "aload" | "istore" | "lstore" | "fstore" | "dstore" | "astore" | "ret"
+
+op_iinc: "iinc"
+op_bipush: "bipush"
+op_sipush: "sipush"
+
+op_lbl: "ifeq" | "ifne" | "iflt" | "ifge" | "ifgt" | "ifle" | "if_icmpeq" | "if_icmpne" | "if_icmplt" | "if_icmpge" | "if_icmpgt" | "if_icmple" | "if_acmpeq" | "if_acmpne" | "goto" | "jsr" | "ifnull" | "ifnonnull" | "goto_w" | "jsr_w"
+
+op_fmim: "getstatic" | "putstatic" | "getfield" | "putfield" | "invokevirtual" | "invokespecial" | "invokestatic"
+on_invint: "invokeinterface"
+op_invdyn: "invokedynamic"
+
+op_cls: "new" | "anewarray" | "checkcast" | "instanceof"
+op_cls_int: "multianewarray"
+
+op_ldc: "ldc" | "ldc_w" | "ldc2_w"
+
+complex_instruction: ins_newarr | ins_lookupswitch | ins_tableswitch | ins_wide
+
+ins_newarr: "newarray" nacode
+nacode: "boolean" | "char" | "float" | "double" | "byte" | "short" | "int" | "long"
+
+ins_lookupswitch: "lookupswitch" EOL luentry* defaultentry
+luentry: s32 ":" label EOL
+defaultentry: "default:" label
+
+ins_tableswitch: "tableswitch" s32 EOL tblentry* defaultentry
+tblentry: label EOL
+
+ins_wide: "wide" (op_short u16 | op_iinc u16 s16)
+
+label: WORD
+Annotations
+element_value_line: element_value EOL
+element_value: primtag ldc_rhs | "string" utfref | "class" utfref | "enum" utfref utfref | element_value_array | "annotation" annotation_contents annotation_end
+primtag: "byte" | "char" | "double" | "int" | "float" | "long" | "short" | "boolean"
+element_value_array: "array" EOL element_value_line* ".end" "array"
+
+annotation_line: annotation EOL
+annotation: ".annotation" annotation_contents annotation_end
+annotation_contents: utfref key_ev_line*
+key_ev_line: utfref "=" element_value_line
+annotation_end: ".end" "annotation"
+
+parameter_annotation_line: parameter_annotation EOL
+parameter_annotation: ".paramannotation" EOL annotation_line* ".end" "paramannotation"
+
+type_annotation_line: type_annotation EOL
+type_annotation: ".typeannotation" u8 target_info EOL target_path EOL type_annotation_rest
+target_info: type_parameter_target | supertype_target | type_parameter_bound_target | empty_target | method_formal_parameter_target | throws_target | localvar_target | catch_target | offset_target | type_argument_target
+
+type_parameter_target: "typeparam" u8
+supertype_target: "super" u16
+type_parameter_bound_target: "typeparambound" u8 u8
+empty_target: "empty"
+method_formal_parameter_target: "methodparam" u8
+throws_target: "throws" u16
+
+localvar_target: "localvar" EOL localvarrange* ".end" "localvar"
+localvarrange: (code_range | "nowhere") u16 EOL
+
+catch_target: "catch" u16
+offset_target: "offset" label
+type_argument_target: "typearg" label u8
+
+target_path: ".typepath" EOL type_path_segment* ".end" "typepath"
+type_path_segment: u8 u8 EOL
+
+type_annotation_rest: annotation_contents ".end" "typeannotation"
