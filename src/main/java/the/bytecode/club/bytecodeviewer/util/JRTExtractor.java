@@ -14,46 +14,49 @@ package the.bytecode.club.bytecodeviewer.util;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import java.net.*;
-import java.nio.file.*;
-import java.util.*;
-import java.util.zip.*;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
-public class JRTExtractor
-{
-	public static void extractRT(String path) throws Throwable
-	{
-		FileSystem fs = FileSystems.getFileSystem(URI.create("jrt:/"));
+public class JRTExtractor {
+    public static void extractRT(String path) throws Throwable {
+        FileSystem fs = FileSystems.getFileSystem(URI.create("jrt:/"));
 
-		try(ZipOutputStream zipStream = new ZipOutputStream(Files.newOutputStream(Paths.get(path))))
-		{
-			Files.walk(fs.getPath("/")).forEach(p -> {
-				if (!Files.isRegularFile(p)) {return;}
+        try (ZipOutputStream zipStream = new ZipOutputStream(Files.newOutputStream(Paths.get(path)))) {
+            Files.walk(fs.getPath("/")).forEach(p -> {
+                if (!Files.isRegularFile(p)) {
+                    return;
+                }
 
-				try
-				{
-					byte[] data = Files.readAllBytes(p);
+                try {
+                    byte[] data = Files.readAllBytes(p);
 
-					List<String> list = new ArrayList<>();
-					p.iterator().forEachRemaining(p2 -> list.add(p2.toString()));
-					assert list.remove(0).equals("modules");
+                    List<String> list = new ArrayList<>();
+                    p.iterator().forEachRemaining(p2 -> list.add(p2.toString()));
+                    assert list.remove(0).equals("modules");
 
-					if (!list.get(list.size()-1).equals("module-info.class"))
-					{
-						list.remove(0);
-					}
+                    if (!list.get(list.size() - 1).equals("module-info.class")) {
+                        list.remove(0);
+                    }
 
-					list.remove(0);
-					String outPath = String.join("/", list);
+                    list.remove(0);
+                    String outPath = String.join("/", list);
 
-					if(!outPath.endsWith("module-info.class"))
-					{
-						ZipEntry ze = new ZipEntry(outPath);
-						zipStream.putNextEntry(ze);
-						zipStream.write(data);
-					}
-				} catch (Throwable t) {throw new RuntimeException(t);}
-			});
-		}
-	}
+                    if (!outPath.endsWith("module-info.class")) {
+                        ZipEntry ze = new ZipEntry(outPath);
+                        zipStream.putNextEntry(ze);
+                        zipStream.write(data);
+                    }
+                } catch (Throwable t) {
+                    throw new RuntimeException(t);
+                }
+            });
+        }
+    }
 }

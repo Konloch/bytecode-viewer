@@ -2,7 +2,6 @@ package jd.cli;
 
 import java.io.File;
 import java.io.PrintStream;
-
 import jd.cli.loader.DirectoryLoader;
 import jd.cli.preferences.CommonPreferences;
 import jd.cli.printer.text.PlainTextPrinter;

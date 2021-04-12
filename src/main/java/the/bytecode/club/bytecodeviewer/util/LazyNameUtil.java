@@ -18,22 +18,19 @@ package the.bytecode.club.bytecodeviewer.util;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+import java.util.HashMap;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.HashMap;
 
 /**
  * @author Konloch
  */
-public class LazyNameUtil
-{
+public class LazyNameUtil {
     public static boolean SAME_NAME_JAR_WORKSPACE = false;
 
     private static final HashMap<String, SeqAndCount> nameMap = new HashMap<>();
 
-    public static void reset()
-    {
+    public static void reset() {
         nameMap.clear();
     }
 

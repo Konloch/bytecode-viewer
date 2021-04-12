@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.obfuscators;
 
 import java.util.ArrayList;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -53,7 +52,7 @@ public abstract class JavaObfuscator extends Thread {
 
     public static int MAX_STRING_LENGTH = 25;
     public static int MIN_STRING_LENGTH = 5;
-    private ArrayList<String> names = new ArrayList<String>();
+    private final ArrayList<String> names = new ArrayList<String>();
 
     protected String generateUniqueName(int length) {
         boolean found = false;

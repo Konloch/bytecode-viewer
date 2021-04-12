@@ -1,7 +1,6 @@
 package jd.cli.loader;
 
 import java.io.File;
-
 import jd.core.loader.Loader;
 
 public abstract class BaseLoader implements Loader {

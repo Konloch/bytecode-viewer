@@ -35,7 +35,7 @@ import java.util.Random;
 public class MiscUtils {
     private static final String AB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String AN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    private static Random rnd = new Random();
+    private static final Random rnd = new Random();
 
     /**
      * Returns a random string without numbers
@@ -140,7 +140,7 @@ public class MiscUtils {
     /**
      * @author JoshTheWolfe
      */
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({"unchecked"})
     public static void updateEnv(String name, String val) throws ReflectiveOperationException {
         Map<String, String> env = System.getenv();
         Field field = env.getClass().getDeclaredField("m");

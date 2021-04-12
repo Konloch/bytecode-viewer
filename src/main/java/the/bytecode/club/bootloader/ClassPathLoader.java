@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-
 import the.bytecode.club.bootloader.resource.ExternalResource;
 
 /***************************************************************************
@@ -31,13 +30,14 @@ import the.bytecode.club.bootloader.resource.ExternalResource;
  */
 public class ClassPathLoader implements ILoader<Object> {
 
-    void extendClassPath(URL url) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
+    void extendClassPath(URL url) throws NoSuchMethodException, SecurityException, IllegalAccessException,
+            IllegalArgumentException,
             InvocationTargetException {
         URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
         Class<URLClassLoader> urlClass = URLClassLoader.class;
-        Method method = urlClass.getDeclaredMethod("addURL", new Class[]{URL.class});
+        Method method = urlClass.getDeclaredMethod("addURL", URL.class);
         method.setAccessible(true);
-        method.invoke(urlClassLoader, new Object[]{url});
+        method.invoke(urlClassLoader, url);
     }
 
     /*

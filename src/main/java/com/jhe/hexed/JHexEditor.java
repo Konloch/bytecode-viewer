@@ -1,8 +1,21 @@
 package com.jhe.hexed;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 
 /**
  * Created by IntelliJ IDEA. User: laullon Date: 08-abr-2003 Time: 13:21:09
@@ -15,8 +28,8 @@ public class JHexEditor extends JPanel implements FocusListener,
     protected static Font font = new Font("Monospaced", 0, 12);
     protected int border = 2;
     public boolean DEBUG = false;
-    private JPanel panel;
-    private JScrollBar sb;
+    private final JPanel panel;
+    private final JScrollBar sb;
     private int inicio = 0;
     private int lineas = 10;
 

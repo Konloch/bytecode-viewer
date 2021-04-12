@@ -6,11 +6,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bootloader.resource.ExternalResource;
 import the.bytecode.club.bootloader.resource.JarContents;
 import the.bytecode.club.bootloader.util.ClassTree;
@@ -36,8 +34,8 @@ import the.bytecode.club.bootloader.util.ClassTree;
 /**
  * @author Bibl (don't ban me pls)
  * @created 19 Jul 2015 02:48:41
- * <p>
- * TODO: Resource loading
+ *         <p>
+ *         TODO: Resource loading
  */
 @Deprecated
 public class LibraryClassLoader extends ClassLoader implements ILoader<JarContents<ClassNode>> {
@@ -53,7 +51,8 @@ public class LibraryClassLoader extends ClassLoader implements ILoader<JarConten
     }
 
     /* (non-Javadoc)
-     * @see the.bytecode.club.bytecodeviewer.loadermodel.ILoader#bind(the.bytecode.club.bytecodeviewer.loadermodel.ExternalResource)
+     * @see the.bytecode.club.bytecodeviewer.loadermodel.ILoader#bind(the.bytecode.club.bytecodeviewer.loadermodel
+     * .ExternalResource)
      */
     @Override
     public void bind(ExternalResource<JarContents<ClassNode>> resource) {

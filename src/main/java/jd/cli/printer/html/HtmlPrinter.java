@@ -1,7 +1,6 @@
 package jd.cli.printer.html;
 
 import java.io.PrintStream;
-
 import jd.cli.util.VersionUtil;
 import jd.core.CoreConstants;
 import jd.core.printer.Printer;
@@ -32,9 +31,9 @@ import jd.core.printer.Printer;
 public class HtmlPrinter implements Printer {
     private final static boolean DEBUG = true;
 
-    private PrintStream printStream;
-    private StringBuffer sbLineNumber;
-    private StringBuffer sbCode;
+    private final PrintStream printStream;
+    private final StringBuffer sbLineNumber;
+    private final StringBuffer sbCode;
     private int maxLineNumber;
     private int majorVersion;
     private int minorVersion;
@@ -57,20 +56,20 @@ public class HtmlPrinter implements Printer {
 
     public void print(char c) {
         switch (c) {
-            case '<':
-                this.sbCode.append("&lt;");
-                break;
-            case '>':
-                this.sbCode.append("&gt;");
-                break;
-            default:
-                this.sbCode.append(String.valueOf(c));
-                break;
+        case '<':
+            this.sbCode.append("&lt;");
+            break;
+        case '>':
+            this.sbCode.append("&gt;");
+            break;
+        default:
+            this.sbCode.append(c);
+            break;
         }
     }
 
     public void print(int i) {
-        this.sbCode.append(String.valueOf(i));
+        this.sbCode.append(i);
     }
 
     public void print(String s) {
@@ -228,9 +227,11 @@ public class HtmlPrinter implements Printer {
                         "body,html{font-family:Lucida Grande,Lucida Sans Unicode,Arial,sans-serif;font-size:90%}" +
 
                         "#demo .out{background-color:#FFFFFF}" +
-                        "#demo .out .content{padding:0px;font-size:12px;font-family:courier new,courier;white-space:pre;border-radius:0 0 10px 10px}" +
+                        "#demo .out .content{padding:0px;font-size:12px;font-family:courier new,courier;"
+                        + "white-space:pre;border-radius:0 0 10px 10px}" +
                         "#demo .out .content .e{color:#FF0000;margin:10px}" +
-                        "#linenumber{float:left;margin:0;padding:1px 8px 5px 1px;border-style:solid;border-color:#888888;border-width:0 1px 0 0;color:#888888}" +
+                        "#linenumber{float:left;margin:0;padding:1px 8px 5px 1px;border-style:solid;"
+                        + "border-color:#888888;border-width:0 1px 0 0;color:#888888}" +
                         "#linenumber s{text-decoration:none}" +
                         "#linenumber span{color:#FF0000;font-style:normal}" +
                         "#javacode{padding:0 0 5px 0;margin:1px 5px 1px 5px;color:black}" +
@@ -248,13 +249,19 @@ public class HtmlPrinter implements Printer {
                         "#javacode em{color:#0000c0;font-style:italic;line-height:1}" +
                         "#javacode samp{font-style:italic;line-height:1}" +
                         "#javacode .debuglayoutblock{color:#000000;background-color:#ccffff;border:1px solid #99eeee}" +
-                        "#javacode .debugseparatorlayoutblock{color:#000000;background-color:#ccffcc;border:1px solid #99ee99}" +
-                        "#javacode .debugstatementblocklayoutblock{color:#000000;background-color:#ffcccc;border:1px solid #ee9999}" +
-                        "#javacode .debugenumblocklayoutblock{color:#000000;background-color:#ffffcc;border:1px solid #eeee99}" +
-                        "#javacode .debugcommentdeprecatedlayoutblock{color:#000000;background-color:#fefefe;border:1px solid #e9e9e9}" +
+                        "#javacode .debugseparatorlayoutblock{color:#000000;background-color:#ccffcc;border:1px solid"
+                        + " #99ee99}" +
+                        "#javacode .debugstatementblocklayoutblock{color:#000000;background-color:#ffcccc;border:1px "
+                        + "solid #ee9999}" +
+                        "#javacode .debugenumblocklayoutblock{color:#000000;background-color:#ffffcc;border:1px solid"
+                        + " #eeee99}" +
+                        "#javacode .debugcommentdeprecatedlayoutblock{color:#000000;background-color:#fefefe;"
+                        + "border:1px solid #e9e9e9}" +
                         "#javacode .debugmarker{color:#000000;background-color:#ffd2ff;border:1px solid #cfb2cf}" +
-                        "#javacode .debugcaseblocklayoutblock{color:#000000;background-color:#ffde66;border:1px solid #ff9a11}" +
-                        "#metadata{padding:5px;color:#444444;background-color:#EEEEEE;border-radius:0 0 10px 10px;font-size:11px}" +
+                        "#javacode .debugcaseblocklayoutblock{color:#000000;background-color:#ffde66;border:1px solid"
+                        + " #ff9a11}" +
+                        "#metadata{padding:5px;color:#444444;background-color:#EEEEEE;border-radius:0 0 10px 10px;"
+                        + "font-size:11px}" +
 
                         "</style>" +
                         "</head><body>" +
@@ -274,7 +281,8 @@ public class HtmlPrinter implements Printer {
         this.printStream.print("</div>");
 
         this.printStream.print("<div id='metadata'>");
-        this.printStream.print("Java Class Version: " + VersionUtil.getJDKVersion(this.majorVersion, this.minorVersion) + "<br>");
+        this.printStream.print("Java Class Version: " + VersionUtil.getJDKVersion(this.majorVersion,
+                this.minorVersion) + "<br>");
         this.printStream.print("JD-CL Version:      " + "0.1.0" + "<br>");
         this.printStream.print("JD-Core Version:    " + CoreConstants.JD_CORE_VERSION);
         this.printStream.print("</div>");

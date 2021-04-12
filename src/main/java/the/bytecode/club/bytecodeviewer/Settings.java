@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer;
 
 import javax.swing.JFrame;
-
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 
@@ -34,86 +33,165 @@ public class Settings {
     public static void saveSettings() {
         try {
             DiskWriter.replaceFile(BytecodeViewer.settingsName, "BCV: " + BytecodeViewer.VERSION, false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.rbr.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.rsy.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.din.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.dc4.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.das.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.hes.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.hdc.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.dgs.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.ner.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.den.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.rgn.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.bto.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.nns.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.uto.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.udv.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.rer.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.fdi.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.asc.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.decodeenumswitch.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.sugarenums.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.decodestringswitch.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.arrayiter.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.collectioniter.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.innerclasses.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.removeboilerplate.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.removeinnerclasssynthetics.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.decodelambdas.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.hidebridgemethods.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.liftconstructorinit.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.removedeadmethods.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.removebadgenerics.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.sugarasserts.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.sugarboxing.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.showversion.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.decodefinally.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.tidymonitors.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.lenient.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.dumpclasspath.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.comments.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.forcetopsort.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.forcetopsortaggress.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.stringbuffer.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.stringbuilder.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.silent.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.recover.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.eclipse.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.override.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.showinferrable.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.aexagg.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.forcecondpropagate.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.hideutf.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.hidelongstrings.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.commentmonitor.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.allowcorrecting.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.labelledblocks.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.j14classobj.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.hidelangimports.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.recoverytypeclash.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.recoverytypehints.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.forceturningifs.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.forloopaggcapture.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.forceexceptionprune.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmShowDebugLine.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmSimplifyMemberReferences.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.mnMergeVariables.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_1.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_2.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_3.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_4.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_5.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_6.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_7.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_8.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_9.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_10.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_11.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmAppendBrackets.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.debugHelpers.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.rbr.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.rsy.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.din.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.dc4.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.das.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.hes.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.hdc.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.dgs.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.ner.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.den.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.rgn.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.bto.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.nns.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.uto.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.udv.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.rer.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.fdi.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.asc.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.decodeenumswitch.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.sugarenums.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.decodestringswitch.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.arrayiter.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.collectioniter.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.innerclasses.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.removeboilerplate.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.removeinnerclasssynthetics.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.decodelambdas.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.hidebridgemethods.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.liftconstructorinit.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.removedeadmethods.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.removebadgenerics.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.sugarasserts.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.sugarboxing.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.showversion.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.decodefinally.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.tidymonitors.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.lenient.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.dumpclasspath.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.comments.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.forcetopsort.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.forcetopsortaggress.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.stringbuffer.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.stringbuilder.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.silent.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.recover.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.eclipse.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.override.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.showinferrable.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.aexagg.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.forcecondpropagate.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.hideutf.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.hidelongstrings.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.commentmonitor.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.allowcorrecting.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.labelledblocks.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.j14classobj.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.hidelangimports.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.recoverytypeclash.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.recoverytypehints.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.forceturningifs.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.forloopaggcapture.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.forceexceptionprune.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmShowDebugLine.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmSimplifyMemberReferences.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.mnMergeVariables.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_1.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_2.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_3.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_4.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_5.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_6.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_7.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_8.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_9.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_10.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_11.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmAppendBrackets.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.debugHelpers.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, "deprecated", false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_12.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.chckbxmntmNewCheckItem_12.isSelected()), false);
             if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1None.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
             else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Proc.getModel()))
@@ -189,36 +267,59 @@ public class Settings {
             else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.asmText3.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "11", false);
 
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.refreshOnChange.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.isMaximized), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.refreshOnChange.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.isMaximized),
+                    false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, "deprecated", false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, "deprecated", false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.lastDirectory, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.python, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.rt, false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel1Proc_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel1CFR_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel1Fern_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel1Krakatau_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel1Smali_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel2Proc_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel2CFR_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel2Fern_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel2Krakatau_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel2Smali_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel3Proc_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel3CFR_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel3Fern_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel3Krakatau_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel3Smali_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.decodeAPKResources.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel1Proc_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel1CFR_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel1Fern_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel1Krakatau_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel1Smali_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel2Proc_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel2CFR_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel2Fern_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel2Krakatau_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel2Smali_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel3Proc_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel3CFR_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel3Fern_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel3Krakatau_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel3Smali_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.decodeAPKResources.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.library, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.pingback), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel1JDGUI_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel2JDGUI_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel3JDGUI_E.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.fontSpinner.getValue()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.deleteForeignLibraries), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel1JDGUI_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel2JDGUI_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.panel3JDGUI_E.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.fontSpinner.getValue()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.deleteForeignLibraries), false);
             if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
             else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
@@ -226,14 +327,21 @@ public class Settings {
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.python3, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.javac, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.java, false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.compileOnSave.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.compileOnSave.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.warnForEditing), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.showFileInTabTitle.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.forcePureAsciiAsText.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.synchronizedViewing.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.showClassMethods.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.ren.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.showFileInTabTitle.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.forcePureAsciiAsText.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.synchronizedViewing.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.showClassMethods.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName,
+                    String.valueOf(BytecodeViewer.viewer.ren.isSelected()), false);
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
@@ -339,7 +447,8 @@ public class Settings {
             else if (decompiler == 7)
                 BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1Krakatau.getModel(), true);
             else if (decompiler == 8)
-                BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel(), true);
+                BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel()
+                        , true);
             else if (decompiler == 9)
                 BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1JDGUI.getModel(), true);
             else if (decompiler == 10)
@@ -365,7 +474,8 @@ public class Settings {
             else if (decompiler == 7)
                 BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2Krakatau.getModel(), true);
             else if (decompiler == 8)
-                BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel(), true);
+                BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel()
+                        , true);
             else if (decompiler == 9)
                 BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2JDGUI.getModel(), true);
             else if (decompiler == 10)
@@ -391,7 +501,8 @@ public class Settings {
             else if (decompiler == 7)
                 BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3Krakatau.getModel(), true);
             else if (decompiler == 8)
-                BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel(), true);
+                BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel()
+                        , true);
             else if (decompiler == 9)
                 BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3JDGUI.getModel(), true);
             else if (decompiler == 10)
@@ -428,12 +539,14 @@ public class Settings {
             BytecodeViewer.viewer.panel3Smali_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 105, false)));
             BytecodeViewer.viewer.decodeAPKResources.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 106, false)));
             BytecodeViewer.library = DiskReader.loadString(BytecodeViewer.settingsName, 107, false);
-            BytecodeViewer.pingback = Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 108, false));
+            BytecodeViewer.pingback = Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 108,
+                    false));
             BytecodeViewer.viewer.panel1JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 109, false)));
             BytecodeViewer.viewer.panel2JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 110, false)));
             BytecodeViewer.viewer.panel3JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 111, false)));
             BytecodeViewer.viewer.fontSpinner.setValue(Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 112, false)));
-            BytecodeViewer.deleteForeignLibraries = Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 113, false));
+            BytecodeViewer.deleteForeignLibraries =
+                    Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 113, false));
             decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 114, false));
             if (decompiler == 0)
                 BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionDex.getModel(), true);
@@ -444,7 +557,8 @@ public class Settings {
             BytecodeViewer.java = DiskReader.loadString(BytecodeViewer.settingsName, 117, false);
             BytecodeViewer.viewer.compileOnSave.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 118, false)));
             BytecodeViewer.viewer.autoCompileOnRefresh.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 119, false)));
-            BytecodeViewer.warnForEditing = Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 120, false));
+            BytecodeViewer.warnForEditing = Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName,
+                    120, false));
             BytecodeViewer.viewer.showFileInTabTitle.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 121, false)));
             BytecodeViewer.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
             BytecodeViewer.viewer.forcePureAsciiAsText.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 122, false)));

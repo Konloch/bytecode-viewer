@@ -2,7 +2,6 @@ package the.bytecode.club.bytecodeviewer.obfuscators.rename;
 
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.obfuscators.JavaObfuscator;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.FieldMappingData;
@@ -45,7 +44,8 @@ public class RenameFields extends JavaObfuscator {
 
                 String newName = generateUniqueName(stringLength);
 
-                BytecodeViewer.refactorer.getHooks().addField(new FieldMappingData(c.name, new MappingData(f.name, newName), f.desc));
+                BytecodeViewer.refactorer.getHooks().addField(new FieldMappingData(c.name, new MappingData(f.name,
+                        newName), f.desc));
 				
 				/*ASMUtil_OLD.renameFieldNode(c.name, f.name, f.desc, null, newName, null);
 				f.name = newName;*/

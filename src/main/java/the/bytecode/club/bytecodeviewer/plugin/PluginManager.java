@@ -4,17 +4,15 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import javax.swing.filechooser.FileFilter;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.strategies.CompiledJavaPluginLaunchStrategy;
 import the.bytecode.club.bytecodeviewer.plugin.strategies.GroovyPluginLaunchStrategy;
 import the.bytecode.club.bytecodeviewer.plugin.strategies.JavaPluginLaunchStrategy;
 import the.bytecode.club.bytecodeviewer.plugin.strategies.PythonPluginLaunchStrategy;
 import the.bytecode.club.bytecodeviewer.plugin.strategies.RubyPluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -45,7 +43,8 @@ import the.bytecode.club.bytecodeviewer.plugin.strategies.RubyPluginLaunchStrate
  */
 public final class PluginManager {
 
-    private static final Map<String, PluginLaunchStrategy> launchStrategies = new HashMap<String, PluginLaunchStrategy>();
+    private static final Map<String, PluginLaunchStrategy> launchStrategies = new HashMap<String,
+            PluginLaunchStrategy>();
     private static final PluginFileFilter filter = new PluginFileFilter();
     private static Plugin pluginInstance;
 
@@ -76,7 +75,8 @@ public final class PluginManager {
             pluginInstance = newPluginInstance;
             pluginInstance.start(); // start the thread
         } else if (!pluginInstance.isFinished()) {
-            BytecodeViewer.showMessage("There is currently another plugin running right now, please wait for that to finish executing.");
+            BytecodeViewer.showMessage("There is currently another plugin running right now, please wait for that to "
+                    + "finish executing.");
         }
     }
 
@@ -91,7 +91,8 @@ public final class PluginManager {
         PluginLaunchStrategy strategy = launchStrategies.get(ext);
 
         if (strategy == null) {
-            throw new RuntimeException(String.format("No launch strategy for extension %s (%s)", ext, f.getAbsolutePath()));
+            throw new RuntimeException(String.format("No launch strategy for extension %s (%s)", ext,
+                    f.getAbsolutePath()));
         }
 
         Plugin p = strategy.run(f);

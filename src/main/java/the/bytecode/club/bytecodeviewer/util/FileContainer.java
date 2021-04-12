@@ -3,7 +3,6 @@ package the.bytecode.club.bytecodeviewer.util;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import org.objectweb.asm.tree.ClassNode;
 
 /***************************************************************************

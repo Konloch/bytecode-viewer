@@ -1,11 +1,10 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import javax.swing.JFrame;
-import java.awt.Dimension;
-import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+import javax.swing.JTabbedPane;
 import the.bytecode.club.bytecodeviewer.Resources;
 
 /***************************************************************************

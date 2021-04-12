@@ -1,20 +1,16 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
 import java.awt.Dimension;
-
-import javax.swing.JFrame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ReplaceStrings;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JCheckBox;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -84,7 +80,8 @@ public class ReplaceStringsOptions extends JFrame {
         final JCheckBox chckbxNewCheckBox = new JCheckBox(
                 "Replace All Contains");
         chckbxNewCheckBox
-                .setToolTipText("If it's unticked, it will check if the string equals, if its ticked it will check if it contains, then replace the original LDC part of the string.");
+                .setToolTipText("If it's unticked, it will check if the string equals, if its ticked it will check if"
+                        + " it contains, then replace the original LDC part of the string.");
         chckbxNewCheckBox.setBounds(6, 7, 232, 23);
         getContentPane().add(chckbxNewCheckBox);
         btnNewButton.addActionListener(new ActionListener() {
@@ -99,7 +96,7 @@ public class ReplaceStringsOptions extends JFrame {
     }
 
     private static final long serialVersionUID = -2662514582647810868L;
-    private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_2;
+    private final JTextField textField;
+    private final JTextField textField_1;
+    private final JTextField textField_2;
 }

@@ -19,7 +19,7 @@ public class DiskWriter {
      * @param fileName   The file name
      * @param difference Normally an integer
      * @return The filename with the difference inserted and the file extension
-     * preserved
+     *         preserved
      */
     public static String insertFileName(String fileName, String difference) {
         String[] babe = fileName.split("\\.");

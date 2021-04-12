@@ -3,11 +3,9 @@ package the.bytecode.club.bytecodeviewer.searching;
 import java.awt.GridLayout;
 import java.util.Iterator;
 import java.util.ListIterator;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
@@ -47,8 +45,7 @@ public class LDCSearch implements SearchTypeDetails {
     JTextField searchText = null;
     JPanel myPanel = null;
 
-    public LDCSearch()
-    {
+    public LDCSearch() {
         searchText = new JTextField("");
         searchText.addKeyListener(EnterKeyEvent.SINGLETON);
     }
@@ -65,8 +62,8 @@ public class LDCSearch implements SearchTypeDetails {
     }
 
     @Override
-    public void search(final FileContainer container, final ClassNode node, final SearchResultNotifier srn, boolean exact)
-    {
+    public void search(final FileContainer container, final ClassNode node, final SearchResultNotifier srn,
+                       boolean exact) {
         final Iterator<MethodNode> methods = node.methods.iterator();
         final String srchText = searchText.getText();
         if (srchText.isEmpty())
@@ -91,9 +88,8 @@ public class LDCSearch implements SearchTypeDetails {
 
                     }
 
-                    if ((exact && ldcString.equals(srchText)) || (!exact && ldcString.contains(srchText)))
-                    {
-                        srn.notifyOfResult(container.name+">"+node.name + "." + method.name
+                    if ((exact && ldcString.equals(srchText)) || (!exact && ldcString.contains(srchText))) {
+                        srn.notifyOfResult(container.name + ">" + node.name + "." + method.name
                                 + desc2
                                 + " -> \"" + ldcString + "\" > "
                                 + ldcObject.cst.getClass().getCanonicalName());
@@ -113,7 +109,7 @@ public class LDCSearch implements SearchTypeDetails {
 
             }
             if (field.value instanceof String) {
-                srn.notifyOfResult(container.name+">"+node.name + "." + field.name + desc2
+                srn.notifyOfResult(container.name + ">" + node.name + "." + field.name + desc2
                         + " -> \"" + field.value + "\" > field");
             }
         }

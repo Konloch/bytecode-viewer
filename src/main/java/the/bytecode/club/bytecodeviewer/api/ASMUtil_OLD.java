@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.api;
 
 import java.util.List;
-
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -11,7 +10,6 @@ import org.objectweb.asm.tree.LocalVariableNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 /***************************************************************************
@@ -146,7 +144,7 @@ public final class ASMUtil_OLD {
                 MethodNode m = (MethodNode) o;
 
                 if (m.localVariables != null) {
-                    for (LocalVariableNode node : (List<LocalVariableNode>) m.localVariables) {
+                    for (LocalVariableNode node : m.localVariables) {
                         node.desc = node.desc.replace(oldName, newName);
                     }
                 }

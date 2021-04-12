@@ -26,5 +26,5 @@ package the.bytecode.club.bytecodeviewer.searching;
  */
 
 public interface SearchResultNotifier {
-    public void notifyOfResult(String debug);
+    void notifyOfResult(String debug);
 }

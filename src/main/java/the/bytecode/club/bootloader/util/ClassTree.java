@@ -1,17 +1,16 @@
 package the.bytecode.club.bootloader.util;
 
-import static the.bytecode.club.bootloader.util.ClassHelper.convertToMap;
-import static the.bytecode.club.bootloader.util.ClassHelper.copyOf;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
+
+import static the.bytecode.club.bootloader.util.ClassHelper.convertToMap;
+import static the.bytecode.club.bootloader.util.ClassHelper.copyOf;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -133,7 +132,8 @@ public class ClassTree {
         classes.put(node.name, node);
     }
 
-    private void buildSubTree(Map<String, ClassNode> classes, Collection<ClassNode> superinterfaces, ClassNode current) {
+    private void buildSubTree(Map<String, ClassNode> classes, Collection<ClassNode> superinterfaces,
+                              ClassNode current) {
         superinterfaces.add(current);
         for (String iface : current.interfaces) {
             ClassNode cs = classes.get(iface);

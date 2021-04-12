@@ -8,12 +8,10 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
 import org.objectweb.asm.tree.ClassNode;
-
-import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -82,7 +80,7 @@ public class BytecodeViewer {
             List<Class<?>> ret = new ArrayList<Class<?>>();
 
             while (e.hasMoreElements()) {
-                JarEntry je = (JarEntry) e.nextElement();
+                JarEntry je = e.nextElement();
                 if (je.isDirectory() || !je.getName().endsWith(".class"))
                     continue;
                 String className = je.getName().replace("/", ".").replace(".class", "");

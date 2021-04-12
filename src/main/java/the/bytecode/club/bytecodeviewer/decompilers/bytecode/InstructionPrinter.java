@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
 
+import eu.bibl.banalysis.asm.desc.OpcodeInfo;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -10,14 +11,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.*;
-
-import org.objectweb.asm.tree.analysis.Frame;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.FrameNode;
+import org.objectweb.asm.tree.IincInsnNode;
+import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.IntInsnNode;
+import org.objectweb.asm.tree.InvokeDynamicInsnNode;
+import org.objectweb.asm.tree.JumpInsnNode;
+import org.objectweb.asm.tree.LabelNode;
+import org.objectweb.asm.tree.LdcInsnNode;
+import org.objectweb.asm.tree.LineNumberNode;
+import org.objectweb.asm.tree.LookupSwitchInsnNode;
+import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.MultiANewArrayInsnNode;
+import org.objectweb.asm.tree.TableSwitchInsnNode;
+import org.objectweb.asm.tree.TypeInsnNode;
+import org.objectweb.asm.tree.VarInsnNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import eu.bibl.banalysis.asm.desc.OpcodeInfo;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -46,8 +60,8 @@ public class InstructionPrinter {
     /**
      * The MethodNode to print
      **/
-    private MethodNode mNode;
-    private TypeAndName[] args;
+    private final MethodNode mNode;
+    private final TypeAndName[] args;
 
     protected int[] pattern;
     protected boolean match;
@@ -138,7 +152,7 @@ public class InstructionPrinter {
                 line = printMultiANewArrayInsNode((MultiANewArrayInsnNode) ain);
             } else {
                 line += "UNADDED OPCODE: " + nameOpcode(ain.getOpcode()) + " "
-                        + ain.toString();
+                        + ain;
             }
             if (!line.equals("")) {
                 if (match)
@@ -255,32 +269,27 @@ public class InstructionPrinter {
         }
     }
 
-    protected String printIincInsnNode(IincInsnNode iin)
-    {
+    protected String printIincInsnNode(IincInsnNode iin) {
         return nameOpcode(iin.getOpcode()) + " " + iin.var + " " + iin.incr;
     }
 
-    protected String printTableSwitchInsnNode(TableSwitchInsnNode tin)
-    {
+    protected String printTableSwitchInsnNode(TableSwitchInsnNode tin) {
         String line = nameOpcode(tin.getOpcode()) + " \n";
         List<?> labels = tin.labels;
         int count = 0;
-        for (int i = tin.min; i < tin.max + 1; i++)
-        {
+        for (int i = tin.min; i < tin.max + 1; i++) {
             line += "                val: " + i + " -> " + "L" + resolveLabel((LabelNode) labels.get(count++)) + "\n";
         }
         line += "                default" + " -> L" + resolveLabel(tin.dflt) + "";
         return line;
     }
 
-    protected String printLookupSwitchInsnNode(LookupSwitchInsnNode lin)
-    {
+    protected String printLookupSwitchInsnNode(LookupSwitchInsnNode lin) {
         String line = nameOpcode(lin.getOpcode()) + ": \n";
         List<?> keys = lin.keys;
         List<?> labels = lin.labels;
 
-        for (int i = 0; i < keys.size(); i++)
-        {
+        for (int i = 0; i < keys.size(); i++) {
             int key = (Integer) keys.get(i);
             LabelNode label = (LabelNode) labels.get(i);
             line += "                val: " + key + " -> " + "L" + resolveLabel(label) + "\n";
@@ -293,7 +302,7 @@ public class InstructionPrinter {
     protected String printInvokeDynamicInsNode(InvokeDynamicInsnNode idin) {
         StringBuilder sb = new StringBuilder();
         sb.append(nameOpcode(idin.getOpcode()) + " " + idin.bsm.getOwner() + '.' + idin.bsm.getName() + idin.bsm.getDesc()
-        + " : " + idin.name + idin.desc);
+                + " : " + idin.name + idin.desc);
 
         if (idin.bsmArgs != null) {
             for (Object o : idin.bsmArgs) {
@@ -305,10 +314,9 @@ public class InstructionPrinter {
         return sb.toString();
     }
 
-    protected String printMultiANewArrayInsNode(MultiANewArrayInsnNode mana)
-    {
+    protected String printMultiANewArrayInsNode(MultiANewArrayInsnNode mana) {
         StringBuilder sb = new StringBuilder();
-        sb.append(nameOpcode(mana.getOpcode()) + " " + mana.dims + " : "  + mana.desc);
+        sb.append(nameOpcode(mana.getOpcode()) + " " + mana.dims + " : " + mana.desc);
 
         return sb.toString();
     }

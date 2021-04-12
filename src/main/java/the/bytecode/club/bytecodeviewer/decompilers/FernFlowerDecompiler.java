@@ -5,15 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import me.konloch.kontainer.io.DiskReader;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -49,16 +46,14 @@ public class FernFlowerDecompiler extends Decompiler {
         File f = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + BytecodeViewer.fs);
         f.mkdir();
 
-        try
-        {
+        try {
             org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempZip.getAbsolutePath(), BytecodeViewer.tempDirectory + "./temp/"));
-        }
-        catch(StackOverflowError | Exception e)
-        {
+        } catch (StackOverflowError | Exception e) {
 
         }
 
-        File tempZip2 = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + BytecodeViewer.fs + tempZip.getName());
+        File tempZip2 =
+                new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + BytecodeViewer.fs + tempZip.getName());
         if (tempZip2.exists())
             tempZip2.renameTo(new File(zipName));
 
@@ -67,7 +62,7 @@ public class FernFlowerDecompiler extends Decompiler {
 
     @Override
     public String decompileClassNode(final ClassNode cn, byte[] b) {
-        String start = BytecodeViewer.tempDirectory + BytecodeViewer.fs+MiscUtils.getUniqueName("", ".class");
+        String start = BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.getUniqueName("", ".class");
 
         final File tempClass = new File(start + ".class");
 
@@ -83,7 +78,8 @@ public class FernFlowerDecompiler extends Decompiler {
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            exception =
+                    "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         }
 
 
@@ -91,7 +87,8 @@ public class FernFlowerDecompiler extends Decompiler {
             try {
                 ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
                         new String[]{BytecodeViewer.getJavaCommand(), "-jar", Resources.findLibrary("fernflower")},
-                        generateMainMethod(tempClass.getAbsolutePath(), new File(BytecodeViewer.tempDirectory).getAbsolutePath())
+                        generateMainMethod(tempClass.getAbsolutePath(),
+                                new File(BytecodeViewer.tempDirectory).getAbsolutePath())
                 ));
                 BytecodeViewer.sm.stopBlocking();
                 Process p = pb.start();
@@ -102,21 +99,17 @@ public class FernFlowerDecompiler extends Decompiler {
             } finally {
                 BytecodeViewer.sm.setBlocking();
             }
-        }
-        else
-        {
-            try
-            {
+        } else {
+            try {
                 org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClass.getAbsolutePath(),
                         new File(BytecodeViewer.tempDirectory).getAbsolutePath()));
-            }
-            catch(StackOverflowError | Exception e)
-            {
+            } catch (StackOverflowError | Exception e) {
                 StringWriter sw = new StringWriter();
                 e.printStackTrace(new PrintWriter(sw));
                 e.printStackTrace();
 
-                exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+                exception =
+                        "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
             }
         }
 
@@ -136,7 +129,7 @@ public class FernFlowerDecompiler extends Decompiler {
                 e.printStackTrace(new PrintWriter(sw));
                 e.printStackTrace();
 
-                exception += BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+                exception += BytecodeViewer.nl + BytecodeViewer.nl + sw;
             }
         }
         return "FernFlower error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;

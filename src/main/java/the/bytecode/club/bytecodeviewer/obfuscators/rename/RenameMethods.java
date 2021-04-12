@@ -3,7 +3,6 @@ package the.bytecode.club.bytecodeviewer.obfuscators.rename;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.obfuscators.JavaObfuscator;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
@@ -68,7 +67,8 @@ public class RenameMethods extends JavaObfuscator {
                             && !m.name.equals("<clinit>")) {
                         String newName = generateUniqueName(stringLength);
 
-                        BytecodeViewer.refactorer.getHooks().addMethod(new MethodMappingData(c.name, new MappingData(m.name, newName), m.desc));
+                        BytecodeViewer.refactorer.getHooks().addMethod(new MethodMappingData(c.name,
+                                new MappingData(m.name, newName), m.desc));
 						
 						/*ASMUtil_OLD.renameMethodNode(c.name, m.name, m.desc,
 								null, newName, null);*/

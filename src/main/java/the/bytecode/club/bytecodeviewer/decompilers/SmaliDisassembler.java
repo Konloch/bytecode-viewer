@@ -1,17 +1,17 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
-import java.io.*;
-
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import me.konloch.kontainer.io.DiskReader;
-
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -63,32 +63,26 @@ public class SmaliDisassembler extends Decompiler {
 
         Dex2Jar.saveAsDex(tempClass, tempDex, true);
 
-        try
-        {
+        try {
             com.googlecode.d2j.smali.BaksmaliCmd.main(new String[]{tempDex.getAbsolutePath()});
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception += "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            exception += "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         }
 
         File rename = new File(tempDex.getName().replaceFirst("\\.dex", "-out"));
 
-        try
-        {
+        try {
             FileUtils.moveDirectory(rename, tempSmali);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception += "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            exception += "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         }
 
         File outputSmali = null;
@@ -112,15 +106,16 @@ public class SmaliDisassembler extends Decompiler {
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception += "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            exception += "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         }
 
-        return "Smali Disassembler error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+        return "Smali Disassembler error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail"
+                + ".com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails "
+                + "again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
     }
 
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b)
-    {
+    public String decompileClassNode(ClassNode cn, byte[] b) {
         return null;
     }
 

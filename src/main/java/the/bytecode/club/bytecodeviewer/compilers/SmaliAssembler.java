@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.compilers;
 
 import java.io.File;
-
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
@@ -55,7 +54,8 @@ public class SmaliAssembler extends Compiler {
         }
 
         try {
-            com.googlecode.d2j.smali.SmaliCmd.main(new String[]{tempSmaliFolder.getAbsolutePath()});//, "-o", tempDex.getAbsolutePath()});
+            com.googlecode.d2j.smali.SmaliCmd.main(new String[]{tempSmaliFolder.getAbsolutePath()});//, "-o", tempDex
+            // .getAbsolutePath()});
         } catch (Exception e) {
             e.printStackTrace();
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);

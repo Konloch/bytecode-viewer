@@ -1,6 +1,10 @@
 package the.bytecode.club.bytecodeviewer.util;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -33,7 +37,7 @@ public final class ZipUtils {
     /**
      * Unzip files to path.
      *
-     * @param jarPath     the zip file name
+     * @param jarPath        the zip file name
      * @param destinationDir the file extract path
      * @throws IOException Signals that an I/O exception has occurred.
      */
@@ -57,14 +61,13 @@ public final class ZipUtils {
 
         //now create all files
         for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements(); ) {
-            JarEntry entry = (JarEntry) enums.nextElement();
+            JarEntry entry = enums.nextElement();
 
             String fileName = destinationDir + File.separator + entry.getName();
             File f = new File(fileName);
 
             File parent = f.getParentFile();
-            if(!parent.exists())
-            {
+            if (!parent.exists()) {
                 parent.mkdirs();
             }
 
@@ -160,20 +163,21 @@ public final class ZipUtils {
         }
     }
 
-    public static void addFileToZipAPKTool(String path, String srcFile, ZipOutputStream zip) throws Exception
-    {
+    public static void addFileToZipAPKTool(String path, String srcFile, ZipOutputStream zip) throws Exception {
         File folder = new File(srcFile);
 
         String check = path.toLowerCase();
-        //if(check.startsWith("decoded unknown") || check.startsWith("decoded lib") || check.startsWith("decoded assets") || check.startsWith("decoded original") || check.startsWith("decoded smali") || check.startsWith("decoded apktool.yml"))
-        if(check.startsWith("decoded original") || check.startsWith("decoded smali") || check.startsWith("decoded apktool.yml"))
+        //if(check.startsWith("decoded unknown") || check.startsWith("decoded lib") || check.startsWith("decoded
+        // assets") || check.startsWith("decoded original") || check.startsWith("decoded smali") || check.startsWith
+        // ("decoded apktool.yml"))
+        if (check.startsWith("decoded original") || check.startsWith("decoded smali") || check.startsWith("decoded "
+                + "apktool.yml"))
             return;
 
         //if(path.equals("original") || path.equals("classes.dex") || path.equals("apktool.yml"))
         //    continue;
 
-        if (folder.isDirectory())
-        {
+        if (folder.isDirectory()) {
             addFolderToZipAPKTool(path, srcFile, zip);
         } else {
             byte[] buf = new byte[1024];
@@ -184,8 +188,7 @@ public final class ZipUtils {
             entry = new ZipEntry(path + "/" + folder.getName());
             zip.putNextEntry(entry);
 
-            while ((len = in.read(buf)) > 0)
-            {
+            while ((len = in.read(buf)) > 0) {
                 zip.write(buf, 0, len);
             }
             in.close();
@@ -205,14 +208,11 @@ public final class ZipUtils {
         }
     }
 
-    public static void addFolderToZipAPKTool(String path, String srcFolder, ZipOutputStream zip) throws Exception
-    {
+    public static void addFolderToZipAPKTool(String path, String srcFolder, ZipOutputStream zip) throws Exception {
         File folder = new File(srcFolder);
 
-        for (String fileName : folder.list())
-        {
-            if (path.equals(""))
-            {
+        for (String fileName : folder.list()) {
+            if (path.equals("")) {
                 addFileToZipAPKTool(folder.getName(), srcFolder + "/" + fileName, zip);
             } else {
                 addFileToZipAPKTool(path + "/" + folder.getName(), srcFolder + "/" + fileName, zip);

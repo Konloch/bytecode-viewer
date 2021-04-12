@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
+import com.jhe.hexed.JHexEditor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -13,7 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
-
+import java.nio.charset.StandardCharsets;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,17 +26,13 @@ import javax.swing.JTextField;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
-
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.imgscalr.Scalr;
-
-import com.jhe.hexed.JHexEditor;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -66,7 +63,7 @@ public class FileViewer extends Viewer {
     private static final long serialVersionUID = 6103372882168257164L;
 
     String name;
-    private byte[] contents;
+    private final byte[] contents;
     RSyntaxTextArea panelArea = new RSyntaxTextArea();
     JPanel panel = new JPanel(new BorderLayout());
     JPanel panel2 = new JPanel(new BorderLayout());
@@ -114,9 +111,11 @@ public class FileViewer extends Viewer {
                         public void mouseWheelMoved(MouseWheelEvent e) {
                             int notches = e.getWheelRotation();
                             if (notches < 0) {
-                                image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() + 10, image.getHeight() + 10);
+                                image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() + 10,
+                                        image.getHeight() + 10);
                             } else {
-                                image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() - 10, image.getHeight() - 10);
+                                image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() - 10,
+                                        image.getHeight() - 10);
                             }
                             panel2.removeAll();
                             JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
@@ -128,9 +127,7 @@ public class FileViewer extends Viewer {
                 } catch (Exception e) {
                     new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                 }
-            }
-            else if(BytecodeViewer.viewer.forcePureAsciiAsText.isSelected())
-            {
+            } else if (BytecodeViewer.viewer.forcePureAsciiAsText.isSelected()) {
                 JHexEditor hex = new JHexEditor(contents);
                 panel2.add(hex);
                 return;
@@ -207,7 +204,7 @@ public class FileViewer extends Viewer {
         panel2.add(scrollPane);
     }
 
-    static CharsetEncoder asciiEncoder = Charset.forName("US-ASCII").newEncoder(); // or "ISO-8859-1" for ISO Latin 1
+    static CharsetEncoder asciiEncoder = StandardCharsets.US_ASCII.newEncoder(); // or "ISO-8859-1" for ISO Latin 1
 
     public static boolean isPureAscii(String v) {
         return asciiEncoder.canEncode(v);
@@ -357,7 +354,7 @@ public class FileViewer extends Viewer {
         }
     }
 
-    private DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
+    private final DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
             new Color(255, 62, 150));
 
     public void highlight(JTextComponent textComp, String pattern) {

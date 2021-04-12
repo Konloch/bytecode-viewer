@@ -2,7 +2,6 @@ package the.bytecode.club.bytecodeviewer.obfuscators.mapping;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.FieldMappingData;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MethodMappingData;

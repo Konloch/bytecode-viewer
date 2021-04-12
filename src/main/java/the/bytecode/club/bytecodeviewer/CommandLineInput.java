@@ -1,16 +1,13 @@
 package the.bytecode.club.bytecodeviewer;
 
 import java.io.File;
-
 import me.konloch.kontainer.io.DiskWriter;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
@@ -72,7 +69,7 @@ public class CommandLineInput {
                             cmd.hasOption("o") ||
                             cmd.hasOption("t") ||
                             cmd.hasOption("nowait")
-                    ) {
+            ) {
                 return true;
             }
         } catch (Exception e) {
@@ -103,7 +100,8 @@ public class CommandLineInput {
                         "-decompiler <decompiler>      Selects the decompiler, procyon by default",
                         "-i <input file>               Selects the input file",
                         "-o <output file>              Selects the output file",
-                        "-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile all as zip",
+                        "-t <target classname>         Must either be the fully qualified classname or \"all\" to "
+                                + "decompile all as zip",
                         "-nowait                       Doesn't wait for the user to read the CLI messages"
                 })
                     System.out.println(s);
@@ -149,8 +147,9 @@ public class CommandLineInput {
                                 !decompiler.equalsIgnoreCase("krakatau-bytecode") &&
                                 !decompiler.equalsIgnoreCase("jd-gui") &&
                                 !decompiler.equalsIgnoreCase("smali")
-                        ) {
-                    System.out.println("Error, no decompiler called '" + decompiler + "' found. Type -decompiler-list for the list");
+                ) {
+                    System.out.println("Error, no decompiler called '" + decompiler + "' found. Type -decompiler-list"
+                            + " for the list");
                 }
 
 
@@ -175,7 +174,8 @@ public class CommandLineInput {
             String target = cmd.getOptionValue("t");
 
             if (cmd.getOptionValue("decompiler") == null) {
-                System.out.println("You can define another decompiler by appending -decompiler \"name\", by default procyon has been set.");
+                System.out.println("You can define another decompiler by appending -decompiler \"name\", by default "
+                        + "procyon has been set.");
                 decompiler = "procyon";
             }
 
@@ -183,7 +183,8 @@ public class CommandLineInput {
             //if its zip/jar/apk/dex attempt unzip as whole zip
             //if its just class allow any
 
-            File tempZip = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp_"+BytecodeViewer.getRandomizedName()+".jar");
+            File tempZip =
+                    new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp_" + BytecodeViewer.getRandomizedName() + ".jar");
             if (tempZip.exists())
                 tempZip.delete();
 
@@ -321,7 +322,8 @@ public class CommandLineInput {
             }
 
             System.out.println("Finished.");
-            System.out.println("Bytecode Viewer CLI v" + BytecodeViewer.VERSION + " by @Konloch - http://bytecodeviewer.com");
+            System.out.println("Bytecode Viewer CLI v" + BytecodeViewer.VERSION + " by @Konloch - "
+                    + "http://bytecodeviewer.com");
             BytecodeViewer.canExit = true;
             System.exit(0);
         } catch (Exception e) {

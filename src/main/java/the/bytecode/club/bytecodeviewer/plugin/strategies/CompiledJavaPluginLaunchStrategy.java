@@ -8,13 +8,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
-
-import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -84,8 +82,9 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
                 String name = entry.getName();
                 if (name.endsWith(".class")) {
                     byte[] bytes = JarUtils.getBytes(jis);
-                    String magic = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
-                    if (magic.toLowerCase().equals("cafebabe")) {
+                    String magic = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format(
+                            "%02X", bytes[2]) + String.format("%02X", bytes[3]);
+                    if (magic.equalsIgnoreCase("cafebabe")) {
                         try {
                             ClassReader cr = new ClassReader(bytes);
                             ClassNode cn = new ClassNode();
@@ -146,8 +145,8 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 
     public static class LoadingClassLoader extends ClassLoader {
         private final LoadedNodeData data;
-        private Map<String, LoadedNodeData> cache;
-        private Map<String, Class<?>> ccache;
+        private final Map<String, LoadedNodeData> cache;
+        private final Map<String, Class<?>> ccache;
         private final Class<? extends Plugin> pluginKlass;
 
         public LoadingClassLoader(LoadedNodeData data, Set<LoadedNodeData> set) throws Throwable {

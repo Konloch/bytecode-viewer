@@ -10,10 +10,8 @@ import java.util.regex.Pattern;
  * Methods parser.
  *
  * @author DreamSworK
- *
  */
-public class MethodParser
-{
+public class MethodParser {
 
     public static class Method {
         public String name;
@@ -30,9 +28,10 @@ public class MethodParser
         }
     }
 
-    public static final Pattern regex = Pattern.compile("\\s*(?:static|public|private|protected|final|abstract)[\\w\\s.<>\\[\\]]*\\s+(?<name>[\\w.]+)\\s*\\((?<params>[\\w\\s,.<>\\[\\]$?]*)\\)");
+    public static final Pattern regex = Pattern.compile("\\s*(?:static|public|private|protected|final|abstract)"
+            + "[\\w\\s.<>\\[\\]]*\\s+(?<name>[\\w.]+)\\s*\\((?<params>[\\w\\s,.<>\\[\\]$?]*)\\)");
 
-    private TreeMap<Integer, Method> methods = new TreeMap<>();
+    private final TreeMap<Integer, Method> methods = new TreeMap<>();
 
     private static String removeBrackets(String string) {
         if (string.indexOf('<') != -1 && string.indexOf('>') != -1) {
@@ -51,7 +50,7 @@ public class MethodParser
 
     public void addMethod(int line, String name, String params) {
         if (!name.isEmpty()) {
-            name = getLastPart(name,'.');
+            name = getLastPart(name, '.');
             String[] args = {};
             if (!params.isEmpty()) {
                 params = removeBrackets(params);
@@ -62,8 +61,8 @@ public class MethodParser
                         String[] strings = args[i].split(" ");
                         args[i] = strings[strings.length - 2];
                     }
-                    args[i] = getLastPart(args[i],'.');
-                    args[i] = getLastPart(args[i],'$');
+                    args[i] = getLastPart(args[i], '.');
+                    args[i] = getLastPart(args[i], '$');
                 }
             }
             Method method = new Method(name, Arrays.asList(args));
@@ -107,7 +106,7 @@ public class MethodParser
     }
 
     public int findMethod(String name, List<String> params) {
-        for (Map.Entry<Integer, Method> entry: methods.entrySet()) {
+        for (Map.Entry<Integer, Method> entry : methods.entrySet()) {
             if (name.equals(entry.getValue().name) && params.size() == entry.getValue().params.size()) {
                 if (params.equals(entry.getValue().params)) {
                     return entry.getKey();
@@ -135,9 +134,9 @@ public class MethodParser
                 Map.Entry<Integer, Method> low = methods.floorEntry(line);
                 Map.Entry<Integer, Method> high = methods.ceilingEntry(line);
                 if (low != null && high != null) {
-                    return Math.abs(line - low.getKey()) < Math.abs(line - high.getKey()) ? low.getKey() : high.getKey();
-                }
-                else if (low != null || high != null) {
+                    return Math.abs(line - low.getKey()) < Math.abs(line - high.getKey()) ? low.getKey() :
+                            high.getKey();
+                } else if (low != null || high != null) {
                     return low != null ? low.getKey() : high.getKey();
                 }
             }

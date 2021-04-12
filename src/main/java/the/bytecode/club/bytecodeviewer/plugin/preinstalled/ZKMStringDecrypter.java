@@ -1,11 +1,9 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
+import java.util.ArrayList;
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
-
-import java.util.ArrayList;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

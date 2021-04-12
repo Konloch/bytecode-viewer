@@ -6,11 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import me.konloch.kontainer.io.DiskReader;
-
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -49,8 +46,7 @@ public class KrakatauDecompiler extends Decompiler {
             return ";" + BytecodeViewer.library;
     }
 
-    public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn, byte[] b)
-    {
+    public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn, byte[] b) {
         if (BytecodeViewer.python.equals("")) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
@@ -58,7 +54,8 @@ public class KrakatauDecompiler extends Decompiler {
 
         BytecodeViewer.rtCheck();
         if (BytecodeViewer.rt.equals("")) {
-            BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
+            BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)"
+                    + "\\Java\\jre7\\lib\\rt.jar)");
             BytecodeViewer.viewer.rtC();
         }
 
@@ -72,7 +69,8 @@ public class KrakatauDecompiler extends Decompiler {
             return "Set your paths";
         }
 
-        String s = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
+        String s = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl +
+                "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
 
         BytecodeViewer.sm.stopBlocking();
         try {
@@ -122,7 +120,7 @@ public class KrakatauDecompiler extends Decompiler {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
-            s += BytecodeViewer.nl + "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            s += BytecodeViewer.nl + "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         } finally {
             BytecodeViewer.sm.setBlocking();
         }
@@ -131,14 +129,14 @@ public class KrakatauDecompiler extends Decompiler {
     }
 
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b)
-    {
+    public String decompileClassNode(ClassNode cn, byte[] b) {
         if (BytecodeViewer.python.equals("")) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
         }
         if (BytecodeViewer.rt.equals("")) {
-            BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
+            BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)"
+                    + "\\Java\\jre7\\lib\\rt.jar)");
             BytecodeViewer.viewer.rtC();
         }
 
@@ -152,11 +150,15 @@ public class KrakatauDecompiler extends Decompiler {
             return "Set your paths";
         }
 
-        String s = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
+        String s = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl +
+                "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
 
-        final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+        final File tempDirectory =
+                new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
         tempDirectory.mkdir();
-        final File tempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) + ".jar");
+        final File tempJar =
+                new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) +
+                        ".jar");
         JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 
         BytecodeViewer.sm.stopBlocking();
@@ -210,7 +212,7 @@ public class KrakatauDecompiler extends Decompiler {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
-            s += BytecodeViewer.nl + "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            s += BytecodeViewer.nl + "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         } finally {
             BytecodeViewer.sm.setBlocking();
         }
@@ -225,7 +227,8 @@ public class KrakatauDecompiler extends Decompiler {
         }
         BytecodeViewer.rtCheck();
         if (BytecodeViewer.rt.equals("")) {
-            BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
+            BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)"
+                    + "\\Java\\jre7\\lib\\rt.jar)");
             BytecodeViewer.viewer.rtC();
         }
 

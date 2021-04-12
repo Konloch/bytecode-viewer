@@ -1,18 +1,14 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import javax.swing.JFrame;
-
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
-
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
-
-import java.awt.Color;
-import javax.swing.JScrollPane;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -61,7 +57,9 @@ public class AboutWindow extends JFrame {
     public void setVisible(boolean b) {
         super.setVisible(b);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
-        textArea.setText("Bytecode Viewer " + BytecodeViewer.VERSION + " is an open source program developed and maintained by Konloch (konloch@gmail.com) 100% free and open sourced licensed under GPL v3 CopyLeft\r\n\r\n" +
+        textArea.setText("Bytecode Viewer " + BytecodeViewer.VERSION + " is an open source program developed and "
+                + "maintained by Konloch (konloch@gmail.com) 100% free and open sourced licensed under GPL v3 "
+                + "CopyLeft\r\n\r\n" +
                 "Settings:" + BytecodeViewer.nl +
                 "	Preview Copy: " + BytecodeViewer.PREVIEW_COPY + BytecodeViewer.nl +
                 "	Fat Jar: " + BytecodeViewer.FAT_JAR + BytecodeViewer.nl +
@@ -80,9 +78,11 @@ public class AboutWindow extends JFrame {
                 "	-help                         Displays the help menu" + BytecodeViewer.nl +
                 "	-list                         Displays the available decompilers" + BytecodeViewer.nl +
                 "	-decompiler <decompiler>      Selects the decompiler, procyon by default" + BytecodeViewer.nl +
-                "	-i <input file>               Selects the input file (Jar, Class, APK, ZIP, DEX all work automatically)" + BytecodeViewer.nl +
+                "	-i <input file>               Selects the input file (Jar, Class, APK, ZIP, DEX all work "
+                + "automatically)" + BytecodeViewer.nl +
                 "	-o <output file>              Selects the output file (Java or Java-Bytecode)" + BytecodeViewer.nl +
-                "	-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile all as zip" + BytecodeViewer.nl +
+                "	-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile"
+                + " all as zip" + BytecodeViewer.nl +
                 "	-nowait                       Doesn't wait for the user to read the CLI messages" + BytecodeViewer.nl + BytecodeViewer.nl +
                 "Keybinds:" + BytecodeViewer.nl +
                 "	CTRL + O: Open/add new jar/class/apk" + BytecodeViewer.nl +
@@ -91,7 +91,13 @@ public class AboutWindow extends JFrame {
                 "	CTRL + T: Compile" + BytecodeViewer.nl +
                 "	CTRL + S: Save classes as zip" + BytecodeViewer.nl +
                 "	CTRL + R: Run (EZ-Inject) - dynamically load the classes and invoke a main class" +
-                "\r\n\r\nCode from various projects has been used, including but not limited to:\r\n	J-RET by WaterWolf\r\n	JHexPane by Sam Koivu\r\n	RSynaxPane by Robert Futrell\r\n	Commons IO by Apache\r\n	ASM by OW2\r\n	FernFlower by Stiver\r\n	Procyon by Mstrobel\r\n	CFR by Lee Benfield\r\n	CFIDE by Bibl\r\n	Smali by JesusFreke\r\n	Dex2Jar by pxb1..?\r\n	Krakatau by Storyyeller\r\n	JD-GUI + JD-Core by The Java-Decompiler Team\r\n	Enjarify by Storyyeller\r\n\r\nIf you're interested in Java Reverse Engineering, join The Bytecode Club - https://the.bytecode.club");
+                "\r\n\r\nCode from various projects has been used, including but not limited to:\r\n	J-RET by "
+                + "WaterWolf\r\n	JHexPane by Sam Koivu\r\n	RSynaxPane by Robert Futrell\r\n	Commons IO by "
+                + "Apache\r\n	ASM by OW2\r\n	FernFlower by Stiver\r\n	Procyon by Mstrobel\r\n	CFR by Lee "
+                + "Benfield\r\n	CFIDE by Bibl\r\n	Smali by JesusFreke\r\n	Dex2Jar by pxb1..?\r\n	Krakatau by "
+                + "Storyyeller\r\n	JD-GUI + JD-Core by The Java-Decompiler Team\r\n	Enjarify by "
+                + "Storyyeller\r\n\r\nIf you're interested in Java Reverse Engineering, join The Bytecode Club - "
+                + "https://the.bytecode.club");
 
     }
 

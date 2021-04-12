@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import jd.core.CoreConstants;
 import jd.core.model.classfile.constant.Constant;
 import jd.core.model.classfile.constant.ConstantClass;
@@ -104,34 +103,34 @@ public class ClassFileUtil {
             byte tag = dis.readByte();
 
             switch (tag) {
-                case ConstantConstant.CONSTANT_Class:
-                    constants[i] = new ConstantClass(tag, dis.readUnsignedShort());
-                    break;
-                case ConstantConstant.CONSTANT_Utf8:
-                    constants[i] = new ConstantUtf8(tag, dis.readUTF());
-                    break;
-                case ConstantConstant.CONSTANT_Long:
-                case ConstantConstant.CONSTANT_Double:
-                    dis.read();
-                    dis.read();
-                    dis.read();
-                    dis.read();
-                    i++;
-                case ConstantConstant.CONSTANT_Fieldref:
-                case ConstantConstant.CONSTANT_Methodref:
-                case ConstantConstant.CONSTANT_InterfaceMethodref:
-                case ConstantConstant.CONSTANT_NameAndType:
-                case ConstantConstant.CONSTANT_Integer:
-                case ConstantConstant.CONSTANT_Float:
-                    dis.read();
-                    dis.read();
-                case ConstantConstant.CONSTANT_String:
-                    dis.read();
-                    dis.read();
-                    break;
-                default:
-                    //throw new ClassFormatException("Invalid constant pool entry");
-                    return constants;
+            case ConstantConstant.CONSTANT_Class:
+                constants[i] = new ConstantClass(tag, dis.readUnsignedShort());
+                break;
+            case ConstantConstant.CONSTANT_Utf8:
+                constants[i] = new ConstantUtf8(tag, dis.readUTF());
+                break;
+            case ConstantConstant.CONSTANT_Long:
+            case ConstantConstant.CONSTANT_Double:
+                dis.read();
+                dis.read();
+                dis.read();
+                dis.read();
+                i++;
+            case ConstantConstant.CONSTANT_Fieldref:
+            case ConstantConstant.CONSTANT_Methodref:
+            case ConstantConstant.CONSTANT_InterfaceMethodref:
+            case ConstantConstant.CONSTANT_NameAndType:
+            case ConstantConstant.CONSTANT_Integer:
+            case ConstantConstant.CONSTANT_Float:
+                dis.read();
+                dis.read();
+            case ConstantConstant.CONSTANT_String:
+                dis.read();
+                dis.read();
+                break;
+            default:
+                //throw new ClassFormatException("Invalid constant pool entry");
+                return constants;
             }
         }
 

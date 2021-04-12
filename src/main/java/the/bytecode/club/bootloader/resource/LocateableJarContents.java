@@ -1,7 +1,6 @@
 package the.bytecode.club.bootloader.resource;
 
 import java.net.URL;
-
 import org.objectweb.asm.tree.ClassNode;
 
 /***************************************************************************
@@ -35,7 +34,8 @@ public class LocateableJarContents<C extends ClassNode> extends JarContents<C> {
         this.jarUrls = jarUrls;
     }
 
-    public LocateableJarContents(DataContainer<C> classContents, DataContainer<JarResource> resourceContents, URL... jarUrls) {
+    public LocateableJarContents(DataContainer<C> classContents, DataContainer<JarResource> resourceContents,
+                                 URL... jarUrls) {
         super(classContents, resourceContents);
         this.jarUrls = jarUrls;
     }

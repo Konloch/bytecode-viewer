@@ -1,7 +1,17 @@
 package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
 
+import eu.bibl.banalysis.filter.InstructionFilter;
+import eu.bibl.banalysis.filter.OpcodeFilter;
+import eu.bibl.banalysis.filter.insn.FieldInstructionFilter;
+import eu.bibl.banalysis.filter.insn.IincInstructionFilter;
+import eu.bibl.banalysis.filter.insn.InsnInstructionFilter;
+import eu.bibl.banalysis.filter.insn.JumpInstructionFilter;
+import eu.bibl.banalysis.filter.insn.LdcInstructionFilter;
+import eu.bibl.banalysis.filter.insn.MethodInstructionFilter;
+import eu.bibl.banalysis.filter.insn.MultiANewArrayInstructionFilter;
+import eu.bibl.banalysis.filter.insn.TypeInstructionFilter;
+import eu.bibl.banalysis.filter.insn.VarInstructionFilter;
 import java.util.Arrays;
-
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -14,18 +24,6 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MultiANewArrayInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
-
-import eu.bibl.banalysis.filter.InstructionFilter;
-import eu.bibl.banalysis.filter.OpcodeFilter;
-import eu.bibl.banalysis.filter.insn.FieldInstructionFilter;
-import eu.bibl.banalysis.filter.insn.IincInstructionFilter;
-import eu.bibl.banalysis.filter.insn.InsnInstructionFilter;
-import eu.bibl.banalysis.filter.insn.JumpInstructionFilter;
-import eu.bibl.banalysis.filter.insn.LdcInstructionFilter;
-import eu.bibl.banalysis.filter.insn.MethodInstructionFilter;
-import eu.bibl.banalysis.filter.insn.MultiANewArrayInstructionFilter;
-import eu.bibl.banalysis.filter.insn.TypeInstructionFilter;
-import eu.bibl.banalysis.filter.insn.VarInstructionFilter;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -124,7 +122,7 @@ public class InstructionPattern implements Opcodes {
 
     /**
      * @return Last pattern sequence match equivilent from the inputted
-     * {@link AbstractInsnNode}s.
+     *         {@link AbstractInsnNode}s.
      */
     public AbstractInsnNode[] getLastMatch() {
         return lastMatch;

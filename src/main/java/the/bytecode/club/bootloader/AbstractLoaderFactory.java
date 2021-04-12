@@ -2,7 +2,6 @@ package the.bytecode.club.bootloader;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import the.bytecode.club.bootloader.resource.ExternalResource;
 
 /***************************************************************************

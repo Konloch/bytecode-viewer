@@ -1,8 +1,14 @@
 package com.jhe.hexed;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JComponent;
 
 /**
  * Created by IntelliJ IDEA. User: laullon Date: 09-abr-2003 Time: 12:47:32
@@ -10,8 +16,8 @@ import java.awt.event.*;
 public class JHexEditorHEX extends JComponent implements MouseListener,
         KeyListener {
     private static final long serialVersionUID = 1481995655372014571L;
-    private JHexEditor he;
-    private int cursor = 0;
+    private final JHexEditor he;
+    private final int cursor = 0;
 
     public JHexEditorHEX(JHexEditor he) {
         this.he = he;

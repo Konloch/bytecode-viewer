@@ -14,11 +14,8 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
 import me.konloch.kontainer.io.DiskReader;
-
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -50,36 +47,33 @@ public class CFRDecompiler extends Decompiler {
 
     private static final String[] WINDOWS_IS_GREAT = new String[]
             {
-                      "CON",
-                      "PRN",
-                      "AUX",
-                      "NUL",
-                      "COM1",
-                      "COM2",
-                      "COM3",
-                      "COM4",
-                      "COM5",
-                      "COM6",
-                      "COM7",
-                      "COM8",
-                      "COM9",
-                      "LPT1",
-                      "LPT2",
-                      "LPT3",
-                      "LPT4",
-                      "LPT5",
-                      "LPT6",
-                      "LPT7",
-                      "LPT8",
-                      "LPT9"
+                    "CON",
+                    "PRN",
+                    "AUX",
+                    "NUL",
+                    "COM1",
+                    "COM2",
+                    "COM3",
+                    "COM4",
+                    "COM5",
+                    "COM6",
+                    "COM7",
+                    "COM8",
+                    "COM9",
+                    "LPT1",
+                    "LPT2",
+                    "LPT3",
+                    "LPT4",
+                    "LPT5",
+                    "LPT6",
+                    "LPT7",
+                    "LPT8",
+                    "LPT9"
             };
 
-    public static String windowsFun(String base)
-    {
-        for(String s : WINDOWS_IS_GREAT)
-        {
-            if(base.contains(s.toLowerCase()))
-            {
+    public static String windowsFun(String base) {
+        for (String s : WINDOWS_IS_GREAT) {
+            if (base.contains(s.toLowerCase())) {
                 base = base.replace(s.toLowerCase(), "BCV");
             }
         }
@@ -126,23 +120,21 @@ public class CFRDecompiler extends Decompiler {
             org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
         }*/
 
-        try
-        {
+        try {
             org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
-        }
-        catch(StackOverflowError | Exception e)
-        {
+        } catch (StackOverflowError | Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            exception =
+                    "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         }
 
         tempClass.delete();
         File file = new File(fuckery);
 
-        if(file.exists())
+        if (file.exists())
             return findFile(file.listFiles());
 
         return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
@@ -175,13 +167,17 @@ public class CFRDecompiler extends Decompiler {
                     e.printStackTrace(new PrintWriter(sw));
                     e.printStackTrace();
 
-                    String exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
-                    return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+                    String exception =
+                            "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
+                    return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail"
+                            + ".com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, "
+                            + "if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
                 }
                 return s;
             }
         }
-        return "CFR error!" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler.";
+        return "CFR error!" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it "
+                + "fails again try another decompiler.";
     }
 
     public String[] generateMainMethod(String filePath, String outputPath) {
@@ -301,8 +297,7 @@ public class CFRDecompiler extends Decompiler {
     byte[] buffer = new byte[1024];
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName)
-    {
+    public void decompileToZip(String sourceJar, String zipName) {
         File tempZip = new File(sourceJar);
 
         String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs;

@@ -48,40 +48,39 @@ import org.objectweb.asm.signature.SignatureWriter;
  *
  * @author Eugene Kuleshov
  */
-public abstract class Remapper extends org.objectweb.asm.commons.Remapper
-{
+public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
 
     public String mapDesc(String desc) {
         Type t = Type.getType(desc);
         switch (t.getSort()) {
-            case Type.ARRAY:
-                String s = mapDesc(t.getElementType().getDescriptor());
-                for (int i = 0; i < t.getDimensions(); ++i) {
-                    s = '[' + s;
-                }
-                return s;
-            case Type.OBJECT:
-                String newType = map(t.getInternalName());
-                if (newType != null) {
-                    return 'L' + newType + ';';
-                }
+        case Type.ARRAY:
+            String s = mapDesc(t.getElementType().getDescriptor());
+            for (int i = 0; i < t.getDimensions(); ++i) {
+                s = '[' + s;
+            }
+            return s;
+        case Type.OBJECT:
+            String newType = map(t.getInternalName());
+            if (newType != null) {
+                return 'L' + newType + ';';
+            }
         }
         return desc;
     }
 
     private Type mapType(Type t) {
         switch (t.getSort()) {
-            case Type.ARRAY:
-                String s = mapDesc(t.getElementType().getDescriptor());
-                for (int i = 0; i < t.getDimensions(); ++i) {
-                    s = '[' + s;
-                }
-                return Type.getType(s);
-            case Type.OBJECT:
-                s = map(t.getInternalName());
-                return s != null ? Type.getObjectType(s) : t;
-            case Type.METHOD:
-                return Type.getMethodType(mapMethodDesc(t.getDescriptor()));
+        case Type.ARRAY:
+            String s = mapDesc(t.getElementType().getDescriptor());
+            for (int i = 0; i < t.getDimensions(); ++i) {
+                s = '[' + s;
+            }
+            return Type.getType(s);
+        case Type.OBJECT:
+            s = map(t.getInternalName());
+            return s != null ? Type.getObjectType(s) : t;
+        case Type.METHOD:
+            return Type.getMethodType(mapMethodDesc(t.getDescriptor()));
         }
         return t;
     }

@@ -91,10 +91,7 @@ public class MethodMappingData {
         } else if (!methodName.equals(other.methodName))
             return false;
         if (methodOwner == null) {
-            if (other.methodOwner != null)
-                return false;
-        } else if (!methodOwner.equals(other.methodOwner))
-            return false;
-        return true;
+            return other.methodOwner == null;
+        } else return methodOwner.equals(other.methodOwner);
     }
 }

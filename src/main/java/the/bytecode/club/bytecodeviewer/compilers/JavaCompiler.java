@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
@@ -39,12 +38,17 @@ public class JavaCompiler extends Compiler {
 
     @Override
     public byte[] compile(String contents, String name) {
-        String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(12) + BytecodeViewer.fs;
-        String fileStart2 = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(12) + BytecodeViewer.fs;
+        String fileStart =
+                BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(12) + BytecodeViewer.fs;
+        String fileStart2 =
+                BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(12) + BytecodeViewer.fs;
         File java = new File(fileStart + BytecodeViewer.fs + name + ".java");
         File clazz = new File(fileStart2 + BytecodeViewer.fs + name + ".class");
-        File cp = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "cpath_" + MiscUtils.randomString(12) + ".jar");
-        File tempD = new File(fileStart + BytecodeViewer.fs + name.substring(0, name.length() - name.split("/")[name.split("/").length - 1].length()));
+        File cp =
+                new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "cpath_" + MiscUtils.randomString(12) +
+                        ".jar");
+        File tempD = new File(fileStart + BytecodeViewer.fs + name.substring(0,
+                name.length() - name.split("/")[name.split("/").length - 1].length()));
         tempD.mkdirs();
         new File(fileStart2).mkdirs();
 
@@ -78,7 +82,8 @@ public class JavaCompiler extends Compiler {
                 pb = new ProcessBuilder(
                         BytecodeViewer.javac,
                         "-d", fileStart2,
-                        "-classpath", cp.getAbsolutePath() + System.getProperty("path.separator") + BytecodeViewer.library,
+                        "-classpath",
+                        cp.getAbsolutePath() + System.getProperty("path.separator") + BytecodeViewer.library,
                         java.getAbsolutePath()
                 );
             }
@@ -86,26 +91,19 @@ public class JavaCompiler extends Compiler {
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
 
-            Thread failSafe = new Thread()
-            {
+            Thread failSafe = new Thread() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     long started = System.currentTimeMillis();
-                    while(System.currentTimeMillis()-started <= 10_000)
-                    {
-                        try
-                        {
+                    while (System.currentTimeMillis() - started <= 10_000) {
+                        try {
                             Thread.sleep(100);
-                        }
-                        catch (InterruptedException e)
-                        {
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
 
-                    if(process.isAlive())
-                    {
+                    if (process.isAlive()) {
                         System.out.println("Force killing javac process, assuming it's gotten stuck");
                         process.destroyForcibly().destroy();
                     }
@@ -120,8 +118,7 @@ public class JavaCompiler extends Compiler {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line;
-            while ((line = br.readLine()) != null)
-            {
+            while ((line = br.readLine()) != null) {
                 log += BytecodeViewer.nl + line;
             }
             br.close();

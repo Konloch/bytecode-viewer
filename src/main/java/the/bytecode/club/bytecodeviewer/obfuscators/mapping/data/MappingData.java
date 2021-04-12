@@ -74,10 +74,7 @@ public class MappingData {
         } else if (!obfuscatedName.equals(other.obfuscatedName))
             return false;
         if (refactoredName == null) {
-            if (other.refactoredName != null)
-                return false;
-        } else if (!refactoredName.equals(other.refactoredName))
-            return false;
-        return true;
+            return other.refactoredName == null;
+        } else return refactoredName.equals(other.refactoredName);
     }
 }

@@ -1,26 +1,19 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import javax.swing.JFrame;
-
 import java.awt.Dimension;
-
-import javax.swing.JCheckBox;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
-
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JTextField;
-
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.MethodNode;
-
-import javax.swing.JLabel;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -157,8 +150,8 @@ public class RunOptions extends JFrame {
     }
 
     private static final long serialVersionUID = -2662514582647810868L;
-    private JTextField txtThebytecodeclubexamplemainlstring;
-    private JCheckBox debugMethodCalls;
-    private JTextField textField;
-    private JTextField textField_1;
+    private final JTextField txtThebytecodeclubexamplemainlstring;
+    private final JCheckBox debugMethodCalls;
+    private final JTextField textField;
+    private final JTextField textField_1;
 }

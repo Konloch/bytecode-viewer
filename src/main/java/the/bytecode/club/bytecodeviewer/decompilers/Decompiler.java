@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler;
 
 /***************************************************************************

@@ -8,7 +8,6 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
@@ -36,7 +35,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 public final class ClassNodeLoader extends ClassLoader {
 
-    private HashMap<String, ClassNode> classes = new HashMap<String, ClassNode>();
+    private final HashMap<String, ClassNode> classes = new HashMap<String, ClassNode>();
 
     /**
      * Adds the provided class node to the class loader

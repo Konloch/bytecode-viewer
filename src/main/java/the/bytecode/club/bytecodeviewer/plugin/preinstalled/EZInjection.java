@@ -4,14 +4,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.BytecodeHook;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
@@ -49,13 +47,18 @@ import the.bytecode.club.bytecodeviewer.gui.GraphicialReflectionKit;
 public class EZInjection extends Plugin {
 
     public static ArrayList<BytecodeHook> hookArray = new ArrayList<BytecodeHook>();
-    private static String version = "1.0";
-    private static PluginConsole gui = new PluginConsole("EZ Injection v" + version);
-    private boolean accessModifiers, injectHooks, invokeMethod, useProxy,
-            launchKit, console;
+    private static final String version = "1.0";
+    private static final PluginConsole gui = new PluginConsole("EZ Injection v" + version);
+    private final boolean accessModifiers;
+    private final boolean injectHooks;
+    private final boolean invokeMethod;
+    private final boolean useProxy;
+    private final boolean launchKit;
+    private final boolean console;
     public static boolean sandboxSystem, sandboxRuntime, printCmdL;
     private static boolean debugHooks, all = false;
-    private String invokeMethodInformation, proxy;
+    private final String invokeMethodInformation;
+    private final String proxy;
 
     private static String[] debugClasses;
 
@@ -231,7 +234,8 @@ public class EZInjection extends Plugin {
                         MethodInsnNode mn = (MethodInsnNode) m.instructions
                                 .get(1);
                         if (mn.owner
-                                .equals(EZInjection.class.getName().replace(".", "/")))//"the/bytecode/club/bytecodeviewer/plugins/EZInjection")) // already been injected
+                                .equals(EZInjection.class.getName().replace(".", "/")))//"the/bytecode/club
+                            // /bytecodeviewer/plugins/EZInjection")) // already been injected
                             inject = false;
                     }
                     if (inject) {
@@ -239,7 +243,8 @@ public class EZInjection extends Plugin {
                         m.instructions
                                 .insert(new MethodInsnNode(
                                         Opcodes.INVOKESTATIC,
-                                        EZInjection.class.getName().replace(".", "/"),//"the/bytecode/club/bytecodeviewer/plugins/EZInjection",
+                                        EZInjection.class.getName().replace(".", "/"),//"the/bytecode/club
+                                        // /bytecodeviewer/plugins/EZInjection",
                                         "hook", "(Ljava/lang/String;)V"));
                         m.instructions.insert(new LdcInsnNode(classNode.name
                                 + "." + m.name + m.desc));

@@ -2,7 +2,6 @@ package the.bytecode.club.bytecodeviewer.obfuscators;
 
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil_OLD;
 

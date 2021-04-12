@@ -5,11 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 
@@ -93,7 +91,7 @@ public class ExceptionUI extends JFrame {
                 ", Fat Jar: " + BytecodeViewer.FAT_JAR +
                 ", OS: " + System.getProperty("os.name") +
                 ", Java: " + System.getProperty("java.version") +
-                BytecodeViewer.nl + BytecodeViewer.nl + sw.toString());
+                BytecodeViewer.nl + BytecodeViewer.nl + sw);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }

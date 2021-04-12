@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
 import javax.swing.JPanel;
-
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 

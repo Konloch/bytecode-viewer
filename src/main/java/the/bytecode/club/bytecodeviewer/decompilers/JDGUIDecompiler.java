@@ -6,18 +6,15 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import jd.cli.loader.DirectoryLoader;
 import jd.cli.preferences.CommonPreferences;
+import jd.cli.printer.text.PlainTextPrinter;
 import jd.cli.util.ClassFileUtil;
 import jd.core.process.DecompilerImpl;
 import me.konloch.kontainer.io.DiskReader;
-
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-import jd.cli.printer.text.PlainTextPrinter;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -50,7 +47,8 @@ public class JDGUIDecompiler extends Decompiler {
     public String decompileClassNode(ClassNode cn, byte[] b) {
         String exception = "";
         try {
-            final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+            final File tempDirectory =
+                    new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
             tempDirectory.mkdir();
             final File tempClass = new File(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".class");
             final File tempJava = new File(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".java");
@@ -76,7 +74,8 @@ public class JDGUIDecompiler extends Decompiler {
             }
 
 
-            String pathToClass = tempClass.getAbsolutePath().replace('/', File.separatorChar).replace('\\', File.separatorChar);
+            String pathToClass = tempClass.getAbsolutePath().replace('/', File.separatorChar).replace('\\',
+                    File.separatorChar);
             String directoryPath = ClassFileUtil.ExtractDirectoryPath(pathToClass);
 
             String internalPath = ClassFileUtil.ExtractInternalPath(directoryPath, pathToClass);
@@ -112,7 +111,8 @@ public class JDGUIDecompiler extends Decompiler {
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            exception =
+                    "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         }
         return "JD-GUI error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
     }

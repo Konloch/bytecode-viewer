@@ -1,7 +1,6 @@
 package jd.cli.printer.text;
 
 import java.io.PrintStream;
-
 import jd.cli.preferences.CommonPreferences;
 import jd.core.model.instruction.bytecode.instruction.Instruction;
 import jd.core.printer.Printer;
@@ -340,7 +339,7 @@ public class PlainTextPrinter implements Printer {
                 char c = s.charAt(i);
 
                 if (c == '\t') {
-                    this.printStream.append(c);
+                    this.printStream.append('\t');
                 } else if (c < 32) {
                     // Write octal format
                     this.printStream.append("\\0");

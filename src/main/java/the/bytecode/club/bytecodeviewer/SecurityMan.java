@@ -73,7 +73,7 @@ public class SecurityMan extends SecurityManager {
 
         if (allow && !blocking) {
             System.out.println("Allowing exec:" + cmd);
-        } else throw new SecurityException("BCV is awesome, blocking("+blocking+") exec " + cmd);
+        } else throw new SecurityException("BCV is awesome, blocking(" + blocking + ") exec " + cmd);
     }
 
     @Override
@@ -123,9 +123,8 @@ public class SecurityMan extends SecurityManager {
 
     @Override
     public void checkExit(int status) {
-        if(!BytecodeViewer.canExit)
-        {
-            throw new SecurityException("BCV is awesome, blocking System.exit("+status+");");
+        if (!BytecodeViewer.canExit) {
+            throw new SecurityException("BCV is awesome, blocking System.exit(" + status + ");");
         }
     }
 

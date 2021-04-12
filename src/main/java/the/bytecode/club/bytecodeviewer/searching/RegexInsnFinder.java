@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -48,7 +47,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 
 public class RegexInsnFinder {
 
-    private static String[] opcodes = new String[]{"NOP", "ACONST_NULL",
+    private static final String[] opcodes = new String[]{"NOP", "ACONST_NULL",
             "ICONST_M1", "ICONST_0", "ICONST_1", "ICONST_2", "ICONST_3",
             "ICONST_4", "ICONST_5", "LCONST_0", "LCONST_1", "FCONST_0",
             "FCONST_1", "FCONST_2", "DCONST_0", "DCONST_1", "BIPUSH", "SIPUSH",
@@ -83,33 +82,33 @@ public class RegexInsnFinder {
             "INSTANCEOF", "MONITORENTER", "MONITOREXIT", "WIDE",
             "MULTIANEWARRAY", "IFNULL", "IFNONNULL", "GOTO_W", "JSR_W"};
 
-    private static String[] opcodesVar = new String[]{"ILOAD", "LLOAD",
+    private static final String[] opcodesVar = new String[]{"ILOAD", "LLOAD",
             "FLOAD", "DLOAD", "ALOAD", "ISTORE", "LSTORE", "FSTORE", "DSTORE",
             "ASTORE", "RET"};
-    private static String opcodeVars = buildRegexItems(opcodesVar);
+    private static final String opcodeVars = buildRegexItems(opcodesVar);
 
-    private static String[] opcodesInt = new String[]{"BIPUSH", "SIPUSH",
+    private static final String[] opcodesInt = new String[]{"BIPUSH", "SIPUSH",
             "NEWARRAY"};
-    private static String opcodesInts = buildRegexItems(opcodesInt);
+    private static final String opcodesInts = buildRegexItems(opcodesInt);
 
-    private static String[] opcodesField = new String[]{"GETSTATIC",
+    private static final String[] opcodesField = new String[]{"GETSTATIC",
             "PUTSTATIC", "GETFIELD", "PUTFIELD"};
-    private static String opcodesFields = buildRegexItems(opcodesField);
+    private static final String opcodesFields = buildRegexItems(opcodesField);
 
-    private static String[] opcodesMethod = new String[]{"INVOKEVIRTUAL",
+    private static final String[] opcodesMethod = new String[]{"INVOKEVIRTUAL",
             "INVOKESPECIAL", "INVOKESTATIC", "INVOKEINTERFACE", "INVOKEDYNAMIC"};
-    private static String opcodesMethods = buildRegexItems(opcodesMethod);
+    private static final String opcodesMethods = buildRegexItems(opcodesMethod);
 
-    private static String[] opcodesType = new String[]{"NEW", "ANEWARRAY",
+    private static final String[] opcodesType = new String[]{"NEW", "ANEWARRAY",
             "ARRAYLENGTH", "CHECKCAST", "INSTANCEOF"};
-    private static String opcodesTypes = buildRegexItems(opcodesType);
+    private static final String opcodesTypes = buildRegexItems(opcodesType);
 
-    private static String[] opcodesIf = new String[]{"IFEQ", "IFNE", "IFLT",
+    private static final String[] opcodesIf = new String[]{"IFEQ", "IFNE", "IFLT",
             "IFGE", "IFGT", "IFLE", "IF_ICMPEQ", "IF_ICMPNE", "IF_ICMPLT",
             "IF_ICMPGE", "IF_ICMPGT", "IF_ICMPLE", "IF_ACMPEQ", "IF_ACMPNE"};
-    private static String opcodesIfs = buildRegexItems(opcodesIf, false, false);
+    private static final String opcodesIfs = buildRegexItems(opcodesIf, false, false);
 
-    private static String[] opcodesAny = new String[]{"NOP", "ACONST_NULL",
+    private static final String[] opcodesAny = new String[]{"NOP", "ACONST_NULL",
             "ICONST_M1", "ICONST_0", "ICONST_1", "ICONST_2", "ICONST_3",
             "ICONST_4", "ICONST_5", "LCONST_0", "LCONST_1", "FCONST_0",
             "FCONST_1", "FCONST_2", "DCONST_0", "DCONST_1", "BIPUSH", "SIPUSH",
@@ -135,7 +134,7 @@ public class RegexInsnFinder {
             "INVOKEDYNAMIC", "NEW", "NEWARRAY", "ANEWARRAY", "ARRAYLENGTH",
             "ATHROW", "CHECKCAST", "INSTANCEOF", "MONITORENTER", "MONITOREXIT",
             "MULTIANEWARRAY", "IFNULL", "IFNONNULL"};
-    private static String opcodesAnys = buildRegexItems(opcodesAny, false,
+    private static final String opcodesAnys = buildRegexItems(opcodesAny, false,
             false);
 
     private static String buildRegexItems(final String[] items,
@@ -282,9 +281,7 @@ public class RegexInsnFinder {
                 }
                 String insnString = getInsString(ain);
                 boolean result = pattern.matcher(insnString).find();
-                if(result) {
-                    return true;
-                }
+                return result;
             }
             return false;
         });
@@ -293,41 +290,41 @@ public class RegexInsnFinder {
     private static String getInsString(AbstractInsnNode ain) {
         String insnString = "";
         switch (ain.getType()) {
-            case AbstractInsnNode.INT_INSN:
-                final IntInsnNode iin = (IntInsnNode) ain;
-                insnString += "{" + iin.operand + "}";
-                break;
-            case AbstractInsnNode.LDC_INSN:
-                final LdcInsnNode lin = (LdcInsnNode) ain;
-                insnString += "{" + lin.cst.toString().replace("}", "\\}")
-                        + "}";
-                break;
-            case AbstractInsnNode.VAR_INSN:
-                final VarInsnNode vin = (VarInsnNode) ain;
-                insnString += "_" + vin.var;
-                break;
-            case AbstractInsnNode.IINC_INSN:
-                final IincInsnNode iiin = (IincInsnNode) ain;
-                insnString += "{" + iiin.var + "," + iiin.incr + "}";
-                break;
-            case AbstractInsnNode.FIELD_INSN:
-                final FieldInsnNode fin = (FieldInsnNode) ain;
-                insnString += "{" + fin.desc + "," + fin.owner + ","
-                        + fin.name + "}";
-                break;
-            case AbstractInsnNode.METHOD_INSN:
-                final MethodInsnNode min = (MethodInsnNode) ain;
-                insnString += "{" + min.desc + "," + min.owner + ","
-                        + min.name + "}";
-                break;
-            case AbstractInsnNode.TYPE_INSN:
-                final TypeInsnNode tin = (TypeInsnNode) ain;
-                insnString += "{" + tin.desc + "}";
-                break;
-            case AbstractInsnNode.MULTIANEWARRAY_INSN:
-                final MultiANewArrayInsnNode manain = (MultiANewArrayInsnNode) ain;
-                insnString += "{" + manain.dims + "," + manain.desc + "}";
-                break;
+        case AbstractInsnNode.INT_INSN:
+            final IntInsnNode iin = (IntInsnNode) ain;
+            insnString += "{" + iin.operand + "}";
+            break;
+        case AbstractInsnNode.LDC_INSN:
+            final LdcInsnNode lin = (LdcInsnNode) ain;
+            insnString += "{" + lin.cst.toString().replace("}", "\\}")
+                    + "}";
+            break;
+        case AbstractInsnNode.VAR_INSN:
+            final VarInsnNode vin = (VarInsnNode) ain;
+            insnString += "_" + vin.var;
+            break;
+        case AbstractInsnNode.IINC_INSN:
+            final IincInsnNode iiin = (IincInsnNode) ain;
+            insnString += "{" + iiin.var + "," + iiin.incr + "}";
+            break;
+        case AbstractInsnNode.FIELD_INSN:
+            final FieldInsnNode fin = (FieldInsnNode) ain;
+            insnString += "{" + fin.desc + "," + fin.owner + ","
+                    + fin.name + "}";
+            break;
+        case AbstractInsnNode.METHOD_INSN:
+            final MethodInsnNode min = (MethodInsnNode) ain;
+            insnString += "{" + min.desc + "," + min.owner + ","
+                    + min.name + "}";
+            break;
+        case AbstractInsnNode.TYPE_INSN:
+            final TypeInsnNode tin = (TypeInsnNode) ain;
+            insnString += "{" + tin.desc + "}";
+            break;
+        case AbstractInsnNode.MULTIANEWARRAY_INSN:
+            final MultiANewArrayInsnNode manain = (MultiANewArrayInsnNode) ain;
+            insnString += "{" + manain.dims + "," + manain.desc + "}";
+            break;
         }
         return insnString;
     }

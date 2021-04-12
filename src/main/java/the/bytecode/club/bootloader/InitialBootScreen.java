@@ -7,15 +7,12 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
 import java.io.IOException;
-
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.text.html.HTMLEditorKit;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 
@@ -45,7 +42,7 @@ import the.bytecode.club.bytecodeviewer.Resources;
 public class InitialBootScreen extends JFrame {
     private static final long serialVersionUID = -1098467609722393444L;
 
-    private JProgressBar progressBar = new JProgressBar();
+    private final JProgressBar progressBar = new JProgressBar();
 
     public InitialBootScreen() throws IOException {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -71,9 +68,11 @@ public class InitialBootScreen extends JFrame {
         setTitle("Bytecode Viewer Boot Screen - Starting Up");
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0};
-        gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0};
         gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         getContentPane().setLayout(gridBagLayout);
 
         JScrollPane scrollPane = new JScrollPane();
@@ -88,7 +87,8 @@ public class InitialBootScreen extends JFrame {
         JEditorPane editorPane = new JEditorPane();
         editorPane.setEditorKit(new HTMLEditorKit());
 
-        editorPane.setText(convertStreamToString(InitialBootScreen.class.getClassLoader().getResourceAsStream("intro.html")));
+        editorPane.setText(convertStreamToString(InitialBootScreen.class.getClassLoader().getResourceAsStream("intro"
+                + ".html")));
 
         scrollPane.setViewportView(editorPane);
 

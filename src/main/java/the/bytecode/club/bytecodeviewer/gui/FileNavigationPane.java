@@ -1,6 +1,45 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
 import com.sun.java.swing.plaf.windows.WindowsTreeUI;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
@@ -8,18 +47,6 @@ import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
-
-import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.util.*;
-import java.util.Map.Entry;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -70,7 +97,7 @@ public class FileNavigationPane extends VisibleComponent implements
                 final String qt = quickSearch.getText();
                 quickSearch.setText("");
 
-                if(qt.isEmpty()) //NOPE
+                if (qt.isEmpty()) //NOPE
                     return;
 
 
@@ -99,16 +126,16 @@ public class FileNavigationPane extends VisibleComponent implements
 
                         for (int c = 0; c < curNode.getChildCount(); c++) {
                             final MyTreeNode child = (MyTreeNode) curNode.getChildAt(c);
-                            System.out.println(pathName + ":" + ((String) child.getUserObject()));
+                            System.out.println(pathName + ":" + child.getUserObject());
 
-                            if (((String) child.getUserObject()).equals(pathName)) {
+                            if (child.getUserObject().equals(pathName)) {
                                 curNode = child;
                                 if (isLast) {
                                     System.out.println("Found! " + curNode);
                                     found++;
-                                    if(found >= 30)
-                                    {
-                                        BytecodeViewer.showMessage("Uh oh, there could be more results but you've triggered the 30 classes at once limit. Try refining your search.");
+                                    if (found >= 30) {
+                                        BytecodeViewer.showMessage("Uh oh, there could be more results but you've "
+                                                + "triggered the 30 classes at once limit. Try refining your search.");
                                         return;
                                     }
                                     final TreePath pathn = new TreePath(curNode.getPath());
@@ -134,7 +161,7 @@ public class FileNavigationPane extends VisibleComponent implements
                             MyTreeNode node = enums.nextElement();
                             if (node.isLeaf()) {
                                 if (((String) (node.getUserObject())).toLowerCase().contains(path[path.length - 1].toLowerCase())) {
-                                    TreeNode pathArray[] = node.getPath();
+                                    TreeNode[] pathArray = node.getPath();
                                     int k = 0;
                                     StringBuilder fullPath = new StringBuilder();
                                     while (pathArray != null
@@ -150,9 +177,10 @@ public class FileNavigationPane extends VisibleComponent implements
                                     if (fullPathString != null && fullPathString.toLowerCase().contains(qt.toLowerCase())) {
                                         System.out.println("Found! " + node);
                                         found++;
-                                        if(found >= 30)
-                                        {
-                                            BytecodeViewer.showMessage("Uh oh, there could be more results but you've triggered the 30 classes at once limit. Try refining your search.");
+                                        if (found >= 30) {
+                                            BytecodeViewer.showMessage("Uh oh, there could be more results but you've"
+                                                    + " triggered the 30 classes at once limit. Try refining your "
+                                                    + "search.");
                                             return;
                                         }
                                         final TreePath pathn = new TreePath(node.getPath());
@@ -303,27 +331,20 @@ public class FileNavigationPane extends VisibleComponent implements
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println((int)e.getKeyChar());
-                if (e.getKeyCode() == KeyEvent.VK_ENTER)
-                {
-                    if (e.getSource() instanceof MyTree)
-                    {
+                System.out.println((int) e.getKeyChar());
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (e.getSource() instanceof MyTree) {
                         MyTree tree = (MyTree) e.getSource();
                         openPath(tree.getSelectionPath());
                     }
-                }
-                else if((int)e.getKeyChar() != 0 &&(int)e.getKeyChar() != 8 &&(int)e.getKeyChar() != 127 && (int)e.getKeyChar() != 65535 && !e.isControlDown() && !e.isAltDown())
-                {
+                } else if ((int) e.getKeyChar() != 0 && (int) e.getKeyChar() != 8 && (int) e.getKeyChar() != 127 && (int) e.getKeyChar() != 65535 && !e.isControlDown() && !e.isAltDown()) {
                     quickSearch.grabFocus();
                     quickSearch.setText("" + e.getKeyChar());
                     cancel = true;
-                }
-                else if(e.isControlDown() && (int)e.getKeyChar() == 6) //ctrl + f
+                } else if (e.isControlDown() && (int) e.getKeyChar() == 6) //ctrl + f
                 {
                     quickSearch.grabFocus();
-                }
-                else
-                {
+                } else {
                     cancel = true;
                 }
             }
@@ -608,8 +629,7 @@ public class FileNavigationPane extends VisibleComponent implements
         tree.updateUI();
     }
 
-    public void openPath(TreePath path)
-    {
+    public void openPath(TreePath path) {
         if (path == null || path.getPathCount() == 1) {
             return;
         }
@@ -625,26 +645,25 @@ public class FileNavigationPane extends VisibleComponent implements
         String cheapHax = path.getPathComponent(1).toString();
         FileContainer container = null;
 
-        for(FileContainer c : BytecodeViewer.files)
-        {
-            if(c.name.equals(cheapHax))
+        for (FileContainer c : BytecodeViewer.files) {
+            if (c.name.equals(cheapHax))
                 container = c;
         }
 
         String name = nameBuffer.toString();
-        if (name.endsWith(".class"))
-        {
+        if (name.endsWith(".class")) {
 
-            final ClassNode cn = BytecodeViewer.getClassNode(container, name.substring(0, name.length() - ".class".length()));
+            final ClassNode cn = BytecodeViewer.getClassNode(container, name.substring(0,
+                    name.length() - ".class".length()));
             if (cn != null) {
                 openClassFileToWorkSpace(container, nameBuffer.toString(), cn);
-            }
-            else
-            {
-                openFileToWorkSpace(container, nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
+            } else {
+                openFileToWorkSpace(container, nameBuffer.toString(),
+                        BytecodeViewer.getFileContents(nameBuffer.toString()));
             }
         } else {
-            openFileToWorkSpace(container, nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
+            openFileToWorkSpace(container, nameBuffer.toString(),
+                    BytecodeViewer.getFileContents(nameBuffer.toString()));
         }
     }
 
@@ -667,7 +686,8 @@ public class FileNavigationPane extends VisibleComponent implements
                     selected, expanded, leaf, row, hasFocus);
 
             if (value != null && value instanceof the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) {
-                the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode node = (the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) value;
+                the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode node =
+                        (the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) value;
                 String name = node.toString().toLowerCase();
 
                 if (name.endsWith(".jar") || name.endsWith(".war")) {
@@ -684,7 +704,8 @@ public class FileNavigationPane extends VisibleComponent implements
                     setIcon(Resources.cplusplusIcon);
                 } else if (name.endsWith(".apk") || name.endsWith(".dex")) {
                     setIcon(Resources.androidIcon);
-                } else if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".bmp") || name.endsWith(".gif")) {
+                } else if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(
+                        ".bmp") || name.endsWith(".gif")) {
                     setIcon(Resources.imageIcon);
                 } else if (name.endsWith(".class")) {
                     setIcon(Resources.classIcon);

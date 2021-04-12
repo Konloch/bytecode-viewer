@@ -3,10 +3,8 @@ package the.bytecode.club.bytecodeviewer.plugin.strategies;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
-
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
 

@@ -1,11 +1,10 @@
 package the.bytecode.club.bytecodeviewer.util;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Encoding Convert Utils
@@ -17,7 +16,7 @@ public class EncodeUtils {
 
     public static String stringToUnicode(String s) {
         try {
-            StringBuilder out = new StringBuilder("");
+            StringBuilder out = new StringBuilder();
             byte[] bytes = s.getBytes("unicode");
 
             for (int i = 0; i < bytes.length - 1; i += 2) {

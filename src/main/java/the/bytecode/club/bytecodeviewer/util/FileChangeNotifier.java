@@ -27,7 +27,7 @@ import org.objectweb.asm.tree.ClassNode;
  */
 
 public interface FileChangeNotifier {
-    public void openClassFile(final FileContainer container, String name, ClassNode cn);
+    void openClassFile(final FileContainer container, String name, ClassNode cn);
 
-    public void openFile(final FileContainer container, String name, byte[] contents);
+    void openFile(final FileContainer container, String name, byte[] contents);
 }

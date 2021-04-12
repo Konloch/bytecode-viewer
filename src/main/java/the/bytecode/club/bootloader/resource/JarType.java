@@ -37,7 +37,7 @@ public enum JarType {
 
     private final String prefix;
 
-    private JarType(String prefix) {
+    JarType(String prefix) {
         this.prefix = prefix;
     }
 

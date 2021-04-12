@@ -1,9 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
 import javax.swing.JInternalFrame;
-
 import org.objectweb.asm.tree.ClassNode;
-
 import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 

@@ -1,6 +1,11 @@
 package the.bytecode.club.bytecodeviewer.util;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -11,9 +16,7 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
-
 import me.konloch.kontainer.io.DiskWriter;
-
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FilenameUtils;
@@ -52,7 +55,7 @@ public class JarUtils {
     /**
      * Loads the classes and resources from the input jar file
      *
-     * @param jarFile   the input jar file
+     * @param jarFile the input jar file
      * @throws IOException
      */
     public static void put(final File jarFile) throws IOException {
@@ -69,8 +72,10 @@ public class JarUtils {
                     if (!entry.isDirectory())
                         files.put(name, bytes);
                 } else {
-                    String cafebabe = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
-                    if (cafebabe.toLowerCase().equals("cafebabe")) {
+                    String cafebabe =
+                            String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X",
+                                    bytes[2]) + String.format("%02X", bytes[3]);
+                    if (cafebabe.equalsIgnoreCase("cafebabe")) {
                         try {
                             final ClassNode cn = getNode(bytes);
                             container.classes.add(cn);
@@ -98,9 +103,9 @@ public class JarUtils {
         BytecodeViewer.files.add(container);
     }
 
-    public static void put2(final File jarFile) throws IOException
-    {
-        //if this ever fails, worst case import Sun's jarsigner code from JDK 7 re-sign the jar to rebuild the CRC, should also rebuild the archive byte offsets
+    public static void put2(final File jarFile) throws IOException {
+        //if this ever fails, worst case import Sun's jarsigner code from JDK 7 re-sign the jar to rebuild the CRC,
+        // should also rebuild the archive byte offsets
 
         FileContainer container = new FileContainer(jarFile);
         HashMap<String, byte[]> files = new HashMap<>();
@@ -110,45 +115,31 @@ public class JarUtils {
         String fileBaseName = FilenameUtils.getBaseName(path.getFileName().toString());
         Path destFolderPath = Paths.get(path.getParent().toString(), fileBaseName);
 
-        try (ZipFile zipFile = new ZipFile(jarFile))
-        {
+        try (ZipFile zipFile = new ZipFile(jarFile)) {
             Enumeration<? extends ZipArchiveEntry> entries = zipFile.getEntries();
-            while (entries.hasMoreElements())
-            {
+            while (entries.hasMoreElements()) {
                 ZipArchiveEntry entry = entries.nextElement();
                 Path entryPath = destFolderPath.resolve(entry.getName());
                 String name = entry.getName();
-                if (entry.isDirectory())
-                {
+                if (entry.isDirectory()) {
                     //directory
-                }
-                else
-                {
-                    try (InputStream in = zipFile.getInputStream(entry))
-                    {
+                } else {
+                    try (InputStream in = zipFile.getInputStream(entry)) {
                         final byte[] bytes = getBytes(in);
 
-                        if(!name.endsWith(".class"))
-                        {
+                        if (!name.endsWith(".class")) {
                             files.put(name, bytes);
-                        }
-                        else
-                        {
-                            String cafebabe = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
-                            if (cafebabe.toLowerCase().equals("cafebabe"))
-                            {
-                                try
-                                {
+                        } else {
+                            String cafebabe =
+                                    String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
+                            if (cafebabe.equalsIgnoreCase("cafebabe")) {
+                                try {
                                     final ClassNode cn = getNode(bytes);
                                     container.classes.add(cn);
-                                }
-                                catch (Exception e)
-                                {
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 files.put(name, bytes);
                             }
                         }
@@ -172,8 +163,10 @@ public class JarUtils {
                 final String name = entry.getName();
                 if (name.endsWith(".class")) {
                     byte[] bytes = getBytes(jis);
-                    String cafebabe = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
-                    if (cafebabe.toLowerCase().equals("cafebabe")) {
+                    String cafebabe =
+                            String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X",
+                                    bytes[2]) + String.format("%02X", bytes[3]);
+                    if (cafebabe.equalsIgnoreCase("cafebabe")) {
                         try {
                             final ClassNode cn = getNode(bytes);
                             classes.add(cn);
@@ -348,7 +341,7 @@ public class JarUtils {
      * Saves a jar without the manifest
      *
      * @param nodeList The loaded ClassNodes
-     * @param dir     the exact jar output path
+     * @param dir      the exact jar output path
      */
     public static void saveAsJarClassesOnlyToDir(ArrayList<ClassNode> nodeList, String dir) {
         try {

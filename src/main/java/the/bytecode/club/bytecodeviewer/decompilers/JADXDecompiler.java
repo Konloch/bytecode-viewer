@@ -2,17 +2,16 @@ package the.bytecode.club.bytecodeviewer.decompilers;
 
 import jadx.api.JadxArgs;
 import jadx.api.JadxDecompiler;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Random;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-
-import java.io.*;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -38,8 +37,7 @@ import java.util.zip.ZipOutputStream;
  * @author Konloch
  */
 
-public class JADXDecompiler extends Decompiler
-{
+public class JADXDecompiler extends Decompiler {
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
         String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
@@ -58,8 +56,7 @@ public class JADXDecompiler extends Decompiler
         }
 
         File fuckery = new File(fuckery(fileStart));
-        try
-        {
+        try {
             JadxArgs args = new JadxArgs();
             args.getInputFiles().add(tempClass);
             args.setOutDir(fuckery);
@@ -67,19 +64,18 @@ public class JADXDecompiler extends Decompiler
             JadxDecompiler jadx = new JadxDecompiler(args);
             jadx.load();
             jadx.save();
-        }
-        catch(StackOverflowError | Exception e)
-        {
+        } catch (StackOverflowError | Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+            exception =
+                    "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         }
 
         tempClass.delete();
 
-        if(fuckery.exists())
+        if (fuckery.exists())
             return findFile(fuckery.listFiles());
 
         return "JADX error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
@@ -114,18 +110,21 @@ public class JADXDecompiler extends Decompiler
                     e.printStackTrace(new PrintWriter(sw));
                     e.printStackTrace();
 
-                    String exception = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
-                    return "JADX error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+                    String exception =
+                            "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
+                    return "JADX error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail"
+                            + ".com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, "
+                            + "if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
                 }
                 return s;
             }
         }
-        return "CFR error!" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler.";
+        return "CFR error!" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it "
+                + "fails again try another decompiler.";
     }
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName)
-    {
+    public void decompileToZip(String sourceJar, String zipName) {
     }
 
 }
