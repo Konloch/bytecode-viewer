@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -135,31 +136,28 @@ public class CFRDecompiler extends Decompiler {
         File file = new File(fuckery);
 
         if (file.exists())
-            return findFile(file.listFiles());
+            return findFile(Objects.requireNonNull(file.listFiles()));
 
-        return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+        return "CFR error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
     }
 
     Random r = new Random();
     File f;
 
     public String fuckery(String start) {
-        boolean b = false;
-        while (!b) {
+        while (true) {
             f = new File(start + r.nextInt(Integer.MAX_VALUE));
             if (!f.exists())
                 return f.toString();
         }
-
-        return null;
     }
 
     public String findFile(File[] fA) {
         for (File f : fA) {
             if (f.isDirectory())
-                return findFile(f.listFiles());
+                return findFile(Objects.requireNonNull(f.listFiles()));
             else {
-                String s = "";
+                String s;
                 try {
                     s = DiskReader.loadAsString(f.getAbsolutePath());
                 } catch (Exception e) {
@@ -169,7 +167,7 @@ public class CFRDecompiler extends Decompiler {
 
                     String exception =
                             "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
-                    return "CFR error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail"
+                    return "CFR error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail"
                             + ".com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, "
                             + "if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
                 }
@@ -294,8 +292,6 @@ public class CFRDecompiler extends Decompiler {
                         .isSelected()),};
     }
 
-    byte[] buffer = new byte[1024];
-
     @Override
     public void decompileToZip(String sourceJar, String zipName) {
         File tempZip = new File(sourceJar);
@@ -319,7 +315,7 @@ public class CFRDecompiler extends Decompiler {
     @SuppressWarnings("resource")
     public void zip(File directory, File zipfile) throws IOException {
         java.net.URI base = directory.toURI();
-        Deque<File> queue = new LinkedList<File>();
+        Deque<File> queue = new LinkedList<>();
         queue.push(directory);
         OutputStream out = new FileOutputStream(zipfile);
         Closeable res = out;
@@ -328,7 +324,7 @@ public class CFRDecompiler extends Decompiler {
             res = zout;
             while (!queue.isEmpty()) {
                 directory = queue.pop();
-                for (File kid : directory.listFiles()) {
+                for (File kid : Objects.requireNonNull(directory.listFiles())) {
                     String name = base.relativize(kid.toURI()).getPath();
                     if (kid.isDirectory()) {
                         queue.push(kid);
@@ -360,11 +356,8 @@ public class CFRDecompiler extends Decompiler {
     }
 
     private static void copy(File file, OutputStream out) throws IOException {
-        InputStream in = new FileInputStream(file);
-        try {
+        try (InputStream in = new FileInputStream(file)) {
             copy(in, out);
-        } finally {
-            in.close();
         }
     }
 }

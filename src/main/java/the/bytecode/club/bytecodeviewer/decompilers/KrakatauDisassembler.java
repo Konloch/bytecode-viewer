@@ -39,7 +39,7 @@ import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
 public class KrakatauDisassembler extends Decompiler {
 
-    public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn, byte[] b) {
+    public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn) {
         if (BytecodeViewer.python.equals("")) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
@@ -73,25 +73,26 @@ public class KrakatauDisassembler extends Decompiler {
             InputStream is = process.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
-            String log = "Process:" + BytecodeViewer.nl + BytecodeViewer.nl;
+            StringBuilder log = new StringBuilder("Process:" + BytecodeViewer.nl + BytecodeViewer.nl);
             String line;
             while ((line = br.readLine()) != null) {
-                log += BytecodeViewer.nl + line;
+                log.append(BytecodeViewer.nl).append(line);
             }
             br.close();
 
-            log += BytecodeViewer.nl + BytecodeViewer.nl + "Error:" + BytecodeViewer.nl + BytecodeViewer.nl;
+            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Error:").append(BytecodeViewer.nl)
+                    .append(BytecodeViewer.nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
             while ((line = br.readLine()) != null) {
-                log += BytecodeViewer.nl + line;
+                log.append(BytecodeViewer.nl).append(line);
             }
             br.close();
 
             int exitValue = process.waitFor();
-            log += BytecodeViewer.nl + BytecodeViewer.nl + "Exit Value is " + exitValue;
-            s = log;
+            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Exit Value is ").append(exitValue);
+            s = log.toString();
 
             //if the motherfucker failed this'll fail, aka wont set.
             s = DiskReader.loadAsString(krakatauTempDir.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".j");
@@ -149,25 +150,26 @@ public class KrakatauDisassembler extends Decompiler {
             InputStream is = process.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
-            String log = "Process:" + BytecodeViewer.nl + BytecodeViewer.nl;
+            StringBuilder log = new StringBuilder("Process:" + BytecodeViewer.nl + BytecodeViewer.nl);
             String line;
             while ((line = br.readLine()) != null) {
-                log += BytecodeViewer.nl + line;
+                log.append(BytecodeViewer.nl).append(line);
             }
             br.close();
 
-            log += BytecodeViewer.nl + BytecodeViewer.nl + "Error:" + BytecodeViewer.nl + BytecodeViewer.nl;
+            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Error:").append(BytecodeViewer.nl)
+                    .append(BytecodeViewer.nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
             while ((line = br.readLine()) != null) {
-                log += BytecodeViewer.nl + line;
+                log.append(BytecodeViewer.nl).append(line);
             }
             br.close();
 
             int exitValue = process.waitFor();
-            log += BytecodeViewer.nl + BytecodeViewer.nl + "Exit Value is " + exitValue;
-            s = log;
+            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Exit Value is ").append(exitValue);
+            s = log.toString();
 
             //if the motherfucker failed this'll fail, aka wont set.
             s = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".j");

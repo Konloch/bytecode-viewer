@@ -2286,7 +2286,7 @@ public class ClassReader {
                 if (currentVisibleTypeAnnotationBytecodeOffset == currentBytecodeOffset) {
                     // Parse the target_type, target_info and target_path fields.
                     int currentAnnotationOffset =
-                                                     readTypeAnnotationTarget(
+                            readTypeAnnotationTarget(
                                     context, visibleTypeAnnotationOffsets[currentVisibleTypeAnnotationIndex]);
                     // Parse the type_index field.
                     String annotationDescriptor = readUTF8(currentAnnotationOffset, charBuffer);
@@ -2982,7 +2982,7 @@ public class ClassReader {
         String methodDescriptor = context.currentMethodDescriptor;
         Object[] locals = context.currentFrameLocalTypes;
         int numLocal = 0;
-        if ((context.currentMethodAccessFlags & OpcodesC_STATIC) == 0) {
+        if ((context.currentMethodAccessFlags & Opcodes.ACC_STATIC) == 0) {
             if ("<init>".equals(context.currentMethodName)) {
                 locals[numLocal++] = Opcodes.UNINITIALIZED_THIS;
             } else {
@@ -3093,7 +3093,7 @@ public class ClassReader {
                                 currentOffset, context.currentFrameStackTypes, 0, charBuffer, labels);
                 context.currentFrameType = Opcodes.F_SAME1;
                 context.currentFrameStackCount = 1;
-            } else if (frameType >= Frame.CHOP_FRAME && frameType < Frame.SAME_FRAME_EXTENDED) {
+            } else if (frameType < Frame.SAME_FRAME_EXTENDED) {
                 context.currentFrameType = Opcodes.F_CHOP;
                 context.currentFrameLocalCountDelta = Frame.SAME_FRAME_EXTENDED - frameType;
                 context.currentFrameLocalCount -= context.currentFrameLocalCountDelta;
@@ -3150,7 +3150,7 @@ public class ClassReader {
      * @param index                      the index in 'frame' where the parsed type must be stored.
      * @param charBuffer                 the buffer used to read strings in the constant pool.
      * @param labels                     the labels of the method currently being parsed, indexed by their offset. If
-      *                                  the
+     *                                   the
      *                                   parsed type is an ITEM_Uninitialized, a new label for the corresponding NEW
      *                                   instruction is
      *                                   stored in this array if it does not already exist.
@@ -3261,7 +3261,7 @@ public class ClassReader {
     private int[] readBootstrapMethodsAttribute(final int maxStringLength) {
         char[] charBuffer = new char[maxStringLength];
         int currentAttributeOffset = getFirstAttributeOffset();
-        int[] currentBootstrapMethodOffsets = null;
+        int[] currentBootstrapMethodOffsets;
         for (int i = readUnsignedShort(currentAttributeOffset - 2); i > 0; --i) {
             // Read the attribute_info's attribute_name and attribute_length fields.
             String attributeName = readUTF8(currentAttributeOffset, charBuffer);

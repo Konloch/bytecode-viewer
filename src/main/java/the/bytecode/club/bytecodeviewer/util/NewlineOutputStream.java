@@ -3,8 +3,8 @@ package the.bytecode.club.bytecodeviewer.util;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import org.jetbrains.annotations.NotNull;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -33,7 +33,7 @@ import java.nio.charset.StandardCharsets;
  * for the purpose of (e.g.) saving the message to a local file.
  */
 public class NewlineOutputStream extends FilterOutputStream {
-    private int lastb = -1;
+    private int lastByte = -1;
     private static byte[] newline;
 
     public NewlineOutputStream(OutputStream os) {
@@ -46,23 +46,26 @@ public class NewlineOutputStream extends FilterOutputStream {
         }
     }
 
+    @Override
     public void write(int b) throws IOException {
         if (b == '\r') {
             out.write(newline);
         } else if (b == '\n') {
-            if (lastb != '\r')
+            if (lastByte != '\r')
                 out.write(newline);
         } else {
             out.write(b);
         }
-        lastb = b;
+        lastByte = b;
     }
 
-    public void write(byte[] b) throws IOException {
+    @Override
+    public void write(byte @NotNull [] b) throws IOException {
         write(b, 0, b.length);
     }
 
-    public void write(byte[] b, int off, int len) throws IOException {
+    @Override
+    public void write(byte @NotNull [] b, int off, int len) throws IOException {
         for (int i = 0; i < len; i++) {
             write(b[off + i]);
         }

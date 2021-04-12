@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Objects;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import org.objectweb.asm.tree.ClassNode;
@@ -59,17 +60,18 @@ public class ZStringArrayDecrypter extends Plugin {
 
         if (result == 0) {
             boolean needsWarning = false;
-            for (Class<?> debug : the.bytecode.club.bytecodeviewer.api.BytecodeViewer.loadClassesIntoClassLoader()) {
+            for (Class<?> debug :
+                    Objects.requireNonNull(the.bytecode.club.bytecodeviewer.api.BytecodeViewer.loadClassesIntoClassLoader())) {
                 try {
                     Field[] fields = debug.getDeclaredFields();
                     for (Field field : fields) {
                         if (field.getName().equals("z")) {
-                            out.append(debug.getName() + ":" + BytecodeViewer.nl);
+                            out.append(debug.getName()).append(":").append(BytecodeViewer.nl);
                             field.setAccessible(true);
                             if (field.get(null) != null && field.get(null) instanceof String[] && Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) {
                                 String[] fieldVal = (String[]) field.get(null);
                                 for (int i = 0; i < fieldVal.length; i++) {
-                                    out.append("  z[" + i + "] = " + fieldVal[i] + BytecodeViewer.nl);
+                                    out.append("  z[").append(i).append("] = ").append(fieldVal[i]).append(BytecodeViewer.nl);
                                 }
                             }
                         }

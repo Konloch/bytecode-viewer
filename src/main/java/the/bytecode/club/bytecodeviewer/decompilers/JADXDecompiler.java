@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Objects;
 import java.util.Random;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
@@ -36,7 +37,6 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
  *
  * @author Konloch
  */
-
 public class JADXDecompiler extends Decompiler {
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
@@ -76,33 +76,28 @@ public class JADXDecompiler extends Decompiler {
         tempClass.delete();
 
         if (fuckery.exists())
-            return findFile(fuckery.listFiles());
+            return findFile(Objects.requireNonNull(fuckery.listFiles()));
 
-        return "JADX error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
-
-
+        return "JADX error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
     }
 
     Random r = new Random();
     File f;
 
     public String fuckery(String start) {
-        boolean b = false;
-        while (!b) {
+        while (true) {
             f = new File(start + r.nextInt(Integer.MAX_VALUE));
             if (!f.exists())
                 return f.toString();
         }
-
-        return null;
     }
 
     public String findFile(File[] fA) {
         for (File f : fA) {
             if (f.isDirectory())
-                return findFile(f.listFiles());
+                return findFile(Objects.requireNonNull(f.listFiles()));
             else {
-                String s = "";
+                String s;
                 try {
                     s = DiskReader.loadAsString(f.getAbsolutePath());
                 } catch (Exception e) {
@@ -112,7 +107,7 @@ public class JADXDecompiler extends Decompiler {
 
                     String exception =
                             "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
-                    return "JADX error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail"
+                    return "JADX error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail"
                             + ".com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, "
                             + "if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
                 }

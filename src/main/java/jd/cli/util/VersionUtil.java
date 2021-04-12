@@ -2,7 +2,7 @@ package jd.cli.util;
 
 public class VersionUtil {
     public static String getJDKVersion(int majorVersion, int minorVersion) {
-        StringBuffer sb = new StringBuffer(20);
+        StringBuilder sb = new StringBuilder(20);
 
         if (majorVersion >= 49) {
             sb.append(majorVersion - (49 - 5));

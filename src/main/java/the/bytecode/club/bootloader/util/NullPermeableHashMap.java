@@ -35,7 +35,7 @@ public class NullPermeableHashMap<K, V> extends HashMap<K, V> {
     }
 
     public NullPermeableHashMap() {
-        this(new NullCreator<V>());
+        this(new NullCreator<>());
     }
 
     public V getNonNull(K k) {

@@ -81,7 +81,7 @@ public class ExternalLibrary extends ExternalResource<JarContents<ClassNode>> {
      */
     @Override
     public JarContents<ClassNode> load() throws IOException {
-        JarContents<ClassNode> contents = new JarContents<ClassNode>();
+        JarContents<ClassNode> contents = new JarContents<>();
 
         JarURLConnection con = (JarURLConnection) getLocation().openConnection();
         JarFile jar = con.getJarFile();

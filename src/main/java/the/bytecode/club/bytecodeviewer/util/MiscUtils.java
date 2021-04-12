@@ -93,8 +93,8 @@ public class MiscUtils {
     public static String getUniqueName(String start, String ext) {
         String s = null;
         boolean b = true;
-        File f = null;
-        String m = null;
+        File f;
+        String m;
         while (b) {
             m = MiscUtils.randomString(32);
             f = new File(start + m + ext);

@@ -29,7 +29,7 @@ import the.bytecode.club.bootloader.resource.ExternalResource;
 public final class AbstractLoaderFactory {
 
     private static final String DEFAULT_KEY = "default-factory";
-    private static final Map<String, LoaderFactory<?>> FACTORYCACHE = new HashMap<String, LoaderFactory<?>>();
+    private static final Map<String, LoaderFactory<?>> FACTORY_CACHE = new HashMap<>();
 
     public static void register(LoaderFactory<?> factory) {
         register(DEFAULT_KEY, factory);
@@ -40,11 +40,11 @@ public final class AbstractLoaderFactory {
             throw new IllegalArgumentException("null key or factory");
         }
 
-        if (FACTORYCACHE.containsKey(key)) {
+        if (FACTORY_CACHE.containsKey(key)) {
             throw new IllegalArgumentException("factory already registered with key: " + key);
         }
 
-        FACTORYCACHE.put(key, factory);
+        FACTORY_CACHE.put(key, factory);
     }
 
     public static void unregister(String key) {
@@ -52,11 +52,11 @@ public final class AbstractLoaderFactory {
             throw new IllegalArgumentException("null key");
         }
 
-        if (!FACTORYCACHE.containsKey(key)) {
+        if (!FACTORY_CACHE.containsKey(key)) {
             throw new IllegalArgumentException("factory doesn't key for key: " + key);
         }
 
-        FACTORYCACHE.remove(key);
+        FACTORY_CACHE.remove(key);
     }
 
     public static <T extends ExternalResource<?>> LoaderFactory<T> find() {
@@ -69,10 +69,10 @@ public final class AbstractLoaderFactory {
             throw new IllegalArgumentException("null key");
         }
 
-        if (!FACTORYCACHE.containsKey(key)) {
+        if (!FACTORY_CACHE.containsKey(key)) {
             throw new IllegalArgumentException("factory doesn't key for key: " + key);
         }
 
-        return (LoaderFactory<T>) FACTORYCACHE.get(key);
+        return (LoaderFactory<T>) FACTORY_CACHE.get(key);
     }
 }

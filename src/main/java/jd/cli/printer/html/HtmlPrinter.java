@@ -50,10 +50,12 @@ public class HtmlPrinter implements Printer {
         this.sbCode = new StringBuffer(30 * 1024);
     }
 
+    @Override
     public void print(byte b) {
         this.sbCode.append(String.valueOf(b));
     }
 
+    @Override
     public void print(char c) {
         switch (c) {
         case '<':
@@ -68,20 +70,24 @@ public class HtmlPrinter implements Printer {
         }
     }
 
+    @Override
     public void print(int i) {
         this.sbCode.append(i);
     }
 
+    @Override
     public void print(String s) {
         this.sbCode.append(s);
     }
 
+    @Override
     public void printNumeric(String s) {
         this.sbCode.append("<u>");
         this.sbCode.append(s);
         this.sbCode.append("</u>");
     }
 
+    @Override
     public void printString(String s, String scopeInternalName) {
         this.sbCode.append("<u>");
 
@@ -102,6 +108,7 @@ public class HtmlPrinter implements Printer {
         this.sbCode.append("</u>");
     }
 
+    @Override
     public void printKeyword(String s) {
         if (this.commentJavadocErrorDepth == 0) {
             this.sbCode.append("<b>");
@@ -112,28 +119,34 @@ public class HtmlPrinter implements Printer {
         }
     }
 
+    @Override
     public void printJavaWord(String s) {
         printKeyword(s);
     }
 
+    @Override
     public void printType(String internalName, String name, String scopeInternalName) {
         this.sbCode.append(name);
     }
 
+    @Override
     public void printTypeDeclaration(String internalName, String name) {
         this.sbCode.append(name);
     }
 
+    @Override
     public void printTypeImport(String internalName, String name) {
         this.sbCode.append(name);
     }
 
+    @Override
     public void printField(
             String internalName, String name,
             String descriptor, String scopeInternalName) {
         printFieldDeclaration(internalName, name, descriptor);
     }
 
+    @Override
     public void printFieldDeclaration(
             String internalName, String name, String descriptor) {
         this.sbCode.append("<var>");
@@ -141,12 +154,14 @@ public class HtmlPrinter implements Printer {
         this.sbCode.append("</var>");
     }
 
+    @Override
     public void printStaticField(
             String internalName, String name,
             String descriptor, String scopeInternalName) {
         printStaticFieldDeclaration(internalName, name, descriptor);
     }
 
+    @Override
     public void printStaticFieldDeclaration(
             String internalName, String name, String descriptor) {
         this.sbCode.append("<em>");
@@ -154,17 +169,20 @@ public class HtmlPrinter implements Printer {
         this.sbCode.append("</em>");
     }
 
+    @Override
     public void printConstructor(
             String internalName, String name,
             String descriptor, String scopeInternalName) {
         this.sbCode.append(name);
     }
 
+    @Override
     public void printConstructorDeclaration(
             String internalName, String name, String descriptor) {
         this.sbCode.append(name);
     }
 
+    @Override
     public void printStaticConstructorDeclaration(
             String internalName, String name) {
         this.sbCode.append("<samp>");
@@ -172,23 +190,27 @@ public class HtmlPrinter implements Printer {
         this.sbCode.append("</samp>");
     }
 
+    @Override
     public void printMethod(
             String internalName, String name,
             String descriptor, String scopeInternalName) {
         this.sbCode.append(name);
     }
 
+    @Override
     public void printMethodDeclaration(
             String internalName, String name, String descriptor) {
         this.sbCode.append(name);
     }
 
+    @Override
     public void printStaticMethod(
             String internalName, String name,
             String descriptor, String scopeInternalName) {
         printStaticMethodDeclaration(internalName, name, descriptor);
     }
 
+    @Override
     public void printStaticMethodDeclaration(
             String internalName, String name, String descriptor) {
         this.sbCode.append("<samp>");
@@ -196,6 +218,7 @@ public class HtmlPrinter implements Printer {
         this.sbCode.append("</samp>");
     }
 
+    @Override
     public void start(int maxLineNumber, int majorVersion, int minorVersion) {
         this.maxLineNumber = maxLineNumber;
         this.majorVersion = majorVersion;
@@ -216,7 +239,7 @@ public class HtmlPrinter implements Printer {
         this.lineNumberFormatPrefix = "%" + digitCount + "d<br>";
 
         StringBuilder sb = new StringBuilder(digitCount + 7);
-        sb.append("%" + (digitCount + 1) + "d:");
+        sb.append("%").append(digitCount + 1).append("d:");
         for (int i = 0; i < digitCount; i++) sb.append(' ');
         sb.append("<br>");
         this.unknownLineNumberPrefix = sb.toString();
@@ -269,15 +292,16 @@ public class HtmlPrinter implements Printer {
                         "<div id='demo'><div class='out'><div class='content'>");
     }
 
+    @Override
     public void end() {
         if (this.maxLineNumber > 0) {
             this.printStream.print("<div id='linenumber'>");
-            this.printStream.print(this.sbLineNumber.toString());
+            this.printStream.print(this.sbLineNumber);
             this.printStream.print("</div>");
         }
 
         this.printStream.print("<div id='javacode'>");
-        this.printStream.print(this.sbCode.toString());
+        this.printStream.print(this.sbCode);
         this.printStream.print("</div>");
 
         this.printStream.print("<div id='metadata'>");
@@ -290,15 +314,18 @@ public class HtmlPrinter implements Printer {
         this.printStream.print("</div></div></div></body></html>");
     }
 
+    @Override
     public void indent() {
         this.indentationCount++;
     }
 
+    @Override
     public void desindent() {
         if (this.indentationCount > 0)
             this.indentationCount--;
     }
 
+    @Override
     public void startOfLine(int lineNumber) {
         this.realLineNumber++;
 
@@ -326,10 +353,12 @@ public class HtmlPrinter implements Printer {
             this.sbCode.append("  ");
     }
 
+    @Override
     public void endOfLine() {
         this.sbCode.append("<br>");
     }
 
+    @Override
     public void extraLine(int count) {
         if (this.maxLineNumber > 0) {
             this.sbLineNumber.append("<s>");
@@ -353,90 +382,110 @@ public class HtmlPrinter implements Printer {
         this.sbCode.append("</s>");
     }
 
+    @Override
     public void startOfComment() {
         this.sbCode.append("<cite>");
         this.commentJavadocErrorDepth++;
     }
 
+    @Override
     public void endOfComment() {
         this.sbCode.append("</cite>");
         this.commentJavadocErrorDepth--;
     }
 
+    @Override
     public void startOfJavadoc() {
         this.sbCode.append("<dfn>");
         this.commentJavadocErrorDepth++;
     }
 
+    @Override
     public void endOfJavadoc() {
         this.sbCode.append("</dfn>");
         this.commentJavadocErrorDepth--;
     }
 
+    @Override
     public void startOfXdoclet() {
         this.sbCode.append("<b>");
     }
 
+    @Override
     public void endOfXdoclet() {
         this.sbCode.append("</b>");
     }
 
+    @Override
     public void startOfError() {
         this.sbCode.append("<span>");
         this.commentJavadocErrorDepth++;
     }
 
+    @Override
     public void endOfError() {
         this.sbCode.append("</span>");
         this.commentJavadocErrorDepth--;
     }
 
+    @Override
     public void startOfImportStatements() {
     }
 
+    @Override
     public void endOfImportStatements() {
     }
 
+    @Override
     public void startOfTypeDeclaration(String internalPath) {
     }
 
+    @Override
     public void endOfTypeDeclaration() {
     }
 
+    @Override
     public void startOfAnnotationName() {
         this.sbCode.append("<del>");
     }
 
+    @Override
     public void endOfAnnotationName() {
         this.sbCode.append("</del>");
     }
 
+    @Override
     public void startOfOptionalPrefix() {
         this.sbCode.append("<kbd>");
     }
 
+    @Override
     public void endOfOptionalPrefix() {
         this.sbCode.append("</kbd>");
     }
 
+    @Override
     public void debugStartOfLayoutBlock() {
         if (DEBUG) {
             this.sbCode.append("<span class='debuglayoutblock' alt='block'>");
         }
     }
 
+    @Override
     public void debugEndOfLayoutBlock() {
         if (DEBUG) {
             this.sbCode.append("</span>");
         }
     }
 
+    @Override
     public void debugStartOfSeparatorLayoutBlock() {
         if (DEBUG) {
             this.sbCode.append("<span class='debugseparatorlayoutblock' alr='separator'>");
         }
     }
 
+    @Override
     public void debugEndOfSeparatorLayoutBlock(int min, int value, int max) {
         if (DEBUG) {
             // DEBUG // this.sb.append(min);
@@ -448,12 +497,14 @@ public class HtmlPrinter implements Printer {
         }
     }
 
+    @Override
     public void debugStartOfStatementsBlockLayoutBlock() {
         if (DEBUG) {
             this.sbCode.append("<span class='debugstatementblocklayoutblock' alt='statement'>");
         }
     }
 
+    @Override
     public void debugEndOfStatementsBlockLayoutBlock(int min, int value, int max) {
         if (DEBUG) {
             // DEBUG // this.sb.append(min);
@@ -465,30 +516,35 @@ public class HtmlPrinter implements Printer {
         }
     }
 
+    @Override
     public void debugStartOfInstructionBlockLayoutBlock() {
         if (DEBUG) {
             this.sbCode.append("<span class='debugenumblocklayoutblock' alt='numeric block'>");
         }
     }
 
+    @Override
     public void debugEndOfInstructionBlockLayoutBlock() {
         if (DEBUG) {
             this.sbCode.append("</span>");
         }
     }
 
+    @Override
     public void debugStartOfCommentDeprecatedLayoutBlock() {
         if (DEBUG) {
             this.sbCode.append("<span class='debugcommentdeprecatedlayoutblock' alt='comment deprecated'>");
         }
     }
 
+    @Override
     public void debugEndOfCommentDeprecatedLayoutBlock() {
         if (DEBUG) {
             this.sbCode.append("</span>");
         }
     }
 
+    @Override
     public void debugMarker(String marker) {
         if (DEBUG) {
             // DEBUG // this.sb.append("<span class='debugmarker'>");
@@ -497,12 +553,14 @@ public class HtmlPrinter implements Printer {
         }
     }
 
+    @Override
     public void debugStartOfCaseBlockLayoutBlock() {
         if (DEBUG) {
             this.sbCode.append("<span class='debugcaseblocklayoutblock' alt='case block'>");
         }
     }
 
+    @Override
     public void debugEndOfCaseBlockLayoutBlock() {
         if (DEBUG) {
             this.sbCode.append("</span>");

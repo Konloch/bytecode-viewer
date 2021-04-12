@@ -36,7 +36,6 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
  * @author Konloch
  * @author WaterWolf
  */
-
 public class FernFlowerDecompiler extends Decompiler {
 
     @Override
@@ -48,7 +47,7 @@ public class FernFlowerDecompiler extends Decompiler {
 
         try {
             org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempZip.getAbsolutePath(), BytecodeViewer.tempDirectory + "./temp/"));
-        } catch (StackOverflowError | Exception e) {
+        } catch (StackOverflowError | Exception ignored) {
 
         }
 
@@ -132,7 +131,7 @@ public class FernFlowerDecompiler extends Decompiler {
                 exception += BytecodeViewer.nl + BytecodeViewer.nl + sw;
             }
         }
-        return "FernFlower error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+        return "FernFlower error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
     }
 
     private String[] generateMainMethod(String className, String folder) {

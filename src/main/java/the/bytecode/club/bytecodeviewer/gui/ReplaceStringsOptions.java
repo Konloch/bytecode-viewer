@@ -84,13 +84,11 @@ public class ReplaceStringsOptions extends JFrame {
                         + " it contains, then replace the original LDC part of the string.");
         chckbxNewCheckBox.setBounds(6, 7, 232, 23);
         getContentPane().add(chckbxNewCheckBox);
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                PluginManager.runPlugin(new ReplaceStrings(textField.getText(),
-                        textField_1.getText(), textField_2.getText(),
-                        chckbxNewCheckBox.isSelected()));
-                dispose();
-            }
+        btnNewButton.addActionListener(arg0 -> {
+            PluginManager.runPlugin(new ReplaceStrings(textField.getText(),
+                    textField_1.getText(), textField_2.getText(),
+                    chckbxNewCheckBox.isSelected()));
+            dispose();
         });
         this.setLocationRelativeTo(null);
     }

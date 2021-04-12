@@ -67,8 +67,10 @@ public class SecurityMan extends SecurityManager {
         boolean allow = false;
 
         for (String s : whitelist) {
-            if (cmd.contains(s))
+            if (cmd.contains(s)) {
                 allow = true;
+                break;
+            }
         }
 
         if (allow && !blocking) {

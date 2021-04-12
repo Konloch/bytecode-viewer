@@ -8,6 +8,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 
 public class Base64 {
 
@@ -122,14 +123,14 @@ public class Base64 {
     public static class Encoder {
 
         private final byte[] newline;
-        private final int linemax;
+        private final int line_max;
         private final boolean isURL;
         private final boolean doPadding;
 
-        private Encoder(boolean isURL, byte[] newline, int linemax, boolean doPadding) {
+        private Encoder(boolean isURL, byte[] newline, int line_max, boolean doPadding) {
             this.isURL = isURL;
             this.newline = newline;
-            this.linemax = linemax;
+            this.line_max = line_max;
             this.doPadding = doPadding;
         }
 
@@ -166,16 +167,16 @@ public class Base64 {
         static final Encoder RFC4648_URLSAFE = new Encoder(true, null, -1, true);
         static final Encoder RFC2045 = new Encoder(false, CRLF, MIMELINEMAX, true);
 
-        private final int outLength(int srclen) {
-            int len = 0;
+        private int outLength(int srclen) {
+            int len;
             if (doPadding) {
                 len = 4 * ((srclen + 2) / 3);
             } else {
                 int n = srclen % 3;
                 len = 4 * (srclen / 3) + (n == 0 ? 0 : n + 1);
             }
-            if (linemax > 0)                                  // line separators
-                len += (len - 1) / linemax * newline.length;
+            if (line_max > 0)                                  // line separators
+                len += (len - 1) / line_max * newline.length;
             return len;
         }
 
@@ -259,7 +260,7 @@ public class Base64 {
         public ByteBuffer encode(ByteBuffer buffer) {
             int len = outLength(buffer.remaining());
             byte[] dst = new byte[len];
-            int ret = 0;
+            int ret;
             if (buffer.hasArray()) {
                 ret = encode0(buffer.array(),
                         buffer.arrayOffset() + buffer.position(),
@@ -292,7 +293,7 @@ public class Base64 {
         public OutputStream wrap(OutputStream os) {
             Objects.requireNonNull(os);
             return new EncOutputStream(os, isURL ? toBase64URL : toBase64,
-                    newline, linemax, doPadding);
+                    newline, line_max, doPadding);
         }
 
         /**
@@ -310,7 +311,7 @@ public class Base64 {
         public Encoder withoutPadding() {
             if (!doPadding)
                 return this;
-            return new Encoder(isURL, newline, linemax, false);
+            return new Encoder(isURL, newline, line_max, false);
         }
 
         private int encode0(byte[] src, int off, int end, byte[] dst) {
@@ -318,8 +319,8 @@ public class Base64 {
             int sp = off;
             int slen = (end - off) / 3 * 3;
             int sl = off + slen;
-            if (linemax > 0 && slen > linemax / 4 * 3)
-                slen = linemax / 4 * 3;
+            if (line_max > 0 && slen > line_max / 4 * 3)
+                slen = line_max / 4 * 3;
             int dp = 0;
             while (sp < sl) {
                 int sl0 = Math.min(sp + slen, sl);
@@ -335,7 +336,7 @@ public class Base64 {
                 int dlen = (sl0 - sp) / 3 * 4;
                 dp += dlen;
                 sp = sl0;
-                if (dlen == linemax && sp < end) {
+                if (dlen == line_max && sp < end) {
                     for (byte b : newline) {
                         dst[dp++] = b;
                     }
@@ -351,7 +352,7 @@ public class Base64 {
                         dst[dp++] = '=';
                     }
                 } else {
-                    int b1 = src[sp++] & 0xff;
+                    int b1 = src[sp] & 0xff;
                     dst[dp++] = (byte) base64[(b0 << 4) & 0x3f | (b1 >> 4)];
                     dst[dp++] = (byte) base64[(b1 << 2) & 0x3f];
                     if (doPadding) {
@@ -575,7 +576,7 @@ public class Base64 {
                         len -= (sl - sp + 1);
                         break;
                     }
-                    if ((b = base64[b]) == -1)
+                    if (base64[b] == -1)
                         n++;
                 }
                 len -= n;
@@ -658,21 +659,22 @@ public class Base64 {
     private static class EncOutputStream extends FilterOutputStream {
 
         private int leftover = 0;
-        private int b0, b1, b2;
+        private int b0;
+        private int b1;
         private boolean closed = false;
 
         private final char[] base64;    // byte->base64 mapping
         private final byte[] newline;   // line separator, if needed
-        private final int linemax;
+        private final int line_max;
         private final boolean doPadding;// whether or not to pad
         private int linepos = 0;
 
         EncOutputStream(OutputStream os, char[] base64,
-                        byte[] newline, int linemax, boolean doPadding) {
+                        byte[] newline, int line_max, boolean doPadding) {
             super(os);
             this.base64 = base64;
             this.newline = newline;
-            this.linemax = linemax;
+            this.line_max = line_max;
             this.doPadding = doPadding;
         }
 
@@ -684,14 +686,14 @@ public class Base64 {
         }
 
         private void checkNewline() throws IOException {
-            if (linepos == linemax) {
+            if (linepos == line_max) {
                 out.write(newline);
                 linepos = 0;
             }
         }
 
         @Override
-        public void write(byte[] b, int off, int len) throws IOException {
+        public void write(byte @NotNull [] b, int off, int len) throws IOException {
             if (closed)
                 throw new IOException("Stream is closed");
             if (off < 0 || len < 0 || off + len > b.length)
@@ -707,7 +709,7 @@ public class Base64 {
                         return;
                     }
                 }
-                b2 = b[off++] & 0xff;
+                int b2 = b[off++] & 0xff;
                 len--;
                 checkNewline();
                 out.write(base64[b0 >> 2]);
@@ -730,10 +732,10 @@ public class Base64 {
                 linepos += 4;
             }
             if (leftover == 1) {
-                b0 = b[off++] & 0xff;
+                b0 = b[off] & 0xff;
             } else if (leftover == 2) {
                 b0 = b[off++] & 0xff;
-                b1 = b[off++] & 0xff;
+                b1 = b[off] & 0xff;
             }
         }
 
@@ -794,7 +796,7 @@ public class Base64 {
         }
 
         @Override
-        public int read(byte[] b, int off, int len) throws IOException {
+        public int read(byte @NotNull [] b, int off, int len) throws IOException {
             if (closed)
                 throw new IOException("Stream is closed");
             if (eof && nextout < 0)    // eof and no leftover

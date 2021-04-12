@@ -22,6 +22,7 @@ public class MethodParser {
             this.params = params;
         }
 
+        @Override
         public String toString() {
             String params = this.params.toString();
             return this.name + "(" + params.substring(1, params.length() - 1) + ")";

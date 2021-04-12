@@ -36,12 +36,12 @@ public class JarContents<C extends ClassNode> {
     private final DataContainer<JarResource> resourceContents;
 
     public JarContents() {
-        classContents = new ClassNodeContainer<C>();
+        classContents = new ClassNodeContainer<>();
         resourceContents = new ResourceContainer();
     }
 
     public JarContents(DataContainer<C> classContents, DataContainer<JarResource> resourceContents) {
-        this.classContents = classContents == null ? new ClassNodeContainer<C>() : classContents;
+        this.classContents = classContents == null ? new ClassNodeContainer<>() : classContents;
         this.resourceContents = resourceContents == null ? new ResourceContainer() : resourceContents;
     }
 
@@ -65,21 +65,21 @@ public class JarContents<C extends ClassNode> {
         List<JarResource> r1 = resourceContents;
         List<JarResource> r2 = contents.resourceContents;
 
-        List<C> c3 = new ArrayList<C>(c1.size() + c2.size());
+        List<C> c3 = new ArrayList<>(c1.size() + c2.size());
         c3.addAll(c1);
         c3.addAll(c2);
 
-        List<JarResource> r3 = new ArrayList<JarResource>(r1.size() + r2.size());
+        List<JarResource> r3 = new ArrayList<>(r1.size() + r2.size());
         r3.addAll(r1);
         r3.addAll(r2);
 
-        return new JarContents<C>(new ClassNodeContainer<>(c3), new ResourceContainer(r3));
+        return new JarContents<>(new ClassNodeContainer<>(c3), new ResourceContainer(r3));
     }
 
     public static class ClassNodeContainer<C extends ClassNode> extends DataContainer<C> {
         private static final long serialVersionUID = -6169578803641192235L;
 
-        private Map<String, C> lastMap = new HashMap<String, C>();
+        private Map<String, C> lastMap = new HashMap<>();
         private boolean invalidated;
 
         public ClassNodeContainer() {
@@ -116,7 +116,7 @@ public class JarContents<C extends ClassNode> {
         public Map<String, C> namedMap() {
             if (invalidated) {
                 invalidated = false;
-                Map<String, C> nodeMap = new HashMap<String, C>();
+                Map<String, C> nodeMap = new HashMap<>();
                 Iterator<C> it = iterator();
                 while (it.hasNext()) {
                     C cn = it.next();
@@ -149,7 +149,7 @@ public class JarContents<C extends ClassNode> {
 
         @Override
         public Map<String, JarResource> namedMap() {
-            Map<String, JarResource> map = new HashMap<String, JarResource>();
+            Map<String, JarResource> map = new HashMap<>();
             for (JarResource resource : this) {
                 map.put(resource.getName(), resource);
             }

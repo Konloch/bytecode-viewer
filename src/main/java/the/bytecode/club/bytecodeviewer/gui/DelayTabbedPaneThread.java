@@ -22,16 +22,13 @@ public class DelayTabbedPaneThread extends Thread {
             e.printStackTrace();
         }
         if (!stopped) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    if (stopped)
-                        return;
+            SwingUtilities.invokeLater(() -> {
+                if (stopped)
+                    return;
 
-                    pane.label.setOpaque(true);
-                    pane.label.setBackground(Color.MAGENTA);
-                    pane.label.updateUI();
-                }
+                pane.label.setOpaque(true);
+                pane.label.setBackground(Color.MAGENTA);
+                pane.label.updateUI();
             });
         }
     }

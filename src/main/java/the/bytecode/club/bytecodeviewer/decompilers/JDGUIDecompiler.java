@@ -45,7 +45,7 @@ public class JDGUIDecompiler extends Decompiler {
 
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
-        String exception = "";
+        String exception;
         try {
             final File tempDirectory =
                     new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
@@ -102,7 +102,7 @@ public class JDGUIDecompiler extends Decompiler {
             jd.core.Decompiler decompiler = new DecompilerImpl();
             decompiler.decompile(preferences, loader, printer, internalPath);
 
-            String decompiledSource = "Error with decompilation.";
+            String decompiledSource;
             decompiledSource = DiskReader.loadAsString(tempJava.getAbsolutePath());
 
             return decompiledSource;
@@ -114,7 +114,7 @@ public class JDGUIDecompiler extends Decompiler {
             exception =
                     "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         }
-        return "JD-GUI error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+        return "JD-GUI error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
     }
 
     @Override

@@ -6,8 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -19,7 +17,6 @@ import java.util.zip.ZipInputStream;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
-import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
@@ -110,20 +107,12 @@ public class JarUtils {
         FileContainer container = new FileContainer(jarFile);
         HashMap<String, byte[]> files = new HashMap<>();
 
-        Path path = jarFile.toPath();
-
-        String fileBaseName = FilenameUtils.getBaseName(path.getFileName().toString());
-        Path destFolderPath = Paths.get(path.getParent().toString(), fileBaseName);
-
         try (ZipFile zipFile = new ZipFile(jarFile)) {
             Enumeration<? extends ZipArchiveEntry> entries = zipFile.getEntries();
             while (entries.hasMoreElements()) {
                 ZipArchiveEntry entry = entries.nextElement();
-                Path entryPath = destFolderPath.resolve(entry.getName());
                 String name = entry.getName();
-                if (entry.isDirectory()) {
-                    //directory
-                } else {
+                if (!entry.isDirectory()) {
                     try (InputStream in = zipFile.getInputStream(entry)) {
                         final byte[] bytes = getBytes(in);
 
@@ -155,7 +144,7 @@ public class JarUtils {
 
 
     public static ArrayList<ClassNode> loadClasses(final File jarFile) throws IOException {
-        ArrayList<ClassNode> classes = new ArrayList<ClassNode>();
+        ArrayList<ClassNode> classes = new ArrayList<>();
         ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
         ZipEntry entry;
         while ((entry = jis.getNextEntry()) != null) {
@@ -210,7 +199,6 @@ public class JarUtils {
                         files.put(name, getBytes(jis));
 
                     jis.closeEntry();
-                    continue;
                 }
             } catch (Exception e) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -234,12 +222,11 @@ public class JarUtils {
     public static byte[] getBytes(final InputStream is) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
-        int a = 0;
+        int a;
         while ((a = is.read(buffer)) != -1) {
             baos.write(buffer, 0, a);
         }
         baos.close();
-        buffer = null;
         return baos.toByteArray();
     }
 
@@ -249,19 +236,14 @@ public class JarUtils {
      * @param bytez the class file's byte[]
      * @return the ClassNode instance
      */
-    public static ClassNode getNode(final byte[] bytez) throws Exception {
+    public static ClassNode getNode(final byte[] bytez) {
         ClassReader cr = new ClassReader(bytez);
         ClassNode cn = new ClassNode();
         try {
             cr.accept(cn, ClassReader.EXPAND_FRAMES);
         } catch (Exception e) {
-            try {
-                cr.accept(cn, ClassReader.SKIP_FRAMES);
-            } catch (Exception e2) {
-                throw e2;
-            }
+            cr.accept(cn, ClassReader.SKIP_FRAMES);
         }
-        cr = null;
         return cn;
     }
 
@@ -315,7 +297,7 @@ public class JarUtils {
     public static void saveAsJarClassesOnly(ArrayList<ClassNode> nodeList, String path) {
         try {
             JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
-            ArrayList<String> noDupe = new ArrayList<String>();
+            ArrayList<String> noDupe = new ArrayList<>();
             for (ClassNode cn : nodeList) {
                 ClassWriter cw = new ClassWriter(0);
                 cn.accept(cw);
@@ -369,7 +351,7 @@ public class JarUtils {
     public static void saveAsJar(ArrayList<ClassNode> nodeList, String path) {
         try {
             JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
-            ArrayList<String> noDupe = new ArrayList<String>();
+            ArrayList<String> noDupe = new ArrayList<>();
             for (ClassNode cn : nodeList) {
                 ClassWriter cw = new ClassWriter(0);
                 cn.accept(cw);

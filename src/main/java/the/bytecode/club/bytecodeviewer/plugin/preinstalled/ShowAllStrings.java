@@ -48,31 +48,17 @@ public class ShowAllStrings extends Plugin {
                 if (v instanceof String) {
                     String s = (String) v;
                     if (!s.isEmpty())
-                        sb.append(classNode.name
-                                + "."
-                                + f.name
-                                + ""
-                                + f.desc
-                                + " -> \""
-                                + s.replaceAll("\\n", "\\\\n").replaceAll(
-                                "\\r", "\\\\r") + "\""
-                                + BytecodeViewer.nl);
+                        sb.append(classNode.name).append(".").append(f.name).append(f.desc).append(" -> \"")
+                                .append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r"))
+                                .append("\"").append(BytecodeViewer.nl);
                 }
                 if (v instanceof String[]) {
                     for (int i = 0; i < ((String[]) v).length; i++) {
                         String s = ((String[]) v)[i];
                         if (!s.isEmpty())
-                            sb.append(classNode.name
-                                    + "."
-                                    + f.name
-                                    + ""
-                                    + f.desc
-                                    + "["
-                                    + i
-                                    + "] -> \""
-                                    + s.replaceAll("\\n", "\\\\n").replaceAll(
-                                    "\\r", "\\\\r") + "\""
-                                    + BytecodeViewer.nl);
+                            sb.append(classNode.name).append(".").append(f.name).append(f.desc).append("[").append(i)
+                                    .append("] -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r"))
+                                    .append("\"").append(BytecodeViewer.nl);
                     }
                 }
             }
@@ -86,15 +72,9 @@ public class ShowAllStrings extends Plugin {
                         if (((LdcInsnNode) a).cst instanceof String) {
                             final String s = (String) ((LdcInsnNode) a).cst;
                             if (!s.isEmpty())
-                                sb.append(classNode.name
-                                        + "."
-                                        + m.name
-                                        + ""
-                                        + m.desc
-                                        + " -> \""
-                                        + s.replaceAll("\\n", "\\\\n")
-                                        .replaceAll("\\r", "\\\\r")
-                                        + "\"" + BytecodeViewer.nl);
+                                sb.append(classNode.name).append(".").append(m.name).append(m.desc).append(" -> \"")
+                                        .append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r"))
+                                        .append("\"").append(BytecodeViewer.nl);
                         }
                     }
                 }

@@ -45,7 +45,7 @@ public abstract class ExternalResource<T> {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((location == null) ? 0 : location.hashCode());
+        result = prime * result + location.hashCode();
         return result;
     }
 
@@ -58,9 +58,7 @@ public abstract class ExternalResource<T> {
         if (getClass() != obj.getClass())
             return false;
         ExternalResource<?> other = (ExternalResource<?>) obj;
-        if (location == null) {
-            return other.location == null;
-        } else return location.equals(other.location);
+        return location.equals(other.location);
     }
 
     @Override

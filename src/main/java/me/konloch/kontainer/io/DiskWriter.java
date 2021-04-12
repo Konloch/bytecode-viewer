@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 /**
  * This method will save to disk
@@ -25,18 +26,18 @@ public class DiskWriter {
         String[] babe = fileName.split("\\.");
         int count = 0;
         int math = babe.length;
-        String m = "";
+        StringBuilder m = new StringBuilder();
 
         for (String s2 : babe) {
-            m += s2;
+            m.append(s2);
             if (math - 2 == count)
-                m += difference + ".";
+                m.append(difference).append(".");
             else if (math - 1 != count)
-                m += ".";
+                m.append(".");
             count++;
         }
 
-        return m;
+        return m.toString();
     }
 
     /**
@@ -58,7 +59,7 @@ public class DiskWriter {
             try {
                 writer = new PrintWriter(new BufferedWriter(new FileWriter(
                         filename, true)));
-                writer.println(fileContents);
+                writer.println(Arrays.toString(fileContents));
                 if (debug)
                     System.out.println("Saved " + filename + " to disk");
                 saved = true;
@@ -135,7 +136,7 @@ public class DiskWriter {
             try {
                 writer = new PrintWriter(new BufferedWriter(new FileWriter(
                         filename, true)));
-                writer.println(fileContents);
+                writer.println(Arrays.toString(fileContents));
                 if (debug)
                     System.out.println("Saved " + filename + " to disk");
                 saved = true;

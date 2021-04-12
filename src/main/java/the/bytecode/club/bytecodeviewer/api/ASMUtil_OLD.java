@@ -1,6 +1,5 @@
 package the.bytecode.club.bytecodeviewer.api;
 
-import java.util.List;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -82,9 +81,9 @@ public final class ASMUtil_OLD {
                             if (newDesc != null)
                                 mi.desc = newDesc;
                         }
-                    } else {
-                        // System.out.println(i.getOpcode()+":"+c.name+":"+m.name);
-                    }
+                    } /*else {
+                        System.out.println(i.getOpcode()+":"+c.name+":"+m.name);
+                    }*/
                 }
 
                 if (m.signature != null) {
@@ -111,18 +110,17 @@ public final class ASMUtil_OLD {
     public static void renameClassNode(final String oldName,
                                        final String newName) {
         for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
-            for (Object oo : c.innerClasses) {
-                InnerClassNode innerClassNode = (InnerClassNode) oo;
-                if (innerClassNode.innerName != null
-                        && innerClassNode.innerName.equals(oldName)) {
-                    innerClassNode.innerName = newName;
+            for (InnerClassNode oo : c.innerClasses) {
+                if (oo.innerName != null
+                        && oo.innerName.equals(oldName)) {
+                    oo.innerName = newName;
                 }
-                if (innerClassNode.name.equals(oldName)) {
-                    innerClassNode.name = newName;
+                if (oo.name.equals(oldName)) {
+                    oo.name = newName;
                 }
-                if (innerClassNode.outerName != null
-                        && innerClassNode.outerName.equals(oldName)) {
-                    innerClassNode.outerName = newName;
+                if (oo.outerName != null
+                        && oo.outerName.equals(oldName)) {
+                    oo.outerName = newName;
                 }
             }
 
@@ -135,10 +133,6 @@ public final class ASMUtil_OLD {
             for (Object o : c.fields.toArray()) {
                 FieldNode f = (FieldNode) o;
                 f.desc = f.desc.replace(oldName, newName);
-            }
-            for (Object o : c.interfaces.toArray()) {
-                String truxerLipton = (String) o;
-                truxerLipton = truxerLipton.replace(oldName, newName);
             }
             for (Object o : c.methods.toArray()) {
                 MethodNode m = (MethodNode) o;

@@ -17,8 +17,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
@@ -59,9 +57,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
     JPanel buttonPanel;
     JButton refreshClass;
 
-    HashMap<String, Integer> workingOn = new HashMap<String, Integer>();
-
-    public static int SyntaxFontHeight = 12;
+    HashMap<String, Integer> workingOn = new HashMap<>();
 
     public WorkPane(final FileChangeNotifier fcn) {
         super("WorkPanel");
@@ -79,32 +75,24 @@ public class WorkPane extends VisibleComponent implements ActionListener {
         };
         JMenuItem closealltab = new JMenuItem("Close All But This");
         JMenuItem closetab = new JMenuItem("Close Tab");
-        closetab.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-				/*String name = e.getActionCommand().split(": ")[1];
-				final int i = pane.indexOfTab(name);
-				if (i != -1)
-					pane.remove(i);*/
-            }
+        closetab.addActionListener(e -> {
+            /*String name = e.getActionCommand().split(": ")[1];
+            final int i = pane.indexOfTab(name);
+            if (i != -1)
+                pane.remove(i);*/
         });
-        closealltab.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = e.getActionCommand().split(": ")[1];
-                System.out.println("debug-3: " + name);
-                boolean removedAll = false;
-                while (!removedAll) {
-                    int thisID = tabs.indexOfTab(name);
-                    if (tabs.getTabCount() <= 1) {
-                        removedAll = true;
-                        return;
-                    }
-                    if (thisID != 0)
-                        tabs.remove(0);
-                    else
-                        tabs.remove(1);
+        closealltab.addActionListener(e -> {
+            String name = e.getActionCommand().split(": ")[1];
+            System.out.println("debug-3: " + name);
+            while (true) {
+                int thisID = tabs.indexOfTab(name);
+                if (tabs.getTabCount() <= 1) {
+                    return;
                 }
+                if (thisID != 0)
+                    tabs.remove(0);
+                else
+                    tabs.remove(1);
             }
         });
         tabs.addMouseListener(new MouseListener() {
@@ -204,18 +192,11 @@ public class WorkPane extends VisibleComponent implements ActionListener {
             }
 
         });
-        tabs.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(final ChangeEvent arg0) {
-                buttonPanel.setVisible(tabs.getSelectedIndex() != -1);
-            }
-        });
+        tabs.addChangeListener(arg0 -> buttonPanel.setVisible(tabs.getSelectedIndex() != -1));
 
         this.setVisible(true);
 
     }
-
-    int tabCount = 0;
 
     public void addWorkingFile(final FileContainer container, String name, final ClassNode cn) {
         String workingName = container.name + ">" + name;
@@ -225,12 +206,12 @@ public class WorkPane extends VisibleComponent implements ActionListener {
             containerName = container.name + ">" + name;
 
         if (!workingOn.containsKey(workingName)) {
-            final JPanel tabComp = new ClassViewer(container, containerName, cn);
+            final ClassViewer tabComp = new ClassViewer(container, containerName, cn);
             tabs.add(tabComp);
             final int tabCount = tabs.indexOfComponent(tabComp);
             workingOn.put(workingName, tabCount);
             TabbedPane tabbedPane = new TabbedPane(container.name, name, tabs);
-            ((ClassViewer) tabComp).tabbedPane = tabbedPane;
+            tabComp.tabbedPane = tabbedPane;
             tabs.setTabComponentAt(tabCount, tabbedPane);
             tabs.setSelectedIndex(tabCount);
         } else {
@@ -248,22 +229,20 @@ public class WorkPane extends VisibleComponent implements ActionListener {
             return;
 
         if (!workingOn.containsKey(workingName)) {
-            final Component tabComp = new FileViewer(container, name, contents);
+            final FileViewer tabComp = new FileViewer(container, name, contents);
             tabs.add(tabComp);
             final int tabCount = tabs.indexOfComponent(tabComp);
             workingOn.put(workingName, tabCount);
 
             TabbedPane tabbedPane = new TabbedPane(null, name, tabs);
-            ((FileViewer) tabComp).tabbedPane = tabbedPane;
+            tabComp.tabbedPane = tabbedPane;
             tabs.setTabComponentAt(tabCount, tabbedPane);
             tabs.setSelectedIndex(tabCount);
         } else {
             try {
                 tabs.setSelectedIndex(workingOn.get(workingName));
-            } catch (java.lang.IndexOutOfBoundsException e) {
-                //workingOn.remove(workingName);
-                e.printStackTrace();
             } catch (Exception e) {
+                //workingOn.remove(workingName);
                 e.printStackTrace();
             }
         }
@@ -289,34 +268,32 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 
     @Override
     public void actionPerformed(final ActionEvent arg0) {
-        Thread t = new Thread() {
-            public void run() {
-                if (BytecodeViewer.viewer.autoCompileOnRefresh.isSelected())
-                    try {
-                        if (!BytecodeViewer.compile(false))
-                            return;
-                    } catch (java.lang.NullPointerException e) {
+        Thread t = new Thread(() -> {
+            if (BytecodeViewer.viewer.autoCompileOnRefresh.isSelected())
+                try {
+                    if (!BytecodeViewer.compile(false))
+                        return;
+                } catch (NullPointerException ignored) {
 
-                    }
-                final JButton src = (JButton) arg0.getSource();
-                if (src == refreshClass) {
-                    final Component tabComp = tabs.getSelectedComponent();
-                    if (tabComp != null) {
-                        if (tabComp instanceof ClassViewer) {
-                            src.setEnabled(false);
-                            BytecodeViewer.viewer.setIcon(true);
-                            ((ClassViewer) tabComp).startPaneUpdater(src);
-                            BytecodeViewer.viewer.setIcon(false);
-                        } else if (tabComp instanceof FileViewer) {
-                            src.setEnabled(false);
-                            BytecodeViewer.viewer.setIcon(true);
-                            ((FileViewer) tabComp).refresh(src);
-                            BytecodeViewer.viewer.setIcon(false);
-                        }
+                }
+            final JButton src = (JButton) arg0.getSource();
+            if (src == refreshClass) {
+                final Component tabComp = tabs.getSelectedComponent();
+                if (tabComp != null) {
+                    if (tabComp instanceof ClassViewer) {
+                        src.setEnabled(false);
+                        BytecodeViewer.viewer.setIcon(true);
+                        ((ClassViewer) tabComp).startPaneUpdater(src);
+                        BytecodeViewer.viewer.setIcon(false);
+                    } else if (tabComp instanceof FileViewer) {
+                        src.setEnabled(false);
+                        BytecodeViewer.viewer.setIcon(true);
+                        ((FileViewer) tabComp).refresh(src);
+                        BytecodeViewer.viewer.setIcon(false);
                     }
                 }
             }
-        };
+        });
         t.start();
     }
 

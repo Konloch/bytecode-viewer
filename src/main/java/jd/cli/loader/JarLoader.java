@@ -25,6 +25,7 @@ public class JarLoader extends BaseLoader {
         }
     }
 
+    @Override
     public DataInputStream load(String internalPath)
             throws LoaderException {
         ZipEntry zipEntry = this.zipFile.getEntry(internalPath);
@@ -40,6 +41,7 @@ public class JarLoader extends BaseLoader {
         }
     }
 
+    @Override
     public boolean canLoad(String internalPath) {
         return this.zipFile.getEntry(internalPath) != null;
     }

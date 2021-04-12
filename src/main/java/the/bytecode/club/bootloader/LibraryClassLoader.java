@@ -45,8 +45,8 @@ public class LibraryClassLoader extends ClassLoader implements ILoader<JarConten
     private final ClassTree tree;
 
     public LibraryClassLoader() {
-        binded = new HashSet<JarContents<ClassNode>>();
-        classCache = new HashMap<String, Class<?>>();
+        binded = new HashSet<>();
+        classCache = new HashMap<>();
         tree = new ClassTree();
     }
 
@@ -103,7 +103,7 @@ public class LibraryClassLoader extends ClassLoader implements ILoader<JarConten
         return defineClass(bytes, 0, bytes.length);
     }
 
-    public class ResolvingClassWriter extends ClassWriter {
+    public static class ResolvingClassWriter extends ClassWriter {
 
         private final ClassTree classTree;
 

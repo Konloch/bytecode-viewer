@@ -3,7 +3,6 @@ package the.bytecode.club.bytecodeviewer.searching;
 import eu.bibl.banalysis.asm.desc.OpcodeInfo;
 import java.awt.GridLayout;
 import java.util.Iterator;
-import java.util.ListIterator;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -42,7 +41,9 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 public class FieldCallSearch implements SearchTypeDetails {
 
-    JTextField mOwner = new JTextField(""), mName = new JTextField(""), mDesc = new JTextField("");
+    JTextField mOwner;
+    JTextField mName;
+    JTextField mDesc;
 
     JPanel myPanel = null;
 
@@ -90,10 +91,7 @@ public class FieldCallSearch implements SearchTypeDetails {
             final MethodNode method = methods.next();
 
             final InsnList insnlist = method.instructions;
-            final ListIterator<AbstractInsnNode> instructions = insnlist
-                    .iterator();
-            while (instructions.hasNext()) {
-                final AbstractInsnNode insnNode = instructions.next();
+            for (AbstractInsnNode insnNode : insnlist) {
                 if (insnNode instanceof FieldInsnNode) {
                     final FieldInsnNode min = (FieldInsnNode) insnNode;
                     if (name == null && owner == null && desc == null)
@@ -111,9 +109,9 @@ public class FieldCallSearch implements SearchTypeDetails {
                         String desc2 = method.desc;
                         try {
                             desc2 = Type.getType(method.desc).toString();
-                            if (desc2 == null || desc2.equals("null"))
+                            if (desc2.equals("null"))
                                 desc2 = method.desc;
-                        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+                        } catch (ArrayIndexOutOfBoundsException ignored) {
 
                         }
                         srn.notifyOfResult(container.name + ">" + node.name
@@ -137,9 +135,9 @@ public class FieldCallSearch implements SearchTypeDetails {
                         String desc2 = method.desc;
                         try {
                             desc2 = Type.getType(method.desc).toString();
-                            if (desc2 == null || desc2.equals("null"))
+                            if (desc2.equals("null"))
                                 desc2 = method.desc;
-                        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+                        } catch (ArrayIndexOutOfBoundsException ignored) {
 
                         }
                         srn.notifyOfResult(container.name + ">" + node.name

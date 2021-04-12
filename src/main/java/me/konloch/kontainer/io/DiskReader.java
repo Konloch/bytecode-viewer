@@ -17,14 +17,14 @@ import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 public class DiskReader {
 
     public static Random random = new Random();
-    public static HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+    public static HashMap<String, ArrayList<String>> map = new HashMap<>();
 
     /**
      * Used to load from file, allows caching
      */
     public synchronized static ArrayList<String> loadArrayList(String fileName,
                                                                boolean cache) {
-        ArrayList<String> array = new ArrayList<String>();
+        ArrayList<String> array = new ArrayList<>();
         if (!map.containsKey(fileName)) {
             try {
                 File file = new File(fileName);
@@ -58,7 +58,7 @@ public class DiskReader {
     public synchronized static String loadAsString(String fileName) throws Exception {
         StringBuilder s = new StringBuilder();
 
-        BufferedReader reader = new BufferedReader(new FileReader(new File(fileName)));
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
         for (String add = reader.readLine(); add != null; add = reader.readLine()) {
             s.append(EncodeUtils.unicodeToString(add)).append(System.getProperty("line.separator"));
@@ -77,7 +77,7 @@ public class DiskReader {
 
         ArrayList<String> array;
         if (!map.containsKey(fileName)) {
-            array = new ArrayList<String>();
+            array = new ArrayList<>();
             File file = new File(fileName);
 
             BufferedReader reader = new BufferedReader(new FileReader(file));

@@ -21,11 +21,8 @@ package the.bytecode.club.bytecodeviewer.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -73,23 +70,20 @@ public abstract class PaneUpdaterThread extends Thread {
         if (scrollPane == null)
             return;
 
-        scrollPane.addMouseWheelListener(new MouseWheelListener() {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                if (panelArea == null || panelArea.getText().isEmpty())
-                    return;
+        scrollPane.addMouseWheelListener(e -> {
+            if (panelArea == null || panelArea.getText().isEmpty())
+                return;
 
-                if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
-                    Font font = panelArea.getFont();
-                    int size = font.getSize();
-                    if (e.getWheelRotation() > 0) { //Up
-                        panelArea.setFont(new Font(font.getName(), font.getStyle(), --size >= 2 ? --size : 2));
-                    } else { //Down
-                        panelArea.setFont(new Font(font.getName(), font.getStyle(), ++size));
-                    }
+            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
+                Font font = panelArea.getFont();
+                int size = font.getSize();
+                if (e.getWheelRotation() > 0) { //Up
+                    panelArea.setFont(new Font(font.getName(), font.getStyle(), --size >= 2 ? --size : 2));
+                } else { //Down
+                    panelArea.setFont(new Font(font.getName(), font.getStyle(), ++size));
                 }
-                e.consume();
             }
+            e.consume();
         });
     }
 
@@ -102,7 +96,7 @@ public abstract class PaneUpdaterThread extends Thread {
                 if (methodLine != -1) {
                     if (BytecodeViewer.viewer.showClassMethods.isSelected()) {
                         if (methodsList != null) {
-                            if (methodLine != (int) methodsList.getSelectedItem()) {
+                            if (methodLine != (int) Objects.requireNonNull(methodsList.getSelectedItem())) {
                                 methodsList.setSelectedItem(methodLine);
                             }
                         }
@@ -196,6 +190,7 @@ public abstract class PaneUpdaterThread extends Thread {
             setOpaque(true);
         }
 
+        @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
                                                       boolean cellHasFocus) {
             MethodParser methods = viewer.methods.get(paneId);
@@ -228,27 +223,24 @@ public abstract class PaneUpdaterThread extends Thread {
                     methodsList.addItem(line);
                 }
                 methodsList.setRenderer(new PaneUpdaterThread.MethodsRenderer());
-                methodsList.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        int line = (int) methodsList.getSelectedItem();
+                methodsList.addActionListener(e -> {
+                    int line = (int) Objects.requireNonNull(methodsList.getSelectedItem());
 
-                        RSyntaxTextArea area = null;
-                        switch (paneId) {
-                        case 0:
-                            area = viewer.t1.panelArea;
-                            break;
-                        case 1:
-                            area = viewer.t2.panelArea;
-                            break;
-                        case 2:
-                            area = viewer.t3.panelArea;
-                            break;
-                        }
-
-                        if (area != null)
-                            ClassViewer.selectMethod(area, line);
+                    RSyntaxTextArea area = null;
+                    switch (paneId) {
+                    case 0:
+                        area = viewer.t1.panelArea;
+                        break;
+                    case 1:
+                        area = viewer.t2.panelArea;
+                        break;
+                    case 2:
+                        area = viewer.t3.panelArea;
+                        break;
                     }
+
+                    if (area != null)
+                        ClassViewer.selectMethod(area, line);
                 });
 
                 JPanel panel = new JPanel(new BorderLayout());

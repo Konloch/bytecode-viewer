@@ -133,19 +133,17 @@ public class RunOptions extends JFrame {
         chckbxPrintToTerminal.setBounds(6, 315, 232, 23);
         getContentPane().add(chckbxPrintToTerminal);
         this.setLocationRelativeTo(null);
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                PluginManager.runPlugin(new EZInjection(accessModifiers
-                        .isSelected(), injectHooks.isSelected(),
-                        debugMethodCalls.isSelected(), invokeMethod
-                        .isSelected(),
-                        txtThebytecodeclubexamplemainlstring.getText(), false, false, textField
-                        .getText(), textField_1.getText(), forceProxy
-                        .isSelected(),
-                        launchReflectionKit.isSelected(), console.isSelected(),
-                        chckbxPrintToTerminal.isSelected()));
-                dispose();
-            }
+        btnNewButton.addActionListener(arg0 -> {
+            PluginManager.runPlugin(new EZInjection(accessModifiers
+                    .isSelected(), injectHooks.isSelected(),
+                    debugMethodCalls.isSelected(), invokeMethod
+                    .isSelected(),
+                    txtThebytecodeclubexamplemainlstring.getText(), false, false, textField
+                    .getText(), textField_1.getText(), forceProxy
+                    .isSelected(),
+                    launchReflectionKit.isSelected(), console.isSelected(),
+                    chckbxPrintToTerminal.isSelected()));
+            dispose();
         });
     }
 

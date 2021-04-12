@@ -25,11 +25,13 @@ public class JHexEditorASCII extends JComponent implements MouseListener,
         addFocusListener(he);
     }
 
+    @Override
     public Dimension getPreferredSize() {
         debug("getPreferredSize()");
         return getMinimumSize();
     }
 
+    @Override
     public Dimension getMinimumSize() {
         debug("getMinimumSize()");
 
@@ -42,6 +44,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener,
         return d;
     }
 
+    @Override
     public void paint(Graphics g) {
         debug("paint(" + g + ")");
         debug("cursor=" + he.cursor + " buff.length=" + he.buff.length);
@@ -102,6 +105,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener,
     }
 
     // mouselistener
+    @Override
     public void mouseClicked(MouseEvent e) {
         debug("mouseClicked(" + e + ")");
         he.cursor = calcularPosicionRaton(e.getX(), e.getY());
@@ -109,19 +113,24 @@ public class JHexEditorASCII extends JComponent implements MouseListener,
         he.repaint();
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
     }
 
+    @Override
     public void mouseEntered(MouseEvent e) {
     }
 
+    @Override
     public void mouseExited(MouseEvent e) {
     }
 
     // KeyListener
+    @Override
     public void keyTyped(KeyEvent e) {
         /*
          * debug("keyTyped("+e+")");
@@ -132,20 +141,24 @@ public class JHexEditorASCII extends JComponent implements MouseListener,
          */
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
         debug("keyPressed(" + e + ")");
         he.keyPressed(e);
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
         debug("keyReleased(" + e + ")");
     }
 
     @SuppressWarnings("deprecation")
+    @Override
     public boolean isFocusTraversable() {
         return true;
     }
 
+    @Override
     public boolean isFocusable() {
         return true;
     }

@@ -68,7 +68,7 @@ public class JavaCompiler extends Compiler {
         boolean cont = true;
         BytecodeViewer.sm.stopBlocking();
         try {
-            String log = "";
+            StringBuilder log = new StringBuilder();
             ProcessBuilder pb;
 
             if (BytecodeViewer.library.isEmpty()) {
@@ -91,24 +91,21 @@ public class JavaCompiler extends Compiler {
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
 
-            Thread failSafe = new Thread() {
-                @Override
-                public void run() {
-                    long started = System.currentTimeMillis();
-                    while (System.currentTimeMillis() - started <= 10_000) {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    if (process.isAlive()) {
-                        System.out.println("Force killing javac process, assuming it's gotten stuck");
-                        process.destroyForcibly().destroy();
+            Thread failSafe = new Thread(() -> {
+                long started = System.currentTimeMillis();
+                while (System.currentTimeMillis() - started <= 10_000) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
-            };
+
+                if (process.isAlive()) {
+                    System.out.println("Force killing javac process, assuming it's gotten stuck");
+                    process.destroyForcibly().destroy();
+                }
+            });
             failSafe.start();
 
             int exitValue = process.waitFor();
@@ -119,24 +116,24 @@ public class JavaCompiler extends Compiler {
             BufferedReader br = new BufferedReader(isr);
             String line;
             while ((line = br.readLine()) != null) {
-                log += BytecodeViewer.nl + line;
+                log.append(BytecodeViewer.nl).append(line);
             }
             br.close();
 
-            log += BytecodeViewer.nl + BytecodeViewer.nl + "Error:" + BytecodeViewer.nl + BytecodeViewer.nl;
+            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Error:").append(BytecodeViewer.nl).append(BytecodeViewer.nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
             while ((line = br.readLine()) != null) {
-                log += BytecodeViewer.nl + line;
+                log.append(BytecodeViewer.nl).append(line);
             }
             br.close();
 
-            log += BytecodeViewer.nl + BytecodeViewer.nl + "Exit Value is " + exitValue;
+            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Exit Value is ").append(exitValue);
             System.out.println(log);
 
             if (!clazz.exists())
-                throw new Exception(log);
+                throw new Exception(log.toString());
 
         } catch (Exception e) {
             cont = false;

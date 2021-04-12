@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -54,12 +55,7 @@ public class TabbedPane extends JPanel {
     public static final Color BLANK = new Color(0, 0, 0, 0);
     private final JTabbedPane pane;
     public final JLabel label;
-    private final JButton button = new TabButton();
     private static long zero = System.currentTimeMillis();
-    private final long startedDragging = 0;
-    private boolean dragging = false;
-    private DelayTabbedPaneThread probablyABadIdea;
-    private final TabbedPane THIS = this;
     public String tabName;
     public String fileContainerName;
 
@@ -102,37 +98,30 @@ public class TabbedPane extends JPanel {
         // add more space between the label and the button
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
         // tab button
+        JButton button = new TabButton();
         this.add(button);
         // add more space to the top of the component
         setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
         JPopupMenu pop_up = new JPopupMenu();
         JMenuItem closealltab = new JMenuItem("Close All But This: " + name);
         JMenuItem closetab = new JMenuItem("Close Tab: " + name);
-        closetab.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = e.getActionCommand().split(": ")[1];
-                final int i = pane.indexOfTab(name);
-                if (i != -1)
-                    pane.remove(i);
-            }
+        closetab.addActionListener(e -> {
+            String name1 = e.getActionCommand().split(": ")[1];
+            final int i = pane.indexOfTab(name1);
+            if (i != -1)
+                pane.remove(i);
         });
-        closealltab.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = e.getActionCommand().split(": ")[1];
-                boolean removedAll = false;
-                while (!removedAll) {
-                    int thisID = pane.indexOfTab(name);
-                    if (pane.getTabCount() <= 1) {
-                        removedAll = true;
-                        return;
-                    }
-                    if (thisID != 0)
-                        pane.remove(0);
-                    else
-                        pane.remove(1);
+        closealltab.addActionListener(e -> {
+            String name12 = e.getActionCommand().split(": ")[1];
+            while (true) {
+                int thisID = pane.indexOfTab(name12);
+                if (pane.getTabCount() <= 1) {
+                    return;
                 }
+                if (thisID != 0)
+                    pane.remove(0);
+                else
+                    pane.remove(1);
             }
         });
 
@@ -144,7 +133,7 @@ public class TabbedPane extends JPanel {
         button.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getModifiers() == 8) {
+                if (e.getModifiers() == InputEvent.ALT_MASK) {
                     if (System.currentTimeMillis() - zero >= 100) {
                         zero = System.currentTimeMillis();
                         final int i = pane.indexOfTabComponent(TabbedPane.this);
@@ -211,6 +200,7 @@ public class TabbedPane extends JPanel {
     }
 
     private void stopDragging(int mouseX, int mouseY) {
+        long startedDragging = 0;
         if (System.currentTimeMillis() - startedDragging >= 210) {
             Rectangle bounds = new Rectangle(1, 1, mouseX, mouseY);
             System.out.println("debug-5: " + mouseX + ", " + mouseY);
@@ -238,11 +228,7 @@ public class TabbedPane extends JPanel {
                 BytecodeViewer.viewer.workPane.tabs.setTabComponentAt(index, this);
             }
         }
-        dragging = false;
         label.setBackground(BLANK);
-        if (probablyABadIdea != null) {
-            probablyABadIdea.stopped = true;
-        }
         label.updateUI();
     }
 
@@ -269,6 +255,7 @@ public class TabbedPane extends JPanel {
             addActionListener(this);
         }
 
+        @Override
         public void actionPerformed(final ActionEvent e) {
             final int i = pane.indexOfTabComponent(TabbedPane.this);
             if (i != -1) {

@@ -17,7 +17,6 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
         KeyListener {
     private static final long serialVersionUID = 1481995655372014571L;
     private final JHexEditor he;
-    private final int cursor = 0;
 
     public JHexEditorHEX(JHexEditor he) {
         this.he = he;
@@ -31,6 +30,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
      * getMinimumSize(); }
      */
 
+    @Override
     public Dimension getMaximumSize() {
         debug("getMaximumSize()");
         return getMinimumSize();
@@ -45,6 +45,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
      * )*+((16*3)-1))+(he.border*2)+1,h*nl+(he.border*2)+1); return d; }
      */
 
+    @Override
     public void paint(Graphics g) {
         debug("paint(" + g + ")");
         debug("cursor=" + he.cursor + " buff.length=" + he.buff.length);
@@ -69,6 +70,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
                     g.setColor(Color.black);
                     he.fondo(g, (x * 3), y, 2);
                     g.setColor(Color.blue);
+                    int cursor = 0;
                     he.fondo(g, (x * 3) + cursor, y, 1);
                 } else {
                     g.setColor(Color.blue);
@@ -108,6 +110,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
     }
 
     // mouselistener
+    @Override
     public void mouseClicked(MouseEvent e) {
         debug("mouseClicked(" + e + ")");
         he.cursor = calcularPosicionRaton(e.getX(), e.getY());
@@ -115,19 +118,24 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
         he.repaint();
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
     }
 
+    @Override
     public void mouseEntered(MouseEvent e) {
     }
 
+    @Override
     public void mouseExited(MouseEvent e) {
     }
 
     // KeyListener
+    @Override
     public void keyTyped(KeyEvent e) {
         debug("keyTyped(" + e + ")");
 
@@ -145,20 +153,24 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
          */
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
         debug("keyPressed(" + e + ")");
         he.keyPressed(e);
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
         debug("keyReleased(" + e + ")");
     }
 
     @SuppressWarnings("deprecation")
+    @Override
     public boolean isFocusTraversable() {
         return true;
     }
 
+    @Override
     public boolean isFocusable() {
         return true;
     }

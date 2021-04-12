@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.compilers;
 
 import java.io.File;
+import java.util.Objects;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
@@ -76,7 +77,7 @@ public class SmaliAssembler extends Compiler {
             File current = tempJarFolder;
             try {
                 while (!found) {
-                    File f = current.listFiles()[0];
+                    File f = Objects.requireNonNull(current.listFiles())[0];
                     if (f.isDirectory())
                         current = f;
                     else {
@@ -87,7 +88,7 @@ public class SmaliAssembler extends Compiler {
                 }
 
                 return org.apache.commons.io.FileUtils.readFileToByteArray(outputClass);
-            } catch (java.lang.NullPointerException e) {
+            } catch (java.lang.NullPointerException ignored) {
 
             }
         } catch (Exception e) {

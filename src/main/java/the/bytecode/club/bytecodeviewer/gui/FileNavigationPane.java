@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -20,11 +19,10 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Objects;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -33,8 +31,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.MutableTreeNode;
@@ -74,7 +70,6 @@ import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
  * @author afffsdd
  */
 
-@SuppressWarnings("serial")
 public class FileNavigationPane extends VisibleComponent implements
         FileDrop.Listener {
 
@@ -101,18 +96,18 @@ public class FileNavigationPane extends VisibleComponent implements
                     return;
 
 
-                String[] path = null;
+                String[] path;
                 int found = 0;
 
                 if (qt.contains(".")) {
                     path = qt.split("\\.");
-                    String[] path2 = new String[path.length];
+                    /*String[] path2 = new String[path.length];
                     for (int i = 0; i < path.length; i++) {
                         path2[i] = path[i];
                         if (i + 2 == path.length) {
                             path2[i + 1] = "." + path[i + 1];
                         }
-                    }
+                    }*/
                 } else {
                     path = new String[]{qt};
                 }
@@ -133,11 +128,6 @@ public class FileNavigationPane extends VisibleComponent implements
                                 if (isLast) {
                                     System.out.println("Found! " + curNode);
                                     found++;
-                                    if (found >= 30) {
-                                        BytecodeViewer.showMessage("Uh oh, there could be more results but you've "
-                                                + "triggered the 30 classes at once limit. Try refining your search.");
-                                        return;
-                                    }
                                     final TreePath pathn = new TreePath(curNode.getPath());
                                     tree.setSelectionPath(pathn);
                                     tree.makeVisible(pathn);
@@ -174,7 +164,7 @@ public class FileNavigationPane extends VisibleComponent implements
                                         }
                                     }
                                     String fullPathString = fullPath.toString();
-                                    if (fullPathString != null && fullPathString.toLowerCase().contains(qt.toLowerCase())) {
+                                    if (fullPathString.toLowerCase().contains(qt.toLowerCase())) {
                                         System.out.println("Found! " + node);
                                         found++;
                                         if (found >= 30) {
@@ -208,8 +198,9 @@ public class FileNavigationPane extends VisibleComponent implements
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
-                DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode) selPath.getLastPathComponent();
-                Enumeration enumeration = treeRoot.children();
+                DefaultMutableTreeNode selectNode =
+                        (DefaultMutableTreeNode) Objects.requireNonNull(selPath).getLastPathComponent();
+                Enumeration<?> enumeration = treeRoot.children();
                 while (enumeration.hasMoreElements()) {
                     DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumeration.nextElement();
                     if (node.isNodeAncestor(selectNode)) {
@@ -232,7 +223,7 @@ public class FileNavigationPane extends VisibleComponent implements
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
-                expandAll(tree, selPath, true);
+                expandAll(tree, Objects.requireNonNull(selPath), true);
             }
         });
 
@@ -240,7 +231,7 @@ public class FileNavigationPane extends VisibleComponent implements
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
-                expandAll(tree, selPath, false);
+                expandAll(tree, Objects.requireNonNull(selPath), false);
             }
         });
 
@@ -271,7 +262,7 @@ public class FileNavigationPane extends VisibleComponent implements
                     }
 
                     DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode) selPath.getLastPathComponent();
-                    Enumeration enumeration = treeRoot.children();
+                    Enumeration<?> enumeration = treeRoot.children();
                     while (enumeration.hasMoreElements()) {
                         DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumeration.nextElement();
                         if (node.isNodeAncestor(selectNode)) {
@@ -284,22 +275,16 @@ public class FileNavigationPane extends VisibleComponent implements
             }
         });
 
-        this.open.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final TreeNode root = (TreeNode) tree.getModel().getRoot();
-                expandAll(tree, new TreePath(root), true);
-            }
+        this.open.addActionListener(e -> {
+            final TreeNode root = (TreeNode) tree.getModel().getRoot();
+            expandAll(tree, new TreePath(root), true);
         });
 
-        this.close.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final TreeNode root = (TreeNode) tree.getModel().getRoot();
-                final TreePath path = new TreePath(root);
-                expandAll(tree, path, false);
-                tree.expandPath(path);
-            }
+        this.close.addActionListener(e -> {
+            final TreeNode root = (TreeNode) tree.getModel().getRoot();
+            final TreePath path = new TreePath(root);
+            expandAll(tree, path, false);
+            tree.expandPath(path);
         });
 
         this.tree.addMouseListener(new MouseAdapter() {
@@ -309,15 +294,12 @@ public class FileNavigationPane extends VisibleComponent implements
             }
         });
 
-        this.tree.addTreeSelectionListener(new TreeSelectionListener() {
-            @Override
-            public void valueChanged(final TreeSelectionEvent arg0) {
-                if (cancel) {
-                    cancel = false;
-                    return;
-                }
-                openPath(arg0.getPath());
+        this.tree.addTreeSelectionListener(arg0 -> {
+            if (cancel) {
+                cancel = false;
+                return;
             }
+            openPath(arg0.getPath());
         });
 
         this.tree.addKeyListener(new KeyListener() {
@@ -531,13 +513,12 @@ public class FileNavigationPane extends VisibleComponent implements
                             ((int) ((getWidth() / 2) - (m.getWidth(s) / 2))),
                             getHeight() / 2);
                 }
-            } catch (java.lang.InternalError | java.lang.NullPointerException e) {
-
+            } catch (java.lang.InternalError | java.lang.NullPointerException ignored) {
             }
         }
     }
 
-    public class MyTreeNode extends DefaultMutableTreeNode {
+    public static class MyTreeNode extends DefaultMutableTreeNode {
 
         private static final long serialVersionUID = -8817777566176729571L;
 
@@ -556,10 +537,8 @@ public class FileNavigationPane extends VisibleComponent implements
 
         @SuppressWarnings("unchecked")
         private void recursiveSort(final MyTreeNode node) {
-            Collections.sort(node.children, nodeComparator);
-            final Iterator<MyTreeNode> it = node.children.iterator();
-            while (it.hasNext()) {
-                final MyTreeNode nextNode = it.next();
+            node.children.sort(nodeComparator);
+            for (MyTreeNode nextNode : (Iterable<MyTreeNode>) node.children) {
                 if (nextNode.getChildCount() > 0) {
                     recursiveSort(nextNode);
                 }
@@ -583,8 +562,7 @@ public class FileNavigationPane extends VisibleComponent implements
 
             @Override
             public int hashCode() {
-                final int hash = 7;
-                return hash;
+                return 7;
             }
         };
 
@@ -593,7 +571,7 @@ public class FileNavigationPane extends VisibleComponent implements
     /**
      * @author http://stackoverflow.com/a/18450804
      */
-    class StringMetrics {
+    static class StringMetrics {
 
         Font font;
         FontRenderContext context;
@@ -653,7 +631,7 @@ public class FileNavigationPane extends VisibleComponent implements
         String name = nameBuffer.toString();
         if (name.endsWith(".class")) {
 
-            final ClassNode cn = BytecodeViewer.getClassNode(container, name.substring(0,
+            final ClassNode cn = BytecodeViewer.getClassNode(Objects.requireNonNull(container), name.substring(0,
                     name.length() - ".class".length()));
             if (cn != null) {
                 openClassFileToWorkSpace(container, nameBuffer.toString(), cn);
@@ -671,8 +649,9 @@ public class FileNavigationPane extends VisibleComponent implements
      * @author http://stackoverflow.com/questions/14968005
      * @author Konloch
      */
-    public class ImageRenderer extends DefaultTreeCellRenderer {
+    public static class ImageRenderer extends DefaultTreeCellRenderer {
 
+        @Override
         public Component getTreeCellRendererComponent(
                 JTree tree,
                 Object value,
@@ -685,7 +664,7 @@ public class FileNavigationPane extends VisibleComponent implements
             Component ret = super.getTreeCellRendererComponent(tree, value,
                     selected, expanded, leaf, row, hasFocus);
 
-            if (value != null && value instanceof the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) {
+            if (value instanceof MyTreeNode) {
                 the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode node =
                         (the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) value;
                 String name = node.toString().toLowerCase();
@@ -720,8 +699,8 @@ public class FileNavigationPane extends VisibleComponent implements
                 } else if (node.getChildCount() <= 0) { //random file
                     setIcon(Resources.fileIcon);
                 } else { //folder
-                    ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
-                    ArrayList<TreeNode> totalNodes = new ArrayList<TreeNode>();
+                    ArrayList<TreeNode> nodes = new ArrayList<>();
+                    ArrayList<TreeNode> totalNodes = new ArrayList<>();
 
                     nodes.add(node);
                     totalNodes.add(node);

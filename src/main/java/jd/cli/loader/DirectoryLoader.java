@@ -16,6 +16,7 @@ public class DirectoryLoader extends BaseLoader {
             throw new LoaderException("'" + codebase + "' is not a directory");
     }
 
+    @Override
     public DataInputStream load(String internalPath)
             throws LoaderException {
         File file = new File(this.codebase, internalPath);
@@ -29,6 +30,7 @@ public class DirectoryLoader extends BaseLoader {
         }
     }
 
+    @Override
     public boolean canLoad(String internalPath) {
         File file = new File(this.codebase, internalPath);
         return file.exists() && file.isFile();

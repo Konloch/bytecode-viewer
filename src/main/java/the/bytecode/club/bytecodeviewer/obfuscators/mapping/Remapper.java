@@ -31,6 +31,7 @@
 package the.bytecode.club.bytecodeviewer.obfuscators.mapping;
 
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.signature.SignatureReader;
 import org.objectweb.asm.signature.SignatureVisitor;
@@ -50,15 +51,16 @@ import org.objectweb.asm.signature.SignatureWriter;
  */
 public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
 
+    @Override
     public String mapDesc(String desc) {
         Type t = Type.getType(desc);
         switch (t.getSort()) {
         case Type.ARRAY:
-            String s = mapDesc(t.getElementType().getDescriptor());
+            StringBuilder s = new StringBuilder(mapDesc(t.getElementType().getDescriptor()));
             for (int i = 0; i < t.getDimensions(); ++i) {
-                s = '[' + s;
+                s.insert(0, '[');
             }
-            return s;
+            return s.toString();
         case Type.OBJECT:
             String newType = map(t.getInternalName());
             if (newType != null) {
@@ -71,20 +73,21 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
     private Type mapType(Type t) {
         switch (t.getSort()) {
         case Type.ARRAY:
-            String s = mapDesc(t.getElementType().getDescriptor());
+            StringBuilder s = new StringBuilder(mapDesc(t.getElementType().getDescriptor()));
             for (int i = 0; i < t.getDimensions(); ++i) {
-                s = '[' + s;
+                s.insert(0, '[');
             }
-            return Type.getType(s);
+            return Type.getType(s.toString());
         case Type.OBJECT:
-            s = map(t.getInternalName());
-            return s != null ? Type.getObjectType(s) : t;
+            s = new StringBuilder(map(t.getInternalName()));
+            return Type.getObjectType(s.toString());
         case Type.METHOD:
             return Type.getMethodType(mapMethodDesc(t.getDescriptor()));
         }
         return t;
     }
 
+    @Override
     public String mapType(String type) {
         if (type == null) {
             return null;
@@ -92,6 +95,7 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
         return mapType(Type.getObjectType(type)).getInternalName();
     }
 
+    @Override
     public String[] mapTypes(String[] types) {
         String[] newTypes = null;
         boolean needMapping = false;
@@ -112,6 +116,7 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
         return needMapping ? newTypes : types;
     }
 
+    @Override
     public String mapMethodDesc(String desc) {
         if ("()V".equals(desc)) {
             return desc;
@@ -119,8 +124,8 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
 
         Type[] args = Type.getArgumentTypes(desc);
         StringBuilder sb = new StringBuilder("(");
-        for (int i = 0; i < args.length; i++) {
-            sb.append(mapDesc(args[i].getDescriptor()));
+        for (Type arg : args) {
+            sb.append(mapDesc(arg.getDescriptor()));
         }
         Type returnType = Type.getReturnType(desc);
         if (returnType == Type.VOID_TYPE) {
@@ -131,6 +136,7 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
         return sb.toString();
     }
 
+    @Override
     public Object mapValue(Object value) {
         if (value instanceof Type) {
             return mapType((Type) value);
@@ -139,7 +145,7 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
             Handle h = (Handle) value;
             return new Handle(h.getTag(), mapType(h.getOwner()), mapMethodName(
                     h.getOwner(), h.getName(), h.getDesc()),
-                    mapMethodDesc(h.getDesc()));
+                    mapMethodDesc(h.getDesc()), h.getTag() == Opcodes.H_INVOKEINTERFACE);
         }
         return value;
     }
@@ -149,13 +155,14 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
      *                      signature parameter of the ClassVisitor.visitField or
      *                      MethodVisitor.visitLocalVariable methods
      */
+    @Override
     public String mapSignature(String signature, boolean typeSignature) {
         if (signature == null) {
             return null;
         }
         SignatureReader r = new SignatureReader(signature);
         SignatureWriter w = new SignatureWriter();
-        SignatureVisitor a = createRemappingSignatureAdapter(w);
+        SignatureVisitor a = createSignatureRemapper(w);
         if (typeSignature) {
             r.acceptType(a);
         } else {
@@ -164,8 +171,8 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
         return w.toString();
     }
 
-    protected SignatureVisitor createRemappingSignatureAdapter(
-            SignatureVisitor v) {
+    @Override
+    protected SignatureVisitor createSignatureRemapper(SignatureVisitor v) {
         return new RemappingSignatureAdapter(v, this);
     }
 
@@ -177,6 +184,7 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
      * @param desc  descriptor of the method.
      * @return new name of the method
      */
+    @Override
     public String mapMethodName(String owner, String name, String desc) {
         return name;
     }
@@ -188,6 +196,7 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
      * @param desc descriptor of the invokedynamic.
      * @return new invokdynamic name.
      */
+    @Override
     public String mapInvokeDynamicMethodName(String name, String desc) {
         return name;
     }
@@ -200,6 +209,7 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
      * @param desc  descriptor of the field
      * @return new name of the field.
      */
+    @Override
     public String mapFieldName(String owner, String name, String desc) {
         return name;
     }
@@ -207,6 +217,7 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
     /**
      * Map type name to the new name. Subclasses can override.
      */
+    @Override
     public String map(String typeName) {
         return typeName;
     }

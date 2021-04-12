@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -87,7 +88,7 @@ public final class ZipUtils {
 
         try {
             jar.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -117,8 +118,8 @@ public final class ZipUtils {
     }
 
     public static void zipFolder(String srcFolder, String destZipFile, String ignore) throws Exception {
-        ZipOutputStream zip = null;
-        FileOutputStream fileWriter = null;
+        ZipOutputStream zip;
+        FileOutputStream fileWriter;
 
         fileWriter = new FileOutputStream(destZipFile);
         zip = new ZipOutputStream(fileWriter);
@@ -129,8 +130,8 @@ public final class ZipUtils {
     }
 
     public static void zipFolderAPKTool(String srcFolder, String destZipFile) throws Exception {
-        ZipOutputStream zip = null;
-        FileOutputStream fileWriter = null;
+        ZipOutputStream zip;
+        FileOutputStream fileWriter;
 
         fileWriter = new FileOutputStream(destZipFile);
         zip = new ZipOutputStream(fileWriter);
@@ -150,7 +151,7 @@ public final class ZipUtils {
             byte[] buf = new byte[1024];
             int len;
             FileInputStream in = new FileInputStream(srcFile);
-            ZipEntry entry = null;
+            ZipEntry entry;
             if (ignore == null)
                 entry = new ZipEntry(path + "/" + folder.getName());
             else
@@ -183,7 +184,7 @@ public final class ZipUtils {
             byte[] buf = new byte[1024];
             int len;
             FileInputStream in = new FileInputStream(srcFile);
-            ZipEntry entry = null;
+            ZipEntry entry;
 
             entry = new ZipEntry(path + "/" + folder.getName());
             zip.putNextEntry(entry);
@@ -199,7 +200,7 @@ public final class ZipUtils {
             throws Exception {
         File folder = new File(srcFolder);
 
-        for (String fileName : folder.list()) {
+        for (String fileName : Objects.requireNonNull(folder.list())) {
             if (path.equals("")) {
                 addFileToZip(folder.getName(), srcFolder + "/" + fileName, zip, ignore);
             } else {
@@ -211,7 +212,7 @@ public final class ZipUtils {
     public static void addFolderToZipAPKTool(String path, String srcFolder, ZipOutputStream zip) throws Exception {
         File folder = new File(srcFolder);
 
-        for (String fileName : folder.list()) {
+        for (String fileName : Objects.requireNonNull(folder.list())) {
             if (path.equals("")) {
                 addFileToZipAPKTool(folder.getName(), srcFolder + "/" + fileName, zip);
             } else {

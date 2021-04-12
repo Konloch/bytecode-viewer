@@ -79,9 +79,8 @@ public class MaliciousCodeScanner extends Plugin {
                             || (ROB && s.contains("java/awt/Robot"))
                             || (LIP && s
                             .matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")))
-                        sb.append("Found LDC \"" + s + "\" at field "
-                                + classNode.name + "." + f.name + "(" + f.desc
-                                + ")" + BytecodeViewer.nl);
+                        sb.append("Found LDC \"").append(s).append("\" at field ").append(classNode.name).append(".")
+                                .append(f.name).append("(").append(f.desc).append(")").append(BytecodeViewer.nl);
                 }
                 if (v instanceof String[]) {
                     for (int i = 0; i < ((String[]) v).length; i++) {
@@ -95,9 +94,9 @@ public class MaliciousCodeScanner extends Plugin {
                                 || (ROB && s.contains("java/awt/Robot"))
                                 || (LIP && s
                                 .matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")))
-                            sb.append("Found LDC \"" + s + "\" at field "
-                                    + classNode.name + "." + f.name + "("
-                                    + f.desc + ")" + BytecodeViewer.nl);
+                            sb.append("Found LDC \"").append(s).append("\" at field ").append(classNode.name)
+                                    .append(".").append(f.name).append("(").append(f.desc).append(")")
+                                    .append(BytecodeViewer.nl);
                     }
                 }
             }
@@ -116,10 +115,9 @@ public class MaliciousCodeScanner extends Plugin {
                                 || (ORU && min.owner.equals("java/lang/Runtime"))
                                 || (ROB && min.owner.equals("java/awt/Robot"))
                                 || (OIO && min.owner.startsWith("java/io"))) {
-                            sb.append("Found Method call to " + min.owner + "."
-                                    + min.name + "(" + min.desc + ") at "
-                                    + classNode.name + "." + m.name + "("
-                                    + m.desc + ")" + BytecodeViewer.nl);
+                            sb.append("Found Method call to ").append(min.owner).append(".").append(min.name)
+                                    .append("(").append(min.desc).append(") at ").append(classNode.name).append(".")
+                                    .append(m.name).append("(").append(m.desc).append(")").append(BytecodeViewer.nl);
                         }
                     }
                     if (a instanceof LdcInsnNode) {
@@ -134,9 +132,9 @@ public class MaliciousCodeScanner extends Plugin {
                                     || (ROB && s.contains("java/awt/Robot"))
                                     || (LIP && s
                                     .matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"))) {
-                                sb.append("Found LDC \"" + s + "\" at method "
-                                        + classNode.name + "." + m.name + "("
-                                        + m.desc + ")" + BytecodeViewer.nl);
+                                sb.append("Found LDC \"").append(s).append("\" at method ").append(classNode.name)
+                                        .append(".").append(m.name).append("(").append(m.desc).append(")")
+                                        .append(BytecodeViewer.nl);
                             }
                         }
                     }
@@ -152,12 +150,9 @@ public class MaliciousCodeScanner extends Plugin {
                         if ((NSM && prevInsn_aconst_null
                                 && owner.equals("java/lang/System") && name
                                 .equals("setSecurityManager"))) {
-                            sb.append("Found Security Manager set to null at method "
-                                    + classNode.name
-                                    + "."
-                                    + m.name
-                                    + "("
-                                    + m.desc + ")" + BytecodeViewer.nl);
+                            sb.append("Found Security Manager set to null at method ").append(classNode.name)
+                                    .append(".").append(m.name).append("(").append(m.desc).append(")")
+                                    .append(BytecodeViewer.nl);
                             prevInsn_aconst_null = false;
                         }
                     } else {

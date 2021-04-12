@@ -52,7 +52,6 @@ public class APKTool {
     }
 
     public static synchronized void buildAPK(File input, File output, FileContainer container) {
-        String name = container.file.getName().toLowerCase();
         String temp = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
         File tempDir = new File(temp + BytecodeViewer.fs + BytecodeViewer.getRandomizedName() + BytecodeViewer.fs);
         tempDir.mkdirs();

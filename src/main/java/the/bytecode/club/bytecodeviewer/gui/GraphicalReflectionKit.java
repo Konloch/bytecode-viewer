@@ -31,11 +31,11 @@ import the.bytecode.club.bytecodeviewer.Resources;
  * @author Konloch
  */
 
-public class GraphicialReflectionKit extends JFrame {
-    public GraphicialReflectionKit() {
+public class GraphicalReflectionKit extends JFrame {
+    public GraphicalReflectionKit() {
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(382, 356));
-        setTitle("Graphicial Reflection Kit");
+        setTitle("Graphical Reflection Kit");
 
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         getContentPane().add(tabbedPane, BorderLayout.CENTER);

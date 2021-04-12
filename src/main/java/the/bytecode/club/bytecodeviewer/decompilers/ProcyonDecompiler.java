@@ -98,7 +98,7 @@ public class ProcyonDecompiler extends Decompiler {
 
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
-        String exception = "";
+        String exception;
         try {
             String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
                     + "temp";
@@ -126,7 +126,7 @@ public class ProcyonDecompiler extends Decompiler {
             decompilationOptions.setSettings(settings);
             decompilationOptions.setFullDecompilation(true);
 
-            TypeDefinition resolvedType = null;
+            TypeDefinition resolvedType;
             if (type == null || ((resolvedType = type.resolve()) == null)) {
                 throw new Exception("Unable to resolve type.");
             }
@@ -142,7 +142,7 @@ public class ProcyonDecompiler extends Decompiler {
             exception =
                     "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         }
-        return "Procyon error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+        return "Procyon error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
     }
 
     @Override
@@ -175,7 +175,7 @@ public class ProcyonDecompiler extends Decompiler {
             decompilationOptions.setFullDecompilation(true);
 
             Enumeration<JarEntry> ent = jfile.entries();
-            Set<JarEntry> history = new HashSet<JarEntry>();
+            Set<JarEntry> history = new HashSet<>();
             while (ent.hasMoreElements()) {
                 JarEntry entry = ent.nextElement();
                 if (entry.getName().endsWith(".class")) {
@@ -188,7 +188,7 @@ public class ProcyonDecompiler extends Decompiler {
                                     entry.getName(), ".class");
                             TypeReference type = metadataSystem
                                     .lookupType(internalName);
-                            TypeDefinition resolvedType = null;
+                            TypeDefinition resolvedType;
                             if ((type == null)
                                     || ((resolvedType = type.resolve()) == null)) {
                                 throw new Exception("Unable to resolve type.");
@@ -239,11 +239,11 @@ public class ProcyonDecompiler extends Decompiler {
     /**
      * @author DeathMarine
      */
-    public final class LuytenTypeLoader implements ITypeLoader {
+    public static final class LuytenTypeLoader implements ITypeLoader {
         private final List<ITypeLoader> _typeLoaders;
 
         public LuytenTypeLoader() {
-            _typeLoaders = new ArrayList<ITypeLoader>();
+            _typeLoaders = new ArrayList<>();
             _typeLoaders.add(new InputTypeLoader());
         }
 

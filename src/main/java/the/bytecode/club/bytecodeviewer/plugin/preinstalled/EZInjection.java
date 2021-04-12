@@ -14,7 +14,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.BytecodeHook;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
-import the.bytecode.club.bytecodeviewer.gui.GraphicialReflectionKit;
+import the.bytecode.club.bytecodeviewer.gui.GraphicalReflectionKit;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -46,7 +46,7 @@ import the.bytecode.club.bytecodeviewer.gui.GraphicialReflectionKit;
 
 public class EZInjection extends Plugin {
 
-    public static ArrayList<BytecodeHook> hookArray = new ArrayList<BytecodeHook>();
+    public static ArrayList<BytecodeHook> hookArray = new ArrayList<>();
     private static final String version = "1.0";
     private static final PluginConsole gui = new PluginConsole("EZ Injection v" + version);
     private final boolean accessModifiers;
@@ -111,8 +111,10 @@ public class EZInjection extends Plugin {
 
             if (!all && debugClasses.length >= 1) {
                 for (String s : debugClasses) {
-                    if (info.split("\\.")[0].equals(s.replaceAll("\\.", "/")))
+                    if (info.split("\\.")[0].equals(s.replaceAll("\\.", "/"))) {
                         print = true;
+                        break;
+                    }
                 }
             }
 
@@ -129,7 +131,6 @@ public class EZInjection extends Plugin {
             gui.appendText(message);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void execute(ArrayList<ClassNode> classNodeList) {
         BytecodeViewer.viewer.setIcon(true);
@@ -290,7 +291,7 @@ public class EZInjection extends Plugin {
                                                     .newInstance(),
                                             (Object[]) new String[1]);
                                     if (launchKit)
-                                        new GraphicialReflectionKit()
+                                        new GraphicalReflectionKit()
                                                 .setVisible(true);
                                 } catch (Exception e) {
                                     StringWriter sw = new StringWriter();

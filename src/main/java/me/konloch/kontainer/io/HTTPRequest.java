@@ -141,7 +141,7 @@ public class HTTPRequest {
         try {
             setup();
 
-            st = new ArrayList<String>();
+            st = new ArrayList<>();
             String s;
             while ((s = reader.readLine()) != null)
                 st.add(s);
@@ -154,7 +154,7 @@ public class HTTPRequest {
             cleanup();
         }
 
-        return st.toArray(new String[st.size()]);
+        return st.toArray(new String[0]);
     }
 
     /**
@@ -170,7 +170,7 @@ public class HTTPRequest {
         try {
             setup();
 
-            st = new ArrayList<String>();
+            st = new ArrayList<>();
             for (int i = 0; i < linesToRead; i++) {
                 String s = reader.readLine();
                 if (s != null)
@@ -185,7 +185,7 @@ public class HTTPRequest {
             cleanup();
         }
 
-        return st.toArray(new String[st.size()]);
+        return st.toArray(new String[0]);
     }
 
     /**
@@ -248,15 +248,15 @@ public class HTTPRequest {
     private void cleanup() {
         try {
             reader.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         try {
             writer.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         try {
             connection.disconnect();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         reader = null;
         writer = null;

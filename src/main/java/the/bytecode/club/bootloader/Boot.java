@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import me.konloch.kontainer.io.HTTPRequest;
@@ -47,9 +48,9 @@ public class Boot {
     public static boolean downloading = false;
 
     private static InitialBootScreen screen;
-    private static final List<String> libsList = new ArrayList<String>();
-    private static final List<String> libsFileList = new ArrayList<String>();
-    private static final List<String> urlList = new ArrayList<String>();
+    private static final List<String> libsList = new ArrayList<>();
+    private static final List<String> libsFileList = new ArrayList<>();
+    private static final List<String> urlList = new ArrayList<>();
 
     static {
         try {
@@ -64,30 +65,15 @@ public class Boot {
         ILoader<?> loader = findLoader();
 
         if (!CLI)
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    screen.setVisible(true);
-                }
-            });
+            SwingUtilities.invokeLater(() -> screen.setVisible(true));
 
-        create(loader, args.length > 0 ? Boolean.valueOf(args[0]) : true);
+        create(loader, args.length <= 0 || Boolean.parseBoolean(args[0]));
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                screen.setVisible(false);
-            }
-        });
+        SwingUtilities.invokeLater(() -> screen.setVisible(false));
     }
 
     public static void hide() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                screen.setVisible(false);
-            }
-        });
+        SwingUtilities.invokeLater(() -> screen.setVisible(false));
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -244,7 +230,7 @@ public class Boot {
                     System.out.println("Loading library " + f.getName());
 
                     try {
-                        ExternalResource res = new EmptyExternalResource<Object>(f.toURI().toURL());
+                        ExternalResource res = new EmptyExternalResource<>(f.toURI().toURL());
                         loader.bind(res);
                         System.out.println("Succesfully loaded " + f.getName());
                     } catch (Exception e) {
@@ -294,12 +280,7 @@ public class Boot {
     }
 
     private static void bootstrap() {
-        AbstractLoaderFactory.register(new LoaderFactory<Object>() {
-            @Override
-            public ILoader<Object> spawnLoader() {
-                return new ClassPathLoader();
-            }
-        });
+        AbstractLoaderFactory.register(ClassPathLoader::new);
     }
 
     public static void populateUrlList() throws Exception {
@@ -312,8 +293,9 @@ public class Boot {
     }
 
     public static void populateLibsDirectory() {
-        if (libsDir() != null && libsDir().exists())
-            for (File f : libsDir().listFiles()) {
+        File libsDir = libsDir();
+        if (libsDir.exists())
+            for (File f : Objects.requireNonNull(libsDir.listFiles())) {
                 libsList.add(f.getName());
                 libsFileList.add(f.getAbsolutePath());
             }
@@ -340,9 +322,9 @@ public class Boot {
                         BytecodeViewer.class.getClassLoader().getResourceAsStream("Krakatau-" + BytecodeViewer.krakatauVersion + ".zip");
                 FileOutputStream baos = new FileOutputStream(temp);
 
-                int r = 0;
+                int r;
                 byte[] buffer = new byte[8192];
-                while ((r = is.read(buffer)) >= 0) {
+                while ((r = Objects.requireNonNull(is).read(buffer)) >= 0) {
                     baos.write(buffer, 0, r);
                 }
 
@@ -377,9 +359,9 @@ public class Boot {
                         BytecodeViewer.class.getClassLoader().getResourceAsStream("enjarify-" + BytecodeViewer.enjarifyVersion + ".zip");
                 FileOutputStream baos = new FileOutputStream(temp);
 
-                int r = 0;
+                int r;
                 byte[] buffer = new byte[8192];
-                while ((r = is.read(buffer)) >= 0) {
+                while ((r = Objects.requireNonNull(is).read(buffer)) >= 0) {
                     baos.write(buffer, 0, r);
                 }
 
@@ -472,14 +454,14 @@ public class Boot {
         setState("Bytecode Viewer Boot Screen - Checking Enjarify...");
         System.out.println("Checking enjarify");
         File enjarifyZip = null;
-        for (File f : new File(BytecodeViewer.libsDirectory).listFiles()) {
+        for (File f : Objects.requireNonNull(new File(BytecodeViewer.libsDirectory).listFiles())) {
             if (f.getName().toLowerCase().startsWith("enjarify-")) {
                 BytecodeViewer.enjarifyVersion = f.getName().split("-")[1].split("\\.")[0];
                 enjarifyZip = f;
             }
         }
 
-        for (File f : new File(BytecodeViewer.getBCVDirectory()).listFiles()) {
+        for (File f : Objects.requireNonNull(new File(BytecodeViewer.getBCVDirectory()).listFiles())) {
             if (f.getName().toLowerCase().startsWith("enjarify_") && !f.getName().split("_")[1].split("\\.")[0].equals(BytecodeViewer.enjarifyVersion)) {
                 setState("Bytecode Viewer Boot Screen - Removing Outdated " + f.getName() + "...");
                 System.out.println("Removing oudated " + f.getName());
@@ -498,14 +480,15 @@ public class Boot {
         if (!enjarifyDirectory.exists()) {
             try {
                 setState("Bytecode Viewer Boot Screen - Updating to " + enjarifyDirectory.getName() + "...");
-                ZipUtils.unzipFilesToPath(enjarifyZip.getAbsolutePath(), enjarifyDirectory.getAbsolutePath());
+                ZipUtils.unzipFilesToPath(Objects.requireNonNull(enjarifyZip).getAbsolutePath(),
+                        enjarifyDirectory.getAbsolutePath());
                 System.out.println("Updated to enjarify v" + BytecodeViewer.enjarifyVersion);
             } catch (Exception e) {
                 BytecodeViewer.showMessage("ERROR: There was an issue unzipping enjarify (possibly corrupt). Restart "
                         + "BCV." + BytecodeViewer.nl +
                         "If the error persists contact @Konloch.");
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-                enjarifyZip.delete();
+                Objects.requireNonNull(enjarifyZip).delete();
             }
         }
 
@@ -516,7 +499,7 @@ public class Boot {
         System.out.println("Checking krakatau");
 
         File krakatauZip = null;
-        for (File f : new File(BytecodeViewer.libsDirectory).listFiles()) {
+        for (File f : Objects.requireNonNull(new File(BytecodeViewer.libsDirectory).listFiles())) {
             if (f.getName().toLowerCase().startsWith("krakatau-")) {
                 //System.out.println(f.getName());
                 BytecodeViewer.krakatauVersion = f.getName().split("-")[1].split("\\.")[0];
@@ -524,7 +507,7 @@ public class Boot {
             }
         }
 
-        for (File f : new File(BytecodeViewer.getBCVDirectory()).listFiles()) {
+        for (File f : Objects.requireNonNull(new File(BytecodeViewer.getBCVDirectory()).listFiles())) {
             if (f.getName().toLowerCase().startsWith("krakatau_") && !f.getName().split("_")[1].split("\\.")[0].equals(BytecodeViewer.krakatauVersion)) {
                 setState("Bytecode Viewer Boot Screen - Removing Outdated " + f.getName() + "...");
                 System.out.println("Removing oudated " + f.getName());
@@ -544,14 +527,15 @@ public class Boot {
         if (!krakatauDirectory.exists()) {
             try {
                 setState("Bytecode Viewer Boot Screen - Updating to " + krakatauDirectory.getName() + "...");
-                ZipUtils.unzipFilesToPath(krakatauZip.getAbsolutePath(), krakatauDirectory.getAbsolutePath());
+                ZipUtils.unzipFilesToPath(Objects.requireNonNull(krakatauZip).getAbsolutePath(),
+                        krakatauDirectory.getAbsolutePath());
                 System.out.println("Updated to krakatau v" + BytecodeViewer.krakatauVersion);
             } catch (Exception e) {
                 BytecodeViewer.showMessage("ERROR: There was an issue unzipping Krakatau decompiler (possibly "
                         + "corrupt). Restart BCV." + BytecodeViewer.nl +
                         "If the error persists contact @Konloch.");
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-                krakatauZip.delete();
+                Objects.requireNonNull(krakatauZip).delete();
             }
         }
     }

@@ -25,10 +25,9 @@ public class JHexEditor extends JPanel implements FocusListener,
     private static final long serialVersionUID = 2289328616534802372L;
     byte[] buff;
     public int cursor;
-    protected static Font font = new Font("Monospaced", 0, 12);
+    protected static Font font = new Font("Monospaced", Font.PLAIN, 12);
     protected int border = 2;
     public boolean DEBUG = false;
-    private final JPanel panel;
     private final JScrollBar sb;
     private int inicio = 0;
     private int lineas = 10;
@@ -61,7 +60,7 @@ public class JHexEditor extends JPanel implements FocusListener,
         p3.add(new JHexEditorASCII(this), BorderLayout.CENTER);
         p3.add(new Caja(), BorderLayout.NORTH);
 
-        panel = new JPanel();
+        JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout(1, 1));
         panel.add(p1, BorderLayout.CENTER);
         panel.add(p2, BorderLayout.WEST);
@@ -71,6 +70,7 @@ public class JHexEditor extends JPanel implements FocusListener,
         this.add(panel, BorderLayout.CENTER);
     }
 
+    @Override
     public void paint(Graphics g) {
         FontMetrics fn = getFontMetrics(font);
         Rectangle rec = this.getBounds();
@@ -84,23 +84,6 @@ public class JHexEditor extends JPanel implements FocusListener,
         sb.setValues(getInicio(), +getLineas(), 0, buff.length / 16);
         sb.setValueIsAdjusting(true);
         super.paint(g);
-    }
-
-    protected void actualizaCursor() {
-        int n = (cursor / 16);
-
-        System.out.print("- " + inicio + "<" + n + "<" + (lineas + inicio)
-                + "(" + lineas + ")");
-
-        if (n < inicio)
-            inicio = n;
-        else if (n >= inicio + lineas)
-            inicio = n - (lineas - 1);
-
-        System.out.println(" - " + inicio + "<" + n + "<" + (lineas + inicio)
-                + "(" + lineas + ")");
-
-        repaint();
     }
 
     protected int getInicio() {
@@ -131,14 +114,17 @@ public class JHexEditor extends JPanel implements FocusListener,
                 ((fn.getHeight() * (y + 1)) - fn.getMaxDescent()) + border);
     }
 
+    @Override
     public void focusGained(FocusEvent e) {
         this.repaint();
     }
 
+    @Override
     public void focusLost(FocusEvent e) {
         this.repaint();
     }
 
+    @Override
     public void adjustmentValueChanged(AdjustmentEvent e) {
         inicio = e.getValue();
         if (inicio < 0)
@@ -146,6 +132,7 @@ public class JHexEditor extends JPanel implements FocusListener,
         repaint();
     }
 
+    @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         inicio += (e.getUnitsToScroll());
         if ((inicio + lineas) >= buff.length / 16)
@@ -177,10 +164,12 @@ public class JHexEditor extends JPanel implements FocusListener,
             this.setLayout(new BorderLayout(1, 1));
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return getMinimumSize();
         }
 
+        @Override
         public Dimension getMinimumSize() {
             Dimension d = new Dimension();
             FontMetrics fn = getFontMetrics(font);
@@ -191,6 +180,7 @@ public class JHexEditor extends JPanel implements FocusListener,
             return d;
         }
 
+        @Override
         public void paint(Graphics g) {
             Dimension d = getMinimumSize();
             g.setColor(Color.white);
@@ -211,10 +201,12 @@ public class JHexEditor extends JPanel implements FocusListener,
     private class Caja extends JPanel {
         private static final long serialVersionUID = -6124062720565016834L;
 
+        @Override
         public Dimension getPreferredSize() {
             return getMinimumSize();
         }
 
+        @Override
         public Dimension getMinimumSize() {
             Dimension d = new Dimension();
             FontMetrics fn = getFontMetrics(font);
@@ -233,10 +225,12 @@ public class JHexEditor extends JPanel implements FocusListener,
             this.setLayout(new BorderLayout(1, 1));
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return getMinimumSize();
         }
 
+        @Override
         public Dimension getMinimumSize() {
             Dimension d = new Dimension();
             FontMetrics fn = getFontMetrics(font);
@@ -247,6 +241,7 @@ public class JHexEditor extends JPanel implements FocusListener,
             return d;
         }
 
+        @Override
         public void paint(Graphics g) {
             Dimension d = getMinimumSize();
             g.setColor(Color.white);

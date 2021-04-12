@@ -4,8 +4,8 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 import jd.core.CoreConstants;
 import jd.core.model.classfile.constant.Constant;
 import jd.core.model.classfile.constant.ConstantClass;
@@ -22,7 +22,7 @@ public class ClassFileUtil {
      */
     public static String ExtractDirectoryPath(String pathToClass) {
         DataInputStream dis = null;
-        String directoryPath = null;
+        String directoryPath;
 
         try {
             dis = new DataInputStream(
@@ -44,7 +44,7 @@ public class ClassFileUtil {
             dis.readUnsignedShort();
             int this_class = dis.readUnsignedShort();
 
-            Constant c = constants[this_class];
+            Constant c = Objects.requireNonNull(constants)[this_class];
             if ((c == null) || (c.tag != ConstantConstant.CONSTANT_Class))
                 throw new ClassFormatException("Invalid contant pool");
 
@@ -63,9 +63,6 @@ public class ClassFileUtil {
                 throw new ClassFormatException("Invalid internal class name");
 
             directoryPath = pathToClass.substring(0, index);
-        } catch (FileNotFoundException e) {
-            directoryPath = null;
-            e.printStackTrace();
         } catch (IOException e) {
             directoryPath = null;
             e.printStackTrace();
@@ -73,7 +70,7 @@ public class ClassFileUtil {
             if (dis != null)
                 try {
                     dis.close();
-                } catch (IOException e) {
+                } catch (IOException ignored) {
                 }
         }
 

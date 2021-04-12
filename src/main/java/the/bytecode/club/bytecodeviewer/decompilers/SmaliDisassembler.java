@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Objects;
 import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
@@ -90,7 +91,7 @@ public class SmaliDisassembler extends Decompiler {
         boolean found = false;
         File current = tempSmali;
         while (!found) {
-            File f = current.listFiles()[0];
+            File f = Objects.requireNonNull(current.listFiles())[0];
             if (f.isDirectory())
                 current = f;
             else {
@@ -109,7 +110,7 @@ public class SmaliDisassembler extends Decompiler {
             exception += "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
         }
 
-        return "Smali Disassembler error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail"
+        return "Smali Disassembler error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail"
                 + ".com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails "
                 + "again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
     }

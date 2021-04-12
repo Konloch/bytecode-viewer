@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.compilers.Compilers;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompilers;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
@@ -77,7 +79,7 @@ public class BytecodeViewer {
             Enumeration<JarEntry> e = jarFile.entries();
             URL[] urls = {new URL("jar:file:" + "" + f.getAbsolutePath() + "!/")};
             cl = URLClassLoader.newInstance(urls);
-            List<Class<?>> ret = new ArrayList<Class<?>>();
+            List<Class<?>> ret = new ArrayList<>();
 
             while (e.hasMoreElements()) {
                 JarEntry je = e.nextElement();
@@ -201,7 +203,7 @@ public class BytecodeViewer {
      * @return The wrapped Krakatau Decompiler instance
      */
     public static Decompiler getKrakatauDecompiler() {
-        return Decompiler.krakatau;
+        return Decompilers.krakatau;
     }
 
     /**
@@ -210,7 +212,7 @@ public class BytecodeViewer {
      * @return The wrapped Procyon Decompiler instance
      */
     public static Decompiler getProcyonDecompiler() {
-        return Decompiler.procyon;
+        return Decompilers.procyon;
     }
 
     /**
@@ -219,7 +221,7 @@ public class BytecodeViewer {
      * @return The wrapped CFR Decompiler instance
      */
     public static Decompiler getCFRDecompiler() {
-        return Decompiler.cfr;
+        return Decompilers.cfr;
     }
 
     /**
@@ -228,7 +230,7 @@ public class BytecodeViewer {
      * @return The wrapped FernFlower Decompiler instance
      */
     public static Decompiler getFernFlowerDecompiler() {
-        return Decompiler.fernflower;
+        return Decompilers.fernflower;
     }
 
     /**
@@ -237,7 +239,7 @@ public class BytecodeViewer {
      * @return The wrapped Krakatau Disassembler instance
      */
     public static Decompiler getKrakatauDisassembler() {
-        return Decompiler.krakatauDA;
+        return Decompilers.krakatauDA;
     }
 
     /**
@@ -246,7 +248,7 @@ public class BytecodeViewer {
      * @return The wrapped Krakatau Assembler instance
      */
     public static the.bytecode.club.bytecodeviewer.compilers.Compiler getKrakatauCompiler() {
-        return the.bytecode.club.bytecodeviewer.compilers.Compiler.krakatau;
+        return Compilers.krakatau;
     }
 
     /**
@@ -255,7 +257,7 @@ public class BytecodeViewer {
      * @return The wrapped Smali Assembler instance
      */
     public static the.bytecode.club.bytecodeviewer.compilers.Compiler getSmaliCompiler() {
-        return the.bytecode.club.bytecodeviewer.compilers.Compiler.smali;
+        return Compilers.smali;
     }
 
     /**
@@ -264,6 +266,6 @@ public class BytecodeViewer {
      * @return The wrapped JD-GUI Decompiler instance
      */
     public static the.bytecode.club.bytecodeviewer.decompilers.Decompiler getDJGUIDecompiler() {
-        return the.bytecode.club.bytecodeviewer.decompilers.Decompiler.jdgui;
+        return Decompilers.jdgui;
     }
 }

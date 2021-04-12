@@ -65,7 +65,7 @@ public class KrakatauAssembler extends Compiler {
         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 
         BytecodeViewer.sm.stopBlocking();
-        String log = "";
+        StringBuilder log = new StringBuilder();
         try {
             ProcessBuilder pb = new ProcessBuilder(
                     BytecodeViewer.python,
@@ -85,30 +85,31 @@ public class KrakatauAssembler extends Compiler {
             BufferedReader br = new BufferedReader(isr);
             String line;
             while ((line = br.readLine()) != null) {
-                log += BytecodeViewer.nl + line;
+                log.append(BytecodeViewer.nl).append(line);
             }
             br.close();
 
-            log += BytecodeViewer.nl + BytecodeViewer.nl + "Error:" + BytecodeViewer.nl + BytecodeViewer.nl;
+            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Error:").append(BytecodeViewer.nl).append(BytecodeViewer.nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
             while ((line = br.readLine()) != null) {
-                log += BytecodeViewer.nl + line;
+                log.append(BytecodeViewer.nl).append(line);
             }
             br.close();
 
             int exitValue = process.waitFor();
-            log += BytecodeViewer.nl + BytecodeViewer.nl + "Exit Value is " + exitValue;
+            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Exit Value is ").append(exitValue);
             System.out.println(log);
 
-            byte[] b = org.apache.commons.io.FileUtils.readFileToByteArray(new File(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + origName + ".class"));
+            byte[] b =
+                    org.apache.commons.io.FileUtils.readFileToByteArray(new File(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + origName + ".class"));
             tempDirectory.delete();
             tempJar.delete();
             return b;
         } catch (Exception e) {
             e.printStackTrace();
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(log);
+            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(log.toString());
         } finally {
             BytecodeViewer.sm.setBlocking();
         }

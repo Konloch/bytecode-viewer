@@ -36,6 +36,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 
 public class ClassNodeDecompiler extends Decompiler {
 
+    @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
         return decompile(new PrefixedStringBuilder(),
                 new ArrayList<>(), cn).toString();
@@ -99,9 +100,8 @@ public class ClassNodeDecompiler extends Decompiler {
             MethodNodeDecompiler.decompile(sb, mn, cn);
         }
 
-        for (Object o : cn.innerClasses) {
-            InnerClassNode innerClassNode = (InnerClassNode) o;
-            String innerClassName = innerClassNode.name;
+        for (InnerClassNode o : cn.innerClasses) {
+            String innerClassName = o.name;
             if ((innerClassName != null)
                     && !decompiledClasses.contains(innerClassName)) {
                 decompiledClasses.add(innerClassName);
@@ -143,7 +143,7 @@ public class ClassNodeDecompiler extends Decompiler {
     }
 
     public static String getAccessString(int access) {
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokens = new ArrayList<>();
         if ((access & Opcodes.ACC_PUBLIC) != 0)
             tokens.add("public");
         if ((access & Opcodes.ACC_PRIVATE) != 0)

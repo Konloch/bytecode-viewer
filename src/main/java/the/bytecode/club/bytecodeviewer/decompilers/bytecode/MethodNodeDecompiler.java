@@ -39,10 +39,8 @@ public class MethodNodeDecompiler {
 
     public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb,
                                                   MethodNode m, ClassNode cn) {
-        String package_ = null;
         String class_;
         if (cn.name.contains("/")) {
-            package_ = cn.name.substring(0, cn.name.lastIndexOf("/"));
             class_ = cn.name.substring(cn.name.lastIndexOf("/") + 1);
         } else {
             class_ = cn.name;
@@ -56,8 +54,7 @@ public class MethodNodeDecompiler {
 
         if (m.name.equals("<init>")) {
             sb.append(class_);
-        } else if (m.name.equals("<clinit>")) {
-        } else {
+        } else if (!m.name.equals("<clinit>")) {
             sb.append(m.name);
         }
 
@@ -142,18 +139,17 @@ public class MethodNodeDecompiler {
             addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb,
                     insnPrinter);
 
-            for (Object o : m.tryCatchBlocks) {
-                TryCatchBlockNode tcbn = (TryCatchBlockNode) o;
+            for (TryCatchBlockNode o : m.tryCatchBlocks) {
                 sb.append("         ");
                 sb.append("TryCatch: L");
-                sb.append(insnPrinter.resolveLabel(tcbn.start));
+                sb.append(insnPrinter.resolveLabel(o.start));
                 sb.append(" to L");
-                sb.append(insnPrinter.resolveLabel(tcbn.end));
+                sb.append(insnPrinter.resolveLabel(o.end));
                 sb.append(" handled by L");
-                sb.append(insnPrinter.resolveLabel(tcbn.handler));
+                sb.append(insnPrinter.resolveLabel(o.handler));
                 sb.append(": ");
-                if (tcbn.type != null)
-                    sb.append(tcbn.type);
+                if (o.type != null)
+                    sb.append(o.type);
                 else
                     sb.append("Type is null.");
                 sb.append(BytecodeViewer.nl);
@@ -213,7 +209,7 @@ public class MethodNodeDecompiler {
     private static String getAccessString(int access) {
         // public, protected, private, abstract, static,
         // final, synchronized, native & strictfp are permitted
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokens = new ArrayList<>();
         if ((access & Opcodes.ACC_PUBLIC) != 0)
             tokens.add("public");
         if ((access & Opcodes.ACC_PRIVATE) != 0)
@@ -238,7 +234,7 @@ public class MethodNodeDecompiler {
             tokens.add("synthetic");
         if ((access & Opcodes.ACC_VARARGS) != 0)
             tokens.add("varargs");
-        if (tokens.size() == 0)
+        if (tokens.isEmpty())
             return "";
         // hackery delimeters
         StringBuilder sb = new StringBuilder(tokens.get(0));

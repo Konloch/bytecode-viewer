@@ -40,13 +40,12 @@ public class RenameMethods extends JavaObfuscator {
 
         System.out.println("Obfuscating method names...");
         for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
-            methodLoop:
             for (Object o : c.methods.toArray()) {
                 MethodNode m = (MethodNode) o;
 
                 /* As we dont want to rename native dll methods */
                 if ((m.access & Opcodes.ACC_NATIVE) != 0)
-                    continue methodLoop;
+                    continue;
 
                 if (m.access != Opcodes.ACC_ABSTRACT
                         && m.access != Opcodes.ACC_ABSTRACT

@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import org.apache.commons.codec.binary.Base64;
@@ -70,30 +71,30 @@ public class Resources {
         prevIcon = new ImageIcon(b642IMG("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX"
                 +
                 "///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAABnRSTlMANzlYgKhxpRi1AAAATElEQVR42mNgwAZYHIAEExA7qUAYLApMDmCGEwODCojByM/A8FEAyPi/moFh9QewYjCAM1iA+D2KqYwMrIlA6tUGFoa/Z4GMt1hsBgCe1wuKber+SwAAAABJRU5ErkJggg=="));
-        busyIcon = new ImageIcon(Resources.class.getResource("/1.gif"));
+        busyIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/1.gif")));
         busyB64Icon = new ImageIcon(b642IMG("R0lGODlhEAALAPQAAP"
                 + "///wAAANra2tDQ0Orq6gcHBwAAAC8vL4KCgmFhYbq6uiMjI0tLS4qKimVlZb6+vicnJwUFBU9PT"
                 +
                 "+bm5tjY2PT09Dk5Odzc3PLy8ra2tqCgoMrKyu7u7gAAAAAAAAAAACH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7"));
 
-        batIcon = new ImageIcon(Resources.class.getResource("/bat.png"));
-        shIcon = new ImageIcon(Resources.class.getResource("/sh.png"));
-        csharpIcon = new ImageIcon(Resources.class.getResource("/c#.png"));
-        cplusplusIcon = new ImageIcon(Resources.class.getResource("/c++.png"));
-        configIcon = new ImageIcon(Resources.class.getResource("/config.png"));
-        jarIcon = new ImageIcon(Resources.class.getResource("/jar.png"));
-        zipIcon = new ImageIcon(Resources.class.getResource("/zip.png"));
-        packagesIcon = new ImageIcon(Resources.class.getResource("/package.png"));
-        folderIcon = new ImageIcon(Resources.class.getResource("/folder.png"));
-        androidIcon = new ImageIcon(Resources.class.getResource("/android.png"));
-        fileIcon = new ImageIcon(Resources.class.getResource("/file.png"));
-        textIcon = new ImageIcon(Resources.class.getResource("/text.png"));
-        classIcon = new ImageIcon(Resources.class.getResource("/class.png"));
-        imageIcon = new ImageIcon(Resources.class.getResource("/image.png"));
-        decodedIcon = new ImageIcon(Resources.class.getResource("/decoded.png"));
-        javaIcon = new ImageIcon(Resources.class.getResource("/java.png"));
+        batIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/bat.png")));
+        shIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/sh.png")));
+        csharpIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/c#.png")));
+        cplusplusIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/c++.png")));
+        configIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/config.png")));
+        jarIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/jar.png")));
+        zipIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/zip.png")));
+        packagesIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/package.png")));
+        folderIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/folder.png")));
+        androidIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/android.png")));
+        fileIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/file.png")));
+        textIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/text.png")));
+        classIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/class.png")));
+        imageIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/image.png")));
+        decodedIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/decoded.png")));
+        javaIcon = new ImageIcon(Objects.requireNonNull(Resources.class.getResource("/java.png")));
 
-        iconList = new ArrayList<BufferedImage>();
+        iconList = new ArrayList<>();
         int size = 16;
         for (int i = 0; i < 24; i++) {
             iconList.add(resize(icon, size, size));
@@ -125,7 +126,7 @@ public class Resources {
     }
 
     public static String findLibrary(String nameContains) {
-        for (File f : new File(BytecodeViewer.libsDirectory).listFiles()) {
+        for (File f : Objects.requireNonNull(new File(BytecodeViewer.libsDirectory).listFiles())) {
             if (f.getName().contains(nameContains))
                 return f.getAbsolutePath();
         }

@@ -3,8 +3,6 @@ package the.bytecode.club.bytecodeviewer.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
@@ -65,6 +63,7 @@ public class SystemErrConsole extends JFrame {
 
         scrollPane.setViewportView(textArea);
         textArea.addKeyListener(new KeyListener() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
                     field.requestFocus();
@@ -92,19 +91,9 @@ public class SystemErrConsole extends JFrame {
         panel.add(buttonPane, BorderLayout.WEST);
         panel.add(field, BorderLayout.CENTER);
         panel.add(check, BorderLayout.EAST);
-        searchNext.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(field.getText(), true);
-            }
-        });
+        searchNext.addActionListener(arg0 -> search(field.getText(), true));
 
-        searchPrev.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(field.getText(), false);
-            }
-        });
+        searchPrev.addActionListener(arg0 -> search(field.getText(), false));
         field.addKeyListener(new KeyListener() {
             @Override
             public void keyReleased(KeyEvent arg0) {
@@ -137,22 +126,22 @@ public class SystemErrConsole extends JFrame {
 
     public void pretty() {
         s.update();
-        String[] test = null;
+        String[] test;
         if (textArea.getText().split("\n").length >= 2)
             test = textArea.getText().split("\n");
         else
             test = textArea.getText().split("\r");
 
-        String replace = "";
+        StringBuilder replace = new StringBuilder();
         for (String s : test) {
             if (s.startsWith("File '")) {
                 String[] split = s.split("'");
                 String start = split[0] + "'" + split[1] + "', ";
                 s = s.substring(start.length());
             }
-            replace += s + BytecodeViewer.nl;
+            replace.append(s).append(BytecodeViewer.nl);
         }
-        setText(replace);
+        setText(replace.toString());
     }
 
     /**
@@ -172,7 +161,7 @@ public class SystemErrConsole extends JFrame {
                     .getElementIndex(area.getCaretPosition()) + 1;
             int currentLine = 1;
             boolean canSearch = false;
-            String[] test = null;
+            String[] test;
             if (area.getText().split("\n").length >= 2)
                 test = area.getText().split("\n");
             else
@@ -304,7 +293,7 @@ public class SystemErrConsole extends JFrame {
         textArea.setCaretPosition(0);
     }
 
-    class CustomOutputStream extends OutputStream {
+    static class CustomOutputStream extends OutputStream {
         private final StringBuilder sb = new StringBuilder();
         private final JTextArea textArea;
 

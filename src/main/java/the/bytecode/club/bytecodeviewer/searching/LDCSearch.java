@@ -2,7 +2,6 @@ package the.bytecode.club.bytecodeviewer.searching;
 
 import java.awt.GridLayout;
 import java.util.Iterator;
-import java.util.ListIterator;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -42,7 +41,7 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 public class LDCSearch implements SearchTypeDetails {
 
-    JTextField searchText = null;
+    JTextField searchText;
     JPanel myPanel = null;
 
     public LDCSearch() {
@@ -72,19 +71,16 @@ public class LDCSearch implements SearchTypeDetails {
             final MethodNode method = methods.next();
 
             final InsnList insnlist = method.instructions;
-            final ListIterator<AbstractInsnNode> instructions = insnlist
-                    .iterator();
-            while (instructions.hasNext()) {
-                final AbstractInsnNode insnNode = instructions.next();
+            for (AbstractInsnNode insnNode : insnlist) {
                 if (insnNode instanceof LdcInsnNode) {
                     final LdcInsnNode ldcObject = ((LdcInsnNode) insnNode);
                     final String ldcString = ldcObject.cst.toString();
                     String desc2 = method.desc;
                     try {
                         desc2 = Type.getType(method.desc).toString();
-                        if (desc2 == null || desc2.equals("null"))
+                        if (desc2.equals("null"))
                             desc2 = method.desc;
-                    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+                    } catch (ArrayIndexOutOfBoundsException ignored) {
 
                     }
 
@@ -103,9 +99,9 @@ public class LDCSearch implements SearchTypeDetails {
             String desc2 = field.desc;
             try {
                 desc2 = Type.getType(field.desc).toString();
-                if (desc2 == null || desc2.equals("null"))
+                if (desc2.equals("null"))
                     desc2 = field.desc;
-            } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            } catch (java.lang.ArrayIndexOutOfBoundsException ignored) {
 
             }
             if (field.value instanceof String) {
