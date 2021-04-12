@@ -83,7 +83,8 @@ public class RefactorMapper extends Remapper {
         String obfKey = owner + "$$$$" + name + "$$$$" + desc;
         if (sortedFields.containsKey(obfKey)) {
             String map =
-                    owner + "." + name + " --> " + owner + sortedFields.get(obfKey).getName().getRefactoredName() + "\n";
+                    owner + "." + name + " --> " + owner + sortedFields.get(obfKey).getName().getRefactoredName() +
+                            "\n";
             if (!mappingList.contains(map))
                 mappingList.add(map);
             name = sortedFields.get(obfKey).getName().getRefactoredName();
