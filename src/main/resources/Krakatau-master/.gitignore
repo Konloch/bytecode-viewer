@@ -1,5 +1,0 @@
-*.pyc
-*.pyo
-test*.py
-Krakatau/plugins/*
-tests/.cache

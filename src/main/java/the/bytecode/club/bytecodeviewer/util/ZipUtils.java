@@ -165,8 +165,8 @@ public final class ZipUtils {
         File folder = new File(srcFile);
 
         String check = path.toLowerCase();
-        //if(check.startsWith("decoded resources/unknown") || check.startsWith("decoded resources/lib") || check.startsWith("decoded resources/assets") || check.startsWith("decoded resources/original") || check.startsWith("decoded resources/smali") || check.startsWith("decoded resources/apktool.yml"))
-        if(check.startsWith("decoded resources/original") || check.startsWith("decoded resources/smali") || check.startsWith("decoded resources/apktool.yml"))
+        //if(check.startsWith("decoded unknown") || check.startsWith("decoded lib") || check.startsWith("decoded assets") || check.startsWith("decoded original") || check.startsWith("decoded smali") || check.startsWith("decoded apktool.yml"))
+        if(check.startsWith("decoded original") || check.startsWith("decoded smali") || check.startsWith("decoded apktool.yml"))
             return;
 
         //if(path.equals("original") || path.equals("classes.dex") || path.equals("apktool.yml"))

@@ -88,7 +88,7 @@ public class InitialBootScreen extends JFrame {
         JEditorPane editorPane = new JEditorPane();
         editorPane.setEditorKit(new HTMLEditorKit());
 
-        editorPane.setText(convertStreamToString(InitialBootScreen.class.getClassLoader().getResourceAsStream("resources/intro.html")));
+        editorPane.setText(convertStreamToString(InitialBootScreen.class.getClassLoader().getResourceAsStream("intro.html")));
 
         scrollPane.setViewportView(editorPane);
 
