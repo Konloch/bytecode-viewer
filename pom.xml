@@ -12,6 +12,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>com.android</groupId>
@@ -137,11 +144,9 @@
             <version>4.2</version>
         </dependency>
         <dependency>
-            <groupId>jadx</groupId>
+            <groupId>com.github.skylot.jadx</groupId>
             <artifactId>jadx-core</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/jadx-core.jar</systemPath>
+            <version>v1.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
