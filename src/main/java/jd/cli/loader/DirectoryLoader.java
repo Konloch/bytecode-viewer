@@ -1,11 +1,11 @@
 package jd.cli.loader;
 
 import java.io.BufferedInputStream;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import jd.core.loader.LoaderException;
+import java.io.IOException;
+import org.apache.commons.io.IOUtils;
+import org.jd.core.v1.api.loader.LoaderException;
 
 
 public class DirectoryLoader extends BaseLoader {
@@ -17,14 +17,14 @@ public class DirectoryLoader extends BaseLoader {
     }
 
     @Override
-    public DataInputStream load(String internalPath)
+    public byte[] load(String internalPath)
             throws LoaderException {
         File file = new File(this.codebase, internalPath);
 
         try {
-            return new DataInputStream(
+            return IOUtils.toByteArray(
                     new BufferedInputStream(new FileInputStream(file)));
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new LoaderException(
                     "'" + file.getAbsolutePath() + "'  not found.");
         }

@@ -159,9 +159,9 @@
         <dependency>
             <groupId>com.jd</groupId>
             <artifactId>jd-gui</artifactId>
-            <version>1.0.0-RC4</version>
+            <version>1.6.6</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/jd-gui-1.0.0-RC4.jar</systemPath>
+            <systemPath>${project.basedir}/libs/jd-gui-1.6.6.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.tinyjee.jgraphx</groupId>

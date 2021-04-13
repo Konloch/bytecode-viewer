@@ -1,11 +1,11 @@
 package jd.cli.loader;
 
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import jd.core.loader.LoaderException;
+import org.apache.commons.io.IOUtils;
+import org.jd.core.v1.api.loader.LoaderException;
 
 
 public class JarLoader extends BaseLoader {
@@ -26,7 +26,7 @@ public class JarLoader extends BaseLoader {
     }
 
     @Override
-    public DataInputStream load(String internalPath)
+    public byte[] load(String internalPath)
             throws LoaderException {
         ZipEntry zipEntry = this.zipFile.getEntry(internalPath);
 
@@ -35,7 +35,7 @@ public class JarLoader extends BaseLoader {
         }
 
         try {
-            return new DataInputStream(this.zipFile.getInputStream(zipEntry));
+            return IOUtils.toByteArray(this.zipFile.getInputStream(zipEntry));
         } catch (IOException e) {
             throw new LoaderException("Error reading '" + internalPath + "'");
         }

@@ -2,12 +2,13 @@ package jd.cli;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.util.ServiceLoader;
 import jd.cli.loader.DirectoryLoader;
 import jd.cli.preferences.CommonPreferences;
 import jd.cli.printer.text.PlainTextPrinter;
 import jd.cli.util.ClassFileUtil;
-import jd.core.Decompiler;
-import jd.core.process.DecompilerImpl;
+import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
+import org.jd.core.v1.api.Decompiler;
 
 
 public class Main {
@@ -39,8 +40,8 @@ public class Main {
                 PrintStream ps = new PrintStream("test.txt");
                 PlainTextPrinter printer = new PlainTextPrinter(preferences, ps);
 
-                Decompiler decompiler = new DecompilerImpl();
-                decompiler.decompile(preferences, loader, printer, internalPath);
+                Decompiler decompiler = new ClassFileToJavaSourceDecompiler();
+                decompiler.decompile(loader, printer, internalPath, preferences.getPreferences());
 
                 System.out.println("done.");
 

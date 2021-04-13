@@ -3,7 +3,7 @@ package jd.cli.loader;
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import jd.core.loader.LoaderException;
+import org.jd.core.v1.api.loader.LoaderException;
 
 public class LoaderManager {
     protected final static String JAR_SUFFIX = ".jar";

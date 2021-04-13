@@ -10,8 +10,8 @@ import jd.cli.loader.DirectoryLoader;
 import jd.cli.preferences.CommonPreferences;
 import jd.cli.printer.text.PlainTextPrinter;
 import jd.cli.util.ClassFileUtil;
-import jd.core.process.DecompilerImpl;
 import me.konloch.kontainer.io.DiskReader;
+import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -99,8 +99,8 @@ public class JDGUIDecompiler extends Decompiler {
             PrintStream ps = new PrintStream(tempJava.getAbsolutePath());
             PlainTextPrinter printer = new PlainTextPrinter(preferences, ps);
 
-            jd.core.Decompiler decompiler = new DecompilerImpl();
-            decompiler.decompile(preferences, loader, printer, internalPath);
+            org.jd.core.v1.api.Decompiler decompiler = new ClassFileToJavaSourceDecompiler();
+            decompiler.decompile(loader, printer, internalPath, preferences.getPreferences());
 
             String decompiledSource;
             decompiledSource = DiskReader.loadAsString(tempJava.getAbsolutePath());

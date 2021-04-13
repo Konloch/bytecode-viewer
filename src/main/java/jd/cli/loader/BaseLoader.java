@@ -1,7 +1,7 @@
 package jd.cli.loader;
 
 import java.io.File;
-import jd.core.loader.Loader;
+import org.jd.core.v1.api.loader.Loader;
 
 public abstract class BaseLoader implements Loader {
     protected String codebase;

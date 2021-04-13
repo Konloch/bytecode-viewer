@@ -2,8 +2,7 @@ package jd.cli.printer.html;
 
 import java.io.PrintStream;
 import jd.cli.util.VersionUtil;
-import jd.core.CoreConstants;
-import jd.core.printer.Printer;
+import org.jd.core.v1.api.printer.Printer;
 
 /*
  * CSS
@@ -51,64 +50,6 @@ public class HtmlPrinter implements Printer {
     }
 
     @Override
-    public void print(byte b) {
-        this.sbCode.append(String.valueOf(b));
-    }
-
-    @Override
-    public void print(char c) {
-        switch (c) {
-        case '<':
-            this.sbCode.append("&lt;");
-            break;
-        case '>':
-            this.sbCode.append("&gt;");
-            break;
-        default:
-            this.sbCode.append(c);
-            break;
-        }
-    }
-
-    @Override
-    public void print(int i) {
-        this.sbCode.append(i);
-    }
-
-    @Override
-    public void print(String s) {
-        this.sbCode.append(s);
-    }
-
-    @Override
-    public void printNumeric(String s) {
-        this.sbCode.append("<u>");
-        this.sbCode.append(s);
-        this.sbCode.append("</u>");
-    }
-
-    @Override
-    public void printString(String s, String scopeInternalName) {
-        this.sbCode.append("<u>");
-
-        // Replace '<' by '&lt;'
-        int length = s.length();
-
-        if (length > 0) {
-            for (int i = 0; i < length; i++) {
-                char c = s.charAt(i);
-
-                if (c == '<')
-                    this.sbCode.append("&lt;");
-                else
-                    this.sbCode.append(c);
-            }
-        }
-
-        this.sbCode.append("</u>");
-    }
-
-    @Override
     public void printKeyword(String s) {
         if (this.commentJavadocErrorDepth == 0) {
             this.sbCode.append("<b>");
@@ -120,102 +61,11 @@ public class HtmlPrinter implements Printer {
     }
 
     @Override
-    public void printJavaWord(String s) {
-        printKeyword(s);
+    public void printDeclaration(int i, String s, String s1, String s2) {
     }
 
     @Override
-    public void printType(String internalName, String name, String scopeInternalName) {
-        this.sbCode.append(name);
-    }
-
-    @Override
-    public void printTypeDeclaration(String internalName, String name) {
-        this.sbCode.append(name);
-    }
-
-    @Override
-    public void printTypeImport(String internalName, String name) {
-        this.sbCode.append(name);
-    }
-
-    @Override
-    public void printField(
-            String internalName, String name,
-            String descriptor, String scopeInternalName) {
-        printFieldDeclaration(internalName, name, descriptor);
-    }
-
-    @Override
-    public void printFieldDeclaration(
-            String internalName, String name, String descriptor) {
-        this.sbCode.append("<var>");
-        this.sbCode.append(name);
-        this.sbCode.append("</var>");
-    }
-
-    @Override
-    public void printStaticField(
-            String internalName, String name,
-            String descriptor, String scopeInternalName) {
-        printStaticFieldDeclaration(internalName, name, descriptor);
-    }
-
-    @Override
-    public void printStaticFieldDeclaration(
-            String internalName, String name, String descriptor) {
-        this.sbCode.append("<em>");
-        this.sbCode.append(name);
-        this.sbCode.append("</em>");
-    }
-
-    @Override
-    public void printConstructor(
-            String internalName, String name,
-            String descriptor, String scopeInternalName) {
-        this.sbCode.append(name);
-    }
-
-    @Override
-    public void printConstructorDeclaration(
-            String internalName, String name, String descriptor) {
-        this.sbCode.append(name);
-    }
-
-    @Override
-    public void printStaticConstructorDeclaration(
-            String internalName, String name) {
-        this.sbCode.append("<samp>");
-        this.sbCode.append(name);
-        this.sbCode.append("</samp>");
-    }
-
-    @Override
-    public void printMethod(
-            String internalName, String name,
-            String descriptor, String scopeInternalName) {
-        this.sbCode.append(name);
-    }
-
-    @Override
-    public void printMethodDeclaration(
-            String internalName, String name, String descriptor) {
-        this.sbCode.append(name);
-    }
-
-    @Override
-    public void printStaticMethod(
-            String internalName, String name,
-            String descriptor, String scopeInternalName) {
-        printStaticMethodDeclaration(internalName, name, descriptor);
-    }
-
-    @Override
-    public void printStaticMethodDeclaration(
-            String internalName, String name, String descriptor) {
-        this.sbCode.append("<samp>");
-        this.sbCode.append(name);
-        this.sbCode.append("</samp>");
+    public void printReference(int i, String s, String s1, String s2, String s3) {
     }
 
     @Override
@@ -308,10 +158,44 @@ public class HtmlPrinter implements Printer {
         this.printStream.print("Java Class Version: " + VersionUtil.getJDKVersion(this.majorVersion,
                 this.minorVersion) + "<br>");
         this.printStream.print("JD-CL Version:      " + "0.1.0" + "<br>");
-        this.printStream.print("JD-Core Version:    " + CoreConstants.JD_CORE_VERSION);
+        // TODO: Where can I find this dynamically?
+        this.printStream.print("JD-Core Version:    " + "1.6.6");
         this.printStream.print("</div>");
 
         this.printStream.print("</div></div></div></body></html>");
+    }
+
+    @Override
+    public void printText(String s) {
+        this.sbCode.append(s);
+    }
+
+    @Override
+    public void printNumericConstant(String s) {
+        this.sbCode.append("<u>");
+        this.sbCode.append(s);
+        this.sbCode.append("</u>");
+    }
+
+    @Override
+    public void printStringConstant(String s, String s1) {
+        this.sbCode.append("<u>");
+
+        // Replace '<' by '&lt;'
+        int length = s.length();
+
+        if (length > 0) {
+            for (int i = 0; i < length; i++) {
+                char c = s.charAt(i);
+
+                if (c == '<')
+                    this.sbCode.append("&lt;");
+                else
+                    this.sbCode.append(c);
+            }
+        }
+
+        this.sbCode.append("</u>");
     }
 
     @Override
@@ -320,13 +204,13 @@ public class HtmlPrinter implements Printer {
     }
 
     @Override
-    public void desindent() {
+    public void unindent() {
         if (this.indentationCount > 0)
             this.indentationCount--;
     }
 
     @Override
-    public void startOfLine(int lineNumber) {
+    public void startLine(int lineNumber) {
         this.realLineNumber++;
 
         if (this.maxLineNumber > 0) {
@@ -354,7 +238,7 @@ public class HtmlPrinter implements Printer {
     }
 
     @Override
-    public void endOfLine() {
+    public void endLine() {
         this.sbCode.append("<br>");
     }
 
@@ -383,187 +267,11 @@ public class HtmlPrinter implements Printer {
     }
 
     @Override
-    public void startOfComment() {
-        this.sbCode.append("<cite>");
-        this.commentJavadocErrorDepth++;
+    public void startMarker(int i) {
     }
 
     @Override
-    public void endOfComment() {
-        this.sbCode.append("</cite>");
-        this.commentJavadocErrorDepth--;
+    public void endMarker(int i) {
     }
 
-    @Override
-    public void startOfJavadoc() {
-        this.sbCode.append("<dfn>");
-        this.commentJavadocErrorDepth++;
-    }
-
-    @Override
-    public void endOfJavadoc() {
-        this.sbCode.append("</dfn>");
-        this.commentJavadocErrorDepth--;
-    }
-
-    @Override
-    public void startOfXdoclet() {
-        this.sbCode.append("<b>");
-    }
-
-    @Override
-    public void endOfXdoclet() {
-        this.sbCode.append("</b>");
-    }
-
-    @Override
-    public void startOfError() {
-        this.sbCode.append("<span>");
-        this.commentJavadocErrorDepth++;
-    }
-
-    @Override
-    public void endOfError() {
-        this.sbCode.append("</span>");
-        this.commentJavadocErrorDepth--;
-    }
-
-    @Override
-    public void startOfImportStatements() {
-    }
-
-    @Override
-    public void endOfImportStatements() {
-    }
-
-    @Override
-    public void startOfTypeDeclaration(String internalPath) {
-    }
-
-    @Override
-    public void endOfTypeDeclaration() {
-    }
-
-    @Override
-    public void startOfAnnotationName() {
-        this.sbCode.append("<del>");
-    }
-
-    @Override
-    public void endOfAnnotationName() {
-        this.sbCode.append("</del>");
-    }
-
-    @Override
-    public void startOfOptionalPrefix() {
-        this.sbCode.append("<kbd>");
-    }
-
-    @Override
-    public void endOfOptionalPrefix() {
-        this.sbCode.append("</kbd>");
-    }
-
-    @Override
-    public void debugStartOfLayoutBlock() {
-        if (DEBUG) {
-            this.sbCode.append("<span class='debuglayoutblock' alt='block'>");
-        }
-    }
-
-    @Override
-    public void debugEndOfLayoutBlock() {
-        if (DEBUG) {
-            this.sbCode.append("</span>");
-        }
-    }
-
-    @Override
-    public void debugStartOfSeparatorLayoutBlock() {
-        if (DEBUG) {
-            this.sbCode.append("<span class='debugseparatorlayoutblock' alr='separator'>");
-        }
-    }
-
-    @Override
-    public void debugEndOfSeparatorLayoutBlock(int min, int value, int max) {
-        if (DEBUG) {
-            // DEBUG // this.sb.append(min);
-            // DEBUG // this.sb.append("&lt;=");
-            // DEBUG // this.sb.append(value);
-            // DEBUG // this.sb.append("&lt;=");
-            // DEBUG // this.sb.append(max);
-            this.sbCode.append("</span>");
-        }
-    }
-
-    @Override
-    public void debugStartOfStatementsBlockLayoutBlock() {
-        if (DEBUG) {
-            this.sbCode.append("<span class='debugstatementblocklayoutblock' alt='statement'>");
-        }
-    }
-
-    @Override
-    public void debugEndOfStatementsBlockLayoutBlock(int min, int value, int max) {
-        if (DEBUG) {
-            // DEBUG // this.sb.append(min);
-            // DEBUG // this.sb.append("&lt;=");
-            // DEBUG // this.sb.append(value);
-            // DEBUG // this.sb.append("&lt;=");
-            // DEBUG // this.sb.append(max);
-            this.sbCode.append("</span>");
-        }
-    }
-
-    @Override
-    public void debugStartOfInstructionBlockLayoutBlock() {
-        if (DEBUG) {
-            this.sbCode.append("<span class='debugenumblocklayoutblock' alt='numeric block'>");
-        }
-    }
-
-    @Override
-    public void debugEndOfInstructionBlockLayoutBlock() {
-        if (DEBUG) {
-            this.sbCode.append("</span>");
-        }
-    }
-
-    @Override
-    public void debugStartOfCommentDeprecatedLayoutBlock() {
-        if (DEBUG) {
-            this.sbCode.append("<span class='debugcommentdeprecatedlayoutblock' alt='comment deprecated'>");
-        }
-    }
-
-    @Override
-    public void debugEndOfCommentDeprecatedLayoutBlock() {
-        if (DEBUG) {
-            this.sbCode.append("</span>");
-        }
-    }
-
-    @Override
-    public void debugMarker(String marker) {
-        if (DEBUG) {
-            // DEBUG // this.sb.append("<span class='debugmarker'>");
-            // DEBUG // this.sb.append(marker);
-            // DEBUG // this.sb.append("</span>");
-        }
-    }
-
-    @Override
-    public void debugStartOfCaseBlockLayoutBlock() {
-        if (DEBUG) {
-            this.sbCode.append("<span class='debugcaseblocklayoutblock' alt='case block'>");
-        }
-    }
-
-    @Override
-    public void debugEndOfCaseBlockLayoutBlock() {
-        if (DEBUG) {
-            this.sbCode.append("</span>");
-        }
-    }
 }
