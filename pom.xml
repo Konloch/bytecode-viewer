@@ -149,7 +149,7 @@
         <dependency>
             <groupId>com.github.skylot.jadx</groupId>
             <artifactId>jadx-core</artifactId>
-            <version>v1.2.0</version>
+            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
