@@ -48,6 +48,7 @@ public class SecurityMan extends SecurityManager {
                 executedClass.equals("the.bytecode.club.bytecodeviewer.util.Enjarify") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.util.APKTool") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.BytecodeViewer") ||
+                executedClass.equals("the.bytecode.club.bytecodeviewer.Constants") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.JavaCompiler")) {
             blocking = false;
         } else for (StackTraceElement stackTraceElements : Thread.currentThread().getStackTrace()) {
