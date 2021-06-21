@@ -62,7 +62,7 @@ public abstract class PaneUpdaterThread extends Thread {
     public void run() {
         doShit();
         synchronizePane();
-        //attachCtrlMouseWheelZoom(scrollPane, panelArea); //freezes the UI for some reason, probably cause BCV is
+        attachCtrlMouseWheelZoom(scrollPane, panelArea); //freezes the UI for some reason, probably cause BCV is
         // doing dumb shit with the swing thread
     }
 
