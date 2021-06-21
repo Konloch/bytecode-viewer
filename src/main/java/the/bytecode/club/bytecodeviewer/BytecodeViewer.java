@@ -118,7 +118,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 public class BytecodeViewer {
     /*per version*/
-    public static final String VERSION = "2.10.0";
+    public static final String VERSION = "2.10.10";
     public static String krakatauVersion = "12";
     public static String enjarifyVersion = "4";
     public static final boolean BLOCK_TAB_MENU = true;
@@ -198,12 +198,13 @@ public class BytecodeViewer {
      */
     private static final Thread versionChecker = new Thread(() -> {
         try {
-            HTTPRequest r = new HTTPRequest(new URL("https://raw.githubusercontent"
-                    + ".com/Konloch/bytecode-viewer/master/VERSION"));
+            HTTPRequest r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION"));
             final String version = r.readSingle();
+            final String localVersion = BytecodeViewer.VERSION + 0;
             try {
                 int simplemaths = Integer.parseInt(version.replace(".", ""));
-                int simplemaths2 = Integer.parseInt(BytecodeViewer.VERSION.replace(".", ""));
+                int simplemaths2 = Integer.parseInt(localVersion.replace(".", ""));
+                System.out.println("DEBUG: " + simplemaths + " vs " + simplemaths2);
                 if (simplemaths2 > simplemaths)
                     return; //developer version
             } catch (Exception ignored) {

@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import com.sun.java.swing.plaf.windows.WindowsTreeUI;
+//TODO re-add
+//import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -219,7 +220,8 @@ public class FileNavigationPane extends VisibleComponent implements
             }
         });
 
-        pop.add(new AbstractAction("Expand", WindowsTreeUI.ExpandedIcon.createExpandedIcon()) {
+        //TODO re-add
+        /*pop.add(new AbstractAction("Expand", WindowsTreeUI.ExpandedIcon.createExpandedIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
@@ -233,7 +235,7 @@ public class FileNavigationPane extends VisibleComponent implements
                 TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
                 expandAll(tree, Objects.requireNonNull(selPath), false);
             }
-        });
+        });*/
 
         pop.show(this.tree, x, y);
     }
