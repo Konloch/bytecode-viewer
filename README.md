@@ -65,12 +65,8 @@ Join The Bytecode Club Today! - https://the.bytecode.club
 
 ## Instructions to compile
 
-Just clone this repo, **!INITIALIZE THE SUBMODULES!** and run ``mvn package``. It's that simple!
+Just clone this repo and run ``mvn package``. It's that simple!
 
 ## Working on the source
 
-Open the Maven project (e.g. in IntelliJ, open the ``pom.xml`` as a project file) and add the following folders as source roots:
-```
-libs/byte-engineer/byteanalysis/src/main/java
-libs/byte-engineer/byteio/src/main/java
-```
+Open the Maven project (e.g. in IntelliJ, open the ``pom.xml`` as a project file).
