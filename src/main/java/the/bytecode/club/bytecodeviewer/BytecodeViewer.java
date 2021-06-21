@@ -271,7 +271,7 @@ public class BytecodeViewer
             while (empty) {
                 showMessage("You need to set your Java path, this requires the JRE to be downloaded." + nl +
                         "(C:/Program Files/Java/JDK_xx/bin/java.exe)");
-                viewer.java();
+                viewer.selectJava();
                 empty = Configuration.java.isEmpty();
             }
         }
@@ -620,7 +620,7 @@ public class BytecodeViewer
      * resets the recent files menu
      */
     public static void resetRecentFilesMenu() {
-        viewer.mnRecentFiles.removeAll();
+        viewer.recentFilesSecondaryMenu.removeAll();
         for (String s : recentFiles)
             if (!s.isEmpty()) {
                 JMenuItem m = new JMenuItem(s);
@@ -628,7 +628,7 @@ public class BytecodeViewer
                     JMenuItem m12 = (JMenuItem) e.getSource();
                     openFiles(new File[]{new File(m12.getText())}, true);
                 });
-                viewer.mnRecentFiles.add(m);
+                viewer.recentFilesSecondaryMenu.add(m);
             }
         viewer.mnRecentPlugins.removeAll();
         for (String s : recentPlugins)
@@ -805,17 +805,17 @@ public class BytecodeViewer
 
             boolean passes = false;
 
-            if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Krakatau.getModel()))
+            if (BytecodeViewer.viewer.viewPane1.getGroup().isSelected(BytecodeViewer.viewer.viewPane1.getKrakatau().getJava().getModel()))
                 passes = true;
-            else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel()))
+            else if (BytecodeViewer.viewer.viewPane1.getGroup().isSelected(BytecodeViewer.viewer.viewPane1.getKrakatau().getBytecode().getModel()))
                 passes = true;
-            else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Krakatau.getModel()))
+            else if (BytecodeViewer.viewer.viewPane2.getGroup().isSelected(BytecodeViewer.viewer.viewPane2.getKrakatau().getJava().getModel()))
                 passes = true;
-            else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel()))
+            else if (BytecodeViewer.viewer.viewPane2.getGroup().isSelected(BytecodeViewer.viewer.viewPane2.getKrakatau().getBytecode().getModel()))
                 passes = true;
-            else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Krakatau.getModel()))
+            else if (BytecodeViewer.viewer.viewPane3.getGroup().isSelected(BytecodeViewer.viewer.viewPane3.getKrakatau().getJava().getModel()))
                 passes = true;
-            else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel()))
+            else if (BytecodeViewer.viewer.viewPane3.getGroup().isSelected(BytecodeViewer.viewer.viewPane3.getKrakatau().getBytecode().getModel()))
                 passes = true;
 
             if (Configuration.krakatauTempJar != null || !passes) {

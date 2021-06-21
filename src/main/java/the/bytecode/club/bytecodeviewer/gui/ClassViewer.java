@@ -1763,128 +1763,27 @@ public class ClassViewer extends Viewer {
 
 
     public void setPanes() {
-        if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1None.getModel()))
-            pane1 = 0;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Proc.getModel()))
-            pane1 = 1;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1CFR.getModel()))
-            pane1 = 2;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Fern.getModel()))
-            pane1 = 3;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Bytecode.getModel()))
-            pane1 = 4;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Hexcode.getModel()))
-            pane1 = 5;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Smali.getModel()))
-            pane1 = 6;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1Krakatau.getModel()))
-            pane1 = 7;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel()))
-            pane1 = 8;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1JDGUI.getModel()))
-            pane1 = 9;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.jadxJ1.getModel()))
-            pane1 = 10;
-        else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.asmText1.getModel()))
-            pane1 = 11;
-
-        if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
-            pane2 = 0;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Proc.getModel()))
-            pane2 = 1;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2CFR.getModel()))
-            pane2 = 2;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Fern.getModel()))
-            pane2 = 3;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Bytecode.getModel()))
-            pane2 = 4;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Hexcode.getModel()))
-            pane2 = 5;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Smali.getModel()))
-            pane2 = 6;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2Krakatau.getModel()))
-            pane2 = 7;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel()))
-            pane2 = 8;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2JDGUI.getModel()))
-            pane2 = 9;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.jadxJ2.getModel()))
-            pane2 = 10;
-        else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.asmText2.getModel()))
-            pane2 = 11;
-
-        if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
-            pane3 = 0;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Proc.getModel()))
-            pane3 = 1;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3CFR.getModel()))
-            pane3 = 2;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Fern.getModel()))
-            pane3 = 3;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Bytecode.getModel()))
-            pane3 = 4;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Hexcode.getModel()))
-            pane3 = 5;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Smali.getModel()))
-            pane3 = 6;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3Krakatau.getModel()))
-            pane3 = 7;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel()))
-            pane3 = 8;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3JDGUI.getModel()))
-            pane3 = 9;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.jadxJ3.getModel()))
-            pane3 = 10;
-        else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.asmText3.getModel()))
-            pane3 = 11;
+        pane1 = BytecodeViewer.viewer.viewPane1.getSelectedViewer();
+        pane2 = BytecodeViewer.viewer.viewPane2.getSelectedViewer();
+        pane3 = BytecodeViewer.viewer.viewPane3.getSelectedViewer();
     }
 
     public boolean isPanel1Editable() {
         setPanes();
 
-        if (pane1 == 1 && BytecodeViewer.viewer.panel1Proc_E.isSelected())
-            return true;
-        if (pane1 == 2 && BytecodeViewer.viewer.panel1CFR_E.isSelected())
-            return true;
-        if (pane1 == 3 && BytecodeViewer.viewer.panel1Fern_E.isSelected())
-            return true;
-        if (pane1 == 6 && BytecodeViewer.viewer.panel1Smali_E.isSelected())
-            return true;
-        if (pane1 == 9 && BytecodeViewer.viewer.panel1JDGUI_E.isSelected())
-            return true;
-        return (pane1 == 7 || pane1 == 8) && BytecodeViewer.viewer.panel1Krakatau_E.isSelected();
+        return BytecodeViewer.viewer.viewPane1.isPaneEditable();
     }
 
     public boolean isPanel2Editable() {
         setPanes();
-
-        if (pane2 == 1 && BytecodeViewer.viewer.panel2Proc_E.isSelected())
-            return true;
-        if (pane2 == 2 && BytecodeViewer.viewer.panel2CFR_E.isSelected())
-            return true;
-        if (pane2 == 3 && BytecodeViewer.viewer.panel2Fern_E.isSelected())
-            return true;
-        if (pane2 == 6 && BytecodeViewer.viewer.panel2Smali_E.isSelected())
-            return true;
-        if (pane2 == 9 && BytecodeViewer.viewer.panel2JDGUI_E.isSelected())
-            return true;
-        return (pane2 == 7 || pane2 == 8) && BytecodeViewer.viewer.panel2Krakatau_E.isSelected();
+        
+        return BytecodeViewer.viewer.viewPane2.isPaneEditable();
     }
 
     public boolean isPanel3Editable() {
         setPanes();
-
-        if (pane3 == 1 && BytecodeViewer.viewer.panel3Proc_E.isSelected())
-            return true;
-        if (pane3 == 2 && BytecodeViewer.viewer.panel3CFR_E.isSelected())
-            return true;
-        if (pane3 == 3 && BytecodeViewer.viewer.panel3Fern_E.isSelected())
-            return true;
-        if (pane3 == 6 && BytecodeViewer.viewer.panel3Smali_E.isSelected())
-            return true;
-        if (pane3 == 9 && BytecodeViewer.viewer.panel3JDGUI_E.isSelected())
-            return true;
-        return (pane3 == 7 || pane3 == 8) && BytecodeViewer.viewer.panel3Krakatau_E.isSelected();
+    
+        return BytecodeViewer.viewer.viewPane3.isPaneEditable();
     }
 
     /**

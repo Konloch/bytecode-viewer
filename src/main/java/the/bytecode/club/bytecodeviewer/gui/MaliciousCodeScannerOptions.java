@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.MaliciousCodeScanner;
@@ -34,6 +36,14 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.MaliciousCodeScanner
  */
 
 public class MaliciousCodeScannerOptions extends JFrame {
+    public static void showOptionPanel()
+    {
+        if (BytecodeViewer.getLoadedClasses().isEmpty()) {
+            BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+            return;
+        }
+        new MaliciousCodeScannerOptions().setVisible(true);
+    }
     public MaliciousCodeScannerOptions() {
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(250, 323));

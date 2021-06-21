@@ -58,7 +58,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
     public JTabbedPane tabs;
 
     JPanel buttonPanel;
-    JButton refreshClass;
+    public JButton refreshClass;
 
     HashMap<String, Integer> workingOn = new HashMap<>();
 
