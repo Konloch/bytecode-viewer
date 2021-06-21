@@ -55,7 +55,7 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
  */
 
 @SuppressWarnings("rawtypes")
-public class SearchingPane extends VisibleComponent {
+public class SearchBoxPane extends VisibleComponent {
 
     private static final long serialVersionUID = -1098524689236993932L;
     public static final SearchRadius[] SEARCH_RADII = SearchRadius.values();
@@ -81,7 +81,7 @@ public class SearchingPane extends VisibleComponent {
     };
 
     @SuppressWarnings("unchecked")
-    public SearchingPane(final FileChangeNotifier fcn) {
+    public SearchBoxPane(final FileChangeNotifier fcn) {
         super("Search");
 
         this.fcn = fcn;
@@ -164,7 +164,7 @@ public class SearchingPane extends VisibleComponent {
             final ClassNode fN = Objects.requireNonNull(container).getClassNode(className);
 
             if (fN != null) {
-                Objects.requireNonNull(MainViewerGUI.getComponent(FileNavigationPane.class))
+                Objects.requireNonNull(MainViewerGUI.getComponent(ResourceListPane.class))
                         .openClassFileToWorkSpace(container, className + ".class", fN);
             }
         });
@@ -196,17 +196,17 @@ public class SearchingPane extends VisibleComponent {
                             for (ClassNode c : container.classes)
                                 searchType.details.search(container, c, srn, exact.isSelected());
 
-                        Objects.requireNonNull(MainViewerGUI.getComponent(SearchingPane.class)).search.setEnabled(true);
-                        Objects.requireNonNull(MainViewerGUI.getComponent(SearchingPane.class)).search.setText(
+                        Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search.setEnabled(true);
+                        Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search.setText(
                                 "Search");
                         tree.expandPath(new TreePath(tree.getModel().getRoot()));
                         tree.updateUI();
                     }
 
                 };
-                Objects.requireNonNull(MainViewerGUI.getComponent(SearchingPane.class)).search
+                Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search
                         .setEnabled(false);
-                Objects.requireNonNull(MainViewerGUI.getComponent(SearchingPane.class)).search
+                Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search
                         .setText("Searching, please wait..");
                 t.start();
             } else { // this should really never be called.

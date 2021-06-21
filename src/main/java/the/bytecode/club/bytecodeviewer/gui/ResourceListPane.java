@@ -71,7 +71,7 @@ import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
  * @author afffsdd
  */
 
-public class FileNavigationPane extends VisibleComponent implements
+public class ResourceListPane extends VisibleComponent implements
         FileDrop.Listener {
 
     FileChangeNotifier fcn;
@@ -80,7 +80,7 @@ public class FileNavigationPane extends VisibleComponent implements
     JButton close = new JButton("-");
 
     MyTreeNode treeRoot = new MyTreeNode("Loaded Files:");
-    MyTree tree = new MyTree(treeRoot);
+    public MyTree tree = new MyTree(treeRoot);
     final String quickSearchText = "Quick file search (no file extension)";
     final JTextField quickSearch = new JTextField(quickSearchText);
     boolean cancel = false;
@@ -198,7 +198,7 @@ public class FileNavigationPane extends VisibleComponent implements
         pop.add(new AbstractAction("Remove") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
+                TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
                 DefaultMutableTreeNode selectNode =
                         (DefaultMutableTreeNode) Objects.requireNonNull(selPath).getLastPathComponent();
                 Enumeration<?> enumeration = treeRoot.children();
@@ -224,7 +224,7 @@ public class FileNavigationPane extends VisibleComponent implements
         pop.add(new AbstractAction("Expand", WindowsTreeUI.ExpandedIcon.createExpandedIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
+                TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
                 expandAll(tree, Objects.requireNonNull(selPath), true);
             }
         });
@@ -232,7 +232,7 @@ public class FileNavigationPane extends VisibleComponent implements
         pop.add(new AbstractAction("Collapse", WindowsTreeUI.CollapsedIcon.createCollapsedIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
+                TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
                 expandAll(tree, Objects.requireNonNull(selPath), false);
             }
         });
@@ -245,7 +245,7 @@ public class FileNavigationPane extends VisibleComponent implements
         LazyNameUtil.removeName(fileContainer.name);
     }
 
-    public FileNavigationPane(final FileChangeNotifier fcn) {
+    public ResourceListPane(final FileChangeNotifier fcn) {
         super("ClassNavigation");
         this.fcn = fcn;
         tree.setRootVisible(false);
@@ -258,7 +258,7 @@ public class FileNavigationPane extends VisibleComponent implements
             public void mouseReleased(MouseEvent e) {
                 if (e.isMetaDown()) {
                     MyTree tree = (MyTree) e.getSource();
-                    TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(e.getX(), e.getY());
+                    TreePath selPath = ResourceListPane.this.tree.getPathForLocation(e.getX(), e.getY());
                     if (selPath == null) {
                         return;
                     }
@@ -666,8 +666,8 @@ public class FileNavigationPane extends VisibleComponent implements
                     selected, expanded, leaf, row, hasFocus);
 
             if (value instanceof MyTreeNode) {
-                the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode node =
-                        (the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) value;
+                ResourceListPane.MyTreeNode node =
+                        (ResourceListPane.MyTreeNode) value;
                 String name = node.toString().toLowerCase();
 
                 if (name.endsWith(".jar") || name.endsWith(".war")) {

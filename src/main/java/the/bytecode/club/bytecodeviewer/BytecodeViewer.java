@@ -24,10 +24,10 @@ import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.compilers.Compilers;
 import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
-import the.bytecode.club.bytecodeviewer.gui.FileNavigationPane;
+import the.bytecode.club.bytecodeviewer.gui.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.RunOptions;
-import the.bytecode.club.bytecodeviewer.gui.SearchingPane;
+import the.bytecode.club.bytecodeviewer.gui.SearchBoxPane;
 import the.bytecode.club.bytecodeviewer.gui.SystemErrConsole;
 import the.bytecode.club.bytecodeviewer.gui.WorkPane;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
@@ -230,7 +230,7 @@ public class BytecodeViewer
             Configuration.pingback = true;
         }
 
-        if (viewer.chckbxmntmNewCheckItem_12.isSelected())
+        if (viewer.updateCheck.isSelected())
             versionChecker.start();
 
         if (!cli)
@@ -552,9 +552,9 @@ public class BytecodeViewer
 
         files.clear();
         LazyNameUtil.reset();
-        Objects.requireNonNull(MainViewerGUI.getComponent(FileNavigationPane.class)).resetWorkspace();
+        Objects.requireNonNull(MainViewerGUI.getComponent(ResourceListPane.class)).resetWorkspace();
         Objects.requireNonNull(MainViewerGUI.getComponent(WorkPane.class)).resetWorkspace();
-        Objects.requireNonNull(MainViewerGUI.getComponent(SearchingPane.class)).resetWorkspace();
+        Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).resetWorkspace();
         the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
     }
 

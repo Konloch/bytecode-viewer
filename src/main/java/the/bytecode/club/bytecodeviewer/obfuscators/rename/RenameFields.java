@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.obfuscators.rename;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.obfuscators.JavaObfuscator;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.FieldMappingData;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
@@ -33,6 +34,17 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
 
 public class RenameFields extends JavaObfuscator {
 
+    public static void open()
+    {
+        if (Configuration.runningObfuscation) {
+            BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish.");
+            return;
+        }
+        new RenameFields().start();
+        BytecodeViewer.viewer.workPane.refreshClass.doClick();
+        BytecodeViewer.viewer.resourcePane.tree.updateUI();
+    }
+    
     @Override
     public void obfuscate() {
         int stringLength = getStringLength();

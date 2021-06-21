@@ -14,7 +14,7 @@ public class EnterKeyEvent implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            BytecodeViewer.viewer.s.search();
+            BytecodeViewer.viewer.searchBoxPane.search();
         }
     }
 

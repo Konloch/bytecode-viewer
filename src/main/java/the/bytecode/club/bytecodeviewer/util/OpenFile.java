@@ -4,7 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.gui.FileNavigationPane;
+import the.bytecode.club.bytecodeviewer.gui.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 
 import java.io.File;
@@ -212,7 +212,7 @@ public class OpenFile implements Runnable
 			
 			if (update)
 				try {
-					Objects.requireNonNull(MainViewerGUI.getComponent(FileNavigationPane.class)).updateTree();
+					Objects.requireNonNull(MainViewerGUI.getComponent(ResourceListPane.class)).updateTree();
 				} catch (NullPointerException ignored) {
 				}
 		}

@@ -123,13 +123,13 @@ public class InstructionPrinter {
                 line = printLineNumberNode();
             } else if (ain instanceof LabelNode) {
                 if (firstLabel
-                        && BytecodeViewer.viewer.chckbxmntmAppendBrackets
+                        && BytecodeViewer.viewer.appendBracketsToLabels
                         .isSelected())
                     info.add("}");
 
                 line = printLabelnode((LabelNode) ain);
 
-                if (BytecodeViewer.viewer.chckbxmntmAppendBrackets.isSelected()) {
+                if (BytecodeViewer.viewer.appendBracketsToLabels.isSelected()) {
                     if (!firstLabel)
                         firstLabel = true;
                     line += " {";
@@ -161,7 +161,7 @@ public class InstructionPrinter {
             }
         }
         if (firstLabel
-                && BytecodeViewer.viewer.chckbxmntmAppendBrackets.isSelected())
+                && BytecodeViewer.viewer.appendBracketsToLabels.isSelected())
             info.add("}");
         return info;
     }

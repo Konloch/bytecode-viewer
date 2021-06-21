@@ -186,12 +186,12 @@ public class CFRDecompiler extends Decompiler {
                 "--outputdir",
                 outputPath,
                 "--decodeenumswitch",
-                String.valueOf(BytecodeViewer.viewer.decodeenumswitch
+                String.valueOf(BytecodeViewer.viewer.decodeEnumSwitch
                         .isSelected()),
                 "--sugarenums",
-                String.valueOf(BytecodeViewer.viewer.sugarenums.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.sugarEnums.isSelected()),
                 "--decodestringswitch",
-                String.valueOf(BytecodeViewer.viewer.decodestringswitch
+                String.valueOf(BytecodeViewer.viewer.decodeStringSwitch
                         .isSelected()),
                 "--arrayiter",
                 String.valueOf(BytecodeViewer.viewer.arrayiter.isSelected()),
@@ -199,52 +199,52 @@ public class CFRDecompiler extends Decompiler {
                 String.valueOf(BytecodeViewer.viewer.collectioniter
                         .isSelected()),
                 "--innerclasses",
-                String.valueOf(BytecodeViewer.viewer.innerclasses.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.innerClasses.isSelected()),
                 "--removeboilerplate",
-                String.valueOf(BytecodeViewer.viewer.removeboilerplate
+                String.valueOf(BytecodeViewer.viewer.removeBoilerPlate
                         .isSelected()),
                 "--removeinnerclasssynthetics",
-                String.valueOf(BytecodeViewer.viewer.removeinnerclasssynthetics
+                String.valueOf(BytecodeViewer.viewer.removeInnerClassSynthetics
                         .isSelected()),
                 "--decodelambdas",
-                String.valueOf(BytecodeViewer.viewer.decodelambdas.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.decodeLambdas.isSelected()),
                 "--hidebridgemethods",
-                String.valueOf(BytecodeViewer.viewer.hidebridgemethods
+                String.valueOf(BytecodeViewer.viewer.hideBridgeMethods
                         .isSelected()),
                 "--liftconstructorinit",
-                String.valueOf(BytecodeViewer.viewer.liftconstructorinit
+                String.valueOf(BytecodeViewer.viewer.liftConstructorInit
                         .isSelected()),
                 "--removedeadmethods",
-                String.valueOf(BytecodeViewer.viewer.removedeadmethods
+                String.valueOf(BytecodeViewer.viewer.removeDeadMethods
                         .isSelected()),
                 "--removebadgenerics",
-                String.valueOf(BytecodeViewer.viewer.removebadgenerics
+                String.valueOf(BytecodeViewer.viewer.removeBadGenerics
                         .isSelected()),
                 "--sugarasserts",
-                String.valueOf(BytecodeViewer.viewer.sugarasserts.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.sugarAsserts.isSelected()),
                 "--sugarboxing",
-                String.valueOf(BytecodeViewer.viewer.sugarboxing.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.sugarBoxing.isSelected()),
                 "--showversion",
-                String.valueOf(BytecodeViewer.viewer.showversion.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.showVersion.isSelected()),
                 "--decodefinally",
-                String.valueOf(BytecodeViewer.viewer.decodefinally.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.decodeFinally.isSelected()),
                 "--tidymonitors",
-                String.valueOf(BytecodeViewer.viewer.tidymonitors.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.tidyMonitors.isSelected()),
                 "--lenient",
                 String.valueOf(BytecodeViewer.viewer.lenient.isSelected()),
                 "--dumpclasspath",
-                String.valueOf(BytecodeViewer.viewer.dumpclasspath.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.dumpClassPath.isSelected()),
                 "--comments",
                 String.valueOf(BytecodeViewer.viewer.comments.isSelected()),
                 "--forcetopsort",
-                String.valueOf(BytecodeViewer.viewer.forcetopsort.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.forceTopSort.isSelected()),
                 "--forcetopsortaggress",
-                String.valueOf(BytecodeViewer.viewer.forcetopsortaggress
+                String.valueOf(BytecodeViewer.viewer.forceTopSortAggress
                         .isSelected()),
                 "--stringbuffer",
-                String.valueOf(BytecodeViewer.viewer.stringbuffer.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.stringBuffer.isSelected()),
                 "--stringbuilder",
-                String.valueOf(BytecodeViewer.viewer.stringbuilder.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.stringBuilder.isSelected()),
                 "--silent",
                 String.valueOf(BytecodeViewer.viewer.silent.isSelected()),
                 "--recover",
@@ -254,43 +254,43 @@ public class CFRDecompiler extends Decompiler {
                 "--override",
                 String.valueOf(BytecodeViewer.viewer.override.isSelected()),
                 "--showinferrable",
-                String.valueOf(BytecodeViewer.viewer.showinferrable
+                String.valueOf(BytecodeViewer.viewer.showInferrable
                         .isSelected()),
                 "--aexagg",
                 String.valueOf(BytecodeViewer.viewer.aexagg.isSelected()),
                 "--forcecondpropagate",
-                String.valueOf(BytecodeViewer.viewer.forcecondpropagate
+                String.valueOf(BytecodeViewer.viewer.forceCondPropagate
                         .isSelected()),
                 "--hideutf",
-                String.valueOf(BytecodeViewer.viewer.hideutf.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.hideUTF.isSelected()),
                 "--hidelongstrings",
-                String.valueOf(BytecodeViewer.viewer.hidelongstrings
+                String.valueOf(BytecodeViewer.viewer.hideLongStrings
                         .isSelected()),
                 "--commentmonitors",
-                String.valueOf(BytecodeViewer.viewer.commentmonitor
+                String.valueOf(BytecodeViewer.viewer.commentMonitor
                         .isSelected()),
                 "--allowcorrecting",
-                String.valueOf(BytecodeViewer.viewer.allowcorrecting
+                String.valueOf(BytecodeViewer.viewer.allowCorrecting
                         .isSelected()),
                 "--labelledblocks",
-                String.valueOf(BytecodeViewer.viewer.labelledblocks
+                String.valueOf(BytecodeViewer.viewer.labelledBlocks
                         .isSelected()),
                 "--j14classobj",
-                String.valueOf(BytecodeViewer.viewer.j14classobj.isSelected()),
+                String.valueOf(BytecodeViewer.viewer.j14ClassOBJ.isSelected()),
                 "--hidelangimports",
-                String.valueOf(BytecodeViewer.viewer.hidelangimports
+                String.valueOf(BytecodeViewer.viewer.hideLangImports
                         .isSelected()),
                 "--recovertypeclash",
-                String.valueOf(BytecodeViewer.viewer.recoverytypeclash
+                String.valueOf(BytecodeViewer.viewer.recoveryTypeClash
                         .isSelected()),
                 "--recovertypehints",
-                String.valueOf(BytecodeViewer.viewer.recoverytypehints
+                String.valueOf(BytecodeViewer.viewer.recoveryTypehInts
                         .isSelected()),
                 "--forcereturningifs",
-                String.valueOf(BytecodeViewer.viewer.forceturningifs
+                String.valueOf(BytecodeViewer.viewer.forceTurningIFs
                         .isSelected()),
                 "--forloopaggcapture",
-                String.valueOf(BytecodeViewer.viewer.forloopaggcapture
+                String.valueOf(BytecodeViewer.viewer.forLoopAGGCapture
                         .isSelected()),};
     }
 

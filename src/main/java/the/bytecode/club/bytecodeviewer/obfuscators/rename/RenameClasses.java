@@ -4,6 +4,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.obfuscators.JavaObfuscator;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
 
@@ -33,6 +34,18 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
 
 public class RenameClasses extends JavaObfuscator {
 
+    public static void open()
+    {
+        if (Configuration.runningObfuscation) {
+            BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish"
+                    + ".");
+            return;
+        }
+        new RenameClasses().start();
+        BytecodeViewer.viewer.workPane.refreshClass.doClick();
+        BytecodeViewer.viewer.resourcePane.tree.updateUI();
+    }
+    
     @Override
     public void obfuscate() {
         int stringLength = 5;//getStringLength();
