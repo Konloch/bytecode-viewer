@@ -21,13 +21,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.android</groupId>
-            <artifactId>android-lib</artifactId>
-            <version>5.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/android-5.1.jar</systemPath>
-        </dependency>
-        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>20.1.0</version>
@@ -110,18 +103,6 @@
             <version>1.9</version>
         </dependency>
         <dependency>
-            <groupId>com.pxb1988</groupId>
-            <artifactId>d2jar-lib-obf</artifactId>
-            <version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/d2jar-lib-obf.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.rover12421.android</groupId>
-            <artifactId>dx</artifactId>
-            <version>1.16</version>
-        </dependency>
-        <dependency>
             <groupId>org.jboss.windup.decompiler</groupId>
             <artifactId>decompiler-fernflower</artifactId>
             <version>5.1.3.Final</version>
@@ -140,11 +121,6 @@
             <groupId>org.imgscalr</groupId>
             <artifactId>imgscalr-lib</artifactId>
             <version>4.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.skylot.jadx</groupId>
-            <artifactId>jadx-core</artifactId>
-            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
@@ -219,6 +195,62 @@
             <groupId>xpp3</groupId>
             <artifactId>xpp3</artifactId>
             <version>1.1.4c</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.skylot</groupId>
+            <artifactId>JADX-Core</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jadx/jadx-core.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.github.skylot</groupId>
+            <artifactId>JADX-Android</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jadx/android-5.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.android</groupId>
+            <artifactId>DX</artifactId>
+            <version>1.16</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jadx/dx-1.16.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.android</groupId>
+            <artifactId>D2Jar-obf</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jadx/d2jar-lib-obf.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.intellij</groupId>
+            <artifactId>Annotations</artifactId>
+            <version>17.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jadx/annotations-17.0.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.rits</groupId>
+            <artifactId>Cloning</artifactId>
+            <version>1.9.12</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jadx/cloning-1.9.12.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>Objenesis</artifactId>
+            <version>3.0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jadx/objenesis-3.0.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j</artifactId>
+            <version>1.7.26</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/jadx/slf4j-api-1.7.26.jar</systemPath>
         </dependency>
     </dependencies>
 

@@ -79,12 +79,14 @@ public class ViewPane
 			return 7;
 		else if (group.isSelected(krakatau.getBytecode().getModel()))
 			return 8;
-		else if (group.isSelected(JD.getBytecode().getModel()))
+		else if (group.isSelected(JD.getJava().getModel()))
 			return 9;
-		else if (group.isSelected(JADX.getBytecode().getModel()))
+		else if (group.isSelected(JADX.getJava().getModel()))
 			return 10;
 		else if (group.isSelected(asmTextify.getModel()))
 			return 11;
+		
+		System.out.println("DEFAULTING TO NULL");
 		
 		//default to none
 		return 0;

@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-//TODO re-add
-//import com.sun.java.swing.plaf.windows.WindowsTreeUI;
+//TODO fix for Java 9+
+import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -220,8 +220,8 @@ public class FileNavigationPane extends VisibleComponent implements
             }
         });
 
-        //TODO re-add
-        /*pop.add(new AbstractAction("Expand", WindowsTreeUI.ExpandedIcon.createExpandedIcon()) {
+        //TODO fix for Java 9+
+        pop.add(new AbstractAction("Expand", WindowsTreeUI.ExpandedIcon.createExpandedIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
@@ -235,7 +235,7 @@ public class FileNavigationPane extends VisibleComponent implements
                 TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
                 expandAll(tree, Objects.requireNonNull(selPath), false);
             }
-        });*/
+        });
 
         pop.show(this.tree, x, y);
     }
@@ -315,7 +315,6 @@ public class FileNavigationPane extends VisibleComponent implements
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println((int) e.getKeyChar());
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (e.getSource() instanceof MyTree) {
                         MyTree tree = (MyTree) e.getSource();

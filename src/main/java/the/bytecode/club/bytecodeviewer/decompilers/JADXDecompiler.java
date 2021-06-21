@@ -11,7 +11,6 @@ import java.util.Objects;
 import java.util.Random;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
@@ -56,14 +55,18 @@ public class JADXDecompiler extends Decompiler {
         }
 
         File fuckery = new File(fuckery(fileStart));
+        
         try {
             JadxArgs args = new JadxArgs();
             args.getInputFiles().add(tempClass);
             args.setOutDir(fuckery);
+            args.setOutDirSrc(fuckery);
+            args.setOutDirRes(fuckery);
 
             JadxDecompiler jadx = new JadxDecompiler(args);
             jadx.load();
-            jadx.save();
+            jadx.saveSources();
+            //jadx.close();
         } catch (StackOverflowError | Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
@@ -75,6 +78,9 @@ public class JADXDecompiler extends Decompiler {
 
         if (fuckery.exists())
             return findFile(Objects.requireNonNull(fuckery.listFiles()));
+        
+        if(exception.isEmpty())
+            exception = "Decompiled source file not found!";
 
         return "JADX error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com"
                 + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
@@ -113,7 +119,7 @@ public class JADXDecompiler extends Decompiler {
                 return s;
             }
         }
-        return "CFR error!" + nl + nl + "Suggested Fix: Click refresh class, if it "
+        return "JADX error!" + nl + nl + "Suggested Fix: Click refresh class, if it "
                 + "fails again try another decompiler.";
     }
 
