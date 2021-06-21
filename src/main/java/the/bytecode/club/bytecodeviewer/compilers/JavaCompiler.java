@@ -10,6 +10,8 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -38,22 +40,18 @@ public class JavaCompiler extends Compiler {
 
     @Override
     public byte[] compile(String contents, String name) {
-        String fileStart =
-                BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(12) + BytecodeViewer.fs;
-        String fileStart2 =
-                BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(12) + BytecodeViewer.fs;
-        File java = new File(fileStart + BytecodeViewer.fs + name + ".java");
-        File clazz = new File(fileStart2 + BytecodeViewer.fs + name + ".class");
-        File cp =
-                new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "cpath_" + MiscUtils.randomString(12) +
-                        ".jar");
-        File tempD = new File(fileStart + BytecodeViewer.fs + name.substring(0,
-                name.length() - name.split("/")[name.split("/").length - 1].length()));
+        String fileStart = tempDirectory + fs + "temp" + MiscUtils.randomString(12) + fs;
+        String fileStart2 = tempDirectory + fs + "temp" + MiscUtils.randomString(12) + fs;
+        File java = new File(fileStart + fs + name + ".java");
+        File clazz = new File(fileStart2 + fs + name + ".class");
+        File cp = new File(tempDirectory + fs + "cpath_" + MiscUtils.randomString(12) + ".jar");
+        File tempD = new File(fileStart + fs + name.substring(0, name.length() - name.split("/")[name.split("/").length - 1].length()));
+        
         tempD.mkdirs();
         new File(fileStart2).mkdirs();
 
         if (BytecodeViewer.javac.equals("") || !new File(BytecodeViewer.javac).exists()) {
-            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + BytecodeViewer.nl + "(C:/programfiles/Java/JDK_xx/bin/javac.exe)");
+            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + nl + "(C:/programfiles/Java/JDK_xx/bin/javac.exe)");
             BytecodeViewer.viewer.javac();
         }
 
@@ -116,20 +114,20 @@ public class JavaCompiler extends Compiler {
             BufferedReader br = new BufferedReader(isr);
             String line;
             while ((line = br.readLine()) != null) {
-                log.append(BytecodeViewer.nl).append(line);
+                log.append(nl).append(line);
             }
             br.close();
 
-            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Error:").append(BytecodeViewer.nl).append(BytecodeViewer.nl);
+            log.append(nl).append(nl).append("Error:").append(nl).append(nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
             while ((line = br.readLine()) != null) {
-                log.append(BytecodeViewer.nl).append(line);
+                log.append(nl).append(line);
             }
             br.close();
 
-            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Exit Value is ").append(exitValue);
+            log.append(nl).append(nl).append("Exit Value is ").append(exitValue);
             System.out.println(log);
 
             if (!clazz.exists())

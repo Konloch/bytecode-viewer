@@ -11,6 +11,8 @@ import javax.swing.JTextArea;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -73,25 +75,23 @@ public class ExceptionUI extends JFrame {
 
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(600, 400));
-        setTitle("Bytecode Viewer " + BytecodeViewer.VERSION
-                + " - Stack Trace - Send this to " + author);
+        setTitle("Bytecode Viewer " + VERSION + " - Stack Trace - Send this to " + author);
         getContentPane().setLayout(new CardLayout(0, 0));
 
         JTextArea txtrBytecodeViewerIs = new JTextArea();
         txtrBytecodeViewerIs.setDisabledTextColor(Color.BLACK);
         txtrBytecodeViewerIs.setWrapStyleWord(true);
-        getContentPane().add(new JScrollPane(txtrBytecodeViewerIs),
-                "name_140466576080695");
+        getContentPane().add(new JScrollPane(txtrBytecodeViewerIs), "name_140466576080695");
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
         e.printStackTrace();
 
-        txtrBytecodeViewerIs.setText("Bytecode Viewer Version: " + BytecodeViewer.VERSION +
-                ", Preview Copy: " + BytecodeViewer.PREVIEW_COPY +
-                ", Fat Jar: " + BytecodeViewer.FAT_JAR +
+        txtrBytecodeViewerIs.setText("Bytecode Viewer Version: " + VERSION +
+                ", Preview Copy: " + PREVIEW_COPY +
+                ", Fat Jar: " + FAT_JAR +
                 ", OS: " + System.getProperty("os.name") +
                 ", Java: " + System.getProperty("java.version") +
-                BytecodeViewer.nl + BytecodeViewer.nl + sw);
+                nl + nl + sw);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -99,15 +99,13 @@ public class ExceptionUI extends JFrame {
     private void setup(String e, String author) {
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(600, 400));
-        setTitle("Bytecode Viewer " + BytecodeViewer.VERSION
-                + " - Stack Trace - Send this to " + author);
+        setTitle("Bytecode Viewer " + VERSION + " - Stack Trace - Send this to " + author);
         getContentPane().setLayout(new CardLayout(0, 0));
 
         JTextArea txtrBytecodeViewerIs = new JTextArea();
         txtrBytecodeViewerIs.setDisabledTextColor(Color.BLACK);
         txtrBytecodeViewerIs.setWrapStyleWord(true);
-        getContentPane().add(new JScrollPane(txtrBytecodeViewerIs),
-                "name_140466576080695");
+        getContentPane().add(new JScrollPane(txtrBytecodeViewerIs), "name_140466576080695");
         txtrBytecodeViewerIs.setText(e);
         System.err.println(e);
         this.setLocationRelativeTo(null);

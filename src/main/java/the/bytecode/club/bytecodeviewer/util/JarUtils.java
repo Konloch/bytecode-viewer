@@ -22,6 +22,8 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -331,7 +333,7 @@ public class JarUtils {
                 ClassWriter cw = new ClassWriter(0);
                 cn.accept(cw);
 
-                String name = dir + BytecodeViewer.fs + cn.name + ".class";
+                String name = dir + fs + cn.name + ".class";
                 File f = new File(name);
                 f.mkdirs();
 

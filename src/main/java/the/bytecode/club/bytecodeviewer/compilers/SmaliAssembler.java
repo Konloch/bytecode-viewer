@@ -9,6 +9,8 @@ import the.bytecode.club.bytecodeviewer.util.Enjarify;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -37,16 +39,16 @@ public class SmaliAssembler extends Compiler {
 
     @Override
     public byte[] compile(String contents, String name) {
-        String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp";
+        String fileStart = tempDirectory + fs + "temp";
         int fileNumber = MiscUtils.getClassNumber(fileStart, ".dex");
 
-        final File tempSmaliFolder = new File(fileStart + fileNumber + "-smalifolder" + BytecodeViewer.fs);
+        final File tempSmaliFolder = new File(fileStart + fileNumber + "-smalifolder" + fs);
         tempSmaliFolder.mkdir();
 
-        File tempSmali = new File(tempSmaliFolder.getAbsolutePath() + BytecodeViewer.fs + fileNumber + ".smali");
+        File tempSmali = new File(tempSmaliFolder.getAbsolutePath() + fs + fileNumber + ".smali");
         File tempDex = new File("./out.dex");
         File tempJar = new File(fileStart + fileNumber + ".jar");
-        File tempJarFolder = new File(fileStart + fileNumber + "-jar" + BytecodeViewer.fs);
+        File tempJarFolder = new File(fileStart + fileNumber + "-jar" + fs);
 
         try {
             DiskWriter.replaceFile(tempSmali.getAbsolutePath(), contents, false);

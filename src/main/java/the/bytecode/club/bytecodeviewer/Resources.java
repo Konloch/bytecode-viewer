@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import org.apache.commons.codec.binary.Base64;
 import org.imgscalr.Scalr;
 
+import static the.bytecode.club.bytecodeviewer.Constants.libsDirectory;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -126,7 +128,7 @@ public class Resources {
     }
 
     public static String findLibrary(String nameContains) {
-        for (File f : Objects.requireNonNull(new File(BytecodeViewer.libsDirectory).listFiles())) {
+        for (File f : Objects.requireNonNull(new File(libsDirectory).listFiles())) {
             if (f.getName().contains(nameContains))
                 return f.getAbsolutePath();
         }

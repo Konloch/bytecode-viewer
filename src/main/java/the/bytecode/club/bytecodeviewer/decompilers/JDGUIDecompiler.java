@@ -14,7 +14,10 @@ import me.konloch.kontainer.io.DiskReader;
 import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+
+import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -47,17 +50,17 @@ public class JDGUIDecompiler extends Decompiler {
     public String decompileClassNode(ClassNode cn, byte[] b) {
         String exception;
         try {
-            final File tempDirectory =
-                    new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+            final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
             tempDirectory.mkdir();
-            final File tempClass = new File(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".class");
-            final File tempJava = new File(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".java");
+            
+            final File tempClass = new File(tempDirectory.getAbsolutePath() + fs + cn.name + ".class");
+            final File tempJava = new File(tempDirectory.getAbsolutePath() + fs + cn.name + ".java");
 
             if (cn.name.contains("/")) {
                 String[] raw = cn.name.split("/");
-                String path = tempDirectory.getAbsolutePath() + BytecodeViewer.fs;
+                String path = tempDirectory.getAbsolutePath() + fs;
                 for (int i = 0; i < raw.length - 1; i++) {
-                    path += raw[i] + BytecodeViewer.fs;
+                    path += raw[i] + fs;
                     File f = new File(path);
                     f.mkdir();
                 }
@@ -65,19 +68,15 @@ public class JDGUIDecompiler extends Decompiler {
 
             try {
                 final FileOutputStream fos = new FileOutputStream(tempClass);
-
                 fos.write(b);
-
                 fos.close();
             } catch (final IOException e) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
             }
 
 
-            String pathToClass = tempClass.getAbsolutePath().replace('/', File.separatorChar).replace('\\',
-                    File.separatorChar);
+            String pathToClass = tempClass.getAbsolutePath().replace('/', File.separatorChar).replace('\\', File.separatorChar);
             String directoryPath = ClassFileUtil.ExtractDirectoryPath(pathToClass);
-
             String internalPath = ClassFileUtil.ExtractInternalPath(directoryPath, pathToClass);
 
             CommonPreferences preferences = new CommonPreferences() {
@@ -112,9 +111,12 @@ public class JDGUIDecompiler extends Decompiler {
             e.printStackTrace();
 
             exception =
-                    "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
+                    "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         }
-        return "JD-GUI error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+        
+        return "JD-GUI error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com"
+                + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
+                + nl + nl + exception;
     }
 
     @Override

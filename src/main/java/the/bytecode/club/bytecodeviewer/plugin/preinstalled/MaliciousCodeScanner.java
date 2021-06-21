@@ -14,6 +14,8 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -80,7 +82,7 @@ public class MaliciousCodeScanner extends Plugin {
                             || (LIP && s
                             .matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")))
                         sb.append("Found LDC \"").append(s).append("\" at field ").append(classNode.name).append(".")
-                                .append(f.name).append("(").append(f.desc).append(")").append(BytecodeViewer.nl);
+                                .append(f.name).append("(").append(f.desc).append(")").append(nl);
                 }
                 if (v instanceof String[]) {
                     for (int i = 0; i < ((String[]) v).length; i++) {
@@ -96,7 +98,7 @@ public class MaliciousCodeScanner extends Plugin {
                                 .matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")))
                             sb.append("Found LDC \"").append(s).append("\" at field ").append(classNode.name)
                                     .append(".").append(f.name).append("(").append(f.desc).append(")")
-                                    .append(BytecodeViewer.nl);
+                                    .append(nl);
                     }
                 }
             }
@@ -117,7 +119,7 @@ public class MaliciousCodeScanner extends Plugin {
                                 || (OIO && min.owner.startsWith("java/io"))) {
                             sb.append("Found Method call to ").append(min.owner).append(".").append(min.name)
                                     .append("(").append(min.desc).append(") at ").append(classNode.name).append(".")
-                                    .append(m.name).append("(").append(m.desc).append(")").append(BytecodeViewer.nl);
+                                    .append(m.name).append("(").append(m.desc).append(")").append(nl);
                         }
                     }
                     if (a instanceof LdcInsnNode) {
@@ -134,7 +136,7 @@ public class MaliciousCodeScanner extends Plugin {
                                     .matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"))) {
                                 sb.append("Found LDC \"").append(s).append("\" at method ").append(classNode.name)
                                         .append(".").append(m.name).append("(").append(m.desc).append(")")
-                                        .append(BytecodeViewer.nl);
+                                        .append(nl);
                             }
                         }
                     }
@@ -152,7 +154,7 @@ public class MaliciousCodeScanner extends Plugin {
                                 .equals("setSecurityManager"))) {
                             sb.append("Found Security Manager set to null at method ").append(classNode.name)
                                     .append(".").append(m.name).append("(").append(m.desc).append(")")
-                                    .append(BytecodeViewer.nl);
+                                    .append(nl);
                             prevInsn_aconst_null = false;
                         }
                     } else {

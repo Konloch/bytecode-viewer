@@ -6,8 +6,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+
+import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -50,18 +53,15 @@ public class KrakatauAssembler extends Compiler {
         name = MiscUtils.randomString(20);
 
         File tempD =
-                new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+                new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempD.mkdir();
 
-        File tempJ = new File(tempD.getAbsolutePath() + BytecodeViewer.fs + name + ".j");
+        File tempJ = new File(tempD.getAbsolutePath() + fs + name + ".j");
         DiskWriter.replaceFile(tempJ.getAbsolutePath(), contents, true);
 
-        final File tempDirectory =
-                new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+        final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempDirectory.mkdir();
-        final File tempJar =
-                new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) +
-                        ".jar");
+        final File tempJar = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 
         BytecodeViewer.sm.stopBlocking();
@@ -70,7 +70,7 @@ public class KrakatauAssembler extends Compiler {
             ProcessBuilder pb = new ProcessBuilder(
                     BytecodeViewer.python,
                     "-O", //love you storyyeller <3
-                    BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "assemble.py",
+                    krakatauWorkingDirectory + fs + "assemble.py",
                     "-out",
                     tempDirectory.getAbsolutePath(),
                     tempJ.getAbsolutePath()
@@ -85,25 +85,25 @@ public class KrakatauAssembler extends Compiler {
             BufferedReader br = new BufferedReader(isr);
             String line;
             while ((line = br.readLine()) != null) {
-                log.append(BytecodeViewer.nl).append(line);
+                log.append(nl).append(line);
             }
             br.close();
 
-            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Error:").append(BytecodeViewer.nl).append(BytecodeViewer.nl);
+            log.append(nl).append(nl).append("Error:").append(nl).append(nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
             while ((line = br.readLine()) != null) {
-                log.append(BytecodeViewer.nl).append(line);
+                log.append(nl).append(line);
             }
             br.close();
 
             int exitValue = process.waitFor();
-            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Exit Value is ").append(exitValue);
+            log.append(nl).append(nl).append("Exit Value is ").append(exitValue);
             System.out.println(log);
 
             byte[] b =
-                    org.apache.commons.io.FileUtils.readFileToByteArray(new File(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + origName + ".class"));
+                    org.apache.commons.io.FileUtils.readFileToByteArray(new File(tempDirectory.getAbsolutePath() + fs + origName + ".class"));
             tempDirectory.delete();
             tempJar.delete();
             return b;

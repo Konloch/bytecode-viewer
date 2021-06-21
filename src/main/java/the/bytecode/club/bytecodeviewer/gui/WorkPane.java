@@ -22,6 +22,8 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
+import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -111,7 +113,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == 3) {
-                    if (BytecodeViewer.BLOCK_TAB_MENU)
+                    if (BLOCK_TAB_MENU)
                         return;
 
                     Rectangle bounds = new Rectangle(1, 1, e.getX(), e.getY());
@@ -143,7 +145,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
         pop_up.add(closetab);
 
 
-        if (!BytecodeViewer.BLOCK_TAB_MENU)
+        if (!BLOCK_TAB_MENU)
             tabs.setComponentPopupMenu(pop_up);
 
         getContentPane().setLayout(new BorderLayout());

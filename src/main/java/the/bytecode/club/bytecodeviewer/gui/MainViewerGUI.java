@@ -57,6 +57,7 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -617,7 +618,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 ArrayList<File> reopen = new ArrayList<>();
 
                 for (FileContainer container : BytecodeViewer.files) {
-                    File newFile = new File(container.file.getParent() + BytecodeViewer.fs + container.name);
+                    File newFile = new File(container.file.getParent() + fs + container.name);
                     if (!container.file.getAbsolutePath().equals(newFile.getAbsolutePath()) &&
                             (container.file.getAbsolutePath().endsWith(".apk") || container.file.getAbsolutePath().endsWith(".dex"))) //APKs & dex get renamed
                     {
@@ -769,8 +770,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                     Thread t16 = new Thread(() -> {
                         BytecodeViewer.viewer.setIcon(true);
-                        final String input =
-                                BytecodeViewer.tempDirectory + BytecodeViewer.fs + BytecodeViewer.getRandomizedName() + ".jar";
+                        final String input = tempDirectory + fs + BytecodeViewer.getRandomizedName() + ".jar";
                         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 
                         Thread t15 = new Thread(() -> {
@@ -880,8 +880,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                     Thread t14 = new Thread(() -> {
                         BytecodeViewer.viewer.setIcon(true);
-                        final String input =
-                                BytecodeViewer.tempDirectory + BytecodeViewer.fs + BytecodeViewer.getRandomizedName() + ".jar";
+                        final String input = tempDirectory + fs + BytecodeViewer.getRandomizedName() + ".jar";
                         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 
                         Thread t13 = new Thread(() -> {
@@ -952,8 +951,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                     final File javaSucks = file;
 
-                    final String path = MiscUtils.append(file, ".zip");    // cheap hax cause
-                    // string is final
+                    final String path = MiscUtils.append(file, ".zip");    // cheap hax cause string is final
 
                     JOptionPane pane = new JOptionPane(
                             "What decompiler will you use?");
@@ -971,8 +969,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                     BytecodeViewer.viewer.setIcon(true);
 
-                    File tempZip =
-                            new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp_" + BytecodeViewer.getRandomizedName() + ".jar");
+                    File tempZip = new File(tempDirectory + fs + "temp_" + BytecodeViewer.getRandomizedName() + ".jar");
                     if (tempZip.exists())
                         tempZip.delete();
 
@@ -2001,11 +1998,11 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         mntmShowMainMethods.addActionListener(e -> PluginManager.runPlugin(new ShowMainMethods()));
 
         setSize(new Dimension(800, 400));
-        if (BytecodeViewer.PREVIEW_COPY)
-            setTitle("Bytecode Viewer " + BytecodeViewer.VERSION + " Preview - https://bytecodeviewer.com | "
+        if (PREVIEW_COPY)
+            setTitle("Bytecode Viewer " + VERSION + " Preview - https://bytecodeviewer.com | "
                     + "https://the.bytecode.club - @Konloch");
         else
-            setTitle("Bytecode Viewer " + BytecodeViewer.VERSION + " - https://bytecodeviewer.com | https://the"
+            setTitle("Bytecode Viewer " + VERSION + " - https://bytecodeviewer.com | https://the"
                     + ".bytecode.club - @Konloch");
 
         getContentPane().setLayout(

@@ -14,6 +14,8 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -40,16 +42,14 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 public class JADXDecompiler extends Decompiler {
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
-        String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
+        String fileStart = tempDirectory + fs;
 
         String exception = "";
         final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
         try {
             final FileOutputStream fos = new FileOutputStream(tempClass);
-
             fos.write(b);
-
             fos.close();
         } catch (final IOException e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -68,9 +68,7 @@ public class JADXDecompiler extends Decompiler {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
-
-            exception =
-                    "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
+            exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         }
 
         tempClass.delete();
@@ -78,7 +76,9 @@ public class JADXDecompiler extends Decompiler {
         if (fuckery.exists())
             return findFile(Objects.requireNonNull(fuckery.listFiles()));
 
-        return "JADX error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+        return "JADX error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com"
+                + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
+                + nl + nl + exception;
     }
 
     Random r = new Random();
@@ -104,17 +104,16 @@ public class JADXDecompiler extends Decompiler {
                     StringWriter sw = new StringWriter();
                     e.printStackTrace(new PrintWriter(sw));
                     e.printStackTrace();
-
-                    String exception =
-                            "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
+                    String exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+                    
                     return "JADX error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail"
-                            + ".com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, "
-                            + "if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+                            + ".com" + nl + nl + "Suggested Fix: Click refresh class, "
+                            + "if it fails again try another decompiler." + nl + nl + exception;
                 }
                 return s;
             }
         }
-        return "CFR error!" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it "
+        return "CFR error!" + nl + nl + "Suggested Fix: Click refresh class, if it "
                 + "fails again try another decompiler.";
     }
 

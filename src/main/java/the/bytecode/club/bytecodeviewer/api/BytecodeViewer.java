@@ -15,6 +15,8 @@ import the.bytecode.club.bytecodeviewer.decompilers.Decompilers;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -70,10 +72,7 @@ public class BytecodeViewer {
      */
     public static List<Class<?>> loadClassesIntoClassLoader() {
         try {
-            File f = new File(
-                    the.bytecode.club.bytecodeviewer.BytecodeViewer.tempDirectory +
-                            the.bytecode.club.bytecodeviewer.BytecodeViewer.fs +
-                            "loaded_temp.jar");
+            File f = new File(tempDirectory + fs + "loaded_temp.jar");
             JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), f.getAbsolutePath());
             JarFile jarFile = new JarFile("" + f.getAbsolutePath());
             Enumeration<JarEntry> e = jarFile.entries();

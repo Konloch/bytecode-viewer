@@ -1,4 +1,6 @@
-package the.bytecode.club.bytecodeviewer;
+package the.bytecode.club.bytecodeviewer.util;
+
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 import java.io.FileDescriptor;
 import java.net.InetAddress;
@@ -103,7 +105,6 @@ public class SecurityMan extends SecurityManager {
     public void checkAccess(ThreadGroup g) {
     }
 
-    @Override
     public void checkAwtEventQueueAccess() {
     }
 
@@ -134,7 +135,6 @@ public class SecurityMan extends SecurityManager {
     public void checkLink(String lib) {
     }
 
-    @Override
     public void checkMemberAccess(Class<?> clazz, int which) {
     }
 
@@ -146,7 +146,6 @@ public class SecurityMan extends SecurityManager {
     public void checkMulticast(InetAddress maddr, byte ttl) {
     }
 
-    @Override
     public void checkPackageAccess(String pkg) {
     }
 
@@ -186,7 +185,6 @@ public class SecurityMan extends SecurityManager {
     public void checkSetFactory() {
     }
 
-    @Override
     public void checkSystemClipboardAccess() {
     }
 

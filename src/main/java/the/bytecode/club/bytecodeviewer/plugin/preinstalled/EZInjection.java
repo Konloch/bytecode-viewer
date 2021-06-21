@@ -16,6 +16,8 @@ import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 import the.bytecode.club.bytecodeviewer.gui.GraphicalReflectionKit;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -273,8 +275,7 @@ public class EZInjection extends Plugin {
                 the.bytecode.club.bytecodeviewer.api.BytecodeViewer
                         .getClassNodeLoader().addClass(cn);
 
-            print("Invoking " + invokeMethodInformation + ":"
-                    + BytecodeViewer.nl + BytecodeViewer.nl);
+            print("Invoking " + invokeMethodInformation + ":" + nl + nl);
 
             for (ClassNode classNode : classNodeList) {
                 for (Object o : classNode.methods.toArray()) {

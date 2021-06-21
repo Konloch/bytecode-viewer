@@ -21,6 +21,8 @@ import javax.swing.text.JTextComponent;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -139,7 +141,7 @@ public class SystemErrConsole extends JFrame {
                 String start = split[0] + "'" + split[1] + "', ";
                 s = s.substring(start.length());
             }
-            replace.append(s).append(BytecodeViewer.nl);
+            replace.append(s).append(nl);
         }
         setText(replace.toString());
     }

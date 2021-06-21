@@ -11,6 +11,8 @@ import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -65,21 +67,21 @@ public class ClassNodeDecompiler extends Decompiler {
             }
         }
         sb.append(" {");
-        sb.append(BytecodeViewer.nl);
+        sb.append(nl);
         sb.append("     ");
         sb.append("<ClassVersion=" + cn.version + ">");
-        sb.append(BytecodeViewer.nl);
+        sb.append(nl);
 
         if (cn.sourceDebug != null) {
             sb.append("     ");
             sb.append("<SourceDebug=" + cn.sourceDebug + ">");
-            sb.append(BytecodeViewer.nl);
+            sb.append(nl);
         }
 
         if (cn.sourceFile != null) {
             sb.append("     ");
             sb.append("<SourceFile=" + cn.sourceFile + ">");
-            sb.append(BytecodeViewer.nl);
+            sb.append(nl);
         }
 
         if (cn.signature != null) {
@@ -88,15 +90,15 @@ public class ClassNodeDecompiler extends Decompiler {
         }
 
         for (FieldNode fn : cn.fields) {
-            sb.append(BytecodeViewer.nl);
+            sb.append(nl);
             sb.append("     ");
             FieldNodeDecompiler.decompile(sb, fn);
         }
         if (cn.fields.size() > 0) {
-            sb.append(BytecodeViewer.nl);
+            sb.append(nl);
         }
         for (MethodNode mn : cn.methods) {
-            sb.append(BytecodeViewer.nl);
+            sb.append(nl);
             MethodNodeDecompiler.decompile(sb, mn, cn);
         }
 
@@ -108,10 +110,10 @@ public class ClassNodeDecompiler extends Decompiler {
                 ClassNode cn1 = BytecodeViewer.getClassNode(innerClassName);
                 if (cn1 != null) {
                     sb.appendPrefix("     ");
-                    sb.append(BytecodeViewer.nl + BytecodeViewer.nl);
+                    sb.append(nl + nl);
                     sb = decompile(sb, decompiledClasses, cn1);
                     sb.trimPrefix(5);
-                    sb.append(BytecodeViewer.nl);
+                    sb.append(nl);
                 } else {
                     unableToDecompile.add(innerClassName);
                 }
@@ -124,11 +126,11 @@ public class ClassNodeDecompiler extends Decompiler {
                 sb.append(s);
                 sb.append(" ");
             }
-            sb.append(BytecodeViewer.nl);
+            sb.append(nl);
         }
 
         if (cn.attrs != null) {
-            sb.append(BytecodeViewer.nl);
+            sb.append(nl);
             for (Attribute attr : cn.attrs) {
                 //TODO: finish attributes
                 sb.append(attr.type + ": ");// + attr.content.toString());

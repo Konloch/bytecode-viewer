@@ -4,6 +4,8 @@ import java.io.File;
 import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -29,16 +31,15 @@ public class APKTool {
 
     public static synchronized void decodeResources(File input, File output, FileContainer container) {
         try {
-            File dir =
-                    new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs + "Decoded Resources");
+            File dir = new File(tempDirectory + fs + MiscUtils.randomString(32) + fs + "Decoded Resources");
             dir.mkdirs();
 
-            File tempAPKPath = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(12));
+            File tempAPKPath = new File(tempDirectory + fs + MiscUtils.randomString(12));
             tempAPKPath.mkdirs();
             brut.apktool.Main.main(new String[]{"r", "--frame-path", tempAPKPath.getAbsolutePath(), "d",
                     input.getAbsolutePath(), "-o", dir.getAbsolutePath(), "-f"});
 
-            File zip = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(12) + ".zip");
+            File zip = new File(tempDirectory + fs + MiscUtils.randomString(12) + ".zip");
             ZipUtils.zipFolderAPKTool(dir.getAbsolutePath(), zip.getAbsolutePath());
 
             if (zip.exists())
@@ -52,16 +53,16 @@ public class APKTool {
     }
 
     public static synchronized void buildAPK(File input, File output, FileContainer container) {
-        String temp = BytecodeViewer.tempDirectory + BytecodeViewer.fs;
-        File tempDir = new File(temp + BytecodeViewer.fs + BytecodeViewer.getRandomizedName() + BytecodeViewer.fs);
+        String temp = tempDirectory + fs;
+        File tempDir = new File(temp + fs + BytecodeViewer.getRandomizedName() + fs);
         tempDir.mkdirs();
 
 
-        File tempAPKPath = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(12));
+        File tempAPKPath = new File(tempDirectory + fs + MiscUtils.randomString(12));
         tempAPKPath.mkdirs();
 
         try {
-            File smaliFolder = new File(container.APKToolContents.getAbsolutePath() + BytecodeViewer.fs + "smali");
+            File smaliFolder = new File(container.APKToolContents.getAbsolutePath() + fs + "smali");
             FileUtils.deleteDirectory(smaliFolder);
 
 

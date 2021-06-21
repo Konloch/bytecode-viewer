@@ -11,6 +11,8 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompilers;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -47,7 +49,7 @@ public class CommandLineInput {
 
     static {
         options.addOption("help", false, "prints the help menu.");
-        options.addOption("list", false, "lists all the available decompilers for BCV " + BytecodeViewer.VERSION + ".");
+        options.addOption("list", false, "lists all the available decompilers for BCV " + VERSION + ".");
         options.addOption("decompiler", true, "sets the decompiler, procyon by default.");
         options.addOption("i", true, "sets the input.");
         options.addOption("o", true, "sets the output.");
@@ -184,7 +186,7 @@ public class CommandLineInput {
             //if its just class allow any
 
             File tempZip =
-                    new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp_" + BytecodeViewer.getRandomizedName() + ".jar");
+                    new File(tempDirectory + fs + "temp_" + BytecodeViewer.getRandomizedName() + ".jar");
             if (tempZip.exists())
                 tempZip.delete();
 
@@ -322,7 +324,7 @@ public class CommandLineInput {
             }
 
             System.out.println("Finished.");
-            System.out.println("Bytecode Viewer CLI v" + BytecodeViewer.VERSION + " by @Konloch - "
+            System.out.println("Bytecode Viewer CLI v" + VERSION + " by @Konloch - "
                     + "https://bytecodeviewer.com");
             BytecodeViewer.canExit = true;
             System.exit(0);

@@ -3,6 +3,8 @@ package the.bytecode.club.bytecodeviewer.util;
 import java.io.File;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
+import static the.bytecode.club.bytecodeviewer.Constants.enjarifyWorkingDirectory;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -59,7 +61,7 @@ public class Enjarify {
                     "-f"
             );
 
-            pb.directory(new File(BytecodeViewer.enjarifyWorkingDirectory));
+            pb.directory(new File(enjarifyWorkingDirectory));
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
             process.waitFor();

@@ -9,9 +9,11 @@ import java.io.StringWriter;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
+import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -69,15 +71,15 @@ public class KrakatauDecompiler extends Decompiler {
             return "Set your paths";
         }
 
-        String s = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl +
-                "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
+        String s = "Bytecode Viewer Version: " + VERSION + nl + nl +
+                "Please send this to konloch@gmail.com. " + nl + nl;
 
         BytecodeViewer.sm.stopBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
                     BytecodeViewer.python,
                     "-O", //love you storyyeller <3
-                    BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "decompile.py",
+                    krakatauWorkingDirectory + fs + "decompile.py",
                     "-skip", //love you storyyeller <3
                     "-nauto",
                     "-path",
@@ -94,34 +96,33 @@ public class KrakatauDecompiler extends Decompiler {
             InputStream is = process.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
-            StringBuilder log = new StringBuilder("Process:" + BytecodeViewer.nl + BytecodeViewer.nl);
+            StringBuilder log = new StringBuilder("Process:" + nl + nl);
             String line;
             while ((line = br.readLine()) != null) {
-                log.append(BytecodeViewer.nl).append(line);
+                log.append(nl).append(line);
             }
             br.close();
 
-            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Error:").append(BytecodeViewer.nl)
-                    .append(BytecodeViewer.nl);
+            log.append(nl).append(nl).append("Error:").append(nl).append(nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
             while ((line = br.readLine()) != null) {
-                log.append(BytecodeViewer.nl).append(line);
+                log.append(nl).append(line);
             }
             br.close();
 
             int exitValue = process.waitFor();
-            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Exit Value is ").append(exitValue);
+            log.append(nl).append(nl).append("Exit Value is ").append(exitValue);
             s = log.toString();
 
             //if the motherfucker failed this'll fail, aka wont set.
-            s = DiskReader.loadAsString(krakatauTempDir.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".java");
+            s = DiskReader.loadAsString(krakatauTempDir.getAbsolutePath() + fs + cn.name + ".java");
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
-            s += BytecodeViewer.nl + "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
+            s += nl + "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         } finally {
             BytecodeViewer.sm.setBlocking();
         }
@@ -151,24 +152,22 @@ public class KrakatauDecompiler extends Decompiler {
             return "Set your paths";
         }
 
-        String s = "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl +
-                "Please send this to konloch@gmail.com. " + BytecodeViewer.nl + BytecodeViewer.nl;
+        String s = "Bytecode Viewer Version: " + VERSION + nl + nl +
+                "Please send this to konloch@gmail.com. " + nl + nl;
 
-        final File tempDirectory =
-                new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
+        final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempDirectory.mkdir();
-        final File tempJar =
-                new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils.randomString(32) +
-                        ".jar");
+        final File tempJar = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
+        
         JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
-
+        
         BytecodeViewer.sm.stopBlocking();
 
         try {
             ProcessBuilder pb = new ProcessBuilder(
                     BytecodeViewer.python,
                     "-O", //love you storyyeller <3
-                    BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "decompile.py",
+                    krakatauWorkingDirectory + fs + "decompile.py",
                     "-skip", //love you storyyeller <3
                     "-nauto",
                     "-path",
@@ -185,36 +184,36 @@ public class KrakatauDecompiler extends Decompiler {
             InputStream is = process.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
-            StringBuilder log = new StringBuilder("Process:" + BytecodeViewer.nl + BytecodeViewer.nl);
+            StringBuilder log = new StringBuilder("Process:" + nl + nl);
             String line;
             while ((line = br.readLine()) != null) {
-                log.append(BytecodeViewer.nl).append(line);
+                log.append(nl).append(line);
             }
             br.close();
 
-            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Error:").append(BytecodeViewer.nl)
-                    .append(BytecodeViewer.nl);
+            log.append(nl).append(nl).append("Error:").append(nl)
+                    .append(nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
             while ((line = br.readLine()) != null) {
-                log.append(BytecodeViewer.nl).append(line);
+                log.append(nl).append(line);
             }
             br.close();
 
             int exitValue = process.waitFor();
-            log.append(BytecodeViewer.nl).append(BytecodeViewer.nl).append("Exit Value is ").append(exitValue);
+            log.append(nl).append(nl).append("Exit Value is ").append(exitValue);
             s = log.toString();
 
             //if the motherfucker failed this'll fail, aka wont set.
-            s = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + BytecodeViewer.fs + cn.name + ".java");
+            s = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + fs + cn.name + ".java");
             tempDirectory.delete();
             tempJar.delete();
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
-            s += BytecodeViewer.nl + "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
+            s += nl + "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         } finally {
             BytecodeViewer.sm.setBlocking();
         }
@@ -236,7 +235,7 @@ public class KrakatauDecompiler extends Decompiler {
         }
 
         String ran = MiscUtils.randomString(32);
-        final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + ran + BytecodeViewer.fs);
+        final File tempDirectory = new File(Constants.tempDirectory + fs + ran + fs);
         tempDirectory.mkdir();
 
 
@@ -248,7 +247,7 @@ public class KrakatauDecompiler extends Decompiler {
             ProcessBuilder pb = new ProcessBuilder(
                     BytecodeViewer.python,
                     "-O", //love you storyyeller <3
-                    BytecodeViewer.krakatauWorkingDirectory + BytecodeViewer.fs + "decompile.py",
+                    krakatauWorkingDirectory + fs + "decompile.py",
                     "-skip", //love you storyyeller <3
                     "-nauto",
                     "-path",

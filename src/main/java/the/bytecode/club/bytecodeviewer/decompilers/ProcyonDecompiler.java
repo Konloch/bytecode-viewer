@@ -35,6 +35,8 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -59,39 +61,24 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
  * @author Konloch
  * @author DeathMarine
  */
-
 public class ProcyonDecompiler extends Decompiler {
 
     public DecompilerSettings getDecompilerSettings() {
         DecompilerSettings settings = new DecompilerSettings();
-        settings.setAlwaysGenerateExceptionVariableForCatchBlocks(BytecodeViewer.viewer.chckbxmntmNewCheckItem_6
-                .isSelected());
-        settings.setExcludeNestedTypes(BytecodeViewer.viewer.chckbxmntmNewCheckItem_11
-                .isSelected());
-        settings.setShowDebugLineNumbers(BytecodeViewer.viewer.chckbxmntmShowDebugLine
-                .isSelected());
-        settings.setIncludeLineNumbersInBytecode(BytecodeViewer.viewer.chckbxmntmNewCheckItem_3
-                .isSelected());
-        settings.setIncludeErrorDiagnostics(BytecodeViewer.viewer.chckbxmntmNewCheckItem_4
-                .isSelected());
-        settings.setShowSyntheticMembers(BytecodeViewer.viewer.chckbxmntmNewCheckItem_7
-                .isSelected());
-        settings.setSimplifyMemberReferences(BytecodeViewer.viewer.chckbxmntmSimplifyMemberReferences
-                .isSelected());
-        settings.setMergeVariables(BytecodeViewer.viewer.mnMergeVariables
-                .isSelected());
-        settings.setForceExplicitTypeArguments(BytecodeViewer.viewer.chckbxmntmNewCheckItem_8
-                .isSelected());
-        settings.setForceExplicitImports(BytecodeViewer.viewer.chckbxmntmNewCheckItem_9
-                .isSelected());
-        settings.setFlattenSwitchBlocks(BytecodeViewer.viewer.chckbxmntmNewCheckItem_10
-                .isSelected());
-        settings.setRetainPointlessSwitches(BytecodeViewer.viewer.chckbxmntmNewCheckItem_2
-                .isSelected());
-        settings.setRetainRedundantCasts(BytecodeViewer.viewer.chckbxmntmNewCheckItem_5
-                .isSelected());
-        settings.setUnicodeOutputEnabled(BytecodeViewer.viewer.chckbxmntmNewCheckItem_1
-                .isSelected());
+        settings.setAlwaysGenerateExceptionVariableForCatchBlocks(BytecodeViewer.viewer.chckbxmntmNewCheckItem_6.isSelected());
+        settings.setExcludeNestedTypes(BytecodeViewer.viewer.chckbxmntmNewCheckItem_11.isSelected());
+        settings.setShowDebugLineNumbers(BytecodeViewer.viewer.chckbxmntmShowDebugLine.isSelected());
+        settings.setIncludeLineNumbersInBytecode(BytecodeViewer.viewer.chckbxmntmNewCheckItem_3.isSelected());
+        settings.setIncludeErrorDiagnostics(BytecodeViewer.viewer.chckbxmntmNewCheckItem_4.isSelected());
+        settings.setShowSyntheticMembers(BytecodeViewer.viewer.chckbxmntmNewCheckItem_7.isSelected());
+        settings.setSimplifyMemberReferences(BytecodeViewer.viewer.chckbxmntmSimplifyMemberReferences.isSelected());
+        settings.setMergeVariables(BytecodeViewer.viewer.mnMergeVariables.isSelected());
+        settings.setForceExplicitTypeArguments(BytecodeViewer.viewer.chckbxmntmNewCheckItem_8.isSelected());
+        settings.setForceExplicitImports(BytecodeViewer.viewer.chckbxmntmNewCheckItem_9.isSelected());
+        settings.setFlattenSwitchBlocks(BytecodeViewer.viewer.chckbxmntmNewCheckItem_10.isSelected());
+        settings.setRetainPointlessSwitches(BytecodeViewer.viewer.chckbxmntmNewCheckItem_2.isSelected());
+        settings.setRetainRedundantCasts(BytecodeViewer.viewer.chckbxmntmNewCheckItem_5.isSelected());
+        settings.setUnicodeOutputEnabled(BytecodeViewer.viewer.chckbxmntmNewCheckItem_1.isSelected());
         settings.setJavaFormattingOptions(JavaFormattingOptions.createDefault());
         return settings;
     }
@@ -100,8 +87,7 @@ public class ProcyonDecompiler extends Decompiler {
     public String decompileClassNode(ClassNode cn, byte[] b) {
         String exception;
         try {
-            String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
-                    + "temp";
+            String fileStart = tempDirectory + fs + "temp";
 
             final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
@@ -119,8 +105,7 @@ public class ProcyonDecompiler extends Decompiler {
 
             LuytenTypeLoader typeLoader = new LuytenTypeLoader();
             MetadataSystem metadataSystem = new MetadataSystem(typeLoader);
-            TypeReference type = metadataSystem.lookupType(tempClass
-                    .getCanonicalPath());
+            TypeReference type = metadataSystem.lookupType(tempClass.getCanonicalPath());
 
             DecompilationOptions decompilationOptions = new DecompilationOptions();
             decompilationOptions.setSettings(settings);
@@ -130,6 +115,7 @@ public class ProcyonDecompiler extends Decompiler {
             if (type == null || ((resolvedType = type.resolve()) == null)) {
                 throw new Exception("Unable to resolve type.");
             }
+            
             StringWriter stringwriter = new StringWriter();
             settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(stringwriter), decompilationOptions);
 
@@ -139,10 +125,11 @@ public class ProcyonDecompiler extends Decompiler {
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception =
-                    "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw;
+            exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         }
-        return "Procyon error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+        return "Procyon error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com"
+                + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
+                + nl + nl + exception;
     }
 
     @Override

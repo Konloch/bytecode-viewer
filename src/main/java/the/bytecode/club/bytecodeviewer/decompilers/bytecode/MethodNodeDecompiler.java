@@ -12,6 +12,8 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TryCatchBlockNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -98,7 +100,7 @@ public class MethodNodeDecompiler {
             sb.append(" {}");
             sb.append(" //");
             sb.append(m.desc);
-            sb.append(BytecodeViewer.nl);
+            sb.append(nl);
         } else {
 
             sb.append(" {");
@@ -113,7 +115,7 @@ public class MethodNodeDecompiler {
             sb.append(" //");
             sb.append(m.desc);
 
-            sb.append(BytecodeViewer.nl);
+            sb.append(nl);
 
             if (m.signature != null) {
                 sb.append("         <sig:").append(m.signature).append(">");
@@ -152,14 +154,14 @@ public class MethodNodeDecompiler {
                     sb.append(o.type);
                 else
                     sb.append("Type is null.");
-                sb.append(BytecodeViewer.nl);
+                sb.append(nl);
             }
             for (String insn : insnPrinter.createPrint()) {
                 sb.append("         ");
                 sb.append(insn);
-                sb.append(BytecodeViewer.nl);
+                sb.append(nl);
             }
-            sb.append("     }" + BytecodeViewer.nl);
+            sb.append("     }" + nl);
         }
         return sb;
     }

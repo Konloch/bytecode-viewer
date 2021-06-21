@@ -11,6 +11,8 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -50,7 +52,7 @@ public class ShowAllStrings extends Plugin {
                     if (!s.isEmpty())
                         sb.append(classNode.name).append(".").append(f.name).append(f.desc).append(" -> \"")
                                 .append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r"))
-                                .append("\"").append(BytecodeViewer.nl);
+                                .append("\"").append(nl);
                 }
                 if (v instanceof String[]) {
                     for (int i = 0; i < ((String[]) v).length; i++) {
@@ -58,7 +60,7 @@ public class ShowAllStrings extends Plugin {
                         if (!s.isEmpty())
                             sb.append(classNode.name).append(".").append(f.name).append(f.desc).append("[").append(i)
                                     .append("] -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r"))
-                                    .append("\"").append(BytecodeViewer.nl);
+                                    .append("\"").append(nl);
                     }
                 }
             }
@@ -74,7 +76,7 @@ public class ShowAllStrings extends Plugin {
                             if (!s.isEmpty())
                                 sb.append(classNode.name).append(".").append(m.name).append(m.desc).append(" -> \"")
                                         .append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r"))
-                                        .append("\"").append(BytecodeViewer.nl);
+                                        .append("\"").append(nl);
                         }
                     }
                 }
