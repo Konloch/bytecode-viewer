@@ -50,7 +50,6 @@ public class VersionChecker implements Runnable
 			try {
 				int simplemaths = Integer.parseInt(version.replace(".", ""));
 				int simplemaths2 = Integer.parseInt(localVersion.replace(".", ""));
-				System.out.println("DEBUG: " + simplemaths + " vs " + simplemaths2);
 				if (simplemaths2 > simplemaths)
 					return; //developer version
 			} catch (Exception ignored) {

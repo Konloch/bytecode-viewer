@@ -54,7 +54,7 @@ public class APKTool {
 
     public static synchronized void buildAPK(File input, File output, FileContainer container) {
         String temp = tempDirectory + fs;
-        File tempDir = new File(temp + fs + BytecodeViewer.getRandomizedName() + fs);
+        File tempDir = new File(temp + fs + MiscUtils.getRandomizedName() + fs);
         tempDir.mkdirs();
 
 

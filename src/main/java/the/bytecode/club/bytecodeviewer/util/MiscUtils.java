@@ -5,8 +5,9 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+
+import static the.bytecode.club.bytecodeviewer.Constants.gson;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -36,6 +37,7 @@ public class MiscUtils {
     private static final String AB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String AN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final Random rnd = new Random();
+    private static HashSet<String> createdRandomizedNames = new HashSet<>();
 
     /**
      * Returns a random string without numbers
@@ -48,6 +50,25 @@ public class MiscUtils {
         for (int i = 0; i < len; i++)
             sb.append(AB.charAt(rnd.nextInt(AB.length())));
         return sb.toString();
+    }
+    
+    /**
+     * Ensures it will only return a uniquely generated names, contains a dupe checker to be sure
+     *
+     * @return the unique randomized name of 25 characters.
+     */
+    public static String getRandomizedName() {
+        boolean generated = false;
+        String name = "";
+        while (!generated) {
+            String randomizedName = MiscUtils.randomString(25);
+            if (!createdRandomizedNames.contains(randomizedName)) {
+                createdRandomizedNames.add(randomizedName);
+                name = randomizedName;
+                generated = true;
+            }
+        }
+        return name;
     }
 
     public static void printProcess(Process process) throws Exception {
@@ -136,7 +157,16 @@ public class MiscUtils {
             path = path + extension;
         return path;
     }
-
+    
+    /**
+     * Converts an array list to a string
+     *
+     * @param a array
+     * @return string with newline per array object
+     */
+    public static String listToString(List<String> a) {
+        return gson.toJson(a);
+    }
     /**
      * @author JoshTheWolfe
      */

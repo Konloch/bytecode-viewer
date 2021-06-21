@@ -115,6 +115,8 @@ public class BytecodeViewer
     public static boolean deleteForeignLibraries = true;
     public static boolean canExit = false;
     
+    private static long last = System.currentTimeMillis();
+    
     
     public static boolean verify = false; //eventually may be a setting
     public static String[] args;
@@ -605,7 +607,7 @@ public class BytecodeViewer
             recentFiles.remove(maxRecentFiles - 1); // zero indexing
 
         recentFiles.add(0, f.getAbsolutePath());
-        DiskWriter.replaceFile(filesName, quickConvert(recentFiles), false);
+        DiskWriter.replaceFile(filesName, MiscUtils.listToString(recentFiles), false);
         resetRecentFilesMenu();
     }
 
@@ -634,7 +636,7 @@ public class BytecodeViewer
             recentPlugins.remove(maxRecentFiles - 1); // zero indexing
 
         recentPlugins.add(0, f.getAbsolutePath());
-        DiskWriter.replaceFile(pluginsName, quickConvert(recentPlugins), false);
+        DiskWriter.replaceFile(pluginsName, MiscUtils.listToString(recentPlugins), false);
         resetRecentFilesMenu();
     }
 
@@ -678,39 +680,6 @@ public class BytecodeViewer
         while (!tempF.exists()) // keep making dirs
             tempF.mkdir();
     }
-
-    public static List<String> createdRandomizedNames = new ArrayList<>();
-
-    /**
-     * Ensures it will only return a uniquely generated names, contains a dupe checker to be sure
-     *
-     * @return the unique randomized name of 25 characters.
-     */
-    public static String getRandomizedName() {
-        boolean generated = false;
-        String name = "";
-        while (!generated) {
-            String randomizedName = MiscUtils.randomString(25);
-            if (!createdRandomizedNames.contains(randomizedName)) {
-                createdRandomizedNames.add(randomizedName);
-                name = randomizedName;
-                generated = true;
-            }
-        }
-        return name;
-    }
-
-    /**
-     * Converts an array list to a string
-     *
-     * @param a array
-     * @return string with newline per array object
-     */
-    private static String quickConvert(List<String> a) {
-        return gson.toJson(a);
-    }
-
-    private static long last = System.currentTimeMillis();
 
     /**
      * Checks the hotkeys

@@ -770,7 +770,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                     Thread t16 = new Thread(() -> {
                         BytecodeViewer.viewer.setIcon(true);
-                        final String input = tempDirectory + fs + BytecodeViewer.getRandomizedName() + ".jar";
+                        final String input = tempDirectory + fs + MiscUtils.getRandomizedName() + ".jar";
                         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 
                         Thread t15 = new Thread(() -> {
@@ -880,7 +880,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                     Thread t14 = new Thread(() -> {
                         BytecodeViewer.viewer.setIcon(true);
-                        final String input = tempDirectory + fs + BytecodeViewer.getRandomizedName() + ".jar";
+                        final String input = tempDirectory + fs + MiscUtils.getRandomizedName() + ".jar";
                         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 
                         Thread t13 = new Thread(() -> {
@@ -969,7 +969,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
                     BytecodeViewer.viewer.setIcon(true);
 
-                    File tempZip = new File(tempDirectory + fs + "temp_" + BytecodeViewer.getRandomizedName() + ".jar");
+                    File tempZip = new File(tempDirectory + fs + "temp_" + MiscUtils.getRandomizedName() + ".jar");
                     if (tempZip.exists())
                         tempZip.delete();
 

@@ -149,7 +149,7 @@ public class OpenFile implements Runnable
 								Objects.requireNonNull(container.files).putAll(JarUtils.loadResources(tempCopy)); //copy and rename
 								// to prevent unicode filenames
 								
-								String name = BytecodeViewer.getRandomizedName() + ".jar";
+								String name = MiscUtils.getRandomizedName() + ".jar";
 								File output = new File(tempDirectory + fs + name);
 								
 								if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
@@ -176,7 +176,7 @@ public class OpenFile implements Runnable
 								
 								FileContainer container = new FileContainer(tempCopy, f.getName());
 								
-								String name = BytecodeViewer.getRandomizedName() + ".jar";
+								String name = MiscUtils.getRandomizedName() + ".jar";
 								File output = new File(tempDirectory + fs + name);
 								
 								if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))

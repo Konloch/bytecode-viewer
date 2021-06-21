@@ -10,6 +10,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompilers;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -186,7 +187,7 @@ public class CommandLineInput {
             //if its just class allow any
 
             File tempZip =
-                    new File(tempDirectory + fs + "temp_" + BytecodeViewer.getRandomizedName() + ".jar");
+                    new File(tempDirectory + fs + "temp_" + MiscUtils.getRandomizedName() + ".jar");
             if (tempZip.exists())
                 tempZip.delete();
 
