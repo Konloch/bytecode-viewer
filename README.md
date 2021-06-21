@@ -54,8 +54,8 @@ There is also a plugin system that will allow you to interact with the loaded cl
 You can either use one of the pre-written plugins, or write your own. It supports groovy scripting. Once a plugin is activated, it will execute the plugin with a ClassNode ArrayList of every single class loaded in BCV, this allows the user to handle it completely using ASM.
 
 ## How do I install BCV?
-Download the latest version from https://github.com/konloch/bytecode-viewer/releases and run the Bytecode-Viewer-2.9.x.jar.
-You may need to execute it via command line ```java -jar Bytecode-Viewer-2.9.x.jar``` (replace the X with the current minor version)
+Download the latest version from https://github.com/konloch/bytecode-viewer/releases and run the Bytecode-Viewer-2.10.x.jar.
+You may need to execute it via command line ```java -jar Bytecode-Viewer-2.10.x.jar``` (replace the X with the current minor version)
 
 ## How do I use BCV?
 All you have to do is add a jar, class or APK file into the workspace. Then select the file you'd like to view from the workspace. BCV will automatically start decompiling the class in the background. When it's done it will show the Source code, Bytecode and Hexcode of the class file you chose (depending on the View panes you have selected). If you are trying to view a resource BCV will attempt to display it the best it can with code highlighting or by embedding the resources itself.
@@ -70,3 +70,7 @@ Just clone this repo and run ``mvn package``. It's that simple!
 ## Working on the source
 
 Open the Maven project (e.g. in IntelliJ, open the ``pom.xml`` as a project file).
+
+## Exporting as jar
+
+Using Intellij create a new artifact jar and build it, if the META-INF is overrwitten replace it with the one in resources.
