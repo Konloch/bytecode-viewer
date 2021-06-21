@@ -281,11 +281,11 @@ public class Settings {
             DiskWriter.writeNewLine(settingsName,
                     "deprecated", false);
             DiskWriter.writeNewLine(settingsName,
-                    BytecodeViewer.lastDirectory, false);
+                    Configuration.lastDirectory, false);
             DiskWriter.writeNewLine(settingsName,
-                    BytecodeViewer.python, false);
+                    Configuration.python, false);
             DiskWriter.writeNewLine(settingsName,
-                    BytecodeViewer.rt, false);
+                    Configuration.rt, false);
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.panel1Proc_E.isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
@@ -319,9 +319,9 @@ public class Settings {
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.decodeAPKResources.isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    BytecodeViewer.library, false);
+                    Configuration.library, false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.pingback), false);
+                    String.valueOf(Configuration.pingback), false);
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.panel1JDGUI_E.isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
@@ -331,7 +331,7 @@ public class Settings {
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.fontSpinner.getValue()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.deleteForeignLibraries), false);
+                    String.valueOf(Configuration.deleteForeignLibraries), false);
             
             if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
                 DiskWriter.writeNewLine(settingsName, "0", false);
@@ -339,17 +339,17 @@ public class Settings {
                 DiskWriter.writeNewLine(settingsName, "1", false);
             
             DiskWriter.writeNewLine(settingsName,
-                    BytecodeViewer.python3, false);
+                    Configuration.python3, false);
             DiskWriter.writeNewLine(settingsName,
-                    BytecodeViewer.javac, false);
+                    Configuration.javac, false);
             DiskWriter.writeNewLine(settingsName,
-                    BytecodeViewer.java, false);
+                    Configuration.java, false);
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.compileOnSave.isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.warnForEditing), false);
+                    String.valueOf(Configuration.warnForEditing), false);
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.showFileInTabTitle.isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
@@ -534,9 +534,9 @@ public class Settings {
             }
             //86 is deprecated
             //87 is deprecated
-            BytecodeViewer.lastDirectory = DiskReader.loadString(settingsName, 88, false);
-            BytecodeViewer.python = DiskReader.loadString(settingsName, 89, false);
-            BytecodeViewer.rt = DiskReader.loadString(settingsName, 90, false);
+            Configuration.lastDirectory = DiskReader.loadString(settingsName, 88, false);
+            Configuration.python = DiskReader.loadString(settingsName, 89, false);
+            Configuration.rt = DiskReader.loadString(settingsName, 90, false);
             BytecodeViewer.viewer.panel1Proc_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 91, false)));
             BytecodeViewer.viewer.panel1CFR_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 92, false)));
             BytecodeViewer.viewer.panel1Fern_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 93, false)));
@@ -553,28 +553,28 @@ public class Settings {
             BytecodeViewer.viewer.panel3Krakatau_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 104, false)));
             BytecodeViewer.viewer.panel3Smali_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 105, false)));
             BytecodeViewer.viewer.decodeAPKResources.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 106, false)));
-            BytecodeViewer.library = DiskReader.loadString(settingsName, 107, false);
-            BytecodeViewer.pingback = Boolean.parseBoolean(DiskReader.loadString(settingsName, 108, false));
+            Configuration.library = DiskReader.loadString(settingsName, 107, false);
+            Configuration.pingback = Boolean.parseBoolean(DiskReader.loadString(settingsName, 108, false));
             BytecodeViewer.viewer.panel1JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 109, false)));
             BytecodeViewer.viewer.panel2JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 110, false)));
             BytecodeViewer.viewer.panel3JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 111, false)));
             BytecodeViewer.viewer.fontSpinner.setValue(Integer.parseInt(DiskReader.loadString(settingsName, 112, false)));
-            BytecodeViewer.deleteForeignLibraries = Boolean.parseBoolean(DiskReader.loadString(settingsName, 113, false));
+            Configuration.deleteForeignLibraries = Boolean.parseBoolean(DiskReader.loadString(settingsName, 113, false));
             decompiler = Integer.parseInt(DiskReader.loadString(settingsName, 114, false));
             
             if (decompiler == 0)
                 BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionDex.getModel(), true);
             else if (decompiler == 1)
                 BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel(), true);
-            
-            BytecodeViewer.python3 = DiskReader.loadString(settingsName, 115, false);
-            BytecodeViewer.javac = DiskReader.loadString(settingsName, 116, false);
-            BytecodeViewer.java = DiskReader.loadString(settingsName, 117, false);
+    
+            Configuration.python3 = DiskReader.loadString(settingsName, 115, false);
+            Configuration.javac = DiskReader.loadString(settingsName, 116, false);
+            Configuration.java = DiskReader.loadString(settingsName, 117, false);
             BytecodeViewer.viewer.compileOnSave.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 118, false)));
             BytecodeViewer.viewer.autoCompileOnRefresh.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 119, false)));
-            BytecodeViewer.warnForEditing = Boolean.parseBoolean(DiskReader.loadString(settingsName, 120, false));
+            Configuration.warnForEditing = Boolean.parseBoolean(DiskReader.loadString(settingsName, 120, false));
             BytecodeViewer.viewer.showFileInTabTitle.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 121, false)));
-            BytecodeViewer.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
+            Configuration.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
             BytecodeViewer.viewer.forcePureAsciiAsText.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 122, false)));
             BytecodeViewer.viewer.synchronizedViewing.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 123, false)));
             BytecodeViewer.viewer.showClassMethods.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 124, false)));

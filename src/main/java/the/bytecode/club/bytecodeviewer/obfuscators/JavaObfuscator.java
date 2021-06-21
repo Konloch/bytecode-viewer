@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer.obfuscators;
 
 import java.util.ArrayList;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
@@ -33,16 +34,15 @@ public abstract class JavaObfuscator extends Thread {
     @Override
     public void run() {
         BytecodeViewer.viewer.setIcon(true);
-        BytecodeViewer.runningObfuscation = true;
+        Configuration.runningObfuscation = true;
         obfuscate();
         BytecodeViewer.refactorer.run();
-        BytecodeViewer.runningObfuscation = false;
+        Configuration.runningObfuscation = false;
         BytecodeViewer.viewer.setIcon(false);
     }
 
     public int getStringLength() {
-        if (BytecodeViewer.viewer.obfuscatorGroup
-                .isSelected(BytecodeViewer.viewer.strongObf.getModel())) {
+        if (BytecodeViewer.viewer.obfuscatorGroup.isSelected(BytecodeViewer.viewer.strongObf.getModel())) {
             return MAX_STRING_LENGTH;
         } else { // if(BytecodeViewer.viewer.obfuscatorGroup.isSelected(BytecodeViewer.viewer.lightObf.getModel()))
             // {

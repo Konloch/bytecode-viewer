@@ -80,6 +80,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *  Finish right-click tab menu detection
  *  make it use that global last used inside of export as jar
  *  Add https://github.com/ptnkjke/Java-Bytecode-Editor visualize as a plugin
+ *  Add https://github.com/exbin/bined as the replacement Hed Viewer/Editor
  *  make zipfile not include the decode shit
  *  add stackmapframes to bytecode decompiler
  *  make ez-injection plugin console show all sys.out calls
@@ -96,28 +97,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 public class BytecodeViewer
 {
-    public static String python = "";
-    public static String python3 = "";
-    public static String rt = "";
-    public static String library = "";
-    public static String javac = "";
-    public static String java = "";
-    private static File krakatauTempDir;
-    private static File krakatauTempJar;
-    public static boolean displayParentInTab = false; //also change in the main GUI
-    public static boolean currentlyDumping = false;
-    public static boolean needsReDump = true;
-    public static boolean warnForEditing = false;
-    public static boolean runningObfuscation = false;
-    private static final long start = System.currentTimeMillis();
-    public static String lastDirectory = ".";
-    public static boolean pingback = false;
-    public static boolean deleteForeignLibraries = true;
-    public static boolean canExit = false;
-    
-    private static long last = System.currentTimeMillis();
-    
-    
     public static boolean verify = false; //eventually may be a setting
     public static String[] args;
     public static MainViewerGUI viewer = null;
@@ -126,8 +105,7 @@ public class BytecodeViewer
     public static Refactorer refactorer = new Refactorer();
     public static List<FileContainer> files = new ArrayList<>(); //all of BCV's loaded files/classes/etc
     public static List<Process> createdProcesses = new ArrayList<>();
-
-
+    
     /**
      * The version checker thread
      */
@@ -140,7 +118,7 @@ public class BytecodeViewer
         try {
             new HTTPRequest(new URL("https://bytecodeviewer.com/add.php")).read();
         } catch (Exception e) {
-            pingback = false;
+            Configuration.pingback = false;
         }
     });
 
@@ -248,9 +226,9 @@ public class BytecodeViewer
         viewer.calledAfterLoad();
         resetRecentFilesMenu();
 
-        if (!pingback) {
+        if (!Configuration.pingback) {
             PingBack.start();
-            pingback = true;
+            Configuration.pingback = true;
         }
 
         if (viewer.chckbxmntmNewCheckItem_12.isSelected())
@@ -259,13 +237,12 @@ public class BytecodeViewer
         if (!cli)
             viewer.setVisible(true);
 
-        System.out.println("Start up took " + ((System.currentTimeMillis() - start) / 1000) + " seconds");
+        System.out.println("Start up took " + ((System.currentTimeMillis() - Configuration.start) / 1000) + " seconds");
 
         if (!cli)
             if (args.length >= 1)
-                for (String s : args) {
+                for (String s : args)
                     openFiles(new File[]{new File(s)}, true);
-                }
     }
 
     /**
@@ -291,15 +268,15 @@ public class BytecodeViewer
             return "java"; //java is set
         } catch (Exception e) { //ignore
             sm.setBlocking();
-            boolean empty = java.isEmpty();
+            boolean empty = Configuration.java.isEmpty();
             while (empty) {
                 showMessage("You need to set your Java path, this requires the JRE to be downloaded." + nl +
-                        "(C:/programfiles/Java/JDK_xx/bin/java.exe)");
+                        "(C:/Program Files/Java/JDK_xx/bin/java.exe)");
                 viewer.java();
-                empty = java.isEmpty();
+                empty = Configuration.java.isEmpty();
             }
         }
-        return java;
+        return Configuration.java;
     }
 
     /**
@@ -518,7 +495,7 @@ public class BytecodeViewer
                     BytecodeViewer.addRecentFile(f);
 
         BytecodeViewer.viewer.setIcon(true);
-        needsReDump = true;
+        Configuration.needsReDump = true;
         Thread t = new Thread(new OpenFile(files));
         t.start();
     }
@@ -687,16 +664,15 @@ public class BytecodeViewer
      * @param e
      */
     public static void checkHotKey(KeyEvent e) {
-        if (System.currentTimeMillis() - last <= (4000))
+        if (System.currentTimeMillis() - Configuration.lastHotKeyExecuted <= (4000))
             return;
 
         if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            last = System.currentTimeMillis();
+            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
             JFileChooser fc = new JFileChooser();
             try {
-                fc.setSelectedFile(new File(BytecodeViewer.lastDirectory));
+                fc.setSelectedFile(new File(Configuration.lastDirectory));
             } catch (Exception ignored) {
-
             }
             fc.setFileFilter(new FileFilter() {
                 @Override
@@ -721,7 +697,7 @@ public class BytecodeViewer
             int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                BytecodeViewer.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 try {
                     BytecodeViewer.viewer.setIcon(true);
                     BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()}, true);
@@ -731,21 +707,21 @@ public class BytecodeViewer
                 }
             }
         } else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            last = System.currentTimeMillis();
+            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
             BytecodeViewer.resetWorkSpace(true);
         } else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            last = System.currentTimeMillis();
+            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
             Thread t = new Thread(() -> BytecodeViewer.compile(true));
             t.start();
         } else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            last = System.currentTimeMillis();
+            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
             if (BytecodeViewer.getLoadedClasses().isEmpty()) {
                 BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
                 return;
             }
             new RunOptions().setVisible(true);
         } else if ((e.getKeyCode() == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            last = System.currentTimeMillis();
+            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 
             if (BytecodeViewer.getLoadedClasses().isEmpty()) {
                 BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
@@ -809,7 +785,7 @@ public class BytecodeViewer
             });
             t.start();
         } else if ((e.getKeyCode() == KeyEvent.VK_W) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            last = System.currentTimeMillis();
+            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
             if (viewer.workPane.getCurrentViewer() != null)
                 viewer.workPane.tabs.remove(viewer.workPane.getCurrentViewer());
         }
@@ -819,13 +795,13 @@ public class BytecodeViewer
         File[] files = new File[2];
         //currently won't optimize if you've got two containers with the same name, will need to add this later
         if (!LazyNameUtil.SAME_NAME_JAR_WORKSPACE) {
-            if (krakatauTempJar != null && !krakatauTempJar.exists()) {
-                needsReDump = true;
+            if (Configuration.krakatauTempJar != null && !Configuration.krakatauTempJar.exists()) {
+                Configuration.needsReDump = true;
             }
 
-            if (needsReDump && krakatauTempJar != null) {
-                krakatauTempDir = null;
-                krakatauTempJar = null;
+            if (Configuration.needsReDump && Configuration.krakatauTempJar != null) {
+                Configuration.krakatauTempDir = null;
+                Configuration.krakatauTempJar = null;
             }
 
             boolean passes = false;
@@ -843,54 +819,42 @@ public class BytecodeViewer
             else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel()))
                 passes = true;
 
-            if (krakatauTempJar != null || !passes) {
-                files[0] = krakatauTempJar;
-                files[1] = krakatauTempDir;
+            if (Configuration.krakatauTempJar != null || !passes) {
+                files[0] = Configuration.krakatauTempJar;
+                files[1] = Configuration.krakatauTempDir;
                 return files;
             }
         }
-
-        currentlyDumping = true;
-        needsReDump = false;
-        krakatauTempDir = new File(tempDirectory + fs + MiscUtils.randomString(32) + fs);
-        krakatauTempDir.mkdir();
-        krakatauTempJar = new File(tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
+    
+        Configuration.currentlyDumping = true;
+        Configuration.needsReDump = false;
+        Configuration.krakatauTempDir = new File(tempDirectory + fs + MiscUtils.randomString(32) + fs);
+        Configuration.krakatauTempDir.mkdir();
+        Configuration.krakatauTempJar = new File(tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
         //krakatauTempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils
         // .randomString(32) + ".jar."+container.name);
-        JarUtils.saveAsJarClassesOnly(container.classes, krakatauTempJar.getAbsolutePath());
-        currentlyDumping = false;
+        JarUtils.saveAsJarClassesOnly(container.classes, Configuration.krakatauTempJar.getAbsolutePath());
+        Configuration.currentlyDumping = false;
 
-        files[0] = krakatauTempJar;
-        files[1] = krakatauTempDir;
+        files[0] = Configuration.krakatauTempJar;
+        files[1] = Configuration.krakatauTempDir;
         return files;
     }
 
     public synchronized static void rtCheck() {
-        if (rt.equals("")) {
+        if (Configuration.rt.isEmpty()) {
             if (RT_JAR.exists()) {
-                rt = RT_JAR.getAbsolutePath();
+                Configuration.rt = RT_JAR.getAbsolutePath();
             } else if (RT_JAR_DUMPED.exists()) {
-                rt = RT_JAR_DUMPED.getAbsolutePath();
+                Configuration.rt = RT_JAR_DUMPED.getAbsolutePath();
             } else {
                 try {
                     JRTExtractor.extractRT(RT_JAR_DUMPED.getAbsolutePath());
-                    rt = RT_JAR_DUMPED.getAbsolutePath();
+                    Configuration.rt = RT_JAR_DUMPED.getAbsolutePath();
                 } catch (Throwable t) {
                     t.printStackTrace();
                 }
             }
         }
-    }
-
-    public static int fileContainersHash(ArrayList<FileContainer> fileContainers) {
-        StringBuilder block = new StringBuilder();
-        for (FileContainer container : fileContainers) {
-            block.append(container.name);
-            for (ClassNode node : container.classes) {
-                block.append(node.name);
-            }
-        }
-
-        return block.hashCode();
     }
 }

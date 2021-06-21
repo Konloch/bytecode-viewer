@@ -10,7 +10,7 @@ import javax.swing.JTextArea;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 
-import static the.bytecode.club.bytecodeviewer.BytecodeViewer.*;
+import static the.bytecode.club.bytecodeviewer.Configuration.*;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /***************************************************************************

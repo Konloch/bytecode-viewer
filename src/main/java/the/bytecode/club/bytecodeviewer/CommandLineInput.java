@@ -327,7 +327,7 @@ public class CommandLineInput {
             System.out.println("Finished.");
             System.out.println("Bytecode Viewer CLI v" + VERSION + " by @Konloch - "
                     + "https://bytecodeviewer.com");
-            BytecodeViewer.canExit = true;
+            Configuration.canExit = true;
             System.exit(0);
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);

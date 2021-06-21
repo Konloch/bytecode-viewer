@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import org.objectweb.asm.tree.ClassNode;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -158,6 +160,18 @@ public class MiscUtils {
         return path;
     }
     
+    public static int fileContainersHash(ArrayList<FileContainer> fileContainers) {
+        StringBuilder block = new StringBuilder();
+        for (FileContainer container : fileContainers) {
+            block.append(container.name);
+            for (ClassNode node : container.classes) {
+                block.append(node.name);
+            }
+        }
+        
+        return block.hashCode();
+    }
+    
     /**
      * Converts an array list to a string
      *
@@ -167,6 +181,7 @@ public class MiscUtils {
     public static String listToString(List<String> a) {
         return gson.toJson(a);
     }
+    
     /**
      * @author JoshTheWolfe
      */

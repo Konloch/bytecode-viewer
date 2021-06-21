@@ -152,7 +152,7 @@ public class InstructionPrinter {
                 line += "UNADDED OPCODE: " + nameOpcode(ain.getOpcode()) + " "
                         + ain;
             }
-            if (!line.equals("")) {
+            if (!line.isEmpty()) {
                 if (match)
                     if (matchedInsns.contains(ain))
                         line = "   -> " + line;

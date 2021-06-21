@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -50,12 +51,12 @@ public class JavaCompiler extends Compiler {
         tempD.mkdirs();
         new File(fileStart2).mkdirs();
 
-        if (BytecodeViewer.javac.equals("") || !new File(BytecodeViewer.javac).exists()) {
+        if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists()) {
             BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + nl + "(C:/programfiles/Java/JDK_xx/bin/javac.exe)");
             BytecodeViewer.viewer.javac();
         }
 
-        if (BytecodeViewer.javac.equals("") || !new File(BytecodeViewer.javac).exists()) {
+        if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists()) {
             BytecodeViewer.showMessage("You need to set Javac!");
             return null;
         }
@@ -69,19 +70,19 @@ public class JavaCompiler extends Compiler {
             StringBuilder log = new StringBuilder();
             ProcessBuilder pb;
 
-            if (BytecodeViewer.library.isEmpty()) {
+            if (Configuration.library.isEmpty()) {
                 pb = new ProcessBuilder(
-                        BytecodeViewer.javac,
+                        Configuration.javac,
                         "-d", fileStart2,
                         "-classpath", cp.getAbsolutePath(),
                         java.getAbsolutePath()
                 );
             } else {
                 pb = new ProcessBuilder(
-                        BytecodeViewer.javac,
+                        Configuration.javac,
                         "-d", fileStart2,
                         "-classpath",
-                        cp.getAbsolutePath() + System.getProperty("path.separator") + BytecodeViewer.library,
+                        cp.getAbsolutePath() + System.getProperty("path.separator") + Configuration.library,
                         java.getAbsolutePath()
                 );
             }

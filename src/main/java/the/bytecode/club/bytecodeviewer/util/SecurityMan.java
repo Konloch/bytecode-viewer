@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.util;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 
 import java.io.FileDescriptor;
 import java.net.InetAddress;
@@ -126,7 +126,7 @@ public class SecurityMan extends SecurityManager {
 
     @Override
     public void checkExit(int status) {
-        if (!BytecodeViewer.canExit) {
+        if (!Configuration.canExit) {
             throw new SecurityException("BCV is awesome, blocking System.exit(" + status + ");");
         }
     }

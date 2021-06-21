@@ -201,7 +201,7 @@ public final class ZipUtils {
         File folder = new File(srcFolder);
 
         for (String fileName : Objects.requireNonNull(folder.list())) {
-            if (path.equals("")) {
+            if (path.isEmpty()) {
                 addFileToZip(folder.getName(), srcFolder + "/" + fileName, zip, ignore);
             } else {
                 addFileToZip(path + "/" + folder.getName(), srcFolder + "/" + fileName, zip, ignore);
@@ -213,7 +213,7 @@ public final class ZipUtils {
         File folder = new File(srcFolder);
 
         for (String fileName : Objects.requireNonNull(folder.list())) {
-            if (path.equals("")) {
+            if (path.isEmpty()) {
                 addFileToZipAPKTool(folder.getName(), srcFolder + "/" + fileName, zip);
             } else {
                 addFileToZipAPKTool(path + "/" + folder.getName(), srcFolder + "/" + fileName, zip);

@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer.util;
 
 import java.io.File;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 
 import static the.bytecode.club.bytecodeviewer.Constants.enjarifyWorkingDirectory;
 
@@ -38,12 +39,12 @@ public class Enjarify {
      * @param output the output .jar file
      */
     public static synchronized void apk2Jar(File input, File output) {
-        if (BytecodeViewer.python3.equals("")) {
+        if (Configuration.python3.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 3.x executable path.");
             BytecodeViewer.viewer.pythonC3();
         }
 
-        if (BytecodeViewer.python3.equals("")) {
+        if (Configuration.python3.isEmpty()) {
             BytecodeViewer.showMessage("You need to set Python!");
             return;
         }
@@ -51,7 +52,7 @@ public class Enjarify {
         BytecodeViewer.sm.stopBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                    BytecodeViewer.python3,
+                    Configuration.python3,
                     "-O",
                     "-m",
                     "enjarify.main",

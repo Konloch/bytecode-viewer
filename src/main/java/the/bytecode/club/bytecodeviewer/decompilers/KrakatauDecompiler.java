@@ -9,6 +9,7 @@ import java.io.StringWriter;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -42,31 +43,31 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 public class KrakatauDecompiler extends Decompiler {
 
     public String quick() {
-        if (BytecodeViewer.library.isEmpty())
+        if (Configuration.library.isEmpty())
             return "";
         else
-            return ";" + BytecodeViewer.library;
+            return ";" + Configuration.library;
     }
 
     public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn) {
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
         }
 
         BytecodeViewer.rtCheck();
-        if (BytecodeViewer.rt.equals("")) {
+        if (Configuration.rt.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)"
                     + "\\Java\\jre7\\lib\\rt.jar)");
             BytecodeViewer.viewer.rtC();
         }
 
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set Python!");
             return "Set your paths";
         }
 
-        if (BytecodeViewer.rt.equals("")) {
+        if (Configuration.rt.isEmpty()) {
             BytecodeViewer.showMessage("You need to set RT.jar!");
             return "Set your paths";
         }
@@ -77,13 +78,13 @@ public class KrakatauDecompiler extends Decompiler {
         BytecodeViewer.sm.stopBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                    BytecodeViewer.python,
+                    Configuration.python,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "decompile.py",
                     "-skip", //love you storyyeller <3
                     "-nauto",
                     "-path",
-                    BytecodeViewer.rt + ";" + krakatauTempJar.getAbsolutePath() + quick(),
+                    Configuration.rt + ";" + krakatauTempJar.getAbsolutePath() + quick(),
                     "-out",
                     krakatauTempDir.getAbsolutePath(),
                     cn.name + ".class"
@@ -132,22 +133,22 @@ public class KrakatauDecompiler extends Decompiler {
 
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
         }
-        if (BytecodeViewer.rt.equals("")) {
-            BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)"
-                    + "\\Java\\jre7\\lib\\rt.jar)");
+        if (Configuration.rt.isEmpty()) {
+            BytecodeViewer.showMessage("You need to set your JRE RT Library." +
+                    "\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
             BytecodeViewer.viewer.rtC();
         }
 
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set Python!");
             return "Set your paths";
         }
 
-        if (BytecodeViewer.rt.equals("")) {
+        if (Configuration.rt.isEmpty()) {
             BytecodeViewer.showMessage("You need to set RT.jar!");
             return "Set your paths";
         }
@@ -165,13 +166,13 @@ public class KrakatauDecompiler extends Decompiler {
 
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                    BytecodeViewer.python,
+                    Configuration.python,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "decompile.py",
                     "-skip", //love you storyyeller <3
                     "-nauto",
                     "-path",
-                    BytecodeViewer.rt + ";" + tempJar.getAbsolutePath() + quick(),
+                    Configuration.rt + ";" + tempJar.getAbsolutePath() + quick(),
                     "-out",
                     tempDirectory.getAbsolutePath(),
                     cn.name + ".class"
@@ -223,14 +224,14 @@ public class KrakatauDecompiler extends Decompiler {
 
     @Override
     public void decompileToZip(String sourceJar, String zipName) {
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
         }
         BytecodeViewer.rtCheck();
-        if (BytecodeViewer.rt.equals("")) {
-            BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)"
-                    + "\\Java\\jre7\\lib\\rt.jar)");
+        if (Configuration.rt.isEmpty()) {
+            BytecodeViewer.showMessage("You need to set your JRE RT Library." +
+                    "\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
             BytecodeViewer.viewer.rtC();
         }
 
@@ -245,13 +246,13 @@ public class KrakatauDecompiler extends Decompiler {
 
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                    BytecodeViewer.python,
+                    Configuration.python,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "decompile.py",
                     "-skip", //love you storyyeller <3
                     "-nauto",
                     "-path",
-                    BytecodeViewer.rt + ";" + tempJar.getAbsolutePath(),
+                    Configuration.rt + ";" + tempJar.getAbsolutePath(),
                     "-out",
                     tempDirectory.getAbsolutePath(),
                     tempJar.getAbsolutePath()

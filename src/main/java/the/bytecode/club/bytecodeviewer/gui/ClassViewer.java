@@ -47,6 +47,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.Settings;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompilers;
@@ -1620,7 +1621,7 @@ public class ClassViewer extends Viewer {
 
         Thread t = new Thread(() -> {
             BytecodeViewer.viewer.setIcon(true);
-            while (BytecodeViewer.currentlyDumping) {
+            while (Configuration.currentlyDumping) {
                 //wait until it's not dumping
                 try {
                     Thread.sleep(100);
@@ -1642,8 +1643,8 @@ public class ClassViewer extends Viewer {
         t.start();
 
         if (isPanel1Editable() || isPanel2Editable() || isPanel3Editable()) {
-            if (!BytecodeViewer.warnForEditing) {
-                BytecodeViewer.warnForEditing = true;
+            if (!Configuration.warnForEditing) {
+                Configuration.warnForEditing = true;
                 if (!BytecodeViewer.viewer.autoCompileOnRefresh.isSelected() && !BytecodeViewer.viewer.compileOnSave.isSelected()) {
                     BytecodeViewer.showMessage("Make sure to compile (File>Compile or Ctrl + T) whenever you want to "
                             + "test or export your changes.\nYou can set compile automatically on refresh or on save "

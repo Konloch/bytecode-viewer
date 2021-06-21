@@ -14,6 +14,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.text.html.HTMLEditorKit;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Resources;
 
 /***************************************************************************
@@ -49,7 +50,7 @@ public class InitialBootScreen extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                BytecodeViewer.canExit = true;
+                Configuration.canExit = true;
                 System.exit(0);
             }
         });

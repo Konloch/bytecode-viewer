@@ -35,6 +35,7 @@ import me.konloch.kontainer.io.DiskWriter;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.Settings;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
@@ -412,14 +413,13 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JRadioButtonMenuItem asmText3 = new JRadioButtonMenuItem("ASM Textify");
 
     public final JSpinner fontSpinner = new JSpinner();
-    private final JCheckBoxMenuItem chckbxmntmDeleteForeignOutdatedLibs = new JCheckBoxMenuItem("Delete "
-            + "Foreign/Outdated Libs");
+    private final JCheckBoxMenuItem chckbxmntmDeleteForeignOutdatedLibs = new JCheckBoxMenuItem("Delete Foreign/Outdated Libs");
     public final ButtonGroup apkConversionGroup = new ButtonGroup();
     public final JRadioButtonMenuItem apkConversionDex = new JRadioButtonMenuItem("Dex2Jar");
     public final JRadioButtonMenuItem apkConversionEnjarify = new JRadioButtonMenuItem("Enjarify");
 
     public void calledAfterLoad() {
-        chckbxmntmDeleteForeignOutdatedLibs.setSelected(BytecodeViewer.deleteForeignLibraries);
+        chckbxmntmDeleteForeignOutdatedLibs.setSelected(Configuration.deleteForeignLibraries);
     }
 
     public MainViewerGUI() {
@@ -463,7 +463,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                BytecodeViewer.canExit = true;
+                Configuration.canExit = true;
                 System.exit(0);
             }
         });
@@ -483,7 +483,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
             final JFileChooser fc = new JFileChooser();
 
             try {
-                File f = new File(BytecodeViewer.lastDirectory);
+                File f = new File(Configuration.lastDirectory);
                 if (f.exists())
                     fc.setSelectedFile(f);
             } catch (Exception ignored) {
@@ -515,7 +515,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
             int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                BytecodeViewer.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 try {
                     BytecodeViewer.viewer.setIcon(true);
                     BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()}, true);
@@ -1345,7 +1345,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                     result = k;
 
             if (result == 0) {
-                BytecodeViewer.canExit = true;
+                Configuration.canExit = true;
                 System.exit(0);
             }
         });
@@ -1410,22 +1410,21 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         panel1Fern.addActionListener(listener);
 
         mnFernflower.add(separator_20);
-
         mnFernflower.add(panel1Fern_E);
 
         mnNewMenu_7.add(mnKrakatau);
         mnKrakatau.add(panel1Krakatau);
+        
         panel1Krakatau.addActionListener(listener);
         mnKrakatau.add(panel1KrakatauBytecode);
         panel1KrakatauBytecode.addActionListener(listener);
 
         mnKrakatau.add(separator_21);
-
         mnKrakatau.add(panel1Krakatau_E);
 
         mnNewMenu_7.add(separator_8);
-
         mnNewMenu_7.add(mnSmalidex);
+        
         mnSmalidex.add(panel1Smali);
         panel1Smali.addActionListener(listener);
 
@@ -1435,35 +1434,25 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         panel1Bytecode.addActionListener(listener);
 
         mnNewMenu_7.add(separator_15);
-
         mnNewMenu_7.add(panel1Bytecode);
-
         mnNewMenu_7.add(panel1Hexcode);
-
         mnNewMenu_7.add(asmText1);
 
         mnNewMenu_6.add(mnPane);
 
         mnPane.add(panel2None);
-
         mnPane.add(separator_9);
-
         mnPane.add(menu_1);
 
         menu_1.add(panel2Proc);
-
         menu_1.add(separator_10);
-
         menu_1.add(panel2Proc_E);
 
         mnPane.add(menu_2);
-
         mnPane.add(jadx2);
 
         menu_2.add(panel2CFR);
-
         menu_2.add(separator_11);
-
         menu_2.add(panel2CFR_E);
 
         JMenu menu = new JMenu("JD-GUI");
@@ -1471,45 +1460,32 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         menu.add(panel2JDGUI);
 
-        JSeparator separator_34 = new JSeparator();
-        menu.add(separator_34);
-
+        menu.add(new JSeparator());
         menu.add(panel2JDGUI_E);
 
         mnPane.add(menu_3);
 
         menu_3.add(panel2Fern);
-
         menu_3.add(separator_12);
-
         menu_3.add(panel2Fern_E);
 
         mnPane.add(menu_4);
 
         menu_4.add(panel2Krakatau);
-
         menu_4.add(panel2KrakatauBytecode);
-
         menu_4.add(separator_16);
-
         menu_4.add(panel2Krakatau_E);
-
+        
         mnPane.add(separator_17);
-
         mnPane.add(menu_5);
 
         menu_5.add(panel2Smali);
-
         menu_5.add(separator_23);
-
         menu_5.add(panel2Smali_E);
 
         mnPane.add(separator_24);
-
         mnPane.add(panel2Bytecode);
-
         mnPane.add(panel2Hexcode);
-
         mnPane.add(asmText2);
 
         mnNewMenu_6.add(mnPane_1);
@@ -1622,7 +1598,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 BytecodeViewer.showMessage("WARNING: With this being toggled off outdated libraries will NOT be "
                         + "removed. It's also a security issue. ONLY TURN IT OFF IF YOU KNOW WHAT YOU'RE DOING.");
             }
-            BytecodeViewer.deleteForeignLibraries = chckbxmntmDeleteForeignOutdatedLibs.isSelected();
+            Configuration.deleteForeignLibraries = chckbxmntmDeleteForeignOutdatedLibs.isSelected();
         });
         mnSettings.add(forcePureAsciiAsText);
         forcePureAsciiAsText.setSelected(true);
@@ -1874,9 +1850,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         menuBar.add(mnNewMenu_5);
         mntmNewMenuItem_6.addActionListener(arg0 -> {
-            if (BytecodeViewer.runningObfuscation) {
-                BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish"
-                        + ".");
+            if (Configuration.runningObfuscation) {
+                BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish.");
                 return;
             }
             new RenameFields().start();
@@ -1895,7 +1870,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         mnNewMenu_5.add(mntmNewMenuItem_6);
         mntmNewMenuItem_7.addActionListener(arg0 -> {
-            if (BytecodeViewer.runningObfuscation) {
+            if (Configuration.runningObfuscation) {
                 BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish"
                         + ".");
                 return;
@@ -1907,7 +1882,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         mnNewMenu_5.add(mntmNewMenuItem_7);
         mntmNewMenuItem_11.addActionListener(arg0 -> {
-            if (BytecodeViewer.runningObfuscation) {
+            if (Configuration.runningObfuscation) {
                 BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish"
                         + ".");
                 return;
@@ -1919,10 +1894,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         mnNewMenu_5.add(mntmNewMenuItem_11);
         mntmNewMenuItem_9.setEnabled(false);
-
         mnNewMenu_5.add(mntmNewMenuItem_9);
         mntmNewMenuItem_10.setEnabled(false);
-
         mnNewMenu_5.add(mntmNewMenuItem_10);
 
         menuBar.add(mnNewMenu_1);
@@ -1957,7 +1930,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         //mnNewMenu_1.add(mntmStartZkmString);
         
         mntmZstringarrayDecrypter.addActionListener(arg0 -> PluginManager.runPlugin(new ZStringArrayDecrypter()));
-
         mntmStackFramesRemover.addActionListener(e -> PluginManager.runPlugin(new StackFramesRemover()));
 
         mnNewMenu_1.add(mntmZstringarrayDecrypter);
@@ -1997,19 +1969,15 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
             new MaliciousCodeScannerOptions().setVisible(true);
         });
         mntmShowAllStrings.addActionListener(e -> PluginManager.runPlugin(new ShowAllStrings()));
-
         mntmShowMainMethods.addActionListener(e -> PluginManager.runPlugin(new ShowMainMethods()));
 
         setSize(new Dimension(800, 400));
         if (PREVIEW_COPY)
-            setTitle("Bytecode Viewer " + VERSION + " Preview - https://bytecodeviewer.com | "
-                    + "https://the.bytecode.club - @Konloch");
+            setTitle("Bytecode Viewer " + VERSION + " Preview - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
         else
-            setTitle("Bytecode Viewer " + VERSION + " - https://bytecodeviewer.com | https://the"
-                    + ".bytecode.club - @Konloch");
+            setTitle("Bytecode Viewer " + VERSION + " - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
 
-        getContentPane().setLayout(
-                new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
         // scrollPane.setViewportView(tree);
         cn.setMinimumSize(new Dimension(200, 50));
@@ -2087,7 +2055,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         visualSettings.add(showFileInTabTitle);
         showFileInTabTitle.setSelected(false);
         showFileInTabTitle.addActionListener(arg0 -> {
-            BytecodeViewer.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
+            Configuration.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
             Settings.saveSettings();
         });
 
@@ -2146,7 +2114,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
-                BytecodeViewer.python = fc.getSelectedFile().getAbsolutePath();
+                Configuration.python = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }
@@ -2171,7 +2139,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
-                BytecodeViewer.javac = fc.getSelectedFile().getAbsolutePath();
+                Configuration.javac = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }
@@ -2196,7 +2164,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
-                BytecodeViewer.java = fc.getSelectedFile().getAbsolutePath();
+                Configuration.java = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }
@@ -2221,7 +2189,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
-                BytecodeViewer.python3 = fc.getSelectedFile().getAbsolutePath();
+                Configuration.python3 = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }
@@ -2247,7 +2215,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
-                BytecodeViewer.library = fc.getSelectedFile().getAbsolutePath();
+                Configuration.library = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }
@@ -2273,7 +2241,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
-                BytecodeViewer.rt = fc.getSelectedFile().getAbsolutePath();
+                Configuration.rt = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }

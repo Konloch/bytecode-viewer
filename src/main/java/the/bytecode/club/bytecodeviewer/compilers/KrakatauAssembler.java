@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -39,12 +40,12 @@ public class KrakatauAssembler extends Compiler {
 
     @Override
     public byte[] compile(String contents, String name) {
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
         }
 
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set Python!");
             return null;
         }
@@ -68,7 +69,7 @@ public class KrakatauAssembler extends Compiler {
         StringBuilder log = new StringBuilder();
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                    BytecodeViewer.python,
+                    Configuration.python,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "assemble.py",
                     "-out",

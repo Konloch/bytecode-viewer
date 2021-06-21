@@ -9,6 +9,7 @@ import java.io.StringWriter;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -43,12 +44,12 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 public class KrakatauDisassembler extends Decompiler {
 
     public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn) {
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
         }
 
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set Python!");
             return "Set your paths";
         }
@@ -59,7 +60,7 @@ public class KrakatauDisassembler extends Decompiler {
         BytecodeViewer.sm.stopBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                    BytecodeViewer.python,
+                    Configuration.python,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "disassemble.py",
                     "-path",
@@ -112,12 +113,12 @@ public class KrakatauDisassembler extends Decompiler {
 
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
         }
 
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set Python!");
             return "Set your paths";
         }
@@ -133,7 +134,7 @@ public class KrakatauDisassembler extends Decompiler {
         BytecodeViewer.sm.stopBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                    BytecodeViewer.python,
+                    Configuration.python,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "disassemble.py",
                     "-path",
@@ -185,7 +186,7 @@ public class KrakatauDisassembler extends Decompiler {
 
     @Override
     public void decompileToZip(String sourceJar, String zipName) {
-        if (BytecodeViewer.python.equals("")) {
+        if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.pythonC();
         }
@@ -199,11 +200,11 @@ public class KrakatauDisassembler extends Decompiler {
         BytecodeViewer.sm.stopBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                    BytecodeViewer.python,
+                    Configuration.python,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "disassemble.py",
                     "-path",
-                    BytecodeViewer.rt + ";" + tempJar.getAbsolutePath(),
+                    Configuration.rt + ";" + tempJar.getAbsolutePath(),
                     "-out",
                     tempDirectory.getAbsolutePath(),
                     tempJar.getAbsolutePath()

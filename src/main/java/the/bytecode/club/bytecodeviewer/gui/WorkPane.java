@@ -19,6 +19,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
@@ -204,7 +205,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
         String workingName = container.name + ">" + name;
         String containerName = name;
 
-        if (BytecodeViewer.displayParentInTab)
+        if (Configuration.displayParentInTab)
             containerName = container.name + ">" + name;
 
         if (!workingOn.containsKey(workingName)) {
@@ -224,7 +225,7 @@ public class WorkPane extends VisibleComponent implements ActionListener {
     public void addFile(final FileContainer container, String name, byte[] contents) {
         String workingName = container.name + ">" + name;
 
-        if (BytecodeViewer.displayParentInTab)
+        if (Configuration.displayParentInTab)
             name = container.name + ">" + name;
 
         if (contents == null) //a directory
