@@ -3,14 +3,10 @@
 Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 
 #### New Features
-* WAR & JSP Loading
-* JADX-Core Decompiler
-* Fixed APK & dex loading
-* Fixed Java 10+ classfiles
-* Better visual feedback due to the new busy icon system
-* Synchronized viewing pane option & quick method selection
-* Updated most libraries to their 2019 version
-* Tons of bug fixes and general improvements
+* Updated nearly all dependencies (incl. decompilers like CFR, JD-GUI etc.)
+* Updated ASM library to version 9.1
+* Added support to Java files compiled using JDK > 13
+* Migrated to Maven
 
 
 #### Links
@@ -66,3 +62,15 @@ All you have to do is add a jar, class or APK file into the workspace. Then sele
 
 ##### Are you a Java Reverse Engineer? Do you want to learn?
 Join The Bytecode Club Today! - https://the.bytecode.club
+
+## Instructions to compile
+
+Just clone this repo, **!INITIALIZE THE SUBMODULES!** and run ``mvn package``. It's that simple!
+
+## Working on the source
+
+Open the Maven project (e.g. in IntelliJ, open the ``pom.xml`` as a project file) and add the following folders as source roots:
+```
+libs/byte-engineer/byteanalysis/src/main/java
+libs/byte-engineer/byteio/src/main/java
+```
