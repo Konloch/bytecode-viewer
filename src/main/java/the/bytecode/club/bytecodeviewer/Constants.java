@@ -16,7 +16,7 @@ import java.util.List;
 public class Constants
 {
 	/*per version*/
-	public static final String VERSION = "2.10.10"; //could be loaded from the pom
+	public static final String VERSION = "2.10.11"; //could be loaded from the pom
 	public static String krakatauVersion = "12";
 	public static String enjarifyVersion = "4";
 	public static final boolean BLOCK_TAB_MENU = true;

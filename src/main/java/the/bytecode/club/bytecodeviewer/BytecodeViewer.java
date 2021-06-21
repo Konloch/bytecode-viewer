@@ -630,7 +630,7 @@ public class BytecodeViewer
                 });
                 viewer.recentFilesSecondaryMenu.add(m);
             }
-        viewer.mnRecentPlugins.removeAll();
+        viewer.recentPluginsSecondaryMenu.removeAll();
         for (String s : recentPlugins)
             if (!s.isEmpty()) {
                 JMenuItem m = new JMenuItem(s);
@@ -638,7 +638,7 @@ public class BytecodeViewer
                     JMenuItem m1 = (JMenuItem) e.getSource();
                     startPlugin(new File(m1.getText()));
                 });
-                viewer.mnRecentPlugins.add(m);
+                viewer.recentPluginsSecondaryMenu.add(m);
             }
     }
 

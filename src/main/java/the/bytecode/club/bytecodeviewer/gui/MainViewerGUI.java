@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -85,7 +84,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     //all of the files main menu components
     public final JMenu fileMainMenu = new JMenu("File");
     public final JMenuItem newWorkSpace = new JMenuItem("New Workspace");
-    public final JMenuItem addResource = new JMenuItem("Add..");
+    public final JMenuItem addResource = new JMenuItem("Add...");
     public final JMenuItem reloadResources = new JMenuItem("Reload Resources");
     public final JMenuItem runButton = new JMenuItem("Run");
     public final JMenuItem compileButton = new JMenuItem("Compile");
@@ -104,6 +103,22 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final ViewPane viewPane1 = new ViewPane(1);
     public final ViewPane viewPane2 = new ViewPane(2);
     public final ViewPane viewPane3 = new ViewPane(3);
+    
+    //TODO settings main menu components
+    
+    //all of the plugins main menu components
+    public final JMenu pluginsMainMenu = new JMenu("Plugins");
+    public final JMenuItem openExternalPlugin = new JMenuItem("Open Plugin...");
+    public final JMenu recentPluginsSecondaryMenu = new JMenu("Recent Plugins");
+    public final JMenuItem ZKMStringDecrypter = new JMenuItem("ZKM String Decrypter");
+    public final JMenuItem allatoriStringDecrypter = new JMenuItem("Allatori String Decrypter");
+    public final JMenuItem codeSequenceDiagram = new JMenuItem("Code Sequence Diagram");
+    public final JMenuItem maliciousCodeScanner = new JMenuItem("Malicious Code Scanner");
+    public final JMenuItem showAllStrings = new JMenuItem("Show All Strings");
+    public final JMenuItem showMainMethods = new JMenuItem("Show Main Methods");
+    public final JMenuItem replaceStrings = new JMenuItem("Replace Strings");
+    public final JMenuItem stackFramesRemover = new JMenuItem("StackFrames Remover");
+    public final JMenuItem zStringArrayDecrypter = new JMenuItem("ZStringArray Decrypter");
     
     public JCheckBoxMenuItem debugHelpers = new JCheckBoxMenuItem("Debug Helpers");
     public JSplitPane sp1;
@@ -127,16 +142,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public JCheckBoxMenuItem fdi = new JCheckBoxMenuItem("Deinline finally structures");
     public JCheckBoxMenuItem asc = new JCheckBoxMenuItem("Allow only ASCII characters in strings");
     public JCheckBoxMenuItem ren = new JCheckBoxMenuItem("Rename ambiguous classes and class elements");
-    public final JMenu mnNewMenu_1 = new JMenu("Plugins");
-    public final JMenuItem mntmStartExternalPlugin = new JMenuItem("Open Plugin..");
-    public JMenu mnRecentPlugins = new JMenu("Recent Plugins");
-    public final JMenuItem mntmStartZkmString = new JMenuItem("ZKM String Decrypter");
-    public final JMenuItem mntmNewMenuItem_1 = new JMenuItem("Malicious Code Scanner");
-    public final JMenuItem mntmNewMenuItem_2 = new JMenuItem("Allatori String Decrypter");
-    public final JMenuItem mntmShowAllStrings = new JMenuItem("Show All Strings");
-    public final JMenuItem mntmShowMainMethods = new JMenuItem("Show Main Methods");
-    public final JMenuItem mntmReplaceStrings = new JMenuItem("Replace Strings");
-    public final JMenuItem mntmStackFramesRemover = new JMenuItem("StackFrames Remover");
+    
     public final JMenuItem[] waitIcons;
     public final JMenu mnNewMenu_3 = new JMenu("CFR");
     public final JMenu mnNewMenu_4 = new JMenu("Procyon");
@@ -213,14 +219,12 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JMenu mnSettings = new JMenu("Settings");
     public AboutWindow aboutWindow = new AboutWindow();
     
-    public final JMenuItem mntmCodeSequenceDiagram = new JMenuItem("Code Sequence Diagram");
     public final JCheckBoxMenuItem compileOnSave = new JCheckBoxMenuItem("Compile On Save");
     public final JCheckBoxMenuItem showFileInTabTitle = new JCheckBoxMenuItem("Show File In Tab Title");
     public final JCheckBoxMenuItem forcePureAsciiAsText = new JCheckBoxMenuItem("Force Pure Ascii As Text");
     public final JCheckBoxMenuItem autoCompileOnRefresh = new JCheckBoxMenuItem("Compile On Refresh");
     public final JMenuItem mntmSetPythonDirectory = new JMenuItem("Set Python 2.7 Executable");
     public final JMenuItem mntmSetJreRt = new JMenuItem("Set JRE RT Library");
-    public final JMenuItem mntmZstringarrayDecrypter = new JMenuItem("ZStringArray Decrypter");
     public final JCheckBoxMenuItem decodeAPKResources = new JCheckBoxMenuItem("Decode APK Resources");
     public final JCheckBoxMenuItem synchronizedViewing = new JCheckBoxMenuItem("Synchronized Viewing");
     public final JCheckBoxMenuItem showClassMethods = new JCheckBoxMenuItem("Show Class Methods");
@@ -356,6 +360,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         buildMenuBar();
         buildFileMenuBar();
         buildViewMenuBar();
+        buildPluginMenuBar();
 
         compileOnSave.setSelected(false);
 
@@ -694,42 +699,24 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         mntmNewMenuItem_10.setEnabled(false);
         mnNewMenu_5.add(mntmNewMenuItem_10);
 
-        rootMenu.add(mnNewMenu_1);
-        mnNewMenu_1.add(mntmStartExternalPlugin);
-        mnNewMenu_1.add(new JSeparator());
-        mnNewMenu_1.add(mnRecentPlugins);
-        mnNewMenu_1.add(new JSeparator());
-        mntmCodeSequenceDiagram.addActionListener(arg0 -> {
+    
+        codeSequenceDiagram.addActionListener(arg0 -> {
             if (BytecodeViewer.getLoadedClasses().isEmpty()) {
                 BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
                 return;
             }
             PluginManager.runPlugin(new CodeSequenceDiagram());
         });
-
-        mnNewMenu_1.add(mntmCodeSequenceDiagram);
-        mnNewMenu_1.add(mntmNewMenuItem_1);
-        mnNewMenu_1.add(mntmShowMainMethods);
-        mnNewMenu_1.add(mntmShowAllStrings);
-        mntmReplaceStrings.addActionListener(arg0 -> {
+        replaceStrings.addActionListener(arg0 -> {
             if (BytecodeViewer.getLoadedClasses().isEmpty()) {
                 BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
                 return;
             }
             new ReplaceStringsOptions().setVisible(true);
         });
-
-        mnNewMenu_1.add(mntmReplaceStrings);
         
-        //allatori and ZKM are disabled since they are just placeholders
-        //mnNewMenu_1.add(mntmNewMenuItem_2);
-        //mnNewMenu_1.add(mntmStartZkmString);
-        
-        mntmZstringarrayDecrypter.addActionListener(arg0 -> PluginManager.runPlugin(new ZStringArrayDecrypter()));
-        mntmStackFramesRemover.addActionListener(e -> PluginManager.runPlugin(new StackFramesRemover()));
-
-        mnNewMenu_1.add(mntmZstringarrayDecrypter);
-        mnNewMenu_1.add(mntmStackFramesRemover);
+        zStringArrayDecrypter.addActionListener(arg0 -> PluginManager.runPlugin(new ZStringArrayDecrypter()));
+        stackFramesRemover.addActionListener(e -> PluginManager.runPlugin(new StackFramesRemover()));
 
         waitIcons = new JMenuItem[10];
         for (int i = 0; i < 10; i++) {
@@ -739,7 +726,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
             rootMenu.add(waitIcons[i]);
         }
 
-        mntmStartExternalPlugin.addActionListener(arg0 -> {
+        openExternalPlugin.addActionListener(arg0 -> {
             JFileChooser fc = new JFileChooser();
             fc.setFileFilter(PluginManager.fileFilter());
             fc.setFileHidingEnabled(false);
@@ -756,11 +743,11 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
                 }
         });
         
-        mntmStartZkmString.addActionListener(e -> PluginManager.runPlugin(new ZKMStringDecrypter()));
-        mntmNewMenuItem_2.addActionListener(e -> PluginManager.runPlugin(new AllatoriStringDecrypter()));
-        mntmNewMenuItem_1.addActionListener(e -> MaliciousCodeScannerOptions.showOptionPanel());
-        mntmShowAllStrings.addActionListener(e -> PluginManager.runPlugin(new ShowAllStrings()));
-        mntmShowMainMethods.addActionListener(e -> PluginManager.runPlugin(new ShowMainMethods()));
+        ZKMStringDecrypter.addActionListener(e -> PluginManager.runPlugin(new ZKMStringDecrypter()));
+        allatoriStringDecrypter.addActionListener(e -> PluginManager.runPlugin(new AllatoriStringDecrypter()));
+        maliciousCodeScanner.addActionListener(e -> MaliciousCodeScannerOptions.showOptionPanel());
+        showAllStrings.addActionListener(e -> PluginManager.runPlugin(new ShowAllStrings()));
+        showMainMethods.addActionListener(e -> PluginManager.runPlugin(new ShowMainMethods()));
 
         setSize(new Dimension(800, 400));
         if (PREVIEW_COPY)
@@ -877,6 +864,25 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         viewMainMenu.add(viewPane1.menu);
         viewMainMenu.add(viewPane2.menu);
         viewMainMenu.add(viewPane3.menu);
+    }
+    
+    public void buildPluginMenuBar()
+    {
+        rootMenu.add(pluginsMainMenu);
+        pluginsMainMenu.add(openExternalPlugin);
+        pluginsMainMenu.add(new JSeparator());
+        pluginsMainMenu.add(recentPluginsSecondaryMenu);
+        pluginsMainMenu.add(new JSeparator());
+        pluginsMainMenu.add(codeSequenceDiagram);
+        pluginsMainMenu.add(maliciousCodeScanner);
+        pluginsMainMenu.add(showMainMethods);
+        pluginsMainMenu.add(showAllStrings);
+        pluginsMainMenu.add(replaceStrings);
+        pluginsMainMenu.add(stackFramesRemover);
+        //allatori and ZKM are disabled since they are just placeholders
+        //mnNewMenu_1.add(mntmNewMenuItem_2);
+        //mnNewMenu_1.add(mntmStartZkmString);
+        pluginsMainMenu.add(zStringArrayDecrypter);
     }
 
     @Override

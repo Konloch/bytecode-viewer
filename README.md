@@ -8,7 +8,6 @@ Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 * Added support to Java files compiled using JDK > 13
 * Migrated to Maven
 
-
 #### Links
 * Website: https://bytecodeviewer.com
 * Source Code: https://github.com/konloch/bytecode-viewer
@@ -70,7 +69,7 @@ Open the Maven project (e.g. in IntelliJ, open the ``pom.xml`` as a project file
 
 ## Exporting as jar
 
-Using Intellij create a new artifact jar and build it, if the META-INF is overrwitten replace it with the one in resources.
+Using Intellij create a new artifact jar and build it, if the META-INF is overrwitten replace it with the one in src/main/resources.
 
-##### Are you a Java Reverse Engineer? Do you want to learn?
+#### Are you a Java Reverse Engineer? Do you want to learn?
 Join The Bytecode Club Today! - https://the.bytecode.club
