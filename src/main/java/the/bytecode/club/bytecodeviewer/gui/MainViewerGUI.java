@@ -1951,8 +1951,11 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         });
 
         mnNewMenu_1.add(mntmReplaceStrings);
-        mnNewMenu_1.add(mntmNewMenuItem_2);
-        mnNewMenu_1.add(mntmStartZkmString);
+        
+        //allatori and ZKM are disabled since they are just placeholders
+        //mnNewMenu_1.add(mntmNewMenuItem_2);
+        //mnNewMenu_1.add(mntmStartZkmString);
+        
         mntmZstringarrayDecrypter.addActionListener(arg0 -> PluginManager.runPlugin(new ZStringArrayDecrypter()));
 
         mntmStackFramesRemover.addActionListener(e -> PluginManager.runPlugin(new StackFramesRemover()));
