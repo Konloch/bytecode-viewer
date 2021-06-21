@@ -44,6 +44,15 @@ public class Dex2Jar {
             File realOutputF2 = new File(realOutput);
             while (realOutputF2.exists())
                 realOutputF2.delete();
+            
+            //TODO fix this properly
+            //  WARNING: this could probably delete important error files but until a proper dex2jar fix is added this is needed
+            //  or else after each APK decompile the file directory will be flooded with -error.zip
+            for(File localFile : new File(".").listFiles())
+            {
+                if(localFile.getName().length() == 42 && localFile.getName().endsWith("-error.zip"))
+                    localFile.delete();
+            }
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
