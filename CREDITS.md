@@ -17,6 +17,7 @@
 * JADX by Skylot
 
 ## Contributors
+[Full List Of Contributors](https://github.com/Konloch/bytecode-viewer/graphs/contributors)
 * Konloch
 * Bibl
 * Fluke
