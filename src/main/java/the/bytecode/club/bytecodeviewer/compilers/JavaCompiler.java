@@ -53,7 +53,7 @@ public class JavaCompiler extends Compiler {
 
         if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists()) {
             BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + nl + "(C:/programfiles/Java/JDK_xx/bin/javac.exe)");
-            BytecodeViewer.viewer.javac();
+            BytecodeViewer.viewer.selectJavac();
         }
 
         if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists()) {

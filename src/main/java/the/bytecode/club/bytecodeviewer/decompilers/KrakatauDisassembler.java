@@ -46,7 +46,7 @@ public class KrakatauDisassembler extends Decompiler {
     public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn) {
         if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            BytecodeViewer.viewer.pythonC();
+            BytecodeViewer.viewer.selectPythonC();
         }
 
         if (Configuration.python.isEmpty()) {
@@ -115,7 +115,7 @@ public class KrakatauDisassembler extends Decompiler {
     public String decompileClassNode(ClassNode cn, byte[] b) {
         if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            BytecodeViewer.viewer.pythonC();
+            BytecodeViewer.viewer.selectPythonC();
         }
 
         if (Configuration.python.isEmpty()) {
@@ -188,7 +188,7 @@ public class KrakatauDisassembler extends Decompiler {
     public void decompileToZip(String sourceJar, String zipName) {
         if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            BytecodeViewer.viewer.pythonC();
+            BytecodeViewer.viewer.selectPythonC();
         }
 
         String ran = MiscUtils.randomString(32);

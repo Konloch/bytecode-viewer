@@ -42,7 +42,7 @@ public class KrakatauAssembler extends Compiler {
     public byte[] compile(String contents, String name) {
         if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            BytecodeViewer.viewer.pythonC();
+            BytecodeViewer.viewer.selectPythonC();
         }
 
         if (Configuration.python.isEmpty()) {

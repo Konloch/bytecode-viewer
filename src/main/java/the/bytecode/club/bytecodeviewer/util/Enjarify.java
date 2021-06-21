@@ -41,7 +41,7 @@ public class Enjarify {
     public static synchronized void apk2Jar(File input, File output) {
         if (Configuration.python3.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 3.x executable path.");
-            BytecodeViewer.viewer.pythonC3();
+            BytecodeViewer.viewer.selectPythonC3();
         }
 
         if (Configuration.python3.isEmpty()) {

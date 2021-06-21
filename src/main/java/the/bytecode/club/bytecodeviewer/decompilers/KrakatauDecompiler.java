@@ -52,14 +52,14 @@ public class KrakatauDecompiler extends Decompiler {
     public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn) {
         if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            BytecodeViewer.viewer.pythonC();
+            BytecodeViewer.viewer.selectPythonC();
         }
 
         BytecodeViewer.rtCheck();
         if (Configuration.rt.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)"
                     + "\\Java\\jre7\\lib\\rt.jar)");
-            BytecodeViewer.viewer.rtC();
+            BytecodeViewer.viewer.selectJRERTLibrary();
         }
 
         if (Configuration.python.isEmpty()) {
@@ -135,12 +135,12 @@ public class KrakatauDecompiler extends Decompiler {
     public String decompileClassNode(ClassNode cn, byte[] b) {
         if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            BytecodeViewer.viewer.pythonC();
+            BytecodeViewer.viewer.selectPythonC();
         }
         if (Configuration.rt.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your JRE RT Library." +
                     "\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
-            BytecodeViewer.viewer.rtC();
+            BytecodeViewer.viewer.selectJRERTLibrary();
         }
 
         if (Configuration.python.isEmpty()) {
@@ -226,13 +226,13 @@ public class KrakatauDecompiler extends Decompiler {
     public void decompileToZip(String sourceJar, String zipName) {
         if (Configuration.python.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            BytecodeViewer.viewer.pythonC();
+            BytecodeViewer.viewer.selectPythonC();
         }
         BytecodeViewer.rtCheck();
         if (Configuration.rt.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your JRE RT Library." +
                     "\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
-            BytecodeViewer.viewer.rtC();
+            BytecodeViewer.viewer.selectJRERTLibrary();
         }
 
         String ran = MiscUtils.randomString(32);
