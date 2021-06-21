@@ -71,5 +71,8 @@ Open the Maven project (e.g. in IntelliJ, open the ``pom.xml`` as a project file
 
 Using Intellij create a new artifact jar and build it, if the META-INF is overwritten replace it with the one in src/main/resources.
 
+## Java Heap Space Issues
+Start BCV with more RAM, e.g. `java -Xmx3G -jar BCV.jar`
+
 #### Are you a Java Reverse Engineer? Do you want to learn?
 Join The Bytecode Club Today! - https://the.bytecode.club
