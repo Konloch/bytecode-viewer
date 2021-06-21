@@ -60,9 +60,6 @@ You may need to execute it via command line ```java -jar Bytecode-Viewer-2.10.x.
 ## How do I use BCV?
 All you have to do is add a jar, class or APK file into the workspace. Then select the file you'd like to view from the workspace. BCV will automatically start decompiling the class in the background. When it's done it will show the Source code, Bytecode and Hexcode of the class file you chose (depending on the View panes you have selected). If you are trying to view a resource BCV will attempt to display it the best it can with code highlighting or by embedding the resources itself.
 
-##### Are you a Java Reverse Engineer? Do you want to learn?
-Join The Bytecode Club Today! - https://the.bytecode.club
-
 ## Instructions to compile
 
 Just clone this repo and run ``mvn package``. It's that simple!
@@ -74,3 +71,6 @@ Open the Maven project (e.g. in IntelliJ, open the ``pom.xml`` as a project file
 ## Exporting as jar
 
 Using Intellij create a new artifact jar and build it, if the META-INF is overrwitten replace it with the one in resources.
+
+##### Are you a Java Reverse Engineer? Do you want to learn?
+Join The Bytecode Club Today! - https://the.bytecode.club
