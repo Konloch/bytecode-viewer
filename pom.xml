@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>club.bytecode.the</groupId>
+    <groupId>the.bytecode.club</groupId>
     <artifactId>bytecodeviewer</artifactId>
     <version>2.10.10</version>
 
@@ -18,18 +18,6 @@
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
-	<repository>
-		<id>libs</id>
-		<name>libs</name>
-		<releases>
-			<enabled>true</enabled>
-			<checksumPolicy>ignore</checksumPolicy>
-		</releases>
-		<snapshots>
-			<enabled>false</enabled>
-		</snapshots>
-		<url>file://${project.basedir}/libs</url>
-	</repository>
 
     <dependencies>
         <dependency>
