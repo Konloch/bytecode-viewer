@@ -16,6 +16,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
+import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -42,7 +43,16 @@ import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
  */
 
 public class CodeSequenceDiagram extends Plugin {
-
+    public static void open()
+    {
+        if (BytecodeViewer.getLoadedClasses().isEmpty())
+        {
+            BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+            return;
+        }
+        PluginManager.runPlugin(new CodeSequenceDiagram());
+    }
+    
     @Override
     public void execute(ArrayList<ClassNode> classNodeList) {
         if (BytecodeViewer.viewer.workPane.getCurrentViewer() == null || !(BytecodeViewer.viewer.workPane.getCurrentViewer() instanceof ClassViewer)) {

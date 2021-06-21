@@ -6,6 +6,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ReplaceStrings;
@@ -35,6 +37,15 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ReplaceStrings;
  */
 
 public class ReplaceStringsOptions extends JFrame {
+    public static void open()
+    {
+        
+        if (BytecodeViewer.getLoadedClasses().isEmpty()) {
+            BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+            return;
+        }
+        new ReplaceStringsOptions().setVisible(true);
+    }
     public ReplaceStringsOptions() {
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(250, 176));
