@@ -27,5 +27,7 @@ public class Configuration
 	public static boolean deleteForeignLibraries = true;
 	public static boolean canExit = false;
 	
+	public static boolean verifyCorruptedStateOnBoot = false; //eventually may be a setting
+	
 	public static long lastHotKeyExecuted = System.currentTimeMillis();
 }

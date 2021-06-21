@@ -97,7 +97,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 public class BytecodeViewer
 {
-    public static boolean verify = false; //eventually may be a setting
     public static String[] args;
     public static MainViewerGUI viewer = null;
     public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV,
@@ -114,7 +113,7 @@ public class BytecodeViewer
     /**
      * Pings back to bytecodeviewer.com to be added into the total running statistics
      */
-    private static final Thread PingBack = new Thread(() -> {
+    private static final Thread pingBack = new Thread(() -> {
         try {
             new HTTPRequest(new URL("https://bytecodeviewer.com/add.php")).read();
         } catch (Exception e) {
@@ -125,7 +124,7 @@ public class BytecodeViewer
     /**
      * Downloads & installs the krakatau & enjarify zips
      */
-    private static final Thread InstallFatJar = new Thread(() -> {
+    private static final Thread installFatJar = new Thread(() -> {
         try {
             if (OFFLINE_MODE) {
                 Boot.dropKrakatau();
@@ -196,12 +195,12 @@ public class BytecodeViewer
 
                 Boot.boot(args, CLI != CommandLineInput.OPEN_FILE);
             } else
-                InstallFatJar.start();
+                installFatJar.start();
 
             if (CLI == CommandLineInput.OPEN_FILE)
-                BytecodeViewer.BOOT(false);
+                BytecodeViewer.boot(false);
             else {
-                BytecodeViewer.BOOT(true);
+                BytecodeViewer.boot(true);
                 CommandLineInput.executeCommandLine(args);
             }
         } catch (Exception e) {
@@ -214,7 +213,7 @@ public class BytecodeViewer
      *
      * @param cli is it running CLI mode or not
      */
-    public static void BOOT(boolean cli) {
+    public static void boot(boolean cli) {
         cleanup();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             for (Process proc : createdProcesses)
@@ -227,7 +226,7 @@ public class BytecodeViewer
         resetRecentFilesMenu();
 
         if (!Configuration.pingback) {
-            PingBack.start();
+            pingBack.start();
             Configuration.pingback = true;
         }
 

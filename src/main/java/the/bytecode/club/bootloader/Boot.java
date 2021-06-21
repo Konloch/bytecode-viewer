@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bootloader.resource.EmptyExternalResource;
 import the.bytecode.club.bootloader.resource.ExternalResource;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
@@ -179,7 +180,7 @@ public class Boot {
                         System.out.println("Jar or Zip" + file.getAbsolutePath() + " is corrupt, redownloading.");
                         file.delete();
                     }
-                } else if (BytecodeViewer.verify) { //verify its not corrupt each boot (adds 3 seconds boot time)
+                } else if (Configuration.verifyCorruptedStateOnBoot) { //verify its not corrupt each boot (adds 3 seconds boot time)
                     try {
                         setState("Bytecode Viewer Boot Screen - Verifying " + fileName + "...");
                         System.out.println("Verifying " + fileName + "...");

@@ -83,9 +83,9 @@ public class BootCheck implements Runnable
 					Boot.hide();
 					
 					if (CommandLineInput.parseCommandLine(BytecodeViewer.args) == CommandLineInput.OPEN_FILE)
-						BytecodeViewer.BOOT(false);
+						BytecodeViewer.boot(false);
 					else {
-						BytecodeViewer.BOOT(true);
+						BytecodeViewer.boot(true);
 						CommandLineInput.executeCommandLine(BytecodeViewer.args);
 					}
 				}
