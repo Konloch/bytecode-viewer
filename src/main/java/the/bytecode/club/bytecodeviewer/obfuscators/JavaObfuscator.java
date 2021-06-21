@@ -33,12 +33,12 @@ public abstract class JavaObfuscator extends Thread {
 
     @Override
     public void run() {
-        BytecodeViewer.viewer.setIcon(true);
+        BytecodeViewer.viewer.updateBusyStatus(true);
         Configuration.runningObfuscation = true;
         obfuscate();
         BytecodeViewer.refactorer.run();
         Configuration.runningObfuscation = false;
-        BytecodeViewer.viewer.setIcon(false);
+        BytecodeViewer.viewer.updateBusyStatus(false);
     }
 
     public int getStringLength() {

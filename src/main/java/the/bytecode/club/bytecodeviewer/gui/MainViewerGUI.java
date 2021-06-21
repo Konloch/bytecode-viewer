@@ -28,6 +28,10 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.Settings;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
+import the.bytecode.club.bytecodeviewer.gui.extras.AboutWindow;
+import the.bytecode.club.bytecodeviewer.gui.extras.RunOptions;
+import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptions;
+import the.bytecode.club.bytecodeviewer.gui.plugins.ReplaceStringsOptions;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
@@ -66,17 +70,20 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *
  * @author Konloch
  */
-public class MainViewerGUI extends JFrame implements FileChangeNotifier {
+public class MainViewerGUI extends JFrame {
 
     public static final long serialVersionUID = 1851409230530948543L;
-    private static final ArrayList<VisibleComponent> uiComponents = new ArrayList<>();
     public AboutWindow aboutWindow = new AboutWindow();
-    public ResourceListPane resourcePane = new ResourceListPane(this);
-    public SearchBoxPane searchBoxPane;
     public boolean isMaximized;
+    public final JMenuItem[] waitIcons;
+    
+    //main UI components
+    private static final ArrayList<VisibleComponent> uiComponents = new ArrayList<>();
+    public final WorkPane workPane = new WorkPane();
+    public final ResourceListPane resourcePane = new ResourceListPane();
+    public final SearchBoxPane searchBoxPane = new SearchBoxPane();
     public JSplitPane splitPane1;
     public JSplitPane splitPane2;
-    public final JMenuItem[] waitIcons;
     
     //the root menu bar
     public final JMenuBar rootMenu = new JMenuBar();
@@ -119,12 +126,31 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JMenuItem zStringArrayDecrypter = new JMenuItem("ZStringArray Decrypter");
     
     //all of the settings main menu components
-    private final JCheckBoxMenuItem deleteForeignOutdatedLibs = new JCheckBoxMenuItem("Delete Foreign/Outdated Libs");
     public final ButtonGroup apkConversionGroup = new ButtonGroup();
     public final JRadioButtonMenuItem apkConversionDex = new JRadioButtonMenuItem("Dex2Jar");
     public final JRadioButtonMenuItem apkConversionEnjarify = new JRadioButtonMenuItem("Enjarify");
     public final JMenu fontSize = new JMenu("Font Size");
     public final JSpinner fontSpinner = new JSpinner();
+    //BCV settings
+    public final JCheckBoxMenuItem refreshOnChange = new JCheckBoxMenuItem("Refresh On View Change");
+    private final JCheckBoxMenuItem deleteForeignOutdatedLibs = new JCheckBoxMenuItem("Delete Foreign/Outdated Libs");
+    public final JMenu settingsMainMenu = new JMenu("Settings");
+    public final JMenu visualSettings = new JMenu("Visual Settings");
+    public final JMenu apkConversion = new JMenu("APK Conversion");
+    public final JMenu bytecodeDecompilerSettingsSecondaryMenu = new JMenu("Bytecode Decompiler");
+    public final JCheckBoxMenuItem updateCheck = new JCheckBoxMenuItem("Update Check");
+    public final JMenuItem setPython2 = new JMenuItem("Set Python 2.7 Executable");
+    public final JMenuItem setPython3 = new JMenuItem("Set Python 3.X Executable");
+    public final JMenuItem setJRERT = new JMenuItem("Set JRE RT Library");
+    public final JMenuItem setJavac = new JMenuItem("Set Javac Executable");
+    public final JMenuItem setOptionalLibrary = new JMenuItem("Set Optional Library Folder");
+    public final JCheckBoxMenuItem compileOnSave = new JCheckBoxMenuItem("Compile On Save");
+    public final JCheckBoxMenuItem showFileInTabTitle = new JCheckBoxMenuItem("Show File In Tab Title");
+    public final JCheckBoxMenuItem forcePureAsciiAsText = new JCheckBoxMenuItem("Force Pure Ascii As Text");
+    public final JCheckBoxMenuItem autoCompileOnRefresh = new JCheckBoxMenuItem("Compile On Refresh");
+    public final JCheckBoxMenuItem decodeAPKResources = new JCheckBoxMenuItem("Decode APK Resources");
+    public final JCheckBoxMenuItem synchronizedViewing = new JCheckBoxMenuItem("Synchronized Viewing");
+    public final JCheckBoxMenuItem showClassMethods = new JCheckBoxMenuItem("Show Class Methods");
     //CFIDE settings
     public final JCheckBoxMenuItem appendBracketsToLabels = new JCheckBoxMenuItem("Append Brackets To Labels");
     public JCheckBoxMenuItem debugHelpers = new JCheckBoxMenuItem("Debug Helpers");
@@ -161,6 +187,10 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JCheckBoxMenuItem mergeVariables = new JCheckBoxMenuItem("Merge Variables");
     public final JCheckBoxMenuItem forceExplicitTypeArguments = new JCheckBoxMenuItem("Force Explicit Type Arguments");
     public final JCheckBoxMenuItem forceExplicitImports = new JCheckBoxMenuItem("Force Explicit Imports");
+    public final JCheckBoxMenuItem flattenSwitchBlocks = new JCheckBoxMenuItem("Flatten Switch Blocks");
+    public final JCheckBoxMenuItem retainPointlessSwitches = new JCheckBoxMenuItem("Retain Pointless Switches");
+    public final JCheckBoxMenuItem retainRedunantCasts = new JCheckBoxMenuItem("Retain Redundant Casts");
+    public final JCheckBoxMenuItem unicodeOutputEnabled = new JCheckBoxMenuItem("Unicode Output Enabled");
     //CFR
     public final JMenu cfrSettingsSecondaryMenu = new JMenu("CFR");
     public final JCheckBoxMenuItem decodeEnumSwitch = new JCheckBoxMenuItem("Decode Enum Switch");
@@ -186,6 +216,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JCheckBoxMenuItem comments = new JCheckBoxMenuItem("Comments");
     public final JCheckBoxMenuItem forceTopSort = new JCheckBoxMenuItem("Force Top Sort");
     public final JCheckBoxMenuItem forceTopSortAggress = new JCheckBoxMenuItem("Force Top Sort Aggress");
+    public final JCheckBoxMenuItem forceExceptionPrune = new JCheckBoxMenuItem("Force Exception Prune");
     public final JCheckBoxMenuItem stringBuffer = new JCheckBoxMenuItem("String Buffer");
     public final JCheckBoxMenuItem stringBuilder = new JCheckBoxMenuItem("String Builder");
     public final JCheckBoxMenuItem silent = new JCheckBoxMenuItem("Silent");
@@ -206,12 +237,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JCheckBoxMenuItem recoveryTypehInts = new JCheckBoxMenuItem("Recover Type  Hints");
     public final JCheckBoxMenuItem forceTurningIFs = new JCheckBoxMenuItem("Force Returning IFs");
     public final JCheckBoxMenuItem forLoopAGGCapture = new JCheckBoxMenuItem("For Loop AGG Capture");
-    public final JCheckBoxMenuItem forceExceptionPrune = new JCheckBoxMenuItem("Force Exception Prune");
-    public final JCheckBoxMenuItem unicodeOutputEnabled = new JCheckBoxMenuItem("Unicode Output Enabled");
-    public final JCheckBoxMenuItem retainPointlessSwitches = new JCheckBoxMenuItem("Retain Pointless Switches");
-    public final JCheckBoxMenuItem retainRedunantCasts = new JCheckBoxMenuItem("Retain Redundant Casts");
-    public final JCheckBoxMenuItem flattenSwitchBlocks = new JCheckBoxMenuItem("Flatten Switch Blocks");
-    public final JCheckBoxMenuItem updateCheck = new JCheckBoxMenuItem("Update Check");
+    //obfuscation
     public final JMenu obfuscate = new JMenu("Obfuscate");
     public final JMenuItem renameFields = new JMenuItem("Rename Fields");
     public final JMenuItem renameMethods = new JMenuItem("Rename Methods");
@@ -222,24 +248,8 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public final JRadioButtonMenuItem strongObf = new JRadioButtonMenuItem("Strong Obfuscation");
     public final JRadioButtonMenuItem lightObf = new JRadioButtonMenuItem("Light Obfuscation");
     public final JMenuItem renameClasses = new JMenuItem("Rename Classes");
-    public final JMenu settingsMainMenu = new JMenu("Settings");
-    public final JCheckBoxMenuItem compileOnSave = new JCheckBoxMenuItem("Compile On Save");
-    public final JCheckBoxMenuItem showFileInTabTitle = new JCheckBoxMenuItem("Show File In Tab Title");
-    public final JCheckBoxMenuItem forcePureAsciiAsText = new JCheckBoxMenuItem("Force Pure Ascii As Text");
-    public final JCheckBoxMenuItem autoCompileOnRefresh = new JCheckBoxMenuItem("Compile On Refresh");
-    public final JMenuItem setPython2 = new JMenuItem("Set Python 2.7 Executable");
-    public final JMenuItem setJRERT = new JMenuItem("Set JRE RT Library");
-    public final JCheckBoxMenuItem decodeAPKResources = new JCheckBoxMenuItem("Decode APK Resources");
-    public final JCheckBoxMenuItem synchronizedViewing = new JCheckBoxMenuItem("Synchronized Viewing");
-    public final JCheckBoxMenuItem showClassMethods = new JCheckBoxMenuItem("Show Class Methods");
-    public final JMenu visualSettings = new JMenu("Visual Settings");
-    public final JMenu apkConversion = new JMenu("APK Conversion");
-    public final JMenuItem setPython3 = new JMenuItem("Set Python 3.X Executable");
-    public final JMenuItem setOptionalLibrary = new JMenuItem("Set Optional Library Folder");
-    public final JMenuItem setJavac = new JMenuItem("Set Javac Executable");
-    public final JMenu bytecodeDecompilerSettingsSecondaryMenu = new JMenu("Bytecode Decompiler");
     
-    public synchronized void setIcon(final boolean busy) {
+    public synchronized void updateBusyStatus(final boolean busy) {
         SwingUtilities.invokeLater(() -> {
             if (busy) {
                 for (int i = 0; i < 10; i++) {
@@ -268,9 +278,6 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     public void calledAfterLoad() {
         deleteForeignOutdatedLibs.setSelected(Configuration.deleteForeignLibraries);
     }
-    
-    public final JCheckBoxMenuItem refreshOnChange = new JCheckBoxMenuItem("Refresh On View Change");
-    public final WorkPane workPane = new WorkPane(this);
 
     public MainViewerGUI()
     {
@@ -302,24 +309,21 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
-        // scrollPane.setViewportView(tree);
         resourcePane.setMinimumSize(new Dimension(200, 50));
-        // panel.add(cn);
-        searchBoxPane = new SearchBoxPane(this);
+        resourcePane.setPreferredSize(new Dimension(200, 50));
+        resourcePane.setMaximumSize(new Dimension(200, 2147483647));
+        
         searchBoxPane.setPreferredSize(new Dimension(200, 50));
         searchBoxPane.setMinimumSize(new Dimension(200, 50));
         searchBoxPane.setMaximumSize(new Dimension(200, 2147483647));
-        // panel.add(s);
+        
         splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, resourcePane, searchBoxPane);
-        // panel.add(sp1);
-        resourcePane.setPreferredSize(new Dimension(200, 50));
-        resourcePane.setMaximumSize(new Dimension(200, 2147483647));
         splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, workPane);
         getContentPane().add(splitPane2);
         splitPane2.setResizeWeight(0.05);
         splitPane1.setResizeWeight(0.5);
+        
         uiComponents.add(resourcePane);
-
         uiComponents.add(searchBoxPane);
         uiComponents.add(workPane);
 
@@ -667,18 +671,12 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         appendBracketsToLabels.setSelected(true);
     }
 
-    @Override
     public void openClassFile(final FileContainer container, final String name, final ClassNode cn) {
-        for (final VisibleComponent vc : uiComponents) {
-            vc.openClassFile(container, name, cn);
-        }
+        workPane.addWorkingFile(container, name, cn);
     }
 
-    @Override
     public void openFile(final FileContainer container, final String name, byte[] content) {
-        for (final VisibleComponent vc : uiComponents) {
-            vc.openFile(container, name, content);
-        }
+        workPane.addFile(container, name, content);
     }
 
     @SuppressWarnings("unchecked")
@@ -729,9 +727,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
             try {
-                BytecodeViewer.viewer.setIcon(true);
+                BytecodeViewer.viewer.updateBusyStatus(true);
                 BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()}, true);
-                BytecodeViewer.viewer.setIcon(false);
+                BytecodeViewer.viewer.updateBusyStatus(false);
             } catch (Exception e1) {
                 new ExceptionUI(e1);
             }
@@ -962,9 +960,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
     
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
-                BytecodeViewer.viewer.setIcon(true);
+                BytecodeViewer.viewer.updateBusyStatus(true);
                 BytecodeViewer.startPlugin(fc.getSelectedFile());
-                BytecodeViewer.viewer.setIcon(false);
+                BytecodeViewer.viewer.updateBusyStatus(false);
             } catch (Exception e1) {
                 new ExceptionUI(e1);
             }
@@ -990,5 +988,4 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
             System.exit(0);
         }
     }
-    
 }

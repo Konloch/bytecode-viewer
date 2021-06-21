@@ -131,7 +131,7 @@ public class OpenFile implements Runnable
 							}
 						} else if (fn.endsWith(".apk")) {
 							try {
-								BytecodeViewer.viewer.setIcon(true);
+								BytecodeViewer.viewer.updateBusyStatus(true);
 								
 								File tempCopy = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
 								
@@ -159,7 +159,7 @@ public class OpenFile implements Runnable
 								
 								container.classes = JarUtils.loadClasses(output);
 								
-								BytecodeViewer.viewer.setIcon(false);
+								BytecodeViewer.viewer.updateBusyStatus(false);
 								BytecodeViewer.files.add(container);
 							} catch (final Exception e) {
 								new ExceptionUI(e);
@@ -167,7 +167,7 @@ public class OpenFile implements Runnable
 							return;
 						} else if (fn.endsWith(".dex")) {
 							try {
-								BytecodeViewer.viewer.setIcon(true);
+								BytecodeViewer.viewer.updateBusyStatus(true);
 								
 								File tempCopy = new File(tempDirectory + fs + MiscUtils.randomString(32) +
 										".dex");
@@ -186,7 +186,7 @@ public class OpenFile implements Runnable
 								
 								container.classes = JarUtils.loadClasses(output);
 								
-								BytecodeViewer.viewer.setIcon(false);
+								BytecodeViewer.viewer.updateBusyStatus(false);
 								BytecodeViewer.files.add(container);
 							} catch (final Exception e) {
 								new ExceptionUI(e);
@@ -208,7 +208,7 @@ public class OpenFile implements Runnable
 		} catch (final Exception e) {
 			new ExceptionUI(e);
 		} finally {
-			BytecodeViewer.viewer.setIcon(false);
+			BytecodeViewer.viewer.updateBusyStatus(false);
 			
 			if (update)
 				try {

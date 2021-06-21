@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import com.jhe.hexed.JHexEditor;
+import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -460,7 +460,7 @@ public class ClassViewer extends Viewer {
                     viewer = THIS;
                     decompiler = pane1;
 
-                    BytecodeViewer.viewer.setIcon(true);
+                    BytecodeViewer.viewer.updateBusyStatus(true);
                     if (pane1 == 1) { // procyon
                         panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
@@ -834,7 +834,7 @@ public class ClassViewer extends Viewer {
                     new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                 } finally {
                     resetDivider();
-                    BytecodeViewer.viewer.setIcon(false);
+                    BytecodeViewer.viewer.updateBusyStatus(false);
                     if (button != null)
                         button.setEnabled(true);
                 }
@@ -850,7 +850,7 @@ public class ClassViewer extends Viewer {
                     viewer = THIS;
                     decompiler = pane2;
 
-                    BytecodeViewer.viewer.setIcon(true);
+                    BytecodeViewer.viewer.updateBusyStatus(true);
                     if (pane2 == 1) {
                         panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
@@ -1223,7 +1223,7 @@ public class ClassViewer extends Viewer {
                     new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                 } finally {
                     resetDivider();
-                    BytecodeViewer.viewer.setIcon(false);
+                    BytecodeViewer.viewer.updateBusyStatus(false);
                     if (button != null)
                         button.setEnabled(true);
                 }
@@ -1239,7 +1239,7 @@ public class ClassViewer extends Viewer {
                     viewer = THIS;
                     decompiler = pane3;
 
-                    BytecodeViewer.viewer.setIcon(true);
+                    BytecodeViewer.viewer.updateBusyStatus(true);
                     if (pane3 == 1) {
                         panelArea = new RSyntaxTextArea();
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
@@ -1612,7 +1612,7 @@ public class ClassViewer extends Viewer {
                     //new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                 } finally {
                     resetDivider();
-                    BytecodeViewer.viewer.setIcon(false);
+                    BytecodeViewer.viewer.updateBusyStatus(false);
                     if (button != null)
                         button.setEnabled(true);
                 }
@@ -1620,7 +1620,7 @@ public class ClassViewer extends Viewer {
         };
 
         Thread t = new Thread(() -> {
-            BytecodeViewer.viewer.setIcon(true);
+            BytecodeViewer.viewer.updateBusyStatus(true);
             while (Configuration.currentlyDumping) {
                 //wait until it's not dumping
                 try {
@@ -1631,7 +1631,7 @@ public class ClassViewer extends Viewer {
             }
             tempFiles = BytecodeViewer.dumpTempFile(container);
 
-            BytecodeViewer.viewer.setIcon(false);
+            BytecodeViewer.viewer.updateBusyStatus(false);
 
             if (pane1 > 0)
                 t1.start();

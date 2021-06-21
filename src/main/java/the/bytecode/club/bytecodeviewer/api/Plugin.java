@@ -32,7 +32,7 @@ public abstract class Plugin extends Thread {
 
     @Override
     public void run() {
-        BytecodeViewer.viewer.setIcon(true);
+        BytecodeViewer.viewer.updateBusyStatus(true);
         try {
             if (BytecodeViewer.getLoadedClasses().isEmpty()) {
                 BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
@@ -43,7 +43,7 @@ public abstract class Plugin extends Thread {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         } finally {
             finished = true;
-            BytecodeViewer.viewer.setIcon(false);
+            BytecodeViewer.viewer.updateBusyStatus(false);
         }
     }
 

@@ -26,9 +26,9 @@ import the.bytecode.club.bytecodeviewer.compilers.Compilers;
 import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
-import the.bytecode.club.bytecodeviewer.gui.RunOptions;
+import the.bytecode.club.bytecodeviewer.gui.extras.RunOptions;
 import the.bytecode.club.bytecodeviewer.gui.SearchBoxPane;
-import the.bytecode.club.bytecodeviewer.gui.SystemErrConsole;
+import the.bytecode.club.bytecodeviewer.gui.extras.SystemErrConsole;
 import the.bytecode.club.bytecodeviewer.gui.WorkPane;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
@@ -374,7 +374,7 @@ public class BytecodeViewer
      * @return true if no errors, false if it failed to compile.
      */
     public static boolean compile(boolean message) {
-        BytecodeViewer.viewer.setIcon(true);
+        BytecodeViewer.viewer.updateBusyStatus(true);
         boolean actuallyTried = false;
 
         for (java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers()) {
@@ -401,7 +401,7 @@ public class BytecodeViewer
                         } else {
                             BytecodeViewer.showMessage("There has been an error with assembling your Smali code, "
                                     + "please check this. Class: " + origNode.name);
-                            BytecodeViewer.viewer.setIcon(false);
+                            BytecodeViewer.viewer.updateBusyStatus(false);
                             return false;
                         }
                     }
@@ -429,7 +429,7 @@ public class BytecodeViewer
                         } else {
                             BytecodeViewer.showMessage("There has been an error with assembling your Krakatau "
                                     + "Bytecode, please check this. Class: " + origNode.name);
-                            BytecodeViewer.viewer.setIcon(false);
+                            BytecodeViewer.viewer.updateBusyStatus(false);
                             return false;
                         }
                     }
@@ -463,7 +463,7 @@ public class BytecodeViewer
                             errConsole.pretty();
                             errConsole.setVisible(true);
                             errConsole.finished();
-                            BytecodeViewer.viewer.setIcon(false);
+                            BytecodeViewer.viewer.updateBusyStatus(false);
                             return false;
                         }
                     }
@@ -477,7 +477,7 @@ public class BytecodeViewer
             else
                 BytecodeViewer.showMessage("You have no editable panes opened, make one editable and try again.");
 
-        BytecodeViewer.viewer.setIcon(false);
+        BytecodeViewer.viewer.updateBusyStatus(false);
         return true;
     }
 
@@ -493,7 +493,7 @@ public class BytecodeViewer
                 if (f.exists())
                     BytecodeViewer.addRecentFile(f);
 
-        BytecodeViewer.viewer.setIcon(true);
+        BytecodeViewer.viewer.updateBusyStatus(true);
         Configuration.needsReDump = true;
         Thread t = new Thread(new OpenFile(files));
         t.start();
@@ -698,9 +698,9 @@ public class BytecodeViewer
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 try {
-                    BytecodeViewer.viewer.setIcon(true);
+                    BytecodeViewer.viewer.updateBusyStatus(true);
                     BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()}, true);
-                    BytecodeViewer.viewer.setIcon(false);
+                    BytecodeViewer.viewer.updateBusyStatus(false);
                 } catch (Exception e1) {
                     new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
                 }
@@ -773,11 +773,11 @@ public class BytecodeViewer
 
                     final File file2 = file;
 
-                    BytecodeViewer.viewer.setIcon(true);
+                    BytecodeViewer.viewer.updateBusyStatus(true);
                     Thread t1 = new Thread(() -> {
                         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
                                 file2.getAbsolutePath());
-                        BytecodeViewer.viewer.setIcon(false);
+                        BytecodeViewer.viewer.updateBusyStatus(false);
                     });
                     t1.start();
                 }

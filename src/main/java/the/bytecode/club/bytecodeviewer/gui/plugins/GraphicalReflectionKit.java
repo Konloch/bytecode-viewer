@@ -1,6 +1,11 @@
-package the.bytecode.club.bytecodeviewer.util;
+package the.bytecode.club.bytecodeviewer.gui.plugins;
 
-import org.objectweb.asm.tree.ClassNode;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import the.bytecode.club.bytecodeviewer.Resources;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -21,13 +26,29 @@ import org.objectweb.asm.tree.ClassNode;
  ***************************************************************************/
 
 /**
- * Used to represent whenever a file has been opened
+ * A graphical way to execute reflection.
  *
  * @author Konloch
  */
 
-public interface FileChangeNotifier {
-    void openClassFile(final FileContainer container, String name, ClassNode cn);
+public class GraphicalReflectionKit extends JFrame {
+    public GraphicalReflectionKit() {
+        this.setIconImages(Resources.iconList);
+        setSize(new Dimension(382, 356));
+        setTitle("Graphical Reflection Kit");
 
-    void openFile(final FileContainer container, String name, byte[] contents);
+        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        getContentPane().add(tabbedPane, BorderLayout.CENTER);
+
+        JPanel panel = new JPanel();
+        tabbedPane.addTab("Invoke Method", null, panel, null);
+
+        JPanel panel_1 = new JPanel();
+        tabbedPane.addTab("Get Field Value", null, panel_1, null);
+
+        JPanel panel_2 = new JPanel();
+        tabbedPane.addTab("Cast Field", null, panel_2, null);
+    }
+
+    private static final long serialVersionUID = 6728356108271228236L;
 }

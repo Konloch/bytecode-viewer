@@ -20,7 +20,6 @@ import javax.swing.JTabbedPane;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
@@ -54,7 +53,6 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 
     private static final long serialVersionUID = 6542337997679487946L;
 
-    FileChangeNotifier fcn;
     public JTabbedPane tabs;
 
     JPanel buttonPanel;
@@ -62,12 +60,11 @@ public class WorkPane extends VisibleComponent implements ActionListener {
 
     HashMap<String, Integer> workingOn = new HashMap<>();
 
-    public WorkPane(final FileChangeNotifier fcn) {
+    public WorkPane() {
         super("WorkPanel");
         setTitle("Work Space");
 
         this.tabs = new JTabbedPane();
-        this.fcn = fcn;
 
 
         JPopupMenu pop_up = new JPopupMenu() {
@@ -251,16 +248,6 @@ public class WorkPane extends VisibleComponent implements ActionListener {
         }
     }
 
-    @Override
-    public void openClassFile(final FileContainer container, final String name, final ClassNode cn) {
-        addWorkingFile(container, name, cn);
-    }
-
-    @Override
-    public void openFile(final FileContainer container, final String name, byte[] content) {
-        addFile(container, name, content);
-    }
-
     public Viewer getCurrentViewer() {
         return (Viewer) tabs.getSelectedComponent();
     }
@@ -285,14 +272,14 @@ public class WorkPane extends VisibleComponent implements ActionListener {
                 if (tabComp != null) {
                     if (tabComp instanceof ClassViewer) {
                         src.setEnabled(false);
-                        BytecodeViewer.viewer.setIcon(true);
+                        BytecodeViewer.viewer.updateBusyStatus(true);
                         ((ClassViewer) tabComp).startPaneUpdater(src);
-                        BytecodeViewer.viewer.setIcon(false);
+                        BytecodeViewer.viewer.updateBusyStatus(false);
                     } else if (tabComp instanceof FileViewer) {
                         src.setEnabled(false);
-                        BytecodeViewer.viewer.setIcon(true);
+                        BytecodeViewer.viewer.updateBusyStatus(true);
                         ((FileViewer) tabComp).refresh(src);
-                        BytecodeViewer.viewer.setIcon(false);
+                        BytecodeViewer.viewer.updateBusyStatus(false);
                     }
                 }
             }

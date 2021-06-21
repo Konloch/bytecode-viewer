@@ -40,7 +40,6 @@ import javax.swing.tree.TreePath;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
-import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
@@ -71,10 +70,8 @@ import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
  * @author afffsdd
  */
 
-public class ResourceListPane extends VisibleComponent implements
-        FileDrop.Listener {
-
-    FileChangeNotifier fcn;
+public class ResourceListPane extends VisibleComponent implements FileDrop.Listener
+{
     JCheckBox exact = new JCheckBox("Exact");
     JButton open = new JButton("+");
     JButton close = new JButton("-");
@@ -245,9 +242,8 @@ public class ResourceListPane extends VisibleComponent implements
         LazyNameUtil.removeName(fileContainer.name);
     }
 
-    public ResourceListPane(final FileChangeNotifier fcn) {
+    public ResourceListPane() {
         super("ClassNavigation");
-        this.fcn = fcn;
         tree.setRootVisible(false);
         tree.setShowsRootHandles(true);
         quickSearch.setForeground(Color.gray);
@@ -374,11 +370,11 @@ public class ResourceListPane extends VisibleComponent implements
     }
 
     public void openClassFileToWorkSpace(final FileContainer container, final String name, final ClassNode node) {
-        fcn.openClassFile(container, name, node);
+        BytecodeViewer.viewer.openClassFile(container, name, node);
     }
 
     public void openFileToWorkSpace(final FileContainer container, String name, byte[] contents) {
-        fcn.openFile(container, name, contents);
+        BytecodeViewer.viewer.openFile(container, name, contents);
     }
 
     @Override

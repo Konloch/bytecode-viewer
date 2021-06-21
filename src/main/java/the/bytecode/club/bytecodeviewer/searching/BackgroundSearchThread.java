@@ -42,9 +42,9 @@ public abstract class BackgroundSearchThread extends Thread {
 
     @Override
     public void run() {
-        BytecodeViewer.viewer.setIcon(true);
+        BytecodeViewer.viewer.updateBusyStatus(true);
         doSearch();
         finished = true;
-        BytecodeViewer.viewer.setIcon(false);
+        BytecodeViewer.viewer.updateBusyStatus(false);
     }
 }

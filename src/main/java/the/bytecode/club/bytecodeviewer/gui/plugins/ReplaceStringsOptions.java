@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.gui;
+package the.bytecode.club.bytecodeviewer.gui.plugins;
 
 import java.awt.Dimension;
 import javax.swing.JButton;

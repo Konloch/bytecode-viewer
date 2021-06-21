@@ -184,7 +184,7 @@ public class BytecodeViewer {
      * @param busy if it should display the busy icon or not
      */
     public static void setBusy(boolean busy) {
-        the.bytecode.club.bytecodeviewer.BytecodeViewer.viewer.setIcon(busy);
+        the.bytecode.club.bytecodeviewer.BytecodeViewer.viewer.updateBusyStatus(busy);
     }
 
     /**

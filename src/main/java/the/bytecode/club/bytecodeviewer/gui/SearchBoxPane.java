@@ -26,7 +26,6 @@ import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
 import the.bytecode.club.bytecodeviewer.searching.RegexSearch;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
-import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
@@ -61,8 +60,6 @@ public class SearchBoxPane extends VisibleComponent {
     public static final SearchRadius[] SEARCH_RADII = SearchRadius.values();
     public static final SearchType[] SEARCH_TYPES = SearchType.values();
 
-    FileChangeNotifier fcn;
-
     JCheckBox exact = new JCheckBox("Exact");
     DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode("Results");
     JTree tree;
@@ -81,10 +78,8 @@ public class SearchBoxPane extends VisibleComponent {
     };
 
     @SuppressWarnings("unchecked")
-    public SearchBoxPane(final FileChangeNotifier fcn) {
+    public SearchBoxPane() {
         super("Search");
-
-        this.fcn = fcn;
 
         final JPanel optionPanel = new JPanel(new BorderLayout());
 
@@ -186,8 +181,7 @@ public class SearchBoxPane extends VisibleComponent {
                     public void doSearch() {
 
                         try {
-                            Pattern.compile(RegexInsnFinder.processRegex(RegexSearch.searchText.getText()),
-                                    Pattern.MULTILINE);
+                            Pattern.compile(RegexInsnFinder.processRegex(RegexSearch.searchText.getText()), Pattern.MULTILINE);
                         } catch (PatternSyntaxException ex) {
                             BytecodeViewer.showMessage("You have an error in your regex syntax.");
                         }
@@ -196,23 +190,23 @@ public class SearchBoxPane extends VisibleComponent {
                             for (ClassNode c : container.classes)
                                 searchType.details.search(container, c, srn, exact.isSelected());
 
-                        Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search.setEnabled(true);
-                        Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search.setText(
-                                "Search");
+                        Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class))
+                                .search.setEnabled(true);
+                        Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class))
+                                .search.setText("Search");
+                        
                         tree.expandPath(new TreePath(tree.getModel().getRoot()));
                         tree.updateUI();
                     }
 
                 };
-                Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search
-                        .setEnabled(false);
-                Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search
-                        .setText("Searching, please wait..");
+                Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class))
+                        .search.setEnabled(false);
+                Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class))
+                        .search.setText("Searching, please wait..");
                 t.start();
             } else { // this should really never be called.
-                BytecodeViewer
-                        .showMessage("You currently have a search performing in the background, please wait for that "
-                                + "to finish.");
+                BytecodeViewer.showMessage("You currently have a search performing in the background, please wait for that to finish.");
             }
         } else if (radius == SearchRadius.Current_Class) {
             final Viewer cv = Objects.requireNonNull(MainViewerGUI.getComponent(WorkPane.class)).getCurrentViewer();
@@ -242,9 +236,5 @@ public class SearchBoxPane extends VisibleComponent {
     public void resetWorkspace() {
         treeRoot.removeAllChildren();
         tree.updateUI();
-    }
-
-    @Override
-    public void openFile(final FileContainer container, String name, byte[] contents) {
     }
 }

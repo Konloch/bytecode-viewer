@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.gui;
+package the.bytecode.club.bytecodeviewer.gui.extras;
 
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
@@ -59,11 +59,11 @@ public class ExportJar extends JFrame {
         getContentPane().add(btnNewButton);
 
         btnNewButton.addActionListener(arg0 -> {
-            BytecodeViewer.viewer.setIcon(true);
+            BytecodeViewer.viewer.updateBusyStatus(true);
             Thread t = new Thread(() -> {
                 JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), jarPath,
                         mani.getText());
-                BytecodeViewer.viewer.setIcon(false);
+                BytecodeViewer.viewer.updateBusyStatus(false);
             });
             t.start();
             dispose();

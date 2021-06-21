@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.ExportJar;
+import the.bytecode.club.bytecodeviewer.gui.extras.ExportJar;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -128,11 +128,11 @@ public class ResourceExporting
 				
 				final File file2 = file;
 				
-				BytecodeViewer.viewer.setIcon(true);
+				BytecodeViewer.viewer.updateBusyStatus(true);
 				Thread t17 = new Thread(() -> {
 					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
 							file2.getAbsolutePath());
-					BytecodeViewer.viewer.setIcon(false);
+					BytecodeViewer.viewer.updateBusyStatus(false);
 				});
 				t17.start();
 			}
@@ -195,14 +195,14 @@ public class ResourceExporting
 				}
 				
 				Thread t16 = new Thread(() -> {
-					BytecodeViewer.viewer.setIcon(true);
+					BytecodeViewer.viewer.updateBusyStatus(true);
 					final String input = tempDirectory + fs + MiscUtils.getRandomizedName() + ".jar";
 					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 					
 					Thread t15 = new Thread(() -> {
 						Dex2Jar.saveAsDex(new File(input), file2);
 						
-						BytecodeViewer.viewer.setIcon(false);
+						BytecodeViewer.viewer.updateBusyStatus(false);
 					});
 					t15.start();
 				});
@@ -307,14 +307,14 @@ public class ResourceExporting
 				}
 				
 				Thread t14 = new Thread(() -> {
-					BytecodeViewer.viewer.setIcon(true);
+					BytecodeViewer.viewer.updateBusyStatus(true);
 					final String input = tempDirectory + fs + MiscUtils.getRandomizedName() + ".jar";
 					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 					
 					Thread t13 = new Thread(() -> {
 						APKTool.buildAPK(new File(input), file2, finalContainer);
 						
-						BytecodeViewer.viewer.setIcon(false);
+						BytecodeViewer.viewer.updateBusyStatus(false);
 					});
 					t13.start();
 				});

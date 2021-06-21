@@ -1,4 +1,4 @@
-package com.jhe.hexed;
+package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
 import java.awt.Color;
 import java.awt.Dimension;

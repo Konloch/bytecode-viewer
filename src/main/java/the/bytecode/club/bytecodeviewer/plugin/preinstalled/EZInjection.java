@@ -14,7 +14,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.BytecodeHook;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
-import the.bytecode.club.bytecodeviewer.gui.GraphicalReflectionKit;
+import the.bytecode.club.bytecodeviewer.gui.plugins.GraphicalReflectionKit;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -135,7 +135,7 @@ public class EZInjection extends Plugin {
 
     @Override
     public void execute(ArrayList<ClassNode> classNodeList) {
-        BytecodeViewer.viewer.setIcon(true);
+        BytecodeViewer.viewer.updateBusyStatus(true);
         gui.setText("");
 
         if (console)
@@ -307,6 +307,6 @@ public class EZInjection extends Plugin {
             }
         }
 
-        BytecodeViewer.viewer.setIcon(false);
+        BytecodeViewer.viewer.updateBusyStatus(false);
     }
 }

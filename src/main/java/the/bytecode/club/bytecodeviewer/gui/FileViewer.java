@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import com.jhe.hexed.JHexEditor;
+import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.KeyEvent;

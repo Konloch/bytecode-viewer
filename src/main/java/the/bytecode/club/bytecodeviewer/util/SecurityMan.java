@@ -105,7 +105,8 @@ public class SecurityMan extends SecurityManager {
     @Override
     public void checkAccess(ThreadGroup g) {
     }
-
+    
+    @SuppressWarnings("deprecation")
     public void checkAwtEventQueueAccess() {
     }
 
@@ -135,18 +136,20 @@ public class SecurityMan extends SecurityManager {
     @Override
     public void checkLink(String lib) {
     }
-
+    
+    @SuppressWarnings("deprecation")
     public void checkMemberAccess(Class<?> clazz, int which) {
     }
 
     @Override
     public void checkMulticast(InetAddress maddr) {
     }
-
-    @Override
+    
+    @SuppressWarnings("deprecation")
     public void checkMulticast(InetAddress maddr, byte ttl) {
     }
-
+    
+    @SuppressWarnings("deprecation")
     public void checkPackageAccess(String pkg) {
     }
 
@@ -185,7 +188,8 @@ public class SecurityMan extends SecurityManager {
     @Override
     public void checkSetFactory() {
     }
-
+    
+    @SuppressWarnings("deprecation")
     public void checkSystemClipboardAccess() {
     }
 
