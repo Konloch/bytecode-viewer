@@ -132,7 +132,7 @@
             <artifactId>jd-gui</artifactId>
             <version>1.6.6</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/jd-gui-1.6.6-no-asm.jar</systemPath>
+			<systemPath>${project.basedir}/libs/jd-gui-1.6.6-no-asm-rsta.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>eu.bibl.banalysis</groupId>
