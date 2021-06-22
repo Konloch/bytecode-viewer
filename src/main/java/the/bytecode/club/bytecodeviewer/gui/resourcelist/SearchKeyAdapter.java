@@ -82,10 +82,10 @@ public class SearchKeyAdapter extends KeyAdapter
 		else
 		{
 			@SuppressWarnings("unchecked")
-			Enumeration<ResourceTreeNode> enums = curNode.depthFirstEnumeration();
+			Enumeration<TreeNode> enums = curNode.depthFirstEnumeration();
 			while (enums != null && enums.hasMoreElements())
 			{
-				ResourceTreeNode node = enums.nextElement();
+				ResourceTreeNode node = (ResourceTreeNode) enums.nextElement();
 				if (node.isLeaf())
 				{
 					if (((String) (node.getUserObject())).toLowerCase().contains(path[path.length - 1].toLowerCase()))

@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import java.util.Comparator;
+import javax.swing.tree.TreeNode;
 
 /**
  * @author Konloch
@@ -33,19 +34,19 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
 	private void recursiveSort(final ResourceTreeNode node)
 	{
 		node.children.sort(nodeComparator);
-		for (ResourceTreeNode nextNode : (Iterable<ResourceTreeNode>) node.children)
+		for (TreeNode nextNode : (Iterable<TreeNode>) node.children)
 		{
 			if (nextNode.getChildCount() > 0)
 			{
-				recursiveSort(nextNode);
+				recursiveSort((ResourceTreeNode) nextNode);
 			}
 		}
 	}
 	
-	protected Comparator<ResourceTreeNode> nodeComparator = new Comparator<ResourceTreeNode>()
+	protected Comparator<TreeNode> nodeComparator = new Comparator<TreeNode>()
 	{
 		@Override
-		public int compare(final ResourceTreeNode o1, final ResourceTreeNode o2)
+		public int compare(final TreeNode o1, final TreeNode o2)
 		{
 			// To make sure nodes with children are always on top
 			final int firstOffset = o1.getChildCount() > 0 ? -1000 : 0;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.apktool</groupId>
+  <artifactId>apktool</artifactId>
+  <versioning>
+    <release>2.5.0bcv</release>
+    <versions>
+      <version>2.5.0bcv</version>
+    </versions>
+    <lastUpdated>20210622183833</lastUpdated>
+  </versioning>
+</metadata>
