@@ -32,7 +32,7 @@
         <dependency>
             <groupId>org.apktool</groupId>
             <artifactId>apktool</artifactId>
-            <version>2.5.0bcv</version>
+            <version>2.5.0bcv2</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
