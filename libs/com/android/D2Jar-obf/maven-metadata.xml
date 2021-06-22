@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.android</groupId>
+  <artifactId>D2Jar-obf</artifactId>
+  <versioning>
+    <release>1.0bcv</release>
+    <versions>
+      <version>1.0bcv</version>
+    </versions>
+    <lastUpdated>20210622185021</lastUpdated>
+  </versioning>
+</metadata>
