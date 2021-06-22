@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -45,8 +47,19 @@ public class KrakatauDecompiler extends Decompiler {
     public String quick() {
         if (Configuration.library.isEmpty())
             return "";
-        else
+
+        File dir = new File(Configuration.library);
+        if (!dir.exists())
+            return "";
+        if (!dir.isDirectory())
             return ";" + Configuration.library;
+
+        File[] files = dir.listFiles();
+        if (files == null || files.length == 0)
+            return "";
+
+        return ";" + Arrays.stream(files).filter(File::isFile)
+                .map(File::getAbsolutePath).collect(Collectors.joining(";"));
     }
 
     public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn) {
@@ -159,9 +172,9 @@ public class KrakatauDecompiler extends Decompiler {
         final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempDirectory.mkdir();
         final File tempJar = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
-        
+
         JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
-        
+
         BytecodeViewer.sm.stopBlocking();
 
         try {

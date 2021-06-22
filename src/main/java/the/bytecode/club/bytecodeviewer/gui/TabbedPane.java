@@ -94,6 +94,18 @@ public class TabbedPane extends JPanel {
             }
         };
 
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON2) {
+                    final int i = pane.indexOfTabComponent(TabbedPane.this);
+                    if (i != -1) {
+                        pane.remove(i);
+                    }
+                }
+            }
+        });
+
         this.add(label);
         // add more space between the label and the button
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
