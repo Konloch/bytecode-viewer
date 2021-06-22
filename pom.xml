@@ -6,7 +6,7 @@
     <version>2.10.12</version>
 
     <properties>
-        <java.version>8</java.version>
+        <java.version>1.8</java.version>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -256,7 +256,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.1.1</version> <!-- 3.1.2 breaks build on JDK 9+ -->
                 <configuration>
                     <archive>
                         <manifest>
