@@ -1,6 +1,5 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -22,12 +21,13 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.imgscalr.Scalr;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.Language;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -127,71 +127,8 @@ public class FileViewer extends Viewer {
             }
         }
 
-        if (name.endsWith(".xml") || contentsS.startsWith("<?xml") || contentsS.startsWith(("<xml"))) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".py") || name.endsWith(".python")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".rb") || name.endsWith(".ruby")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_RUBY);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".java")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".html")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_HTML);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".css")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSS);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".properties") || name.endsWith(".mf") || name.endsWith(".sf")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PROPERTIES_FILE);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".php") || contentsS.startsWith("<?php")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PHP);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".js")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".bat")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_WINDOWS_BATCH);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".sh")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_UNIX_SHELL);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".c")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".cpp")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".scala")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_SCALA);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".clojure")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CLOJURE);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".groovy")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GROOVY);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".lua")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_LUA);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".sql")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_SQL);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".json")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JSON);
-            panelArea.setText(contentsS);
-        } else if (name.endsWith(".jsp")) {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JSP);
-            panelArea.setText(contentsS);
-        } else {
-            panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
-            panelArea.setText(contentsS);
-        }
-
+        panelArea.setSyntaxEditingStyle(Language.detectLanguage(name, contentsS).getSyntaxConstant());
+        panelArea.setText(contentsS);
         panelArea.setCaretPosition(0);
         scrollPane.setColumnHeaderView(panel);
         panel2.add(scrollPane);
