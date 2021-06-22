@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import java.io.File;
+import java.lang.reflect.Field;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -36,7 +37,9 @@ public class Dex2Jar {
      */
     public static synchronized void dex2Jar(File input, File output) {
         try {
-            com.googlecode.dex2jar.tools.Dex2jarCmd.main(input.getAbsolutePath());
+            com.googlecode.dex2jar.tools.Dex2jarCmd cmd = new com.googlecode.dex2jar.tools.Dex2jarCmd();
+            applyErrorFix(cmd);
+            cmd.doMain(input.getAbsolutePath());
             String realOutput = input.getName().replaceAll("\\.dex", "-dex2jar.jar").replaceAll("\\.apk", "-dex2jar"
                     + ".jar");
             File realOutputF = new File(realOutput);
@@ -44,17 +47,18 @@ public class Dex2Jar {
             File realOutputF2 = new File(realOutput);
             while (realOutputF2.exists())
                 realOutputF2.delete();
-            
-            //TODO fix this properly
-            //  WARNING: this could probably delete important error files but until a proper dex2jar fix is added this is needed
-            //  or else after each APK decompile the file directory will be flooded with -error.zip
-            for(File localFile : new File(".").listFiles())
-            {
-                if(localFile.getName().length() == 42 && localFile.getName().endsWith("-error.zip"))
-                    localFile.delete();
-            }
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+        }
+    }
+
+    // TODO fix this properly
+    private static void applyErrorFix(com.googlecode.dex2jar.tools.Dex2jarCmd cmd) {
+        try {
+            Field f = com.googlecode.dex2jar.tools.Dex2jarCmd.class.getDeclaredField("notHandleException");
+            f.setAccessible(true);
+            f.set(cmd, true);
+        } catch (Throwable ignored) {
         }
     }
 
