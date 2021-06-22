@@ -89,18 +89,6 @@ public class TabbedPane extends JPanel {
             }
         };
 
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON2) {
-                    final int i = pane.indexOfTabComponent(TabbedPane.this);
-                    if (i != -1) {
-                        pane.remove(i);
-                    }
-                }
-            }
-        });
-
         this.add(label);
         // add more space between the label and the button
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
@@ -167,7 +155,8 @@ public class TabbedPane extends JPanel {
             }
         });
         
-        if(BytecodeViewer.EXPERIMENTAL_DRAG_TABS)
+        //tab dragging
+        if(BytecodeViewer.EXPERIMENTAL_TAB_CODE)
         {
             /*label.addMouseListener(new MouseListener() {
                 @Override public void mouseClicked(MouseEvent e) {}
@@ -194,6 +183,22 @@ public class TabbedPane extends JPanel {
                 }
                 @Override public void mouseReleased(MouseEvent e) {
                     stopDragging(e.getX(), e.getY());
+                }
+            });
+        }
+        
+        //middle click close
+        if(BytecodeViewer.EXPERIMENTAL_TAB_CODE)
+        {
+            this.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    if (e.getButton() == MouseEvent.BUTTON2) {
+                        final int i = pane.indexOfTabComponent(TabbedPane.this);
+                        if (i != -1) {
+                            pane.remove(i);
+                        }
+                    }
                 }
             });
         }

@@ -18,7 +18,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceListPane;
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
 import the.bytecode.club.bytecodeviewer.searching.FieldCallSearch;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearch;
@@ -61,13 +61,13 @@ public class SearchBoxPane extends VisibleComponent {
     public static final SearchRadius[] SEARCH_RADII = SearchRadius.values();
     public static final SearchType[] SEARCH_TYPES = SearchType.values();
 
-    JCheckBox exact = new JCheckBox("Exact");
-    DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode("Results");
-    JTree tree;
-    JComboBox typeBox;
-
-    SearchType searchType = null;
-    JComboBox searchRadiusBox;
+    public final JCheckBox exact = new JCheckBox("Exact");
+    public final DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode("Results");
+    public final JTree tree;
+    public final JComboBox typeBox;
+    
+    public SearchType searchType = null;
+    public final JComboBox searchRadiusBox;
 
     public JButton search = new JButton("Search");
     BackgroundSearchThread t = new BackgroundSearchThread(true) {
@@ -75,7 +75,6 @@ public class SearchBoxPane extends VisibleComponent {
         public void doSearch() {
             // empty
         }
-
     };
 
     @SuppressWarnings("unchecked")
@@ -83,9 +82,7 @@ public class SearchBoxPane extends VisibleComponent {
         super("Search");
 
         final JPanel optionPanel = new JPanel(new BorderLayout());
-
         final JPanel searchRadiusOpt = new JPanel(new BorderLayout());
-
         final JPanel searchOpts = new JPanel(new GridLayout(2, 1));
 
         searchRadiusOpt.add(new JLabel("Search from "), BorderLayout.WEST);
@@ -96,15 +93,12 @@ public class SearchBoxPane extends VisibleComponent {
         }
 
         searchRadiusBox = new JComboBox(model);
-
         searchRadiusOpt.add(searchRadiusBox, BorderLayout.CENTER);
-
         searchOpts.add(searchRadiusOpt);
 
         model = new DefaultComboBoxModel();
-        for (final SearchType st : SEARCH_TYPES) {
+        for (final SearchType st : SEARCH_TYPES)
             model.addElement(st);
-        }
 
         typeBox = new JComboBox(model);
         final JPanel searchOptPanel = new JPanel();
@@ -160,8 +154,7 @@ public class SearchBoxPane extends VisibleComponent {
             final ClassNode fN = Objects.requireNonNull(container).getClassNode(className);
 
             if (fN != null) {
-                Objects.requireNonNull(MainViewerGUI.getComponent(ResourceListPane.class))
-                        .openClassFileToWorkSpace(container, className + ".class", fN);
+                BytecodeViewer.viewer.openClassFile(container, className + ".class", fN);
             }
         });
 

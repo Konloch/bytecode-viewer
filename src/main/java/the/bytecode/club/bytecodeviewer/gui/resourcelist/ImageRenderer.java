@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
+package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
 import the.bytecode.club.bytecodeviewer.Resources;
 
@@ -24,9 +24,9 @@ public class ImageRenderer extends DefaultTreeCellRenderer
 		
 		Component ret = super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
 		
-		if (value instanceof ResourceListPane.MyTreeNode)
+		if (value instanceof ResourceTreeNode)
 		{
-			ResourceListPane.MyTreeNode node = (ResourceListPane.MyTreeNode) value;
+			ResourceTreeNode node = (ResourceTreeNode) value;
 			String name = node.toString().toLowerCase();
 			
 			if (name.endsWith(".jar") || name.endsWith(".war"))

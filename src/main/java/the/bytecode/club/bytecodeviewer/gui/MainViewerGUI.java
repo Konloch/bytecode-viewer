@@ -32,7 +32,7 @@ import the.bytecode.club.bytecodeviewer.gui.extras.AboutWindow;
 import the.bytecode.club.bytecodeviewer.gui.extras.RunOptions;
 import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptions;
 import the.bytecode.club.bytecodeviewer.gui.plugins.ReplaceStringsOptions;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceListPane;
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
@@ -177,7 +177,7 @@ public class MainViewerGUI extends JFrame {
     public JCheckBoxMenuItem asc = new JCheckBoxMenuItem("Allow only ASCII characters in strings");
     public JCheckBoxMenuItem ren = new JCheckBoxMenuItem("Rename ambiguous classes and class elements");
     //Proycon
-    public final JMenu proyconSettingsSecondaryMenu = new JMenu("Procyon");
+    public final JMenu procyonSettingsSecondaryMenu = new JMenu("Procyon");
     public final JCheckBoxMenuItem alwaysGenerateExceptionVars = new JCheckBoxMenuItem("Always Generate Exception Variable For Catch Blocks");
     public final JCheckBoxMenuItem excludeNestedTypes = new JCheckBoxMenuItem("Exclude Nested Types");
     public final JCheckBoxMenuItem showDebugLineNumbers = new JCheckBoxMenuItem("Show Debug Line Numbers");
@@ -426,21 +426,21 @@ public class MainViewerGUI extends JFrame {
         visualSettings.add(showClassMethods);
         
         //PROCYON SETTINGS
-        settingsMainMenu.add(proyconSettingsSecondaryMenu);
-        proyconSettingsSecondaryMenu.add(alwaysGenerateExceptionVars);
-        proyconSettingsSecondaryMenu.add(excludeNestedTypes);
-        proyconSettingsSecondaryMenu.add(showDebugLineNumbers);
-        proyconSettingsSecondaryMenu.add(includeLineNumbersInBytecode);
-        proyconSettingsSecondaryMenu.add(includeErrorDiagnostics);
-        proyconSettingsSecondaryMenu.add(showSyntheticMembers);
-        proyconSettingsSecondaryMenu.add(simplifyMemberReferences);
-        proyconSettingsSecondaryMenu.add(mergeVariables);
-        proyconSettingsSecondaryMenu.add(forceExplicitTypeArguments);
-        proyconSettingsSecondaryMenu.add(forceExplicitImports);
-        proyconSettingsSecondaryMenu.add(flattenSwitchBlocks);
-        proyconSettingsSecondaryMenu.add(retainPointlessSwitches);
-        proyconSettingsSecondaryMenu.add(retainRedunantCasts);
-        proyconSettingsSecondaryMenu.add(unicodeOutputEnabled);
+        settingsMainMenu.add(procyonSettingsSecondaryMenu);
+        procyonSettingsSecondaryMenu.add(alwaysGenerateExceptionVars);
+        procyonSettingsSecondaryMenu.add(excludeNestedTypes);
+        procyonSettingsSecondaryMenu.add(showDebugLineNumbers);
+        procyonSettingsSecondaryMenu.add(includeLineNumbersInBytecode);
+        procyonSettingsSecondaryMenu.add(includeErrorDiagnostics);
+        procyonSettingsSecondaryMenu.add(showSyntheticMembers);
+        procyonSettingsSecondaryMenu.add(simplifyMemberReferences);
+        procyonSettingsSecondaryMenu.add(mergeVariables);
+        procyonSettingsSecondaryMenu.add(forceExplicitTypeArguments);
+        procyonSettingsSecondaryMenu.add(forceExplicitImports);
+        procyonSettingsSecondaryMenu.add(flattenSwitchBlocks);
+        procyonSettingsSecondaryMenu.add(retainPointlessSwitches);
+        procyonSettingsSecondaryMenu.add(retainRedunantCasts);
+        procyonSettingsSecondaryMenu.add(unicodeOutputEnabled);
         
         //CFR SETTINGS
         settingsMainMenu.add(cfrSettingsSecondaryMenu);

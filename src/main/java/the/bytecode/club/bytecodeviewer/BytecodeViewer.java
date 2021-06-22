@@ -24,7 +24,7 @@ import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.compilers.Compilers;
 import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceListPane;
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.extras.RunOptions;
 import the.bytecode.club.bytecodeviewer.gui.SearchBoxPane;
@@ -104,7 +104,7 @@ public class BytecodeViewer
     public static Refactorer refactorer = new Refactorer();
     public static List<FileContainer> files = new ArrayList<>(); //all of BCV's loaded files/classes/etc
     public static List<Process> createdProcesses = new ArrayList<>();
-    public static final boolean EXPERIMENTAL_DRAG_TABS = false;
+    public static final boolean EXPERIMENTAL_TAB_CODE = false;
     
     /**
      * The version checker thread
