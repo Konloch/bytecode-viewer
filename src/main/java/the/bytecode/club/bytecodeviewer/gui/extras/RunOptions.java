@@ -45,8 +45,7 @@ public class RunOptions extends JFrame {
         setTitle("Run Options");
         getContentPane().setLayout(null);
 
-        final JCheckBox accessModifiers = new JCheckBox(
-                "Set All Access Modifiers Public");
+        final JCheckBox accessModifiers = new JCheckBox("Set All Access Modifiers Public");
         accessModifiers.setBounds(6, 7, 232, 23);
         getContentPane().add(accessModifiers);
 
@@ -74,8 +73,7 @@ public class RunOptions extends JFrame {
             for (Object o : classNode.methods.toArray()) {
                 MethodNode m = (MethodNode) o;
 
-                if (m.name.equals("main")
-                        && m.desc.equals("([Ljava/lang/String;)V")) {
+                if (m.name.equals("main") && m.desc.equals("([Ljava/lang/String;)V")) {
                     if (!b) {
                         b = true;
                         txtThebytecodeclubexamplemainlstring
@@ -86,8 +84,7 @@ public class RunOptions extends JFrame {
         }
 
         if (!b)
-            txtThebytecodeclubexamplemainlstring
-                    .setText("the/bytecode/club/Example.main");
+            txtThebytecodeclubexamplemainlstring.setText("the/bytecode/club/Example.main");
 
         txtThebytecodeclubexamplemainlstring.setBounds(6, 233, 232, 20);
         getContentPane().add(txtThebytecodeclubexamplemainlstring);
@@ -109,13 +106,11 @@ public class RunOptions extends JFrame {
         textField_1.setBounds(6, 172, 232, 20);
         getContentPane().add(textField_1);
 
-        final JCheckBox forceProxy = new JCheckBox(
-                "Force Proxy (socks5, host:port):");
+        final JCheckBox forceProxy = new JCheckBox("Force Proxy (socks5, host:port):");
         forceProxy.setBounds(6, 142, 232, 23);
         getContentPane().add(forceProxy);
 
-        final JCheckBox launchReflectionKit = new JCheckBox(
-                "Launch Reflection Kit On Successful Invoke");
+        final JCheckBox launchReflectionKit = new JCheckBox("Launch Reflection Kit On Successful Invoke");
         launchReflectionKit.setEnabled(false);
         launchReflectionKit.setBounds(6, 260, 232, 23);
         getContentPane().add(launchReflectionKit);
@@ -125,8 +120,7 @@ public class RunOptions extends JFrame {
         console.setSelected(true);
         getContentPane().add(console);
 
-        final JCheckBox chckbxPrintToTerminal = new JCheckBox(
-                "Print To Command Line");
+        final JCheckBox chckbxPrintToTerminal = new JCheckBox("Print To Command Line");
         chckbxPrintToTerminal.setSelected(true);
         chckbxPrintToTerminal.setBounds(6, 315, 232, 23);
         getContentPane().add(chckbxPrintToTerminal);

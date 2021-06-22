@@ -34,8 +34,10 @@ import the.bytecode.club.bytecodeviewer.util.JarUtils;
  * @author Konloch
  */
 
-public class ExportJar extends JFrame {
-    public ExportJar(final String jarPath) {
+public class ExportJar extends JFrame
+{
+    public ExportJar(final String jarPath)
+    {
         setSize(new Dimension(250, 277));
         setResizable(false);
         setTitle("Save As Jar..");
@@ -44,14 +46,12 @@ public class ExportJar extends JFrame {
         btnNewButton.setMaximumSize(new Dimension(999, 23));
         btnNewButton.setMinimumSize(new Dimension(999, 23));
         btnNewButton.setSize(new Dimension(999, 0));
-        getContentPane().setLayout(
-                new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         JScrollPane scrollPane = new JScrollPane();
         getContentPane().add(scrollPane);
 
-        JLabel lblMetainfmanifestmf = new JLabel("META-INF/MANIFEST.MF:");
-        scrollPane.setColumnHeaderView(lblMetainfmanifestmf);
+        scrollPane.setColumnHeaderView(new JLabel("META-INF/MANIFEST.MF:"));
 
         final JTextArea mani = new JTextArea();
         mani.setText("Manifest-Version: 1.0\r\nClass-Path: .\r\nMain-Class: ");
@@ -61,8 +61,7 @@ public class ExportJar extends JFrame {
         btnNewButton.addActionListener(arg0 -> {
             BytecodeViewer.viewer.updateBusyStatus(true);
             Thread t = new Thread(() -> {
-                JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), jarPath,
-                        mani.getText());
+                JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), jarPath, mani.getText());
                 BytecodeViewer.viewer.updateBusyStatus(false);
             });
             t.start();

@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -47,16 +45,18 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class SystemErrConsole extends JFrame {
-
-    JTextArea textArea = new JTextArea();
-    JPanel panel = new JPanel(new BorderLayout());
-    JScrollPane scrollPane = new JScrollPane();
-    public JCheckBox check = new JCheckBox("Exact");
-    final JTextField field = new JTextField();
+public class SystemErrConsole extends JFrame
+{
+    private final JTextArea textArea = new JTextArea();
+    private final JPanel panel = new JPanel(new BorderLayout());
+    private final JScrollPane scrollPane = new JScrollPane();
+    private final JCheckBox check = new JCheckBox("Exact");
+    private final JTextField field = new JTextField();
     private final PrintStream originalOut;
+    private final JTextAreaOutputStream s;
 
-    public SystemErrConsole(String title) {
+    public SystemErrConsole(String title)
+    {
         this.setIconImages(Resources.iconList);
         setTitle(title);
         setSize(new Dimension(542, 316));
@@ -64,7 +64,8 @@ public class SystemErrConsole extends JFrame {
         getContentPane().add(scrollPane, BorderLayout.CENTER);
 
         scrollPane.setViewportView(textArea);
-        textArea.addKeyListener(new KeyListener() {
+        textArea.addKeyListener(new KeyListener()
+        {
             @Override
             public void keyPressed(KeyEvent e) {
                 if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
@@ -113,13 +114,11 @@ public class SystemErrConsole extends JFrame {
         });
         scrollPane.setColumnHeaderView(panel);
         this.setLocationRelativeTo(null);
-        s = new CustomOutputStream(textArea);
+        s = new JTextAreaOutputStream(textArea);
         PrintStream printStream = new PrintStream(s);
         originalOut = System.err;
         System.setErr(printStream);
     }
-
-    CustomOutputStream s;
 
     public void finished() {
         if (originalOut != null)
@@ -294,24 +293,6 @@ public class SystemErrConsole extends JFrame {
         textArea.setText(t);
         textArea.setCaretPosition(0);
     }
-
-    static class CustomOutputStream extends OutputStream {
-        private final StringBuilder sb = new StringBuilder();
-        private final JTextArea textArea;
-
-        public CustomOutputStream(JTextArea textArea) {
-            this.textArea = textArea;
-        }
-
-        public void update() {
-            textArea.append(sb.toString());
-        }
-
-        @Override
-        public void write(int b) throws IOException {
-            sb.append((char) b);
-        }
-    }
-
+    
     private static final long serialVersionUID = -6556940545421437508L;
 }

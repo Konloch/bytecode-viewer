@@ -36,17 +36,19 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ReplaceStrings;
  * @author Konloch
  */
 
-public class ReplaceStringsOptions extends JFrame {
+public class ReplaceStringsOptions extends JFrame
+{
     public static void open()
     {
-        
         if (BytecodeViewer.getLoadedClasses().isEmpty()) {
             BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
             return;
         }
         new ReplaceStringsOptions().setVisible(true);
     }
-    public ReplaceStringsOptions() {
+    
+    public ReplaceStringsOptions()
+    {
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(250, 176));
         setResizable(false);
@@ -61,49 +63,48 @@ public class ReplaceStringsOptions extends JFrame {
         lblNewLabel.setBounds(6, 40, 67, 14);
         getContentPane().add(lblNewLabel);
 
-        textField = new JTextField();
-        textField.setBounds(80, 37, 158, 20);
-        getContentPane().add(textField);
-        textField.setColumns(10);
+        originalLDC = new JTextField();
+        originalLDC.setBounds(80, 37, 158, 20);
+        getContentPane().add(originalLDC);
+        originalLDC.setColumns(10);
 
         JLabel lblNewLabel_1 = new JLabel("New LDC:");
         lblNewLabel_1.setBounds(6, 65, 77, 14);
         getContentPane().add(lblNewLabel_1);
 
-        textField_1 = new JTextField();
-        textField_1.setColumns(10);
-        textField_1.setBounds(80, 62, 158, 20);
-        getContentPane().add(textField_1);
+        newLDC = new JTextField();
+        newLDC.setColumns(10);
+        newLDC.setBounds(80, 62, 158, 20);
+        getContentPane().add(newLDC);
 
         JLabel lblNewLabel_2 = new JLabel("Class:");
         lblNewLabel_2.setBounds(6, 90, 46, 14);
         getContentPane().add(lblNewLabel_2);
 
-        textField_2 = new JTextField();
-        textField_2.setToolTipText("* will search all classes");
-        textField_2.setText("*");
-        textField_2.setBounds(80, 87, 158, 20);
-        getContentPane().add(textField_2);
-        textField_2.setColumns(10);
+        classToReplaceIn = new JTextField();
+        classToReplaceIn.setToolTipText("* will search all classes");
+        classToReplaceIn.setText("*");
+        classToReplaceIn.setBounds(80, 87, 158, 20);
+        getContentPane().add(classToReplaceIn);
+        classToReplaceIn.setColumns(10);
 
-        final JCheckBox chckbxNewCheckBox = new JCheckBox(
-                "Replace All Contains");
-        chckbxNewCheckBox
-                .setToolTipText("If it's unticked, it will check if the string equals, if its ticked it will check if"
+        final JCheckBox chckbxNewCheckBox = new JCheckBox("Replace All Contains");
+        chckbxNewCheckBox.setToolTipText("If it's unticked, it will check if the string equals, if its ticked it will check if"
                         + " it contains, then replace the original LDC part of the string.");
         chckbxNewCheckBox.setBounds(6, 7, 232, 23);
         getContentPane().add(chckbxNewCheckBox);
         btnNewButton.addActionListener(arg0 -> {
-            PluginManager.runPlugin(new ReplaceStrings(textField.getText(),
-                    textField_1.getText(), textField_2.getText(),
+            PluginManager.runPlugin(new ReplaceStrings(originalLDC.getText(),
+                    newLDC.getText(), classToReplaceIn.getText(),
                     chckbxNewCheckBox.isSelected()));
             dispose();
         });
+        
         this.setLocationRelativeTo(null);
     }
 
     private static final long serialVersionUID = -2662514582647810868L;
-    private final JTextField textField;
-    private final JTextField textField_1;
-    private final JTextField textField_2;
+    private final JTextField originalLDC;
+    private final JTextField newLDC;
+    private final JTextField classToReplaceIn;
 }

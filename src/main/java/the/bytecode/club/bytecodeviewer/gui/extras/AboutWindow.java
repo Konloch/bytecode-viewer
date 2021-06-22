@@ -37,10 +37,12 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class AboutWindow extends JFrame {
+public class AboutWindow extends JFrame
+{
     JTextArea textArea = new JTextArea();
 
-    public AboutWindow() {
+    public AboutWindow()
+    {
         this.setIconImages(Resources.iconList);
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
         setType(Type.UTILITY);
@@ -57,12 +59,13 @@ public class AboutWindow extends JFrame {
     }
 
     @Override
-    public void setVisible(boolean b) {
+    public void setVisible(boolean b)
+    {
         super.setVisible(b);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
-        textArea.setText("Bytecode Viewer " + VERSION + " is an open source program developed and "
-                + "maintained by Konloch (konloch@gmail.com) 100% free and open sourced licensed under GPL v3 "
-                + "CopyLeft\r\n\r\n" +
+        textArea.setText("Bytecode Viewer " + VERSION + " is an open source program developed and " +
+                "maintained by Konloch (konloch@gmail.com) 100% free and open sourced licensed under GPL v3 " +
+                "CopyLeft" + nl + nl +
                 "Settings:" + nl +
                 "	Preview Copy: " + PREVIEW_COPY + nl +
                 "	Fat Jar: " + FAT_JAR + nl +
@@ -81,11 +84,11 @@ public class AboutWindow extends JFrame {
                 "	-help                         Displays the help menu" + nl +
                 "	-list                         Displays the available decompilers" + nl +
                 "	-decompiler <decompiler>      Selects the decompiler, procyon by default" + nl +
-                "	-i <input file>               Selects the input file (Jar, Class, APK, ZIP, DEX all work "
-                + "automatically)" + nl +
+                "	-i <input file>               Selects the input file (Jar, Class, APK, ZIP, DEX all work " +
+                "automatically)" + nl +
                 "	-o <output file>              Selects the output file (Java or Java-Bytecode)" + nl +
-                "	-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile"
-                + " all as zip" + nl +
+                "	-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile" +
+                " all as zip" + nl +
                 "	-nowait                       Doesn't wait for the user to read the CLI messages" + nl + nl +
                 "Keybinds:" + nl +
                 "	CTRL + O: Open/add new jar/class/apk" + nl +
@@ -94,13 +97,13 @@ public class AboutWindow extends JFrame {
                 "	CTRL + T: Compile" + nl +
                 "	CTRL + S: Save classes as zip" + nl +
                 "	CTRL + R: Run (EZ-Inject) - dynamically load the classes and invoke a main class" +
-                "\r\n\r\nCode from various projects has been used, including but not limited to:\r\n	J-RET by "
-                + "WaterWolf\r\n	JHexPane by Sam Koivu\r\n	RSynaxPane by Robert Futrell\r\n	Commons IO by "
-                + "Apache\r\n	ASM by OW2\r\n	FernFlower by Stiver\r\n	Procyon by Mstrobel\r\n	CFR by Lee "
-                + "Benfield\r\n	CFIDE by Bibl\r\n	Smali by JesusFreke\r\n	Dex2Jar by pxb1..?\r\n	Krakatau by "
-                + "Storyyeller\r\n	JD-GUI + JD-Core by The Java-Decompiler Team\r\n	Enjarify by "
-                + "Storyyeller\r\n\r\nIf you're interested in Java Reverse Engineering, join The Bytecode Club - "
-                + "https://the.bytecode.club");
+                "\r\n\r\nCode from various projects has been used, including but not limited to:\r\n	J-RET by " +
+                "WaterWolf\r\n	JHexPane by Sam Koivu\r\n	RSynaxPane by Robert Futrell\r\n	Commons IO by " +
+                "Apache\r\n	ASM by OW2\r\n	FernFlower by Stiver\r\n	Procyon by Mstrobel\r\n	CFR by Lee " +
+                "Benfield\r\n	CFIDE by Bibl\r\n	Smali by JesusFreke\r\n	Dex2Jar by pxb1..?\r\n	Krakatau by " +
+                "Storyyeller\r\n	JD-GUI + JD-Core by The Java-Decompiler Team\r\n	Enjarify by " +
+                "Storyyeller\r\n\r\nIf you're interested in Java Reverse Engineering, join The Bytecode Club - " +
+                "https://the.bytecode.club");
 
     }
 

@@ -31,8 +31,10 @@ import the.bytecode.club.bytecodeviewer.Resources;
  * @author Konloch
  */
 
-public class GraphicalReflectionKit extends JFrame {
-    public GraphicalReflectionKit() {
+public class GraphicalReflectionKit extends JFrame
+{
+    public GraphicalReflectionKit()
+    {
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(382, 356));
         setTitle("Graphical Reflection Kit");

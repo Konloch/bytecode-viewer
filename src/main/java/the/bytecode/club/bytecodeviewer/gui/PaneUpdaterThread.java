@@ -47,7 +47,6 @@ import static the.bytecode.club.bytecodeviewer.gui.TabbedPane.BLANK;
  * @author Konloch
  * @author DreamSworK
  */
-
 public abstract class PaneUpdaterThread extends Thread {
     public ClassViewer viewer;
     public RSyntaxTextArea panelArea;
@@ -62,8 +61,8 @@ public abstract class PaneUpdaterThread extends Thread {
     public void run() {
         doShit();
         synchronizePane();
-        attachCtrlMouseWheelZoom(scrollPane, panelArea); //freezes the UI for some reason, probably cause BCV is
-        // doing dumb shit with the swing thread
+        attachCtrlMouseWheelZoom(scrollPane, panelArea); //freezes the UI for some reason
+        //probably cause BCV is doing dumb shit with the swing thread
     }
 
     public void attachCtrlMouseWheelZoom(RTextScrollPane scrollPane, RSyntaxTextArea panelArea) {

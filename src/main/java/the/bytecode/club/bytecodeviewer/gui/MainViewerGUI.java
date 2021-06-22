@@ -32,6 +32,7 @@ import the.bytecode.club.bytecodeviewer.gui.extras.AboutWindow;
 import the.bytecode.club.bytecodeviewer.gui.extras.RunOptions;
 import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptions;
 import the.bytecode.club.bytecodeviewer.gui.plugins.ReplaceStringsOptions;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;

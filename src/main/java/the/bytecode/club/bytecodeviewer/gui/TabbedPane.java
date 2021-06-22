@@ -14,14 +14,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
@@ -55,6 +48,8 @@ public class TabbedPane extends JPanel {
     public static final Color BLANK = new Color(0, 0, 0, 0);
     private final JTabbedPane pane;
     public final JLabel label;
+    private DelayTabbedPaneThread probablyABadIdea;
+    private long startedDragging = 0;
     private static long zero = System.currentTimeMillis();
     public String tabName;
     public String fileContainerName;
@@ -159,48 +154,40 @@ public class TabbedPane extends JPanel {
             public void mouseReleased(MouseEvent e) {
             }
         });
-        /*this.addMouseListener(new MouseListener() {
-            @Override public void mouseClicked(MouseEvent e) {}
-            @Override public void mouseEntered(MouseEvent arg0) {
-            }
-            @Override public void mouseExited(MouseEvent arg0) {
-            }
-            @Override public void mousePressed(MouseEvent e) {
-                if(e.getButton() == 1)
-                {
-                    startedDragging = System.currentTimeMillis();
-                    dragging = true;
-                    if (probablyABadIdea != null)
-                    {
-                        probablyABadIdea.stopped = true;
-                    }
-                    probablyABadIdea = new DelayTabbedPaneThread(THIS);
-                    probablyABadIdea.start();
-                    repaint();
-                    System.out.println(e.getX()+", "+e.getY());
-                    Rectangle bounds = new Rectangle(1, 1, e.getX(), e.getY());
-                    for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
-                    {
-                        Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
-                        if(c != null && bounds.intersects(c.getBounds()))
-                        {
-                            BytecodeViewer.viewer.workPane.tabs.setSelectedIndex(i);
-                        }
-                    }
+        
+        if(BytecodeViewer.EXPERIMENTAL_DRAG_TABS)
+        {
+            /*label.addMouseListener(new MouseListener() {
+                @Override public void mouseClicked(MouseEvent e) {}
+                @Override public void mouseEntered(MouseEvent arg0) {
                 }
-                else
-                {
+                @Override public void mouseExited(MouseEvent arg0) {
+                }
+                @Override public void mousePressed(MouseEvent e) {
+                    onMousePressed(e);
+                }
+                @Override public void mouseReleased(MouseEvent e) {
                     stopDragging(e.getX(), e.getY());
                 }
-            }
-            @Override public void mouseReleased(MouseEvent e) {
-                stopDragging(e.getX(), e.getY());
-            }
-        });*/
+            });*/
+            
+            this.addMouseListener(new MouseListener() {
+                @Override public void mouseClicked(MouseEvent e) {}
+                @Override public void mouseEntered(MouseEvent arg0) {
+                }
+                @Override public void mouseExited(MouseEvent arg0) {
+                }
+                @Override public void mousePressed(MouseEvent e) {
+                    onMousePressed(e);
+                }
+                @Override public void mouseReleased(MouseEvent e) {
+                    stopDragging(e.getX(), e.getY());
+                }
+            });
+        }
     }
 
     private void stopDragging(int mouseX, int mouseY) {
-        long startedDragging = 0;
         if (System.currentTimeMillis() - startedDragging >= 210) {
             Rectangle bounds = new Rectangle(1, 1, mouseX, mouseY);
             System.out.println("debug-5: " + mouseX + ", " + mouseY);
@@ -228,8 +215,43 @@ public class TabbedPane extends JPanel {
                 BytecodeViewer.viewer.workPane.tabs.setTabComponentAt(index, this);
             }
         }
-        label.setBackground(BLANK);
-        label.updateUI();
+        SwingUtilities.invokeLater(() ->
+        {
+            label.setBackground(BLANK);
+            label.updateUI();
+        });
+    }
+    
+    public void onMousePressed(MouseEvent e)
+    {
+        BytecodeViewer.viewer.workPane.tabs.dispatchEvent(e);
+    
+        if(e.getButton() == 1)
+        {
+            startedDragging = System.currentTimeMillis();
+            //dragging = true;
+            if (probablyABadIdea != null)
+            {
+                probablyABadIdea.stopped = true;
+            }
+            probablyABadIdea = new DelayTabbedPaneThread(TabbedPane.this);
+            probablyABadIdea.start();
+            repaint();
+            System.out.println(e.getX()+", "+e.getY());
+            Rectangle bounds = new Rectangle(1, 1, e.getX(), e.getY());
+            for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
+            {
+                Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
+                if(c != null && bounds.intersects(c.getBounds()))
+                {
+                    BytecodeViewer.viewer.workPane.tabs.setSelectedIndex(i);
+                }
+            }
+        }
+        else
+        {
+            stopDragging(e.getX(), e.getY());
+        }
     }
 
     private class TabButton extends JButton implements ActionListener {
