@@ -67,10 +67,6 @@ Just clone this repo and run ``mvn package``. It's that simple!
 
 Open the Maven project (e.g. in IntelliJ, open the ``pom.xml`` as a project file).
 
-## Exporting as jar
-
-Using Intellij create a new artifact jar and build it, if the META-INF is overwritten replace it with the one in src/main/resources.
-
 ## Java Heap Space Issues
 Start BCV with more RAM, e.g. `java -Xmx3G -jar BCV.jar`
 
