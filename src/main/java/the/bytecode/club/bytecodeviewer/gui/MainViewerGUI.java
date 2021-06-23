@@ -155,7 +155,7 @@ public class MainViewerGUI extends JFrame {
     public final JCheckBoxMenuItem decodeAPKResources = new JCheckBoxMenuItem("Decode APK Resources");
     public final JCheckBoxMenuItem synchronizedViewing = new JCheckBoxMenuItem("Synchronized Viewing");
     public final JCheckBoxMenuItem showClassMethods = new JCheckBoxMenuItem("Show Class Methods");
-    public final JCheckBoxMenuItem darkMode = new JCheckBoxMenuItem("Force Dark Mode");
+    public final JCheckBoxMenuItem darkMode = new JCheckBoxMenuItem("Force Dark Mode (Requires Restart)");
     public final Map<RSTATheme, JCheckBoxMenuItem> themes = new HashMap<>();
     //CFIDE settings
     public final JCheckBoxMenuItem appendBracketsToLabels = new JCheckBoxMenuItem("Append Brackets To Labels");
