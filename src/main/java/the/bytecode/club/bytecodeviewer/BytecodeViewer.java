@@ -105,7 +105,7 @@ public class BytecodeViewer
     public static List<FileContainer> files = new ArrayList<>(); //all of BCV's loaded files/classes/etc
     public static List<Process> createdProcesses = new ArrayList<>();
     public static final boolean EXPERIMENTAL_TAB_CODE = false;
-    
+
     /**
      * The version checker thread
      */
@@ -155,14 +155,16 @@ public class BytecodeViewer
      * @throws IOException
      */
     public static byte[] getClassFile(Class<?> clazz) throws IOException {
-        InputStream is = clazz.getResourceAsStream("/" + clazz.getName().replace('.', '/') + ".class");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int r;
-        byte[] buffer = new byte[8192];
-        while ((r = Objects.requireNonNull(is).read(buffer)) >= 0) {
-            baos.write(buffer, 0, r);
+        try (InputStream is = clazz.getResourceAsStream(
+                "/" + clazz.getName().replace('.', '/') + ".class");
+             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            int r;
+            byte[] buffer = new byte[8192];
+            while ((r = Objects.requireNonNull(is).read(buffer)) >= 0) {
+                baos.write(buffer, 0, r);
+            }
+            return baos.toByteArray();
         }
-        return baos.toByteArray();
     }
 
     /**
@@ -825,7 +827,7 @@ public class BytecodeViewer
                 return files;
             }
         }
-    
+
         Configuration.currentlyDumping = true;
         Configuration.needsReDump = false;
         Configuration.krakatauTempDir = new File(tempDirectory + fs + MiscUtils.randomString(32) + fs);
