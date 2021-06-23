@@ -149,10 +149,8 @@ public class ViewPane
 			return true;
 		if((group.isSelected(krakatau.getJava().getModel()) || group.isSelected(krakatau.getBytecode().getModel())) && krakatau.getEditable().isSelected())
 			return true;
-		if(group.isSelected(smali.getJava().getModel()) && krakatau.getEditable().isSelected())
-			return true;
-		
-		return false;
+
+		return group.isSelected(smali.getJava().getModel()) && krakatau.getEditable().isSelected();
 	}
 	
 	public ButtonGroup getGroup()

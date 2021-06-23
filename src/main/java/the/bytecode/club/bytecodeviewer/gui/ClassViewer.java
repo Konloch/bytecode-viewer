@@ -462,7 +462,7 @@ public class ClassViewer extends Viewer {
 
                     BytecodeViewer.viewer.updateBusyStatus(true);
                     if (pane1 == 1) { // procyon
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -500,7 +500,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 2) {// cfr
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -536,7 +536,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 3) {// fern
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -572,7 +572,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 4) {// bytecode
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -616,7 +616,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 6) {//smali bytecode
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -651,7 +651,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 7) {// krakatau
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -688,7 +688,7 @@ public class ClassViewer extends Viewer {
 
 
                     if (pane1 == 8) {// kraktau bytecode
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -723,7 +723,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 9) {// JD-GUI
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -759,7 +759,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 10) {// JADX
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -795,7 +795,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane1 == 11) {// asm text
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setAntiAliasingEnabled(true);
                         scrollPane = new RTextScrollPane(panelArea);
@@ -852,7 +852,7 @@ public class ClassViewer extends Viewer {
 
                     BytecodeViewer.viewer.updateBusyStatus(true);
                     if (pane2 == 1) {
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -888,7 +888,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 2) {
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -924,7 +924,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 3) {
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -960,7 +960,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 4) {
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1005,7 +1005,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 6) {
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1041,7 +1041,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 7) {// krakatau
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1077,7 +1077,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 8) {// kraktau bytecode
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1113,7 +1113,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 9) {// JD-GUI
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1149,7 +1149,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 10) {// JADX
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1185,7 +1185,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane2 == 11) {// asm text
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setAntiAliasingEnabled(true);
                         scrollPane = new RTextScrollPane(panelArea);
@@ -1241,7 +1241,7 @@ public class ClassViewer extends Viewer {
 
                     BytecodeViewer.viewer.updateBusyStatus(true);
                     if (pane3 == 1) {
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1277,7 +1277,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 2) {
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea
                                 .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
@@ -1314,7 +1314,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 3) {
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea
                                 .setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
@@ -1351,7 +1351,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 4) {
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1396,7 +1396,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 6) {
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1432,7 +1432,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 7) {// krakatau
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1467,7 +1467,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 8) {// kraktau bytecode
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1503,7 +1503,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 9) {// JD-GUI
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1538,7 +1538,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 10) {// JADX
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setCodeFoldingEnabled(true);
                         panelArea.setAntiAliasingEnabled(true);
@@ -1574,7 +1574,7 @@ public class ClassViewer extends Viewer {
                     }
 
                     if (pane3 == 11) {// asm text
-                        panelArea = new RSyntaxTextArea();
+                        panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
                         panelArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
                         panelArea.setAntiAliasingEnabled(true);
                         scrollPane = new RTextScrollPane(panelArea);

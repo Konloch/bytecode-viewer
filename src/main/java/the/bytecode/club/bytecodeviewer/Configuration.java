@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer;
 
 import java.io.File;
+import the.bytecode.club.bytecodeviewer.gui.RSTATheme;
 
 /**
  * @author Konloch
@@ -30,4 +31,7 @@ public class Configuration
 	public static boolean verifyCorruptedStateOnBoot = false; //eventually may be a setting
 	
 	public static long lastHotKeyExecuted = System.currentTimeMillis();
+
+	public static boolean dark = false;
+	public static RSTATheme rstaTheme = RSTATheme.DEFAULT;
 }

@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer;
 
+import com.bulenkov.darcula.DarculaLaf;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,17 +25,38 @@ import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.compilers.Compilers;
 import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
-import the.bytecode.club.bytecodeviewer.gui.extras.RunOptions;
 import the.bytecode.club.bytecodeviewer.gui.SearchBoxPane;
-import the.bytecode.club.bytecodeviewer.gui.extras.SystemErrConsole;
 import the.bytecode.club.bytecodeviewer.gui.WorkPane;
+import the.bytecode.club.bytecodeviewer.gui.extras.RunOptions;
+import the.bytecode.club.bytecodeviewer.gui.extras.SystemErrConsole;
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
-import the.bytecode.club.bytecodeviewer.util.*;
+import the.bytecode.club.bytecodeviewer.util.BootCheck;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.JRTExtractor;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.OpenFile;
+import the.bytecode.club.bytecodeviewer.util.SecurityMan;
+import the.bytecode.club.bytecodeviewer.util.VersionChecker;
 
-import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.Constants.FAT_JAR;
+import static the.bytecode.club.bytecodeviewer.Constants.OFFLINE_MODE;
+import static the.bytecode.club.bytecodeviewer.Constants.PREVIEW_COPY;
+import static the.bytecode.club.bytecodeviewer.Constants.RT_JAR;
+import static the.bytecode.club.bytecodeviewer.Constants.RT_JAR_DUMPED;
+import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
+import static the.bytecode.club.bytecodeviewer.Constants.filesName;
+import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.maxRecentFiles;
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.pluginsName;
+import static the.bytecode.club.bytecodeviewer.Constants.recentFiles;
+import static the.bytecode.club.bytecodeviewer.Constants.recentPlugins;
+import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -56,23 +78,23 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /**
  * A lightweight Java Reverse Engineering suite, developed by Konloch - http://konloch.me
- *
+ * <p>
  * All you have to do is add a jar or class file into the workspace,
  * select the file you want then it will start decompiling the class in the background.
  * When it's done it will show the Source code, Bytecode and Hexcode of the class file you chose.
- *
+ * <p>
  * There is also a plugin system that will allow you to interact with the loaded classfiles.
  * For example you can write a String deobfuscator, a malicious code searcher,
  * or anything else you can think of.
- *
+ * <p>
  * You can either use one of the pre-written plugins, or write your own. It supports java scripting.
  * Once a plugin is activated, it will send a ClassNode ArrayList of every single class loaded in the
  * file system to the execute function, this allows the user to handle it completely using ASM.
- *
+ * <p>
  * Are you a Java Reverse Engineer? Or maybe you want to learn Java Reverse Engineering?
  * Join The Bytecode Club, we're noob friendly, and censorship free.
  * http://the.bytecode.club
- *
+ * <p>
  * TODO:
  *  open as folder doesn't actually work
  *  smali compile
@@ -95,8 +117,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author The entire BCV community
  */
 
-public class BytecodeViewer
-{
+public class BytecodeViewer {
     public static String[] args;
     public static MainViewerGUI viewer = null;
     public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV,
@@ -174,16 +195,24 @@ public class BytecodeViewer
      */
     public static void main(String[] args) {
         BytecodeViewer.args = args;
-        System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + VERSION + ", " + "Fat-Jar: " + FAT_JAR);
+        System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + VERSION + ", " +
+                "Fat-Jar: " + FAT_JAR);
         System.setSecurityManager(sm);
-        
+
         try {
+            Settings.loadThemeSettings();
             UIManager.put("MenuItem.disabledAreNavigable", Boolean.FALSE);
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            if (Configuration.dark) {
+                UIManager.setLookAndFeel(new DarculaLaf());
+            } else {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            }
+
             if (PREVIEW_COPY && !CommandLineInput.containsCommand(args))
                 showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when " + VERSION + " is "
                         + "actually out if you use this." + nl +
-                        "Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for " + VERSION + "'s release");
+                        "Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for " + VERSION +
+                        "'s release");
 
             viewer = new MainViewerGUI();
             Settings.loadSettings();

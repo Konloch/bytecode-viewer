@@ -185,7 +185,7 @@ public abstract class PaneUpdaterThread extends Thread {
     };
 
     class MethodsRenderer extends JLabel implements ListCellRenderer<Object> {
-        public MethodsRenderer() {
+        MethodsRenderer() {
             setOpaque(true);
         }
 

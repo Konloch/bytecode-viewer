@@ -24,6 +24,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.imgscalr.Scalr;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
@@ -59,7 +60,7 @@ public class FileViewer extends Viewer {
 
     String name;
     private final byte[] contents;
-    RSyntaxTextArea panelArea = new RSyntaxTextArea();
+    RSyntaxTextArea panelArea = Configuration.rstaTheme.apply(new RSyntaxTextArea());
     JPanel panel = new JPanel(new BorderLayout());
     JPanel panel2 = new JPanel(new BorderLayout());
     public JCheckBox check = new JCheckBox("Exact");

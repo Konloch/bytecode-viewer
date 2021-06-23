@@ -3,6 +3,8 @@ package the.bytecode.club.bytecodeviewer;
 import javax.swing.JFrame;
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
+import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
+import the.bytecode.club.bytecodeviewer.gui.RSTATheme;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -291,6 +293,14 @@ public class Settings {
                     String.valueOf(BytecodeViewer.viewer.ren.isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.viewPane1.getJADX().getEditable().isSelected()), false);
+
+            // Theme settings
+            DiskWriter.replaceFile(themeSettingsName,
+                    "BCV: " + VERSION, false);
+            DiskWriter.writeNewLine(themeSettingsName,
+                    String.valueOf(BytecodeViewer.viewer.darkMode.isSelected()), false);
+            DiskWriter.writeNewLine(themeSettingsName,
+                    Configuration.rstaTheme.getName(), false);
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
@@ -437,6 +447,17 @@ public class Settings {
             BytecodeViewer.viewer.showClassMethods.setSelected(asBoolean(124));
             BytecodeViewer.viewer.ren.setSelected(asBoolean(125));
             BytecodeViewer.viewer.viewPane1.getJADX().getEditable().setSelected(asBoolean(126));
+            BytecodeViewer.viewer.darkMode.setSelected(Boolean.parseBoolean(DiskReader.loadString(themeSettingsName, 1, false)));
+        } catch (Exception e) {
+            //ignore because errors are expected, first start up and outdated settings.
+            //e.printStackTrace();
+        }
+    }
+
+    public static void loadThemeSettings() { //utilizes the Disk Reader's caching system.
+        try {
+            Configuration.dark = Boolean.parseBoolean(DiskReader.loadString(themeSettingsName, 1, true));
+            Configuration.rstaTheme = RSTATheme.parse(DiskReader.loadString(themeSettingsName, 2, false));
         } catch (Exception e) {
             //ignore because errors are expected, first start up and outdated settings.
             //e.printStackTrace();

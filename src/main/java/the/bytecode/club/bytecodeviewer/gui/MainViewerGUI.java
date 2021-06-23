@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
@@ -132,6 +134,7 @@ public class MainViewerGUI extends JFrame {
     public final JRadioButtonMenuItem apkConversionEnjarify = new JRadioButtonMenuItem("Enjarify");
     public final JMenu fontSize = new JMenu("Font Size");
     public final JSpinner fontSpinner = new JSpinner();
+    public final JMenu rstaTheme = new JMenu("Text Area Theme");
     //BCV settings
     public final JCheckBoxMenuItem refreshOnChange = new JCheckBoxMenuItem("Refresh On View Change");
     private final JCheckBoxMenuItem deleteForeignOutdatedLibs = new JCheckBoxMenuItem("Delete Foreign/Outdated Libs");
@@ -152,6 +155,8 @@ public class MainViewerGUI extends JFrame {
     public final JCheckBoxMenuItem decodeAPKResources = new JCheckBoxMenuItem("Decode APK Resources");
     public final JCheckBoxMenuItem synchronizedViewing = new JCheckBoxMenuItem("Synchronized Viewing");
     public final JCheckBoxMenuItem showClassMethods = new JCheckBoxMenuItem("Show Class Methods");
+    public final JCheckBoxMenuItem darkMode = new JCheckBoxMenuItem("Force Dark Mode");
+    public final Map<RSTATheme, JCheckBoxMenuItem> themes = new HashMap<>();
     //CFIDE settings
     public final JCheckBoxMenuItem appendBracketsToLabels = new JCheckBoxMenuItem("Append Brackets To Labels");
     public JCheckBoxMenuItem debugHelpers = new JCheckBoxMenuItem("Debug Helpers");
@@ -420,6 +425,22 @@ public class MainViewerGUI extends JFrame {
         fontSpinner.setSize(new Dimension(42, 20));
         fontSpinner.setModel(new SpinnerNumberModel(12, 1, null, 1));
         fontSize.add(fontSpinner);
+        for (RSTATheme t : RSTATheme.VALUES) {
+            JCheckBoxMenuItem item = new JCheckBoxMenuItem(t.getFriendlyName());
+            if (Configuration.rstaTheme.equals(t)) {
+                item.setSelected(true);
+            }
+            item.addActionListener(e -> {
+                themes.get(Configuration.rstaTheme).setSelected(false);
+                Configuration.rstaTheme = t;
+                item.setSelected(true);
+                Settings.saveSettings();
+            });
+            themes.put(t, item);
+            rstaTheme.add(item);
+        }
+        visualSettings.add(darkMode);
+        visualSettings.add(rstaTheme);
         visualSettings.add(fontSize);
         visualSettings.add(showFileInTabTitle);
         visualSettings.add(synchronizedViewing);

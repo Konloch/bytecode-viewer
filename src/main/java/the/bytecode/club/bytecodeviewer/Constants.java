@@ -33,6 +33,7 @@ public class Constants
 	public static final String filesName = getBCVDirectory() + fs + "recentfiles.json";
 	public static final String pluginsName = getBCVDirectory() + fs + "recentplugins.json";
 	public static final String settingsName = getBCVDirectory() + fs + "settings.bcv";
+	public static final String themeSettingsName = getBCVDirectory() + fs + "theme.bcv";
 	public static final String tempDirectory = getBCVDirectory() + fs + "bcv_temp" + fs;
 	public static final String libsDirectory = getBCVDirectory() + fs + "libs" + fs;
 	public static String krakatauWorkingDirectory = getBCVDirectory() + fs + "krakatau_" + krakatauVersion;

@@ -219,6 +219,11 @@
             <artifactId>D2Jar-obf</artifactId>
             <version>1.0bcv</version>
         </dependency>
+        <dependency>
+            <groupId>com.bulenkov</groupId>
+            <artifactId>darcula</artifactId>
+            <version>2017.11bcv</version>
+        </dependency>
     </dependencies>
 
     <build>
