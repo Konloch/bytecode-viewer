@@ -14,6 +14,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.components.ButtonHoverAnimation;
 import the.bytecode.club.bytecodeviewer.gui.components.MaxWidthJLabel;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.MouseClickedListener;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.gui.util.DelayTabbedPaneThread;
 
 /***************************************************************************
@@ -48,18 +49,20 @@ public class TabbedPane extends JPanel
     private long startedDragging = 0;
     public final String tabName;
     public final String fileContainerName;
+    public final ResourceViewer resource;
     private static long lastMouseClick = System.currentTimeMillis();
     public final static MouseListener buttonHoverAnimation = new ButtonHoverAnimation();
     public static final Color BLANK_COLOR = new Color(0, 0, 0, 0);
     
-    public TabbedPane(int tabIndex, String tabWorkingName, String fileContainerName, String name, final JTabbedPane existingTabs)
+    public TabbedPane(int tabIndex, String tabWorkingName, String fileContainerName, String name, final JTabbedPane existingTabs, ResourceViewer resource)
     {
         // unset default FlowLayout' gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
         this.tabName = name;
         this.fileContainerName = fileContainerName;
-
+        this.resource = resource;
+    
         if (existingTabs == null)
             throw new NullPointerException("TabbedPane is null");
 

@@ -20,6 +20,7 @@ import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.compilers.Compilers;
 import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourcePanelCompileMode;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
@@ -27,6 +28,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
 import the.bytecode.club.bytecodeviewer.gui.resourcesearch.SearchBoxPane;
 import the.bytecode.club.bytecodeviewer.gui.components.SystemErrConsole;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkPaneMainComponent;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.util.*;
@@ -71,6 +73,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * http://the.bytecode.club
  *
  * TODO BUGS:
+ *      + Removing a tab disrupts the tab order
+ *          Tab index orders need to be recounted on removal probably
  *      + Last selected directory isn't set on most file chooser dialogues
  *      + Synchronized scrolling is broken
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
@@ -599,6 +603,15 @@ public class BytecodeViewer
 
         while (!tempF.exists()) // keep making dirs
             tempF.mkdir();
+    }
+    
+    public static void refreshAllTabTitles()
+    {
+        for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
+        {
+            ResourceViewer viewer = ((TabbedPane) BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i)).resource;
+            viewer.refreshTitle();
+        }
     }
 
     /**

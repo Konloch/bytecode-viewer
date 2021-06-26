@@ -14,13 +14,11 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
 
@@ -164,16 +162,16 @@ public class WorkPaneMainComponent extends VisibleComponent
 
         if (!workingOn.containsKey(workingName))
         {
-            final ClassViewer tabComp = new ClassViewer(container, name, cn, workingName);
-            tabs.add(tabComp);
-            final int tabIndex = tabs.indexOfComponent(tabComp);
+            final ClassViewer resourceView = new ClassViewer(container, name, cn, workingName);
+            tabs.add(resourceView);
+            final int tabIndex = tabs.indexOfComponent(resourceView);
             workingOn.put(workingName, tabIndex);
             
-            TabbedPane tabbedPane = new TabbedPane(tabIndex, workingName, container.name, name, tabs);
-            tabComp.tabbedPane = tabbedPane;
+            TabbedPane tabbedPane = new TabbedPane(tabIndex, workingName, container.name, name, tabs, resourceView);
+            resourceView.tabbedPane = tabbedPane;
             tabs.setTabComponentAt(tabIndex, tabbedPane);
             tabs.setSelectedIndex(tabIndex);
-            tabComp.refreshTitle();
+            resourceView.refreshTitle();
         }
         else
         {
@@ -196,16 +194,16 @@ public class WorkPaneMainComponent extends VisibleComponent
 
         if (!workingOn.containsKey(workingName))
         {
-            final FileViewer tabComp = new FileViewer(container, name, contents, workingName);
-            tabs.add(tabComp);
-            final int tabIndex = tabs.indexOfComponent(tabComp);
+            final FileViewer resourceView = new FileViewer(container, name, contents, workingName);
+            tabs.add(resourceView);
+            final int tabIndex = tabs.indexOfComponent(resourceView);
             workingOn.put(workingName, tabIndex);
 
-            TabbedPane tabbedPane = new TabbedPane(tabIndex, workingName, container.name, name, tabs);
-            tabComp.tabbedPane = tabbedPane;
+            TabbedPane tabbedPane = new TabbedPane(tabIndex, workingName, container.name, name, tabs, resourceView);
+            resourceView.tabbedPane = tabbedPane;
             tabs.setTabComponentAt(tabIndex, tabbedPane);
             tabs.setSelectedIndex(tabIndex);
-            tabComp.refreshTitle();
+            resourceView.refreshTitle();
         }
         else
         {

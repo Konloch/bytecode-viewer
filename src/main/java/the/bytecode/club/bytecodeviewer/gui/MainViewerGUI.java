@@ -544,10 +544,12 @@ public class MainViewerGUI extends JFrame
         showFileInTabTitle.addActionListener(arg0 -> {
             Configuration.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
             Settings.saveSettings();
+            BytecodeViewer.refreshAllTabTitles();
         });
         simplifyNameInTabTitle.addActionListener(arg0 -> {
             Configuration.simplifiedTabNames = BytecodeViewer.viewer.simplifyNameInTabTitle.isSelected();
             Settings.saveSettings();
+            BytecodeViewer.refreshAllTabTitles();
         });
     }
     
