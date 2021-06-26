@@ -10,6 +10,6 @@ class Skeleton < Plugin
   def execute(classNodeList)
     gui = PluginConsole.new "Skeleton"
     gui.setVisible(true)
-    gui.appendText("exceuted skeleton")
+    gui.appendText("executed skeleton")
   end
 end
