@@ -1,13 +1,14 @@
 package the.bytecode.club.bytecodeviewer.plugin.strategies;
 
+import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
+import javax.script.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
+import java.util.ArrayList;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -32,19 +33,41 @@ import java.io.Reader;
  * @author Bibl (don't ban me pls)
  * @since 06/25/2021
  */
-public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy {
-
+public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
+{
+    public static final String firstPickEngine = "rhino";
+    public static final String fallBackEngine = "nashorn";
+    
     @Override
-    public Plugin run(File file) throws Throwable {
+    public Plugin run(File file) throws Throwable
+    {
         ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("rhino");
+        ScriptEngine engine = manager.getEngineByName(firstPickEngine);
 
         if (engine == null)
-            throw new Exception("Cannot find Rhino script engine! Please contact Konloch.");
+            engine = manager.getEngineByName(fallBackEngine);
+        
+        if (engine == null)
+            throw new Exception("Cannot find Javascript script engine! Please contact Konloch.");
 
         Reader reader = new FileReader(file);
         engine.eval(reader);
-
-        return (Plugin) engine.eval(file.getName().replace(".js", "") + ".new");
+    
+        ScriptEngine finalEngine = engine;
+        return new Plugin()
+        {
+            @Override
+            public void execute(ArrayList<ClassNode> classNodeList)
+            {
+                try
+                {
+                    ((Invocable) finalEngine).invokeFunction("execute", classNodeList);
+                }
+                catch (NoSuchMethodException | ScriptException e)
+                {
+                    new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                }
+            }
+        };
     }
 }
