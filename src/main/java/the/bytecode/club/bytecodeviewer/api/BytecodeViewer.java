@@ -261,6 +261,15 @@ public class BytecodeViewer {
     }
 
     /**
+     * Returns the wrapped Java Compiler instance.
+     *
+     * @return The wrapped Java Compiler instance
+     */
+    public static InternalCompiler getJavaCompiler() {
+        return Compiler.JAVA_COMPILER.getCompiler();
+    }
+
+    /**
      * Returns the wrapped Krakatau Assembler instance.
      *
      * @return The wrapped Krakatau Assembler instance
