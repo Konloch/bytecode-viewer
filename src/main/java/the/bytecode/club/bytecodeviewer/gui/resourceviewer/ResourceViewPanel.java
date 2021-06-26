@@ -45,10 +45,13 @@ public class ResourceViewPanel
 	
 	public void updatePane(ClassViewer cv, byte[] b, JButton button, boolean isPanelEditable)
 	{
-		updateThread = new PaneUpdaterThread(panelIndex, decompilerViewIndex) {
+		updateThread = new PaneUpdaterThread(panelIndex, decompilerViewIndex)
+		{
 			@Override
-			public void doShit() {
-				try {
+			public void doShit()
+			{
+				try
+				{
 					BytecodeViewer.viewer.updateBusyStatus(true);
 					
 					if(ResourceViewPanel.this.decompilerViewIndex > 0)
@@ -70,9 +73,11 @@ public class ResourceViewPanel
 							updateUpdaterTextArea = (SearchableRSyntaxTextArea) Configuration.rstaTheme.apply(new SearchableRSyntaxTextArea());
 							
 							final Decompiler decompiler = Decompiler.decompilersByIndex.get(ResourceViewPanel.this.decompilerViewIndex);
-							final String decompiledSource = decompiler.getDecompiler().decompileClassNode(cv.cn, b);
-							//decompilerUpdate.update(decompiler.getDecompilerName(), cv.cn, b, decompiler.getDecompiler(), updateUpdaterTextArea);
 							
+							//perform decompiling inside of this thread
+							final String decompiledSource = decompiler.getDecompiler().decompileClassNode(cv.cn, b);
+							
+							//set the swing components on the swing thread
 							SwingUtilities.invokeLater(() ->
 							{
 								panel.add(updateUpdaterTextArea.getScrollPane());

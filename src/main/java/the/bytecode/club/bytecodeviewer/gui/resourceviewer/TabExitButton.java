@@ -10,13 +10,13 @@ import java.awt.event.ActionListener;
  * @author Konloch
  * @since 6/25/2021
  */
-public class TabButton extends JButton implements ActionListener
+public class TabExitButton extends JButton implements ActionListener
 {
 	private final TabbedPane tabbedPane;
 	private final int tabIndex;
 	private final String tabWorkingName;
 	
-	public TabButton(TabbedPane tabbedPane, int tabIndex, String tabWorkingName)
+	public TabExitButton(TabbedPane tabbedPane, int tabIndex, String tabWorkingName)
 	{
 		this.tabbedPane = tabbedPane;
 		this.tabIndex = tabIndex;

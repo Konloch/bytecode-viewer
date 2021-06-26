@@ -67,16 +67,16 @@ public class WorkPaneMainComponent extends VisibleComponent
         JMenuItem closeTab = new JMenuItem("Close Tab");
         closeTab.addActionListener(e ->
         {
-            TabButton tabButton = (TabButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
-            final int index = tabButton.getTabIndex();
+            TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
+            final int index = tabExitButton.getTabIndex();
             
             if (index != -1)
                 tabs.remove(index);
         });
         closeAllTabs.addActionListener(e ->
         {
-            TabButton tabButton = (TabButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
-            final int index = tabButton.getTabIndex();
+            TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
+            final int index = tabExitButton.getTabIndex();
     
             while (true)
             {

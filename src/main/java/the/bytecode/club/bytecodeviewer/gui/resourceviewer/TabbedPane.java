@@ -73,8 +73,8 @@ public class TabbedPane extends JPanel
         // add more space between the label and the button
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
         // tab button
-        JButton button = new TabButton(this, tabIndex, tabWorkingName);
-        this.add(button);
+        JButton exitButton = new TabExitButton(this, tabIndex, tabWorkingName);
+        this.add(exitButton);
         // add more space to the top of the component
         setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
         
@@ -87,8 +87,8 @@ public class TabbedPane extends JPanel
         rightClickMenu.add(closeTab);
         //setComponentPopupMenu(rightClickMenu);
         
-        button.setComponentPopupMenu(rightClickMenu);
-        button.addMouseListener(new MouseClickedListener(e ->
+        exitButton.setComponentPopupMenu(rightClickMenu);
+        exitButton.addMouseListener(new MouseClickedListener(e ->
         {
             if (e.getModifiers() != InputEvent.ALT_MASK || System.currentTimeMillis() - lastMouseClick < 100)
                 return;
@@ -101,16 +101,16 @@ public class TabbedPane extends JPanel
         
         closeTab.addActionListener(e ->
         {
-            TabButton tabButton = (TabButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
-            final int index = tabButton.getTabIndex();
+            TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
+            final int index = tabExitButton.getTabIndex();
     
             if (index != -1)
                 existingTabs.remove(index);
         });
         closeAllTabs.addActionListener(e ->
         {
-            TabButton tabButton = (TabButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
-            final int index = tabButton.getTabIndex();
+            TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
+            final int index = tabExitButton.getTabIndex();
             
             while (true)
             {
