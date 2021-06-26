@@ -92,7 +92,9 @@ public class FileViewer extends ResourceViewer
                     nameLowerCase.endsWith(".gif") || nameLowerCase.endsWith(".tif") || nameLowerCase.endsWith(".bmp"))
             {
                 canRefresh = true;
+                
                 image = MiscUtils.loadImage(image, contents); //gifs fail because of this
+                
                 mainPanel.add(new ImageJLabel(image), BorderLayout.CENTER);
                 mainPanel.addMouseWheelListener(e ->
                 {

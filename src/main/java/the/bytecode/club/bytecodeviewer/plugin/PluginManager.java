@@ -7,11 +7,7 @@ import java.util.Set;
 import javax.swing.filechooser.FileFilter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.CompiledJavaPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.GroovyPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.JavaPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.PythonPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.RubyPluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.plugin.strategies.*;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
@@ -47,9 +43,11 @@ public final class PluginManager {
     private static final PluginFileFilter filter = new PluginFileFilter();
     private static Plugin pluginInstance;
 
-    static {
+    static
+    {
         launchStrategies.put("jar", new CompiledJavaPluginLaunchStrategy());
         launchStrategies.put("java", new JavaPluginLaunchStrategy());
+        launchStrategies.put("js", new JavascriptPluginLaunchStrategy());
 
         GroovyPluginLaunchStrategy groovy = new GroovyPluginLaunchStrategy();
         launchStrategies.put("gy", groovy);
@@ -85,20 +83,18 @@ public final class PluginManager {
      * @param f the file of the plugin
      * @throws Exception
      */
-    public static void runPlugin(File f) throws Throwable {
+    public static void runPlugin(File f) throws Throwable
+    {
         String ext = f.getName().substring(f.getName().lastIndexOf('.') + 1);
         PluginLaunchStrategy strategy = launchStrategies.get(ext);
 
-        if (strategy == null) {
-            throw new RuntimeException(String.format("No launch strategy for extension %s (%s)", ext,
-                    f.getAbsolutePath()));
-        }
+        if (strategy == null)
+            throw new RuntimeException(String.format("No launch strategy for extension %s (%s)", ext, f.getAbsolutePath()));
 
         Plugin p = strategy.run(f);
 
-        if (p != null) {
+        if (p != null)
             runPlugin(p);
-        }
     }
 
     public static void register(String name, PluginLaunchStrategy strat) {
@@ -113,8 +109,8 @@ public final class PluginManager {
         return filter;
     }
 
-    public static class PluginFileFilter extends FileFilter {
-
+    public static class PluginFileFilter extends FileFilter
+    {
         @Override
         public boolean accept(File f) {
             if (f.isDirectory())
