@@ -71,23 +71,30 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * Join The Bytecode Club, we're noob friendly, and censorship free.
  * http://the.bytecode.club
  *
- * TODO:
- *  open as folder doesn't actually work
- *  smali compile
- *  Finish dragging code
- *  Finish right-click tab menu detection
- *  make it use that global last used inside of export as jar
- *  Add https://github.com/ptnkjke/Java-Bytecode-Editor visualize as a plugin
- *  Add https://github.com/exbin/bined as the replacement Hed Viewer/Editor
- *  make zipfile not include the decode shit
- *  add stackmapframes to bytecode decompiler
- *  make ez-injection plugin console show all sys.out calls
- *  add JEB decompiler optionally, requires them to add jeb library jar externally and disable update check ?
- *  add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
- *  add decompile all as zip for CLI
- *  fix hook inject for EZ-Injection
- *  fix classfile searcher
- *  make the decompilers launch in a separate process
+ * TODO BUGS:
+ *      Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
+ *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
+ *      Open as folder doesn't actually work
+ *      Fix classfile searcher
+ *      Smali Assembly compile - Needs to be fixed
+ *      Krakatau Assembly compile - Needs to be fixed
+ *
+ * TODO IN-PROGRESS:
+ *      Finish dragging code
+ *      Finish right-click tab menu detection
+ *      Fix hook inject for EZ-Injection
+ *
+ * TODO FEATURES:
+ *      Add stackmapframes to bytecode decompiler
+ *      Add JEB decompiler optionally, requires them to add jeb library jar
+ *      Add https://github.com/ptnkjke/Java-Bytecode-Editor visualize as a plugin
+ *      Add https://github.com/exbin/bined as the replacement Hed Viewer/Editor
+ *      Make the decompilers launch in a separate process
+ *      Make it use that global last used inside of export as jar
+ *      Make zipfile not include the decode shit
+ *      Make ez-injection plugin console show all sys.out calls
+ *      Add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
+ *      Add decompile all as zip for CLI
  *
  * @author Konloch
  * @author The entire BCV community
