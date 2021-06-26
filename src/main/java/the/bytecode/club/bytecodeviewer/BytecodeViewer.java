@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-import me.konloch.kontainer.io.DiskWriter;
 import me.konloch.kontainer.io.HTTPRequest;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
@@ -72,7 +71,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * http://the.bytecode.club
  *
  * TODO BUGS:
- *      + Tab simplified titles aren't working correctly until refreshed
+ *      + Last selected directory isn't set on most file chooser dialogues
  *      + Synchronized scrolling is broken
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case

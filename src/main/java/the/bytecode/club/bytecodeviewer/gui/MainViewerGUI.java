@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.*;
@@ -62,9 +61,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *
  * @author Konloch
  */
-public class MainViewerGUI extends JFrame {
-
-    public static final long serialVersionUID = 1851409230530948543L;
+public class MainViewerGUI extends JFrame
+{
     public AboutWindow aboutWindow = new AboutWindow();
     public boolean isMaximized;
     public final JMenuItem[] waitIcons;
@@ -125,6 +123,7 @@ public class MainViewerGUI extends JFrame {
     public final JSpinner fontSpinner = new JSpinner();
     public final JMenu rstaTheme = new JMenu("Text Area Theme");
     public final JMenu lafTheme = new JMenu("Window Theme");
+    
     //BCV settings
     public final JCheckBoxMenuItem refreshOnChange = new JCheckBoxMenuItem("Refresh On View Change");
     private final JCheckBoxMenuItem deleteForeignOutdatedLibs = new JCheckBoxMenuItem("Delete Foreign/Outdated Libs");
@@ -148,9 +147,11 @@ public class MainViewerGUI extends JFrame {
     public final JCheckBoxMenuItem showClassMethods = new JCheckBoxMenuItem("Show Class Methods");
     public final Map<RSTATheme, JRadioButtonMenuItem> rstaThemes = new HashMap<>();
     public final Map<LAFTheme, JRadioButtonMenuItem> lafThemes = new HashMap<>();
+    
     //CFIDE settings
     public final JCheckBoxMenuItem appendBracketsToLabels = new JCheckBoxMenuItem("Append Brackets To Labels");
     public JCheckBoxMenuItem debugHelpers = new JCheckBoxMenuItem("Debug Helpers");
+    
     //FernFlower settings
     public final JMenu fernFlowerSettingsSecondaryMenu = new JMenu("FernFlower");
     public JCheckBoxMenuItem rbr = new JCheckBoxMenuItem("Hide bridge methods");
@@ -172,6 +173,7 @@ public class MainViewerGUI extends JFrame {
     public JCheckBoxMenuItem fdi = new JCheckBoxMenuItem("Deinline finally structures");
     public JCheckBoxMenuItem asc = new JCheckBoxMenuItem("Allow only ASCII characters in strings");
     public JCheckBoxMenuItem ren = new JCheckBoxMenuItem("Rename ambiguous classes and class elements");
+    
     //Proycon
     public final JMenu procyonSettingsSecondaryMenu = new JMenu("Procyon");
     public final JCheckBoxMenuItem alwaysGenerateExceptionVars = new JCheckBoxMenuItem("Always Generate Exception Variable For Catch Blocks");
@@ -188,6 +190,7 @@ public class MainViewerGUI extends JFrame {
     public final JCheckBoxMenuItem retainPointlessSwitches = new JCheckBoxMenuItem("Retain Pointless Switches");
     public final JCheckBoxMenuItem retainRedunantCasts = new JCheckBoxMenuItem("Retain Redundant Casts");
     public final JCheckBoxMenuItem unicodeOutputEnabled = new JCheckBoxMenuItem("Unicode Output Enabled");
+    
     //CFR
     public final JMenu cfrSettingsSecondaryMenu = new JMenu("CFR");
     public final JCheckBoxMenuItem decodeEnumSwitch = new JCheckBoxMenuItem("Decode Enum Switch");
@@ -234,6 +237,7 @@ public class MainViewerGUI extends JFrame {
     public final JCheckBoxMenuItem recoveryTypehInts = new JCheckBoxMenuItem("Recover Type  Hints");
     public final JCheckBoxMenuItem forceTurningIFs = new JCheckBoxMenuItem("Force Returning IFs");
     public final JCheckBoxMenuItem forLoopAGGCapture = new JCheckBoxMenuItem("For Loop AGG Capture");
+    
     //obfuscation
     public final JMenu obfuscate = new JMenu("Obfuscate");
     public final JMenuItem renameFields = new JMenuItem("Rename Fields");
@@ -245,36 +249,6 @@ public class MainViewerGUI extends JFrame {
     public final JRadioButtonMenuItem strongObf = new JRadioButtonMenuItem("Strong Obfuscation");
     public final JRadioButtonMenuItem lightObf = new JRadioButtonMenuItem("Light Obfuscation");
     public final JMenuItem renameClasses = new JMenuItem("Rename Classes");
-    
-    public synchronized void updateBusyStatus(final boolean busy) {
-        SwingUtilities.invokeLater(() -> {
-            if (busy) {
-                for (int i = 0; i < 10; i++) {
-                    if (waitIcons[i].getIcon() == null) {
-                        try {
-                            waitIcons[i].setIcon(Resources.busyIcon);
-                        } catch (NullPointerException e) {
-                            waitIcons[i].setIcon(Resources.busyB64Icon);
-                        }
-                        waitIcons[i].updateUI();
-                        break;
-                    }
-                }
-            } else {
-                for (int i = 0; i < 10; i++) {
-                    if (waitIcons[i].getIcon() != null) {
-                        waitIcons[i].setIcon(null);
-                        waitIcons[i].updateUI();
-                        break;
-                    }
-                }
-            }
-        });
-    }
-
-    public void calledAfterLoad() {
-        deleteForeignOutdatedLibs.setSelected(Configuration.deleteForeignLibraries);
-    }
 
     public MainViewerGUI()
     {
@@ -295,7 +269,8 @@ public class MainViewerGUI extends JFrame {
         defaultSettings();
         
         waitIcons = new JMenuItem[10];
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++)
+        {
             waitIcons[i] = new JMenuItem("");
             waitIcons[i].setMaximumSize(new Dimension(20, 50));
             waitIcons[i].setEnabled(false);
@@ -720,13 +695,43 @@ public class MainViewerGUI extends JFrame {
         debugHelpers.setSelected(true);
         appendBracketsToLabels.setSelected(true);
     }
+    
+    public void calledAfterLoad() {
+        deleteForeignOutdatedLibs.setSelected(Configuration.deleteForeignLibraries);
+    }
+    
+    public synchronized void updateBusyStatus(final boolean busy) {
+        SwingUtilities.invokeLater(() -> {
+            if (busy) {
+                for (int i = 0; i < 10; i++) {
+                    if (waitIcons[i].getIcon() == null) {
+                        try {
+                            waitIcons[i].setIcon(Resources.busyIcon);
+                        } catch (NullPointerException e) {
+                            waitIcons[i].setIcon(Resources.busyB64Icon);
+                        }
+                        waitIcons[i].updateUI();
+                        break;
+                    }
+                }
+            } else {
+                for (int i = 0; i < 10; i++) {
+                    if (waitIcons[i].getIcon() != null) {
+                        waitIcons[i].setIcon(null);
+                        waitIcons[i].updateUI();
+                        break;
+                    }
+                }
+            }
+        });
+    }
 
     public void openClassFile(final FileContainer container, final String name, final ClassNode cn) {
-        workPane.addWorkingFile(container, name, cn);
+        workPane.addClassResource(container, name, cn);
     }
 
     public void openFile(final FileContainer container, final String name, byte[] content) {
-        workPane.addFile(container, name, content);
+        workPane.addFileResource(container, name, content);
     }
 
     @SuppressWarnings("unchecked")
@@ -958,4 +963,6 @@ public class MainViewerGUI extends JFrame {
         
         Configuration.deleteForeignLibraries = deleteForeignOutdatedLibs.isSelected();
     }
+    
+    public static final long serialVersionUID = 1851409230530948543L;
 }

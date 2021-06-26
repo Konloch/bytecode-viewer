@@ -145,7 +145,8 @@ public class MiscUtils
     public static int getClassNumber(String start, String ext) {
         boolean b = true;
         int i = 0;
-        while (b) {
+        while (b)
+        {
             File tempF = new File(start + i + ext);
             if (!tempF.exists())
                 b = false;

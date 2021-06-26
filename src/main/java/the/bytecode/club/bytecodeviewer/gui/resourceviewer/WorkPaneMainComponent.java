@@ -157,7 +157,8 @@ public class WorkPaneMainComponent extends VisibleComponent
         this.setVisible(true);
     }
 
-    public void addWorkingFile(final FileContainer container, String name, final ClassNode cn)
+    //load class resources
+    public void addClassResource(final FileContainer container, String name, final ClassNode cn)
     {
         String workingName = container.name + ">" + name;
 
@@ -172,6 +173,7 @@ public class WorkPaneMainComponent extends VisibleComponent
             tabComp.tabbedPane = tabbedPane;
             tabs.setTabComponentAt(tabIndex, tabbedPane);
             tabs.setSelectedIndex(tabIndex);
+            tabComp.refreshTitle();
         }
         else
         {
@@ -179,7 +181,8 @@ public class WorkPaneMainComponent extends VisibleComponent
         }
     }
 
-    public void addFile(final FileContainer container, String name, byte[] contents)
+    //Load file resources
+    public void addFileResource(final FileContainer container, String name, byte[] contents)
     {
         if (contents == null) //a directory
             return;
@@ -202,6 +205,7 @@ public class WorkPaneMainComponent extends VisibleComponent
             tabComp.tabbedPane = tabbedPane;
             tabs.setTabComponentAt(tabIndex, tabbedPane);
             tabs.setSelectedIndex(tabIndex);
+            tabComp.refreshTitle();
         }
         else
         {

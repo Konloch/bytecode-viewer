@@ -125,8 +125,6 @@ public class FileViewer extends ResourceViewer
         textArea.setCaretPosition(0);
         
         mainPanel.add(textArea.getScrollPane());
-    
-        refreshTitle();
     }
     
     @Override
