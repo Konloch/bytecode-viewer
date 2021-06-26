@@ -47,10 +47,8 @@ Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 
 ## What is Bytecode Viewer?
 Bytecode Viewer (BCV) is an Advanced Lightweight Java Bytecode Viewer, GUI Java Decompiler, GUI Bytecode Editor, GUI Smali, GUI Baksmali, GUI APK Editor, GUI Dex Editor, GUI APK Decompiler, GUI DEX Decompiler, GUI Procyon Java Decompiler, GUI Krakatau, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI DEX2Jar, GUI Jar2DEX, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
-It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
 
-There is also a plugin system that will allow you to interact with the loaded classfiles, for example you can write a String deobfuscator, a malicious code searcher, or something else you can think of.
-You can either use one of the pre-written plugins, or write your own. It supports groovy scripting. Once a plugin is activated, it will execute the plugin with a ClassNode ArrayList of every single class loaded in BCV, this allows the user to handle it completely using ASM.
+It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
 
 ## How do I install BCV?
 Download the latest version from https://github.com/konloch/bytecode-viewer/releases and run the Bytecode-Viewer-2.10.x.jar.
@@ -58,6 +56,13 @@ You may need to execute it via command line ```java -jar Bytecode-Viewer-2.10.x.
 
 ## How do I use BCV?
 All you have to do is add a jar, class or APK file into the workspace. Then select the file you'd like to view from the workspace. BCV will automatically start decompiling the class in the background. When it's done it will show the Source code, Bytecode and Hexcode of the class file you chose (depending on the View panes you have selected). If you are trying to view a resource BCV will attempt to display it the best it can with code highlighting or by embedding the resources itself.
+
+## How do the plugins work?
+There is also a plugin system that will allow you to interact with the loaded classfiles. You could for example write a String deobfuscator, a malicious code searcher, or anything else you can think of.
+
+You can either use one of the pre-written plugins, or write your own. The plugin system supports groovy, python, ruby, java and javascript scripting.
+
+Once a plugin is activated, it will execute the plugin with a ClassNode ArrayList of every single class loaded in BCV, this allows the user to handle it completely using ASM.
 
 ## Instructions to compile
 
