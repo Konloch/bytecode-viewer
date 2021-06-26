@@ -74,8 +74,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * http://the.bytecode.club
  *
  * TODO BUGS:
- *      + Removing a tab disrupts the tab order
- *          Tab index orders need to be recounted on removal probably
  *      + Last selected directory isn't set on most file chooser dialogues
  *      + Synchronized scrolling is broken
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)

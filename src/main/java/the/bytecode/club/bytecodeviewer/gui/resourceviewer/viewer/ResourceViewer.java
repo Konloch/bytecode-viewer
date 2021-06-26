@@ -35,6 +35,7 @@ public abstract class ResourceViewer extends JPanel
 {
     public ClassNode cn;
     public String name;
+    public String workingName;
     public FileContainer container;
     public TabbedPane tabbedPane;
     

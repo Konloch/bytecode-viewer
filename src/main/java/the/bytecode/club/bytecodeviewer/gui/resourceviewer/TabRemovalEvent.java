@@ -25,12 +25,12 @@ public class TabRemovalEvent implements ContainerListener
 		if (c instanceof ClassViewer)
 		{
 			String workingName = ((ClassViewer) c).workingName;
-			BytecodeViewer.viewer.workPane.workingOn.remove(workingName);
+			BytecodeViewer.viewer.workPane.openedTabs.remove(workingName);
 		}
 		else if (c instanceof FileViewer)
 		{
 			String workingName = ((FileViewer) c).workingName;
-			BytecodeViewer.viewer.workPane.workingOn.remove(workingName);
+			BytecodeViewer.viewer.workPane.openedTabs.remove(workingName);
 		}
 	}
 }

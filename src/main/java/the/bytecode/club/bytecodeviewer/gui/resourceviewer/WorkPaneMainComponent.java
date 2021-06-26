@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
+import java.util.HashSet;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -51,7 +52,7 @@ public class WorkPaneMainComponent extends VisibleComponent
     public final JTabbedPane tabs;
     public final JPanel buttonPanel;
     public final JButton refreshClass;
-    public final HashMap<String, Integer> workingOn = new HashMap<>();
+    public final HashSet<String> openedTabs = new HashSet<>();
 
     public WorkPaneMainComponent()
     {
@@ -178,11 +179,14 @@ public class WorkPaneMainComponent extends VisibleComponent
     {
         final String workingName = container.name + ">" + name;
     
-        if (!workingOn.containsKey(workingName))
+        //create a new tab if the resource isn't opened currently
+        if (!openedTabs.contains(workingName))
         {
+            resourceView.workingName = workingName;
+            
             tabs.add(resourceView);
             final int tabIndex = tabs.indexOfComponent(resourceView);
-            workingOn.put(workingName, tabIndex);
+            openedTabs.add(workingName);
         
             TabbedPane tabbedPane = new TabbedPane(tabIndex, workingName, container.name, name, tabs, resourceView);
             resourceView.tabbedPane = tabbedPane;
@@ -190,16 +194,17 @@ public class WorkPaneMainComponent extends VisibleComponent
             tabs.setSelectedIndex(tabIndex);
             resourceView.refreshTitle();
         }
+        //if the resource is already opened select this tab as the active one
         else
         {
-            tabs.setSelectedIndex(workingOn.get(workingName));
-            
-            // TODO: need to look into if this exception is actually needed
-            //  removing it for now, but keeping it incase this causes issues
-            try {
-            } catch (Exception e) {
-                //workingOn.remove(workingName);
-                e.printStackTrace();
+            for(int i = 0; i < tabs.getTabCount(); i++)
+            {
+                ResourceViewer tab = ((TabbedPane)tabs.getTabComponentAt(i)).resource;
+                if(tab.workingName.equals(workingName))
+                {
+                    tabs.setSelectedIndex(i);
+                    break;
+                }
             }
         }
     }
