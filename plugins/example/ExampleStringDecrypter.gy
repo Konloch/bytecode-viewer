@@ -1,0 +1,52 @@
+import the.bytecode.club.bytecodeviewer.api.*;
+import java.util.ArrayList;
+import org.objectweb.asm.tree.ClassNode;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import java.lang.reflect.Field;
+import org.objectweb.asm.tree.FieldNode;
+
+/**
+ * This is an example of a string decrypter plugin
+ */
+public class ExampleStringDecrypter extends Plugin {
+
+    @Override
+    public void execute(ArrayList<ClassNode> classNodesList) {
+        PluginConsole gui = new PluginConsole("Example String Decrypter");
+
+        JOptionPane pane = new JOptionPane("WARNING: This method of decryption loads the classes into a classloader and executes the init function, this could lead to malicious code executing.\n\r\n\rAre you sure you want to run this plugin?");
+        String[] options = ["Yes", "No"];
+        pane.setOptions(options);
+        JDialog dialog = pane.createDialog(the.bytecode.club.bytecodeviewer.BytecodeViewer.viewer, "WARNING");
+        dialog.show();
+        Object obj = pane.getValue();
+        int result = -1;
+        for (int k = 0; k < options.length; k++)
+            if (options[k].equals(obj))
+                result = k;
+
+
+        if(result == 0) {
+            for(ClassNode cn : classNodesList) {
+                the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().addClass(cn);
+
+                for(Object o : cn.fields.toArray()) {
+                    FieldNode f = (FieldNode) o;
+                    if(f.name.equals("z")) {// && f.desc.equals("([Ljava/lang/String;)V")) {
+                        try {
+                            for(Field f2 : the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().nodeToClass(cn).getFields()) {
+                                String s = f2.get(null);
+                                if(s != null && !s.empty())
+                                    gui.appendText(cn+":"+s);
+                            }
+                        } catch(Exception | StackOverflowError e) {}
+                    }
+                }
+
+            }
+
+            gui.setVisible(true);
+        }
+    }
+}
