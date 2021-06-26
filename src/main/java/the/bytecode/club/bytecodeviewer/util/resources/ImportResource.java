@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.util;
+package the.bytecode.club.bytecodeviewer.util.resources;
 
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
@@ -6,6 +6,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
+import the.bytecode.club.bytecodeviewer.util.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,18 +41,20 @@ import static the.bytecode.club.bytecodeviewer.Constants.fs;
 /**
  * @author Konloch
  */
-public class OpenFile implements Runnable
+public class ImportResource implements Runnable
 {
 	private boolean update = true;
 	private final File[] files;
 	
-	public OpenFile(File[] files) {this.files = files;}
+	public ImportResource(File[] files) {this.files = files;}
 	
 	@Override
 	public void run()
 	{
-		try {
-			for (final File f : files) {
+		try
+		{
+			for (final File f : files)
+			{
 				final String fn = f.getName();
 				if (!f.exists()) {
 					update = false;

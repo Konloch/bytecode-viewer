@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
+
 import me.konloch.kontainer.io.HTTPRequest;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
@@ -33,6 +33,7 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.util.*;
+import the.bytecode.club.bytecodeviewer.util.resources.ImportResource;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -327,11 +328,9 @@ public class BytecodeViewer
      * @return the file contents as a byte[]
      */
     public static byte[] getFileContents(String name) {
-        for (FileContainer container : files) {
-            HashMap<String, byte[]> files = container.files;
-            if (files.containsKey(name))
-                return files.get(name);
-        }
+        for (FileContainer container : files)
+            if (container.files.containsKey(name))
+                return container.files.get(name);
 
         return null;
     }
@@ -528,7 +527,7 @@ public class BytecodeViewer
 
         BytecodeViewer.viewer.updateBusyStatus(true);
         Configuration.needsReDump = true;
-        Thread t = new Thread(new OpenFile(files));
+        Thread t = new Thread(new ImportResource(files));
         t.start();
     }
 
