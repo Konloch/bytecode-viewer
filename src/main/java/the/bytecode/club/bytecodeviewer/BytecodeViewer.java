@@ -19,6 +19,7 @@ import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.compilers.Compilers;
 import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
+import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourcePanelCompileMode;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
@@ -157,26 +158,6 @@ public class BytecodeViewer
      * Used to check incase booting failed for some reason, this kicks in as a fail safe
      */
     private static final Thread bootCheck = new Thread(new BootCheck());
-
-    /**
-     * Grab the byte array from the loaded Class object
-     *
-     * @param clazz
-     * @return
-     * @throws IOException
-     */
-    public static byte[] getClassFile(Class<?> clazz) throws IOException {
-        try (InputStream is = clazz.getResourceAsStream(
-                "/" + clazz.getName().replace('.', '/') + ".class");
-             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            int r;
-            byte[] buffer = new byte[8192];
-            while ((r = Objects.requireNonNull(is).read(buffer)) >= 0) {
-                baos.write(buffer, 0, r);
-            }
-            return baos.toByteArray();
-        }
-    }
 
     /**
      * Main startup
@@ -353,6 +334,26 @@ public class BytecodeViewer
         }
 
         return null;
+    }
+    
+    /**
+     * Grab the byte array from the loaded Class object
+     *
+     * @param clazz
+     * @return
+     * @throws IOException
+     */
+    public static byte[] getClassFile(Class<?> clazz) throws IOException {
+        try (InputStream is = clazz.getResourceAsStream(
+                "/" + clazz.getName().replace('.', '/') + ".class");
+             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            int r;
+            byte[] buffer = new byte[8192];
+            while ((r = Objects.requireNonNull(is).read(buffer)) >= 0) {
+                baos.write(buffer, 0, r);
+            }
+            return baos.toByteArray();
+        }
     }
 
     /**
@@ -625,33 +626,12 @@ public class BytecodeViewer
 
         if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-            JFileChooser fc = new JFileChooser();
-            try {
-                fc.setSelectedFile(new File(Configuration.lastDirectory));
-            } catch (Exception ignored) {
-            }
-            fc.setFileFilter(new FileFilter() {
-                @Override
-                public boolean accept(File f) {
-                    if (f.isDirectory())
-                        return true;
-
-                    String extension = MiscUtils.extension(f.getAbsolutePath());
-                    return extension.equals("jar") || extension.equals("zip")
-                            || extension.equals("class") || extension.equals("apk")
-                            || extension.equals("dex");
-
-                }
-
-                @Override
-                public String getDescription() {
-                    return "APKs, DEX, Class Files or Zip/Jar Archives";
-                }
-            });
-            fc.setFileHidingEnabled(false);
-            fc.setAcceptAllFileFilterUsed(false);
+            JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+                    "Select File or Folder to open in BCV",
+                    "APKs, DEX, Class Files or Zip/Jar/War Archives",
+                    Constants.SUPPORTED_FILE_EXTENSIONS);
+            
             int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 try {
@@ -687,20 +667,12 @@ public class BytecodeViewer
             Thread t = new Thread(() -> {
                 if (viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
                     return;
-                JFileChooser fc = new JFileChooser();
-                fc.setFileFilter(new FileFilter() {
-                    @Override
-                    public boolean accept(File f) {
-                        return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return "Zip Archives";
-                    }
-                });
-                fc.setFileHidingEnabled(false);
-                fc.setAcceptAllFileFilterUsed(false);
+                
+                JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+                        "Select Zip Export",
+                        "Zip Archives",
+                        "zip");
+                
                 int returnVal = fc.showSaveDialog(viewer);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
@@ -747,8 +719,10 @@ public class BytecodeViewer
         }
     }
 
-    public static File[] dumpTempFile(FileContainer container) {
+    public static File[] dumpTempFile(FileContainer container)
+    {
         File[] files = new File[2];
+        
         //currently won't optimize if you've got two containers with the same name, will need to add this later
         if (!LazyNameUtil.SAME_NAME_JAR_WORKSPACE) {
             if (Configuration.krakatauTempJar != null && !Configuration.krakatauTempJar.exists()) {
