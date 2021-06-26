@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.util.resources.importing;
+package the.bytecode.club.bytecodeviewer.resources.importing;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;

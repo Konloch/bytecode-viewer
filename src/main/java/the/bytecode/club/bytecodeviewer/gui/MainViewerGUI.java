@@ -35,8 +35,8 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.StackFramesRemover;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZStringArrayDecrypter;
 import the.bytecode.club.bytecodeviewer.util.*;
-import the.bytecode.club.bytecodeviewer.util.resources.ResourceDecompiling;
-import the.bytecode.club.bytecodeviewer.util.resources.ResourceExporting;
+import the.bytecode.club.bytecodeviewer.resources.ResourceDecompiling;
+import the.bytecode.club.bytecodeviewer.resources.ResourceExporting;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 

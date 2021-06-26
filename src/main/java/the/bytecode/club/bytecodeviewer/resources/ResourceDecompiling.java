@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.util.resources;
+package the.bytecode.club.bytecodeviewer.resources;
 
 import me.konloch.kontainer.io.DiskWriter;
 import org.objectweb.asm.ClassWriter;

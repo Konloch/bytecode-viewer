@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.util.resources;
+package the.bytecode.club.bytecodeviewer.resources;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;

@@ -1,10 +1,10 @@
-package the.bytecode.club.bytecodeviewer.util.resources.importing.impl;
+package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
 import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
+import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.*;
-import the.bytecode.club.bytecodeviewer.util.resources.importing.Importer;
 
 import java.io.File;
 import java.util.Objects;

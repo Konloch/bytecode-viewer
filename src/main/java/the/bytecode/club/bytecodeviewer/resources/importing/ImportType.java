@@ -1,6 +1,6 @@
-package the.bytecode.club.bytecodeviewer.util.resources.importing;
+package the.bytecode.club.bytecodeviewer.resources.importing;
 
-import the.bytecode.club.bytecodeviewer.util.resources.importing.impl.*;
+import the.bytecode.club.bytecodeviewer.resources.importing.impl.*;
 
 /**
  * @author Konloch

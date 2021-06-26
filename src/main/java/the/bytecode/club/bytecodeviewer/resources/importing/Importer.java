@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.util.resources.importing;
+package the.bytecode.club.bytecodeviewer.resources.importing;
 
 import java.io.File;
 

@@ -1,8 +1,8 @@
-package the.bytecode.club.bytecodeviewer.util.resources.importing.impl;
+package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
-import the.bytecode.club.bytecodeviewer.util.resources.importing.Importer;
 
 import java.io.File;
 import java.nio.file.Files;

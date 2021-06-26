@@ -1,11 +1,11 @@
-package the.bytecode.club.bytecodeviewer.util.resources.importing.impl;
+package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
+import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
-import the.bytecode.club.bytecodeviewer.util.resources.importing.Importer;
 
 import java.io.File;
 import java.io.FileInputStream;
