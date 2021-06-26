@@ -84,7 +84,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *      + Krakatau Assembly compile - Needs to be fixed
  *
  * TODO IN-PROGRESS:
- *      + Finish Compiler.JAVA_COMPILER
  *      + Finish dragging code
  *      + Finish right-click tab menu detection
  *      + Fix hook inject for EZ-Injection

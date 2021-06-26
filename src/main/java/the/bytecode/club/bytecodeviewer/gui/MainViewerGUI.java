@@ -35,6 +35,8 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.StackFramesRemover;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZStringArrayDecrypter;
 import the.bytecode.club.bytecodeviewer.util.*;
+import the.bytecode.club.bytecodeviewer.util.resources.ResourceDecompiling;
+import the.bytecode.club.bytecodeviewer.util.resources.ResourceExporting;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -829,6 +831,7 @@ public class MainViewerGUI extends JFrame
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
+                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.python = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
@@ -844,6 +847,7 @@ public class MainViewerGUI extends JFrame
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
+                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.javac = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
@@ -859,6 +863,7 @@ public class MainViewerGUI extends JFrame
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
+                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.java = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
@@ -874,6 +879,7 @@ public class MainViewerGUI extends JFrame
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
+                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.python3 = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
@@ -893,6 +899,7 @@ public class MainViewerGUI extends JFrame
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
+                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.library = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
@@ -908,6 +915,7 @@ public class MainViewerGUI extends JFrame
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
+                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.rt = fc.getSelectedFile().getAbsolutePath();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
@@ -925,6 +933,7 @@ public class MainViewerGUI extends JFrame
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
+                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 BytecodeViewer.viewer.updateBusyStatus(true);
                 BytecodeViewer.startPlugin(fc.getSelectedFile());
                 BytecodeViewer.viewer.updateBusyStatus(false);

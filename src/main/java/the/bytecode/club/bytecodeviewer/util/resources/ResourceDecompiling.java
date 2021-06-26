@@ -1,11 +1,15 @@
-package the.bytecode.club.bytecodeviewer.util;
+package the.bytecode.club.bytecodeviewer.util.resources;
 
 import me.konloch.kontainer.io.DiskWriter;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -23,35 +27,33 @@ public class ResourceDecompiling
 {
 	public static void decompileSaveAll()
 	{
-		if (BytecodeViewer.getLoadedClasses().isEmpty()) {
+		if (BytecodeViewer.getLoadedClasses().isEmpty())
+		{
 			BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
 			return;
 		}
 		
-		Thread t = new Thread(() -> {
+		Thread t = new Thread(() ->
+		{
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
-			JFileChooser fc = new JFileChooser();
-			fc.setFileFilter(new FileFilter() {
-				@Override
-				public boolean accept(File f) {
-					return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
-				}
-				
-				@Override
-				public String getDescription() {
-					return "Zip Archives";
-				}
-			});
-			fc.setFileHidingEnabled(false);
-			fc.setAcceptAllFileFilterUsed(false);
+			
+			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+					"Select Zip Export",
+					"Zip Archives",
+					"zip");
+			
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
+			if (returnVal == JFileChooser.APPROVE_OPTION)
+			{
 				File file = fc.getSelectedFile();
+				
+				//auto appened zip
 				if (!file.getAbsolutePath().endsWith(".zip"))
 					file = new File(file.getAbsolutePath() + ".zip");
 				
-				if (file.exists()) {
+				if (file.exists())
+				{
 					JOptionPane pane = new JOptionPane(
 							"Are you sure you wish to overwrite this existing file?");
 					Object[] options = new String[]{"Yes", "No"};
@@ -73,11 +75,9 @@ public class ResourceDecompiling
 				}
 				
 				final File javaSucks = file;
-				
 				final String path = MiscUtils.append(file, ".zip");    // cheap hax cause string is final
 				
-				JOptionPane pane = new JOptionPane(
-						"What decompiler will you use?");
+				JOptionPane pane = new JOptionPane("What decompiler will you use?");
 				Object[] options = new String[]{"All", "Procyon", "CFR",
 						"Fernflower", "Krakatau", "Cancel"};
 				pane.setOptions(options);
@@ -213,29 +213,22 @@ public class ResourceDecompiling
 			if (s == null)
 				return;
 			
-			JFileChooser fc = new JFileChooser();
-			fc.setFileFilter(new FileFilter() {
-				@Override
-				public boolean accept(File f) {
-					return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("java");
-				}
-				
-				@Override
-				public String getDescription() {
-					return "Java Source Files";
-				}
-			});
-			fc.setFileHidingEnabled(false);
-			fc.setAcceptAllFileFilterUsed(false);
+			
+			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+					"Select Java Files",
+					"Java Source Files",
+					"java");
+			
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
+			if (returnVal == JFileChooser.APPROVE_OPTION)
+			{
 				File file = fc.getSelectedFile();
 				
 				BytecodeViewer.viewer.updateBusyStatus(true);
-				final String path = MiscUtils.append(file, ".java");    // cheap hax cause
-				// string is final
+				final String path = MiscUtils.append(file, ".java");    // cheap hax because string is final
 				
-				if (new File(path).exists()) {
+				if (new File(path).exists())
+				{
 					JOptionPane pane = new JOptionPane(
 							"Are you sure you wish to overwrite this existing file?");
 					Object[] options = new String[]{"Yes", "No"};

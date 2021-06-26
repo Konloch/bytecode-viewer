@@ -1,7 +1,10 @@
-package the.bytecode.club.bytecodeviewer.util;
+package the.bytecode.club.bytecodeviewer.util.resources;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.ExportJar;
+import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
+import the.bytecode.club.bytecodeviewer.util.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -18,38 +21,36 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
  */
 public class ResourceExporting
 {
-	
 	public static void saveAsRunnableJar()
 	{
-		if (BytecodeViewer.getLoadedClasses().isEmpty()) {
+		if (BytecodeViewer.getLoadedClasses().isEmpty())
+		{
 			BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
 			return;
 		}
-		Thread t = new Thread(() -> {
+		
+		Thread t = new Thread(() ->
+		{
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
-			JFileChooser fc = new JFileChooser();
-			fc.setFileFilter(new FileFilter() {
-				@Override
-				public boolean accept(File f) {
-					return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
-				}
-				
-				@Override
-				public String getDescription() {
-					return "Zip Archives";
-				}
-			});
-			fc.setFileHidingEnabled(false);
-			fc.setAcceptAllFileFilterUsed(false);
+			
+			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+					"Select Jar Export",
+					"Jar Archives",
+					"jar");
+			
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
+			if (returnVal == JFileChooser.APPROVE_OPTION)
+			{
 				File file = fc.getSelectedFile();
 				String path = file.getAbsolutePath();
+				
+				//auto append .jar
 				if (!path.endsWith(".jar"))
 					path = path + ".jar";
 				
-				if (new File(path).exists()) {
+				if (new File(path).exists())
+				{
 					JOptionPane pane = new JOptionPane(
 							"Are you sure you wish to overwrite this existing file?");
 					Object[] options = new String[]{"Yes", "No"};
@@ -78,30 +79,27 @@ public class ResourceExporting
 	
 	public static void saveAsZip()
 	{
-		if (BytecodeViewer.getLoadedClasses().isEmpty()) {
+		if (BytecodeViewer.getLoadedClasses().isEmpty())
+		{
 			BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
 			return;
 		}
-		Thread t = new Thread(() -> {
+		Thread t = new Thread(() ->
+		{
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
-			JFileChooser fc = new JFileChooser();
-			fc.setFileFilter(new FileFilter() {
-				@Override
-				public boolean accept(File f) {
-					return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
-				}
-				
-				@Override
-				public String getDescription() {
-					return "Zip Archives";
-				}
-			});
-			fc.setFileHidingEnabled(false);
-			fc.setAcceptAllFileFilterUsed(false);
+			
+			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+					"Select Zip Export",
+					"Zip Archives",
+					"zip");
+			
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
+			if (returnVal == JFileChooser.APPROVE_OPTION)
+			{
 				File file = fc.getSelectedFile();
+				
+				//auto append .zip
 				if (!file.getAbsolutePath().endsWith(".zip"))
 					file = new File(file.getAbsolutePath() + ".zip");
 				
@@ -142,38 +140,35 @@ public class ResourceExporting
 	
 	public static void saveAsDex()
 	{
-		if (BytecodeViewer.getLoadedClasses().isEmpty()) {
+		if (BytecodeViewer.getLoadedClasses().isEmpty())
+		{
 			BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
 			return;
 		}
 		
-		Thread t = new Thread(() -> {
+		Thread t = new Thread(() ->
+		{
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
-			JFileChooser fc = new JFileChooser();
-			fc.setFileFilter(new FileFilter() {
-				@Override
-				public boolean accept(File f) {
-					return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("dex");
-				}
-				
-				@Override
-				public String getDescription() {
-					return "Android DEX Files";
-				}
-			});
-			fc.setFileHidingEnabled(false);
-			fc.setAcceptAllFileFilterUsed(false);
+			
+			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+					"Select DEX Export",
+					"Android DEX Files",
+					"dex");
+			
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
+			if (returnVal == JFileChooser.APPROVE_OPTION)
+			{
 				final File file = fc.getSelectedFile();
 				String output = file.getAbsolutePath();
+				
+				//auto append .dex
 				if (!output.endsWith(".dex"))
 					output = output + ".dex";
 				
 				final File file2 = new File(output);
-				
-				if (file2.exists()) {
+				if (file2.exists())
+				{
 					JOptionPane pane = new JOptionPane(
 							"Are you sure you wish to overwrite this existing file?");
 					Object[] options = new String[]{"Yes", "No"};
@@ -259,33 +254,29 @@ public class ResourceExporting
 		
 		final FileContainer finalContainer = container;
 		
-		Thread t = new Thread(() -> {
+		Thread t = new Thread(() ->
+		{
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
-			JFileChooser fc = new JFileChooser();
-			fc.setFileFilter(new FileFilter() {
-				@Override
-				public boolean accept(File f) {
-					return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("apk");
-				}
-				
-				@Override
-				public String getDescription() {
-					return "Android APK";
-				}
-			});
-			fc.setFileHidingEnabled(false);
-			fc.setAcceptAllFileFilterUsed(false);
+			
+			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+					"Select APK Export",
+					"Android APK",
+					"apk");
+			
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
+			if (returnVal == JFileChooser.APPROVE_OPTION)
+			{
 				final File file = fc.getSelectedFile();
 				String output = file.getAbsolutePath();
+				
+				//auto appened .apk
 				if (!output.endsWith(".apk"))
 					output = output + ".apk";
 				
 				final File file2 = new File(output);
-				
-				if (file2.exists()) {
+				if (file2.exists())
+				{
 					JOptionPane pane = new JOptionPane(
 							"Are you sure you wish to overwrite this existing file?");
 					Object[] options = new String[]{"Yes", "No"};
@@ -306,14 +297,15 @@ public class ResourceExporting
 					}
 				}
 				
-				Thread t14 = new Thread(() -> {
+				Thread t14 = new Thread(() ->
+				{
 					BytecodeViewer.viewer.updateBusyStatus(true);
 					final String input = tempDirectory + fs + MiscUtils.getRandomizedName() + ".jar";
 					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 					
-					Thread t13 = new Thread(() -> {
+					Thread t13 = new Thread(() ->
+					{
 						APKTool.buildAPK(new File(input), file2, finalContainer);
-						
 						BytecodeViewer.viewer.updateBusyStatus(false);
 					});
 					t13.start();
