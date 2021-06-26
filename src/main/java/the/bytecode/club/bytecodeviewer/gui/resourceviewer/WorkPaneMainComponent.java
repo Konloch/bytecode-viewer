@@ -160,17 +160,19 @@ public class WorkPaneMainComponent extends VisibleComponent
     public void addWorkingFile(final FileContainer container, String name, final ClassNode cn)
     {
         String workingName = container.name + ">" + name;
-        String containerName = name;
-
+        
+        if (Configuration.simplifiedTabNames)
+            name = MiscUtils.getChildFromPath(name);
         if (Configuration.displayParentInTab)
-            containerName = container.name + ">" + name;
+            name = container.name + ">" + name;
 
         if (!workingOn.containsKey(workingName))
         {
-            final ClassViewer tabComp = new ClassViewer(container, containerName, cn, workingName);
+            final ClassViewer tabComp = new ClassViewer(container, name, cn, workingName);
             tabs.add(tabComp);
             final int tabIndex = tabs.indexOfComponent(tabComp);
             workingOn.put(workingName, tabIndex);
+            
             TabbedPane tabbedPane = new TabbedPane(tabIndex, workingName, container.name, name, tabs);
             tabComp.tabbedPane = tabbedPane;
             tabs.setTabComponentAt(tabIndex, tabbedPane);
