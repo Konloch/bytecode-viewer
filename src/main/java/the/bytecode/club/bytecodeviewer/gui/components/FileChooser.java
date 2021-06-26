@@ -6,6 +6,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -26,6 +27,7 @@ public class FileChooser extends JFileChooser
 		this.title = title;
 		this.description = description;
 		this.extensions = extensions;
+		this.extensionSet.addAll(Arrays.asList(extensions));
 		
 		try {
 			if (filePath.exists())
