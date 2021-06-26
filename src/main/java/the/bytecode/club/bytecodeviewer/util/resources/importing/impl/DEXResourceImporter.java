@@ -1,13 +1,12 @@
-package the.bytecode.club.bytecodeviewer.util.resources.impl;
+package the.bytecode.club.bytecodeviewer.util.resources.importing.impl;
 
 import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.util.*;
-import the.bytecode.club.bytecodeviewer.util.resources.Importer;
+import the.bytecode.club.bytecodeviewer.util.resources.importing.Importer;
 
 import java.io.File;
-import java.util.Objects;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
@@ -16,7 +15,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
  * @author Konloch
  * @since 6/26/2021
  */
-public class APKResourceImporter implements Importer
+public class DEXResourceImporter implements Importer
 {
 	@Override
 	public boolean open(File file) throws Exception
@@ -24,21 +23,11 @@ public class APKResourceImporter implements Importer
 		try {
 			BytecodeViewer.viewer.updateBusyStatus(true);
 			
-			File tempCopy = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
+			File tempCopy = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".dex");
 			
-			FileUtils.copyFile(file, tempCopy);
+			FileUtils.copyFile(file, tempCopy); //copy and rename to prevent unicode filenames
 			
 			FileContainer container = new FileContainer(tempCopy, file.getName());
-			
-			if (BytecodeViewer.viewer.decodeAPKResources.isSelected()) {
-				File decodedResources =
-						new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
-				APKTool.decodeResources(tempCopy, decodedResources, container);
-				container.files = JarUtils.loadResources(decodedResources);
-			}
-			
-			Objects.requireNonNull(container.files).putAll(JarUtils.loadResources(tempCopy)); //copy and rename
-			// to prevent unicode filenames
 			
 			String name = MiscUtils.getRandomizedName() + ".jar";
 			File output = new File(tempDirectory + fs + name);

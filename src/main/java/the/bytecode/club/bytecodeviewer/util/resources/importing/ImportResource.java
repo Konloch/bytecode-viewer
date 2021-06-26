@@ -1,24 +1,12 @@
-package the.bytecode.club.bytecodeviewer.util.resources;
+package the.bytecode.club.bytecodeviewer.util.resources.importing;
 
-import org.apache.commons.io.FileUtils;
-import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
-import the.bytecode.club.bytecodeviewer.util.*;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
-
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

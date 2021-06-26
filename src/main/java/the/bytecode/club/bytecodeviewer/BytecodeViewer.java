@@ -32,7 +32,7 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.util.*;
-import the.bytecode.club.bytecodeviewer.util.resources.ImportResource;
+import the.bytecode.club.bytecodeviewer.util.resources.importing.ImportResource;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
