@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.compilers.Compilers;
+import the.bytecode.club.bytecodeviewer.compilers.Compiler;
+import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
@@ -264,8 +265,8 @@ public class BytecodeViewer {
      *
      * @return The wrapped Krakatau Assembler instance
      */
-    public static the.bytecode.club.bytecodeviewer.compilers.Compiler getKrakatauCompiler() {
-        return Compilers.krakatau;
+    public static InternalCompiler getKrakatauCompiler() {
+        return Compiler.KRAKATAU_ASSEMBLER.getCompiler();
     }
 
     /**
@@ -273,7 +274,7 @@ public class BytecodeViewer {
      *
      * @return The wrapped Smali Assembler instance
      */
-    public static the.bytecode.club.bytecodeviewer.compilers.Compiler getSmaliCompiler() {
-        return Compilers.smali;
+    public static InternalCompiler getSmaliCompiler() {
+        return Compiler.SMALI_ASSEMBLER.getCompiler();
     }
 }

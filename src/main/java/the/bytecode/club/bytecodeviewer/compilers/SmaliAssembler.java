@@ -35,7 +35,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class SmaliAssembler extends Compiler {
+public class SmaliAssembler extends InternalCompiler
+{
 
     @Override
     public byte[] compile(String contents, String name) {

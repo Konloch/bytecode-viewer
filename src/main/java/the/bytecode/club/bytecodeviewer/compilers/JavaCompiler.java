@@ -37,10 +37,12 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class JavaCompiler extends Compiler {
+public class JavaCompiler extends InternalCompiler
+{
 
     @Override
-    public byte[] compile(String contents, String name) {
+    public byte[] compile(String contents, String name)
+    {
         String fileStart = tempDirectory + fs + "temp" + MiscUtils.randomString(12) + fs;
         String fileStart2 = tempDirectory + fs + "temp" + MiscUtils.randomString(12) + fs;
         File java = new File(fileStart + fs + name + ".java");

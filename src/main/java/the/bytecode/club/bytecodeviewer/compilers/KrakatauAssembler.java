@@ -36,7 +36,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *
  * @author Konloch
  */
-public class KrakatauAssembler extends Compiler {
+public class KrakatauAssembler extends InternalCompiler
+{
 
     @Override
     public byte[] compile(String contents, String name) {

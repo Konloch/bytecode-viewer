@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
@@ -17,7 +16,7 @@ import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
-import the.bytecode.club.bytecodeviewer.compilers.Compilers;
+import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourcePanelCompileMode;
@@ -87,6 +86,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *      + Krakatau Assembly compile - Needs to be fixed
  *
  * TODO IN-PROGRESS:
+ *      + Finish Compiler.JAVA_COMPILER
  *      + Finish dragging code
  *      + Finish right-click tab menu detection
  *      + Fix hook inject for EZ-Injection
@@ -411,7 +411,7 @@ public class BytecodeViewer
                     {
                         ClassNode origNode = (ClassNode) smali[0];
                         String smaliText = (String) smali[1];
-                        byte[] smaliCompiled = Compilers.smali.compile(smaliText, origNode.name);
+                        byte[] smaliCompiled = Compiler.SMALI_ASSEMBLER.getCompiler().compile(smaliText, origNode.name);
                         
                         if (smaliCompiled != null)
                         {
@@ -443,7 +443,7 @@ public class BytecodeViewer
                     {
                         ClassNode origNode = (ClassNode) krakatau[0];
                         String krakatauText = (String) krakatau[1];
-                        byte[] krakatauCompiled = Compilers.krakatau.compile(krakatauText, origNode.name);
+                        byte[] krakatauCompiled = Compiler.KRAKATAU_ASSEMBLER.getCompiler().compile(krakatauText, origNode.name);
                         
                         if (krakatauCompiled != null)
                         {
@@ -479,7 +479,7 @@ public class BytecodeViewer
                         errConsole.setText("Error compiling class: " + origNode.name + nl + "Keep in mind most "
                                 + "decompilers cannot produce compilable classes" + nl + nl);
 
-                        byte[] javaCompiled = Compilers.java.compile(javaText, origNode.name);
+                        byte[] javaCompiled = Compiler.JAVA_COMPILER.getCompiler().compile(javaText, origNode.name);
                         if (javaCompiled != null)
                         {
                             try {

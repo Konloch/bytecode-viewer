@@ -56,6 +56,7 @@ public class ImportResource implements Runnable
 			for (final File file : files)
 			{
 				final String fn = file.getName();
+				
 				if (!file.exists())
 				{
 					update = false;
@@ -96,9 +97,13 @@ public class ImportResource implements Runnable
 					}
 				}
 			}
-		} catch (final Exception e) {
+		}
+		catch (final Exception e)
+		{
 			new ExceptionUI(e);
-		} finally {
+		}
+		finally
+		{
 			BytecodeViewer.viewer.updateBusyStatus(false);
 			
 			if (update)

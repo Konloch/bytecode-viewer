@@ -19,23 +19,14 @@ package the.bytecode.club.bytecodeviewer.compilers;
  ***************************************************************************/
 
 /**
- * A collection of all of the supported compilers/assemblers inside of BCV
+ * Used to represent a single the compiler/assembler
  *
  * @author Konloch
  */
-public enum Compiler
+
+public abstract class InternalCompiler
 {
-    KRAKATAU_ASSEMBLER(new KrakatauAssembler()),
-    SMALI_ASSEMBLER(new SmaliAssembler()),
-    JAVA_COMPILER(new JavaCompiler()),
-    ;
-    
-    private final InternalCompiler compiler;
-    
-    Compiler(InternalCompiler compiler) {this.compiler = compiler;}
-    
-    public InternalCompiler getCompiler()
-    {
-        return compiler;
-    }
+
+    public abstract byte[] compile(String contents, String name);
+
 }
