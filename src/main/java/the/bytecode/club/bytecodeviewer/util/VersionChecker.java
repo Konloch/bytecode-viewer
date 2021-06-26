@@ -5,6 +5,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
+import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -60,18 +61,12 @@ public class VersionChecker implements Runnable
 			
 			if (!VERSION.equals(version))
 			{
-				JOptionPane pane = new JOptionPane(
+				MultipleChoiceDialogue outdatedDialogue = new MultipleChoiceDialogue("Bytecode Viewer - Outdated Version",
 						"Your version: " + VERSION + ", latest version: "
-						+ version + nl + "What would you like to do?");
-				Object[] options = new String[]{"Open The Download Page", "Download The Updated Jar", "Do Nothing"};
-				pane.setOptions(options);
-				JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Outdated Version");
-				dialog.setVisible(true);
-				Object obj = pane.getValue();
-				int result = -1;
-				for (int k = 0; k < options.length; k++)
-					if (options[k].equals(obj))
-						result = k;
+						+ version + nl + "What would you like to do?",
+						new String[]{"Open The Download Page", "Download The Updated Jar", "Do Nothing"});
+				
+				int result = outdatedDialogue.promptChoice();
 				
 				if (result == 0)
 				{
@@ -80,8 +75,7 @@ public class VersionChecker implements Runnable
 					else
 						BytecodeViewer.showMessage("Cannot open the page, please manually type it." + nl + "https://github.com/Konloch/bytecode-viewer/releases");
 				}
-				
-				if (result == 1)
+				else if (result == 1)
 				{
 					JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
 							"Select Save File",
@@ -104,19 +98,11 @@ public class VersionChecker implements Runnable
 						
 						if (file.exists())
 						{
-							pane = new JOptionPane("The file " + file + " exists, would you like to overwrite it?");
-							options = new String[]{"Yes", "No"};
-							pane.setOptions(options);
-							dialog = pane.createDialog(BytecodeViewer.viewer,
-									"Bytecode Viewer - Overwrite File");
-							dialog.setVisible(true);
-							obj = pane.getValue();
-							result = -1;
-							for (int k = 0; k < options.length; k++)
-								if (options[k].equals(obj))
-									result = k;
+							MultipleChoiceDialogue overwriteDialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
+									"The file " + file + " exists, would you like to overwrite it?",
+									new String[]{"Yes", "No"});
 							
-							if (result != 0)
+							if (overwriteDialogue.promptChoice() != 0)
 								return;
 							
 							file.delete();

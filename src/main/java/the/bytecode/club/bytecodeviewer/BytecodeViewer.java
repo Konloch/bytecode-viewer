@@ -554,23 +554,16 @@ public class BytecodeViewer
      *
      * @param ask if should require user input or not
      */
-    public static void resetWorkSpace(boolean ask) {
-        if (ask) {
-            JOptionPane pane = new JOptionPane(
-                    "Are you sure you want to reset the workspace?\n\rIt will also reset your file navigator and "
-                            + "search.");
-            Object[] options = new String[]{"Yes", "No"};
-            pane.setOptions(options);
-            JDialog dialog = pane.createDialog(viewer,
-                    "Bytecode Viewer - Reset Workspace");
-            dialog.setVisible(true);
-            Object obj = pane.getValue();
-            int result = -1;
-            for (int k = 0; k < options.length; k++)
-                if (options[k].equals(obj))
-                    result = k;
+    public static void resetWorkSpace(boolean ask)
+    {
+        if (ask)
+        {
+            MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Reset Workspace",
+                    "Are you sure you want to reset the workspace?" +
+                            "\n\rIt will also reset your file navigator and search.",
+                    new String[]{"Yes", "No"});
 
-            if (result != 0)
+            if (dialogue.promptChoice() != 0)
                 return;
         }
 

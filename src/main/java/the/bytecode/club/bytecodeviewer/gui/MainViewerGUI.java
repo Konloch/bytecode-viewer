@@ -11,10 +11,7 @@ import javax.swing.*;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.*;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
-import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
-import the.bytecode.club.bytecodeviewer.gui.components.AboutWindow;
-import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
+import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptions;
 import the.bytecode.club.bytecodeviewer.gui.plugins.ReplaceStringsOptions;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
@@ -765,18 +762,12 @@ public class MainViewerGUI extends JFrame
     
     public void reloadResources()
     {
-        JOptionPane pane = new JOptionPane("Are you sure you wish to reload the resources?");
-        Object[] options = new String[]{"Yes", "No"};
-        pane.setOptions(options);
-        JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Reload Resources");
-        dialog.setVisible(true);
-        Object obj = pane.getValue();
-        int result = -1;
-        for (int k = 0; k < options.length; k++)
-            if (options[k].equals(obj))
-                result = k;
+        MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Reload Resources",
+                "Are you sure you wish to reload the resources?",
+                new String[]{"Yes", "No"});
     
-        if (result == 0) {
+        if (dialogue.promptChoice() == 0)
+        {
             LazyNameUtil.reset();
             ArrayList<File> reopen = new ArrayList<>();
         
@@ -944,20 +935,11 @@ public class MainViewerGUI extends JFrame
     
     public void askBeforeExiting()
     {
-        JOptionPane pane = new JOptionPane("Are you sure you want to exit?");
-        
-        Object[] options = new String[]{"Yes", "No"};
-        
-        pane.setOptions(options);
-        JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Exit");
-        dialog.setVisible(true);
-        Object obj = pane.getValue();
-        int result = -1;
-        for (int k = 0; k < options.length; k++)
-            if (options[k].equals(obj))
-                result = k;
+        MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Exit",
+                "Are you sure you want to exit?",
+                new String[]{"Yes", "No"});
     
-        if (result == 0)
+        if (dialogue.promptChoice() == 0)
         {
             Configuration.canExit = true;
             System.exit(0);
