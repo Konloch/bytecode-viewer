@@ -1,4 +1,4 @@
-package jd.cli.util;
+package the.bytecode.club.bytecodeviewer.decompilers.jdgui;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;

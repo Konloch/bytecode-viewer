@@ -1,4 +1,4 @@
-package jd.cli.preferences;
+package the.bytecode.club.bytecodeviewer.decompilers.jdgui;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,16 +1,24 @@
-package jd.cli.loader;
+package the.bytecode.club.bytecodeviewer.decompilers.jdgui;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
+import org.jd.core.v1.api.loader.Loader;
 import org.jd.core.v1.api.loader.LoaderException;
 
-
-public class DirectoryLoader extends BaseLoader {
-    public DirectoryLoader(File file) throws LoaderException {
-        super(file);
+public class DirectoryLoader implements Loader
+{
+    protected String codebase;
+    protected long lastModified;
+    protected boolean isFile;
+    
+    public DirectoryLoader(File file) throws LoaderException
+    {
+        this.codebase = file.getAbsolutePath();
+        this.lastModified = file.lastModified();
+        this.isFile = file.isFile();
 
         if (!(file.exists() && file.isDirectory()))
             throw new LoaderException("'" + codebase + "' is not a directory");

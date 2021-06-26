@@ -1,7 +1,7 @@
-package jd.cli.printer.text;
+package the.bytecode.club.bytecodeviewer.decompilers.jdgui;
 
 import java.io.PrintStream;
-import jd.cli.preferences.CommonPreferences;
+
 import org.jd.core.v1.api.printer.Printer;
 
 public class PlainTextPrinter implements Printer {
