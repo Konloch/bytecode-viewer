@@ -10,11 +10,9 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.Resources;
-import the.bytecode.club.bytecodeviewer.Settings;
+import the.bytecode.club.bytecodeviewer.*;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
+import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.gui.components.AboutWindow;
 import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
@@ -740,52 +738,20 @@ public class MainViewerGUI extends JFrame {
         return null;
     }
     
-    public void selectFile()
+    public void compileOnNewThread()
     {
-        final JFileChooser fc = new JFileChooser();
+        Thread t = new Thread(() -> BytecodeViewer.compile(true));
+        t.start();
+    }
     
-        try {
-            File f = new File(Configuration.lastDirectory);
-            if (f.exists())
-                fc.setSelectedFile(f);
-        } catch (Exception ignored) {
-        
+    public void runResources()
+    {
+        if (BytecodeViewer.getLoadedClasses().isEmpty()) {
+            BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+            return;
         }
-    
-        fc.setDialogTitle("Select File or Folder to open in BCV");
-        fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        fc.setAcceptAllFileFilterUsed(true);
-        fc.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory())
-                    return true;
-            
-                String extension = MiscUtils.extension(f.getAbsolutePath());
-                return extension.equals("jar") || extension.equals("zip")
-                        || extension.equals("class") || extension.equals("apk")
-                        || extension.equals("dex") || extension.equals("war") || extension.equals("jsp");
-            
-            }
         
-            @Override
-            public String getDescription() {
-                return "APKs, DEX, Class Files or Zip/Jar/War Archives";
-            }
-        });
-    
-        int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-    
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-            try {
-                BytecodeViewer.viewer.updateBusyStatus(true);
-                BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()}, true);
-                BytecodeViewer.viewer.updateBusyStatus(false);
-            } catch (Exception e1) {
-                new ExceptionUI(e1);
-            }
-        }
+        new RunOptions().setVisible(true);
     }
     
     public void reloadResources()
@@ -826,48 +792,34 @@ public class MainViewerGUI extends JFrame {
         }
     }
     
-    public void compileOnNewThread()
+    public void selectFile()
     {
-        Thread t = new Thread(() -> BytecodeViewer.compile(true));
-        t.start();
-    }
-    
-    public void runResources()
-    {
-        if (BytecodeViewer.getLoadedClasses().isEmpty()) {
-            BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
-            return;
-        }
+        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+                "Select File or Folder to open in BCV",
+                "APKs, DEX, Class Files or Zip/Jar/War Archives",
+                Constants.SUPPORTED_FILE_EXTENSIONS);
         
-        new RunOptions().setVisible(true);
-    }
-    
-    public void showForeignLibraryWarning()
-    {
-        if (!deleteForeignOutdatedLibs.isSelected()) {
-            BytecodeViewer.showMessage("WARNING: With this being toggled off outdated libraries will NOT be "
-                    + "removed. It's also a security issue. ONLY TURN IT OFF IF YOU KNOW WHAT YOU'RE DOING.");
+        int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
+        if (returnVal == JFileChooser.APPROVE_OPTION)
+        {
+            Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+            try {
+                BytecodeViewer.viewer.updateBusyStatus(true);
+                BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()}, true);
+                BytecodeViewer.viewer.updateBusyStatus(false);
+            } catch (Exception e1) {
+                new ExceptionUI(e1);
+            }
         }
-        Configuration.deleteForeignLibraries = deleteForeignOutdatedLibs.isSelected();
     }
 
     public void selectPythonC() {
-        JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return true;
-            }
-
-            @Override
-            public String getDescription() {
-                return "Python (Or PyPy for speed) 2.7 Executable";
-            }
-        });
-        fc.setFileHidingEnabled(false);
-        fc.setAcceptAllFileFilterUsed(false);
+        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+                "Select Python 2.7 Executable",
+                "Python (Or PyPy for speed) 2.7 Executable",
+                "everything");
+        
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
                 Configuration.python = fc.getSelectedFile().getAbsolutePath();
@@ -877,22 +829,12 @@ public class MainViewerGUI extends JFrame {
     }
 
     public void selectJavac() {
-        JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return true;
-            }
-
-            @Override
-            public String getDescription() {
-                return "Javac Executable (Requires JDK  'C:/programfiles/Java/JDK_xx/bin/javac.exe)";
-            }
-        });
-        fc.setFileHidingEnabled(false);
-        fc.setAcceptAllFileFilterUsed(false);
+        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+                "Select Javac Executable",
+                "Javac Executable (Requires JDK  'C:/programfiles/Java/JDK_xx/bin/javac.exe)",
+                "everything");
+        
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
                 Configuration.javac = fc.getSelectedFile().getAbsolutePath();
@@ -902,22 +844,12 @@ public class MainViewerGUI extends JFrame {
     }
 
     public void selectJava() {
-        JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return true;
-            }
-
-            @Override
-            public String getDescription() {
-                return "Java Executable (Inside Of JRE/JDK 'C:/programfiles/Java/JDK_xx/bin/java.exe')";
-            }
-        });
-        fc.setFileHidingEnabled(false);
-        fc.setAcceptAllFileFilterUsed(false);
+        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+                "Select Java Executable",
+                "Java Executable (Inside Of JRE/JDK 'C:/programfiles/Java/JDK_xx/bin/java.exe')",
+                "everything");
+        
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
                 Configuration.java = fc.getSelectedFile().getAbsolutePath();
@@ -927,22 +859,12 @@ public class MainViewerGUI extends JFrame {
     }
 
     public void selectPythonC3() {
-        JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return true;
-            }
-
-            @Override
-            public String getDescription() {
-                return "Python (Or PyPy for speed) 3.x Executable";
-            }
-        });
-        fc.setFileHidingEnabled(false);
-        fc.setAcceptAllFileFilterUsed(false);
+        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+                "Select Python 3.x Executable",
+                "Python (Or PyPy for speed) 3.x Executable",
+                "everything");
+        
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
                 Configuration.python3 = fc.getSelectedFile().getAbsolutePath();
@@ -952,23 +874,16 @@ public class MainViewerGUI extends JFrame {
     }
 
     public void selectOpenalLibraryFolder() {
-        JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return f.isDirectory();
-            }
-
-            @Override
-            public String getDescription() {
-                return "Optional Library Folder";
-            }
-        });
+        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+                "Select Library Folder",
+                "Optional Library Folder",
+                "everything");
+        
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fc.setFileHidingEnabled(false);
         fc.setAcceptAllFileFilterUsed(false);
+        
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
                 Configuration.library = fc.getSelectedFile().getAbsolutePath();
@@ -978,22 +893,12 @@ public class MainViewerGUI extends JFrame {
     }
     
     public void selectJRERTLibrary() {
-        JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return true;
-            }
-
-            @Override
-            public String getDescription() {
-                return "JRE RT Library";
-            }
-        });
-        fc.setFileHidingEnabled(false);
-        fc.setAcceptAllFileFilterUsed(false);
+        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+                "Select JRE RT Jar",
+                "JRE RT Library",
+                "everything");
+        
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
                 Configuration.rt = fc.getSelectedFile().getAbsolutePath();
@@ -1004,12 +909,13 @@ public class MainViewerGUI extends JFrame {
     
     public void openExternalPlugin()
     {
-        JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+                "Select External Plugin",
+                "External Plugin",
+                "everything");
         fc.setFileFilter(PluginManager.fileFilter());
-        fc.setFileHidingEnabled(false);
-        fc.setAcceptAllFileFilterUsed(false);
+        
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-    
         if (returnVal == JFileChooser.APPROVE_OPTION)
             try {
                 BytecodeViewer.viewer.updateBusyStatus(true);
@@ -1022,12 +928,12 @@ public class MainViewerGUI extends JFrame {
     
     public void askBeforeExiting()
     {
-        JOptionPane pane = new JOptionPane(
-                "Are you sure you want to exit?");
+        JOptionPane pane = new JOptionPane("Are you sure you want to exit?");
+        
         Object[] options = new String[]{"Yes", "No"};
+        
         pane.setOptions(options);
-        JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-                "Bytecode Viewer - Exit");
+        JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Exit");
         dialog.setVisible(true);
         Object obj = pane.getValue();
         int result = -1;
@@ -1035,9 +941,21 @@ public class MainViewerGUI extends JFrame {
             if (options[k].equals(obj))
                 result = k;
     
-        if (result == 0) {
+        if (result == 0)
+        {
             Configuration.canExit = true;
             System.exit(0);
         }
+    }
+    
+    public void showForeignLibraryWarning()
+    {
+        if (!deleteForeignOutdatedLibs.isSelected())
+        {
+            BytecodeViewer.showMessage("WARNING: With this being toggled off outdated libraries will NOT be "
+                    + "removed. It's also a security issue. ONLY TURN IT OFF IF YOU KNOW WHAT YOU'RE DOING.");
+        }
+        
+        Configuration.deleteForeignLibraries = deleteForeignOutdatedLibs.isSelected();
     }
 }

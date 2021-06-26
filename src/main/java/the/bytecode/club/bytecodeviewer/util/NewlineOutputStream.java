@@ -25,9 +25,8 @@ import org.jetbrains.annotations.NotNull;
  ***************************************************************************/
 
 /**
- * Convert the various newline conventions to the local platform's
- * newline convention. <p>
- * <p>
+ * Convert the various newline conventions to the local platform's newline convention.
+ *
  * This stream can be used with the Message.writeTo method to
  * generate a message that uses the local plaform's line terminator
  * for the purpose of (e.g.) saving the message to a local file.

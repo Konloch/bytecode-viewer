@@ -30,7 +30,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /**
  * Supports loading of groovy, python or ruby scripts.
- * <p>
+ *
  * Only allows one plugin to be running at once.
  *
  * @author Konloch
