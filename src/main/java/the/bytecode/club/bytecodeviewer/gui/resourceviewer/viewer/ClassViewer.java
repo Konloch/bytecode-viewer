@@ -61,7 +61,6 @@ public class ClassViewer extends ResourceViewer
 {
     public JSplitPane sp;
     public JSplitPane sp2;
-    public TabbedPane tabbedPane;
     public ResourceViewPanel resourceViewPanel1 = new ResourceViewPanel(0);
     public ResourceViewPanel resourceViewPanel2 = new ResourceViewPanel(1);
     public ResourceViewPanel resourceViewPanel3 = new ResourceViewPanel(2);

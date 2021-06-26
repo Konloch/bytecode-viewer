@@ -156,17 +156,34 @@ public class WorkPaneMainComponent extends VisibleComponent
     }
 
     //load class resources
-    public void addClassResource(final FileContainer container, String name, final ClassNode cn)
+    public void addClassResource(final FileContainer container, final String name, final ClassNode cn)
     {
-        String workingName = container.name + ">" + name;
+        final String workingName = container.name + ">" + name;
+    
+        addResource(container, name, new ClassViewer(container, name, cn, workingName));
+    }
 
+    //Load file resources
+    public void addFileResource(final FileContainer container, final String name, byte[] contents)
+    {
+        if (contents == null) //a directory
+            return;
+    
+        final String workingName = container.name + ">" + name;
+        
+        addResource(container, name, new FileViewer(container, name, contents, workingName));
+    }
+    
+    private void addResource(final FileContainer container, final String name, final ResourceViewer resourceView)
+    {
+        final String workingName = container.name + ">" + name;
+    
         if (!workingOn.containsKey(workingName))
         {
-            final ClassViewer resourceView = new ClassViewer(container, name, cn, workingName);
             tabs.add(resourceView);
             final int tabIndex = tabs.indexOfComponent(resourceView);
             workingOn.put(workingName, tabIndex);
-            
+        
             TabbedPane tabbedPane = new TabbedPane(tabIndex, workingName, container.name, name, tabs, resourceView);
             resourceView.tabbedPane = tabbedPane;
             tabs.setTabComponentAt(tabIndex, tabbedPane);
@@ -176,39 +193,10 @@ public class WorkPaneMainComponent extends VisibleComponent
         else
         {
             tabs.setSelectedIndex(workingOn.get(workingName));
-        }
-    }
-
-    //Load file resources
-    public void addFileResource(final FileContainer container, String name, byte[] contents)
-    {
-        if (contents == null) //a directory
-            return;
-        
-        final String workingName = container.name + ">" + name;
-
-        /*if (Configuration.simplifiedTabNames)
-            name = MiscUtils.getChildFromPath(name);
-        if (Configuration.displayParentInTab)
-            name = container.name + ">" + name;*/
-
-        if (!workingOn.containsKey(workingName))
-        {
-            final FileViewer resourceView = new FileViewer(container, name, contents, workingName);
-            tabs.add(resourceView);
-            final int tabIndex = tabs.indexOfComponent(resourceView);
-            workingOn.put(workingName, tabIndex);
-
-            TabbedPane tabbedPane = new TabbedPane(tabIndex, workingName, container.name, name, tabs, resourceView);
-            resourceView.tabbedPane = tabbedPane;
-            tabs.setTabComponentAt(tabIndex, tabbedPane);
-            tabs.setSelectedIndex(tabIndex);
-            resourceView.refreshTitle();
-        }
-        else
-        {
+            
+            // TODO: need to look into if this exception is actually needed
+            //  removing it for now, but keeping it incase this causes issues
             try {
-                tabs.setSelectedIndex(workingOn.get(workingName));
             } catch (Exception e) {
                 //workingOn.remove(workingName);
                 e.printStackTrace();

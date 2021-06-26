@@ -58,7 +58,6 @@ public class FileViewer extends ResourceViewer
             Configuration.rstaTheme.apply(new SearchableRSyntaxTextArea());
     
     public final JPanel mainPanel = new JPanel(new BorderLayout());
-    public TabbedPane tabbedPane;
     public BufferedImage image;
     public boolean canRefresh;
 

@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 import javax.swing.JPanel;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -35,6 +36,7 @@ public abstract class ResourceViewer extends JPanel
     public ClassNode cn;
     public String name;
     public FileContainer container;
+    public TabbedPane tabbedPane;
     
     public abstract void refreshTitle();
     
