@@ -2,7 +2,9 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
 import javax.swing.JPanel;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -25,8 +27,23 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
 public abstract class ResourceViewer extends JPanel
 {
     public ClassNode cn;
+    public String originalName;
     public String name;
     public FileContainer container;
+    
+    public String getTabName()
+    {
+        String tabName = name;
+        
+        if (Configuration.simplifiedTabNames)
+            tabName = MiscUtils.getChildFromPath(tabName);
+        if (Configuration.displayParentInTab)
+            tabName = container.name + ">" + tabName;
+        
+        return tabName;
+    }
+    
+    public abstract void refreshTitle();
 
     private static final long serialVersionUID = -2965538493489119191L;
 }

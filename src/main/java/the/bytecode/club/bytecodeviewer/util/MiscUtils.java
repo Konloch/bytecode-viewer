@@ -216,7 +216,7 @@ public class MiscUtils
     
     public static String getChildFromPath(String path)
     {
-        if (path.contains("/"))
+        if (path != null && path.contains("/"))
         {
             String[] pathParts = StringUtils.split(path, "/");
             return pathParts[pathParts.length-1];

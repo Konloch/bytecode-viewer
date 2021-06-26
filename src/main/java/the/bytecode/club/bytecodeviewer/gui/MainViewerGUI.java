@@ -645,6 +645,8 @@ public class MainViewerGUI extends JFrame {
         showFileInTabTitle.setSelected(false);
         showClassMethods.setSelected(false);
     
+        simplifyNameInTabTitle.setEnabled(true);
+    
         moveAllClassesIntoRoot.setEnabled(false);
         controlFlow.setEnabled(false);
         junkCode.setEnabled(false);

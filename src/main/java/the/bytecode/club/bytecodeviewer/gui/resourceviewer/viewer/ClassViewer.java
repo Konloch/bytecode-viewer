@@ -5,8 +5,6 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceViewPanel;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -22,12 +20,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
-import javax.swing.text.JTextComponent;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rtextarea.RTextScrollPane;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -65,8 +59,6 @@ import static the.bytecode.club.bytecodeviewer.util.MethodParser.Method;
 
 public class ClassViewer extends ResourceViewer
 {
-    private static final long serialVersionUID = -8650495368920680024L;
-    public String name;
     public JSplitPane sp;
     public JSplitPane sp2;
     public TabbedPane tabbedPane;
@@ -78,184 +70,7 @@ public class ClassViewer extends ResourceViewer
     public ClassViewer THIS = this;
     public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
     public final String workingName;
-    private final DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(255, 62, 150));
     
-    /**
-     * This was really interesting to write.
-     *
-     * @author Konloch
-     */
-    public void search(int pane, String search, boolean next)
-    {
-        try
-        {
-            Component[] com = null;
-            if (pane == 0) // bytecode
-                com = resourceViewPanel1.panel.getComponents();
-            else if (pane == 1)
-                com = resourceViewPanel2.panel.getComponents();
-            else if (pane == 2)
-                com = resourceViewPanel3.panel.getComponents();
-
-            if (com == null) // someone fucked up, lets prevent a nullpointer.
-                return;
-
-            for (Component c : com)
-            {
-                if (c instanceof RTextScrollPane)
-                {
-                    RSyntaxTextArea area = (RSyntaxTextArea) ((RTextScrollPane) c).getViewport().getComponent(0);
-
-                    if (search.isEmpty())
-                    {
-                        highlight(pane, area, "");
-                        return;
-                    }
-
-                    int startLine = area.getDocument().getDefaultRootElement()
-                            .getElementIndex(area.getCaretPosition()) + 1;
-
-                    int currentLine = 1;
-                    boolean canSearch = false;
-                    String[] test = (area.getText().split("\n").length >= 2
-                            ? area.getText().split("\n")
-                            : area.getText().split("\r"));
-
-                    int lastGoodLine = -1;
-                    int firstPos = -1;
-                    boolean found = false;
-
-                    if (next)
-                    {
-                        for (String s : test)
-                        {
-                            if (pane == 0 && !resourceViewPanel1.textArea.getCaseSensitiveSearch().isSelected() ||
-                                    pane == 1 && !resourceViewPanel2.textArea.getCaseSensitiveSearch().isSelected())
-                            {
-                                //TODO should pane2 be here? - look into this later
-                                s = s.toLowerCase();
-                                search = search.toLowerCase();
-                            }
-
-                            if (currentLine == startLine)
-                            {
-                                canSearch = true;
-                            }
-                            else if (s.contains(search))
-                            {
-                                if (canSearch)
-                                {
-                                    area.setCaretPosition(area.getDocument()
-                                            .getDefaultRootElement()
-                                            .getElement(currentLine - 1)
-                                            .getStartOffset());
-                                    canSearch = false;
-                                    found = true;
-                                }
-
-                                if (firstPos == -1)
-                                    firstPos = currentLine;
-                            }
-
-                            currentLine++;
-                        }
-
-                        if (!found && firstPos != -1)
-                        {
-                            area.setCaretPosition(area.getDocument()
-                                    .getDefaultRootElement()
-                                    .getElement(firstPos - 1).getStartOffset());
-                        }
-                    }
-                    else
-                    {
-                        canSearch = true;
-                        for (String s : test)
-                        {
-                            if (pane == 0 && !resourceViewPanel1.textArea.getCaseSensitiveSearch().isSelected() || pane == 1
-                                    && !resourceViewPanel2.textArea.getCaseSensitiveSearch().isSelected() || pane == 2
-                                    && !resourceViewPanel3.textArea.getCaseSensitiveSearch().isSelected())
-                            {
-                                s = s.toLowerCase();
-                                search = search.toLowerCase();
-                            }
-        
-                            if (s.contains(search))
-                            {
-                                if (lastGoodLine != -1 && canSearch)
-                                    area.setCaretPosition(area.getDocument()
-                                            .getDefaultRootElement()
-                                            .getElement(lastGoodLine - 1)
-                                            .getStartOffset());
-            
-                                lastGoodLine = currentLine;
-            
-                                if (currentLine >= startLine)
-                                    canSearch = false;
-                            }
-                            currentLine++;
-                        }
-    
-                        if (lastGoodLine != -1
-                                && area.getDocument()
-                                .getDefaultRootElement()
-                                .getElementIndex(area.getCaretPosition()) + 1 == startLine)
-                        {
-                            area.setCaretPosition(area.getDocument()
-                                    .getDefaultRootElement()
-                                    .getElement(lastGoodLine - 1)
-                                    .getStartOffset());
-                        }
-                    }
-                    highlight(pane, area, search);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-        }
-    }
-    
-    public void highlight(int pane, JTextComponent textComp, String pattern)
-    {
-        if (pattern.isEmpty())
-        {
-            textComp.getHighlighter().removeAllHighlights();
-            return;
-        }
-
-        try
-        {
-            Highlighter hilite = textComp.getHighlighter();
-            hilite.removeAllHighlights();
-            javax.swing.text.Document doc = textComp.getDocument();
-            String text = doc.getText(0, doc.getLength());
-            int pos = 0;
-
-            if ((pane == 0 && !resourceViewPanel1.textArea.getCaseSensitiveSearch().isSelected()) || pane == 1
-                    && !resourceViewPanel2.textArea.getCaseSensitiveSearch().isSelected() || pane == 2
-                    && !resourceViewPanel3.textArea.getCaseSensitiveSearch().isSelected())
-            {
-                pattern = pattern.toLowerCase();
-                text = text.toLowerCase();
-            }
-
-            // Search for pattern
-            while ((pos = text.indexOf(pattern, pos)) >= 0)
-            {
-                // Create highlighter using private painter and apply around
-                // pattern
-                hilite.addHighlight(pos, pos + pattern.length(), painter);
-                pos += pattern.length();
-            }
-        }
-        catch (Exception e)
-        {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
-        }
-    }
-
     public ClassViewer(final FileContainer container, final String name, final ClassNode cn, String workingName)
     {
         this.workingName = workingName;
@@ -285,7 +100,8 @@ public class ClassViewer extends ResourceViewer
         });
     }
 
-    public void resetDivider() {
+    public void resetDivider()
+    {
         SwingUtilities.invokeLater(() ->
         {
             sp.setResizeWeight(0.5);
@@ -322,6 +138,8 @@ public class ClassViewer extends ResourceViewer
     {
         this.cn = BytecodeViewer.getClassNode(container, cn.name); //update the classnode
         setPanes();
+        
+        refreshTitle();
         
         resourceViewPanel1.createPane(this);
         resourceViewPanel2.createPane(this);
@@ -385,8 +203,16 @@ public class ClassViewer extends ResourceViewer
             }
         }
     }
-
-    public Object[] getSmali() {
+    
+    @Override
+    public void refreshTitle()
+    {
+        if(tabbedPane != null)
+            tabbedPane.label.setText(getTabName());
+    }
+    
+    public Object[] getSmali()
+    {
         if (resourceViewPanel1.compileMode == ResourcePanelCompileMode.SMALI_ASSEMBLY)
             return new Object[]{cn, resourceViewPanel1.textArea.getText()};
         if (resourceViewPanel2.compileMode == ResourcePanelCompileMode.SMALI_ASSEMBLY)
@@ -397,7 +223,8 @@ public class ClassViewer extends ResourceViewer
         return null;
     }
 
-    public Object[] getKrakatau() {
+    public Object[] getKrakatau()
+    {
         if (resourceViewPanel1.compileMode == ResourcePanelCompileMode.KRAKATAU_ASSEMBLY)
             return new Object[]{cn, resourceViewPanel1.textArea.getText()};
         if (resourceViewPanel2.compileMode == ResourcePanelCompileMode.KRAKATAU_ASSEMBLY)
@@ -408,7 +235,8 @@ public class ClassViewer extends ResourceViewer
         return null;
     }
 
-    public Object[] getJava() {
+    public Object[] getJava()
+    {
         if (resourceViewPanel1.textArea != null)
             return new Object[]{cn, resourceViewPanel1.textArea.getText()};
         if (resourceViewPanel2.textArea != null)
@@ -566,4 +394,6 @@ public class ClassViewer extends ResourceViewer
             area.setCaretPosition(area.getLineStartOffset(line));
         } catch (BadLocationException ignored) { }
     }
+    
+    private static final long serialVersionUID = -8650495368920680024L;
 }

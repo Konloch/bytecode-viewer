@@ -1,8 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
 import javax.swing.JInternalFrame;
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -28,6 +26,7 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
  * @author Konloch
  * @author WaterWolf
  */
+
 public abstract class VisibleComponent extends JInternalFrame
 {
     private static final long serialVersionUID = -6453413772343643526L;

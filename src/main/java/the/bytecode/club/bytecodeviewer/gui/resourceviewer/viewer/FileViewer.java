@@ -82,6 +82,8 @@ public class FileViewer extends ResourceViewer
         final String nameLowerCase = this.name.toLowerCase();
         final String contentsAsString = new String(contents);
         
+        refreshTitle();
+        
         //image viewer
         if (!MiscUtils.isPureAscii(contentsAsString))
         {
@@ -125,7 +127,14 @@ public class FileViewer extends ResourceViewer
         
         mainPanel.add(textArea.getScrollPane());
     }
-
+    
+    @Override
+    public void refreshTitle()
+    {
+        if(tabbedPane != null)
+            tabbedPane.label.setText(getTabName());
+    }
+    
     public void refresh(JButton src)
     {
         if (!canRefresh)
@@ -141,6 +150,8 @@ public class FileViewer extends ResourceViewer
         JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
         mainPanel.add(label, BorderLayout.CENTER);
         mainPanel.updateUI();
+    
+        refreshTitle();
 
         src.setEnabled(true);
     }

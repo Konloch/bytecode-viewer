@@ -160,11 +160,6 @@ public class WorkPaneMainComponent extends VisibleComponent
     public void addWorkingFile(final FileContainer container, String name, final ClassNode cn)
     {
         String workingName = container.name + ">" + name;
-        
-        if (Configuration.simplifiedTabNames)
-            name = MiscUtils.getChildFromPath(name);
-        if (Configuration.displayParentInTab)
-            name = container.name + ">" + name;
 
         if (!workingOn.containsKey(workingName))
         {
@@ -191,10 +186,10 @@ public class WorkPaneMainComponent extends VisibleComponent
         
         final String workingName = container.name + ">" + name;
 
-        if (Configuration.simplifiedTabNames)
+        /*if (Configuration.simplifiedTabNames)
             name = MiscUtils.getChildFromPath(name);
         if (Configuration.displayParentInTab)
-            name = container.name + ">" + name;
+            name = container.name + ">" + name;*/
 
         if (!workingOn.containsKey(workingName))
         {
