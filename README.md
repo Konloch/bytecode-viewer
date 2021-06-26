@@ -24,15 +24,14 @@ Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 * Krakatau Integration for Bytecode assembly/disassembly.
 * Smali/BakSmali Integration - You can now edit class files/dex files via smali!
 * APK/DEX Support - Using Dex2Jar and Jar2Dex it's able to load and save APKs with ease!
-* Java Decompiler - It utilizes FernFlower, Procyon, CFR, and JD for decompilation.
+* Java Decompiler - It utilizes FernFlower, Procyon, CFR, JD & JADX for decompilation.
 * Bytecode Decompiler - A modified version of CFIDE's.
 * Hex Viewer - Powered by JHexPane.
 * Each Decompiler/Editor/Viewer is toggleable, you can also select what will display on each pane.
 * Fully Featured Search System - Search through strings, functions, variables and more!
 * A Plugin System With Built In Plugins - (Show All Strings, Malicious Code Scanner, String Decrypters, etc)
-* Fully Featured Scripting System That Supports Groovy.
+* Fully Featured Scripting System That Supports Groovy, Java, Python, Ruby & Javascript.
 * EZ-Inject - Graphically insert hooks and debugging code, invoke main and start the program.
-* Recent Files & Recent Plugins.
 * And more! Give it a try for yourself!
 
 #### Command Line Input
