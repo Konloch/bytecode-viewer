@@ -42,6 +42,7 @@ public class ResourceExporting
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
+				Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
 				File file = fc.getSelectedFile();
 				String path = file.getAbsolutePath();
 				
@@ -97,6 +98,7 @@ public class ResourceExporting
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
+				Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
 				File file = fc.getSelectedFile();
 				
 				//auto append .zip
@@ -159,6 +161,7 @@ public class ResourceExporting
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
+				Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
 				final File file = fc.getSelectedFile();
 				String output = file.getAbsolutePath();
 				
@@ -267,6 +270,7 @@ public class ResourceExporting
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
+				Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
 				final File file = fc.getSelectedFile();
 				String output = file.getAbsolutePath();
 				

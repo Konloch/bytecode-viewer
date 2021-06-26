@@ -46,6 +46,7 @@ public class ResourceDecompiling
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
+				Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
 				File file = fc.getSelectedFile();
 				
 				//auto appened zip
@@ -222,6 +223,7 @@ public class ResourceDecompiling
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
+				Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
 				File file = fc.getSelectedFile();
 				
 				BytecodeViewer.viewer.updateBusyStatus(true);

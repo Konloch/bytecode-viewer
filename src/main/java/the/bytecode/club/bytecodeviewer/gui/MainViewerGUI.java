@@ -811,8 +811,8 @@ public class MainViewerGUI extends JFrame
         int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
         if (returnVal == JFileChooser.APPROVE_OPTION)
         {
-            Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
             try {
+                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 BytecodeViewer.viewer.updateBusyStatus(true);
                 BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()}, true);
                 BytecodeViewer.viewer.updateBusyStatus(false);

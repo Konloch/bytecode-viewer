@@ -74,7 +74,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * http://the.bytecode.club
  *
  * TODO BUGS:
- *      + Last selected directory isn't set on most file chooser dialogues
  *      + Synchronized scrolling is broken
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
@@ -627,9 +626,10 @@ public class BytecodeViewer
                     Constants.SUPPORTED_FILE_EXTENSIONS);
             
             int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+            {
                 try {
+                    Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                     BytecodeViewer.viewer.updateBusyStatus(true);
                     BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()}, true);
                     BytecodeViewer.viewer.updateBusyStatus(false);
@@ -669,7 +669,9 @@ public class BytecodeViewer
                         "zip");
                 
                 int returnVal = fc.showSaveDialog(viewer);
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                if (returnVal == JFileChooser.APPROVE_OPTION)
+                {
+                    Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                     File file = fc.getSelectedFile();
                     if (!file.getAbsolutePath().endsWith(".zip"))
                         file = new File(file.getAbsolutePath() + ".zip");

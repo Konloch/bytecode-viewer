@@ -2,7 +2,9 @@ package the.bytecode.club.bytecodeviewer.util;
 
 import me.konloch.kontainer.io.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
+import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -56,7 +58,8 @@ public class VersionChecker implements Runnable
 			
 			}
 			
-			if (!VERSION.equals(version)) {
+			if (!VERSION.equals(version))
+			{
 				JOptionPane pane = new JOptionPane(
 						"Your version: " + VERSION + ", latest version: "
 						+ version + nl + "What would you like to do?");
@@ -70,40 +73,37 @@ public class VersionChecker implements Runnable
 					if (options[k].equals(obj))
 						result = k;
 				
-				if (result == 0) {
-					if (Desktop.isDesktopSupported()) {
+				if (result == 0)
+				{
+					if (Desktop.isDesktopSupported())
 						Desktop.getDesktop().browse(new URI("https://github.com/Konloch/bytecode-viewer/releases"));
-					} else {
+					else
 						BytecodeViewer.showMessage("Cannot open the page, please manually type it." + nl + "https://github.com/Konloch/bytecode-viewer/releases");
-					}
 				}
-				if (result == 1) {
-					JFileChooser fc = new JFileChooser();
+				
+				if (result == 1)
+				{
+					JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+							"Select Save File",
+							"Zip Archives",
+							"zip");
+					
 					try {
 						fc.setCurrentDirectory(new File(".").getAbsoluteFile()); //set the current working directory
 					} catch (Exception e) {
 						new ExceptionUI(e);
 					}
-					fc.setFileFilter(new FileFilter() {
-						@Override
-						public boolean accept(File f) {
-							return f.isDirectory() || MiscUtils.extension(f.getAbsolutePath()).equals("zip");
-						}
-						
-						@Override
-						public String getDescription() {
-							return "Zip Archives";
-						}
-					});
-					fc.setFileHidingEnabled(false);
-					fc.setAcceptAllFileFilterUsed(false);
+					
 					int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
+					if (returnVal == JFileChooser.APPROVE_OPTION)
+					{
+						Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
 						File file = fc.getSelectedFile();
 						if (!file.getAbsolutePath().endsWith(".zip"))
 							file = new File(file.getAbsolutePath() + ".zip");
 						
-						if (file.exists()) {
+						if (file.exists())
+						{
 							pane = new JOptionPane("The file " + file + " exists, would you like to overwrite it?");
 							options = new String[]{"Yes", "No"};
 							pane.setOptions(options);
@@ -136,12 +136,15 @@ public class VersionChecker implements Runnable
 									BytecodeViewer.showMessage("Downloading the jar in the background, when it's finished "
 											+ "you will be alerted with another message box." + nl + nl +
 											"Expect this to take several minutes.");
-									while ((len = is.read(buffer)) > 0) {
+									
+									while ((len = is.read(buffer)) > 0)
+									{
 										fos.write(buffer, 0, len);
 										fos.flush();
 										downloaded += 8192;
 										int mbs = downloaded / 1048576;
-										if (mbs % 5 == 0 && mbs != 0) {
+										if (mbs % 5 == 0 && mbs != 0)
+										{
 											if (!flag)
 												System.out.println("Downloaded " + mbs + "MBs so far");
 											flag = true;

@@ -16,16 +16,26 @@ public class ZipResourceImporter implements Importer
 	@Override
 	public boolean open(File file) throws Exception
 	{
-		try {
-			JarUtils.put(file);
-		} catch (IOException z) {
-			try {
-				JarUtils.put2(file);
-			} catch (final Exception e) {
+		//attempt to load archives using the first method
+		try
+		{
+			JarUtils.importArchiveA(file);
+		}
+		catch (IOException z)
+		{
+			//attempt to load archives using the fallback method on fail
+			try
+			{
+				JarUtils.importArchiveB(file);
+			}
+			catch (final Exception e)
+			{
 				new ExceptionUI(e);
 				return false;
 			}
-		} catch (final Exception e) {
+		}
+		catch (final Exception e)
+		{
 			new ExceptionUI(e);
 			return false;
 		}

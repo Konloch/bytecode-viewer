@@ -57,7 +57,8 @@ public class JarUtils {
      * @param jarFile the input jar file
      * @throws IOException
      */
-    public static void put(final File jarFile) throws IOException {
+    public static void importArchiveA(final File jarFile) throws IOException
+    {
         FileContainer container = new FileContainer(jarFile);
         HashMap<String, byte[]> files = new HashMap<>();
 
@@ -101,8 +102,16 @@ public class JarUtils {
         container.files = files;
         BytecodeViewer.files.add(container);
     }
-
-    public static void put2(final File jarFile) throws IOException {
+    
+    
+    /**
+     * A fallback solution to zip/jar archive importing if the first fails
+     *
+     * @param jarFile the input jar file
+     * @throws IOException
+     */
+    public static void importArchiveB(final File jarFile) throws IOException
+    {
         //if this ever fails, worst case import Sun's jarsigner code from JDK 7 re-sign the jar to rebuild the CRC,
         // should also rebuild the archive byte offsets
 
@@ -143,9 +152,9 @@ public class JarUtils {
         container.files = files;
         BytecodeViewer.files.add(container);
     }
-
-
-    public static ArrayList<ClassNode> loadClasses(final File jarFile) throws IOException {
+    
+    public static ArrayList<ClassNode> loadClasses(final File jarFile) throws IOException
+    {
         ArrayList<ClassNode> classes = new ArrayList<>();
         ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
         ZipEntry entry;
