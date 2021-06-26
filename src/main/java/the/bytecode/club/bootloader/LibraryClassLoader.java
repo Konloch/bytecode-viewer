@@ -34,7 +34,7 @@ import the.bytecode.club.bootloader.util.ClassTree;
 /**
  * @author Bibl (don't ban me pls)
  * @created 19 Jul 2015 02:48:41
- *         <p>
+ *
  *         TODO: Resource loading
  */
 @Deprecated
@@ -124,12 +124,12 @@ public class LibraryClassLoader extends ClassLoader implements ILoader<JarConten
 
             //System.out.println(type1 + " " + type2);
             if (ccn == null) {
-                classTree.build(create_quick(type1));
+                classTree.build(createQuick(type1));
                 return getCommonSuperClass(type1, type2);
             }
 
             if (dcn == null) {
-                classTree.build(create_quick(type2));
+                classTree.build(createQuick(type2));
                 return getCommonSuperClass(type1, type2);
             }
 
@@ -156,7 +156,7 @@ public class LibraryClassLoader extends ClassLoader implements ILoader<JarConten
             }
         }
 
-        public ClassNode create_quick(String name) {
+        public ClassNode createQuick(String name) {
             try {
                 ClassReader cr = new ClassReader(name);
                 ClassNode cn = new ClassNode();
