@@ -4,22 +4,9 @@ import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
 import java.io.File;
 import java.util.ArrayList;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.JSpinner;
-import javax.swing.JSplitPane;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
 import org.objectweb.asm.tree.ClassNode;
@@ -28,11 +15,17 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.Settings;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.gui.extras.AboutWindow;
-import the.bytecode.club.bytecodeviewer.gui.extras.RunOptions;
+import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
+import the.bytecode.club.bytecodeviewer.gui.components.AboutWindow;
+import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
 import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptions;
 import the.bytecode.club.bytecodeviewer.gui.plugins.ReplaceStringsOptions;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
+import the.bytecode.club.bytecodeviewer.gui.resourcesearch.SearchBoxPane;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.DecompilerSelectionPane;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkPaneMainComponent;
+import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
+import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
@@ -80,7 +73,7 @@ public class MainViewerGUI extends JFrame {
     
     //main UI components
     private static final ArrayList<VisibleComponent> uiComponents = new ArrayList<>();
-    public final WorkPane workPane = new WorkPane();
+    public final WorkPaneMainComponent workPane = new WorkPaneMainComponent();
     public final ResourceListPane resourcePane = new ResourceListPane();
     public final SearchBoxPane searchBoxPane = new SearchBoxPane();
     public JSplitPane splitPane1;
@@ -108,9 +101,9 @@ public class MainViewerGUI extends JFrame {
     
     //all of the view main menu components
     public final JMenu viewMainMenu = new JMenu("View");
-    public final ViewPane viewPane1 = new ViewPane(1);
-    public final ViewPane viewPane2 = new ViewPane(2);
-    public final ViewPane viewPane3 = new ViewPane(3);
+    public final DecompilerSelectionPane viewPane1 = new DecompilerSelectionPane(1);
+    public final DecompilerSelectionPane viewPane2 = new DecompilerSelectionPane(2);
+    public final DecompilerSelectionPane viewPane3 = new DecompilerSelectionPane(3);
     
     //all of the plugins main menu components
     public final JMenu pluginsMainMenu = new JMenu("Plugins");
@@ -132,6 +125,8 @@ public class MainViewerGUI extends JFrame {
     public final JRadioButtonMenuItem apkConversionEnjarify = new JRadioButtonMenuItem("Enjarify");
     public final JMenu fontSize = new JMenu("Font Size");
     public final JSpinner fontSpinner = new JSpinner();
+    public final JMenu rstaTheme = new JMenu("Text Area Theme");
+    public final JMenu lafTheme = new JMenu("Window Theme");
     //BCV settings
     public final JCheckBoxMenuItem refreshOnChange = new JCheckBoxMenuItem("Refresh On View Change");
     private final JCheckBoxMenuItem deleteForeignOutdatedLibs = new JCheckBoxMenuItem("Delete Foreign/Outdated Libs");
@@ -147,11 +142,14 @@ public class MainViewerGUI extends JFrame {
     public final JMenuItem setOptionalLibrary = new JMenuItem("Set Optional Library Folder");
     public final JCheckBoxMenuItem compileOnSave = new JCheckBoxMenuItem("Compile On Save");
     public final JCheckBoxMenuItem showFileInTabTitle = new JCheckBoxMenuItem("Show File In Tab Title");
+    public final JCheckBoxMenuItem simplifyNameInTabTitle = new JCheckBoxMenuItem("Simplify Name In Tab Title");
     public final JCheckBoxMenuItem forcePureAsciiAsText = new JCheckBoxMenuItem("Force Pure Ascii As Text");
     public final JCheckBoxMenuItem autoCompileOnRefresh = new JCheckBoxMenuItem("Compile On Refresh");
     public final JCheckBoxMenuItem decodeAPKResources = new JCheckBoxMenuItem("Decode APK Resources");
     public final JCheckBoxMenuItem synchronizedViewing = new JCheckBoxMenuItem("Synchronized Viewing");
     public final JCheckBoxMenuItem showClassMethods = new JCheckBoxMenuItem("Show Class Methods");
+    public final Map<RSTATheme, JRadioButtonMenuItem> rstaThemes = new HashMap<>();
+    public final Map<LAFTheme, JRadioButtonMenuItem> lafThemes = new HashMap<>();
     //CFIDE settings
     public final JCheckBoxMenuItem appendBracketsToLabels = new JCheckBoxMenuItem("Append Brackets To Labels");
     public JCheckBoxMenuItem debugHelpers = new JCheckBoxMenuItem("Debug Helpers");
@@ -384,6 +382,7 @@ public class MainViewerGUI extends JFrame {
     public void buildViewMenu()
     {
         rootMenu.add(viewMainMenu);
+        viewMainMenu.add(visualSettings);
         viewMainMenu.add(viewPane1.menu);
         viewMainMenu.add(viewPane2.menu);
         viewMainMenu.add(viewPane3.menu);
@@ -393,8 +392,8 @@ public class MainViewerGUI extends JFrame {
     {
         rootMenu.add(settingsMainMenu);
         
-        settingsMainMenu.add(visualSettings);
-        settingsMainMenu.add(new JSeparator());
+        //settingsMainMenu.add(visualSettings);
+        //settingsMainMenu.add(new JSeparator());
         settingsMainMenu.add(compileOnSave);
         settingsMainMenu.add(autoCompileOnRefresh);
         settingsMainMenu.add(refreshOnChange);
@@ -420,8 +419,54 @@ public class MainViewerGUI extends JFrame {
         fontSpinner.setSize(new Dimension(42, 20));
         fontSpinner.setModel(new SpinnerNumberModel(12, 1, null, 1));
         fontSize.add(fontSpinner);
+        
+        ButtonGroup rstaGroup = new ButtonGroup();
+        for (RSTATheme t : RSTATheme.values())
+        {
+            JRadioButtonMenuItem item = new JRadioButtonMenuItem(t.getReadableName());
+            if (Configuration.rstaTheme.equals(t))
+                item.setSelected(true);
+            
+            rstaGroup.add(item);
+            
+            item.addActionListener(e ->
+            {
+                Configuration.rstaTheme = t;
+                item.setSelected(true);
+                Settings.saveSettings();
+            });
+            
+            rstaThemes.put(t, item);
+            rstaTheme.add(item);
+        }
+    
+        ButtonGroup lafGroup = new ButtonGroup();
+        for (LAFTheme theme : LAFTheme.values())
+        {
+            JRadioButtonMenuItem item = new JRadioButtonMenuItem(theme.getReadableName());
+            if (Configuration.lafTheme.equals(theme))
+                item.setSelected(true);
+            
+            lafGroup.add(item);
+            
+            item.addActionListener(e ->
+            {
+                Configuration.lafTheme = theme;
+                Configuration.rstaTheme = theme.getRSTATheme();
+                rstaThemes.get(Configuration.rstaTheme).setSelected(true);
+                item.setSelected(true);
+                Settings.saveSettings();
+            });
+    
+            lafThemes.put(theme, item);
+            lafTheme.add(item);
+        }
+        
+        visualSettings.add(lafTheme);
+        visualSettings.add(rstaTheme);
         visualSettings.add(fontSize);
         visualSettings.add(showFileInTabTitle);
+        visualSettings.add(simplifyNameInTabTitle);
         visualSettings.add(synchronizedViewing);
         visualSettings.add(showClassMethods);
         
@@ -525,6 +570,10 @@ public class MainViewerGUI extends JFrame {
         setJavac.addActionListener(arg0 -> selectJavac());
         showFileInTabTitle.addActionListener(arg0 -> {
             Configuration.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
+            Settings.saveSettings();
+        });
+        simplifyNameInTabTitle.addActionListener(arg0 -> {
+            Configuration.simplifiedTabNames = BytecodeViewer.viewer.simplifyNameInTabTitle.isSelected();
             Settings.saveSettings();
         });
     }

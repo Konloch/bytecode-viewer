@@ -38,7 +38,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *
  * @author Konloch
  */
-public class JADXDecompiler extends Decompiler {
+public class JADXDecompiler extends InternalDecompiler
+{
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
         String fileStart = tempDirectory + fs;

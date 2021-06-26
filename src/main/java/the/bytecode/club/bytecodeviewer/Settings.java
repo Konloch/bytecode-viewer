@@ -3,6 +3,8 @@ package the.bytecode.club.bytecodeviewer;
 import javax.swing.JFrame;
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
+import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
+import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -291,23 +293,48 @@ public class Settings {
                     String.valueOf(BytecodeViewer.viewer.ren.isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.viewPane1.getJADX().getEditable().isSelected()), false);
+            DiskWriter.writeNewLine(settingsName,
+                    Configuration.lafTheme.name(), false);
+            DiskWriter.writeNewLine(settingsName,
+                    Configuration.rstaTheme.name(), false);
+            DiskWriter.writeNewLine(settingsName,
+                    String.valueOf(BytecodeViewer.viewer.simplifyNameInTabTitle.isSelected()), false);
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
     }
-
+    
+    public static void preloadSettingsFile()
+    {
+        try
+        {
+            //precache the file
+            DiskReader.loadString(settingsName, 0, true);
+            
+            //process the cached file
+            Configuration.lafTheme = LAFTheme.valueOf(asString(127));
+            Configuration.rstaTheme = RSTATheme.valueOf(asString(128));
+        }
+        catch (Exception e)
+        {
+            //ignore because errors are expected, first start up and outdated settings.
+            //e.printStackTrace();
+        }
+    }
+    
     public static void loadSettings() { //utilizes the Disk Reader's caching system.
         try {
-            BytecodeViewer.viewer.rbr.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 1, true)));
-            BytecodeViewer.viewer.rsy.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 2, false)));
-            BytecodeViewer.viewer.din.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 3, false)));
-            BytecodeViewer.viewer.dc4.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 4, false)));
-            BytecodeViewer.viewer.das.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 5, false)));
-            BytecodeViewer.viewer.hes.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 6, false)));
-            BytecodeViewer.viewer.hdc.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 7, false)));
-            BytecodeViewer.viewer.dgs.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 8, false)));
-            BytecodeViewer.viewer.ner.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 9, false)));
-            BytecodeViewer.viewer.den.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 10, false)));
+            //parse the cached file from memory
+            BytecodeViewer.viewer.rbr.setSelected(asBoolean(1));
+            BytecodeViewer.viewer.rsy.setSelected(asBoolean(2));
+            BytecodeViewer.viewer.din.setSelected(asBoolean(3));
+            BytecodeViewer.viewer.dc4.setSelected(asBoolean(4));
+            BytecodeViewer.viewer.das.setSelected(asBoolean(5));
+            BytecodeViewer.viewer.hes.setSelected(asBoolean(6));
+            BytecodeViewer.viewer.hdc.setSelected(asBoolean(7));
+            BytecodeViewer.viewer.dgs.setSelected(asBoolean(8));
+            BytecodeViewer.viewer.ner.setSelected(asBoolean(9));
+            BytecodeViewer.viewer.den.setSelected(asBoolean(10));
             BytecodeViewer.viewer.rgn.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 11, false)));
             BytecodeViewer.viewer.bto.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 12, false)));
             BytecodeViewer.viewer.nns.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 13, false)));
@@ -378,30 +405,30 @@ public class Settings {
             BytecodeViewer.viewer.debugHelpers.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 78, false)));
             //79 is deprecated
             BytecodeViewer.viewer.updateCheck.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 80, false)));
-            BytecodeViewer.viewer.viewPane1.setSelectedViewer(getInt(81));
-            BytecodeViewer.viewer.viewPane2.setSelectedViewer(getInt(82));
-            BytecodeViewer.viewer.viewPane3.setSelectedViewer(getInt(83));
+            BytecodeViewer.viewer.viewPane1.setSelectedViewer(asInt(81));
+            BytecodeViewer.viewer.viewPane2.setSelectedViewer(asInt(82));
+            BytecodeViewer.viewer.viewPane3.setSelectedViewer(asInt(83));
 
-            BytecodeViewer.viewer.refreshOnChange.setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 84, false)));
+            BytecodeViewer.viewer.refreshOnChange.setSelected(asBoolean(84));
 
-            boolean bool = Boolean.parseBoolean(DiskReader.loadString(settingsName, 85, false));
+            boolean bool = Boolean.parseBoolean(asString(85));
             if (bool) {
                 BytecodeViewer.viewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 BytecodeViewer.viewer.isMaximized = true;
             }
             //86 is deprecated
             //87 is deprecated
-            Configuration.lastDirectory = DiskReader.loadString(settingsName, 88, false);
-            Configuration.python = DiskReader.loadString(settingsName, 89, false);
-            Configuration.rt = DiskReader.loadString(settingsName, 90, false);
-            BytecodeViewer.viewer.viewPane1.getProcyon().getEditable().setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 91, false)));
-            BytecodeViewer.viewer.viewPane1.getCFR().getEditable().setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 92, false)));
-            BytecodeViewer.viewer.viewPane1.getFern().getEditable().setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 93, false)));
-            BytecodeViewer.viewer.viewPane1.getKrakatau().getEditable().setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 94, false)));
-            BytecodeViewer.viewer.viewPane1.getSmali().getEditable().setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 95, false)));
-            BytecodeViewer.viewer.viewPane2.getProcyon().getEditable().setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 96, false)));
-            BytecodeViewer.viewer.viewPane2.getCFR().getEditable().setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 97, false)));
-            BytecodeViewer.viewer.viewPane2.getFern().getEditable().setSelected(Boolean.parseBoolean(DiskReader.loadString(settingsName, 98, false)));
+            Configuration.lastDirectory = asString(88);
+            Configuration.python = asString(89);
+            Configuration.rt = asString(90);
+            BytecodeViewer.viewer.viewPane1.getProcyon().getEditable().setSelected(asBoolean(91));
+            BytecodeViewer.viewer.viewPane1.getCFR().getEditable().setSelected(asBoolean(92));
+            BytecodeViewer.viewer.viewPane1.getFern().getEditable().setSelected(asBoolean(93));
+            BytecodeViewer.viewer.viewPane1.getKrakatau().getEditable().setSelected(asBoolean(94));
+            BytecodeViewer.viewer.viewPane1.getSmali().getEditable().setSelected(asBoolean(95));
+            BytecodeViewer.viewer.viewPane2.getProcyon().getEditable().setSelected(asBoolean(96));
+            BytecodeViewer.viewer.viewPane2.getCFR().getEditable().setSelected(asBoolean(97));
+            BytecodeViewer.viewer.viewPane2.getFern().getEditable().setSelected(asBoolean(98));
             BytecodeViewer.viewer.viewPane2.getKrakatau().getEditable().setSelected(asBoolean(99));
             BytecodeViewer.viewer.viewPane2.getSmali().getEditable().setSelected(asBoolean(100));
             BytecodeViewer.viewer.viewPane3.getProcyon().getEditable().setSelected(asBoolean(101));
@@ -410,26 +437,31 @@ public class Settings {
             BytecodeViewer.viewer.viewPane3.getKrakatau().getEditable().setSelected(asBoolean(104));
             BytecodeViewer.viewer.viewPane3.getSmali().getEditable().setSelected(asBoolean(105));
             BytecodeViewer.viewer.decodeAPKResources.setSelected(asBoolean(106));
-            Configuration.library = DiskReader.loadString(settingsName, 107, false);
+            Configuration.library = asString(107);
             Configuration.pingback = asBoolean(108);
             BytecodeViewer.viewer.viewPane1.getJD().getEditable().setSelected(asBoolean(109));
             BytecodeViewer.viewer.viewPane2.getJD().getEditable().setSelected(asBoolean(110));
             BytecodeViewer.viewer.viewPane3.getJD().getEditable().setSelected(asBoolean(111));
-            BytecodeViewer.viewer.fontSpinner.setValue(getInt(112));
+            BytecodeViewer.viewer.fontSpinner.setValue(asInt(112));
             Configuration.deleteForeignLibraries = asBoolean(113);
-            int apkDecompiler = getInt(114);
             
-            if (apkDecompiler == 0)
-                BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionDex.getModel(), true);
-            else if (apkDecompiler == 1)
-                BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel(), true);
+            //APK Decompiler
+            switch(asInt(114))
+            {
+                case 0:
+                    BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionDex.getModel(), true);
+                    break;
+                case 1:
+                    BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel(), true);
+                    break;
+            }
     
-            Configuration.python3 = DiskReader.loadString(settingsName, 115, false);
-            Configuration.javac = DiskReader.loadString(settingsName, 116, false);
-            Configuration.java = DiskReader.loadString(settingsName, 117, false);
+            Configuration.python3 = asString(115);
+            Configuration.javac = asString(116);
+            Configuration.java = asString(117);
             BytecodeViewer.viewer.compileOnSave.setSelected(asBoolean(118));
             BytecodeViewer.viewer.autoCompileOnRefresh.setSelected(asBoolean(119));
-            Configuration.warnForEditing = Boolean.parseBoolean(DiskReader.loadString(settingsName, 120, false));
+            Configuration.warnForEditing = asBoolean(120);
             BytecodeViewer.viewer.showFileInTabTitle.setSelected(asBoolean(121));
             Configuration.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
             BytecodeViewer.viewer.forcePureAsciiAsText.setSelected(asBoolean(122));
@@ -437,10 +469,19 @@ public class Settings {
             BytecodeViewer.viewer.showClassMethods.setSelected(asBoolean(124));
             BytecodeViewer.viewer.ren.setSelected(asBoolean(125));
             BytecodeViewer.viewer.viewPane1.getJADX().getEditable().setSelected(asBoolean(126));
+            //line 127 is used for theme on preload
+            //line 128 is used for theme on preload
+            BytecodeViewer.viewer.simplifyNameInTabTitle.setSelected(asBoolean(129));
+            Configuration.simplifiedTabNames = BytecodeViewer.viewer.simplifyNameInTabTitle.isSelected();
         } catch (Exception e) {
             //ignore because errors are expected, first start up and outdated settings.
             //e.printStackTrace();
         }
+    }
+    
+    public static String asString(int lineNumber) throws Exception
+    {
+        return DiskReader.loadString(settingsName, lineNumber, false);
     }
     
     public static boolean asBoolean(int lineNumber) throws Exception
@@ -448,7 +489,7 @@ public class Settings {
         return Boolean.parseBoolean(DiskReader.loadString(settingsName, lineNumber, false));
     }
     
-    public static int getInt(int lineNumber) throws Exception
+    public static int asInt(int lineNumber) throws Exception
     {
         return Integer.parseInt(DiskReader.loadString(settingsName, lineNumber, false));
     }

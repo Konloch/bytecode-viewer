@@ -1,13 +1,17 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.tree.ClassNode;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.lang.reflect.Field;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.List;
 
 import static the.bytecode.club.bytecodeviewer.Constants.gson;
 
@@ -35,7 +39,9 @@ import static the.bytecode.club.bytecodeviewer.Constants.gson;
  * @author Konloch
  */
 
-public class MiscUtils {
+public class MiscUtils
+{
+    private static CharsetEncoder asciiEncoder = StandardCharsets.US_ASCII.newEncoder(); // or "ISO-8859-1" for ISO Latin 1
     private static final String AB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String AN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final Random rnd = new Random();
@@ -191,5 +197,31 @@ public class MiscUtils {
         Field field = env.getClass().getDeclaredField("m");
         field.setAccessible(true);
         ((Map<String, String>) field.get(env)).put(name, val);
+    }
+    
+    public static BufferedImage loadImage(BufferedImage defaultImage, byte[] contents)
+    {
+        try {
+            return ImageIO.read(new ByteArrayInputStream(contents));
+        } catch (IOException e) {
+            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+        }
+        
+        return defaultImage;
+    }
+    
+    public static boolean isPureAscii(String v) {
+        return asciiEncoder.canEncode(v);
+    }
+    
+    public static String getChildFromPath(String path)
+    {
+        if (path.contains("/"))
+        {
+            String[] pathParts = StringUtils.split(path, "/");
+            return pathParts[pathParts.length-1];
+        }
+        
+        return path;
     }
 }

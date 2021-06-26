@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * General program constants, to use this class include everything as a wildcard static import:
+ *      import static the.bytecode.club.bytecodeviewer.Constants.*;
+ *
  * @author Konloch
  * @since 6/21/2021
  */

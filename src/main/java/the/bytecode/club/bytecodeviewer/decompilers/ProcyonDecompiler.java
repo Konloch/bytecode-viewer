@@ -61,9 +61,10 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  * @author DeathMarine
  */
-public class ProcyonDecompiler extends Decompiler {
-
-    public DecompilerSettings getDecompilerSettings() {
+public class ProcyonDecompiler extends InternalDecompiler
+{
+    public DecompilerSettings getDecompilerSettings()
+    {
         DecompilerSettings settings = new DecompilerSettings();
         settings.setAlwaysGenerateExceptionVariableForCatchBlocks(BytecodeViewer.viewer.alwaysGenerateExceptionVars.isSelected());
         settings.setExcludeNestedTypes(BytecodeViewer.viewer.excludeNestedTypes.isSelected());

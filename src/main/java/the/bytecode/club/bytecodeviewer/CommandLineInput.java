@@ -8,7 +8,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.decompilers.Decompilers;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -200,12 +200,12 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompilers.procyon.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
+                    Decompiler.PROCYON.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
                         final ClassWriter cw = accept(cn);
-                        String contents = Decompilers.procyon.decompileClassNode(cn, cw.toByteArray());
+                        String contents = Decompiler.PROCYON.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
                         new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -218,12 +218,12 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompilers.cfr.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
+                    Decompiler.CFR.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
                         final ClassWriter cw = accept(cn);
-                        String contents = Decompilers.cfr.decompileClassNode(cn, cw.toByteArray());
+                        String contents = Decompiler.CFR.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
                         new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -236,12 +236,12 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompilers.fernflower.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
+                    Decompiler.FERNFLOWER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
                         final ClassWriter cw = accept(cn);
-                        String contents = Decompilers.fernflower.decompileClassNode(cn, cw.toByteArray());
+                        String contents = Decompiler.FERNFLOWER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
                         new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -254,12 +254,12 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompilers.krakatau.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
+                    Decompiler.KRAKATAU.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
                         final ClassWriter cw = accept(cn);
-                        String contents = Decompilers.krakatau.decompileClassNode(cn, cw.toByteArray());
+                        String contents = Decompiler.KRAKATAU.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
                         new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -278,7 +278,7 @@ public class CommandLineInput {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
                         final ClassWriter cw = accept(cn);
-                        String contents = Decompilers.krakatauDA.decompileClassNode(cn, cw.toByteArray());
+                        String contents = Decompiler.KRAKATAU_BYTECODE.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
                         new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -297,7 +297,7 @@ public class CommandLineInput {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
                         final ClassWriter cw = accept(cn);
-                        String contents = Decompilers.jdgui.decompileClassNode(cn, cw.toByteArray());
+                        String contents = Decompiler.JDGUI.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
                         new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -316,7 +316,26 @@ public class CommandLineInput {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
                         final ClassWriter cw = accept(cn);
-                        String contents = Decompilers.smali.decompileClassNode(cn, cw.toByteArray());
+                        String contents = Decompiler.SMALI.getDecompiler().decompileClassNode(cn, cw.toByteArray());
+                        DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
+                    } catch (Exception e) {
+                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                    }
+                }
+            } else if (decompiler.equalsIgnoreCase("jadx")) {
+                System.out.println("Decompiling " + input.getAbsolutePath() + " with JADX");
+                BytecodeViewer.openFiles(new File[]{input}, false);
+
+                Thread.sleep(5 * 1000);
+
+                if (target.equalsIgnoreCase("all")) {
+                    System.out.println("Coming soon.");
+                    //Decompiler.smali.decompileToZip(output.getAbsolutePath());
+                } else {
+                    try {
+                        ClassNode cn = BytecodeViewer.getClassNode(target);
+                        final ClassWriter cw = accept(cn);
+                        String contents = Decompiler.JADX.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
                         new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);

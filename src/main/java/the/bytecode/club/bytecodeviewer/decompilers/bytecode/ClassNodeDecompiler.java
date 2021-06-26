@@ -9,7 +9,7 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -36,7 +36,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Bibl
  */
 
-public class ClassNodeDecompiler extends Decompiler {
+public class ClassNodeDecompiler extends InternalDecompiler
+{
 
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {

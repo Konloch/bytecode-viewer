@@ -38,7 +38,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  * @author WaterWolf
  */
-public class FernFlowerDecompiler extends Decompiler {
+public class FernFlowerDecompiler extends InternalDecompiler
+{
 
     @Override
     public void decompileToZip(String sourceJar, String zipName) {

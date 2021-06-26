@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.extras.ExportJar;
+import the.bytecode.club.bytecodeviewer.gui.components.ExportJar;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;

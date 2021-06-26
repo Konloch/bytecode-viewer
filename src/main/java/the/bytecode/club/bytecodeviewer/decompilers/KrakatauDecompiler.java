@@ -42,7 +42,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class KrakatauDecompiler extends Decompiler {
+public class KrakatauDecompiler extends InternalDecompiler
+{
 
     public String quick() {
         if (Configuration.library.isEmpty())

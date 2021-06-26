@@ -10,10 +10,11 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.compilers.Compilers;
+import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.Decompilers;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -41,7 +42,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *
  * @author Konloch
  */
-
 public class BytecodeViewer {
 
     private static URLClassLoader cl;
@@ -72,7 +72,7 @@ public class BytecodeViewer {
      */
     public static List<Class<?>> loadClassesIntoClassLoader() {
         try {
-            File f = new File(tempDirectory + fs + "loaded_temp.jar");
+            File f = new File(tempDirectory + fs + MiscUtils.randomString(12) + "loaded_temp.jar");
             JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), f.getAbsolutePath());
             JarFile jarFile = new JarFile("" + f.getAbsolutePath());
             Enumeration<JarEntry> e = jarFile.entries();
@@ -201,8 +201,8 @@ public class BytecodeViewer {
      *
      * @return The wrapped Krakatau Decompiler instance
      */
-    public static Decompiler getKrakatauDecompiler() {
-        return Decompilers.krakatau;
+    public static InternalDecompiler getKrakatauDecompiler() {
+        return Decompiler.KRAKATAU.getDecompiler();
     }
 
     /**
@@ -210,8 +210,8 @@ public class BytecodeViewer {
      *
      * @return The wrapped Procyon Decompiler instance
      */
-    public static Decompiler getProcyonDecompiler() {
-        return Decompilers.procyon;
+    public static InternalDecompiler getProcyonDecompiler() {
+        return Decompiler.PROCYON.getDecompiler();
     }
 
     /**
@@ -219,8 +219,8 @@ public class BytecodeViewer {
      *
      * @return The wrapped CFR Decompiler instance
      */
-    public static Decompiler getCFRDecompiler() {
-        return Decompilers.cfr;
+    public static InternalDecompiler getCFRDecompiler() {
+        return Decompiler.CFR.getDecompiler();
     }
 
     /**
@@ -228,8 +228,8 @@ public class BytecodeViewer {
      *
      * @return The wrapped FernFlower Decompiler instance
      */
-    public static Decompiler getFernFlowerDecompiler() {
-        return Decompilers.fernflower;
+    public static InternalDecompiler getFernFlowerDecompiler() {
+        return Decompiler.FERNFLOWER.getDecompiler();
     }
 
     /**
@@ -237,8 +237,26 @@ public class BytecodeViewer {
      *
      * @return The wrapped Krakatau Disassembler instance
      */
-    public static Decompiler getKrakatauDisassembler() {
-        return Decompilers.krakatauDA;
+    public static InternalDecompiler getKrakatauDisassembler() {
+        return Decompiler.KRAKATAU_BYTECODE.getDecompiler();
+    }
+    
+    /**
+     * Returns the wrapped JD-GUI Decompiler instance.
+     *
+     * @return The wrapped JD-GUI Decompiler instance
+     */
+    public static InternalDecompiler getDJGUIDecompiler() {
+        return Decompiler.JDGUI.getDecompiler();
+    }
+    
+    /**
+     * Returns the wrapped JADX Decompiler instance.
+     *
+     * @return The wrapped JADX Decompiler instance
+     */
+    public static InternalDecompiler getJADXDecompiler() {
+        return Decompiler.JADX.getDecompiler();
     }
 
     /**
@@ -257,14 +275,5 @@ public class BytecodeViewer {
      */
     public static the.bytecode.club.bytecodeviewer.compilers.Compiler getSmaliCompiler() {
         return Compilers.smali;
-    }
-
-    /**
-     * Returns the wrapped JD-GUI Decompiler instance.
-     *
-     * @return The wrapped JD-GUI Decompiler instance
-     */
-    public static the.bytecode.club.bytecodeviewer.decompilers.Decompiler getDJGUIDecompiler() {
-        return Decompilers.jdgui;
     }
 }

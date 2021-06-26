@@ -29,7 +29,8 @@ import org.objectweb.asm.util.TraceClassVisitor;
  *
  * @author Thiakil
  */
-public class ASMTextifierDecompiler extends Decompiler {
+public class ASMTextifierDecompiler extends InternalDecompiler
+{
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
         StringWriter writer = new StringWriter();

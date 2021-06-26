@@ -10,11 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import me.konloch.kontainer.io.DiskWriter;
 import me.konloch.kontainer.io.HTTPRequest;
@@ -23,13 +19,15 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.compilers.Compilers;
-import the.bytecode.club.bytecodeviewer.gui.ClassViewer;
+import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourcePanelCompileMode;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
-import the.bytecode.club.bytecodeviewer.gui.extras.RunOptions;
-import the.bytecode.club.bytecodeviewer.gui.SearchBoxPane;
-import the.bytecode.club.bytecodeviewer.gui.extras.SystemErrConsole;
-import the.bytecode.club.bytecodeviewer.gui.WorkPane;
+import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
+import the.bytecode.club.bytecodeviewer.gui.resourcesearch.SearchBoxPane;
+import the.bytecode.club.bytecodeviewer.gui.components.SystemErrConsole;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkPaneMainComponent;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.util.*;
@@ -104,6 +102,7 @@ public class BytecodeViewer
     public static Refactorer refactorer = new Refactorer();
     public static List<FileContainer> files = new ArrayList<>(); //all of BCV's loaded files/classes/etc
     public static List<Process> createdProcesses = new ArrayList<>();
+    public static final DecompilerViewComponent krakatau = new DecompilerViewComponent("Krakatau", true);
     public static final boolean EXPERIMENTAL_TAB_CODE = false;
     
     /**
@@ -155,14 +154,16 @@ public class BytecodeViewer
      * @throws IOException
      */
     public static byte[] getClassFile(Class<?> clazz) throws IOException {
-        InputStream is = clazz.getResourceAsStream("/" + clazz.getName().replace('.', '/') + ".class");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int r;
-        byte[] buffer = new byte[8192];
-        while ((r = Objects.requireNonNull(is).read(buffer)) >= 0) {
-            baos.write(buffer, 0, r);
+        try (InputStream is = clazz.getResourceAsStream(
+                "/" + clazz.getName().replace('.', '/') + ".class");
+             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            int r;
+            byte[] buffer = new byte[8192];
+            while ((r = Objects.requireNonNull(is).read(buffer)) >= 0) {
+                baos.write(buffer, 0, r);
+            }
+            return baos.toByteArray();
         }
-        return baos.toByteArray();
     }
 
     /**
@@ -176,8 +177,11 @@ public class BytecodeViewer
         System.setSecurityManager(sm);
         
         try {
-            UIManager.put("MenuItem.disabledAreNavigable", Boolean.FALSE);
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            //precache settings file
+            Settings.preloadSettingsFile();
+            //setup look and feel
+            Configuration.lafTheme.setLAF();
+            
             if (PREVIEW_COPY && !CommandLineInput.containsCommand(args))
                 showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when " + VERSION + " is "
                         + "actually out if you use this." + nl +
@@ -378,28 +382,36 @@ public class BytecodeViewer
         BytecodeViewer.viewer.updateBusyStatus(true);
         boolean actuallyTried = false;
 
-        for (java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers()) {
-            if (c instanceof ClassViewer) {
+        for (java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers())
+        {
+            if (c instanceof ClassViewer)
+            {
                 ClassViewer cv = (ClassViewer) c;
-                if (cv.smali1 != null && cv.smali1.isEditable() ||
-                        cv.smali2 != null && cv.smali2.isEditable() ||
-                        cv.smali3 != null && cv.smali3.isEditable()) {
+                
+                //compile smali assembly
+                if (cv.resourceViewPanel1.compileMode == ResourcePanelCompileMode.SMALI_ASSEMBLY && cv.resourceViewPanel1.textArea.isEditable() ||
+                        cv.resourceViewPanel2.compileMode == ResourcePanelCompileMode.SMALI_ASSEMBLY && cv.resourceViewPanel2.textArea.isEditable() ||
+                        cv.resourceViewPanel3.compileMode == ResourcePanelCompileMode.SMALI_ASSEMBLY && cv.resourceViewPanel3.textArea.isEditable())
+                {
                     actuallyTried = true;
                     Object[] smali = cv.getSmali();
-                    if (smali != null) {
+                    if (smali != null)
+                    {
                         ClassNode origNode = (ClassNode) smali[0];
                         String smaliText = (String) smali[1];
-                        byte[] smaliCompiled =
-                                Compilers.smali.compile(smaliText,
-                                        origNode.name);
-                        if (smaliCompiled != null) {
+                        byte[] smaliCompiled = Compilers.smali.compile(smaliText, origNode.name);
+                        
+                        if (smaliCompiled != null)
+                        {
                             try {
                                 ClassNode newNode = JarUtils.getNode(smaliCompiled);
                                 BytecodeViewer.updateNode(origNode, newNode);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                        } else {
+                        }
+                        else
+                        {
                             BytecodeViewer.showMessage("There has been an error with assembling your Smali code, "
                                     + "please check this. Class: " + origNode.name);
                             BytecodeViewer.viewer.updateBusyStatus(false);
@@ -408,26 +420,30 @@ public class BytecodeViewer
                     }
                 }
 
-
-                if (cv.krakatau1 != null && cv.krakatau1.isEditable() ||
-                        cv.krakatau2 != null && cv.krakatau2.isEditable() ||
-                        cv.krakatau3 != null && cv.krakatau3.isEditable()) {
+                //compile krakatau assembly
+                if (cv.resourceViewPanel1.compileMode == ResourcePanelCompileMode.KRAKATAU_ASSEMBLY && cv.resourceViewPanel1.textArea.isEditable() ||
+                        cv.resourceViewPanel2.compileMode == ResourcePanelCompileMode.KRAKATAU_ASSEMBLY && cv.resourceViewPanel2.textArea.isEditable() ||
+                        cv.resourceViewPanel3.compileMode == ResourcePanelCompileMode.KRAKATAU_ASSEMBLY && cv.resourceViewPanel3.textArea.isEditable())
+                {
                     actuallyTried = true;
                     Object[] krakatau = cv.getKrakatau();
-                    if (krakatau != null) {
+                    if (krakatau != null)
+                    {
                         ClassNode origNode = (ClassNode) krakatau[0];
                         String krakatauText = (String) krakatau[1];
-                        byte[] krakatauCompiled =
-                                Compilers.krakatau.compile(krakatauText,
-                                        origNode.name);
-                        if (krakatauCompiled != null) {
+                        byte[] krakatauCompiled = Compilers.krakatau.compile(krakatauText, origNode.name);
+                        
+                        if (krakatauCompiled != null)
+                        {
                             try {
                                 ClassNode newNode = JarUtils.getNode(krakatauCompiled);
                                 BytecodeViewer.updateNode(origNode, newNode);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                        } else {
+                        }
+                        else
+                        {
                             BytecodeViewer.showMessage("There has been an error with assembling your Krakatau "
                                     + "Bytecode, please check this. Class: " + origNode.name);
                             BytecodeViewer.viewer.updateBusyStatus(false);
@@ -436,9 +452,11 @@ public class BytecodeViewer
                     }
                 }
 
-                if (cv.java1 != null && cv.java1.isEditable() ||
-                        cv.java2 != null && cv.java2.isEditable() ||
-                        cv.java3 != null && cv.java3.isEditable()) {
+                //default to java compiling
+                if (cv.resourceViewPanel1.textArea != null && cv.resourceViewPanel1.textArea.isEditable() ||
+                        cv.resourceViewPanel2.textArea != null && cv.resourceViewPanel2.textArea.isEditable() ||
+                        cv.resourceViewPanel3.textArea != null && cv.resourceViewPanel3.textArea.isEditable())
+                {
                     actuallyTried = true;
                     Object[] java = cv.getJava();
                     if (java != null) {
@@ -449,10 +467,9 @@ public class BytecodeViewer
                         errConsole.setText("Error compiling class: " + origNode.name + nl + "Keep in mind most "
                                 + "decompilers cannot produce compilable classes" + nl + nl);
 
-                        byte[] javaCompiled =
-                                Compilers.java.compile(javaText,
-                                        origNode.name);
-                        if (javaCompiled != null) {
+                        byte[] javaCompiled = Compilers.java.compile(javaText, origNode.name);
+                        if (javaCompiled != null)
+                        {
                             try {
                                 ClassNode newNode = JarUtils.getNode(javaCompiled);
                                 BytecodeViewer.updateNode(origNode, newNode);
@@ -460,7 +477,9 @@ public class BytecodeViewer
                                 e.printStackTrace();
                             }
                             errConsole.finished();
-                        } else {
+                        }
+                        else
+                        {
                             errConsole.pretty();
                             errConsole.setVisible(true);
                             errConsole.finished();
@@ -554,7 +573,7 @@ public class BytecodeViewer
         files.clear();
         LazyNameUtil.reset();
         Objects.requireNonNull(MainViewerGUI.getComponent(ResourceListPane.class)).resetWorkspace();
-        Objects.requireNonNull(MainViewerGUI.getComponent(WorkPane.class)).resetWorkspace();
+        Objects.requireNonNull(MainViewerGUI.getComponent(WorkPaneMainComponent.class)).resetWorkspace();
         Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).resetWorkspace();
         the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
     }

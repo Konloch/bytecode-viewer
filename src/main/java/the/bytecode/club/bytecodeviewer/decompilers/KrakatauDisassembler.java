@@ -41,7 +41,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class KrakatauDisassembler extends Decompiler {
+public class KrakatauDisassembler extends InternalDecompiler
+{
 
     public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn) {
         if (Configuration.python.isEmpty()) {

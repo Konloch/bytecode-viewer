@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
-import the.bytecode.club.bytecodeviewer.gui.extras.StringMetricsUtil;
+import the.bytecode.club.bytecodeviewer.gui.util.StringMetricsUtil;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;

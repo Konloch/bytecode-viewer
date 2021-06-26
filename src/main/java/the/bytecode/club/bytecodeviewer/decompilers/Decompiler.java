@@ -1,6 +1,11 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
-import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler;
+import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
+
+import javax.swing.*;
+import java.util.HashMap;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -21,15 +26,90 @@ import org.objectweb.asm.tree.ClassNode;
  ***************************************************************************/
 
 /**
- * Used to represent all of the decompilers/disassemblers BCV contains.
+ * All of the decompilers/disassemblers BCV uses
  *
  * @author Konloch
  */
-
-public abstract class Decompiler {
-
-    public abstract String decompileClassNode(ClassNode cn, byte[] b);
-
-    public abstract void decompileToZip(String sourceJar, String zipName);
-
+public enum Decompiler
+{
+    NONE(0, "None", null, (JRadioButtonMenuItem) null),
+    PROCYON(1, "Procyon Decompiler", new ProcyonDecompiler(), new DecompilerViewComponent("Procyon")),
+    CFR(2, "CFR Decompiler", new CFRDecompiler(), new DecompilerViewComponent("Procyon")),
+    FERNFLOWER(3, "FernFlower Decompiler", new FernFlowerDecompiler(), new DecompilerViewComponent("Procyon")),
+    BYTECODE(4, "Bytecode Disassembler", new ClassNodeDecompiler(), new JRadioButtonMenuItem("Bytecode")),
+    HEXCODE(5, "Hexcode Viewer", null, new JRadioButtonMenuItem("Hexcode")),
+    SMALI(6, "Smali Decompiler", new SmaliDisassembler(), new DecompilerViewComponent("Smali")),
+    KRAKATAU(7, "Krakatau Decompiler", new KrakatauDecompiler(), BytecodeViewer.krakatau),
+    KRAKATAU_BYTECODE(8, "Krakatau Disassembler", new KrakatauDisassembler(), BytecodeViewer.krakatau),
+    JDGUI(9, "JD-GUI Decompiler", new JDGUIDecompiler(), new DecompilerViewComponent("Bytecode")),
+    JADX(10, "JADX Decompiler", new JADXDecompiler(), new DecompilerViewComponent("JADX")),
+    ASMTextify(11, "ASM Disassembler", new ASMTextifierDecompiler(), new DecompilerViewComponent("ASM Textify")),
+    ;
+    
+    private final int decompilerIndex;
+    private final String decompilerName;
+    private final InternalDecompiler decompiler;
+    private final DecompilerViewComponent decompilerSelectComponent;
+    private final JRadioButtonMenuItem basicSelectComponent;
+    
+    public static final HashMap<Integer, Decompiler> decompilersByIndex = new HashMap<>();
+    
+    static
+    {
+        for(Decompiler d : values())
+            decompilersByIndex.put(d.decompilerIndex, d);
+    }
+    
+    Decompiler(int decompilerIndex, String decompilerName, InternalDecompiler decompiler, DecompilerViewComponent decompilerSelectComponent) {
+        this.decompilerIndex = decompilerIndex;
+        this.decompilerName = decompilerName;
+        this.decompiler = decompiler;
+        this.decompilerSelectComponent = decompilerSelectComponent;
+        this.basicSelectComponent = null;
+    }
+    
+    Decompiler(int decompilerIndex, String decompilerName, InternalDecompiler decompiler, JRadioButtonMenuItem basicSelectComponent)
+    {
+        this.decompilerIndex = decompilerIndex;
+        this.decompilerName = decompilerName;
+        this.decompiler = decompiler;
+        this.decompilerSelectComponent = null;
+        this.basicSelectComponent = basicSelectComponent;
+    }
+    
+    public void addDecompilerToGroup(ButtonGroup group)
+    {
+        if(decompilerSelectComponent != null)
+            decompilerSelectComponent.addToGroup(group);
+        else if(basicSelectComponent != null)
+            group.add(basicSelectComponent);
+    }
+    
+    public int getDecompilerIndex()
+    {
+        return decompilerIndex;
+    }
+    
+    public String getDecompilerName()
+    {
+        return decompilerName;
+    }
+    
+    public InternalDecompiler getDecompiler()
+    {
+        return decompiler;
+    }
+    
+    public DecompilerViewComponent getDecompilerSelectComponent()
+    {
+        return decompilerSelectComponent;
+    }
+    
+    public JMenuItem getMenu()
+    {
+        if(decompilerSelectComponent != null)
+            return decompilerSelectComponent.getMenu();
+        
+        return basicSelectComponent;
+    }
 }

@@ -13,7 +13,6 @@ import jd.cli.util.ClassFileUtil;
 import me.konloch.kontainer.io.DiskReader;
 import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -44,7 +43,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author JD-Core developers
  */
 
-public class JDGUIDecompiler extends Decompiler {
+public class JDGUIDecompiler extends InternalDecompiler
+{
 
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {

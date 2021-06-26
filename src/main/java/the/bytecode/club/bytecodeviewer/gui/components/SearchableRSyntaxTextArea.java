@@ -1,0 +1,93 @@
+package the.bytecode.club.bytecodeviewer.gui.components;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rtextarea.RTextScrollPane;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.gui.components.listeners.PressKeyListener;
+import the.bytecode.club.bytecodeviewer.gui.components.listeners.ReleaseKeyListener;
+import the.bytecode.club.bytecodeviewer.util.JTextAreaUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
+/**
+ * Searching on an RSyntaxTextArea using swing highlighting
+ *
+ * @author Konloch
+ * @since 6/25/2021
+ */
+public class SearchableRSyntaxTextArea extends RSyntaxTextArea
+{
+	private final RTextScrollPane scrollPane = new RTextScrollPane(this);
+	private final JPanel searchPanel = new JPanel(new BorderLayout());
+	private final JTextField searchInput = new JTextField();
+	private final JCheckBox caseSensitiveSearch = new JCheckBox("Exact");
+	
+	public SearchableRSyntaxTextArea()
+	{
+		setAntiAliasingEnabled(true);
+		
+		scrollPane.setColumnHeaderView(searchPanel);
+		
+		JButton searchNext = new JButton();
+		JButton searchPrev = new JButton();
+		JPanel buttonPane = new JPanel(new BorderLayout());
+		buttonPane.add(searchNext, BorderLayout.WEST);
+		buttonPane.add(searchPrev, BorderLayout.EAST);
+		searchNext.setIcon(Resources.nextIcon);
+		searchPrev.setIcon(Resources.prevIcon);
+		searchPanel.add(buttonPane, BorderLayout.WEST);
+		searchPanel.add(searchInput, BorderLayout.CENTER);
+		searchPanel.add(caseSensitiveSearch, BorderLayout.EAST);
+		
+		searchNext.addActionListener(arg0 -> search(searchInput.getText(), true, caseSensitiveSearch.isSelected()));
+		searchPrev.addActionListener(arg0 -> search(searchInput.getText(), false, caseSensitiveSearch.isSelected()));
+		
+		searchInput.addKeyListener(new ReleaseKeyListener(keyEvent ->
+		{
+			System.out.println("DEBUG: " + keyEvent.getKeyChar());
+			if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER)
+				search(searchInput.getText(), true, caseSensitiveSearch.isSelected());
+		}));
+		
+		addKeyListener(new PressKeyListener(keyEvent ->
+		{
+			if ((keyEvent.getKeyCode() == KeyEvent.VK_F) && ((keyEvent.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+				searchInput.requestFocus();
+			
+			BytecodeViewer.checkHotKey(keyEvent);
+		}));
+	}
+	
+	public void search(String search, boolean forwardSearchDirection, boolean caseSensitiveSearch)
+	{
+		JTextAreaUtils.search(this, search, forwardSearchDirection, caseSensitiveSearch);
+	}
+	
+	public void highlight(String pattern, boolean caseSensitiveSearch)
+	{
+		JTextAreaUtils.highlight(this, pattern, caseSensitiveSearch);
+	}
+	
+	public RTextScrollPane getScrollPane()
+	{
+		return scrollPane;
+	}
+	
+	public JPanel getSearchPanel()
+	{
+		return searchPanel;
+	}
+	
+	public JTextField getSearchInput()
+	{
+		return searchInput;
+	}
+	
+	public JCheckBox getCaseSensitiveSearch()
+	{
+		return caseSensitiveSearch;
+	}
+}

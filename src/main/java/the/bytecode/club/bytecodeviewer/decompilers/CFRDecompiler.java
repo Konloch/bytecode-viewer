@@ -46,7 +46,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class CFRDecompiler extends Decompiler {
+public class CFRDecompiler extends InternalDecompiler
+{
 
     private static final String[] WINDOWS_IS_GREAT = new String[]
             {
