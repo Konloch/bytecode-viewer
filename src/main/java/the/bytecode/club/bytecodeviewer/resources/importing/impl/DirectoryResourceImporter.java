@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.resources.importing.ImportType;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
@@ -28,27 +29,52 @@ public class DirectoryResourceImporter implements Importer
 		String dir = file.getAbsolutePath();//f.getAbsolutePath().substring(0, f.getAbsolutePath
 		// ().length()-f.getName().length());
 		
-		while (!finished) {
+		while (!finished)
+		{
 			boolean added = false;
-			for (int i = 0; i < totalFiles.size(); i++) {
+			for (int i = 0; i < totalFiles.size(); i++)
+			{
 				File child = totalFiles.get(i);
 				if (child.listFiles() != null)
 					for (File rocket : Objects.requireNonNull(child.listFiles()))
-						if (!totalFiles.contains(rocket)) {
+						if (!totalFiles.contains(rocket))
+						{
 							totalFiles.add(rocket);
 							added = true;
 						}
 			}
 			
-			if (!added) {
+			if (!added)
+			{
 				for (File child : totalFiles)
-					if (child.isFile()) {
-						String fileName = child.getAbsolutePath().substring(dir.length() + 1
-						).replaceAll("\\\\", "\\/");
-						
-						
-						files1.put(fileName, Files.readAllBytes(Paths.get(child.getAbsolutePath())));
+				{
+					if(!child.isFile())
+						continue;
+					
+					final String trimmedPath = child.getAbsolutePath().substring(dir.length() + 1)
+							.replaceAll("\\\\", "\\/");
+					final String fileName = child.getName();
+					
+					//attempt to import archives automatically
+					if (fileName.endsWith(".jar") || fileName.endsWith(".zip") || fileName.endsWith(".war"))
+					{
+						ImportType.ZIP.getImporter().open(child);
 					}
+					else if (fileName.endsWith(".apk"))
+					{
+						ImportType.APK.getImporter().open(child);
+					}
+					else if (fileName.endsWith(".dex"))
+					{
+						ImportType.DEX.getImporter().open(child);
+					}
+					else
+					{
+						//pack files into a single container
+						files1.put(trimmedPath, Files.readAllBytes(Paths.get(child.getAbsolutePath())));
+					}
+				}
+				
 				finished = true;
 			}
 		}

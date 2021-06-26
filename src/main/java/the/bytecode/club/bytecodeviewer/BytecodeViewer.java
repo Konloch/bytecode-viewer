@@ -78,7 +78,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *      + Synchronized scrolling is broken
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
- *      + Open as folder doesn't actually work
  *      + Fix classfile searcher
  *      + Smali Assembly compile - Needs to be fixed
  *      + Krakatau Assembly compile - Needs to be fixed
