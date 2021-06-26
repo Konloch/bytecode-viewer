@@ -8,6 +8,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
+import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -55,20 +56,11 @@ public class ResourceDecompiling
 				
 				if (file.exists())
 				{
-					JOptionPane pane = new JOptionPane(
-							"Are you sure you wish to overwrite this existing file?");
-					Object[] options = new String[]{"Yes", "No"};
-					pane.setOptions(options);
-					JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-							"Bytecode Viewer - Overwrite File");
-					dialog.setVisible(true);
-					Object obj = pane.getValue();
-					int result = -1;
-					for (int k = 0; k < options.length; k++)
-						if (options[k].equals(obj))
-							result = k;
+					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
+							"Are you sure you wish to overwrite this existing file?",
+							new String[]{"Yes", "No"});
 					
-					if (result == 0) {
+					if (dialogue.promptChoice() == 0) {
 						file.delete();
 					} else {
 						return;
@@ -231,20 +223,11 @@ public class ResourceDecompiling
 				
 				if (new File(path).exists())
 				{
-					JOptionPane pane = new JOptionPane(
-							"Are you sure you wish to overwrite this existing file?");
-					Object[] options = new String[]{"Yes", "No"};
-					pane.setOptions(options);
-					JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-							"Bytecode Viewer - Overwrite File");
-					dialog.setVisible(true);
-					Object obj = pane.getValue();
-					int result = -1;
-					for (int k = 0; k < options.length; k++)
-						if (options[k].equals(obj))
-							result = k;
+					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
+							"Are you sure you wish to overwrite this existing file?",
+							new String[]{"Yes", "No"});
 					
-					if (result == 0) {
+					if (dialogue.promptChoice() == 0) {
 						file.delete();
 					} else {
 						return;

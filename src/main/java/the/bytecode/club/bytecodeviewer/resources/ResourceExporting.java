@@ -4,6 +4,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.ExportJar;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
+import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.util.*;
 
 import javax.swing.*;
@@ -29,7 +30,7 @@ public class ResourceExporting
 			return;
 		}
 		
-		Thread t = new Thread(() ->
+		Thread exportThread = new Thread(() ->
 		{
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
@@ -52,20 +53,11 @@ public class ResourceExporting
 				
 				if (new File(path).exists())
 				{
-					JOptionPane pane = new JOptionPane(
-							"Are you sure you wish to overwrite this existing file?");
-					Object[] options = new String[]{"Yes", "No"};
-					pane.setOptions(options);
-					JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-							"Bytecode Viewer - Overwrite File");
-					dialog.setVisible(true);
-					Object obj = pane.getValue();
-					int result = -1;
-					for (int k = 0; k < options.length; k++)
-						if (options[k].equals(obj))
-							result = k;
+					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
+							"Are you sure you wish to overwrite this existing file?",
+							new String[]{"Yes", "No"});
 					
-					if (result == 0) {
+					if (dialogue.promptChoice() == 0) {
 						file.delete();
 					} else {
 						return;
@@ -75,7 +67,7 @@ public class ResourceExporting
 				new ExportJar(path).setVisible(true);
 			}
 		});
-		t.start();
+		exportThread.start();
 	}
 	
 	public static void saveAsZip()
@@ -85,7 +77,8 @@ public class ResourceExporting
 			BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
 			return;
 		}
-		Thread t = new Thread(() ->
+		
+		Thread exportThread = new Thread(() ->
 		{
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
@@ -105,21 +98,13 @@ public class ResourceExporting
 				if (!file.getAbsolutePath().endsWith(".zip"))
 					file = new File(file.getAbsolutePath() + ".zip");
 				
-				if (file.exists()) {
-					JOptionPane pane = new JOptionPane(
-							"Are you sure you wish to overwrite this existing file?");
-					Object[] options = new String[]{"Yes", "No"};
-					pane.setOptions(options);
-					JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-							"Bytecode Viewer - Overwrite File");
-					dialog.setVisible(true);
-					Object obj = pane.getValue();
-					int result = -1;
-					for (int k = 0; k < options.length; k++)
-						if (options[k].equals(obj))
-							result = k;
+				if (file.exists())
+				{
+					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
+							"Are you sure you wish to overwrite this existing file?",
+							new String[]{"Yes", "No"});
 					
-					if (result == 0) {
+					if (dialogue.promptChoice() == 0) {
 						file.delete();
 					} else {
 						return;
@@ -129,15 +114,15 @@ public class ResourceExporting
 				final File file2 = file;
 				
 				BytecodeViewer.viewer.updateBusyStatus(true);
-				Thread t17 = new Thread(() -> {
-					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
-							file2.getAbsolutePath());
+				Thread saveThread = new Thread(() ->
+				{
+					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file2.getAbsolutePath());
 					BytecodeViewer.viewer.updateBusyStatus(false);
 				});
-				t17.start();
+				saveThread.start();
 			}
 		});
-		t.start();
+		exportThread.start();
 	}
 	
 	public static void saveAsDex()
@@ -172,20 +157,11 @@ public class ResourceExporting
 				final File file2 = new File(output);
 				if (file2.exists())
 				{
-					JOptionPane pane = new JOptionPane(
-							"Are you sure you wish to overwrite this existing file?");
-					Object[] options = new String[]{"Yes", "No"};
-					pane.setOptions(options);
-					JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-							"Bytecode Viewer - Overwrite File");
-					dialog.setVisible(true);
-					Object obj = pane.getValue();
-					int result = -1;
-					for (int k = 0; k < options.length; k++)
-						if (options[k].equals(obj))
-							result = k;
+					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
+							"Are you sure you wish to overwrite this existing file?",
+							new String[]{"Yes", "No"});
 					
-					if (result == 0) {
+					if (dialogue.promptChoice() == 0) {
 						file.delete();
 					} else {
 						return;
@@ -212,7 +188,8 @@ public class ResourceExporting
 	
 	public static void saveAsAPK()
 	{
-		if (BytecodeViewer.getLoadedClasses().isEmpty()) {
+		if (BytecodeViewer.getLoadedClasses().isEmpty())
+		{
 			BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
 			return;
 		}
@@ -223,17 +200,21 @@ public class ResourceExporting
 		List<String> validContainersNames = new ArrayList<>();
 		FileContainer container;
 		
-		for (FileContainer fileContainer : containers) {
-			if (fileContainer.APKToolContents != null && fileContainer.APKToolContents.exists()) {
+		for (FileContainer fileContainer : containers)
+		{
+			if (fileContainer.APKToolContents != null && fileContainer.APKToolContents.exists())
+			{
 				validContainersNames.add(fileContainer.name);
 				validContainers.add(fileContainer);
 			}
 		}
 		
-		if (!validContainers.isEmpty()) {
+		if (!validContainers.isEmpty())
+		{
 			container = validContainers.get(0);
 			
-			if (validContainers.size() >= 2) {
+			if (validContainers.size() >= 2)
+			{
 				JOptionPane pane = new JOptionPane("Which file would you like to export as an APK?");
 				Object[] options = validContainersNames.toArray(new String[0]);
 				
@@ -257,7 +238,7 @@ public class ResourceExporting
 		
 		final FileContainer finalContainer = container;
 		
-		Thread t = new Thread(() ->
+		Thread exportThread = new Thread(() ->
 		{
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
@@ -281,42 +262,33 @@ public class ResourceExporting
 				final File file2 = new File(output);
 				if (file2.exists())
 				{
-					JOptionPane pane = new JOptionPane(
-							"Are you sure you wish to overwrite this existing file?");
-					Object[] options = new String[]{"Yes", "No"};
-					pane.setOptions(options);
-					JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-							"Bytecode Viewer - Overwrite File");
-					dialog.setVisible(true);
-					Object obj = pane.getValue();
-					int result = -1;
-					for (int k = 0; k < options.length; k++)
-						if (options[k].equals(obj))
-							result = k;
+					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
+							"Are you sure you wish to overwrite this existing file?",
+							new String[]{"Yes", "No"});
 					
-					if (result == 0) {
+					if (dialogue.promptChoice() == 0) {
 						file.delete();
 					} else {
 						return;
 					}
 				}
 				
-				Thread t14 = new Thread(() ->
+				Thread saveThread = new Thread(() ->
 				{
 					BytecodeViewer.viewer.updateBusyStatus(true);
 					final String input = tempDirectory + fs + MiscUtils.getRandomizedName() + ".jar";
 					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 					
-					Thread t13 = new Thread(() ->
+					Thread buildAPKThread = new Thread(() ->
 					{
 						APKTool.buildAPK(new File(input), file2, finalContainer);
 						BytecodeViewer.viewer.updateBusyStatus(false);
 					});
-					t13.start();
+					buildAPKThread.start();
 				});
-				t14.start();
+				saveThread.start();
 			}
 		});
-		t.start();
+		exportThread.start();
 	}
 }

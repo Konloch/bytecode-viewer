@@ -17,16 +17,13 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.compilers.Compiler;
-import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
-import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
+import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourcePanelCompileMode;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
-import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
 import the.bytecode.club.bytecodeviewer.gui.resourcesearch.SearchBoxPane;
-import the.bytecode.club.bytecodeviewer.gui.components.SystemErrConsole;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkPaneMainComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
@@ -677,20 +674,11 @@ public class BytecodeViewer
                         file = new File(file.getAbsolutePath() + ".zip");
 
                     if (file.exists()) {
-                        JOptionPane pane = new JOptionPane(
-                                "Are you sure you wish to overwrite this existing file?");
-                        Object[] options = new String[]{"Yes", "No"};
-                        pane.setOptions(options);
-                        JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-                                "Bytecode Viewer - Overwrite File");
-                        dialog.setVisible(true);
-                        Object obj = pane.getValue();
-                        int result = -1;
-                        for (int k = 0; k < options.length; k++)
-                            if (options[k].equals(obj))
-                                result = k;
+                        MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
+                                "Are you sure you wish to overwrite this existing file?",
+                                new String[]{"Yes", "No"});
 
-                        if (result == 0) {
+                        if (dialogue.promptChoice() == 0) {
                             file.delete();
                         } else {
                             return;
