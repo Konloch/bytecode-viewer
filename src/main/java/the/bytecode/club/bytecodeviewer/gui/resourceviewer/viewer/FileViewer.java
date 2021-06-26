@@ -51,7 +51,6 @@ import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
 public class FileViewer extends ResourceViewer
 {
-    public final String name;
     public final byte[] contents;
     public final String workingName;
     
@@ -81,8 +80,6 @@ public class FileViewer extends ResourceViewer
     {
         final String nameLowerCase = this.name.toLowerCase();
         final String contentsAsString = new String(contents);
-        
-        refreshTitle();
         
         //image viewer
         if (!MiscUtils.isPureAscii(contentsAsString))
@@ -128,6 +125,8 @@ public class FileViewer extends ResourceViewer
         textArea.setCaretPosition(0);
         
         mainPanel.add(textArea.getScrollPane());
+    
+        refreshTitle();
     }
     
     @Override
@@ -139,6 +138,8 @@ public class FileViewer extends ResourceViewer
     
     public void refresh(JButton src)
     {
+        refreshTitle();
+        
         if (!canRefresh)
         {
             src.setEnabled(true);
@@ -152,8 +153,6 @@ public class FileViewer extends ResourceViewer
         JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
         mainPanel.add(label, BorderLayout.CENTER);
         mainPanel.updateUI();
-    
-        refreshTitle();
 
         src.setEnabled(true);
     }

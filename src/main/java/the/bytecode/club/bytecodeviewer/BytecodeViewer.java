@@ -72,29 +72,31 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * http://the.bytecode.club
  *
  * TODO BUGS:
- *      Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
+ *      + Tab simplified titles aren't working correctly until refreshed
+ *      + Synchronized scrolling is broken
+ *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
- *      Open as folder doesn't actually work
- *      Fix classfile searcher
- *      Smali Assembly compile - Needs to be fixed
- *      Krakatau Assembly compile - Needs to be fixed
+ *      + Open as folder doesn't actually work
+ *      + Fix classfile searcher
+ *      + Smali Assembly compile - Needs to be fixed
+ *      + Krakatau Assembly compile - Needs to be fixed
  *
  * TODO IN-PROGRESS:
- *      Finish dragging code
- *      Finish right-click tab menu detection
- *      Fix hook inject for EZ-Injection
+ *      + Finish dragging code
+ *      + Finish right-click tab menu detection
+ *      + Fix hook inject for EZ-Injection
  *
  * TODO FEATURES:
- *      Add stackmapframes to bytecode decompiler
- *      Add JEB decompiler optionally, requires them to add jeb library jar
- *      Add https://github.com/ptnkjke/Java-Bytecode-Editor visualize as a plugin
- *      Add https://github.com/exbin/bined as the replacement Hed Viewer/Editor
- *      Make the decompilers launch in a separate process
- *      Make it use that global last used inside of export as jar
- *      Make zipfile not include the decode shit
- *      Make ez-injection plugin console show all sys.out calls
- *      Add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
- *      Add decompile all as zip for CLI
+ *      + Add stackmapframes to bytecode decompiler
+ *      + Add JEB decompiler optionally, requires them to add jeb library jar
+ *      + Add https://github.com/ptnkjke/Java-Bytecode-Editor visualize as a plugin
+ *      + Add https://github.com/exbin/bined as the replacement Hed Viewer/Editor
+ *      + Make the decompilers launch in a separate process
+ *      + Make it use that global last used inside of export as jar
+ *      + Make zipfile not include the decode shit
+ *      + Make ez-injection plugin console show all sys.out calls
+ *      + Add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
+ *      + Add decompile all as zip for CLI
  *
  * @author Konloch
  * @author The entire BCV community
@@ -235,7 +237,7 @@ public class BytecodeViewer
         }));
 
         viewer.calledAfterLoad();
-        resetRecentFilesMenu();
+        Constants.resetRecentFilesMenu();
 
         if (!Configuration.pingback) {
             pingBack.start();
@@ -518,7 +520,7 @@ public class BytecodeViewer
         if (recentFiles)
             for (File f : files)
                 if (f.exists())
-                    BytecodeViewer.addRecentFile(f);
+                    Constants.addRecentFile(f);
 
         BytecodeViewer.viewer.updateBusyStatus(true);
         Configuration.needsReDump = true;
@@ -583,90 +585,6 @@ public class BytecodeViewer
         Objects.requireNonNull(MainViewerGUI.getComponent(WorkPaneMainComponent.class)).resetWorkspace();
         Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).resetWorkspace();
         the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
-    }
-
-    private static final List<String> killList = new ArrayList<>();
-
-    /**
-     * Add the recent file
-     *
-     * @param f the recent file
-     */
-    public static void addRecentFile(File f) {
-        for (int i = 0; i < recentFiles.size(); i++) { // remove dead strings
-            String s = recentFiles.get(i);
-            if (s.isEmpty() || i > maxRecentFiles)
-                killList.add(s);
-        }
-        if (!killList.isEmpty()) {
-            for (String s : killList)
-                recentFiles.remove(s);
-            killList.clear();
-        }
-
-        // already added on the list
-        recentFiles.remove(f.getAbsolutePath());
-        if (recentFiles.size() >= maxRecentFiles)
-            recentFiles.remove(maxRecentFiles - 1); // zero indexing
-
-        recentFiles.add(0, f.getAbsolutePath());
-        DiskWriter.replaceFile(filesName, MiscUtils.listToString(recentFiles), false);
-        resetRecentFilesMenu();
-    }
-
-    private static final List<String> killList2 = new ArrayList<>();
-
-    /**
-     * Add to the recent plugin list
-     *
-     * @param f the plugin file
-     */
-    public static void addRecentPlugin(File f) {
-        for (int i = 0; i < recentPlugins.size(); i++) { // remove dead strings
-            String s = recentPlugins.get(i);
-            if (s.isEmpty() || i > maxRecentFiles)
-                killList2.add(s);
-        }
-        if (!killList2.isEmpty()) {
-            for (String s : killList2)
-                recentPlugins.remove(s);
-            killList2.clear();
-        }
-
-        // already added on the list
-        recentPlugins.remove(f.getAbsolutePath());
-        if (recentPlugins.size() >= maxRecentFiles)
-            recentPlugins.remove(maxRecentFiles - 1); // zero indexing
-
-        recentPlugins.add(0, f.getAbsolutePath());
-        DiskWriter.replaceFile(pluginsName, MiscUtils.listToString(recentPlugins), false);
-        resetRecentFilesMenu();
-    }
-
-    /**
-     * resets the recent files menu
-     */
-    public static void resetRecentFilesMenu() {
-        viewer.recentFilesSecondaryMenu.removeAll();
-        for (String s : recentFiles)
-            if (!s.isEmpty()) {
-                JMenuItem m = new JMenuItem(s);
-                m.addActionListener(e -> {
-                    JMenuItem m12 = (JMenuItem) e.getSource();
-                    openFiles(new File[]{new File(m12.getText())}, true);
-                });
-                viewer.recentFilesSecondaryMenu.add(m);
-            }
-        viewer.recentPluginsSecondaryMenu.removeAll();
-        for (String s : recentPlugins)
-            if (!s.isEmpty()) {
-                JMenuItem m = new JMenuItem(s);
-                m.addActionListener(e -> {
-                    JMenuItem m1 = (JMenuItem) e.getSource();
-                    startPlugin(new File(m1.getText()));
-                });
-                viewer.recentPluginsSecondaryMenu.add(m);
-            }
     }
 
     /**

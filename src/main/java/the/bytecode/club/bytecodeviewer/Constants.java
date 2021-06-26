@@ -4,7 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import me.konloch.kontainer.io.DiskReader;
+import me.konloch.kontainer.io.DiskWriter;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +45,14 @@ public class Constants
 	public static String enjarifyWorkingDirectory = getBCVDirectory() + fs + "enjarify_" + enjarifyVersion;
 	public static final String[] SUPPORTED_FILE_EXTENSIONS = new String[]{"jar", "zip", "class", "apk", "dex", "war", "jsp"};
 	
-	public static List<String> recentPlugins;
-	public static List<String> recentFiles;
+	private static List<String> recentPlugins;
+	private static List<String> recentFiles;
 	public static Gson gson;
 	
-	static {
-		try {
+	static
+	{
+		try
+		{
 			gson = new GsonBuilder().setPrettyPrinting().create();
 			if (new File(filesName).exists())
 				recentFiles = gson.fromJson(DiskReader.loadAsString(filesName), new TypeToken<ArrayList<String>>() {}.getType());
@@ -58,8 +63,79 @@ public class Constants
 				recentPlugins = gson.fromJson(DiskReader.loadAsString(pluginsName), new TypeToken<ArrayList<String>>() {}.getType());
 			else
 				recentPlugins = DiskReader.loadArrayList(getBCVDirectory() + fs + "recentplugins.bcv", false);
-		} catch (Exception e) {
+			
+			MiscUtils.deduplicateAndTrim(recentFiles, 25);
+			MiscUtils.deduplicateAndTrim(recentPlugins, 25);
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Add the recent file
+	 *
+	 * @param f the recent file
+	 */
+	public static void addRecentFile(File f)
+	{
+		recentFiles.remove(f.getAbsolutePath()); // already added on the list
+		recentFiles.add(0, f.getAbsolutePath());
+		MiscUtils.deduplicateAndTrim(recentFiles, 25);
+		DiskWriter.replaceFile(filesName, MiscUtils.listToString(recentFiles), false);
+		resetRecentFilesMenu();
+	}
+	
+	/**
+	 * Add to the recent plugin list
+	 *
+	 * @param f the plugin file
+	 */
+	public static void addRecentPlugin(File f)
+	{
+		recentPlugins.remove(f.getAbsolutePath()); // already added on the list
+		recentPlugins.add(0, f.getAbsolutePath());
+		MiscUtils.deduplicateAndTrim(recentPlugins, 25);
+		DiskWriter.replaceFile(pluginsName, MiscUtils.listToString(recentPlugins), false);
+		resetRecentFilesMenu();
+	}
+	
+	/**
+	 * resets the recent files menu
+	 */
+	protected static void resetRecentFilesMenu()
+	{
+		//build recent files
+		BytecodeViewer.viewer.recentFilesSecondaryMenu.removeAll();
+		for (String s : recentFiles)
+		{
+			if (!s.isEmpty())
+			{
+				JMenuItem m = new JMenuItem(s);
+				m.addActionListener(e ->
+				{
+					JMenuItem m12 = (JMenuItem) e.getSource();
+					BytecodeViewer.openFiles(new File[]{new File(m12.getText())}, true);
+				});
+				BytecodeViewer.viewer.recentFilesSecondaryMenu.add(m);
+			}
+		}
+		
+		//build recent plugins
+		BytecodeViewer.viewer.recentPluginsSecondaryMenu.removeAll();
+		for (String s : recentPlugins)
+		{
+			if (!s.isEmpty())
+			{
+				JMenuItem m = new JMenuItem(s);
+				m.addActionListener(e ->
+				{
+					JMenuItem m1 = (JMenuItem) e.getSource();
+					BytecodeViewer.startPlugin(new File(m1.getText()));
+				});
+				BytecodeViewer.viewer.recentPluginsSecondaryMenu.add(m);
+			}
 		}
 	}
 	
@@ -68,7 +144,8 @@ public class Constants
 	 *
 	 * @return the static BCV directory
 	 */
-	public static String getBCVDirectory() {
+	public static String getBCVDirectory()
+	{
 		while (!BCVDir.exists())
 			BCVDir.mkdirs();
 		
@@ -83,7 +160,8 @@ public class Constants
 	 *
 	 * @return true if the os.name property contains 'win'
 	 */
-	private static boolean isWindows() {
+	private static boolean isWindows()
+	{
 		return System.getProperty("os.name").toLowerCase().contains("win");
 	}
 	
@@ -92,7 +170,8 @@ public class Constants
 	 *
 	 * @param f file you want hidden
 	 */
-	private static void hideFile(File f) {
+	private static void hideFile(File f)
+	{
 		BytecodeViewer.sm.stopBlocking();
 		try {
 			// Hide file by running attrib system command (on Windows)

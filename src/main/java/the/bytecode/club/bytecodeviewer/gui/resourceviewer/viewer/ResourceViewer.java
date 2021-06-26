@@ -24,12 +24,19 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+/**
+ * A ResourceViewer
+ *
+ * @author Konloch
+ */
+
 public abstract class ResourceViewer extends JPanel
 {
     public ClassNode cn;
-    public String originalName;
     public String name;
     public FileContainer container;
+    
+    public abstract void refreshTitle();
     
     public String getTabName()
     {
@@ -42,8 +49,6 @@ public abstract class ResourceViewer extends JPanel
         
         return tabName;
     }
-    
-    public abstract void refreshTitle();
 
     private static final long serialVersionUID = -2965538493489119191L;
 }

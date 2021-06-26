@@ -210,6 +210,20 @@ public class MiscUtils
         return defaultImage;
     }
     
+    public static void deduplicateAndTrim(List<String> list, int maxLength)
+    {
+        List<String> temporaryList = new ArrayList<>();
+        for(String s : list)
+            if(!s.isEmpty() && !temporaryList.contains(s))
+                temporaryList.add(s);
+            
+        list.clear();
+        list.addAll(temporaryList);
+        
+        while(temporaryList.size() > maxLength)
+            list.remove(0);
+    }
+    
     public static boolean isPureAscii(String v) {
         return asciiEncoder.canEncode(v);
     }
