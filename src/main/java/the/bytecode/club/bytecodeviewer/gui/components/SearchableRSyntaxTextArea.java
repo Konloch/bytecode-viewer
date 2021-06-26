@@ -24,6 +24,7 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	private final JPanel searchPanel = new JPanel(new BorderLayout());
 	private final JTextField searchInput = new JTextField();
 	private final JCheckBox caseSensitiveSearch = new JCheckBox("Exact");
+	private final JLabel titleHeader = new JLabel("");
 	
 	public SearchableRSyntaxTextArea()
 	{
@@ -47,7 +48,6 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 		
 		searchInput.addKeyListener(new ReleaseKeyListener(keyEvent ->
 		{
-			System.out.println("DEBUG: " + keyEvent.getKeyChar());
 			if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER)
 				search(searchInput.getText(), true, caseSensitiveSearch.isSelected());
 		}));
@@ -89,5 +89,10 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	public JCheckBox getCaseSensitiveSearch()
 	{
 		return caseSensitiveSearch;
+	}
+	
+	public JLabel getTitleHeader()
+	{
+		return titleHeader;
 	}
 }

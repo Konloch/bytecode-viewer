@@ -81,6 +81,7 @@ public class ResourceViewPanel
 							SwingUtilities.invokeLater(() ->
 							{
 								panel.add(updateUpdaterTextArea.getScrollPane());
+								panel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
 								
 								textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 								textArea.setCodeFoldingEnabled(true);
@@ -89,7 +90,7 @@ public class ResourceViewPanel
 								textArea.setCaretPosition(0);
 								textArea.setEditable(isPanelEditable);
 								
-								textArea.getScrollPane().setColumnHeaderView(new JLabel(decompiler.getDecompilerName() + " - Editable: " + textArea.isEditable()));
+								textArea.getTitleHeader().setText(decompiler.getDecompilerName() + " - Editable: " + textArea.isEditable());
 								textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN,
 										(int) BytecodeViewer.viewer.fontSpinner.getValue()));
 							});
