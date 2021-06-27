@@ -29,21 +29,28 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
  * @author Bibl (don't ban me pls)
  * @created 1 Jun 2015
  */
-public class JavaPluginLaunchStrategy implements PluginLaunchStrategy {
 
-    private static final SimpleCompiler compiler = new SimpleCompiler();
-
+public class JavaPluginLaunchStrategy implements PluginLaunchStrategy
+{
     @Override
-    public Plugin run(File file) throws Throwable {
+    public Plugin run(File file) throws Throwable
+    {
+        SimpleCompiler compiler = new SimpleCompiler();
+        
+        //compile the Java source
         compiler.cook(DiskReader.loadAsString(file.getAbsolutePath()));
 
+        //debug
         System.out.println(file.getName().substring(0, file.getName().length() - (".java".length())));
+        
+        //get the class object from the compiler classloader
         Class<?> clazz = Class.forName(
                 file.getName().substring(0, file.getName().length() - ".java".length()),
                 true,
                 compiler.getClassLoader()
         );
 
+        //create a new instance of the class
         return (Plugin) clazz.newInstance();
     }
 }
