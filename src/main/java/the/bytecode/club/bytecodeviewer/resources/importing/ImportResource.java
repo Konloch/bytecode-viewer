@@ -54,33 +54,33 @@ public class ImportResource implements Runnable
 				{
 					if (file.isDirectory())
 					{
-						ImportType.DIRECTORY.getImporter().open(file);
+						Import.DIRECTORY.getImporter().open(file);
 					}
 					else
 					{
 						if (fn.endsWith(".jar") || fn.endsWith(".zip") || fn.endsWith(".war"))
 						{
-							if(!ImportType.ZIP.getImporter().open(file))
+							if(!Import.ZIP.getImporter().open(file))
 								update = false;
 						}
 						else if (fn.endsWith(".class"))
 						{
-							if(!ImportType.CLASS.getImporter().open(file))
+							if(!Import.CLASS.getImporter().open(file))
 								update = false;
 						}
 						else if (fn.endsWith(".apk"))
 						{
-							ImportType.APK.getImporter().open(file);
+							Import.APK.getImporter().open(file);
 							return;
 						}
 						else if (fn.endsWith(".dex"))
 						{
-							ImportType.DEX.getImporter().open(file);
+							Import.DEX.getImporter().open(file);
 							return;
 						}
 						else
 						{
-							ImportType.FILE.getImporter().open(file);
+							Import.FILE.getImporter().open(file);
 						}
 					}
 				}

@@ -31,9 +31,9 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowMainMethods;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.StackFramesRemover;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZStringArrayDecrypter;
+import the.bytecode.club.bytecodeviewer.resources.exporting.Export;
 import the.bytecode.club.bytecodeviewer.util.*;
 import the.bytecode.club.bytecodeviewer.resources.ResourceDecompiling;
-import the.bytecode.club.bytecodeviewer.resources.ResourceExporting;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -341,10 +341,10 @@ public class MainViewerGUI extends JFrame
         reloadResources.addActionListener(arg0 -> reloadResources());
         runButton.addActionListener(e -> runResources());
         compileButton.addActionListener(arg0 -> compileOnNewThread());
-        saveAsRunnableJar.addActionListener(e -> ResourceExporting.saveAsRunnableJar());
-        saveAsAPK.addActionListener(arg0 -> ResourceExporting.saveAsAPK());
-        saveAsDex.addActionListener(arg0 -> ResourceExporting.saveAsDex());
-        saveAsZip.addActionListener(arg0 -> ResourceExporting.saveAsZip());
+        saveAsRunnableJar.addActionListener(e -> Export.RUNNABLE_JAR.getExporter().promptForExport());
+        saveAsAPK.addActionListener(arg0 -> Export.APK.getExporter().promptForExport());
+        saveAsDex.addActionListener(arg0 -> Export.DEX.getExporter().promptForExport());
+        saveAsZip.addActionListener(arg0 -> Export.ZIP.getExporter().promptForExport());
         decompileSaveAll.addActionListener(arg0 -> ResourceDecompiling.decompileSaveAll());
         decompileSaveOpened.addActionListener(arg0 -> ResourceDecompiling.decompileSaveOpenedOnly());
         about.addActionListener(arg0 -> aboutWindow.setVisible(true));

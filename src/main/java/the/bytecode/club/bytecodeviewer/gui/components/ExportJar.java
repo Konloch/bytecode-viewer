@@ -53,15 +53,17 @@ public class ExportJar extends JFrame
 
         scrollPane.setColumnHeaderView(new JLabel("META-INF/MANIFEST.MF:"));
 
-        final JTextArea mani = new JTextArea();
-        mani.setText("Manifest-Version: 1.0\r\nClass-Path: .\r\nMain-Class: ");
-        scrollPane.setViewportView(mani);
+        final JTextArea manifest = new JTextArea();
+        manifest.setText("Manifest-Version: 1.0\r\nClass-Path: .\r\nMain-Class: ");
+        scrollPane.setViewportView(manifest);
         getContentPane().add(btnNewButton);
 
-        btnNewButton.addActionListener(arg0 -> {
+        btnNewButton.addActionListener(arg0 ->
+        {
             BytecodeViewer.viewer.updateBusyStatus(true);
-            Thread t = new Thread(() -> {
-                JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), jarPath, mani.getText());
+            Thread t = new Thread(() ->
+            {
+                JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), jarPath, manifest.getText());
                 BytecodeViewer.viewer.updateBusyStatus(false);
             });
             t.start();

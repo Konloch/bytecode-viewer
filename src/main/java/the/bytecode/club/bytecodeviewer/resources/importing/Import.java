@@ -6,7 +6,7 @@ import the.bytecode.club.bytecodeviewer.resources.importing.impl.*;
  * @author Konloch
  * @since 6/26/2021
  */
-public enum ImportType
+public enum Import
 {
 	DIRECTORY(new DirectoryResourceImporter()),
 	FILE(new FileResourceImporter()),
@@ -18,7 +18,7 @@ public enum ImportType
 	
 	private final Importer importer;
 	
-	ImportType(Importer importer) {this.importer = importer;}
+	Import(Importer importer) {this.importer = importer;}
 	
 	public Importer getImporter()
 	{
