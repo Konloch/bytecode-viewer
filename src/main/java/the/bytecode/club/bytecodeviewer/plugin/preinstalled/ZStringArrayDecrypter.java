@@ -10,6 +10,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
+import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -38,54 +39,54 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Righteous
  */
 
-public class ZStringArrayDecrypter extends Plugin {
-
+public class ZStringArrayDecrypter extends Plugin
+{
     PluginConsole gui = new PluginConsole("ZStringArray Decrypter");
     StringBuilder out = new StringBuilder();
 
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList) {
-        JOptionPane pane = new JOptionPane(
+    public void execute(ArrayList<ClassNode> classNodeList)
+    {
+        MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - WARNING",
                 "WARNING: This will load the classes into the JVM and execute the initialize function"
-                        + nl + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE."
-        );
-        Object[] options = new String[]{"Continue", "Cancel"};
-        pane.setOptions(options);
-        JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-                "Bytecode Viewer - WARNING");
-        dialog.setVisible(true);
-        Object obj = pane.getValue();
-        int result = -1;
-        for (int k = 0; k < options.length; k++)
-            if (options[k].equals(obj))
-                result = k;
+                        + nl + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
+                new String[]{"Continue", "Cancel"});
 
-        if (result == 0) {
+        if (dialogue.promptChoice() == 0)
+        {
             boolean needsWarning = false;
             for (Class<?> debug :
-                    Objects.requireNonNull(the.bytecode.club.bytecodeviewer.api.BytecodeViewer.loadClassesIntoClassLoader())) {
-                try {
+                    Objects.requireNonNull(the.bytecode.club.bytecodeviewer.api.BytecodeViewer.loadClassesIntoClassLoader()))
+            {
+                try
+                {
                     Field[] fields = debug.getDeclaredFields();
-                    for (Field field : fields) {
-                        if (field.getName().equals("z")) {
+                    for (Field field : fields)
+                    {
+                        if (field.getName().equals("z"))
+                        {
                             out.append(debug.getName()).append(":").append(nl);
                             field.setAccessible(true);
-                            if (field.get(null) != null && field.get(null) instanceof String[] && Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) {
+                            if (field.get(null) != null && field.get(null) instanceof String[]
+                                    && Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers()))
+                            {
                                 String[] fieldVal = (String[]) field.get(null);
-                                for (int i = 0; i < fieldVal.length; i++) {
+                                for (int i = 0; i < fieldVal.length; i++)
                                     out.append("  z[").append(i).append("] = ").append(fieldVal[i]).append(nl);
-                                }
                             }
                         }
                     }
-                } catch (NoClassDefFoundError | Exception e) {
+                }
+                catch (NoClassDefFoundError | Exception e)
+                {
                     System.err.println("Failed loading class " + debug.getName());
                     e.printStackTrace();
                     needsWarning = true;
                 }
             }
 
-            if (needsWarning) {
+            if (needsWarning)
+            {
                 BytecodeViewer.showMessage("Some classes failed to decrypt, if you'd like to decrypt all of them"
                         + nl + "makes sure you include ALL the libraries it requires.");
             }
