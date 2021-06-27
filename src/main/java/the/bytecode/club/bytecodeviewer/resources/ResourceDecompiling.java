@@ -34,7 +34,7 @@ public class ResourceDecompiling
 			return;
 		}
 		
-		Thread t = new Thread(() ->
+		Thread decompileThread = new Thread(() ->
 		{
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
@@ -187,7 +187,7 @@ public class ResourceDecompiling
 				}
 			}
 		});
-		t.start();
+		decompileThread.start();
 	}
 	
 	public static void decompileSaveOpenedOnly()
@@ -197,7 +197,7 @@ public class ResourceDecompiling
 			return;
 		}
 		
-		Thread t = new Thread(() -> {
+		Thread decompileThread = new Thread(() -> {
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
 			
@@ -413,6 +413,6 @@ public class ResourceDecompiling
 				}
 			}
 		});
-		t.start();
+		decompileThread.start();
 	}
 }
