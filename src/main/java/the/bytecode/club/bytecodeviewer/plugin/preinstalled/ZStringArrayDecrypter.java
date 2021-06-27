@@ -55,17 +55,17 @@ public class ZStringArrayDecrypter extends Plugin
         if (dialogue.promptChoice() == 0)
         {
             boolean needsWarning = false;
-            for (Class<?> debug :
+            for (Class<?> cn :
                     Objects.requireNonNull(the.bytecode.club.bytecodeviewer.api.BytecodeViewer.loadClassesIntoClassLoader()))
             {
                 try
                 {
-                    Field[] fields = debug.getDeclaredFields();
+                    Field[] fields = cn.getDeclaredFields();
                     for (Field field : fields)
                     {
                         if (field.getName().equals("z"))
                         {
-                            out.append(debug.getName()).append(":").append(nl);
+                            out.append(cn.getName()).append(":").append(nl);
                             field.setAccessible(true);
                             if (field.get(null) != null && field.get(null) instanceof String[]
                                     && Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers()))
@@ -79,7 +79,7 @@ public class ZStringArrayDecrypter extends Plugin
                 }
                 catch (NoClassDefFoundError | Exception e)
                 {
-                    System.err.println("Failed loading class " + debug.getName());
+                    System.err.println("Failed loading class " + cn.getName());
                     e.printStackTrace();
                     needsWarning = true;
                 }
