@@ -33,7 +33,6 @@ public class APKExport implements Exporter
 			return;
 		}
 		
-		//if theres only one file in the container don't bother asking
 		List<FileContainer> containers = BytecodeViewer.getFiles();
 		List<FileContainer> validContainers = new ArrayList<>();
 		List<String> validContainersNames = new ArrayList<>();
@@ -52,26 +51,18 @@ public class APKExport implements Exporter
 		{
 			container = validContainers.get(0);
 			
+			//if theres only one file in the container don't bother asking
 			if (validContainers.size() >= 2)
 			{
-				JOptionPane pane = new JOptionPane("Which file would you like to export as an APK?");
-				Object[] options = validContainersNames.toArray(new String[0]);
+				MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Select APK",
+						"Which file would you like to export as an APK?",
+						validContainersNames.toArray(new String[0]));
 				
-				pane.setOptions(options);
-				JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Select APK");
-				dialog.setVisible(true);
-				Object obj = pane.getValue();
-				int result = -1;
-				for (int k = 0; k < options.length; k++)
-					if (options[k].equals(obj))
-						result = k;
-				
-				container = containers.get(result);
+				container = containers.get(dialogue.promptChoice());
 			}
 		} else {
-			BytecodeViewer.showMessage("You can only export as APK from a valid APK file. Make sure "
-					+ "Settings>Decode Resources is ticked on.\n\nTip: Try exporting as DEX, it doesn't rely on "
-					+ "decoded APK resources");
+			BytecodeViewer.showMessage("You can only export as APK from a valid APK file. Make sure Settings>Decode Resources is ticked on." +
+					"\n\nTip: Try exporting as DEX, it doesn't rely on decoded APK resources");
 			return;
 		}
 		
