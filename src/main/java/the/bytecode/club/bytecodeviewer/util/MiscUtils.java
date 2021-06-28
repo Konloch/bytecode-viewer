@@ -158,10 +158,8 @@ public class MiscUtils
 
     public static String getFileHeader(byte[] fileContents)
     {
-        return String.format("%02X", fileContents[0])
-            + String.format("%02X", fileContents[1])
-            + String.format("%02X", fileContents[2])
-            + String.format("%02X", fileContents[3]);
+        return String.format("%02X%02X%02X%02X", fileContents[0],
+                fileContents[1], fileContents[2],fileContents[3]);
     }
     
     public static String extension(String name) {
