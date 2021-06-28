@@ -1,5 +1,9 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import java.util.HashMap;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -18,109 +22,56 @@ package the.bytecode.club.bytecodeviewer.util;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-import java.util.HashMap;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-
 /**
+ * Prevents name path collisions by allowing the same name to be used in multiple file containers.
+ *
  * @author Konloch
  */
-public class LazyNameUtil {
+public class LazyNameUtil
+{
     public static boolean SAME_NAME_JAR_WORKSPACE = false;
-
     private static final HashMap<String, SeqAndCount> nameMap = new HashMap<>();
 
     public static void reset() {
         nameMap.clear();
     }
 
-    public static String applyNameChanges(String name) {
-        if (nameMap.containsKey(name)) {
-            if (!SAME_NAME_JAR_WORKSPACE) {
+    public static String applyNameChanges(String name)
+    {
+        if (nameMap.containsKey(name))
+        {
+            if (!SAME_NAME_JAR_WORKSPACE)
                 SAME_NAME_JAR_WORKSPACE = true;
-            }
 
             SeqAndCount seqAndCount = nameMap.get(name);
             nameMap.put(name, seqAndCount.incrSeqAndCount());
             return FilenameUtils.removeExtension(name) + "#" + seqAndCount.getSeq() + "." + FilenameUtils.getExtension(name);
-        } else {
+        }
+        else
+        {
             nameMap.put(name, SeqAndCount.init());
         }
 
         return name;
     }
 
-    public static void removeName(String name) {
-        if (StringUtils.isBlank(name)) {
+    public static void removeName(String name)
+    {
+        if (StringUtils.isBlank(name))
             return;
-        }
 
-        if (name.contains("#")) {
+        if (name.contains("#"))
             name = name.substring(0, name.indexOf("#")) + name.substring(name.indexOf("."));
-        }
 
         SeqAndCount seqAndCount = nameMap.get(name);
-        if (seqAndCount == null) {
+        if (seqAndCount == null)
             return;
-        }
 
         // sequence remain the same and decrease the count
         // still the count become 1
-        if (seqAndCount.getCount() == 1) {
+        if (seqAndCount.getCount() == 1)
             nameMap.remove(name);
-        } else {
+        else
             nameMap.put(name, seqAndCount.decrCount());
-        }
-    }
-
-}
-
-
-class SeqAndCount {
-    Integer seq;
-    Integer count;
-
-    public static SeqAndCount init() {
-        SeqAndCount seqAndCount = new SeqAndCount();
-        seqAndCount.setSeq(1);
-        seqAndCount.setCount(1);
-        return seqAndCount;
-    }
-
-    public SeqAndCount incrSeq() {
-        seq = seq + 1;
-        return this;
-    }
-
-    public SeqAndCount incrCount() {
-        count = count + 1;
-        return this;
-    }
-
-    public SeqAndCount decrCount() {
-        count = count - 1;
-        return this;
-    }
-
-    public SeqAndCount incrSeqAndCount() {
-        seq = seq + 1;
-        count = count + 1;
-        return this;
-    }
-
-    public Integer getSeq() {
-        return seq;
-    }
-
-    public void setSeq(Integer seq) {
-        this.seq = seq;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
     }
 }
