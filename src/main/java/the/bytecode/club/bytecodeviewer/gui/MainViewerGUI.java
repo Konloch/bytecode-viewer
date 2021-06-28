@@ -571,7 +571,7 @@ public class MainViewerGUI extends JFrame
         showAllStrings.addActionListener(e -> PluginManager.runPlugin(new ShowAllStrings()));
         replaceStrings.addActionListener(arg0 -> ReplaceStringsOptions.open());
         stackFramesRemover.addActionListener(e -> PluginManager.runPlugin(new StackFramesRemover()));
-        allatoriStringDecrypter.addActionListener(e -> PluginManager.runPlugin(new AllatoriStringDecrypterOptions()));
+        allatoriStringDecrypter.addActionListener(e -> PluginManager.runPlugin(new AllatoriStringDecrypter.AllatoriStringDecrypterOptions()));
         ZKMStringDecrypter.addActionListener(e -> PluginManager.runPlugin(new ZKMStringDecrypter()));
         zStringArrayDecrypter.addActionListener(arg0 -> PluginManager.runPlugin(new ZStringArrayDecrypter()));
     }

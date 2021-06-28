@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
+import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,11 +8,15 @@ import java.util.ArrayList;
 import org.objectweb.asm.tree.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
+import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+
+import javax.swing.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
@@ -279,5 +284,54 @@ public class AllatoriStringDecrypter extends Plugin
 			log("Could not invoke decrypter method: " + name + " of class " + decrypterclass.getName());
 			throw e;
 		}
+	}
+	
+	public static class AllatoriStringDecrypterOptions extends Plugin
+	{
+		@Override
+		public void execute(ArrayList<ClassNode> classNodeList)
+		{
+			new AllatoriStringDecrypterOptionsFrame().setVisible(true);
+		}
+	}
+	
+	public static class AllatoriStringDecrypterOptionsFrame extends JFrame
+	{
+		private JTextField textField;
+		
+		public AllatoriStringDecrypterOptionsFrame()
+		{
+			this.setIconImages(Resources.iconList);
+			setSize(new Dimension(250, 120));
+			setResizable(false);
+			setTitle("Allatori String Decrypter");
+			getContentPane().setLayout(null);
+			
+			JButton btnNewButton = new JButton("Decrypt");
+			btnNewButton.setBounds(6, 56, 232, 23);
+			getContentPane().add(btnNewButton);
+			
+			
+			JLabel lblNewLabel = new JLabel("Class:");
+			lblNewLabel.setBounds(6, 20, 67, 14);
+			getContentPane().add(lblNewLabel);
+			
+			textField = new JTextField();
+			textField.setToolTipText("* will search all classes");
+			textField.setText("*");
+			textField.setBounds(80, 17, 158, 20);
+			getContentPane().add(textField);
+			textField.setColumns(10);
+			
+			btnNewButton.addActionListener(arg0 ->
+			{
+				PluginManager.runPlugin(new the.bytecode.club.bytecodeviewer.plugin.preinstalled.AllatoriStringDecrypter(textField.getText()));
+				dispose();
+			});
+			
+			this.setLocationRelativeTo(null);
+		}
+		
+		private static final long serialVersionUID = -2662514582647810868L;
 	}
 }
