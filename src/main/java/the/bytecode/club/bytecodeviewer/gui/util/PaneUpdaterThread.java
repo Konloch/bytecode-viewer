@@ -104,12 +104,18 @@ public abstract class PaneUpdaterThread implements Runnable
         });
     }
 
-    public final CaretListener caretListener = new CaretListener() {
+    public final CaretListener caretListener = new CaretListener()
+    {
         @Override
-        public void caretUpdate(CaretEvent e) {
+        public void caretUpdate(CaretEvent e)
+        {
             MethodParser methods = viewer.methods.get(paneIndex);
-            if (methods != null) {
+            if (methods != null)
+            {
                 int methodLine = methods.findActiveMethod(updateUpdaterTextArea.getCaretLineNumber());
+    
+                System.out.println("LINE: " + methodLine);
+                
                 if (methodLine != -1) {
                     if (BytecodeViewer.viewer.showClassMethods.isSelected()) {
                         if (methodsList != null) {
@@ -212,10 +218,12 @@ public abstract class PaneUpdaterThread implements Runnable
         updateUpdaterTextArea.addCaretListener(caretListener);
         
         final MethodParser methods = viewer.methods.get(paneIndex);
-        for (int i = 0; i < updateUpdaterTextArea.getLineCount(); i++) {
-            String lineText = ClassViewer.getLineText(updateUpdaterTextArea, i);
+        for (int i = 0; i < updateUpdaterTextArea.getLineCount(); i++)
+        {
+            String lineText = updateUpdaterTextArea.getLineText(i);
             Matcher regexMatcher = MethodParser.regex.matcher(lineText);
-            if (regexMatcher.find()) {
+            if (regexMatcher.find())
+            {
                 String methodName = regexMatcher.group("name");
                 String methodParams = regexMatcher.group("params");
                 methods.addMethod(i, methodName, methodParams);

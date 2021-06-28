@@ -1,9 +1,11 @@
 package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
+import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -22,12 +24,13 @@ public class DirectoryResourceImporter implements Importer
 	public boolean open(File file) throws Exception
 	{
 		FileContainer container = new FileContainer(file);
-		HashMap<String, byte[]> files1 = new HashMap<>();
+		HashMap<String, byte[]> allDirectoryFiles = new HashMap<>();
+		HashMap<String, ClassNode> allDirectoryClasses = new HashMap<>();
+		
 		boolean finished = false;
 		ArrayList<File> totalFiles = new ArrayList<>();
 		totalFiles.add(file);
-		String dir = file.getAbsolutePath();//f.getAbsolutePath().substring(0, f.getAbsolutePath
-		// ().length()-f.getName().length());
+		String dir = file.getAbsolutePath();
 		
 		while (!finished)
 		{
@@ -68,10 +71,26 @@ public class DirectoryResourceImporter implements Importer
 					{
 						Import.DEX.getImporter().open(child);
 					}
+					else if (fileName.endsWith(".class"))
+					{
+						byte[] bytes = Files.readAllBytes(Paths.get(child.getAbsolutePath()));
+						
+						String cafebabe = String.format("%02X", bytes[0])
+								+ String.format("%02X", bytes[1])
+								+ String.format("%02X", bytes[2])
+								+ String.format("%02X", bytes[3]);
+						
+						//check the header for cafebabe
+						if (cafebabe.equalsIgnoreCase("cafebabe"))
+						{
+							final ClassNode cn = JarUtils.getNode(bytes);
+							allDirectoryClasses.put(trimmedPath, cn);
+						}
+					}
 					else
 					{
 						//pack files into a single container
-						files1.put(trimmedPath, Files.readAllBytes(Paths.get(child.getAbsolutePath())));
+						allDirectoryFiles.put(trimmedPath, Files.readAllBytes(Paths.get(child.getAbsolutePath())));
 					}
 				}
 				
@@ -79,7 +98,8 @@ public class DirectoryResourceImporter implements Importer
 			}
 		}
 		
-		container.files = files1;
+		container.classes.addAll(allDirectoryClasses.values());
+		container.files = allDirectoryFiles;
 		BytecodeViewer.files.add(container);
 		return true;
 	}

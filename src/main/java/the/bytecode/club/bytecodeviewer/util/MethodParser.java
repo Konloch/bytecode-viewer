@@ -117,8 +117,10 @@ public class MethodParser {
         return -1;
     }
 
-    public int findActiveMethod(int line) {
-        if (!methods.isEmpty()) {
+    public int findActiveMethod(int line)
+    {
+        if (!methods.isEmpty())
+        {
             Map.Entry<Integer, Method> low = methods.floorEntry(line);
             if (low != null) {
                 return low.getKey();

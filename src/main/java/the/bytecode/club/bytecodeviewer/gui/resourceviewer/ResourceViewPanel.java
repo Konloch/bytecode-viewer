@@ -56,6 +56,6 @@ public class ResourceViewPanel
 	
 	public void updatePane(ClassViewer cv, byte[] b, JButton button, boolean isPanelEditable)
 	{
-		updateThread = new ResourceProcessClassToViewThread(this, cv, b, isPanelEditable, button);
+		updateThread = new ResourceViewProcessing(this, cv, b, isPanelEditable, button);
 	}
 }

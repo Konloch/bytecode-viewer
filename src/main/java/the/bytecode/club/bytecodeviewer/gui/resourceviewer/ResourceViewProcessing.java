@@ -38,7 +38,7 @@ import java.awt.*;
  * @since 6/27/2021
  */
 
-public class ResourceProcessClassToViewThread extends PaneUpdaterThread
+public class ResourceViewProcessing extends PaneUpdaterThread
 {
 	private final ResourceViewPanel resourceViewPanel;
 	private final ClassViewer cv;
@@ -47,7 +47,7 @@ public class ResourceProcessClassToViewThread extends PaneUpdaterThread
 	private final JButton button;
 	public boolean waitingFor;
 	
-	public ResourceProcessClassToViewThread(ResourceViewPanel resourceViewPanel, ClassViewer cv, byte[] b, boolean isPanelEditable, JButton button)
+	public ResourceViewProcessing(ResourceViewPanel resourceViewPanel, ClassViewer cv, byte[] b, boolean isPanelEditable, JButton button)
 	{
 		super(resourceViewPanel.panelIndex, resourceViewPanel.decompilerViewIndex);
 		this.resourceViewPanel = resourceViewPanel;

@@ -336,17 +336,6 @@ public class ClassViewer extends ResourceViewer
         }
     }
 
-    public static String getLineText(RSyntaxTextArea area, int line) {
-        try {
-            if (line < area.getLineCount()) {
-                int start = area.getLineStartOffset(line);
-                int end = area.getLineEndOffset(line);
-                return area.getText(start, end - start).trim();
-            }
-        } catch (BadLocationException ignored) { }
-        return "";
-    }
-
     public static int getMaxViewLine(RSyntaxTextArea area)
     {
         Container parent = area.getParent();
