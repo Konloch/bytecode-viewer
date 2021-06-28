@@ -71,26 +71,35 @@ public class BytecodeViewer {
      * @return The loaded classes into the new URLClassLoader instance
      * @author Cafebabe
      */
-    public static List<Class<?>> loadClassesIntoClassLoader() {
-        try {
+    public static List<Class<?>> loadClassesIntoClassLoader()
+    {
+        try
+        {
             File f = new File(tempDirectory + fs + MiscUtils.randomString(12) + "loaded_temp.jar");
+            
             JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), f.getAbsolutePath());
             JarFile jarFile = new JarFile("" + f.getAbsolutePath());
+            
             Enumeration<JarEntry> e = jarFile.entries();
             URL[] urls = {new URL("jar:file:" + "" + f.getAbsolutePath() + "!/")};
+            
             cl = URLClassLoader.newInstance(urls);
             List<Class<?>> ret = new ArrayList<>();
 
-            while (e.hasMoreElements()) {
+            while (e.hasMoreElements())
+            {
                 JarEntry je = e.nextElement();
+                
                 if (je.isDirectory() || !je.getName().endsWith(".class"))
                     continue;
+                
                 String className = je.getName().replace("/", ".").replace(".class", "");
                 className = className.replace('/', '.');
+                
                 try {
                     ret.add(cl.loadClass(className));
-                } catch (Exception e2) {
-                    new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e2);
+                } catch (Exception classLoadException) {
+                    new the.bytecode.club.bytecodeviewer.api.ExceptionUI(classLoadException);
                 }
             }
             jarFile.close();
