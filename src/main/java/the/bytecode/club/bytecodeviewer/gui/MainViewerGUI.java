@@ -24,13 +24,7 @@ import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.AllatoriStringDecrypter;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.CodeSequenceDiagram;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowAllStrings;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ShowMainMethods;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.StackFramesRemover;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZKMStringDecrypter;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ZStringArrayDecrypter;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.*;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Export;
 import the.bytecode.club.bytecodeviewer.util.*;
 import the.bytecode.club.bytecodeviewer.resources.ResourceDecompiling;
@@ -577,7 +571,7 @@ public class MainViewerGUI extends JFrame
         showAllStrings.addActionListener(e -> PluginManager.runPlugin(new ShowAllStrings()));
         replaceStrings.addActionListener(arg0 -> ReplaceStringsOptions.open());
         stackFramesRemover.addActionListener(e -> PluginManager.runPlugin(new StackFramesRemover()));
-        allatoriStringDecrypter.addActionListener(e -> PluginManager.runPlugin(new AllatoriStringDecrypter()));
+        allatoriStringDecrypter.addActionListener(e -> PluginManager.runPlugin(new AllatoriStringDecrypterOptions()));
         ZKMStringDecrypter.addActionListener(e -> PluginManager.runPlugin(new ZKMStringDecrypter()));
         zStringArrayDecrypter.addActionListener(arg0 -> PluginManager.runPlugin(new ZStringArrayDecrypter()));
     }
