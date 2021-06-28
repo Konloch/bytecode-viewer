@@ -9,6 +9,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.listeners.ReleaseKeyListe
 import the.bytecode.club.bytecodeviewer.util.JTextAreaUtils;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -87,6 +88,17 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	public void highlight(String pattern, boolean caseSensitiveSearch)
 	{
 		JTextAreaUtils.highlight(this, pattern, caseSensitiveSearch);
+	}
+	
+	public String getLineText(int line) {
+		try {
+			if (line < getLineCount()) {
+				int start = getLineStartOffset(line);
+				int end = getLineEndOffset(line);
+				return getText(start, end - start).trim();
+			}
+		} catch (BadLocationException ignored) { }
+		return "";
 	}
 	
 	public RTextScrollPane getScrollPane()
