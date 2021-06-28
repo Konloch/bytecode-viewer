@@ -21,6 +21,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -248,14 +249,7 @@ public class JarUtils {
      * @return the ClassNode instance
      */
     public static ClassNode getNode(final byte[] bytez) {
-        ClassReader cr = new ClassReader(bytez);
-        ClassNode cn = new ClassNode();
-        try {
-            cr.accept(cn, ClassReader.EXPAND_FRAMES);
-        } catch (Exception e) {
-            cr.accept(cn, ClassReader.SKIP_FRAMES);
-        }
-        return cn;
+        return ASMUtil.getClassNode(bytez);
     }
 
     /**

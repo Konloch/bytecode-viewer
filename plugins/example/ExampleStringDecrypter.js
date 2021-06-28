@@ -26,7 +26,7 @@ function execute(classNodeList)
                 var fields = cn.fields.toArray();
 
                 //load the class node into the classloader
-                BytecodeViewer.getClassNodeLoader().addClass(cn);
+                BytecodeViewer.loadClassIntoClassLoader(cn);
 
                 for (fieldIndex = 0; fieldIndex < fields.length; fieldIndex++)
                 {

@@ -71,6 +71,19 @@ public class BytecodeViewer {
      * @return The loaded classes into the new URLClassLoader instance
      * @author Cafebabe
      */
+    public static Class<?> loadClassIntoClassLoader(ClassNode cn)
+    {
+        getClassNodeLoader().addClass(cn);
+    
+        try {
+            return cl.loadClass(cn.name);
+        } catch (Exception classLoadException) {
+            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(classLoadException);
+        }
+        
+        return null;
+    }
+    
     public static List<Class<?>> loadClassesIntoClassLoader()
     {
         try
@@ -102,6 +115,7 @@ public class BytecodeViewer {
                     new the.bytecode.club.bytecodeviewer.api.ExceptionUI(classLoadException);
                 }
             }
+            
             jarFile.close();
 
             return ret;
