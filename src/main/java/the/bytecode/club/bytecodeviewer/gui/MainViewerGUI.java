@@ -13,6 +13,7 @@ import the.bytecode.club.bytecodeviewer.*;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptions;
+import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptionsV2;
 import the.bytecode.club.bytecodeviewer.gui.plugins.ReplaceStringsOptions;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.resourcesearch.SearchBoxPane;
@@ -566,7 +567,7 @@ public class MainViewerGUI extends JFrame
         
         openExternalPlugin.addActionListener(arg0 -> openExternalPlugin());
         codeSequenceDiagram.addActionListener(arg0 -> CodeSequenceDiagram.open());
-        maliciousCodeScanner.addActionListener(e -> MaliciousCodeScannerOptions.open());
+        maliciousCodeScanner.addActionListener(e -> MaliciousCodeScannerOptionsV2.open());
         showMainMethods.addActionListener(e -> PluginManager.runPlugin(new ShowMainMethods()));
         showAllStrings.addActionListener(e -> PluginManager.runPlugin(new ShowAllStrings()));
         replaceStrings.addActionListener(arg0 -> ReplaceStringsOptions.open());

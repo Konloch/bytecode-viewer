@@ -1,20 +1,18 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
 import java.util.ArrayList;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.AbstractInsnNode;
+import java.util.HashSet;
+import java.util.List;
+
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
+import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptions;
+import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptionsV2;
+import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScan;
+import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScanModule;
 
-import static the.bytecode.club.bytecodeviewer.Constants.*;
+import javax.swing.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -35,134 +33,43 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  ***************************************************************************/
 
 /**
- * The idea/core was based off of J-RET's Malicious Code Searcher I improved it,
- * and added more stuff to search for.
+ * The Malicious Code Scanner plugin. All of the core components have been moved to the malwarescanner package.
+ *
+ * This tool is used to help aid reverse engineers in identifying malicious code.
  *
  * @author Konloch
  * @author Adrianherrera
  * @author WaterWolf
+ * @since 10/02/2011
  */
 
-public class MaliciousCodeScanner extends Plugin {
+public class MaliciousCodeScanner extends Plugin
+{
+    public final List<MaliciousCodeScannerOptionsV2.MaliciousCodeOptions> options;
 
-    public boolean ORE, ONE, ORU, OIO, LWW, LHT, LHS, LIP, NSM, ROB;
-
-    public MaliciousCodeScanner(boolean reflect, boolean runtime, boolean net,
-                                boolean io, boolean www, boolean http, boolean https, boolean ip,
-                                boolean nullSecMan, boolean robot) {
-        ORE = reflect;
-        ONE = net;
-        ORU = runtime;
-        OIO = io;
-        LWW = www;
-        LHT = http;
-        LHS = https;
-        LIP = ip;
-        NSM = nullSecMan;
-        ROB = robot;
+    public MaliciousCodeScanner(List<MaliciousCodeScannerOptionsV2.MaliciousCodeOptions> options)
+    {
+        this.options = options;
     }
 
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList) {
+    public void execute(ArrayList<ClassNode> classNodeList)
+    {
         PluginConsole frame = new PluginConsole("Malicious Code Scanner");
         StringBuilder sb = new StringBuilder();
-        for (ClassNode classNode : classNodeList) {
-            for (Object o : classNode.fields.toArray()) {
-                FieldNode f = (FieldNode) o;
-                Object v = f.value;
-                if (v instanceof String) {
-                    String s = (String) v;
-                    if ((LWW && s.contains("www."))
-                            || (LHT && s.contains("http://"))
-                            || (LHS && s.contains("https://"))
-                            || (ORE && s.contains("java/lang/Runtime"))
-                            || (ORE && s.contains("java.lang.Runtime"))
-                            || (ROB && s.contains("java.awt.Robot"))
-                            || (ROB && s.contains("java/awt/Robot"))
-                            || (LIP && s
-                            .matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")))
-                        sb.append("Found LDC \"").append(s).append("\" at field ").append(classNode.name).append(".")
-                                .append(f.name).append("(").append(f.desc).append(")").append(nl);
-                }
-                if (v instanceof String[]) {
-                    for (int i = 0; i < ((String[]) v).length; i++) {
-                        String s = ((String[]) v)[i];
-                        if ((LWW && s.contains("www."))
-                                || (LHT && s.contains("http://"))
-                                || (LHS && s.contains("https://"))
-                                || (ORE && s.contains("java/lang/Runtime"))
-                                || (ORE && s.contains("java.lang.Runtime"))
-                                || (ROB && s.contains("java.awt.Robot"))
-                                || (ROB && s.contains("java/awt/Robot"))
-                                || (LIP && s
-                                .matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b")))
-                            sb.append("Found LDC \"").append(s).append("\" at field ").append(classNode.name)
-                                    .append(".").append(f.name).append("(").append(f.desc).append(")")
-                                    .append(nl);
-                    }
-                }
-            }
-
-            boolean prevInsn_aconst_null = false;
-
-            for (Object o : classNode.methods.toArray()) {
-                MethodNode m = (MethodNode) o;
-
-                InsnList iList = m.instructions;
-                for (AbstractInsnNode a : iList.toArray()) {
-                    if (a instanceof MethodInsnNode) {
-                        final MethodInsnNode min = (MethodInsnNode) a;
-                        if ((ORE && min.owner.startsWith("java/lang/reflect"))
-                                || (ONE && min.owner.startsWith("java/net"))
-                                || (ORU && min.owner.equals("java/lang/Runtime"))
-                                || (ROB && min.owner.equals("java/awt/Robot"))
-                                || (OIO && min.owner.startsWith("java/io"))) {
-                            sb.append("Found Method call to ").append(min.owner).append(".").append(min.name)
-                                    .append("(").append(min.desc).append(") at ").append(classNode.name).append(".")
-                                    .append(m.name).append("(").append(m.desc).append(")").append(nl);
-                        }
-                    }
-                    if (a instanceof LdcInsnNode) {
-                        if (((LdcInsnNode) a).cst instanceof String) {
-                            final String s = (String) ((LdcInsnNode) a).cst;
-                            if ((LWW && s.contains("www."))
-                                    || (LHT && s.contains("http://"))
-                                    || (LHS && s.contains("https://"))
-                                    || (ORE && s.contains("java/lang/Runtime"))
-                                    || (ORE && s.contains("java.lang.Runtime"))
-                                    || (ROB && s.contains("java.awt.Robot"))
-                                    || (ROB && s.contains("java/awt/Robot"))
-                                    || (LIP && s
-                                    .matches("\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"))) {
-                                sb.append("Found LDC \"").append(s).append("\" at method ").append(classNode.name)
-                                        .append(".").append(m.name).append("(").append(m.desc).append(")")
-                                        .append(nl);
-                            }
-                        }
-                    }
-
-                    // Check if the security manager is getting set to null
-                    if ((a instanceof InsnNode)
-                            && (a.getOpcode() == Opcodes.ACONST_NULL)) {
-                        prevInsn_aconst_null = true;
-                    } else if ((a instanceof MethodInsnNode)
-                            && (a.getOpcode() == Opcodes.INVOKESTATIC)) {
-                        final String owner = ((MethodInsnNode) a).owner;
-                        final String name = ((MethodInsnNode) a).name;
-                        if ((NSM && prevInsn_aconst_null
-                                && owner.equals("java/lang/System") && name
-                                .equals("setSecurityManager"))) {
-                            sb.append("Found Security Manager set to null at method ").append(classNode.name)
-                                    .append(".").append(m.name).append("(").append(m.desc).append(")")
-                                    .append(nl);
-                            prevInsn_aconst_null = false;
-                        }
-                    } else {
-                        prevInsn_aconst_null = false;
-                    }
-                }
-            }
-        }
+        
+        //TODO automate this when the GUI has been changed
+        HashSet<String> scanOptions = new HashSet<>();
+        
+        for(MaliciousCodeScannerOptionsV2.MaliciousCodeOptions option : options)
+            if(option.getCheckBox().isSelected())
+                scanOptions.add(option.getModule().name());
+        
+        //create a new code scan object with all of the scan options
+        MalwareScan scan = new MalwareScan(classNodeList, sb, scanOptions);
+        
+        //scan the modules one by one
+        MalwareScanModule.performScan(scan);
 
         frame.appendText(sb.toString());
         frame.setVisible(true);

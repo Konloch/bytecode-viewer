@@ -104,7 +104,7 @@ public class MaliciousCodeScannerOptions extends JFrame
         getContentPane().add(chckbxJavaawtrobot);
 
         JButton btnNewButton = new JButton("Start Scanning");
-        btnNewButton.addActionListener(arg0 -> {
+        /*btnNewButton.addActionListener(arg0 -> {
             PluginManager.runPlugin(new MaliciousCodeScanner(
                     chckbxJavalangreflection.isSelected(),
                     chckbxJavalangruntime.isSelected(),
@@ -117,7 +117,7 @@ public class MaliciousCodeScannerOptions extends JFrame
                     chckbxNullSecMan.isSelected(),
                     chckbxJavaawtrobot.isSelected()));
             dispose();
-        });
+        });*/
 
         btnNewButton.setBounds(6, 264, 232, 23);
         getContentPane().add(btnNewButton);
