@@ -45,7 +45,7 @@ public class MiscUtils
     private static final String AB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String AN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final Random rnd = new Random();
-    private static HashSet<String> createdRandomizedNames = new HashSet<>();
+    private static final HashSet<String> createdRandomizedNames = new HashSet<>();
 
     /**
      * Returns a random string without numbers
