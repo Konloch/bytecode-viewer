@@ -71,6 +71,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * http://the.bytecode.club
  *
  * TODO BUGS:
+ *      + View>Visual Settings>Show Class Methods
  *      + The compile mode inside the ResourceViewPanel for Krakatau and Smali assembly needs to be changed when opened with those specific decompilers
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
