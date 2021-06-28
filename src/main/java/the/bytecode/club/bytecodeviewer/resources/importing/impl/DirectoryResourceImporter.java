@@ -6,6 +6,7 @@ import the.bytecode.club.bytecodeviewer.resources.importing.Import;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -74,14 +75,7 @@ public class DirectoryResourceImporter implements Importer
 					else if (fileName.endsWith(".class"))
 					{
 						byte[] bytes = Files.readAllBytes(Paths.get(child.getAbsolutePath()));
-						
-						String cafebabe = String.format("%02X", bytes[0])
-								+ String.format("%02X", bytes[1])
-								+ String.format("%02X", bytes[2])
-								+ String.format("%02X", bytes[3]);
-						
-						//check the header for cafebabe
-						if (cafebabe.equalsIgnoreCase("cafebabe"))
+						if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
 						{
 							final ClassNode cn = JarUtils.getNode(bytes);
 							allDirectoryClasses.put(trimmedPath, cn);

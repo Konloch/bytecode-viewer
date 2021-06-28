@@ -156,6 +156,14 @@ public class MiscUtils
         return i;
     }
 
+    public static String getFileHeader(byte[] fileContents)
+    {
+        return String.format("%02X", fileContents[0])
+            + String.format("%02X", fileContents[1])
+            + String.format("%02X", fileContents[2])
+            + String.format("%02X", fileContents[3]);
+    }
+    
     public static String extension(String name) {
         return name.substring(name.lastIndexOf('.') + 1);
     }

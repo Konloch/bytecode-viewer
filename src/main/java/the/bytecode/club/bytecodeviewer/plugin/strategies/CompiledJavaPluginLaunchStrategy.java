@@ -13,6 +13,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -71,20 +72,23 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
         return loaded;
     }
 
-    private static Set<LoadedNodeData> loadData(File jarFile) throws Throwable {
+    private static Set<LoadedNodeData> loadData(File jarFile) throws Throwable
+    {
         ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
         ZipEntry entry;
 
         Set<LoadedNodeData> set = new HashSet<>();
 
-        while ((entry = jis.getNextEntry()) != null) {
-            try {
+        while ((entry = jis.getNextEntry()) != null)
+        {
+            try
+            {
                 String name = entry.getName();
-                if (name.endsWith(".class")) {
+                if (name.endsWith(".class"))
+                {
                     byte[] bytes = JarUtils.getBytes(jis);
-                    String magic = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format(
-                            "%02X", bytes[2]) + String.format("%02X", bytes[3]);
-                    if (magic.equalsIgnoreCase("cafebabe")) {
+                    if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
+                    {
                         try {
                             ClassReader cr = new ClassReader(bytes);
                             ClassNode cn = new ClassNode();

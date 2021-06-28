@@ -73,10 +73,8 @@ public class JarUtils {
                     if (!entry.isDirectory())
                         files.put(name, bytes);
                 } else {
-                    String cafebabe =
-                            String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X",
-                                    bytes[2]) + String.format("%02X", bytes[3]);
-                    if (cafebabe.equalsIgnoreCase("cafebabe")) {
+                    if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
+                    {
                         try {
                             final ClassNode cn = getNode(bytes);
                             container.classes.add(cn);
@@ -131,9 +129,8 @@ public class JarUtils {
                         if (!name.endsWith(".class")) {
                             files.put(name, bytes);
                         } else {
-                            String cafebabe =
-                                    String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
-                            if (cafebabe.equalsIgnoreCase("cafebabe")) {
+                            if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
+                            {
                                 try {
                                     final ClassNode cn = getNode(bytes);
                                     container.classes.add(cn);
@@ -164,10 +161,8 @@ public class JarUtils {
                 final String name = entry.getName();
                 if (name.endsWith(".class")) {
                     byte[] bytes = getBytes(jis);
-                    String cafebabe =
-                            String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X",
-                                    bytes[2]) + String.format("%02X", bytes[3]);
-                    if (cafebabe.equalsIgnoreCase("cafebabe")) {
+                    if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
+                    {
                         try {
                             final ClassNode cn = getNode(bytes);
                             classes.add(cn);
