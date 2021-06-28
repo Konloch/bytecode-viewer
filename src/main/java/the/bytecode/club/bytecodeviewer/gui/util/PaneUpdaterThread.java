@@ -113,8 +113,6 @@ public abstract class PaneUpdaterThread implements Runnable
             if (methods != null)
             {
                 int methodLine = methods.findActiveMethod(updateUpdaterTextArea.getCaretLineNumber());
-    
-                System.out.println("LINE: " + methodLine);
                 
                 if (methodLine != -1) {
                     if (BytecodeViewer.viewer.showClassMethods.isSelected()) {
