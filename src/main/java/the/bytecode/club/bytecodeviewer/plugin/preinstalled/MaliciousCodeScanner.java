@@ -7,12 +7,9 @@ import java.util.List;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
-import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptions;
-import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptionsV2;
 import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScan;
 import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScanModule;
-
-import javax.swing.*;
+import the.bytecode.club.bytecodeviewer.malwarescanner.util.MaliciousCodeOptions;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -38,16 +35,15 @@ import javax.swing.*;
  * This tool is used to help aid reverse engineers in identifying malicious code.
  *
  * @author Konloch
- * @author Adrianherrera
  * @author WaterWolf
  * @since 10/02/2011
  */
 
 public class MaliciousCodeScanner extends Plugin
 {
-    public final List<MaliciousCodeScannerOptionsV2.MaliciousCodeOptions> options;
+    public final List<MaliciousCodeOptions> options;
 
-    public MaliciousCodeScanner(List<MaliciousCodeScannerOptionsV2.MaliciousCodeOptions> options)
+    public MaliciousCodeScanner(List<MaliciousCodeOptions> options)
     {
         this.options = options;
     }
@@ -58,10 +54,9 @@ public class MaliciousCodeScanner extends Plugin
         PluginConsole frame = new PluginConsole("Malicious Code Scanner");
         StringBuilder sb = new StringBuilder();
         
-        //TODO automate this when the GUI has been changed
         HashSet<String> scanOptions = new HashSet<>();
         
-        for(MaliciousCodeScannerOptionsV2.MaliciousCodeOptions option : options)
+        for(MaliciousCodeOptions option : options)
             if(option.getCheckBox().isSelected())
                 scanOptions.add(option.getModule().name());
         
