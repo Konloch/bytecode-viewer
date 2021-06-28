@@ -1,6 +1,5 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -8,15 +7,11 @@ import java.util.ArrayList;
 import org.objectweb.asm.tree.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
-import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
-import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
-
-import javax.swing.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
