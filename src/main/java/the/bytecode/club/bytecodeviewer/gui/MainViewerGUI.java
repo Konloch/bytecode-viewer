@@ -596,6 +596,7 @@ public class MainViewerGUI extends JFrame
         pluginsMainMenu.add(showAllStrings);
         pluginsMainMenu.add(replaceStrings);
         pluginsMainMenu.add(stackFramesRemover);
+        
         //allatori and ZKM are disabled since they are just placeholders
         //mnNewMenu_1.add(mntmNewMenuItem_2);
         //mnNewMenu_1.add(mntmStartZkmString);
