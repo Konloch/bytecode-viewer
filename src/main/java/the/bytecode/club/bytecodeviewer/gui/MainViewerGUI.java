@@ -26,8 +26,13 @@ import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.*;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Export;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBoxMenuItem;
 import the.bytecode.club.bytecodeviewer.util.*;
 import the.bytecode.club.bytecodeviewer.resources.ResourceDecompiling;
+import the.bytecode.club.bytecodeviewer.translation.Language;
+import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenu;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenuItem;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -72,78 +77,80 @@ public class MainViewerGUI extends JFrame
     public final JMenuBar rootMenu = new JMenuBar();
     
     //all of the files main menu components
-    public final JMenu fileMainMenu = new JMenu("File");
-    public final JMenuItem newWorkSpace = new JMenuItem("New Workspace");
-    public final JMenuItem addResource = new JMenuItem("Add...");
-    public final JMenuItem reloadResources = new JMenuItem("Reload Resources");
-    public final JMenuItem runButton = new JMenuItem("Run");
-    public final JMenuItem compileButton = new JMenuItem("Compile");
-    public final JMenuItem saveAsRunnableJar = new JMenuItem("Save As Runnable Jar..");
-    public final JMenuItem saveAsDex = new JMenuItem("Save As DEX..");
-    public final JMenuItem saveAsAPK = new JMenuItem("Save As APK..");
-    public final JMenuItem saveAsZip = new JMenuItem("Save As Zip..");
-    public final JMenuItem decompileSaveOpened = new JMenuItem("Decompile & Save Opened Class..");
-    public final JMenuItem decompileSaveAll = new JMenuItem("Decompile & Save All Classes..");
-    public final JMenu recentFilesSecondaryMenu = new JMenu("Recent Files");
-    public final JMenuItem about = new JMenuItem("About");
-    public final JMenuItem exit = new JMenuItem("Exit");
+    public final JMenu fileMainMenu = new TranslatedJMenu("File", Translation.FILE);
+    public final JMenuItem addResource = new TranslatedJMenuItem("Add...", Translation.ADD);
+    public final JMenuItem newWorkSpace = new TranslatedJMenuItem("New Workspace", Translation.NEW_WORKSPACE);
+    public final JMenuItem reloadResources = new TranslatedJMenuItem("Reload Resources", Translation.RELOAD_RESOURCES);
+    public final JMenuItem runButton = new TranslatedJMenuItem("Run", Translation.RUN);
+    public final JMenuItem compileButton = new TranslatedJMenuItem("Compile", Translation.COMPILE);
+    public final JMenuItem saveAsRunnableJar = new TranslatedJMenuItem("Save As Runnable Jar..", Translation.SAVE_AS_RUNNABLE_JAR);
+    public final JMenuItem saveAsDex = new TranslatedJMenuItem("Save As DEX..", Translation.SAVE_AS_DEX);
+    public final JMenuItem saveAsAPK = new TranslatedJMenuItem("Save As APK..", Translation.SAVE_AS_APK);
+    public final JMenuItem saveAsZip = new TranslatedJMenuItem("Save As Zip..", Translation.SAVE_AS_ZIP);
+    public final JMenuItem decompileSaveOpened = new TranslatedJMenuItem("Decompile & Save Opened Class..", Translation.DECOMPILE_SAVE_OPENED_CLASSES);
+    public final JMenuItem decompileSaveAll = new TranslatedJMenuItem("Decompile & Save All Classes..", Translation.DECOMPILE_SAVE_ALL_CLASSES);
+    public final JMenu recentFilesSecondaryMenu = new TranslatedJMenu("Recent Files", Translation.RECENT_FILES);
+    public final JMenuItem about = new TranslatedJMenuItem("About", Translation.ABOUT);
+    public final JMenuItem exit = new TranslatedJMenuItem("Exit", Translation.EXIT);
     
     //all of the view main menu components
-    public final JMenu viewMainMenu = new JMenu("View");
+    public final JMenu viewMainMenu = new TranslatedJMenu("View", Translation.VIEW);
     public final DecompilerSelectionPane viewPane1 = new DecompilerSelectionPane(1);
     public final DecompilerSelectionPane viewPane2 = new DecompilerSelectionPane(2);
     public final DecompilerSelectionPane viewPane3 = new DecompilerSelectionPane(3);
     
     //all of the plugins main menu components
-    public final JMenu pluginsMainMenu = new JMenu("Plugins");
-    public final JMenuItem openExternalPlugin = new JMenuItem("Open Plugin...");
-    public final JMenu recentPluginsSecondaryMenu = new JMenu("Recent Plugins");
-    public final JMenuItem ZKMStringDecrypter = new JMenuItem("ZKM String Decrypter");
-    public final JMenuItem allatoriStringDecrypter = new JMenuItem("Allatori String Decrypter");
-    public final JMenuItem codeSequenceDiagram = new JMenuItem("Code Sequence Diagram");
-    public final JMenuItem maliciousCodeScanner = new JMenuItem("Malicious Code Scanner");
-    public final JMenuItem showAllStrings = new JMenuItem("Show All Strings");
-    public final JMenuItem showMainMethods = new JMenuItem("Show Main Methods");
-    public final JMenuItem replaceStrings = new JMenuItem("Replace Strings");
-    public final JMenuItem stackFramesRemover = new JMenuItem("StackFrames Remover");
-    public final JMenuItem zStringArrayDecrypter = new JMenuItem("ZStringArray Decrypter");
+    public final JMenu pluginsMainMenu = new TranslatedJMenu("Plugins", Translation.PLUGINS);
+    public final JMenuItem openExternalPlugin = new TranslatedJMenuItem("Open Plugin...", Translation.OPEN_PLUGIN);
+    public final JMenu recentPluginsSecondaryMenu = new TranslatedJMenu("Recent Plugins", Translation.RECENT_PLUGINS);
+    public final JMenuItem codeSequenceDiagram = new TranslatedJMenuItem("Code Sequence Diagram", Translation.CODE_SEQUENCE_DIAGRAM);
+    public final JMenuItem maliciousCodeScanner = new TranslatedJMenuItem("Malicious Code Scanner", Translation.MALICIOUS_CODE_SCANNER);
+    public final JMenuItem showAllStrings = new TranslatedJMenuItem("Show All Strings", Translation.SHOW_ALL_STRINGS);
+    public final JMenuItem showMainMethods = new TranslatedJMenuItem("Show Main Methods", Translation.SHOW_MAIN_METHODS);
+    public final JMenuItem replaceStrings = new TranslatedJMenuItem("Replace Strings", Translation.REPLACE_STRINGS);
+    public final JMenuItem stackFramesRemover = new TranslatedJMenuItem("StackFrames Remover", Translation.STACK_FRAMES_REMOVER);
+    public final JMenuItem ZKMStringDecrypter = new TranslatedJMenuItem("ZKM String Decrypter", Translation.ZKM_STRING_DECRYPTER);
+    public final JMenuItem allatoriStringDecrypter = new TranslatedJMenuItem("Allatori String Decrypter", Translation.ALLATORI_STRING_DECRYPTER);
+    public final JMenuItem zStringArrayDecrypter = new TranslatedJMenuItem("ZStringArray Decrypter", Translation.ZSTRINGARRAY_DECRYPTER);
     
     //all of the settings main menu components
     public final ButtonGroup apkConversionGroup = new ButtonGroup();
     public final JRadioButtonMenuItem apkConversionDex = new JRadioButtonMenuItem("Dex2Jar");
     public final JRadioButtonMenuItem apkConversionEnjarify = new JRadioButtonMenuItem("Enjarify");
-    public final JMenu fontSize = new JMenu("Font Size");
+    public final JMenu rstaTheme = new TranslatedJMenu("Text Area Theme", Translation.TEXT_AREA_THEME);
+    public final JMenu lafTheme = new TranslatedJMenu("Window Theme", Translation.WINDOW_THEME);
+    public final JMenu language = new TranslatedJMenu("Language", Translation.LANGUAGE);
+    public final JMenu fontSize = new TranslatedJMenu("Font Size", Translation.FONT_SIZE);
     public final JSpinner fontSpinner = new JSpinner();
-    public final JMenu rstaTheme = new JMenu("Text Area Theme");
-    public final JMenu lafTheme = new JMenu("Window Theme");
-    
-    //BCV settings
-    public final JCheckBoxMenuItem refreshOnChange = new JCheckBoxMenuItem("Refresh On View Change");
-    private final JCheckBoxMenuItem deleteForeignOutdatedLibs = new JCheckBoxMenuItem("Delete Foreign/Outdated Libs");
-    public final JMenu settingsMainMenu = new JMenu("Settings");
-    public final JMenu visualSettings = new JMenu("Visual Settings");
-    public final JMenu apkConversion = new JMenu("APK Conversion");
-    public final JMenu bytecodeDecompilerSettingsSecondaryMenu = new JMenu("Bytecode Decompiler");
-    public final JCheckBoxMenuItem updateCheck = new JCheckBoxMenuItem("Update Check");
-    public final JMenuItem setPython2 = new JMenuItem("Set Python 2.7 Executable");
-    public final JMenuItem setPython3 = new JMenuItem("Set Python 3.X Executable");
-    public final JMenuItem setJRERT = new JMenuItem("Set JRE RT Library");
-    public final JMenuItem setJavac = new JMenuItem("Set Javac Executable");
-    public final JMenuItem setOptionalLibrary = new JMenuItem("Set Optional Library Folder");
-    public final JCheckBoxMenuItem compileOnSave = new JCheckBoxMenuItem("Compile On Save");
-    public final JCheckBoxMenuItem showFileInTabTitle = new JCheckBoxMenuItem("Show File In Tab Title");
-    public final JCheckBoxMenuItem simplifyNameInTabTitle = new JCheckBoxMenuItem("Simplify Name In Tab Title");
-    public final JCheckBoxMenuItem forcePureAsciiAsText = new JCheckBoxMenuItem("Force Pure Ascii As Text");
-    public final JCheckBoxMenuItem autoCompileOnRefresh = new JCheckBoxMenuItem("Compile On Refresh");
-    public final JCheckBoxMenuItem decodeAPKResources = new JCheckBoxMenuItem("Decode APK Resources");
-    public final JCheckBoxMenuItem synchronizedViewing = new JCheckBoxMenuItem("Synchronized Viewing");
-    public final JCheckBoxMenuItem showClassMethods = new JCheckBoxMenuItem("Show Class Methods");
     public final Map<RSTATheme, JRadioButtonMenuItem> rstaThemes = new HashMap<>();
     public final Map<LAFTheme, JRadioButtonMenuItem> lafThemes = new HashMap<>();
+    public final Map<Language, JRadioButtonMenuItem> languages = new HashMap<>();
+    
+    //BCV settings
+    public final JCheckBoxMenuItem refreshOnChange = new TranslatedJCheckBoxMenuItem("Refresh On View Change", Translation.REFRESH_ON_VIEW_CHANGE);
+    private final JCheckBoxMenuItem deleteForeignOutdatedLibs = new TranslatedJCheckBoxMenuItem("Delete Foreign/Outdated Libs", Translation.DELETE_UNKNOWN_LIBS);
+    public final JMenu settingsMainMenu = new TranslatedJMenu("Settings", Translation.SETTINGS);
+    public final JMenu visualSettings = new TranslatedJMenu("Visual Settings", Translation.VISUAL_SETTINGS);
+    public final JMenu apkConversion = new TranslatedJMenu("APK Conversion", Translation.APK_CONVERSION);
+    public final JMenu bytecodeDecompilerSettingsSecondaryMenu = new TranslatedJMenu("Bytecode Decompiler", Translation.BYTECODE_DECOMPILER);
+    public final JCheckBoxMenuItem updateCheck = new TranslatedJCheckBoxMenuItem("Update Check", Translation.UPDATE_CHECK);
+    public final JMenuItem setPython2 = new TranslatedJMenuItem("Set Python 2.7 Executable", Translation.SET_PYTHON_27_EXECUTABLE);
+    public final JMenuItem setPython3 = new TranslatedJMenuItem("Set Python 3.X Executable", Translation.SET_PYTHON_30_EXECUTABLE);
+    public final JMenuItem setJRERT = new TranslatedJMenuItem("Set JRE RT Library", Translation.SET_JRE_RT_LIBRARY);
+    public final JMenuItem setJavac = new TranslatedJMenuItem("Set Javac Executable", Translation.SET_JAVAC_EXECUTABLE);
+    public final JMenuItem setOptionalLibrary = new TranslatedJMenuItem("Set Optional Library Folder", Translation.SET_OPTIONAL_LIBRARY_FOLDER);
+    public final JCheckBoxMenuItem compileOnSave = new TranslatedJCheckBoxMenuItem("Compile On Save", Translation.COMPILE_ON_SAVE);
+    public final JCheckBoxMenuItem showFileInTabTitle = new TranslatedJCheckBoxMenuItem("Show File In Tab Title", Translation.SHOW_TAB_FILE_IN_TAB_TITLE);
+    public final JCheckBoxMenuItem simplifyNameInTabTitle = new TranslatedJCheckBoxMenuItem("Simplify Name In Tab Title", Translation.SIMPLIFY_NAME_IN_TAB_TITLE);
+    public final JCheckBoxMenuItem forcePureAsciiAsText = new TranslatedJCheckBoxMenuItem("Force Pure Ascii As Text", Translation.FORCE_PURE_ASCII_AS_TEXT);
+    public final JCheckBoxMenuItem autoCompileOnRefresh = new TranslatedJCheckBoxMenuItem("Compile On Refresh", Translation.COMPILE_ON_REFRESH);
+    public final JCheckBoxMenuItem decodeAPKResources = new TranslatedJCheckBoxMenuItem("Decode APK Resources", Translation.DECODE_APK_RESOURCES);
+    public final JCheckBoxMenuItem synchronizedViewing = new TranslatedJCheckBoxMenuItem("Synchronized Viewing", Translation.SYNCHRONIZED_VIEWING);
+    public final JCheckBoxMenuItem showClassMethods = new TranslatedJCheckBoxMenuItem("Show Class Methods", Translation.SHOW_CLASS_METHODS);
     
     //CFIDE settings
-    public final JCheckBoxMenuItem appendBracketsToLabels = new JCheckBoxMenuItem("Append Brackets To Labels");
-    public JCheckBoxMenuItem debugHelpers = new JCheckBoxMenuItem("Debug Helpers");
+    public final JCheckBoxMenuItem appendBracketsToLabels = new TranslatedJCheckBoxMenuItem("Append Brackets To Labels", Translation.APPEND_BRACKETS_TO_LABEL);
+    public JCheckBoxMenuItem debugHelpers = new TranslatedJCheckBoxMenuItem("Debug Helpers", Translation.DEBUG_HELPERS);
     
     //FernFlower settings
     public final JMenu fernFlowerSettingsSecondaryMenu = new JMenu("FernFlower");
@@ -399,7 +406,7 @@ public class MainViewerGUI extends JFrame
             {
                 Configuration.rstaTheme = t;
                 item.setSelected(true);
-                Settings.saveSettings();
+                SettingsSerializer.saveSettings();
             });
             
             rstaThemes.put(t, item);
@@ -421,7 +428,7 @@ public class MainViewerGUI extends JFrame
                 Configuration.rstaTheme = theme.getRSTATheme();
                 rstaThemes.get(Configuration.rstaTheme).setSelected(true);
                 item.setSelected(true);
-                Settings.saveSettings();
+                SettingsSerializer.saveSettings();
                 
                 try
                 {
@@ -437,9 +444,29 @@ public class MainViewerGUI extends JFrame
             lafThemes.put(theme, item);
             lafTheme.add(item);
         }
+    
+        ButtonGroup languageGroup = new ButtonGroup();
+        for (Language l : Language.values())
+        {
+            JRadioButtonMenuItem item = new JRadioButtonMenuItem(l.getReadableName());
+            if (Configuration.language.equals(l))
+                item.setSelected(true);
+    
+            languageGroup.add(item);
+            
+            item.addActionListener(e ->
+            {
+                SettingsSerializer.saveSettings();
+                MiscUtils.setLanguage(l);
+            });
+    
+            languages.put(l, item);
+            language.add(item);
+        }
         
         visualSettings.add(lafTheme);
         visualSettings.add(rstaTheme);
+        visualSettings.add(language);
         visualSettings.add(fontSize);
         visualSettings.add(showFileInTabTitle);
         visualSettings.add(simplifyNameInTabTitle);
@@ -538,7 +565,7 @@ public class MainViewerGUI extends JFrame
         bytecodeDecompilerSettingsSecondaryMenu.add(appendBracketsToLabels);
         
         deleteForeignOutdatedLibs.addActionListener(arg0 -> showForeignLibraryWarning());
-        forcePureAsciiAsText.addActionListener(arg0 -> Settings.saveSettings());
+        forcePureAsciiAsText.addActionListener(arg0 -> SettingsSerializer.saveSettings());
         setPython2.addActionListener(arg0 -> selectPythonC());
         setJRERT.addActionListener(arg0 -> selectJRERTLibrary());
         setPython3.addActionListener(arg0 -> selectPythonC3());
@@ -546,12 +573,12 @@ public class MainViewerGUI extends JFrame
         setJavac.addActionListener(arg0 -> selectJavac());
         showFileInTabTitle.addActionListener(arg0 -> {
             Configuration.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
-            Settings.saveSettings();
+            SettingsSerializer.saveSettings();
             BytecodeViewer.refreshAllTabTitles();
         });
         simplifyNameInTabTitle.addActionListener(arg0 -> {
             Configuration.simplifiedTabNames = BytecodeViewer.viewer.simplifyNameInTabTitle.isSelected();
-            Settings.saveSettings();
+            SettingsSerializer.saveSettings();
             BytecodeViewer.refreshAllTabTitles();
         });
     }

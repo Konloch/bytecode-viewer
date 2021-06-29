@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
+import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBoxMenuItem;
 import the.bytecode.club.bytecodeviewer.util.RefreshWorkPane;
 
 import javax.swing.*;
@@ -33,7 +35,7 @@ public class DecompilerViewComponent
 	private final JMenu menu;
 	private final JRadioButtonMenuItem java = new JRadioButtonMenuItem("Java");
 	private final JRadioButtonMenuItem bytecode = new JRadioButtonMenuItem("Bytecode");
-	private final JCheckBoxMenuItem editable = new JCheckBoxMenuItem("Editable");
+	private final JCheckBoxMenuItem editable = new TranslatedJCheckBoxMenuItem("Editable", Translation.EDITABLE);
 	
 	public DecompilerViewComponent(String name) {
 		this(name, false);

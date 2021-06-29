@@ -2,8 +2,12 @@ package the.bytecode.club.bytecodeviewer.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.translation.Language;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -13,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.List;
 
-import static the.bytecode.club.bytecodeviewer.Constants.gson;
+import static the.bytecode.club.bytecodeviewer.BytecodeViewer.gson;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -233,6 +237,30 @@ public class MiscUtils
     
     public static boolean isPureAscii(String v) {
         return asciiEncoder.canEncode(v);
+    }
+    
+    public static Language guessLanguage()
+    {
+        String userLanguage = System.getProperty("user.language");
+        String systemLanguageCode = userLanguage != null ? userLanguage.toLowerCase() : "";
+        
+        return Language.getLanguageCodeLookup().getOrDefault(systemLanguageCode, Language.ENGLISH);
+    }
+    
+    public static void setLanguage(Language language)
+    {
+        Configuration.language = language;
+    
+        try
+        {
+            Language.ENGLISH.loadLanguage(); //load english first incase the translation file is missing anything
+            language.loadLanguage(); //load translation file and swap text around as needed
+            SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
     
     public static String getChildFromPath(String path)

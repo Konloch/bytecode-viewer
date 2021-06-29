@@ -2,6 +2,9 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
+import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenu;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
 
 import javax.swing.*;
 
@@ -14,7 +17,7 @@ public class DecompilerSelectionPane
 	public final int paneID;
 	public final JMenu menu;
 	public final ButtonGroup group = new ButtonGroup();
-	public final JRadioButtonMenuItem none = new JRadioButtonMenuItem("None");
+	public final JRadioButtonMenuItem none = new TranslatedJRadioButtonMenuItem("None", Translation.NONE);
 	public final DecompilerViewComponent procyon = new DecompilerViewComponent("Procyon");
 	public final DecompilerViewComponent CFR = new DecompilerViewComponent("CFR");
 	public final DecompilerViewComponent JADX = new DecompilerViewComponent("JADX");
@@ -28,7 +31,12 @@ public class DecompilerSelectionPane
 	
 	public DecompilerSelectionPane(int paneID) {
 		this.paneID = paneID;
-		this.menu = new JMenu("Pane " + paneID);
+		if(paneID == 1)
+			this.menu = new TranslatedJMenu("Pane " + paneID, Translation.PANE_1);
+		else if(paneID == 2)
+			this.menu = new TranslatedJMenu("Pane " + paneID, Translation.PANE_2);
+		else
+			this.menu = new TranslatedJMenu("Pane " + paneID, Translation.PANE_3);
 		buildMenu();
 	}
 	

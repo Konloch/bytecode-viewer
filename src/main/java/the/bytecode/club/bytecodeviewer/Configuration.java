@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer;
 
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
+import the.bytecode.club.bytecodeviewer.translation.Language;
 
 import java.io.File;
 
@@ -36,6 +37,8 @@ public class Configuration
 	public static boolean verifyCorruptedStateOnBoot = false; //eventually may be a setting
 	
 	public static long lastHotKeyExecuted = System.currentTimeMillis();
+	
+	public static Language language = Language.ENGLISH;
 	
 	public static LAFTheme lafTheme = LAFTheme.SYSTEM; //lightmode by default since it uses the system theme
 	public static RSTATheme rstaTheme = lafTheme.getRSTATheme();
