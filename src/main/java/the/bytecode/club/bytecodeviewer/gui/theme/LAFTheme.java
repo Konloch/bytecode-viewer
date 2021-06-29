@@ -1,6 +1,9 @@
 package the.bytecode.club.bytecodeviewer.gui.theme;
 
 import com.bulenkov.darcula.DarculaLaf;
+import com.github.weisj.darklaf.LafManager;
+import com.github.weisj.darklaf.theme.DarculaTheme;
+import com.github.weisj.darklaf.theme.IntelliJTheme;
 
 import javax.swing.*;
 
@@ -11,8 +14,10 @@ import javax.swing.*;
  */
 public enum LAFTheme
 {
-	LIGHT("Light Theme (Requires restart)", RSTATheme.DEFAULT), //System theme
-	DARK("Dark Theme (Requires restart)", RSTATheme.DARK), //Darcula
+	SYSTEM("System Theme (Fast)", RSTATheme.DEFAULT), //System theme
+	DARK("Dark Theme (Fast)", RSTATheme.DARK), //Darcula 2017
+	BETTER_DARK("Better Dark Theme (Slow)", RSTATheme.DARK), //Darcula 2021
+	LIGHT("Light Theme (Slow)", RSTATheme.DEFAULT), //Intellij theme
 	;
 	
 	private final String readableName;
@@ -39,12 +44,20 @@ public enum LAFTheme
 		switch(this)
 		{
 			default:
-			case LIGHT:
+			case SYSTEM:
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 				break;
 			
 			case DARK:
 				UIManager.setLookAndFeel(new DarculaLaf());
+				break;
+			
+			case BETTER_DARK:
+				LafManager.install(new DarculaTheme());
+				break;
+			
+			case LIGHT:
+				LafManager.install(new IntelliJTheme());
 				break;
 		}
 	}

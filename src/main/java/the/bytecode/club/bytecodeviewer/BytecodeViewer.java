@@ -175,8 +175,9 @@ public class BytecodeViewer
                         "Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for " + VERSION + "'s release");
 
             viewer = new MainViewerGUI();
+            SwingUtilities.updateComponentTreeUI(viewer);
             Settings.loadSettings();
-
+    
             int CLI = CommandLineInput.parseCommandLine(args);
 
             if (CLI == CommandLineInput.STOP)

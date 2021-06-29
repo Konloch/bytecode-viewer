@@ -37,6 +37,6 @@ public class Configuration
 	
 	public static long lastHotKeyExecuted = System.currentTimeMillis();
 	
-	public static LAFTheme lafTheme = LAFTheme.LIGHT; //lightmode by default since it uses the system theme
+	public static LAFTheme lafTheme = LAFTheme.SYSTEM; //lightmode by default since it uses the system theme
 	public static RSTATheme rstaTheme = lafTheme.getRSTATheme();
 }
