@@ -70,6 +70,7 @@ public class XAPKResourceImporter implements Importer
 			}
 		}
 		Configuration.silenceExceptionGUI--; //turn exceptions back on
+		BytecodeViewer.viewer.clearBusyStatus(); //clear errant busy signals from failed APK imports
 		
 		container.classes.addAll(allDirectoryClasses.values());
 		container.files = allDirectoryFiles;

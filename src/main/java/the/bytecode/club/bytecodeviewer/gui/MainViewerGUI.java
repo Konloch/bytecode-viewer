@@ -733,6 +733,15 @@ public class MainViewerGUI extends JFrame
         deleteForeignOutdatedLibs.setSelected(Configuration.deleteForeignLibraries);
     }
     
+    public synchronized void clearBusyStatus()
+    {
+        for (int i = 0; i < waitIcons.length; i++)
+        {
+            waitIcons[i].setIcon(null);
+            waitIcons[i].updateUI();
+        }
+    }
+    
     public synchronized void updateBusyStatus(final boolean busy) {
         SwingUtilities.invokeLater(() -> {
             if (busy) {
