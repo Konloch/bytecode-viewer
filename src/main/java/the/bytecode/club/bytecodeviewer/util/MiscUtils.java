@@ -230,9 +230,9 @@ public class MiscUtils
             
         list.clear();
         list.addAll(temporaryList);
-        
-        while(temporaryList.size() > maxLength)
-            list.remove(0);
+
+        while(list.size() > maxLength)
+            list.remove(list.size() - 1);
     }
     
     public static boolean isPureAscii(String v) {
