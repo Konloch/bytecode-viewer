@@ -220,11 +220,6 @@
             <version>1.0bcv</version>
         </dependency>
         <dependency>
-            <groupId>com.bulenkov</groupId>
-            <artifactId>darcula</artifactId>
-            <version>2017.11bcv</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.weisj</groupId>
             <artifactId>darklaf-core</artifactId>
             <version>2.5.5</version>

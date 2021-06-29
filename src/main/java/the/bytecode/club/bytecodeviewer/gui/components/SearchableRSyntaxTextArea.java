@@ -51,7 +51,7 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	
 	public SearchableRSyntaxTextArea()
 	{
-		if(Configuration.lafTheme == LAFTheme.BETTER_DARK)
+		if(Configuration.lafTheme == LAFTheme.DARK)
 		{
 			//this fixes the white border on the jScrollBar panes
 			scrollPane.getHorizontalScrollBar().setBackground(scrollBackground);
