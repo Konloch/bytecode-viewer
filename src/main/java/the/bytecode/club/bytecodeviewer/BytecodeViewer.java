@@ -109,7 +109,7 @@ public class BytecodeViewer
     public static String[] args;
     public static MainViewerGUI viewer = null;
     public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV,
-    public static SecurityMan sm = new SecurityMan(); //might be insecure due to assholes targeting BCV, however
+    public static SecurityMan sm = new SecurityMan(); //might be insecure due to assholes targeting BCV,
     public static Refactorer refactorer = new Refactorer();
     public static List<FileContainer> files = new ArrayList<>(); //all of BCV's loaded files/classes/etc
     public static List<Process> createdProcesses = new ArrayList<>();
