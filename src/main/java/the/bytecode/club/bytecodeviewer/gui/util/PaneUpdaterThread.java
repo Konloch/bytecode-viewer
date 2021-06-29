@@ -42,6 +42,7 @@ import static the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane.BLA
  * Allows us to run a background thread
  *
  * @author Konloch
+ * @author WaterWolf
  * @author DreamSworK
  */
 public abstract class PaneUpdaterThread implements Runnable
@@ -83,22 +84,25 @@ public abstract class PaneUpdaterThread implements Runnable
                 attachCtrlMouseWheelZoom(updateUpdaterTextArea.getScrollPane(), updateUpdaterTextArea));
     }
 
-    public void attachCtrlMouseWheelZoom(RTextScrollPane scrollPane, RSyntaxTextArea panelArea) {
+    public void attachCtrlMouseWheelZoom(RTextScrollPane scrollPane, RSyntaxTextArea panelArea)
+    {
         if (scrollPane == null)
             return;
-
-        scrollPane.addMouseWheelListener(e -> {
+        
+        scrollPane.addMouseWheelListener(e ->
+        {
             if (panelArea == null || panelArea.getText().isEmpty())
                 return;
 
-            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
+            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+            {
                 Font font = panelArea.getFont();
                 int size = font.getSize();
-                if (e.getWheelRotation() > 0) { //Up
+                
+                if (e.getWheelRotation() > 0) //Up
                     panelArea.setFont(new Font(font.getName(), font.getStyle(), --size >= 2 ? --size : 2));
-                } else { //Down
+                else //Down
                     panelArea.setFont(new Font(font.getName(), font.getStyle(), ++size));
-                }
             }
             e.consume();
         });
