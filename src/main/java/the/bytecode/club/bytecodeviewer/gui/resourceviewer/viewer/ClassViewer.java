@@ -2,7 +2,6 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourcePanelCompileMode;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceViewPanel;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -26,7 +25,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.Settings;
+import the.bytecode.club.bytecodeviewer.SettingsSerializer;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
@@ -198,7 +197,7 @@ public class ClassViewer extends ResourceViewer
                         + "test or export your changes.\nYou can set compile automatically on refresh or on save "
                         + "in the settings menu.");
         
-                Settings.saveSettings();
+                SettingsSerializer.saveSettings();
             }
         }
     }

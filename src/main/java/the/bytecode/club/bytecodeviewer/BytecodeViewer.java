@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import me.konloch.kontainer.io.HTTPRequest;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
@@ -32,6 +34,8 @@ import the.bytecode.club.bytecodeviewer.util.*;
 import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.Settings.addRecentPlugin;
+import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -110,6 +114,7 @@ public class BytecodeViewer
     public static List<FileContainer> files = new ArrayList<>(); //all of BCV's loaded files/classes/etc
     public static List<Process> createdProcesses = new ArrayList<>();
     public static final DecompilerViewComponent krakatau = new DecompilerViewComponent("Krakatau", true);
+    public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final boolean EXPERIMENTAL_TAB_CODE = false;
     
     /**
@@ -165,7 +170,7 @@ public class BytecodeViewer
         
         try {
             //precache settings file
-            Settings.preloadSettingsFile();
+            SettingsSerializer.preloadSettingsFile();
             //setup look and feel
             Configuration.lafTheme.setLAF();
             
@@ -176,7 +181,9 @@ public class BytecodeViewer
 
             viewer = new MainViewerGUI();
             SwingUtilities.updateComponentTreeUI(viewer);
-            Settings.loadSettings();
+            SettingsSerializer.loadSettings();
+            if(!Settings.hasSetLanguageAsSystemLanguage)
+                MiscUtils.setLanguage(guessLanguage());
     
             int CLI = CommandLineInput.parseCommandLine(args);
 
@@ -211,12 +218,12 @@ public class BytecodeViewer
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             for (Process proc : createdProcesses)
                 proc.destroy();
-            Settings.saveSettings();
+            SettingsSerializer.saveSettings();
             cleanup();
         }));
 
         viewer.calledAfterLoad();
-        Constants.resetRecentFilesMenu();
+        Settings.resetRecentFilesMenu();
 
         if (!Configuration.pingback) {
             pingBack.start();
@@ -517,7 +524,7 @@ public class BytecodeViewer
         if (recentFiles)
             for (File f : files)
                 if (f.exists())
-                    Constants.addRecentFile(f);
+                    Settings.addRecentFile(f);
 
         BytecodeViewer.viewer.updateBusyStatus(true);
         Configuration.needsReDump = true;

@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
 import java.util.HashSet;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
