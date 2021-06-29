@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import com.googlecode.d2j.dex.Dex2jar;
+
 import java.io.File;
 import java.lang.reflect.Field;
 
@@ -37,16 +39,10 @@ public class Dex2Jar {
      */
     public static synchronized void dex2Jar(File input, File output) {
         try {
-            com.googlecode.dex2jar.tools.Dex2jarCmd cmd = new com.googlecode.dex2jar.tools.Dex2jarCmd();
-            applyErrorFix(cmd);
-            cmd.doMain(input.getAbsolutePath());
-            String realOutput = input.getName().replaceAll("\\.dex", "-dex2jar.jar").replaceAll("\\.apk", "-dex2jar"
-                    + ".jar");
-            File realOutputF = new File(realOutput);
-            realOutputF.renameTo(output);
-            File realOutputF2 = new File(realOutput);
-            while (realOutputF2.exists())
-                realOutputF2.delete();
+            Dex2jar d2Jar = Dex2jar.from(input);
+            d2Jar.to(output.toPath());
+        } catch (com.googlecode.d2j.DexException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
