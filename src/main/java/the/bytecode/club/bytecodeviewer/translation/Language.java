@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.translation;
 
 import com.google.gson.reflect.TypeToken;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.commons.io.IOUtils;
@@ -55,6 +54,8 @@ public enum Language
 	
 	public void loadLanguage() throws IOException
 	{
+		printMissingLanguageKeys();
+		
 		HashMap<String, String> translationMap = BytecodeViewer.gson.fromJson(
 				IOUtils.toString(Resources.class.getResourceAsStream(resourcePath), StandardCharsets.UTF_8),
 				new TypeToken<HashMap<String, String>>(){}.getType());
@@ -86,11 +87,11 @@ public enum Language
 	//TODO
 	// When adding new Translation Components:
 	// 1) start by adding the strings into the english.json
-	// 2) run this function to get the keys and add them into Translation.java
+	// 2) run this function to get the keys and add them into the Translation.java enum
 	// 3) replace the swing component (MainViewerGUI) with a translated component
 	//    and reference the correct translation key
 	// 4) add the translation key to the rest of the translation files
-	public void printLanguageKeys() throws IOException
+	public void printMissingLanguageKeys() throws IOException
 	{
 		if(this != ENGLISH)
 			return;
@@ -99,8 +100,13 @@ public enum Language
 				IOUtils.toString(Resources.class.getResourceAsStream(resourcePath), StandardCharsets.UTF_8),
 				new TypeToken<LinkedMap<String, String>>(){}.getType());
 		
+		HashSet<String> existingKeys = new HashSet<>();
+		for(Translation t : Translation.values())
+			existingKeys.add(t.name());
+		
 		for(String key : translationMap.keySet())
-			System.out.println(key + ",");
+			if(!existingKeys.contains(key) && !key.startsWith("TODO"))
+				System.err.println(key + ",");
 	}
 	
 	public String getResourcePath()
