@@ -5,9 +5,7 @@ import java.awt.Font;
 import java.awt.event.InputEvent;
 import java.util.Objects;
 import java.util.regex.Matcher;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JViewport;
+import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
@@ -77,10 +75,9 @@ public abstract class PaneUpdaterThread implements Runnable
         
         doShit();
     
-        //freezes the UI for some reason
-        //probably cause BCV is doing dumb shit with the swing thread
+        //this used to freeze the swing UI
+        //if anything breaks again try searching here first
         synchronizePane();
-        
         
         attachCtrlMouseWheelZoom(updateUpdaterTextArea.getScrollPane(), updateUpdaterTextArea);
     }
@@ -214,8 +211,11 @@ public abstract class PaneUpdaterThread implements Runnable
             return;
         
         JViewport viewport = updateUpdaterTextArea.getScrollPane().getViewport();
-        viewport.addChangeListener(viewportListener);
-        updateUpdaterTextArea.addCaretListener(caretListener);
+        SwingUtilities.invokeLater(()->
+        {
+            viewport.addChangeListener(viewportListener);
+            updateUpdaterTextArea.addCaretListener(caretListener);
+        });
         
         final MethodParser methods = viewer.methods.get(paneIndex);
         for (int i = 0; i < updateUpdaterTextArea.getLineCount(); i++)
@@ -230,12 +230,16 @@ public abstract class PaneUpdaterThread implements Runnable
             }
         }
 
-        if (BytecodeViewer.viewer.showClassMethods.isSelected()) {
-            if (!methods.isEmpty()) {
+        //TODO fix this
+        if (BytecodeViewer.viewer.showClassMethods.isSelected())
+        {
+            if (!methods.isEmpty())
+            {
                 methodsList = new JComboBox<>();
-                for (Integer line : methods.getMethodsLines()) {
+                
+                for (Integer line : methods.getMethodsLines())
                     methodsList.addItem(line);
-                }
+                
                 methodsList.setRenderer(new MethodsRenderer(this));
                 methodsList.addActionListener(e ->
                 {
