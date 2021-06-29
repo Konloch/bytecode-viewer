@@ -18,6 +18,9 @@
   "VIEW": "看法",
   "VISUAL_SETTINGS": "视觉设置",
   "LANGUAGE": "语",
+
+
+  "TODO1": "These only exist as enums",
   "WINDOW_THEME": "窗口主题",
   "SYSTEM_THEME": "系统主题",
   "DARK_THEME": "黑暗主题",
@@ -31,6 +34,9 @@
   "VISUAL_STUDIO": "Visual Studio",
   "DRUID_DARK": "德鲁伊（暗）",
   "MONOKAI_DARK": "物界（暗）",
+  "TODO2": "End",
+
+
   "FONT_SIZE": "字体大小",
   "SHOW_TAB_FILE_IN_TAB_TITLE": "在选项卡标题中显示文件",
   "SIMPLIFY_NAME_IN_TAB_TITLE": "简化标签标题中的名称",
@@ -49,6 +55,8 @@
   "REFRESH_ON_VIEW_CHANGE": "刷新视图更改",
   "DECODE_APK_RESOURCES": "解码APK资源",
   "APK_CONVERSION": "APK 转换",
+  "DEX_TO_JAR": "Dex2Jar",
+  "ENJARIFY": "Enjarify",
   "UPDATE_CHECK": "更新检查",
   "FORCE_PURE_ASCII_AS_TEXT": "强制纯 Ascii 作为文本",
   "SET_PYTHON_27_EXECUTABLE": "设置 Python 2.7 可执行文件",
@@ -56,6 +64,21 @@
   "SET_JRE_RT_LIBRARY": "设置 JRE RT 库",
   "SET_OPTIONAL_LIBRARY_FOLDER": "设置可选库文件夹",
   "SET_JAVAC_EXECUTABLE": "设置 Javac 可执行文件",
+
+  "TODO3": "These only exist as key/value map pairs",
+  "JAVA": "Java",
+  "PROCYON": "Procyon",
+  "CRF": "CFR",
+  "FERNFLOWER": "FernFlower",
+  "KRAKATAU": "Krakatau",
+  "JDGUI": "JD-GUI",
+  "JADX": "JADX",
+  "SMALI_DEX": "Smali/Dex",
+  "HEXCODE": "Hexcode",
+  "BYTECODE": "Bytecode",
+  "ASM_TEXTIFY": "ASM Textify",
+  "TODO4": "End",
+
   "BYTECODE_DECOMPILER": "字节码反编译器",
   "DEBUG_HELPERS": "调试助手",
   "APPEND_BRACKETS_TO_LABEL": "将括号附加到标签",
@@ -71,5 +94,24 @@
   "STACK_FRAMES_REMOVER": "堆栈帧移除器",
   "ZKM_STRING_DECRYPTER": "ZKM 字符串解密器",
   "ALLATORI_STRING_DECRYPTER": "Allatori 字符串解密器",
-  "ZSTRINGARRAY_DECRYPTER": "ZStringArray 字符串解密器"
+  "ZSTRINGARRAY_DECRYPTER": "ZStringArray 字符串解密器",
+
+
+
+  "TODO5": "These only exist as key/value map pairs",
+  "PROCYON_DECOMPILER": "Procyon Decompiler",
+  "CRF_DECOMPILER": "CFR Decompiler",
+  "FERNFLOWER_DECOMPILER": "FernFlower Decompiler",
+  "JADX_DECOMPILER": "JADX Decompiler",
+  "JD_DECOMPILER": "JD-GUI Decompiler",
+  "BYTECODE_DISASSEMBLER": "Bytecode Disassembler",
+
+  "FILES": "Files",
+  "QUICK_FILE_SEARCH_NO_FILE_EXTENSION": "Quick file search (no file extension)",
+  "WORK_SPACE": "Work Space",
+  "EXACT": "Exact",
+  "SEARCH": "Search",
+  "RESULTS": "Results",
+  "REFRESH": "Refresh",
+  "TODO6": "End"
 }
