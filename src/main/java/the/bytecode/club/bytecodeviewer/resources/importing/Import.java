@@ -12,6 +12,7 @@ public enum Import
 	FILE(new FileResourceImporter()),
 	ZIP(new ZipResourceImporter()),
 	CLASS(new ClassResourceImporter()),
+	XAPK(new XAPKResourceImporter()),
 	APK(new APKResourceImporter()),
 	DEX(new DEXResourceImporter()),
 	;

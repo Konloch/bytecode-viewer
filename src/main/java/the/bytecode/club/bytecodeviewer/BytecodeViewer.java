@@ -84,6 +84,7 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Krakatau Assembly compile - Needs to be fixed
  *
  * TODO IN-PROGRESS:
+ *      + Resource Importer needs to be rewriten to handle resources better
  *      + Finish dragging code
  *      + Finish right-click tab menu detection
  *      + Fix hook inject for EZ-Injection

@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.util;
 import com.googlecode.d2j.dex.Dex2jar;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 /***************************************************************************

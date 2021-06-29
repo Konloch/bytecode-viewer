@@ -68,6 +68,11 @@ public class ImportResource implements Runnable
 							if(!Import.CLASS.getImporter().open(file))
 								update = false;
 						}
+						else if (fn.endsWith(".xapk"))
+						{
+							Import.XAPK.getImporter().open(file);
+							return;
+						}
 						else if (fn.endsWith(".apk"))
 						{
 							Import.APK.getImporter().open(file);

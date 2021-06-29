@@ -53,7 +53,7 @@ public class ImageRenderer extends DefaultTreeCellRenderer
 			{
 				setIcon(Resources.cplusplusIcon);
 			}
-			else if (name.endsWith(".apk") || name.endsWith(".dex"))
+			else if (name.endsWith(".xapk") || name.endsWith(".apk") || name.endsWith(".dex"))
 			{
 				setIcon(Resources.androidIcon);
 			}
