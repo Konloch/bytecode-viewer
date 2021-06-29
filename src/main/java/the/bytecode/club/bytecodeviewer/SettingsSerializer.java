@@ -2,7 +2,6 @@ package the.bytecode.club.bytecodeviewer;
 
 import javax.swing.JFrame;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
