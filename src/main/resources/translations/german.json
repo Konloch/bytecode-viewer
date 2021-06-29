@@ -56,7 +56,7 @@
   "DEX_TO_JAR": "Dex2Jar",
   "ENJARIFY": "Enjarify",
   "UPDATE_CHECK": "Nach Updates suchen",
-  "DELETE_UNKNOWN_LIBS": "Delete Foreign/Outdated Libs",
+  "DELETE_UNKNOWN_LIBS": "Unbekannte/Veraltete Bibliotheken löschen",
   "FORCE_PURE_ASCII_AS_TEXT": "Ascii als Zeichenkodierung erzwingen",
   "SET_PYTHON_27_EXECUTABLE": "Ausführbare Python 2.7 Datei festlegen",
   "SET_PYTHON_30_EXECUTABLE": "Ausführbare Python 3.X Datei festlegen",
