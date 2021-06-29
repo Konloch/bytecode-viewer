@@ -61,11 +61,11 @@ public class FileViewer extends ResourceViewer
     public BufferedImage image;
     public boolean canRefresh;
 
-    public FileViewer(final FileContainer container, final String name, final byte[] contents, String workingName)
+    public FileViewer(final FileContainer container, final String name, final byte[] contents)
     {
         this.name = name;
         this.contents = contents;
-        this.workingName = workingName;
+        this.workingName = container.generateWorkName(name);
         this.container = container;
         this.setName(name);
         this.setLayout(new BorderLayout());

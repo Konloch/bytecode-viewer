@@ -69,9 +69,9 @@ public class ClassViewer extends ResourceViewer
     public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
     public final String workingName;
     
-    public ClassViewer(final FileContainer container, final String name, final ClassNode cn, String workingName)
+    public ClassViewer(final FileContainer container, final String name, final ClassNode cn)
     {
-        this.workingName = workingName;
+        this.workingName = container.generateWorkName(name);
         this.container = container;
         
         this.name = name;

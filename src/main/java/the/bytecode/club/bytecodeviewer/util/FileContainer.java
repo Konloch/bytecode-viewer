@@ -57,4 +57,9 @@ public class FileContainer {
 
         return null;
     }
+    
+    public String generateWorkName(String name)
+    {
+        return file.getAbsolutePath() + ">" + name;
+    }
 }

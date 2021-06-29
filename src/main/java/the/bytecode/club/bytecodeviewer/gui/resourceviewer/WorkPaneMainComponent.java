@@ -158,9 +158,7 @@ public class WorkPaneMainComponent extends VisibleComponent
     //load class resources
     public void addClassResource(final FileContainer container, final String name, final ClassNode cn)
     {
-        final String workingName = container.name + ">" + name;
-    
-        addResource(container, name, new ClassViewer(container, name, cn, workingName));
+        addResource(container, name, new ClassViewer(container, name, cn));
     }
 
     //Load file resources
@@ -168,16 +166,14 @@ public class WorkPaneMainComponent extends VisibleComponent
     {
         if (contents == null) //a directory
             return;
-    
-        final String workingName = container.name + ">" + name;
         
-        addResource(container, name, new FileViewer(container, name, contents, workingName));
+        addResource(container, name, new FileViewer(container, name, contents));
     }
     
     private void addResource(final FileContainer container, final String name, final ResourceViewer resourceView)
     {
-        final String workingName = container.name + ">" + name;
-    
+        final String workingName = container.generateWorkName(name);
+        
         //create a new tab if the resource isn't opened currently
         if (!openedTabs.contains(workingName))
         {
