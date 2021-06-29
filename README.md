@@ -23,17 +23,18 @@ Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 * [Discussion Forum](https://the.bytecode.club/forumdisplay.php?fid=69)
 
 #### Key Features
-* Krakatau Integration for Bytecode assembly/disassembly.
-* Smali/BakSmali Integration - You can now edit class files/dex files via smali!
-* APK/DEX Support - Using Dex2Jar and Jar2Dex it's able to load and save APKs with ease!
-* Java Decompiler - It utilizes FernFlower, Procyon, CFR, JD & JADX for decompilation.
-* Bytecode Decompiler - A modified version of CFIDE's.
-* Hex Viewer - Powered by JHexPane.
-* Each Decompiler/Editor/Viewer is toggleable, you can also select what will display on each pane.
-* Fully Featured Search System - Search through strings, functions, variables and more!
-* A Plugin System With Built In Plugins - (Show All Strings, Malicious Code Scanner, String Decrypters, etc)
-* Fully Featured Scripting System That Supports Groovy, Java, Python, Ruby & Javascript.
-* EZ-Inject - Graphically insert hooks and debugging code, invoke main and start the program.
+* Simply drag and drop to decompile and search Java Jars & Android APKs
+* File format support for: Class, Jar, XAPK, APK, DEX, WAR, JSP, Image Resources, Text Resources & More
+* 6 Built-in Java decompilers: Krakatau, CFR, Proycon, FernFlower, JADX, JD-GUI
+* 3 Built-in Bytecode disassemblers, including 2 assemblers: Krakatau and Smali/BakSmali
+* APK/DEX Support from Dex2Jar and Enjarify
+* Built-in Java Compiler
+* Advanced static-search functionality
+* Customizable UI
+* Plugins + Script Engine Design
+* Malicious code scanning API
+* Translations (English, Mandarin)
+* Export functionality as Runnable Jar, Zip, APK, Decompile All As Zip, Etc.
 * And more! Give it a try for yourself!
 
 #### Command Line Input
