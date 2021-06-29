@@ -77,8 +77,10 @@ public abstract class PaneUpdaterThread implements Runnable
     
         //this still freezes the swing UI
         synchronizePane();
-        
-        attachCtrlMouseWheelZoom(updateUpdaterTextArea.getScrollPane(), updateUpdaterTextArea);
+    
+        //attach CTRL + Mouse Wheel Zoom
+        SwingUtilities.invokeLater(()->
+                attachCtrlMouseWheelZoom(updateUpdaterTextArea.getScrollPane(), updateUpdaterTextArea));
     }
 
     public void attachCtrlMouseWheelZoom(RTextScrollPane scrollPane, RSyntaxTextArea panelArea) {
@@ -266,8 +268,12 @@ public abstract class PaneUpdaterThread implements Runnable
                 panel.add(updateUpdaterTextArea.getScrollPane().getColumnHeader().getComponent(0), BorderLayout.NORTH);
                 panel.add(methodsList, BorderLayout.SOUTH);
                 methodsList.setBackground(BLANK_COLOR);
-                updateUpdaterTextArea.getScrollPane().getColumnHeader().removeAll();
-                updateUpdaterTextArea.getScrollPane().getColumnHeader().add(panel);
+    
+                SwingUtilities.invokeLater(()->
+                {
+                    updateUpdaterTextArea.getScrollPane().getColumnHeader().removeAll();
+                    updateUpdaterTextArea.getScrollPane().getColumnHeader().add(panel);
+                });
             }
         }
     }
