@@ -75,8 +75,7 @@ public abstract class PaneUpdaterThread implements Runnable
         
         doShit();
     
-        //this used to freeze the swing UI
-        //if anything breaks again try searching here first
+        //this still freezes the swing UI
         synchronizePane();
         
         attachCtrlMouseWheelZoom(updateUpdaterTextArea.getScrollPane(), updateUpdaterTextArea);
