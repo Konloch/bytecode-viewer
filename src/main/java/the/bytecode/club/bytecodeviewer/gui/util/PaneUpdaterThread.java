@@ -76,11 +76,13 @@ public abstract class PaneUpdaterThread implements Runnable
             return;
         
         doShit();
-        
+    
+        //freezes the UI for some reason
+        //probably cause BCV is doing dumb shit with the swing thread
         synchronizePane();
         
-        attachCtrlMouseWheelZoom(updateUpdaterTextArea.getScrollPane(), updateUpdaterTextArea); //freezes the UI for some reason
-        //probably cause BCV is doing dumb shit with the swing thread
+        
+        attachCtrlMouseWheelZoom(updateUpdaterTextArea.getScrollPane(), updateUpdaterTextArea);
     }
 
     public void attachCtrlMouseWheelZoom(RTextScrollPane scrollPane, RSyntaxTextArea panelArea) {
