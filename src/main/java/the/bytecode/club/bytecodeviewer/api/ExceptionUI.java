@@ -8,7 +8,8 @@ import java.io.StringWriter;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Resources;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
@@ -71,8 +72,19 @@ public class ExceptionUI extends JFrame {
         setup(e, author);
     }
 
-    private void setup(Throwable e, String author) {
-
+    private void setup(Throwable e, String author)
+    {
+        //exceptions are completely hidden
+        if(Configuration.silenceExceptionGUI > 0)
+            return;
+        
+        //exception GUI is disabled but printstack is still enabled
+        if(Configuration.pauseExceptionGUI > 0)
+        {
+            e.printStackTrace();
+            return;
+        }
+        
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(600, 400));
         setTitle("Bytecode Viewer " + VERSION + " - Stack Trace - Send this to " + author);

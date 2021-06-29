@@ -33,6 +33,8 @@ public class Configuration
 	public static boolean pingback = false;
 	public static boolean deleteForeignLibraries = true;
 	public static boolean canExit = false;
+	public static int silenceExceptionGUI = 0;
+	public static int pauseExceptionGUI = 0;
 	
 	public static boolean verifyCorruptedStateOnBoot = false; //eventually may be a setting
 	
