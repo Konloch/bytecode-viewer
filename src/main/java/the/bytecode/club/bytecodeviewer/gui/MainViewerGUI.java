@@ -422,6 +422,16 @@ public class MainViewerGUI extends JFrame
                 rstaThemes.get(Configuration.rstaTheme).setSelected(true);
                 item.setSelected(true);
                 Settings.saveSettings();
+                
+                try
+                {
+                    theme.setLAF();
+                    SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer);
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
             });
     
             lafThemes.put(theme, item);
