@@ -8,6 +8,8 @@ import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.PressKeyListener;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.ReleaseKeyListener;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
+import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
 import the.bytecode.club.bytecodeviewer.util.JTextAreaUtils;
 
 import javax.swing.*;
@@ -44,7 +46,7 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	private final RTextScrollPane scrollPane = new RTextScrollPane(this);
 	private final JPanel searchPanel = new JPanel(new BorderLayout());
 	private final JTextField searchInput = new JTextField();
-	private final JCheckBox caseSensitiveSearch = new JCheckBox("Exact");
+	private final JCheckBox caseSensitiveSearch = new TranslatedJCheckBox("Exact", Translation.EXACT);
 	private final JLabel titleHeader = new JLabel("");
 	private final Color scrollBackground = new Color(0x3c3f41);
 	private final Color scrollForeground = new Color(0x575859);

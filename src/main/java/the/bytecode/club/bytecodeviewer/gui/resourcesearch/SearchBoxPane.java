@@ -22,6 +22,8 @@ import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
+import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
@@ -56,7 +58,7 @@ public class SearchBoxPane extends VisibleComponent
     public static final SearchRadius[] SEARCH_RADII = SearchRadius.values();
     public static final SearchType[] SEARCH_TYPES = SearchType.values();
 
-    public final JCheckBox exact = new JCheckBox("Exact");
+    public final JCheckBox exact = new TranslatedJCheckBox("Exact", Translation.EXACT);
     public final DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode("Results");
     public final JTree tree;
     public final JComboBox typeBox;

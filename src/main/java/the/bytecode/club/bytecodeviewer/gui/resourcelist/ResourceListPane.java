@@ -30,6 +30,8 @@ import javax.swing.tree.TreePath;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
+import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
@@ -63,7 +65,7 @@ import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
 public class ResourceListPane extends VisibleComponent implements FileDrop.Listener
 {
     public final JPopupMenu rightClickMenu = new JPopupMenu();
-    public final JCheckBox exact = new JCheckBox("Exact");
+    public final JCheckBox exact = new TranslatedJCheckBox("Exact", Translation.EXACT);
     public final JButton open = new JButton("+");
     public final JButton close = new JButton("-");
     public final ResourceTreeNode treeRoot = new ResourceTreeNode("Loaded Files:");
