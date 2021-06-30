@@ -24,8 +24,8 @@ public enum Language
 	ENGLISH("/translations/english.json", "English", "en"),
 	MANDARIN("/translations/mandarin.json", "普通话", "zh_cn", "zh"),
 	//HINDI("/translations/hindi.json", "हिंदी", "hi"),
-	/*SPANISH("/translations/spanish.json", "Español", "es"),
-	FRENCH("/translations/french.json", "Français", "fr"),*/
+	SPANISH("/translations/spanish.json", "Español", "es"),
+	//FRENCH("/translations/french.json", "Français", "fr"),
 	ARABIC("/translations/arabic.json", "عربى", "ab"),
 	RUSSIAN("/translations/russian.json", "русский", "ru"),
 	GERMAN("/translations/german.json", "Deutsch", "de"),
