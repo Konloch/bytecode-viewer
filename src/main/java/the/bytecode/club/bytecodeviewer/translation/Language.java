@@ -29,6 +29,7 @@ public enum Language
 	ARABIC("/translations/arabic.json", "عربى", "ab"),
 	RUSSIAN("/translations/russian.json", "русский", "ru"),
 	GERMAN("/translations/german.json", "Deutsch", "de"),
+	JAPANESE("/translations/japanese.json", "日本語", "ja"),
 	;
 	
 	private static final HashedMap<String, Language> languageCodeLookup;
