@@ -27,7 +27,7 @@ public enum Language
 	/*SPANISH("/translations/spanish.json", "Español", "es"),
 	FRENCH("/translations/french.json", "Français", "fr"),*/
 	ARABIC("/translations/arabic.json", "عربى", "ab"),
-	//RUSSIAN("/translations/russian.json", "русский", "ru"),
+	RUSSIAN("/translations/russian.json", "русский", "ru"),
 	GERMAN("/translations/german.json", "Deutsch", "de"),
 	;
 	
