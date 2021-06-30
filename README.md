@@ -3,8 +3,8 @@
 Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 
 #### New Features
+* Translation Process Started: Arabic, German, Japanese, Manadarin, Russian, Spanish & More
 * XAPK Support
-* Translation Process Started: Mandarin & German
 * Dark Mode
 * Updated nearly all dependencies (incl. decompilers like CFR, JD-GUI etc.)
 * Updated ASM library to version 9.1
