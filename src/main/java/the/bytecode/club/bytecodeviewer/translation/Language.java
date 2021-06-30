@@ -21,16 +21,16 @@ import java.util.HashSet;
  */
 public enum Language
 {
-	ENGLISH("/translations/english.json", "English", "en"),
-	MANDARIN("/translations/mandarin.json", "普通话", "zh_cn", "zh"),
-	//HINDI("/translations/hindi.json", "हिंदी", "hi"),
-	SPANISH("/translations/spanish.json", "Español", "es"),
-	FRENCH("/translations/french.json", "Français", "fr"),
 	ARABIC("/translations/arabic.json", "عربى", "ab"),
-	RUSSIAN("/translations/russian.json", "русский", "ru"),
+	ENGLISH("/translations/english.json", "English", "en"),
+	FRENCH("/translations/french.json", "Français", "fr"),
 	GERMAN("/translations/german.json", "Deutsch", "de"),
+	//HINDI("/translations/hindi.json", "हिंदी", "hi"),
 	JAPANESE("/translations/japanese.json", "日本語", "ja"),
+	MANDARIN("/translations/mandarin.json", "普通话", "zh_cn", "zh"),
 	PORTUGUESE("/translations/portuguese.json", "Português", "pt"),
+	RUSSIAN("/translations/russian.json", "русский", "ru"),
+	SPANISH("/translations/spanish.json", "Español", "es"),
 	;
 	
 	private static final HashedMap<String, Language> languageCodeLookup;
