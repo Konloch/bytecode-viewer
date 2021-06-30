@@ -27,6 +27,7 @@ public enum Language
 	GERMAN("/translations/german.json", "Deutsch", "de"),
 	//HINDI("/translations/hindi.json", "हिंदी", "hi"),
 	JAPANESE("/translations/japanese.json", "日本語", "ja"),
+	MALAY("/translations/malay.json", "Bahasa Melayu", "ms"),
 	MANDARIN("/translations/mandarin.json", "普通话", "zh_cn", "zh"),
 	PORTUGUESE("/translations/portuguese.json", "Português", "pt"),
 	RUSSIAN("/translations/russian.json", "русский", "ru"),
