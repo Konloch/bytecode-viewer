@@ -25,11 +25,12 @@ public class DecompilerSelectionPane
 	public final DecompilerViewComponent fern = new DecompilerViewComponent("FernFlower");
 	public final DecompilerViewComponent krakatau = new DecompilerViewComponent("Krakatau", true);
 	public final DecompilerViewComponent smali = new DecompilerViewComponent("Smali/DEX");
-	public final JRadioButtonMenuItem hexcode = new JRadioButtonMenuItem("Hexcode");
-	public final JRadioButtonMenuItem bytecode = new JRadioButtonMenuItem("Bytecode");
-	public final JRadioButtonMenuItem asmTextify = new JRadioButtonMenuItem("ASM Textify");
+	public final JRadioButtonMenuItem hexcode = new TranslatedJRadioButtonMenuItem("Hexcode", Translation.HEXCODE);
+	public final JRadioButtonMenuItem bytecode = new TranslatedJRadioButtonMenuItem("Bytecode", Translation.BYTECODE);
+	public final JRadioButtonMenuItem asmTextify = new TranslatedJRadioButtonMenuItem("ASM Textify", Translation.ASM_TEXTIFY);
 	
-	public DecompilerSelectionPane(int paneID) {
+	public DecompilerSelectionPane(int paneID)
+	{
 		this.paneID = paneID;
 		if(paneID == 1)
 			this.menu = new TranslatedJMenu("Pane " + paneID, Translation.PANE_1);
@@ -37,6 +38,7 @@ public class DecompilerSelectionPane
 			this.menu = new TranslatedJMenu("Pane " + paneID, Translation.PANE_2);
 		else
 			this.menu = new TranslatedJMenu("Pane " + paneID, Translation.PANE_3);
+		
 		buildMenu();
 	}
 	

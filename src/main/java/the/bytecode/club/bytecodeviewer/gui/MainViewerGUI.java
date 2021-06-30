@@ -27,6 +27,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.*;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Export;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBoxMenuItem;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
 import the.bytecode.club.bytecodeviewer.util.*;
 import the.bytecode.club.bytecodeviewer.resources.ResourceDecompiling;
 import the.bytecode.club.bytecodeviewer.translation.Language;
@@ -396,7 +397,7 @@ public class MainViewerGUI extends JFrame
         ButtonGroup rstaGroup = new ButtonGroup();
         for (RSTATheme t : RSTATheme.values())
         {
-            JRadioButtonMenuItem item = new JRadioButtonMenuItem(t.getReadableName());
+            JRadioButtonMenuItem item = new TranslatedJRadioButtonMenuItem(t.getReadableName(), t.getTranslation());
             if (Configuration.rstaTheme.equals(t))
                 item.setSelected(true);
             
@@ -416,7 +417,7 @@ public class MainViewerGUI extends JFrame
         ButtonGroup lafGroup = new ButtonGroup();
         for (LAFTheme theme : LAFTheme.values())
         {
-            JRadioButtonMenuItem item = new JRadioButtonMenuItem(theme.getReadableName());
+            JRadioButtonMenuItem item = new TranslatedJRadioButtonMenuItem(theme.getReadableName(), theme.getTranslation());
             if (Configuration.lafTheme.equals(theme))
                 item.setSelected(true);
             

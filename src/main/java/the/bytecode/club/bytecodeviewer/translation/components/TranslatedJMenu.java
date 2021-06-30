@@ -16,12 +16,21 @@ public class TranslatedJMenu extends JMenu
 	public TranslatedJMenu(String text, Translation translation)
 	{
 		super(text);
-		this.component = translation.getTranslatedComponent();
-		this.component.runOnUpdate.add(this::updateText);
+		
+		if(translation != null)
+		{
+			this.component = translation.getTranslatedComponent();
+			this.component.runOnUpdate.add(this::updateText);
+		}
+		else
+		{
+			this.component = null;
+		}
 	}
 	
 	public void updateText()
 	{
-		setText(component.value);
+		if(component != null)
+			setText(component.value);
 	}
 }
