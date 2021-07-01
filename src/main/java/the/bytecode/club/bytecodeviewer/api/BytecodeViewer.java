@@ -14,8 +14,11 @@ import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
+import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+
+import javax.swing.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -218,6 +221,28 @@ public class BytecodeViewer {
      */
     public static void showMessage(String message) {
         the.bytecode.club.bytecodeviewer.BytecodeViewer.showMessage(message);
+    }
+
+    /**
+     * Asks if the user would like to overwrite the file
+     */
+    public static boolean canOverwriteFile(File file) {
+        return DialogueUtils.canOverwriteFile(file);
+    }
+    
+    public static void hideFrame(JFrame frame, long milliseconds)
+    {
+        new Thread(()->{
+            long started = System.currentTimeMillis();
+            while(System.currentTimeMillis()-started <= milliseconds)
+            {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) { }
+            }
+    
+            frame.setVisible(false);
+        }, "Timed Swing Hide").start();
     }
 
     /**

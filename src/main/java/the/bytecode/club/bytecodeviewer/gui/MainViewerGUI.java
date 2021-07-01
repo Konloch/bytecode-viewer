@@ -24,6 +24,7 @@ import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.plugin.PluginTemplate;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.*;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Export;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBoxMenuItem;
@@ -104,6 +105,8 @@ public class MainViewerGUI extends JFrame
     public final JMenu pluginsMainMenu = new TranslatedJMenu("Plugins", Translation.PLUGINS);
     public final JMenuItem openExternalPlugin = new TranslatedJMenuItem("Open Plugin...", Translation.OPEN_PLUGIN);
     public final JMenu recentPluginsSecondaryMenu = new TranslatedJMenu("Recent Plugins", Translation.RECENT_PLUGINS);
+    public final JMenuItem newJavaPlugin = new TranslatedJMenuItem("New Java Plugin...", Translation.NEW_JAVA_PLUGIN);
+    public final JMenuItem newJavascriptPlugin = new TranslatedJMenuItem("New Javascript Plugin...", Translation.NEW_JAVASCRIPT_PLUGIN);
     public final JMenuItem codeSequenceDiagram = new TranslatedJMenuItem("Code Sequence Diagram", Translation.CODE_SEQUENCE_DIAGRAM);
     public final JMenuItem maliciousCodeScanner = new TranslatedJMenuItem("Malicious Code Scanner", Translation.MALICIOUS_CODE_SCANNER);
     public final JMenuItem showAllStrings = new TranslatedJMenuItem("Show All Strings", Translation.SHOW_ALL_STRINGS);
@@ -591,6 +594,9 @@ public class MainViewerGUI extends JFrame
         pluginsMainMenu.add(new JSeparator());
         pluginsMainMenu.add(recentPluginsSecondaryMenu);
         pluginsMainMenu.add(new JSeparator());
+        pluginsMainMenu.add(newJavaPlugin);
+        pluginsMainMenu.add(newJavascriptPlugin);
+        pluginsMainMenu.add(new JSeparator());
         pluginsMainMenu.add(codeSequenceDiagram);
         pluginsMainMenu.add(maliciousCodeScanner);
         pluginsMainMenu.add(showMainMethods);
@@ -604,6 +610,8 @@ public class MainViewerGUI extends JFrame
         pluginsMainMenu.add(zStringArrayDecrypter);
         
         openExternalPlugin.addActionListener(arg0 -> openExternalPlugin());
+        newJavaPlugin.addActionListener(arg0 -> PluginTemplate.JAVA.openEditorExceptionHandled());
+        newJavascriptPlugin.addActionListener(arg0 -> PluginTemplate.JAVASCRIPT.openEditorExceptionHandled());
         codeSequenceDiagram.addActionListener(arg0 -> CodeSequenceDiagram.open());
         maliciousCodeScanner.addActionListener(e -> MaliciousCodeScannerOptions.open());
         showMainMethods.addActionListener(e -> PluginManager.runPlugin(new ShowMainMethods()));
@@ -839,7 +847,7 @@ public class MainViewerGUI extends JFrame
     
     public void selectFile()
     {
-        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
                 "Select File or Folder to open in BCV",
                 "APKs, DEX, Class Files or Zip/Jar/War Archives",
                 Constants.SUPPORTED_FILE_EXTENSIONS);
@@ -859,7 +867,7 @@ public class MainViewerGUI extends JFrame
     }
 
     public void selectPythonC() {
-        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
                 "Select Python 2.7 Executable",
                 "Python (Or PyPy for speed) 2.7 Executable",
                 "everything");
@@ -876,7 +884,7 @@ public class MainViewerGUI extends JFrame
     }
 
     public void selectJavac() {
-        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
                 "Select Javac Executable",
                 "Javac Executable (Requires JDK  'C:/programfiles/Java/JDK_xx/bin/javac.exe)",
                 "everything");
@@ -893,7 +901,7 @@ public class MainViewerGUI extends JFrame
     }
 
     public void selectJava() {
-        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
                 "Select Java Executable",
                 "Java Executable (Inside Of JRE/JDK 'C:/programfiles/Java/JDK_xx/bin/java.exe')",
                 "everything");
@@ -910,7 +918,7 @@ public class MainViewerGUI extends JFrame
     }
 
     public void selectPythonC3() {
-        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
                 "Select Python 3.x Executable",
                 "Python (Or PyPy for speed) 3.x Executable",
                 "everything");
@@ -927,7 +935,7 @@ public class MainViewerGUI extends JFrame
     }
 
     public void selectOpenalLibraryFolder() {
-        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
                 "Select Library Folder",
                 "Optional Library Folder",
                 "everything");
@@ -948,7 +956,7 @@ public class MainViewerGUI extends JFrame
     }
     
     public void selectJRERTLibrary() {
-        final JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
                 "Select JRE RT Jar",
                 "JRE RT Library",
                 "everything");
@@ -966,7 +974,7 @@ public class MainViewerGUI extends JFrame
     
     public void openExternalPlugin()
     {
-        JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+        JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
                 "Select External Plugin",
                 "External Plugin",
                 "everything");

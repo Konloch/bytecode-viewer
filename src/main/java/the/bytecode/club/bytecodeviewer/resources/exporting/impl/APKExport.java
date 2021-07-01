@@ -5,10 +5,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Exporter;
-import the.bytecode.club.bytecodeviewer.util.APKTool;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
-import the.bytecode.club.bytecodeviewer.util.JarUtils;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.*;
 
 import javax.swing.*;
 import java.io.File;
@@ -73,7 +70,7 @@ public class APKExport implements Exporter
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
 			
-			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
 					"Select APK Export",
 					"Android APK",
 					"apk");
@@ -90,18 +87,8 @@ public class APKExport implements Exporter
 					output = output + ".apk";
 				
 				final File file2 = new File(output);
-				if (file2.exists())
-				{
-					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
-							"Are you sure you wish to overwrite this existing file?",
-							new String[]{"Yes", "No"});
-					
-					if (dialogue.promptChoice() == 0) {
-						file.delete();
-					} else {
-						return;
-					}
-				}
+				if (!DialogueUtils.canOverwriteFile(file2))
+					return;
 				
 				Thread saveThread = new Thread(() ->
 				{

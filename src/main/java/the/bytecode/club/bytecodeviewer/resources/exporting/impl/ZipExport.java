@@ -5,6 +5,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Exporter;
+import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 import javax.swing.*;
@@ -30,7 +31,7 @@ public class ZipExport implements Exporter
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
 			
-			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
 					"Select Zip Export",
 					"Zip Archives",
 					"zip");
@@ -45,18 +46,8 @@ public class ZipExport implements Exporter
 				if (!file.getAbsolutePath().endsWith(".zip"))
 					file = new File(file.getAbsolutePath() + ".zip");
 				
-				if (file.exists())
-				{
-					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
-							"Are you sure you wish to overwrite this existing file?",
-							new String[]{"Yes", "No"});
-					
-					if (dialogue.promptChoice() == 0) {
-						file.delete();
-					} else {
-						return;
-					}
-				}
+				if (!DialogueUtils.canOverwriteFile(file))
+					return;
 				
 				final File file2 = file;
 				

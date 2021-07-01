@@ -6,6 +6,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Exporter;
 import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
+import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -36,7 +37,7 @@ public class DexExport implements Exporter
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
 			
-			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
 					"Select DEX Export",
 					"Android DEX Files",
 					"dex");
@@ -53,18 +54,8 @@ public class DexExport implements Exporter
 					output = output + ".dex";
 				
 				File outputPath = new File(output);
-				if (outputPath.exists())
-				{
-					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
-							"Are you sure you wish to overwrite this existing file?",
-							new String[]{"Yes", "No"});
-					
-					if (dialogue.promptChoice() == 0) {
-						file.delete();
-					} else {
-						return;
-					}
-				}
+				if (!DialogueUtils.canOverwriteFile(outputPath))
+					return;
 				
 				Thread saveAsJar = new Thread(() ->
 				{

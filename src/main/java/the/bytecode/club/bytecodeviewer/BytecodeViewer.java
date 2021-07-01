@@ -84,12 +84,14 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Krakatau Assembly compile - Needs to be fixed
  *
  * TODO IN-PROGRESS:
+ *      + While loading an external plugin it should check if its java or JS, if so it should ask if you'd like to run or edit the plugin using the PluginWriter
  *      + Resource Importer needs to be rewriten to handle resources better
  *      + Finish dragging code
  *      + Finish right-click tab menu detection
  *      + Fix hook inject for EZ-Injection
  *
  * TODO FEATURES:
+ *      + CLI Headless needs to be supported
  *      + Add stackmapframes to bytecode decompiler
  *      + Add JEB decompiler optionally, requires them to add jeb library jar
  *      + Add https://github.com/ptnkjke/Java-Bytecode-Editor visualize as a plugin
@@ -164,7 +166,8 @@ public class BytecodeViewer
      *
      * @param args files you want to open or CLI
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         BytecodeViewer.args = args;
         System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + VERSION + ", " + "Fat-Jar: " + FAT_JAR);
         System.setSecurityManager(sm);
@@ -179,13 +182,22 @@ public class BytecodeViewer
                 showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when " + VERSION + " is "
                         + "actually out if you use this." + nl +
                         "Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for " + VERSION + "'s release");
-
+            
+            //set swing specific system properties
+            System.setProperty("swing.aatext", "true");
+            
+            //setup swing components
             viewer = new MainViewerGUI();
             SwingUtilities.updateComponentTreeUI(viewer);
+            
+            //load settings and set swing components state
             SettingsSerializer.loadSettings();
+            
+            //set translation language
             if(!Settings.hasSetLanguageAsSystemLanguage)
                 MiscUtils.setLanguage(guessLanguage());
     
+            //handle CLI
             int CLI = CommandLineInput.parseCommandLine(args);
 
             if (CLI == CommandLineInput.STOP)
@@ -634,7 +646,7 @@ public class BytecodeViewer
 
         if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-            JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+            JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
                     "Select File or Folder to open in BCV",
                     "APKs, DEX, Class Files or Zip/Jar/War Archives",
                     Constants.SUPPORTED_FILE_EXTENSIONS);
@@ -678,7 +690,7 @@ public class BytecodeViewer
                 if (viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
                     return;
                 
-                JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+                JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
                         "Select Zip Export",
                         "Zip Archives",
                         "zip");
@@ -688,20 +700,12 @@ public class BytecodeViewer
                 {
                     Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                     File file = fc.getSelectedFile();
+                    
                     if (!file.getAbsolutePath().endsWith(".zip"))
                         file = new File(file.getAbsolutePath() + ".zip");
-
-                    if (file.exists()) {
-                        MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
-                                "Are you sure you wish to overwrite this existing file?",
-                                new String[]{"Yes", "No"});
-
-                        if (dialogue.promptChoice() == 0) {
-                            file.delete();
-                        } else {
-                            return;
-                        }
-                    }
+                    
+                    if (!DialogueUtils.canOverwriteFile(file))
+                        return;
 
                     final File file2 = file;
 

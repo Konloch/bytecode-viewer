@@ -44,4 +44,13 @@ public class Configuration
 	
 	public static LAFTheme lafTheme = LAFTheme.SYSTEM; //lightmode by default since it uses the system theme
 	public static RSTATheme rstaTheme = lafTheme.getRSTATheme();
+	
+	public static File getLastDirectory()
+	{
+		File lastDir = new File(lastDirectory);
+		if(lastDir.exists())
+			return lastDir;
+		
+		return new File(".");
+	}
 }

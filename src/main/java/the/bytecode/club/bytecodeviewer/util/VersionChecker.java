@@ -77,7 +77,7 @@ public class VersionChecker implements Runnable
 				}
 				else if (result == 1)
 				{
-					JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+					JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
 							"Select Save File",
 							"Zip Archives",
 							"zip");

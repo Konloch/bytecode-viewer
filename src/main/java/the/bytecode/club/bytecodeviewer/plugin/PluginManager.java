@@ -104,7 +104,12 @@ public final class PluginManager {
     public static Set<String> pluginExtensions() {
         return launchStrategies.keySet();
     }
-
+    
+    public static Map<String, PluginLaunchStrategy> getLaunchStrategies()
+    {
+        return launchStrategies;
+    }
+    
     public static FileFilter fileFilter() {
         return filter;
     }

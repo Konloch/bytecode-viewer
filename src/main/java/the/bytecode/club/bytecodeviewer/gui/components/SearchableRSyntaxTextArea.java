@@ -50,6 +50,7 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	private final JLabel titleHeader = new JLabel("");
 	private final Color scrollBackground = new Color(0x3c3f41);
 	private final Color scrollForeground = new Color(0x575859);
+	private Runnable onCtrlS;
 	
 	public SearchableRSyntaxTextArea()
 	{
@@ -91,6 +92,12 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 			if ((keyEvent.getKeyCode() == KeyEvent.VK_F) && ((keyEvent.getModifiers() & KeyEvent.CTRL_MASK) != 0))
 				searchInput.requestFocus();
 			
+			if (onCtrlS != null && (keyEvent.getKeyCode() == KeyEvent.VK_S) && ((keyEvent.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+			{
+				onCtrlS.run();
+				return;
+			}
+			
 			BytecodeViewer.checkHotKey(keyEvent);
 		}));
 	}
@@ -116,6 +123,11 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 		return "";
 	}
 	
+	public void setOnCtrlS(Runnable onCtrlS)
+	{
+		this.onCtrlS = onCtrlS;
+	}
+	
 	public RTextScrollPane getScrollPane()
 	{
 		return scrollPane;
@@ -139,5 +151,10 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	public JLabel getTitleHeader()
 	{
 		return titleHeader;
+	}
+	
+	public Runnable getOnCtrlS()
+	{
+		return onCtrlS;
 	}
 }

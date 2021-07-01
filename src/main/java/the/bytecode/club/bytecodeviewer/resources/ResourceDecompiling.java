@@ -9,6 +9,7 @@ import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
+import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -39,7 +40,7 @@ public class ResourceDecompiling
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
 			
-			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
 					"Select Zip Export",
 					"Zip Archives",
 					"zip");
@@ -54,18 +55,8 @@ public class ResourceDecompiling
 				if (!file.getAbsolutePath().endsWith(".zip"))
 					file = new File(file.getAbsolutePath() + ".zip");
 				
-				if (file.exists())
-				{
-					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
-							"Are you sure you wish to overwrite this existing file?",
-							new String[]{"Yes", "No"});
-					
-					if (dialogue.promptChoice() == 0) {
-						file.delete();
-					} else {
-						return;
-					}
-				}
+				if (!DialogueUtils.canOverwriteFile(file))
+					return;
 				
 				final File javaSucks = file;
 				final String path = MiscUtils.append(file, ".zip");    // cheap hax cause string is final
@@ -207,7 +198,7 @@ public class ResourceDecompiling
 				return;
 			
 			
-			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
 					"Select Java Files",
 					"Java Source Files",
 					"java");
@@ -221,18 +212,8 @@ public class ResourceDecompiling
 				BytecodeViewer.viewer.updateBusyStatus(true);
 				final String path = MiscUtils.append(file, ".java");    // cheap hax because string is final
 				
-				if (new File(path).exists())
-				{
-					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
-							"Are you sure you wish to overwrite this existing file?",
-							new String[]{"Yes", "No"});
-					
-					if (dialogue.promptChoice() == 0) {
-						file.delete();
-					} else {
-						return;
-					}
-				}
+				if (!DialogueUtils.canOverwriteFile(path))
+					return;
 				
 				JOptionPane pane = new JOptionPane(
 						"What decompiler will you use?");

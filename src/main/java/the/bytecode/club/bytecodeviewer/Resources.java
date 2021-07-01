@@ -3,12 +3,15 @@ package the.bytecode.club.bytecodeviewer;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 import org.imgscalr.Scalr;
 
 import static the.bytecode.club.bytecodeviewer.Constants.libsDirectory;
@@ -101,6 +104,11 @@ public class Resources {
             iconList.add(resize(icon, size, size));
             size += 2;
         }
+    }
+    
+    public static String loadResourceAsString(String resourcePath) throws IOException
+    {
+        return IOUtils.toString(Resources.class.getResourceAsStream(resourcePath), StandardCharsets.UTF_8);
     }
 
     public static BufferedImage resize(BufferedImage image, int width, int height) {

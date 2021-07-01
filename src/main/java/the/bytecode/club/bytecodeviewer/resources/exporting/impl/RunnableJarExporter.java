@@ -6,6 +6,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.ExportJar;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Exporter;
+import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
 
 import javax.swing.*;
 import java.io.File;
@@ -30,7 +31,7 @@ public class RunnableJarExporter implements Exporter
 			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
 				return;
 			
-			JFileChooser fc = new FileChooser(new File(Configuration.lastDirectory),
+			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
 					"Select Jar Export",
 					"Jar Archives",
 					"jar");
@@ -46,18 +47,8 @@ public class RunnableJarExporter implements Exporter
 				if (!path.endsWith(".jar"))
 					path = path + ".jar";
 				
-				if (new File(path).exists())
-				{
-					MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
-							"Are you sure you wish to overwrite this existing file?",
-							new String[]{"Yes", "No"});
-					
-					if (dialogue.promptChoice() == 0) {
-						file.delete();
-					} else {
-						return;
-					}
-				}
+				if (!DialogueUtils.canOverwriteFile(path))
+					return;
 				
 				new ExportJar(path).setVisible(true);
 			}

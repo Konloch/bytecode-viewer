@@ -60,7 +60,7 @@ public enum Language
 		printMissingLanguageKeys();
 		
 		HashMap<String, String> translationMap = BytecodeViewer.gson.fromJson(
-				IOUtils.toString(Resources.class.getResourceAsStream(resourcePath), StandardCharsets.UTF_8),
+				Resources.loadResourceAsString(resourcePath),
 				new TypeToken<HashMap<String, String>>(){}.getType());
 		
 		for(Translation translation : Translation.values())
@@ -100,7 +100,7 @@ public enum Language
 			return;
 		
 		LinkedMap<String, String> translationMap = BytecodeViewer.gson.fromJson(
-				IOUtils.toString(Resources.class.getResourceAsStream(resourcePath), StandardCharsets.UTF_8),
+				Resources.loadResourceAsString(resourcePath),
 				new TypeToken<LinkedMap<String, String>>(){}.getType());
 		
 		HashSet<String> existingKeys = new HashSet<>();
