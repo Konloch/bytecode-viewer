@@ -215,7 +215,7 @@ public class BytecodeViewer
      * @param cli is it running CLI mode or not
      */
     public static void boot(boolean cli) {
-        cleanup();
+        cleanupAsync();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             for (Process proc : createdProcesses)
                 proc.destroy();
@@ -523,9 +523,13 @@ public class BytecodeViewer
      */
     public static void openFiles(final File[] files, boolean recentFiles) {
         if (recentFiles)
+        {
             for (File f : files)
                 if (f.exists())
                     Settings.addRecentFile(f);
+    
+            SettingsSerializer.saveSettingsAsync();
+        }
 
         BytecodeViewer.viewer.updateBusyStatus(true);
         Configuration.needsReDump = true;
@@ -584,11 +588,21 @@ public class BytecodeViewer
         Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).resetWorkspace();
         the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
     }
+    
+    /**
+     * Clears the temp directory
+     */
+    public static void cleanupAsync()
+    {
+        Thread cleanupThread = new Thread(BytecodeViewer::cleanup);
+        cleanupThread.start();
+    }
 
     /**
      * Clears the temp directory
      */
-    public static void cleanup() {
+    public static void cleanup()
+    {
         File tempF = new File(tempDirectory);
 
         try {

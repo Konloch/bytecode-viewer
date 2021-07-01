@@ -407,7 +407,7 @@ public class MainViewerGUI extends JFrame
             {
                 Configuration.rstaTheme = t;
                 item.setSelected(true);
-                SettingsSerializer.saveSettings();
+                SettingsSerializer.saveSettingsAsync();
             });
             
             rstaThemes.put(t, item);
@@ -429,7 +429,7 @@ public class MainViewerGUI extends JFrame
                 Configuration.rstaTheme = theme.getRSTATheme();
                 rstaThemes.get(Configuration.rstaTheme).setSelected(true);
                 item.setSelected(true);
-                SettingsSerializer.saveSettings();
+                SettingsSerializer.saveSettingsAsync();
                 
                 try
                 {
@@ -457,7 +457,7 @@ public class MainViewerGUI extends JFrame
             
             item.addActionListener(e ->
             {
-                SettingsSerializer.saveSettings();
+                SettingsSerializer.saveSettingsAsync();
                 MiscUtils.setLanguage(l);
             });
     
@@ -566,7 +566,7 @@ public class MainViewerGUI extends JFrame
         bytecodeDecompilerSettingsSecondaryMenu.add(appendBracketsToLabels);
         
         deleteForeignOutdatedLibs.addActionListener(arg0 -> showForeignLibraryWarning());
-        forcePureAsciiAsText.addActionListener(arg0 -> SettingsSerializer.saveSettings());
+        forcePureAsciiAsText.addActionListener(arg0 -> SettingsSerializer.saveSettingsAsync());
         setPython2.addActionListener(arg0 -> selectPythonC());
         setJRERT.addActionListener(arg0 -> selectJRERTLibrary());
         setPython3.addActionListener(arg0 -> selectPythonC3());
@@ -574,12 +574,12 @@ public class MainViewerGUI extends JFrame
         setJavac.addActionListener(arg0 -> selectJavac());
         showFileInTabTitle.addActionListener(arg0 -> {
             Configuration.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
-            SettingsSerializer.saveSettings();
+            SettingsSerializer.saveSettingsAsync();
             BytecodeViewer.refreshAllTabTitles();
         });
         simplifyNameInTabTitle.addActionListener(arg0 -> {
             Configuration.simplifiedTabNames = BytecodeViewer.viewer.simplifyNameInTabTitle.isSelected();
-            SettingsSerializer.saveSettings();
+            SettingsSerializer.saveSettingsAsync();
             BytecodeViewer.refreshAllTabTitles();
         });
     }
@@ -736,11 +736,14 @@ public class MainViewerGUI extends JFrame
     
     public synchronized void clearBusyStatus()
     {
-        for (int i = 0; i < waitIcons.length; i++)
+        SwingUtilities.invokeLater(()->
         {
-            waitIcons[i].setIcon(null);
-            waitIcons[i].updateUI();
-        }
+            for (JMenuItem waitIcon : waitIcons)
+            {
+                waitIcon.setIcon(null);
+                waitIcon.updateUI();
+            }
+        });
     }
     
     public synchronized void updateBusyStatus(final boolean busy) {
@@ -866,6 +869,7 @@ public class MainViewerGUI extends JFrame
             try {
                 Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.python = fc.getSelectedFile().getAbsolutePath();
+                SettingsSerializer.saveSettingsAsync();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }
@@ -882,6 +886,7 @@ public class MainViewerGUI extends JFrame
             try {
                 Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.javac = fc.getSelectedFile().getAbsolutePath();
+                SettingsSerializer.saveSettingsAsync();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }
@@ -898,6 +903,7 @@ public class MainViewerGUI extends JFrame
             try {
                 Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.java = fc.getSelectedFile().getAbsolutePath();
+                SettingsSerializer.saveSettingsAsync();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }
@@ -914,6 +920,7 @@ public class MainViewerGUI extends JFrame
             try {
                 Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.python3 = fc.getSelectedFile().getAbsolutePath();
+                SettingsSerializer.saveSettingsAsync();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }
@@ -934,6 +941,7 @@ public class MainViewerGUI extends JFrame
             try {
                 Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.library = fc.getSelectedFile().getAbsolutePath();
+                SettingsSerializer.saveSettingsAsync();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }
@@ -950,6 +958,7 @@ public class MainViewerGUI extends JFrame
             try {
                 Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
                 Configuration.rt = fc.getSelectedFile().getAbsolutePath();
+                SettingsSerializer.saveSettingsAsync();
             } catch (Exception e1) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
             }
@@ -970,6 +979,7 @@ public class MainViewerGUI extends JFrame
                 BytecodeViewer.viewer.updateBusyStatus(true);
                 BytecodeViewer.startPlugin(fc.getSelectedFile());
                 BytecodeViewer.viewer.updateBusyStatus(false);
+                SettingsSerializer.saveSettingsAsync();
             } catch (Exception e1) {
                 new ExceptionUI(e1);
             }

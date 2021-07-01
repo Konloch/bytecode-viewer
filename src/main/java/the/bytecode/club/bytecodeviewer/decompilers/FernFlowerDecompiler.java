@@ -62,7 +62,8 @@ public class FernFlowerDecompiler extends InternalDecompiler
     }
 
     @Override
-    public String decompileClassNode(final ClassNode cn, byte[] b) {
+    public String decompileClassNode(final ClassNode cn, byte[] b)
+    {
         String start = tempDirectory + fs + MiscUtils.getUniqueName("", ".class");
 
         final File tempClass = new File(start + ".class");
@@ -99,7 +100,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
         } else {
             try {
                 org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClass.getAbsolutePath(), new File(tempDirectory).getAbsolutePath()));
-            } catch (StackOverflowError | Exception e) {
+            } catch (Throwable e) {
                 StringWriter sw = new StringWriter();
                 e.printStackTrace(new PrintWriter(sw));
                 e.printStackTrace();

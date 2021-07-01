@@ -197,7 +197,7 @@ public class ClassViewer extends ResourceViewer
                         + "test or export your changes.\nYou can set compile automatically on refresh or on save "
                         + "in the settings menu.");
         
-                SettingsSerializer.saveSettings();
+                SettingsSerializer.saveSettingsAsync();
             }
         }
     }
