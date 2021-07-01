@@ -186,7 +186,7 @@ public class ResourceDecompiling
 					BytecodeViewer.viewer.updateBusyStatus(false);
 				}
 			}
-		});
+		}, "Decompile Thread");
 		decompileThread.start();
 	}
 	
@@ -412,7 +412,7 @@ public class ResourceDecompiling
 					BytecodeViewer.viewer.updateBusyStatus(false);
 				}
 			}
-		});
+		}, "Decompile Thread");
 		decompileThread.start();
 	}
 }

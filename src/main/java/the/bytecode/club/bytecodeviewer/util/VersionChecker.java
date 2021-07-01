@@ -197,7 +197,7 @@ public class VersionChecker implements Runnable
 								new ExceptionUI(e);
 							}
 							
-						});
+						}, "Downloader");
 						downloadThread.start();
 					}
 				}

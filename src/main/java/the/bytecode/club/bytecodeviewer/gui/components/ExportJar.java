@@ -65,7 +65,7 @@ public class ExportJar extends JFrame
             {
                 JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), jarPath, manifest.getText());
                 BytecodeViewer.viewer.updateBusyStatus(false);
-            });
+            }, "Jar Export");
             t.start();
             dispose();
         });

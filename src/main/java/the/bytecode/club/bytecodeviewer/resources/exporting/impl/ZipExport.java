@@ -65,10 +65,10 @@ public class ZipExport implements Exporter
 				{
 					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file2.getAbsolutePath());
 					BytecodeViewer.viewer.updateBusyStatus(false);
-				});
+				}, "Jar Export");
 				saveThread.start();
 			}
-		});
+		}, "Resource Export");
 		exportThread.start();
 	}
 }

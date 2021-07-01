@@ -106,7 +106,7 @@ public class JavaCompiler extends InternalCompiler
                     System.out.println("Force killing javac process, assuming it's gotten stuck");
                     process.destroyForcibly().destroy();
                 }
-            });
+            }, "Javac Fail-Safe");
             failSafe.start();
 
             int exitValue = process.waitFor();

@@ -64,7 +64,7 @@ public abstract class PaneUpdaterThread implements Runnable
     
     public void startNewThread()
     {
-        thread = new Thread(this);
+        thread = new Thread(this, "Pane Update");
         thread.start();
     }
 

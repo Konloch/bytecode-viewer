@@ -113,12 +113,12 @@ public class APKExport implements Exporter
 					{
 						APKTool.buildAPK(new File(input), file2, finalContainer);
 						BytecodeViewer.viewer.updateBusyStatus(false);
-					});
+					}, "Process APK");
 					buildAPKThread.start();
-				});
+				}, "Jar Export");
 				saveThread.start();
 			}
-		});
+		}, "Resource Export");
 		exportThread.start();
 	}
 }

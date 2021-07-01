@@ -181,7 +181,7 @@ public class ClassViewer extends ResourceViewer
                 resourceViewPanel2.updateThread.startNewThread();
             if (resourceViewPanel3.decompilerViewIndex > 0)
                 resourceViewPanel3.updateThread.startNewThread();
-        });
+        }, "ClassViewer Temp Dump");
         t.start();
 
         if (isPanel1Editable() || isPanel2Editable() || isPanel3Editable())

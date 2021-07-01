@@ -121,7 +121,7 @@ public class BytecodeViewer
     /**
      * The version checker thread
      */
-    private static final Thread versionChecker = new Thread(new VersionChecker());
+    private static final Thread versionChecker = new Thread(new VersionChecker(), "Version Checker");
 
     /**
      * Pings back to bytecodeviewer.com to be added into the total running statistics
@@ -132,7 +132,7 @@ public class BytecodeViewer
         } catch (Exception e) {
             Configuration.pingback = false;
         }
-    });
+    }, "Pingback");
 
     /**
      * Downloads & installs the krakatau & enjarify zips
@@ -152,12 +152,12 @@ public class BytecodeViewer
         } catch (Exception e) {
             e.printStackTrace();
         }
-    });
+    }, "Install Fat-Jar");
 
     /**
      * Used to check incase booting failed for some reason, this kicks in as a fail safe
      */
-    private static final Thread bootCheck = new Thread(new BootCheck());
+    private static final Thread bootCheck = new Thread(new BootCheck(), "Boot Check");
 
     /**
      * Main startup
@@ -221,7 +221,7 @@ public class BytecodeViewer
                 proc.destroy();
             SettingsSerializer.saveSettings();
             cleanup();
-        }));
+        }, "Shutdown Hook"));
 
         viewer.calledAfterLoad();
         Settings.resetRecentFilesMenu();
@@ -533,7 +533,7 @@ public class BytecodeViewer
 
         BytecodeViewer.viewer.updateBusyStatus(true);
         Configuration.needsReDump = true;
-        Thread t = new Thread(new ImportResource(files));
+        Thread t = new Thread(new ImportResource(files), "Import Resource");
         t.start();
     }
 
@@ -594,7 +594,7 @@ public class BytecodeViewer
      */
     public static void cleanupAsync()
     {
-        Thread cleanupThread = new Thread(BytecodeViewer::cleanup);
+        Thread cleanupThread = new Thread(BytecodeViewer::cleanup, "Cleanup");
         cleanupThread.start();
     }
 
@@ -656,7 +656,7 @@ public class BytecodeViewer
             BytecodeViewer.resetWorkSpace(true);
         } else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-            Thread t = new Thread(() -> BytecodeViewer.compile(true));
+            Thread t = new Thread(() -> BytecodeViewer.compile(true), "Compile");
             t.start();
         } else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
@@ -673,7 +673,8 @@ public class BytecodeViewer
                 return;
             }
 
-            Thread t = new Thread(() -> {
+            Thread resourceExport = new Thread(() ->
+            {
                 if (viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
                     return;
                 
@@ -705,16 +706,18 @@ public class BytecodeViewer
                     final File file2 = file;
 
                     BytecodeViewer.viewer.updateBusyStatus(true);
-                    Thread t1 = new Thread(() -> {
+                    Thread jarExport = new Thread(() -> {
                         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
                                 file2.getAbsolutePath());
                         BytecodeViewer.viewer.updateBusyStatus(false);
-                    });
-                    t1.start();
+                    }, "Jar Export");
+                    jarExport.start();
                 }
-            });
-            t.start();
-        } else if ((e.getKeyCode() == KeyEvent.VK_W) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+            }, "Resource Export");
+            resourceExport.start();
+        }
+        else if ((e.getKeyCode() == KeyEvent.VK_W) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+        {
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
             if (viewer.workPane.getCurrentViewer() != null)
                 viewer.workPane.tabs.remove(viewer.workPane.getCurrentViewer());

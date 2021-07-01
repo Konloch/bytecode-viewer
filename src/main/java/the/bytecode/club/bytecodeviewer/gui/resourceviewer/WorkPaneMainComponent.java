@@ -140,7 +140,7 @@ public class WorkPaneMainComponent extends VisibleComponent
 
         refreshClass = new JButton("Refresh");
         refreshClass.addActionListener((event)->{
-            Thread t = new Thread(() -> new WorkPaneRefresh(event).run());
+            Thread t = new Thread(() -> new WorkPaneRefresh(event).run(), "Refresh");
             t.start();
         });
 

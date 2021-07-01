@@ -61,7 +61,7 @@ public class RunnableJarExporter implements Exporter
 				
 				new ExportJar(path).setVisible(true);
 			}
-		});
+		}, "Runnable Jar Export");
 		exportThread.start();
 	}
 }

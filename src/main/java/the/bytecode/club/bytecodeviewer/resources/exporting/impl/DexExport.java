@@ -77,12 +77,12 @@ public class DexExport implements Exporter
 						Dex2Jar.saveAsDex(new File(input), outputPath);
 						
 						BytecodeViewer.viewer.updateBusyStatus(false);
-					});
+					}, "Process DEX");
 					saveAsDex.start();
-				});
+				}, "Jar Export");
 				saveAsJar.start();
 			}
-		});
+		}, "Resource Export");
 		exportThread.start();
 	}
 }

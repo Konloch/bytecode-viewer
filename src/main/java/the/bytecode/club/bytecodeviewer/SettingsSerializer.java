@@ -42,7 +42,7 @@ public class SettingsSerializer
     
     public static void saveSettingsAsync()
     {
-        Thread saveThread = new Thread(()-> saveSettings());
+        Thread saveThread = new Thread(SettingsSerializer::saveSettings, "Save Settings");
         saveThread.start();
     }
     
