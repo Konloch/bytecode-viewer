@@ -14,19 +14,9 @@ import java.util.HashSet;
  */
 public class FileChooser extends JFileChooser
 {
-	private final File filePath;
-	private final String title;
-	private final String description;
-	private final String[] extensions;
-	private final HashSet<String> extensionSet = new HashSet<>();
-	
 	public FileChooser(File filePath, String title, String description, String... extensions)
 	{
-		this.filePath = filePath;
-		this.title = title;
-		this.description = description;
-		this.extensions = extensions;
-		this.extensionSet.addAll(Arrays.asList(extensions));
+		HashSet<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
 		
 		try {
 			if (filePath.exists())
