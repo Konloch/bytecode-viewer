@@ -58,7 +58,7 @@ public class ImportResource implements Runnable
 					}
 					else
 					{
-						if (fn.endsWith(".jar") || fn.endsWith(".zip") || fn.endsWith(".war"))
+						if (fn.endsWith(".jar") || fn.endsWith(".zip") || fn.endsWith(".war") || fn.endsWith(".ear"))
 						{
 							if(!Import.ZIP.getImporter().open(file))
 								update = false;

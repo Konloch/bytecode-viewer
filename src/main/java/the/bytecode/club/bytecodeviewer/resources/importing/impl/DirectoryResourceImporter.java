@@ -60,7 +60,7 @@ public class DirectoryResourceImporter implements Importer
 					final String fileName = child.getName();
 					
 					//attempt to import archives automatically
-					if (fileName.endsWith(".jar") || fileName.endsWith(".zip") || fileName.endsWith(".war"))
+					if (fileName.endsWith(".jar") || fileName.endsWith(".zip") || fileName.endsWith(".war") || fileName.endsWith(".ear"))
 					{
 						Import.ZIP.getImporter().open(child);
 					}

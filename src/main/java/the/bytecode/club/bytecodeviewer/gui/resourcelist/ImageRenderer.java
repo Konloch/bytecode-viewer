@@ -29,7 +29,7 @@ public class ImageRenderer extends DefaultTreeCellRenderer
 			ResourceTreeNode node = (ResourceTreeNode) value;
 			String name = node.toString().toLowerCase();
 			
-			if (name.endsWith(".jar") || name.endsWith(".war"))
+			if (name.endsWith(".jar") || name.endsWith(".war") || name.endsWith(".ear"))
 			{
 				setIcon(Resources.jarIcon);
 			}
