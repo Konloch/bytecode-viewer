@@ -27,39 +27,30 @@ public class WorkPaneRefresh implements Runnable
 			try {
 				if (!BytecodeViewer.compile(false))
 					return;
-			} catch (NullPointerException ignored) {
-			
-			}
+			} catch (NullPointerException ignored) { }
 		
 		JButton src = null;
 		if(event != null && event.getSource() instanceof JButton)
 			src = (JButton) event.getSource();
-			
-		//if (src == BytecodeViewer.viewer.workPane.refreshClass)
+		
+		final Component tabComp = BytecodeViewer.viewer.workPane.tabs.getSelectedComponent();
+		
+		if(tabComp == null)
+			return;
+		
+		if(src != null)
 		{
-			final Component tabComp = BytecodeViewer.viewer.workPane.tabs.getSelectedComponent();
-			
-			if(tabComp == null)
-				return;
-			
-			if (tabComp instanceof ClassViewer)
-			{
-				if(src != null)
-					src.setEnabled(false);
-				
-				BytecodeViewer.viewer.updateBusyStatus(true);
-				((ClassViewer) tabComp).startPaneUpdater(src);
-				BytecodeViewer.viewer.updateBusyStatus(false);
-			}
-			else if (tabComp instanceof FileViewer)
-			{
-				if(src != null)
-					src.setEnabled(false);
-				
-				BytecodeViewer.viewer.updateBusyStatus(true);
-				((FileViewer) tabComp).refresh(src);
-				BytecodeViewer.viewer.updateBusyStatus(false);
-			}
+			JButton finalSrc = src;
+			SwingUtilities.invokeLater(()-> finalSrc.setEnabled(false));
 		}
+		
+		BytecodeViewer.viewer.updateBusyStatus(true);
+		
+		if (tabComp instanceof ClassViewer)
+			((ClassViewer) tabComp).startPaneUpdater(src);
+		else if (tabComp instanceof FileViewer)
+			((FileViewer) tabComp).refresh(src);
+		
+		BytecodeViewer.viewer.updateBusyStatus(false);
 	}
 }

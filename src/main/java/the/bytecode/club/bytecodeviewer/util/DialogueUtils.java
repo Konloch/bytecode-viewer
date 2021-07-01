@@ -1,7 +1,12 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
 /**
@@ -38,5 +43,39 @@ public class DialogueUtils
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Prompts a File Chooser dilogue
+	 */
+	public static File fileChooser(String title, String description, String... extensions)
+	{
+		return fileChooser(title, description, null, extensions);
+	}
+	
+	/**
+	 * Prompts a File Chooser dilogue
+	 */
+	public static File fileChooser(String title, String description, FileFilter filter, String... extensions)
+	{
+		final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
+				title,
+				description,
+				extensions);
+		
+		if(filter != null)
+			fc.setFileFilter(filter);
+		
+		int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+			try {
+				File file = fc.getSelectedFile();
+				Configuration.lastDirectory = file.getAbsolutePath();
+				return file;
+			} catch (Exception e1) {
+				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
+			}
+		
+		return null;
 	}
 }

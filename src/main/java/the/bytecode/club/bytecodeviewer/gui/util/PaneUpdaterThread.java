@@ -215,9 +215,9 @@ public abstract class PaneUpdaterThread implements Runnable
         if(decompilerViewIndex == 5 || decompilerViewIndex < 0)
             return;
         
-        JViewport viewport = updateUpdaterTextArea.getScrollPane().getViewport();
         SwingUtilities.invokeLater(()->
         {
+            JViewport viewport = updateUpdaterTextArea.getScrollPane().getViewport();
             viewport.addChangeListener(viewportListener);
             updateUpdaterTextArea.addCaretListener(caretListener);
         });

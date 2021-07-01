@@ -644,25 +644,20 @@ public class BytecodeViewer
         if (System.currentTimeMillis() - Configuration.lastHotKeyExecuted <= (4000))
             return;
 
-        if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+        if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+        {
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-            JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
-                    "Select File or Folder to open in BCV",
+            
+            final File file = DialogueUtils.fileChooser("Select File or Folder to open in BCV",
                     "APKs, DEX, Class Files or Zip/Jar/War Archives",
                     Constants.SUPPORTED_FILE_EXTENSIONS);
             
-            int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-            if (returnVal == JFileChooser.APPROVE_OPTION)
-            {
-                try {
-                    Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-                    BytecodeViewer.viewer.updateBusyStatus(true);
-                    BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()}, true);
-                    BytecodeViewer.viewer.updateBusyStatus(false);
-                } catch (Exception e1) {
-                    new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
-                }
-            }
+            if(file == null)
+                return;
+    
+            BytecodeViewer.viewer.updateBusyStatus(true);
+            BytecodeViewer.openFiles(new File[]{file}, true);
+            BytecodeViewer.viewer.updateBusyStatus(false);
         } else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
             BytecodeViewer.resetWorkSpace(true);

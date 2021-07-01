@@ -847,150 +847,109 @@ public class MainViewerGUI extends JFrame
     
     public void selectFile()
     {
-        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
-                "Select File or Folder to open in BCV",
+        final File file = DialogueUtils.fileChooser("Select File or Folder to open in BCV",
                 "APKs, DEX, Class Files or Zip/Jar/War Archives",
                 Constants.SUPPORTED_FILE_EXTENSIONS);
+    
+        if(file == null)
+            return;
         
-        int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-        {
-            try {
-                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-                BytecodeViewer.viewer.updateBusyStatus(true);
-                BytecodeViewer.openFiles(new File[]{fc.getSelectedFile()}, true);
-                BytecodeViewer.viewer.updateBusyStatus(false);
-            } catch (Exception e1) {
-                new ExceptionUI(e1);
-            }
-        }
+        BytecodeViewer.viewer.updateBusyStatus(true);
+        BytecodeViewer.openFiles(new File[]{file}, true);
+        BytecodeViewer.viewer.updateBusyStatus(false);
     }
 
-    public void selectPythonC() {
-        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
-                "Select Python 2.7 Executable",
+    public void selectPythonC()
+    {
+        final File file = DialogueUtils.fileChooser("Select Python 2.7 Executable",
                 "Python (Or PyPy for speed) 2.7 Executable",
                 "everything");
-        
-        int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-            try {
-                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-                Configuration.python = fc.getSelectedFile().getAbsolutePath();
-                SettingsSerializer.saveSettingsAsync();
-            } catch (Exception e1) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
-            }
+    
+        if(file == null)
+            return;
+    
+        Configuration.python = file.getAbsolutePath();
+        SettingsSerializer.saveSettingsAsync();
     }
 
-    public void selectJavac() {
-        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
-                "Select Javac Executable",
+    public void selectJavac()
+    {
+        final File file = DialogueUtils.fileChooser("Select Javac Executable",
                 "Javac Executable (Requires JDK  'C:/programfiles/Java/JDK_xx/bin/javac.exe)",
                 "everything");
+    
+        if(file == null)
+            return;
         
-        int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-            try {
-                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-                Configuration.javac = fc.getSelectedFile().getAbsolutePath();
-                SettingsSerializer.saveSettingsAsync();
-            } catch (Exception e1) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
-            }
+        Configuration.javac = file.getAbsolutePath();
+        SettingsSerializer.saveSettingsAsync();
     }
 
-    public void selectJava() {
-        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
-                "Select Java Executable",
+    public void selectJava()
+    {
+        final File file = DialogueUtils.fileChooser("Select Java Executable",
                 "Java Executable (Inside Of JRE/JDK 'C:/programfiles/Java/JDK_xx/bin/java.exe')",
                 "everything");
+    
+        if(file == null)
+            return;
         
-        int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-            try {
-                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-                Configuration.java = fc.getSelectedFile().getAbsolutePath();
-                SettingsSerializer.saveSettingsAsync();
-            } catch (Exception e1) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
-            }
+        Configuration.java = file.getAbsolutePath();
+        SettingsSerializer.saveSettingsAsync();
     }
 
-    public void selectPythonC3() {
-        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
-                "Select Python 3.x Executable",
+    public void selectPythonC3()
+    {
+        final File file = DialogueUtils.fileChooser("Select Python 3.x Executable",
                 "Python (Or PyPy for speed) 3.x Executable",
                 "everything");
         
-        int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-            try {
-                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-                Configuration.python3 = fc.getSelectedFile().getAbsolutePath();
-                SettingsSerializer.saveSettingsAsync();
-            } catch (Exception e1) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
-            }
+        if(file == null)
+            return;
+    
+        Configuration.python3 = file.getAbsolutePath();
+        SettingsSerializer.saveSettingsAsync();
     }
 
-    public void selectOpenalLibraryFolder() {
-        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
-                "Select Library Folder",
+    public void selectOpenalLibraryFolder()
+    {
+        final File file = DialogueUtils.fileChooser("Select Library Folder",
                 "Optional Library Folder",
                 "everything");
-        
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fc.setFileHidingEnabled(false);
-        fc.setAcceptAllFileFilterUsed(false);
-        
-        int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-            try {
-                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-                Configuration.library = fc.getSelectedFile().getAbsolutePath();
-                SettingsSerializer.saveSettingsAsync();
-            } catch (Exception e1) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
-            }
+    
+        if(file == null)
+            return;
+    
+        Configuration.library = file.getAbsolutePath();
+        SettingsSerializer.saveSettingsAsync();
     }
     
     public void selectJRERTLibrary() {
-        final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
-                "Select JRE RT Jar",
+        final File file = DialogueUtils.fileChooser("Select JRE RT Jar",
                 "JRE RT Library",
                 "everything");
         
-        int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-            try {
-                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-                Configuration.rt = fc.getSelectedFile().getAbsolutePath();
-                SettingsSerializer.saveSettingsAsync();
-            } catch (Exception e1) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
-            }
+        if(file == null)
+            return;
+        
+        Configuration.rt = file.getAbsolutePath();
+        SettingsSerializer.saveSettingsAsync();
     }
     
     public void openExternalPlugin()
     {
-        JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
-                "Select External Plugin",
+        final File file = DialogueUtils.fileChooser("Select External Plugin",
                 "External Plugin",
+                PluginManager.fileFilter(),
                 "everything");
-        fc.setFileFilter(PluginManager.fileFilter());
-        
-        int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-            try {
-                Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-                BytecodeViewer.viewer.updateBusyStatus(true);
-                BytecodeViewer.startPlugin(fc.getSelectedFile());
-                BytecodeViewer.viewer.updateBusyStatus(false);
-                SettingsSerializer.saveSettingsAsync();
-            } catch (Exception e1) {
-                new ExceptionUI(e1);
-            }
+    
+        if(file == null)
+            return;
+    
+        BytecodeViewer.viewer.updateBusyStatus(true);
+        BytecodeViewer.startPlugin(file);
+        BytecodeViewer.viewer.updateBusyStatus(false);
+        SettingsSerializer.saveSettingsAsync();
     }
     
     public void askBeforeExiting()
