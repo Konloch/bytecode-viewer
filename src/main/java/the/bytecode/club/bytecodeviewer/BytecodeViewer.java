@@ -399,6 +399,21 @@ public class BytecodeViewer
     }
 
     /**
+     * Called any time refresh is called to automatically compile all of the compilable panes that're opened.
+     */
+    public static boolean autoCompileSuccessful()
+    {
+        if(!BytecodeViewer.viewer.autoCompileOnRefresh.isSelected())
+            return true;
+        
+        try {
+            return compile(true);
+        } catch (NullPointerException ignored) {
+            return false;
+        }
+    }
+
+    /**
      * Compile all of the compilable panes that're opened.
      *
      * @param message if it should send a message saying it's compiled sucessfully.
@@ -682,7 +697,7 @@ public class BytecodeViewer
 
             Thread resourceExport = new Thread(() ->
             {
-                if (viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
+                if (BytecodeViewer.autoCompileSuccessful())
                     return;
                 
                 JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),

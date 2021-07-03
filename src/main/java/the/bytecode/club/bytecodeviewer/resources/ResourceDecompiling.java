@@ -8,13 +8,11 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
-import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import java.io.File;
 import java.util.Objects;
 
@@ -37,7 +35,7 @@ public class ResourceDecompiling
 		
 		Thread decompileThread = new Thread(() ->
 		{
-			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
+			if (BytecodeViewer.autoCompileSuccessful())
 				return;
 			
 			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
@@ -189,7 +187,7 @@ public class ResourceDecompiling
 		}
 		
 		Thread decompileThread = new Thread(() -> {
-			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
+			if (BytecodeViewer.autoCompileSuccessful())
 				return;
 			
 			final String s = BytecodeViewer.viewer.workPane.getCurrentViewer().cn.name;

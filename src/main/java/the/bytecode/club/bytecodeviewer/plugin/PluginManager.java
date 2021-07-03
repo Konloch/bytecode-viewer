@@ -1,9 +1,7 @@
 package the.bytecode.club.bytecodeviewer.plugin;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import javax.swing.filechooser.FileFilter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
@@ -41,7 +39,7 @@ public final class PluginManager {
 
     private static final Map<String, PluginLaunchStrategy> launchStrategies = new HashMap<>();
     private static final PluginFileFilter filter = new PluginFileFilter();
-    private static Plugin pluginInstance;
+    private static List<Plugin> pluginInstances = new ArrayList<>();
 
     static
     {
@@ -67,14 +65,16 @@ public final class PluginManager {
      *
      * @param newPluginInstance the new plugin instance
      */
-    public static void runPlugin(Plugin newPluginInstance) {
-        if (pluginInstance == null || pluginInstance.isFinished()) {
-            pluginInstance = newPluginInstance;
-            pluginInstance.start(); // start the thread
-        } else if (!pluginInstance.isFinished()) {
-            BytecodeViewer.showMessage("There is currently another plugin running right now, please wait for that to "
-                    + "finish executing.");
-        }
+    public static void runPlugin(Plugin newPluginInstance)
+    {
+        //clean the plugin list from dead threads
+        pluginInstances.removeIf(Plugin::isFinished);
+        
+        //add to the list of running instances
+        pluginInstances.add(newPluginInstance);
+        
+        //start the plugin thread
+        newPluginInstance.start();
     }
 
     /**

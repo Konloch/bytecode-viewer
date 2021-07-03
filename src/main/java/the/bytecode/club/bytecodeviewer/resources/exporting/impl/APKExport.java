@@ -67,7 +67,7 @@ public class APKExport implements Exporter
 		
 		Thread exportThread = new Thread(() ->
 		{
-			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
+			if (BytecodeViewer.autoCompileSuccessful())
 				return;
 			
 			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),

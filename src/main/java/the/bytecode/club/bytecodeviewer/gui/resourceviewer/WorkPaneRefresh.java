@@ -23,11 +23,8 @@ public class WorkPaneRefresh implements Runnable
 	@Override
 	public void run()
 	{
-		if (BytecodeViewer.viewer.autoCompileOnRefresh.isSelected())
-			try {
-				if (!BytecodeViewer.compile(false))
-					return;
-			} catch (NullPointerException ignored) { }
+		if (!BytecodeViewer.autoCompileSuccessful())
+			return;
 		
 		JButton src = null;
 		if(event != null && event.getSource() instanceof JButton)

@@ -126,7 +126,7 @@ public class PluginWriter extends JFrame
 	{
 		Thread exportThread = new Thread(() ->
 		{
-			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
+			if (BytecodeViewer.autoCompileSuccessful())
 				return;
 			
 			if(savePath == null)

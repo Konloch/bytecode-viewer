@@ -4,7 +4,6 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.ExportJar;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
-import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Exporter;
 import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
 
@@ -28,7 +27,7 @@ public class RunnableJarExporter implements Exporter
 		
 		Thread exportThread = new Thread(() ->
 		{
-			if (BytecodeViewer.viewer.compileOnSave.isSelected() && !BytecodeViewer.compile(false))
+			if (BytecodeViewer.autoCompileSuccessful())
 				return;
 			
 			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
