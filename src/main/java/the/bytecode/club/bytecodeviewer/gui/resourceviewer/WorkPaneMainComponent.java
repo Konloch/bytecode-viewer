@@ -45,6 +45,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
  *
  * @author Konloch
  * @author WaterWolf
+ * @since 09/26/2011
  */
 public class WorkPaneMainComponent extends VisibleComponent
 {

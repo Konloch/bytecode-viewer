@@ -27,7 +27,7 @@ import java.awt.*;
 /**
  * @author Konloch
  * @author Waterwolf
- * @since 6/24/2021
+ * @since 09/29/2011
  */
 public class MethodsRenderer extends JLabel implements ListCellRenderer<Object>
 {

@@ -46,6 +46,7 @@ import static the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane.BLA
  * @author Konloch
  * @author WaterWolf
  * @author DreamSworK
+ * @since 09/26/2011
  */
 public abstract class PaneUpdaterThread implements Runnable
 {

@@ -25,6 +25,7 @@ import javax.swing.JInternalFrame;
  *
  * @author Konloch
  * @author WaterWolf
+ * @since 09/26/2011
  */
 
 public abstract class VisibleComponent extends JInternalFrame

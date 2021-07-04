@@ -55,6 +55,7 @@ import static the.bytecode.club.bytecodeviewer.util.MethodParser.Method;
  *
  * @author Konloch
  * @author WaterWolf
+ * @since 09/26/2011
  */
 
 public class ClassViewer extends ResourceViewer

@@ -48,6 +48,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *
  * @author Konloch
  * @author WaterWolf
+ * @since 09/26/2011
  */
 
 public class JarUtils {

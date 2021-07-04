@@ -60,6 +60,7 @@ import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
  * @author Konloch
  * @author WaterWolf
  * @author afffsdd
+ * @since 09/26/2011
  */
 
 public class ResourceListPane extends VisibleComponent implements FileDrop.Listener

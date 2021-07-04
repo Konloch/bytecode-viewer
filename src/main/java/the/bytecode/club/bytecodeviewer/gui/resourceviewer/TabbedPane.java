@@ -40,6 +40,7 @@ import the.bytecode.club.bytecodeviewer.gui.util.DelayTabbedPaneThread;
  *
  * @author Konloch
  * @author WaterWolf
+ * @since 09/26/2011
  */
 public class TabbedPane extends JPanel
 {
