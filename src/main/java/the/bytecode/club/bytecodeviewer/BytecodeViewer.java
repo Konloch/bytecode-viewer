@@ -75,6 +75,7 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  * http://the.bytecode.club
  *
  * TODO BUGS:
+ *      + Pane krakatau bytecode edit option fails to save
  *      + View>Visual Settings>Show Class Methods
  *      + The compile mode inside the ResourceViewPanel for Krakatau and Smali assembly needs to be changed when opened with those specific decompilers
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
@@ -94,7 +95,6 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + CLI Headless needs to be supported
  *      + Add stackmapframes to bytecode decompiler
  *      + Add JEB decompiler optionally, requires them to add jeb library jar
- *      + Add https://github.com/ptnkjke/Java-Bytecode-Editor visualize as a plugin
  *      + Add https://github.com/exbin/bined as the replacement Hed Viewer/Editor
  *      + Make the decompilers launch in a separate process
  *      + Make it use that global last used inside of export as jar
@@ -102,6 +102,15 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Make ez-injection plugin console show all sys.out calls
  *      + Add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
  *      + Add decompile all as zip for CLI
+ *
+ *  TODO IDEAS:
+ *      + Allow class files to be opened without needing the .class extension
+ *          ^ Easiest way to do this is to read the file header CAFEBABE on resource view
+ *      + Look into removing the loaded classes from inside the FileContainer & then generate the ClassNodes on demand
+ *          ^ This has the added benefit of only extracting on decompilation/when needed. It would also mean everything
+ *            could be treated as byte[] file resources instead of juggling between Classes and File resources.
+ *          ^ An added bonus would be you could also support BCEL (along with other bytecode manipulation libraries)
+ *            and add support for https://github.com/ptnkjke/Java-Bytecode-Editor visualizer as a plugin
  *
  * @author Konloch
  * @author The entire BCV community
