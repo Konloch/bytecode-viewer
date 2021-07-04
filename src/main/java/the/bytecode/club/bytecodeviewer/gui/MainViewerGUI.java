@@ -10,7 +10,6 @@ import javax.swing.*;
 
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.*;
-import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptions;
 import the.bytecode.club.bytecodeviewer.gui.plugins.ReplaceStringsOptions;
