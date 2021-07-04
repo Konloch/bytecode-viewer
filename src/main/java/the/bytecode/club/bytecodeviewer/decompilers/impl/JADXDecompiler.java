@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.decompilers;
+package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
 import jadx.api.JadxArgs;
 import jadx.api.JadxDecompiler;
@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Random;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;

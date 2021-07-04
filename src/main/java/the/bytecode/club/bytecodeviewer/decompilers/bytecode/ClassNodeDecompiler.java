@@ -36,16 +36,9 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Bibl
  */
 
-public class ClassNodeDecompiler extends InternalDecompiler
+public class ClassNodeDecompiler
 {
-
-    @Override
-    public String decompileClassNode(ClassNode cn, byte[] b) {
-        return decompile(new PrefixedStringBuilder(),
-                new ArrayList<>(), cn).toString();
-    }
-
-    protected static PrefixedStringBuilder decompile(
+    public static PrefixedStringBuilder decompile(
             PrefixedStringBuilder sb, ArrayList<String> decompiledClasses,
             ClassNode cn) {
         ArrayList<String> unableToDecompile = new ArrayList<>();
@@ -180,9 +173,5 @@ public class ClassNodeDecompiler extends InternalDecompiler
             sb.append(tokens.get(i));
         }
         return sb.toString();
-    }
-
-    @Override
-    public void decompileToZip(String sourceJar, String zipName) {
     }
 }

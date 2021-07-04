@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.decompilers;
+package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.DirectoryLoader;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.CommonPreferences;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.PlainTextPrinter;

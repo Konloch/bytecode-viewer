@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.*;
 import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
 
 import javax.swing.*;
@@ -35,7 +35,7 @@ public enum Decompiler
     PROCYON_DECOMPILER("Procyon Decompiler", new ProcyonDecompiler(), new DecompilerViewComponent("Procyon")),
     CFR_DECOMPILER("CFR Decompiler", new CFRDecompiler(), new DecompilerViewComponent("Procyon")),
     FERNFLOWER_DECOMPILER("FernFlower Decompiler", new FernFlowerDecompiler(), new DecompilerViewComponent("Procyon")),
-    BYTECODE_DISASSEMBLER("Bytecode Disassembler", new ClassNodeDecompiler(), new JRadioButtonMenuItem("Bytecode")),
+    BYTECODE_DISASSEMBLER("Bytecode Disassembler", new BytecodeDisassembler(), new JRadioButtonMenuItem("Bytecode")),
     HEXCODE_VIEWER("Hexcode Viewer", null, new JRadioButtonMenuItem("Hexcode")),
     SMALI_DISASSEMBLER("Smali Decompiler", new SmaliDisassembler(), new DecompilerViewComponent("Smali")),
     KRAKATAU_DECOMPILER("Krakatau Decompiler", new KrakatauDecompiler(), BytecodeViewer.krakatau),

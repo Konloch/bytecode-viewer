@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.decompilers;
+package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
 import java.io.Closeable;
 import java.io.File;
@@ -18,6 +18,7 @@ import java.util.zip.ZipOutputStream;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;

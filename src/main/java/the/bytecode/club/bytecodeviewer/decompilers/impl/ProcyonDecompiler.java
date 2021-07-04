@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.decompilers;
+package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
 import com.strobel.assembler.InputTypeLoader;
 import com.strobel.assembler.metadata.Buffer;
@@ -32,6 +32,7 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 

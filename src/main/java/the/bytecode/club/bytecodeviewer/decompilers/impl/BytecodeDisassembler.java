@@ -1,10 +1,11 @@
-package the.bytecode.club.bytecodeviewer.decompilers;
+package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.util.Textifier;
-import org.objectweb.asm.util.TraceClassVisitor;
+import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.bytecode.PrefixedStringBuilder;
+
+import java.util.ArrayList;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -25,21 +26,18 @@ import org.objectweb.asm.util.TraceClassVisitor;
  ***************************************************************************/
 
 /**
- * Objectweb ASM Textifier output
- *
- * @author Thiakil
+ * @author Konloch
+ * @since 7/3/2021
  */
-public class ASMTextifierDecompiler extends InternalDecompiler
+public class BytecodeDisassembler extends InternalDecompiler
 {
-    @Override
-    public String decompileClassNode(ClassNode cn, byte[] b) {
-        StringWriter writer = new StringWriter();
-        cn.accept(new TraceClassVisitor(null, new Textifier(), new PrintWriter(writer)));
-        return writer.toString();
-    }
-
-    @Override
-    public void decompileToZip(String sourceJar, String zipName) {
-
-    }
+	@Override
+	public String decompileClassNode(ClassNode cn, byte[] b) {
+		return ClassNodeDecompiler.decompile(new PrefixedStringBuilder(),
+				new ArrayList<>(), cn).toString();
+	}
+	
+	@Override
+	public void decompileToZip(String sourceJar, String zipName) {
+	}
 }

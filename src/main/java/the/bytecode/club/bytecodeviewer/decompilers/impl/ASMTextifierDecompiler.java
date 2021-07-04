@@ -1,12 +1,11 @@
-package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
+package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
-import the.bytecode.club.bytecodeviewer.gui.util.PaneUpdaterThread;
-
-import javax.swing.*;
-import java.awt.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.util.Textifier;
+import org.objectweb.asm.util.TraceClassVisitor;
+import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -27,36 +26,21 @@ import java.awt.*;
  ***************************************************************************/
 
 /**
- * @author Konloch
- * @since 6/24/2021
+ * Objectweb ASM Textifier output
+ *
+ * @author Thiakil
  */
-public class ResourceViewPanel
+public class ASMTextifierDecompiler extends InternalDecompiler
 {
-	public final JPanel panel = new JPanel(new BorderLayout());
-	
-	public ClassViewer viewer;
-	public Decompiler decompiler = Decompiler.NONE;
-	public SearchableRSyntaxTextArea textArea;
-	public PaneUpdaterThread updateThread;
-	public final int panelIndex;
-	
-	public ResourcePanelCompileMode compileMode = ResourcePanelCompileMode.JAVA;
-	
-	public ResourceViewPanel(int panelIndex) {this.panelIndex = panelIndex;}
-	
-	public void createPane(ClassViewer viewer)
-	{
-		panel.removeAll();
-		textArea = null;
-		
-		if(viewer.cn == null)
-		{
-			panel.add(new JLabel("This resource has been removed."));
-		}
-	}
-	
-	public void updatePane(ClassViewer cv, byte[] b, JButton button, boolean isPanelEditable)
-	{
-		updateThread = new ResourceViewProcessing(this, cv, b, isPanelEditable, button);
-	}
+    @Override
+    public String decompileClassNode(ClassNode cn, byte[] b) {
+        StringWriter writer = new StringWriter();
+        cn.accept(new TraceClassVisitor(null, new Textifier(), new PrintWriter(writer)));
+        return writer.toString();
+    }
+
+    @Override
+    public void decompileToZip(String sourceJar, String zipName) {
+
+    }
 }
