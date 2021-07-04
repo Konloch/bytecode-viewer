@@ -1,13 +1,15 @@
-package the.bytecode.club.bytecodeviewer.compilers;
+package the.bytecode.club.bytecodeviewer.compilers.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import me.konloch.kontainer.io.DiskWriter;
+import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -51,11 +53,9 @@ public class KrakatauAssembler extends InternalCompiler
             return null;
         }
 
-        String origName = name;
-        name = MiscUtils.randomString(20);
+        String origName = MiscUtils.randomString(20);
 
-        File tempD =
-                new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
+        File tempD = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempD.mkdir();
 
         File tempJ = new File(tempD.getAbsolutePath() + fs + name + ".j");
@@ -63,12 +63,15 @@ public class KrakatauAssembler extends InternalCompiler
 
         final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempDirectory.mkdir();
+        
         final File tempJar = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
-
-        BytecodeViewer.sm.stopBlocking();
+    
         StringBuilder log = new StringBuilder();
-        try {
+        
+        BytecodeViewer.sm.stopBlocking();
+        try
+        {
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python,
                     "-O", //love you storyyeller <3
@@ -86,26 +89,27 @@ public class KrakatauAssembler extends InternalCompiler
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line;
-            while ((line = br.readLine()) != null) {
+            
+            while ((line = br.readLine()) != null)
                 log.append(nl).append(line);
-            }
+            
             br.close();
 
             log.append(nl).append(nl).append("Error:").append(nl).append(nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
-            while ((line = br.readLine()) != null) {
+            
+            while ((line = br.readLine()) != null)
                 log.append(nl).append(line);
-            }
+            
             br.close();
 
             int exitValue = process.waitFor();
             log.append(nl).append(nl).append("Exit Value is ").append(exitValue);
             System.out.println(log);
 
-            byte[] b =
-                    org.apache.commons.io.FileUtils.readFileToByteArray(new File(tempDirectory.getAbsolutePath() + fs + origName + ".class"));
+            byte[] b = FileUtils.readFileToByteArray(new File(tempDirectory.getAbsolutePath() + fs + origName + ".class"));
             tempDirectory.delete();
             tempJar.delete();
             return b;

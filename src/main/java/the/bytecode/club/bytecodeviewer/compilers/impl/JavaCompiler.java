@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.compilers;
+package the.bytecode.club.bytecodeviewer.compilers.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -39,7 +40,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 public class JavaCompiler extends InternalCompiler
 {
-
     @Override
     public byte[] compile(String contents, String name)
     {
@@ -102,7 +102,8 @@ public class JavaCompiler extends InternalCompiler
                     }
                 }
 
-                if (process.isAlive()) {
+                if (process.isAlive())
+                {
                     System.out.println("Force killing javac process, assuming it's gotten stuck");
                     process.destroyForcibly().destroy();
                 }
@@ -116,18 +117,20 @@ public class JavaCompiler extends InternalCompiler
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line;
-            while ((line = br.readLine()) != null) {
+            
+            while ((line = br.readLine()) != null)
                 log.append(nl).append(line);
-            }
+            
             br.close();
 
             log.append(nl).append(nl).append("Error:").append(nl).append(nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
-            while ((line = br.readLine()) != null) {
+            
+            while ((line = br.readLine()) != null)
                 log.append(nl).append(line);
-            }
+            
             br.close();
 
             log.append(nl).append(nl).append("Exit Value is ").append(exitValue);
@@ -135,12 +138,12 @@ public class JavaCompiler extends InternalCompiler
 
             if (!clazz.exists())
                 throw new Exception(log.toString());
-
         } catch (Exception e) {
             cont = false;
             e.printStackTrace();
+        } finally {
+            BytecodeViewer.sm.setBlocking();
         }
-        BytecodeViewer.sm.setBlocking();
 
         cp.delete();
 

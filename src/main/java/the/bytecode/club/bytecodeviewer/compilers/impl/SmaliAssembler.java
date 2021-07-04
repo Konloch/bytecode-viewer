@@ -1,9 +1,11 @@
-package the.bytecode.club.bytecodeviewer.compilers;
+package the.bytecode.club.bytecodeviewer.compilers.impl;
 
 import java.io.File;
 import java.util.Objects;
 import me.konloch.kontainer.io.DiskWriter;
+import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
 import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.util.Enjarify;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -37,9 +39,9 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 public class SmaliAssembler extends InternalCompiler
 {
-
     @Override
-    public byte[] compile(String contents, String name) {
+    public byte[] compile(String contents, String name)
+    {
         String fileStart = tempDirectory + fs + "temp";
         int fileNumber = MiscUtils.getClassNumber(fileStart, ".dex");
 
@@ -79,21 +81,20 @@ public class SmaliAssembler extends InternalCompiler
             boolean found = false;
             File current = tempJarFolder;
             try {
-                while (!found) {
+                while (!found)
+                {
                     File f = Objects.requireNonNull(current.listFiles())[0];
                     if (f.isDirectory())
                         current = f;
-                    else {
+                    else
+                    {
                         outputClass = f;
                         found = true;
                     }
-
                 }
 
-                return org.apache.commons.io.FileUtils.readFileToByteArray(outputClass);
-            } catch (java.lang.NullPointerException ignored) {
-
-            }
+                return FileUtils.readFileToByteArray(outputClass);
+            } catch (java.lang.NullPointerException ignored) { }
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }

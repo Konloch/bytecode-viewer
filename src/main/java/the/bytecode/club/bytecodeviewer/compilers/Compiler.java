@@ -18,6 +18,10 @@ package the.bytecode.club.bytecodeviewer.compilers;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+import the.bytecode.club.bytecodeviewer.compilers.impl.JavaCompiler;
+import the.bytecode.club.bytecodeviewer.compilers.impl.KrakatauAssembler;
+import the.bytecode.club.bytecodeviewer.compilers.impl.SmaliAssembler;
+
 /**
  * A collection of all of the supported compilers/assemblers inside of BCV
  *
