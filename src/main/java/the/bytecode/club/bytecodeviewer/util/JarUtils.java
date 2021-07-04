@@ -17,7 +17,6 @@ import java.util.zip.ZipInputStream;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
-import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -51,8 +50,10 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @since 09/26/2011
  */
 
-public class JarUtils {
-
+public class JarUtils
+{
+    public static Object LOCK = new Object();
+    
     /**
      * Loads the classes and resources from the input jar file
      *
@@ -245,7 +246,10 @@ public class JarUtils {
      * @return the ClassNode instance
      */
     public static ClassNode getNode(final byte[] bytez) {
-        return ASMUtil.getClassNode(bytez);
+        synchronized (LOCK)
+        {
+            return ASMUtil.getClassNode(bytez);
+        }
     }
 
     /**
@@ -296,27 +300,35 @@ public class JarUtils {
      * @param path     the exact jar output path
      */
     public static void saveAsJarClassesOnly(ArrayList<ClassNode> nodeList, String path) {
-        try {
-            JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
-            ArrayList<String> noDupe = new ArrayList<>();
-            for (ClassNode cn : nodeList) {
-                ClassWriter cw = new ClassWriter(0);
-                cn.accept(cw);
-
-                String name = cn.name + ".class";
-
-                if (!noDupe.contains(name)) {
-                    noDupe.add(name);
-                    out.putNextEntry(new ZipEntry(name));
-                    out.write(cw.toByteArray());
-                    out.closeEntry();
+        synchronized (LOCK)
+        {
+            try
+            {
+                JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
+                ArrayList<String> noDupe = new ArrayList<>();
+                for (ClassNode cn : nodeList)
+                {
+                    ClassWriter cw = new ClassWriter(0);
+                    cn.accept(cw);
+            
+                    String name = cn.name + ".class";
+            
+                    if (!noDupe.contains(name))
+                    {
+                        noDupe.add(name);
+                        out.putNextEntry(new ZipEntry(name));
+                        out.write(cw.toByteArray());
+                        out.closeEntry();
+                    }
                 }
+        
+                noDupe.clear();
+                out.close();
             }
-
-            noDupe.clear();
-            out.close();
-        } catch (IOException e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            catch (IOException e)
+            {
+                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            }
         }
     }
 
