@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.util.PaneUpdaterThread;
@@ -34,7 +35,7 @@ public class ResourceViewPanel
 	public final JPanel panel = new JPanel(new BorderLayout());
 	
 	public ClassViewer viewer;
-	public int decompilerViewIndex = -1;
+	public Decompiler decompiler = Decompiler.NONE;
 	public SearchableRSyntaxTextArea textArea;
 	public PaneUpdaterThread updateThread;
 	public final int panelIndex;

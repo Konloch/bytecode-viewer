@@ -48,7 +48,7 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 	
 	public ResourceViewProcessing(ResourceViewPanel resourceViewPanel, ClassViewer cv, byte[] b, boolean isPanelEditable, JButton button)
 	{
-		super(cv, resourceViewPanel.panelIndex, resourceViewPanel.decompilerViewIndex);
+		super(cv, resourceViewPanel);
 		this.resourceViewPanel = resourceViewPanel;
 		this.b = b;
 		this.isPanelEditable = isPanelEditable;
@@ -57,16 +57,16 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 	}
 	
 	@Override
-	public void doShit()
+	public void processDisplay()
 	{
 		try
 		{
 			BytecodeViewer.viewer.updateBusyStatus(true);
 			
-			if (resourceViewPanel.decompilerViewIndex > 0)
+			if (resourceViewPanel.decompiler != Decompiler.NONE)
 			{
 				//hex viewer
-				if (resourceViewPanel.decompilerViewIndex == 5)
+				if (resourceViewPanel.decompiler == Decompiler.HEXCODE_VIEWER)
 				{
 					final ClassWriter cw = new ClassWriter(0);
 					viewer.cn.accept(cw);
@@ -81,7 +81,7 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 				}
 				else
 				{
-					final Decompiler decompiler = Decompiler.decompilersByIndex.get(resourceViewPanel.decompilerViewIndex);
+					final Decompiler decompiler = resourceViewPanel.decompiler;
 					
 					//perform decompiling inside of this thread
 					final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.cn, b);

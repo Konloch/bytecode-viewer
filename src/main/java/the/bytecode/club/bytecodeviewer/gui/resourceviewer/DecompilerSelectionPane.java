@@ -72,77 +72,77 @@ public class DecompilerSelectionPane
 		menu.add(asmTextify);
 	}
 	
-	public int getSelectedViewer()
+	public Decompiler getSelectedDecompiler()
 	{
 		if (group.isSelected(none.getModel()))
-			return 0;
+			return Decompiler.NONE;
 		else if (group.isSelected(procyon.getJava().getModel()))
-			return 1;
+			return Decompiler.PROCYON_DECOMPILER;
 		else if (group.isSelected(CFR.getJava().getModel()))
-			return 2;
+			return Decompiler.CFR_DECOMPILER;
 		else if (group.isSelected(fern.getJava().getModel()))
-			return 3;
+			return Decompiler.FERNFLOWER_DECOMPILER;
 		else if (group.isSelected(bytecode.getModel()))
-			return 4;
+			return Decompiler.BYTECODE_DISASSEMBLER;
 		else if (group.isSelected(hexcode.getModel()))
-			return 5;
+			return Decompiler.HEXCODE_VIEWER;
 		else if (group.isSelected(smali.getJava().getModel()))
-			return 6;
+			return Decompiler.SMALI_DISASSEMBLER;
 		else if (group.isSelected(krakatau.getJava().getModel()))
-			return 7;
+			return Decompiler.KRAKATAU_DECOMPILER;
 		else if (group.isSelected(krakatau.getBytecode().getModel()))
-			return 8;
+			return Decompiler.KRAKATAU_DISASSEMBLER;
 		else if (group.isSelected(JD.getJava().getModel()))
-			return 9;
+			return Decompiler.JD_DECOMPILER;
 		else if (group.isSelected(JADX.getJava().getModel()))
-			return 10;
+			return Decompiler.JADX_DECOMPILER;
 		else if (group.isSelected(asmTextify.getModel()))
-			return 11;
+			return Decompiler.ASM_TEXTIFY_DISASSEMBLER;
 		
 		System.out.println("DEFAULTING TO NULL");
 		
 		//default to none
-		return 0;
+		return Decompiler.NONE;
 	}
 	
-	public void setSelectedViewer(int decompiler)
+	public void setSelectedDecompiler(Decompiler decompiler)
 	{
 		switch (decompiler)
 		{
-			case 0:
+			case NONE:
 				group.setSelected(none.getModel(), true);
 				break;
-			case 1:
+			case PROCYON_DECOMPILER:
 				group.setSelected(procyon.getJava().getModel(), true);
 				break;
-			case 2:
+			case CFR_DECOMPILER:
 				group.setSelected(CFR.getJava().getModel(), true);
 				break;
-			case 3:
+			case FERNFLOWER_DECOMPILER:
 				group.setSelected(fern.getJava().getModel(), true);
 				break;
-			case 4:
+			case BYTECODE_DISASSEMBLER:
 				group.setSelected(bytecode.getModel(), true);
 				break;
-			case 5:
+			case HEXCODE_VIEWER:
 				group.setSelected(hexcode.getModel(), true);
 				break;
-			case 6:
+			case SMALI_DISASSEMBLER:
 				group.setSelected(smali.getJava().getModel(), true);
 				break;
-			case 7:
+			case KRAKATAU_DECOMPILER:
 				group.setSelected(krakatau.getJava().getModel(), true);
 				break;
-			case 8:
+			case KRAKATAU_DISASSEMBLER:
 				group.setSelected(krakatau.getBytecode().getModel(), true);
 				break;
-			case 9:
+			case JD_DECOMPILER:
 				group.setSelected(JD.getJava().getModel(), true);
 				break;
-			case 10:
+			case JADX_DECOMPILER:
 				group.setSelected(JADX.getJava().getModel(), true);
 				break;
-			case 11:
+			case ASM_TEXTIFY_DISASSEMBLER:
 				group.setSelected(asmTextify.getModel(), true);
 				break;
 		}

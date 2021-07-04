@@ -13,8 +13,10 @@ import javax.swing.event.ChangeListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.MethodsRenderer;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceViewPanel;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
@@ -48,20 +50,18 @@ import static the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane.BLA
 public abstract class PaneUpdaterThread implements Runnable
 {
     public final ClassViewer viewer;
-    public final int paneIndex;
-    public final int decompilerViewIndex;
+    public final ResourceViewPanel resourceViewPanel;
     public SearchableRSyntaxTextArea updateUpdaterTextArea;
     public JComboBox<Integer> methodsList;
     private Thread thread;
     
-    public PaneUpdaterThread(ClassViewer viewer, int paneIndex, int decompilerViewIndex)
+    public PaneUpdaterThread(ClassViewer viewer, ResourceViewPanel resourceViewPanel)
     {
         this.viewer = viewer;
-        this.paneIndex = paneIndex;
-        this.decompilerViewIndex = decompilerViewIndex;
+        this.resourceViewPanel = resourceViewPanel;
     }
     
-    public abstract void doShit();
+    public abstract void processDisplay();
     
     public void startNewThread()
     {
@@ -72,10 +72,10 @@ public abstract class PaneUpdaterThread implements Runnable
     @Override
     public void run()
     {
-        if(decompilerViewIndex == 0)
+        if(resourceViewPanel.decompiler == Decompiler.NONE)
             return;
         
-        doShit();
+        processDisplay();
     
         //this still freezes the swing UI
         synchronizePane();
@@ -114,7 +114,7 @@ public abstract class PaneUpdaterThread implements Runnable
         @Override
         public void caretUpdate(CaretEvent e)
         {
-            MethodParser methods = viewer.methods.get(paneIndex);
+            MethodParser methods = viewer.methods.get(resourceViewPanel.panelIndex);
             if (methods != null)
             {
                 int methodLine = methods.findActiveMethod(updateUpdaterTextArea.getCaretLineNumber());
@@ -133,7 +133,7 @@ public abstract class PaneUpdaterThread implements Runnable
                             panes = 3;
 
                         for (int i = 0; i < panes; i++) {
-                            if (i != paneIndex) {
+                            if (i != resourceViewPanel.panelIndex) {
                                 ClassViewer.selectMethod(viewer, i, methods.getMethod(methodLine));
                             }
                         }
@@ -159,7 +159,7 @@ public abstract class PaneUpdaterThread implements Runnable
                             activeViewLine;
                     int activeLineDelta = -1;
                     MethodParser.Method activeMethod = null;
-                    MethodParser activeMethods = viewer.methods.get(paneIndex);
+                    MethodParser activeMethods = viewer.methods.get(resourceViewPanel.panelIndex);
                     if (activeMethods != null) {
                         int activeMethodLine = activeMethods.findActiveMethod(activeLine);
                         if (activeMethodLine != -1) {
@@ -169,7 +169,7 @@ public abstract class PaneUpdaterThread implements Runnable
                         }
                     }
                     for (int i = 0; i < panes; i++) {
-                        if (i != paneIndex) {
+                        if (i != resourceViewPanel.panelIndex) {
                             int setLine = -1;
 
                             RSyntaxTextArea area = null;
@@ -213,7 +213,8 @@ public abstract class PaneUpdaterThread implements Runnable
     
     public void synchronizePane()
     {
-        if(decompilerViewIndex == 5 || decompilerViewIndex < 0)
+        if(resourceViewPanel.decompiler == Decompiler.HEXCODE_VIEWER
+                || resourceViewPanel.decompiler == Decompiler.NONE)
             return;
         
         SwingUtilities.invokeLater(()->
@@ -223,7 +224,7 @@ public abstract class PaneUpdaterThread implements Runnable
             updateUpdaterTextArea.addCaretListener(caretListener);
         });
         
-        final MethodParser methods = viewer.methods.get(paneIndex);
+        final MethodParser methods = viewer.methods.get(resourceViewPanel.panelIndex);
         for (int i = 0; i < updateUpdaterTextArea.getLineCount(); i++)
         {
             String lineText = updateUpdaterTextArea.getLineText(i);
@@ -252,7 +253,7 @@ public abstract class PaneUpdaterThread implements Runnable
                     int line = (int) Objects.requireNonNull(methodsList.getSelectedItem());
 
                     RSyntaxTextArea area = null;
-                    switch (paneIndex)
+                    switch (resourceViewPanel.panelIndex)
                     {
                         case 0:
                             area = viewer.resourceViewPanel1.updateThread.updateUpdaterTextArea;

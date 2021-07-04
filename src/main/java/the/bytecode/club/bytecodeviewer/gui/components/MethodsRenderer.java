@@ -43,7 +43,7 @@ public class MethodsRenderer extends JLabel implements ListCellRenderer<Object>
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 	                                              boolean cellHasFocus)
 	{
-		MethodParser methods = paneUpdaterThread.viewer.methods.get(paneUpdaterThread.decompilerViewIndex);
+		MethodParser methods = paneUpdaterThread.viewer.methods.get(paneUpdaterThread.resourceViewPanel.decompiler.ordinal());
 		MethodParser.Method method = methods.getMethod((Integer) value);
 		setText(method.toString());
 		return this;

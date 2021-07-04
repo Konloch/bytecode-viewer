@@ -83,7 +83,7 @@ public class ResourceDecompiling
 				if (result == 0) {
 					Thread t12 = new Thread(() -> {
 						try {
-							Decompiler.PROCYON.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
+							Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
 									MiscUtils.append(javaSucks, "-proycon.zip"));
 							BytecodeViewer.viewer.updateBusyStatus(false);
 						} catch (Exception e) {
@@ -94,7 +94,7 @@ public class ResourceDecompiling
 					Thread t2 = new Thread(() -> {
 						try {
 							BytecodeViewer.viewer.updateBusyStatus(true);
-							Decompiler.CFR.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
+							Decompiler.CFR_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
 									MiscUtils.append(javaSucks, "-CFR.zip"));
 							BytecodeViewer.viewer.updateBusyStatus(false);
 						} catch (Exception e) {
@@ -105,7 +105,7 @@ public class ResourceDecompiling
 					Thread t3 = new Thread(() -> {
 						try {
 							BytecodeViewer.viewer.updateBusyStatus(true);
-							Decompiler.FERNFLOWER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
+							Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
 									MiscUtils.append(javaSucks, "-fernflower.zip"));
 							BytecodeViewer.viewer.updateBusyStatus(false);
 						} catch (Exception e) {
@@ -116,7 +116,7 @@ public class ResourceDecompiling
 					Thread t4 = new Thread(() -> {
 						try {
 							BytecodeViewer.viewer.updateBusyStatus(true);
-							Decompiler.KRAKATAU.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
+							Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
 									MiscUtils.append(javaSucks, "-kraktau.zip"));
 							BytecodeViewer.viewer.updateBusyStatus(false);
 						} catch (Exception e) {
@@ -128,7 +128,7 @@ public class ResourceDecompiling
 				if (result == 1) {
 					Thread t12 = new Thread(() -> {
 						try {
-							Decompiler.PROCYON.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
+							Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
 							BytecodeViewer.viewer.updateBusyStatus(false);
 						} catch (Exception e) {
 							new ExceptionUI(e);
@@ -139,7 +139,7 @@ public class ResourceDecompiling
 				if (result == 2) {
 					Thread t12 = new Thread(() -> {
 						try {
-							Decompiler.CFR.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
+							Decompiler.CFR_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
 							BytecodeViewer.viewer.updateBusyStatus(false);
 						} catch (Exception e) {
 							new ExceptionUI(e);
@@ -150,7 +150,7 @@ public class ResourceDecompiling
 				if (result == 3) {
 					Thread t12 = new Thread(() -> {
 						try {
-							Decompiler.FERNFLOWER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
+							Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
 							BytecodeViewer.viewer.updateBusyStatus(false);
 						} catch (Exception e) {
 							new ExceptionUI(e);
@@ -162,7 +162,7 @@ public class ResourceDecompiling
 				if (result == 4) {
 					Thread t12 = new Thread(() -> {
 						try {
-							Decompiler.KRAKATAU.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
+							Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
 							BytecodeViewer.viewer.updateBusyStatus(false);
 						} catch (Exception e) {
 							new ExceptionUI(e);
@@ -245,28 +245,28 @@ public class ResourceDecompiling
 							
 							try {
 								DiskWriter.replaceFile(MiscUtils.append(file, "-proycon.java"),
-										Decompiler.PROCYON.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
+										Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 							
 							try {
 								DiskWriter.replaceFile(MiscUtils.append(file, "-CFR.java"),
-										Decompiler.CFR.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
+										Decompiler.CFR_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 							
 							try {
 								DiskWriter.replaceFile(MiscUtils.append(file, "-fernflower.java"),
-										Decompiler.FERNFLOWER.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
+										Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 							
 							try {
 								DiskWriter.replaceFile(MiscUtils.append(file, "-kraktau.java"),
-										Decompiler.KRAKATAU.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
+										Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -294,7 +294,7 @@ public class ResourceDecompiling
 								} catch (InterruptedException ignored) {
 								}
 							}
-							String contents = Decompiler.PROCYON.getDecompiler().decompileClassNode(cn, cw.toByteArray());
+							String contents = Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
 							DiskWriter.replaceFile(path, contents, false);
 							BytecodeViewer.viewer.updateBusyStatus(false);
 						} catch (Exception e) {
@@ -320,7 +320,7 @@ public class ResourceDecompiling
 								} catch (InterruptedException ignored) {
 								}
 							}
-							String contents = Decompiler.CFR.getDecompiler().decompileClassNode(cn, cw.toByteArray());
+							String contents = Decompiler.CFR_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
 							DiskWriter.replaceFile(path, contents, false);
 							BytecodeViewer.viewer.updateBusyStatus(false);
 						} catch (Exception e) {
@@ -347,7 +347,7 @@ public class ResourceDecompiling
 								} catch (InterruptedException ignored) {
 								}
 							}
-							String contents = Decompiler.FERNFLOWER.getDecompiler().decompileClassNode(cn,
+							String contents = Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileClassNode(cn,
 									cw.toByteArray());
 							DiskWriter.replaceFile(path, contents, false);
 							BytecodeViewer.viewer.updateBusyStatus(false);
@@ -375,7 +375,7 @@ public class ResourceDecompiling
 								}
 							}
 							
-							String contents = Decompiler.KRAKATAU.getDecompiler().decompileClassNode(cn,
+							String contents = Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileClassNode(cn,
 									cw.toByteArray());
 							DiskWriter.replaceFile(path, contents, false);
 							BytecodeViewer.viewer.updateBusyStatus(false);

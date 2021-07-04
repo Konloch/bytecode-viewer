@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourcePanelCompileMode;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceViewPanel;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
@@ -104,24 +105,24 @@ public class ClassViewer extends ResourceViewer
         {
             sp.setResizeWeight(0.5);
             
-            if (resourceViewPanel2.decompilerViewIndex != 0 && resourceViewPanel1.decompilerViewIndex != 0) {
+            if (resourceViewPanel2.decompiler != Decompiler.NONE && resourceViewPanel1.decompiler != Decompiler.NONE) {
                 setDividerLocation(sp, 0.5);
-            } else if (resourceViewPanel1.decompilerViewIndex != 0) {
+            } else if (resourceViewPanel1.decompiler != Decompiler.NONE) {
                 setDividerLocation(sp, 1);
-            } else if (resourceViewPanel2.decompilerViewIndex != 0) {
+            } else if (resourceViewPanel2.decompiler != Decompiler.NONE) {
                 sp.setResizeWeight(1);
                 setDividerLocation(sp, 0);
             } else {
                 setDividerLocation(sp, 0);
             }
             
-            if (resourceViewPanel3.decompilerViewIndex != 0) {
+            if (resourceViewPanel3.decompiler != Decompiler.NONE) {
                 sp2.setResizeWeight(0.7);
                 setDividerLocation(sp2, 0.7);
-                if ((resourceViewPanel2.decompilerViewIndex == 0 && resourceViewPanel1.decompilerViewIndex != 0)
-                        || (resourceViewPanel1.decompilerViewIndex == 0 && resourceViewPanel2.decompilerViewIndex != 0)) {
+                if ((resourceViewPanel2.decompiler == Decompiler.NONE && resourceViewPanel1.decompiler != Decompiler.NONE)
+                        || (resourceViewPanel1.decompiler == Decompiler.NONE && resourceViewPanel2.decompiler != Decompiler.NONE)) {
                     setDividerLocation(sp2, 0.5);
-                } else if (resourceViewPanel1.decompilerViewIndex == 0) {
+                } else if (resourceViewPanel1.decompiler == Decompiler.NONE) {
                     setDividerLocation(sp2, 0);
                 }
             } else {
@@ -175,11 +176,11 @@ public class ClassViewer extends ResourceViewer
 
             BytecodeViewer.viewer.updateBusyStatus(false);
 
-            if (resourceViewPanel1.decompilerViewIndex > 0)
+            if (resourceViewPanel1.decompiler != Decompiler.NONE)
                 resourceViewPanel1.updateThread.startNewThread();
-            if (resourceViewPanel2.decompilerViewIndex > 0)
+            if (resourceViewPanel2.decompiler != Decompiler.NONE)
                 resourceViewPanel2.updateThread.startNewThread();
-            if (resourceViewPanel3.decompilerViewIndex > 0)
+            if (resourceViewPanel3.decompiler != Decompiler.NONE)
                 resourceViewPanel3.updateThread.startNewThread();
         }, "ClassViewer Temp Dump");
         t.start();
@@ -246,9 +247,9 @@ public class ClassViewer extends ResourceViewer
     }
     
     public void setPanes() {
-        resourceViewPanel1.decompilerViewIndex = BytecodeViewer.viewer.viewPane1.getSelectedViewer();
-        resourceViewPanel2.decompilerViewIndex = BytecodeViewer.viewer.viewPane2.getSelectedViewer();
-        resourceViewPanel3.decompilerViewIndex = BytecodeViewer.viewer.viewPane3.getSelectedViewer();
+        resourceViewPanel1.decompiler = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler();
+        resourceViewPanel2.decompiler = BytecodeViewer.viewer.viewPane2.getSelectedDecompiler();
+        resourceViewPanel3.decompiler = BytecodeViewer.viewer.viewPane3.getSelectedDecompiler();
     }
 
     public boolean isPanel1Editable() {

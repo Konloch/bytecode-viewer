@@ -251,7 +251,7 @@ public class BytecodeViewer {
      * @return The wrapped Krakatau Decompiler instance
      */
     public static InternalDecompiler getKrakatauDecompiler() {
-        return Decompiler.KRAKATAU.getDecompiler();
+        return Decompiler.KRAKATAU_DECOMPILER.getDecompiler();
     }
 
     /**
@@ -260,7 +260,7 @@ public class BytecodeViewer {
      * @return The wrapped Procyon Decompiler instance
      */
     public static InternalDecompiler getProcyonDecompiler() {
-        return Decompiler.PROCYON.getDecompiler();
+        return Decompiler.PROCYON_DECOMPILER.getDecompiler();
     }
 
     /**
@@ -269,7 +269,7 @@ public class BytecodeViewer {
      * @return The wrapped CFR Decompiler instance
      */
     public static InternalDecompiler getCFRDecompiler() {
-        return Decompiler.CFR.getDecompiler();
+        return Decompiler.CFR_DECOMPILER.getDecompiler();
     }
 
     /**
@@ -278,7 +278,7 @@ public class BytecodeViewer {
      * @return The wrapped FernFlower Decompiler instance
      */
     public static InternalDecompiler getFernFlowerDecompiler() {
-        return Decompiler.FERNFLOWER.getDecompiler();
+        return Decompiler.FERNFLOWER_DECOMPILER.getDecompiler();
     }
 
     /**
@@ -287,7 +287,7 @@ public class BytecodeViewer {
      * @return The wrapped Krakatau Disassembler instance
      */
     public static InternalDecompiler getKrakatauDisassembler() {
-        return Decompiler.KRAKATAU_BYTECODE.getDecompiler();
+        return Decompiler.KRAKATAU_DISASSEMBLER.getDecompiler();
     }
     
     /**
@@ -296,7 +296,7 @@ public class BytecodeViewer {
      * @return The wrapped JD-GUI Decompiler instance
      */
     public static InternalDecompiler getDJGUIDecompiler() {
-        return Decompiler.JDGUI.getDecompiler();
+        return Decompiler.JD_DECOMPILER.getDecompiler();
     }
     
     /**
@@ -305,7 +305,7 @@ public class BytecodeViewer {
      * @return The wrapped JADX Decompiler instance
      */
     public static InternalDecompiler getJADXDecompiler() {
-        return Decompiler.JADX.getDecompiler();
+        return Decompiler.JADX_DECOMPILER.getDecompiler();
     }
 
     /**

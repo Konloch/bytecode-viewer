@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
 import the.bytecode.club.bytecodeviewer.translation.Language;
@@ -211,9 +212,9 @@ public class SettingsSerializer
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.updateCheck.isSelected()), false);
     
-            DiskWriter.writeNewLine(settingsName, String.valueOf(BytecodeViewer.viewer.viewPane1.getSelectedViewer()), false);
-            DiskWriter.writeNewLine(settingsName, String.valueOf(BytecodeViewer.viewer.viewPane2.getSelectedViewer()), false);
-            DiskWriter.writeNewLine(settingsName, String.valueOf(BytecodeViewer.viewer.viewPane3.getSelectedViewer()), false);
+            DiskWriter.writeNewLine(settingsName, String.valueOf(BytecodeViewer.viewer.viewPane1.getSelectedDecompiler().ordinal()), false);
+            DiskWriter.writeNewLine(settingsName, String.valueOf(BytecodeViewer.viewer.viewPane2.getSelectedDecompiler().ordinal()), false);
+            DiskWriter.writeNewLine(settingsName, String.valueOf(BytecodeViewer.viewer.viewPane3.getSelectedDecompiler().ordinal()), false);
             
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.refreshOnChange.isSelected()), false);
@@ -409,9 +410,9 @@ public class SettingsSerializer
             BytecodeViewer.viewer.debugHelpers.setSelected(asBoolean(78));
             //79 is deprecated
             BytecodeViewer.viewer.updateCheck.setSelected(asBoolean(80));
-            BytecodeViewer.viewer.viewPane1.setSelectedViewer(asInt(81));
-            BytecodeViewer.viewer.viewPane2.setSelectedViewer(asInt(82));
-            BytecodeViewer.viewer.viewPane3.setSelectedViewer(asInt(83));
+            BytecodeViewer.viewer.viewPane1.setSelectedDecompiler(Decompiler.values()[asInt(81)]);
+            BytecodeViewer.viewer.viewPane2.setSelectedDecompiler(Decompiler.values()[asInt(82)]);
+            BytecodeViewer.viewer.viewPane3.setSelectedDecompiler(Decompiler.values()[asInt(83)]);
 
             BytecodeViewer.viewer.refreshOnChange.setSelected(asBoolean(84));
 

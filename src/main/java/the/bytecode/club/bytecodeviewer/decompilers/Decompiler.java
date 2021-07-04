@@ -5,7 +5,6 @@ import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler
 import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
 
 import javax.swing.*;
-import java.util.HashMap;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -32,45 +31,34 @@ import java.util.HashMap;
  */
 public enum Decompiler
 {
-    NONE(0, "None", null, (JRadioButtonMenuItem) null),
-    PROCYON(1, "Procyon Decompiler", new ProcyonDecompiler(), new DecompilerViewComponent("Procyon")),
-    CFR(2, "CFR Decompiler", new CFRDecompiler(), new DecompilerViewComponent("Procyon")),
-    FERNFLOWER(3, "FernFlower Decompiler", new FernFlowerDecompiler(), new DecompilerViewComponent("Procyon")),
-    BYTECODE(4, "Bytecode Disassembler", new ClassNodeDecompiler(), new JRadioButtonMenuItem("Bytecode")),
-    HEXCODE(5, "Hexcode Viewer", null, new JRadioButtonMenuItem("Hexcode")),
-    SMALI(6, "Smali Decompiler", new SmaliDisassembler(), new DecompilerViewComponent("Smali")),
-    KRAKATAU(7, "Krakatau Decompiler", new KrakatauDecompiler(), BytecodeViewer.krakatau),
-    KRAKATAU_BYTECODE(8, "Krakatau Disassembler", new KrakatauDisassembler(), BytecodeViewer.krakatau),
-    JDGUI(9, "JD-GUI Decompiler", new JDGUIDecompiler(), new DecompilerViewComponent("Bytecode")),
-    JADX(10, "JADX Decompiler", new JADXDecompiler(), new DecompilerViewComponent("JADX")),
-    ASMTextify(11, "ASM Disassembler", new ASMTextifierDecompiler(), new DecompilerViewComponent("ASM Textify")),
+    NONE("None", null, (JRadioButtonMenuItem) null),
+    PROCYON_DECOMPILER("Procyon Decompiler", new ProcyonDecompiler(), new DecompilerViewComponent("Procyon")),
+    CFR_DECOMPILER("CFR Decompiler", new CFRDecompiler(), new DecompilerViewComponent("Procyon")),
+    FERNFLOWER_DECOMPILER("FernFlower Decompiler", new FernFlowerDecompiler(), new DecompilerViewComponent("Procyon")),
+    BYTECODE_DISASSEMBLER("Bytecode Disassembler", new ClassNodeDecompiler(), new JRadioButtonMenuItem("Bytecode")),
+    HEXCODE_VIEWER("Hexcode Viewer", null, new JRadioButtonMenuItem("Hexcode")),
+    SMALI_DISASSEMBLER("Smali Decompiler", new SmaliDisassembler(), new DecompilerViewComponent("Smali")),
+    KRAKATAU_DECOMPILER("Krakatau Decompiler", new KrakatauDecompiler(), BytecodeViewer.krakatau),
+    KRAKATAU_DISASSEMBLER("Krakatau Disassembler", new KrakatauDisassembler(), BytecodeViewer.krakatau),
+    JD_DECOMPILER("JD-GUI Decompiler", new JDGUIDecompiler(), new DecompilerViewComponent("Bytecode")),
+    JADX_DECOMPILER("JADX Decompiler", new JADXDecompiler(), new DecompilerViewComponent("JADX")),
+    ASM_TEXTIFY_DISASSEMBLER("ASM Disassembler", new ASMTextifierDecompiler(), new DecompilerViewComponent("ASM Textify")),
     ;
     
-    private final int decompilerIndex;
     private final String decompilerName;
     private final InternalDecompiler decompiler;
     private final DecompilerViewComponent decompilerSelectComponent;
     private final JRadioButtonMenuItem basicSelectComponent;
     
-    public static final HashMap<Integer, Decompiler> decompilersByIndex = new HashMap<>();
-    
-    static
-    {
-        for(Decompiler d : values())
-            decompilersByIndex.put(d.decompilerIndex, d);
-    }
-    
-    Decompiler(int decompilerIndex, String decompilerName, InternalDecompiler decompiler, DecompilerViewComponent decompilerSelectComponent) {
-        this.decompilerIndex = decompilerIndex;
+    Decompiler(String decompilerName, InternalDecompiler decompiler, DecompilerViewComponent decompilerSelectComponent) {
         this.decompilerName = decompilerName;
         this.decompiler = decompiler;
         this.decompilerSelectComponent = decompilerSelectComponent;
         this.basicSelectComponent = null;
     }
     
-    Decompiler(int decompilerIndex, String decompilerName, InternalDecompiler decompiler, JRadioButtonMenuItem basicSelectComponent)
+    Decompiler(String decompilerName, InternalDecompiler decompiler, JRadioButtonMenuItem basicSelectComponent)
     {
-        this.decompilerIndex = decompilerIndex;
         this.decompilerName = decompilerName;
         this.decompiler = decompiler;
         this.decompilerSelectComponent = null;
@@ -83,11 +71,6 @@ public enum Decompiler
             decompilerSelectComponent.addToGroup(group);
         else if(basicSelectComponent != null)
             group.add(basicSelectComponent);
-    }
-    
-    public int getDecompilerIndex()
-    {
-        return decompilerIndex;
     }
     
     public String getDecompilerName()
