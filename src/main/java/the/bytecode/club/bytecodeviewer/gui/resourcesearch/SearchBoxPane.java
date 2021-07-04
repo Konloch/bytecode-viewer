@@ -49,6 +49,7 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
  *
  * @author Konloch
  * @author WaterWolf
+ * @since 09/29/2011
  */
 
 @SuppressWarnings("rawtypes")
@@ -69,7 +70,7 @@ public class SearchBoxPane extends VisibleComponent
     public JButton search = new JButton("Search");
     BackgroundSearchThread t = new BackgroundSearchThread(true) {
         @Override
-        public void doSearch() {
+        public void search() {
             // empty
         }
     };

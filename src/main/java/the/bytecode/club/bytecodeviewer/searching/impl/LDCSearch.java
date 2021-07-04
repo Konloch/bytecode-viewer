@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.searching;
+package the.bytecode.club.bytecodeviewer.searching.impl;
 
 import java.awt.GridLayout;
 import java.util.Iterator;
@@ -12,6 +12,9 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
+import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
+import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
@@ -37,21 +40,25 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
  *
  * @author Konloch
  * @author WaterWolf
+ * @since 09/29/2011
  */
 
-public class LDCSearch implements SearchTypeDetails {
-
+public class LDCSearch implements SearchTypeDetails
+{
     JTextField searchText;
     JPanel myPanel = null;
 
-    public LDCSearch() {
+    public LDCSearch()
+    {
         searchText = new JTextField("");
         searchText.addKeyListener(EnterKeyEvent.SINGLETON);
     }
 
     @Override
-    public JPanel getPanel() {
-        if (myPanel == null) {
+    public JPanel getPanel()
+    {
+        if (myPanel == null)
+        {
             myPanel = new JPanel(new GridLayout(1, 2));
             myPanel.add(new JLabel("Search String: "));
             myPanel.add(searchText);
@@ -62,29 +69,35 @@ public class LDCSearch implements SearchTypeDetails {
 
     @Override
     public void search(final FileContainer container, final ClassNode node, final SearchResultNotifier srn,
-                       boolean exact) {
+                       boolean exact)
+    {
         final Iterator<MethodNode> methods = node.methods.iterator();
         final String srchText = searchText.getText();
+        
         if (srchText.isEmpty())
             return;
-        while (methods.hasNext()) {
+        
+        while (methods.hasNext())
+        {
             final MethodNode method = methods.next();
 
             final InsnList insnlist = method.instructions;
-            for (AbstractInsnNode insnNode : insnlist) {
-                if (insnNode instanceof LdcInsnNode) {
+            for (AbstractInsnNode insnNode : insnlist)
+            {
+                if (insnNode instanceof LdcInsnNode)
+                {
                     final LdcInsnNode ldcObject = ((LdcInsnNode) insnNode);
                     final String ldcString = ldcObject.cst.toString();
                     String desc2 = method.desc;
-                    try {
+                    try
+                    {
                         desc2 = Type.getType(method.desc).toString();
                         if (desc2.equals("null"))
                             desc2 = method.desc;
-                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                    } catch (ArrayIndexOutOfBoundsException ignored) { }
 
-                    }
-
-                    if ((exact && ldcString.equals(srchText)) || (!exact && ldcString.contains(srchText))) {
+                    if ((exact && ldcString.equals(srchText)) || (!exact && ldcString.contains(srchText)))
+                    {
                         srn.notifyOfResult(container.name + ">" + node.name + "." + method.name
                                 + desc2
                                 + " -> \"" + ldcString + "\" > "
@@ -93,18 +106,23 @@ public class LDCSearch implements SearchTypeDetails {
                 }
             }
         }
+        
         final Iterator<FieldNode> fields = node.fields.iterator();
-        while (methods.hasNext()) {
+        while (methods.hasNext())
+        {
             final FieldNode field = fields.next();
             String desc2 = field.desc;
-            try {
+            
+            try
+            {
                 desc2 = Type.getType(field.desc).toString();
+                
                 if (desc2.equals("null"))
                     desc2 = field.desc;
-            } catch (java.lang.ArrayIndexOutOfBoundsException ignored) {
-
-            }
-            if (field.value instanceof String) {
+            } catch (java.lang.ArrayIndexOutOfBoundsException ignored) { }
+            
+            if (field.value instanceof String)
+            {
                 srn.notifyOfResult(container.name + ">" + node.name + "." + field.name + desc2
                         + " -> \"" + field.value + "\" > field");
             }

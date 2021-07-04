@@ -23,6 +23,7 @@ package the.bytecode.club.bytecodeviewer.searching;
  *
  * @author Konloch
  * @author WaterWolf
+ * @since 09/26/2011
  */
 
 public interface SearchResultNotifier {

@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.searching;
+package the.bytecode.club.bytecodeviewer.searching.impl;
 
 import java.awt.GridLayout;
 import java.util.Iterator;
@@ -9,6 +9,10 @@ import javax.swing.JTextField;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
+import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
+import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
+import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 import static the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder.processRegex;
@@ -36,21 +40,25 @@ import static the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder.process
  *
  * @author Konloch
  * @author WaterWolf
+ * @since 09/29/2011
  */
 
-public class RegexSearch implements SearchTypeDetails {
-
+public class RegexSearch implements SearchTypeDetails
+{
     public static JTextField searchText;
     JPanel myPanel = null;
 
-    public RegexSearch() {
+    public RegexSearch()
+    {
         searchText = new JTextField("");
         searchText.addKeyListener(EnterKeyEvent.SINGLETON);
     }
 
     @Override
-    public JPanel getPanel() {
-        if (myPanel == null) {
+    public JPanel getPanel()
+    {
+        if (myPanel == null)
+        {
             myPanel = new JPanel(new GridLayout(1, 2));
             myPanel.add(new JLabel("Search Regex: "));
             myPanel.add(searchText);
@@ -61,27 +69,29 @@ public class RegexSearch implements SearchTypeDetails {
 
     @Override
     public void search(final FileContainer container, final ClassNode node, final SearchResultNotifier srn,
-                       boolean exact) {
+                       boolean exact)
+    {
         final Iterator<MethodNode> methods = node.methods.iterator();
         final String srchText = searchText.getText();
 
         if (srchText.isEmpty())
             return;
-        Pattern pattern = Pattern.compile(processRegex(srchText),
-                Pattern.MULTILINE);
-        while (methods.hasNext()) {
+        
+        Pattern pattern = Pattern.compile(processRegex(srchText), Pattern.MULTILINE);
+        while (methods.hasNext())
+        {
             final MethodNode method = methods.next();
 
-            if (RegexInsnFinder.staticScan(node, method, pattern)) {
+            if (RegexInsnFinder.staticScan(node, method, pattern))
+            {
                 String desc2 = method.desc;
-                try {
+                try
+                {
                     desc2 = Type.getType(method.desc).toString();
 
                     if (desc2.equals("null"))
                         desc2 = method.desc;
-                } catch (java.lang.ArrayIndexOutOfBoundsException ignored) {
-
-                }
+                } catch (java.lang.ArrayIndexOutOfBoundsException ignored) {}
 
                 srn.notifyOfResult(container.name + ">" + node.name + "." + method.name + desc2);
             }

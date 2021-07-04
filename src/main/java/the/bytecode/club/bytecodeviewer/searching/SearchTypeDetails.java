@@ -25,11 +25,14 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
 /**
  * Search type details
  *
+ * @author Konloch
  * @author WaterWolf
+ * @since 09/26/2011
  */
 
-public interface SearchTypeDetails {
+public interface SearchTypeDetails
+{
     JPanel getPanel();
-
+    
     void search(FileContainer container, ClassNode node, SearchResultNotifier srn, boolean exact);
 }

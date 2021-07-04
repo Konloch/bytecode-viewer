@@ -5,7 +5,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
 import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
-import the.bytecode.club.bytecodeviewer.searching.RegexSearch;
+import the.bytecode.club.bytecodeviewer.searching.impl.RegexSearch;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
@@ -30,7 +30,7 @@ class PerformSearch extends BackgroundSearchThread
 	}
 	
 	@Override
-	public void doSearch()
+	public void search()
 	{
 		try
 		{

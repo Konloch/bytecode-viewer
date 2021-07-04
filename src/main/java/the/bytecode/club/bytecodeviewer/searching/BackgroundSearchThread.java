@@ -26,11 +26,9 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
  * @author Konloch
  */
 
-public abstract class BackgroundSearchThread extends Thread {
-
-    public BackgroundSearchThread() {
-
-    }
+public abstract class BackgroundSearchThread extends Thread
+{
+    public BackgroundSearchThread() { }
 
     public BackgroundSearchThread(boolean finished) {
         this.finished = finished;
@@ -38,12 +36,13 @@ public abstract class BackgroundSearchThread extends Thread {
 
     public boolean finished = false;
 
-    public abstract void doSearch();
+    public abstract void search();
 
     @Override
-    public void run() {
+    public void run()
+    {
         BytecodeViewer.viewer.updateBusyStatus(true);
-        doSearch();
+        search();
         finished = true;
         BytecodeViewer.viewer.updateBusyStatus(false);
     }

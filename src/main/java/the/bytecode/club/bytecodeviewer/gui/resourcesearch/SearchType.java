@@ -1,6 +1,10 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
 
 import the.bytecode.club.bytecodeviewer.searching.*;
+import the.bytecode.club.bytecodeviewer.searching.impl.FieldCallSearch;
+import the.bytecode.club.bytecodeviewer.searching.impl.LDCSearch;
+import the.bytecode.club.bytecodeviewer.searching.impl.MethodCallSearch;
+import the.bytecode.club.bytecodeviewer.searching.impl.RegexSearch;
 
 /**
  * @author Konloch

@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.searching;
+package the.bytecode.club.bytecodeviewer.searching.impl;
 
 import eu.bibl.banalysis.asm.desc.OpcodeInfo;
 import java.awt.GridLayout;
@@ -12,6 +12,9 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
+import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
+import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
@@ -37,16 +40,18 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
  *
  * @author Konloch
  * @author WaterWolf
+ * @since 09/29/2011
  */
 
-public class MethodCallSearch implements SearchTypeDetails {
-
+public class MethodCallSearch implements SearchTypeDetails
+{
     JTextField mOwner;
     JTextField mName;
     JTextField mDesc;
     JPanel myPanel = null;
 
-    public MethodCallSearch() {
+    public MethodCallSearch()
+    {
         mOwner = new JTextField("");
         mOwner.addKeyListener(EnterKeyEvent.SINGLETON);
         mName = new JTextField("");
@@ -56,8 +61,10 @@ public class MethodCallSearch implements SearchTypeDetails {
     }
 
     @Override
-    public JPanel getPanel() {
-        if (myPanel == null) {
+    public JPanel getPanel()
+    {
+        if (myPanel == null)
+        {
             myPanel = new JPanel(new GridLayout(3, 2));
             myPanel.add(new JLabel("Owner: "));
             myPanel.add(mOwner);
@@ -72,83 +79,78 @@ public class MethodCallSearch implements SearchTypeDetails {
 
     @Override
     public void search(final FileContainer container, final ClassNode node, final SearchResultNotifier srn,
-                       boolean exact) {
+                       boolean exact)
+    {
         final Iterator<MethodNode> methods = node.methods.iterator();
-        String owner = mOwner.getText();
-        if (owner.isEmpty()) {
-            owner = null;
-        }
-        String name = mName.getText();
-        if (name.isEmpty()) {
-            name = null;
-        }
-        String desc = mDesc.getText();
-        if (desc.isEmpty()) {
-            desc = null;
-        }
+        
+        String searchOwner = mOwner.getText();
+        if (searchOwner.isEmpty())
+            searchOwner = null;
+        
+        String searchName = mName.getText();
+        if (searchName.isEmpty())
+            searchName = null;
+        
+        String searchDesc = mDesc.getText();
+        if (searchDesc.isEmpty())
+            searchDesc = null;
 
-        while (methods.hasNext()) {
+        while (methods.hasNext())
+        {
             final MethodNode method = methods.next();
 
             final InsnList insnlist = method.instructions;
-            for (AbstractInsnNode insnNode : insnlist) {
-                if (insnNode instanceof MethodInsnNode) {
+            for (AbstractInsnNode insnNode : insnlist)
+            {
+                if (insnNode instanceof MethodInsnNode)
+                {
                     final MethodInsnNode min = (MethodInsnNode) insnNode;
-                    if (name == null && owner == null && desc == null)
+                    
+                    if (searchName == null && searchOwner == null && searchDesc == null)
                         continue;
-                    if (exact) {
-                        if (name != null && !name.equals(min.name)) {
+                    
+                    if (exact)
+                    {
+                        if (searchName != null && !searchName.equals(min.name))
                             continue;
-                        }
-                        if (owner != null && !owner.equals(min.owner)) {
+                        if (searchOwner != null && !searchOwner.equals(min.owner))
                             continue;
-                        }
-                        if (desc != null && !desc.equals(min.desc)) {
+                        if (searchDesc != null && !searchDesc.equals(min.desc))
                             continue;
-                        }
-                        String desc2 = method.desc;
-                        try {
-                            desc2 = Type.getType(method.desc).toString();
-                            if (desc2.equals("null"))
-                                desc2 = method.desc;
-                        } catch (ArrayIndexOutOfBoundsException ignored) {
-
-                        }
-                        srn.notifyOfResult(container.name + ">" + node.name
-                                + "."
-                                + method.name
-                                + desc2
-                                + " > "
-                                + OpcodeInfo.OPCODES.get(insnNode.getOpcode())
-                                .toLowerCase());
-                    } else {
-                        if (name != null && !min.name.contains(name)) {
-                            continue;
-                        }
-                        if (owner != null && !min.owner.contains(owner)) {
-                            continue;
-                        }
-                        if (desc != null && !min.desc.contains(desc)) {
-                            continue;
-                        }
-                        String desc2 = method.desc;
-                        try {
-                            desc2 = Type.getType(method.desc).toString();
-                            if (desc2.equals("null"))
-                                desc2 = method.desc;
-                        } catch (ArrayIndexOutOfBoundsException ignored) {
-
-                        }
-                        srn.notifyOfResult(container.name + ">" + node.name
-                                + "."
-                                + method.name
-                                + desc2
-                                + " > "
-                                + OpcodeInfo.OPCODES.get(insnNode.getOpcode())
-                                .toLowerCase());
                     }
+                    else
+                    {
+                        if (searchName != null && !min.name.contains(searchName))
+                            continue;
+                        if (searchOwner != null && !min.owner.contains(searchOwner))
+                            continue;
+                        if (searchDesc != null && !min.desc.contains(searchDesc))
+                            continue;
+                    }
+                    
+                    found(container, node, method, insnNode, srn);
                 }
             }
         }
+    }
+    
+    public void found(final FileContainer container, final ClassNode node, final MethodNode method, final AbstractInsnNode insnNode, final SearchResultNotifier srn)
+    {
+        String desc = method.desc;
+        try
+        {
+            desc = Type.getType(method.desc).toString();
+        
+            if (desc.equals("null"))
+                desc = method.desc;
+        } catch (ArrayIndexOutOfBoundsException ignored) { }
+        
+        srn.notifyOfResult(container.name + ">" + node.name
+                + "."
+                + method.name
+                + desc
+                + " > "
+                + OpcodeInfo.OPCODES.get(insnNode.getOpcode())
+                .toLowerCase());
     }
 }
