@@ -104,6 +104,8 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Add decompile all as zip for CLI
  *
  *  TODO IDEAS:
+ *      + Add the setting to force all non-classes to be opened with the Hex Viewer
+ *          ^ Optionally a right-click menu open-as would work inside of the resource list
  *      + Allow class files to be opened without needing the .class extension
  *          ^ Easiest way to do this is to read the file header CAFEBABE on resource view
  *      + Look into removing the loaded classes from inside the FileContainer & then generate the ClassNodes on demand

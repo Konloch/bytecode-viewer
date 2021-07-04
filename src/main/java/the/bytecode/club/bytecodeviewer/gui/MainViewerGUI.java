@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import java.awt.Dimension;
-import java.awt.KeyboardFocusManager;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -748,14 +747,8 @@ public class MainViewerGUI extends JFrame
         {
             if (busy)
             {
-                JMenuItem waitIcon = new JMenuItem("");
-                waitIcon.setMaximumSize(new Dimension(20, 50));
-                waitIcon.setEnabled(false);
-                try {
-                    waitIcon.setIcon(Resources.busyIcon);
-                } catch (NullPointerException e) {
-                    waitIcon.setIcon(Resources.busyB64Icon);
-                }
+                JMenuItem waitIcon = new WaitBusyIcon();
+                
                 rootMenu.add(waitIcon);
                 waitIcons.add(waitIcon);
             }
