@@ -109,6 +109,10 @@ public class FileViewer extends ResourceViewer
                 });
                 return;
             }
+            //check for CAFEBABE
+            //ClassRead then quick-decompile using Pane1 Decompiler
+            // (If none selected, try Pane2, Pane3, default to Proycon)
+            
             //hex viewer
             else if (BytecodeViewer.viewer.forcePureAsciiAsText.isSelected())
             {
