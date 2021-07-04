@@ -47,15 +47,16 @@ import static the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane.BLA
  */
 public abstract class PaneUpdaterThread implements Runnable
 {
-    public ClassViewer viewer;
+    public final ClassViewer viewer;
+    public final int paneIndex;
+    public final int decompilerViewIndex;
     public SearchableRSyntaxTextArea updateUpdaterTextArea;
     public JComboBox<Integer> methodsList;
     private Thread thread;
-    public int paneIndex;
-    public int decompilerViewIndex;
     
-    public PaneUpdaterThread(int paneIndex, int decompilerViewIndex)
+    public PaneUpdaterThread(ClassViewer viewer, int paneIndex, int decompilerViewIndex)
     {
+        this.viewer = viewer;
         this.paneIndex = paneIndex;
         this.decompilerViewIndex = decompilerViewIndex;
     }

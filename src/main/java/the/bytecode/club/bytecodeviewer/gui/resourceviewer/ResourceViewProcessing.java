@@ -41,7 +41,6 @@ import java.awt.*;
 public class ResourceViewProcessing extends PaneUpdaterThread
 {
 	private final ResourceViewPanel resourceViewPanel;
-	private final ClassViewer cv;
 	private final byte[] b;
 	private final boolean isPanelEditable;
 	private final JButton button;
@@ -49,9 +48,8 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 	
 	public ResourceViewProcessing(ResourceViewPanel resourceViewPanel, ClassViewer cv, byte[] b, boolean isPanelEditable, JButton button)
 	{
-		super(resourceViewPanel.panelIndex, resourceViewPanel.decompilerViewIndex);
+		super(cv, resourceViewPanel.panelIndex, resourceViewPanel.decompilerViewIndex);
 		this.resourceViewPanel = resourceViewPanel;
-		this.cv = cv;
 		this.b = b;
 		this.isPanelEditable = isPanelEditable;
 		this.button = button;
@@ -71,28 +69,29 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 				if (resourceViewPanel.decompilerViewIndex == 5)
 				{
 					final ClassWriter cw = new ClassWriter(0);
-					cv.cn.accept(cw);
+					viewer.cn.accept(cw);
 					
-					final JHexEditor hex = new JHexEditor(cw.toByteArray());
-					hex.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
-					
-					SwingUtilities.invokeLater(() -> resourceViewPanel.panel.add(hex));
+					SwingUtilities.invokeLater(() ->
+					{
+						final JHexEditor hex = new JHexEditor(cw.toByteArray());
+						hex.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
+						
+						resourceViewPanel.panel.add(hex);
+					});
 				}
 				else
 				{
-					viewer = cv;
-					updateUpdaterTextArea = (SearchableRSyntaxTextArea) Configuration.rstaTheme.apply(new SearchableRSyntaxTextArea());
-					
 					final Decompiler decompiler = Decompiler.decompilersByIndex.get(resourceViewPanel.decompilerViewIndex);
 					
 					//perform decompiling inside of this thread
-					final String decompiledSource = decompiler.getDecompiler().decompileClassNode(cv.cn, b);
-					
-					resourceViewPanel.textArea = updateUpdaterTextArea;
+					final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.cn, b);
 					
 					//set the swing components on the swing thread
 					SwingUtilities.invokeLater(() ->
 					{
+						updateUpdaterTextArea = (SearchableRSyntaxTextArea) Configuration.rstaTheme.apply(new SearchableRSyntaxTextArea());
+						resourceViewPanel.textArea = updateUpdaterTextArea;
+						
 						resourceViewPanel.panel.add(updateUpdaterTextArea.getScrollPane());
 						resourceViewPanel.panel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
 						
@@ -131,10 +130,13 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 		}
 		finally
 		{
-			cv.resetDivider();
+			viewer.resetDivider();
 			BytecodeViewer.viewer.updateBusyStatus(false);
-			if (button != null)
-				button.setEnabled(true);
+			SwingUtilities.invokeLater(() ->
+			{
+				if (button != null)
+					button.setEnabled(true);
+			});
 		}
 	}
 }
