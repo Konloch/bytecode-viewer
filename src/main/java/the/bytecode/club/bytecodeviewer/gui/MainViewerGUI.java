@@ -5,6 +5,7 @@ import java.awt.KeyboardFocusManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.*;
 
@@ -64,7 +65,7 @@ public class MainViewerGUI extends JFrame
 {
     public AboutWindow aboutWindow = new AboutWindow();
     public boolean isMaximized;
-    public final JMenuItem[] waitIcons;
+    public final List<JMenuItem> waitIcons = new ArrayList<>();
     
     //main UI components
     private static final ArrayList<VisibleComponent> uiComponents = new ArrayList<>();
@@ -270,15 +271,6 @@ public class MainViewerGUI extends JFrame
         buildPluginMenu();
         buildObfuscateMenu();
         defaultSettings();
-        
-        waitIcons = new JMenuItem[10];
-        for (int i = 0; i < 10; i++)
-        {
-            waitIcons[i] = new JMenuItem("");
-            waitIcons[i].setMaximumSize(new Dimension(20, 50));
-            waitIcons[i].setEnabled(false);
-            rootMenu.add(waitIcons[i]);
-        }
         
         setTitle("Bytecode Viewer " + VERSION + " - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
 
@@ -745,37 +737,39 @@ public class MainViewerGUI extends JFrame
     {
         SwingUtilities.invokeLater(()->
         {
-            for (JMenuItem waitIcon : waitIcons)
-            {
-                waitIcon.setIcon(null);
-                waitIcon.updateUI();
-            }
+            int length = waitIcons.size();
+            for (int i = 0; i < length; i++)
+                updateBusyStatus(false);
         });
     }
     
     public synchronized void updateBusyStatus(final boolean busy) {
-        SwingUtilities.invokeLater(() -> {
-            if (busy) {
-                for (int i = 0; i < 10; i++) {
-                    if (waitIcons[i].getIcon() == null) {
-                        try {
-                            waitIcons[i].setIcon(Resources.busyIcon);
-                        } catch (NullPointerException e) {
-                            waitIcons[i].setIcon(Resources.busyB64Icon);
-                        }
-                        waitIcons[i].updateUI();
-                        break;
-                    }
+        SwingUtilities.invokeLater(() ->
+        {
+            if (busy)
+            {
+                JMenuItem waitIcon = new JMenuItem("");
+                waitIcon.setMaximumSize(new Dimension(20, 50));
+                waitIcon.setEnabled(false);
+                try {
+                    waitIcon.setIcon(Resources.busyIcon);
+                } catch (NullPointerException e) {
+                    waitIcon.setIcon(Resources.busyB64Icon);
                 }
-            } else {
-                for (int i = 0; i < 10; i++) {
-                    if (waitIcons[i].getIcon() != null) {
-                        waitIcons[i].setIcon(null);
-                        waitIcons[i].updateUI();
-                        break;
-                    }
-                }
+                rootMenu.add(waitIcon);
+                waitIcons.add(waitIcon);
             }
+            else
+            {
+                if(waitIcons.isEmpty())
+                    return;
+    
+                JMenuItem waitIcon = waitIcons.get(0);
+                waitIcons.remove(0);
+                rootMenu.remove(waitIcon);
+            }
+    
+            rootMenu.updateUI();
         });
     }
 

@@ -81,8 +81,6 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 				}
 				else
 				{
-					updateUpdaterTextArea = new SearchableRSyntaxTextArea();
-					
 					final Decompiler decompiler = resourceViewPanel.decompiler;
 					
 					//perform decompiling inside of this thread
@@ -91,6 +89,8 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 					//set the swing components on the swing thread
 					SwingUtilities.invokeLater(() ->
 					{
+						updateUpdaterTextArea = new SearchableRSyntaxTextArea();
+						
 						Configuration.rstaTheme.apply(updateUpdaterTextArea);
 						resourceViewPanel.textArea = updateUpdaterTextArea;
 						
