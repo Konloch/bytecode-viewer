@@ -32,6 +32,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.util.*;
 import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
 
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 import static the.bytecode.club.bytecodeviewer.Settings.addRecentPlugin;
 import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
@@ -524,7 +525,7 @@ public class BytecodeViewer
      * @param message the message you need to send
      */
     public static void showMessage(String message) {
-        JOptionPane.showMessageDialog(viewer, message);
+        BetterJOptionPane.showMessageDialog(viewer, message);
     }
 
     /**
