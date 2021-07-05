@@ -785,7 +785,7 @@ public class MainViewerGUI extends JFrame
     
     public void compileOnNewThread()
     {
-        Thread t = new Thread(() -> BytecodeViewer.compile(true), "Compile");
+        Thread t = new Thread(() -> BytecodeViewer.compile(true, true), "Compile");
         t.start();
     }
     

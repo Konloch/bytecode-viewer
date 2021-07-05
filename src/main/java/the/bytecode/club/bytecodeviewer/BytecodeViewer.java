@@ -424,7 +424,7 @@ public class BytecodeViewer
             return true;
         
         try {
-            return compile(true);
+            return compile(true, false);
         } catch (NullPointerException ignored) {
             return false;
         }
@@ -436,7 +436,7 @@ public class BytecodeViewer
      * @param message if it should send a message saying it's compiled sucessfully.
      * @return true if no errors, false if it failed to compile.
      */
-    public static boolean compile(boolean message) {
+    public static boolean compile(boolean message, boolean successAlert) {
         BytecodeViewer.viewer.updateBusyStatus(true);
         boolean noErrors = true;
         boolean actuallyTried = false;
@@ -467,7 +467,7 @@ public class BytecodeViewer
         {
             if (actuallyTried)
             {
-                if(noErrors)
+                if(noErrors && successAlert)
                     BytecodeViewer.showMessage("Compiled Successfully.");
             }
             else
@@ -616,7 +616,7 @@ public class BytecodeViewer
             BytecodeViewer.resetWorkSpace(true);
         } else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-            Thread t = new Thread(() -> BytecodeViewer.compile(true), "Compile");
+            Thread t = new Thread(() -> BytecodeViewer.compile(true, false), "Compile");
             t.start();
         } else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
