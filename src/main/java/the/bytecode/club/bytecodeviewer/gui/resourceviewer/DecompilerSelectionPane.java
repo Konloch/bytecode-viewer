@@ -162,7 +162,7 @@ public class DecompilerSelectionPane
 			return true;
 		if((group.isSelected(krakatau.getJava().getModel()) || group.isSelected(krakatau.getBytecode().getModel())) && krakatau.getEditable().isSelected())
 			return true;
-		if(group.isSelected(smali.getJava().getModel()) && krakatau.getEditable().isSelected())
+		if(group.isSelected(smali.getJava().getModel()) && smali.getEditable().isSelected())
 			return true;
 		
 		return false;

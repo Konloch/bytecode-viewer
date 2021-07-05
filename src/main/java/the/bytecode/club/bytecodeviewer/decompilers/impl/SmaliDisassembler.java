@@ -42,8 +42,9 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 public class SmaliDisassembler extends InternalDecompiler
 {
-
-    public String decompileClassNode(FileContainer container, ClassNode cn, byte[] b) {
+    @Override
+    public String decompileClassNode(ClassNode cn, byte[] b)
+    {
         String exception = "";
         String fileStart = tempDirectory + fs + "temp";
 
@@ -116,11 +117,6 @@ public class SmaliDisassembler extends InternalDecompiler
         return "Smali Disassembler error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com"
                 + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
                 + nl + nl + exception;
-    }
-
-    @Override
-    public String decompileClassNode(ClassNode cn, byte[] b) {
-        return null;
     }
 
     @Override

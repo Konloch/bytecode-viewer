@@ -37,7 +37,7 @@ public enum Decompiler
     FERNFLOWER_DECOMPILER("FernFlower Decompiler", new FernFlowerDecompiler(), new DecompilerViewComponent("Procyon")),
     BYTECODE_DISASSEMBLER("Bytecode Disassembler", new BytecodeDisassembler(), new JRadioButtonMenuItem("Bytecode")),
     HEXCODE_VIEWER("Hexcode Viewer", null, new JRadioButtonMenuItem("Hexcode")),
-    SMALI_DISASSEMBLER("Smali Decompiler", new SmaliDisassembler(), new DecompilerViewComponent("Smali")),
+    SMALI_DISASSEMBLER("Smali Disassembler", new SmaliDisassembler(), new DecompilerViewComponent("Smali")),
     KRAKATAU_DECOMPILER("Krakatau Decompiler", new KrakatauDecompiler(), BytecodeViewer.krakatau),
     KRAKATAU_DISASSEMBLER("Krakatau Disassembler", new KrakatauDisassembler(), BytecodeViewer.krakatau),
     JD_DECOMPILER("JD-GUI Decompiler", new JDGUIDecompiler(), new DecompilerViewComponent("Bytecode")),
