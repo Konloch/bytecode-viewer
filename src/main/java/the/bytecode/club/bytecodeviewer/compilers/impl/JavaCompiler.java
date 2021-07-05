@@ -151,7 +151,8 @@ public class JavaCompiler extends InternalCompiler
             try {
                 return org.apache.commons.io.FileUtils.readFileToByteArray(clazz);
             } catch (IOException e) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                e.printStackTrace();
+                //new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
             }
 
         return null;

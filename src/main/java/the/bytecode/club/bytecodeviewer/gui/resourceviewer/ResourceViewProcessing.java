@@ -4,6 +4,7 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.objectweb.asm.ClassWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
@@ -103,6 +104,11 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 						resourceViewPanel.textArea.setText(decompiledSource);
 						resourceViewPanel.textArea.setCaretPosition(0);
 						resourceViewPanel.textArea.setEditable(isPanelEditable);
+						
+						if(isPanelEditable && decompiler == Decompiler.SMALI_DISASSEMBLER)
+							resourceViewPanel.compileMode = Compiler.SMALI_ASSEMBLER;
+						else if(isPanelEditable && decompiler == Decompiler.KRAKATAU_DISASSEMBLER)
+							resourceViewPanel.compileMode = Compiler.KRAKATAU_ASSEMBLER;
 						
 						resourceViewPanel.textArea.getTitleHeader().setText(decompiler.getDecompilerName() + " - Editable: " + resourceViewPanel.textArea.isEditable());
 						resourceViewPanel.textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN,

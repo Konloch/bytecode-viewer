@@ -641,7 +641,7 @@ public class MainViewerGUI extends JFrame
     public void defaultSettings()
     {
         compileOnSave.setSelected(false);
-        autoCompileOnRefresh.setSelected(false);
+        autoCompileOnRefresh.setSelected(true);
         decodeAPKResources.setSelected(true);
         updateCheck.setSelected(true);
         forcePureAsciiAsText.setSelected(true);

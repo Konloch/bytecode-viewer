@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
+
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -107,19 +109,45 @@ public class KrakatauAssembler extends InternalCompiler
 
             int exitValue = process.waitFor();
             log.append(nl).append(nl).append("Exit Value is ").append(exitValue);
-            System.out.println(log);
+            System.err.println(log);
 
-            byte[] b = FileUtils.readFileToByteArray(new File(tempDirectory.getAbsolutePath() + fs + origName + ".class"));
+            byte[] b = FileUtils.readFileToByteArray(Objects.requireNonNull(findFile(tempDirectory, ".class")));
             tempDirectory.delete();
             tempJar.delete();
             return b;
         } catch (Exception e) {
             e.printStackTrace();
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(log.toString());
+            //new the.bytecode.club.bytecodeviewer.api.ExceptionUI(log.toString());
         } finally {
             BytecodeViewer.sm.setBlocking();
         }
 
+        return null;
+    }
+    
+    /**
+     * Searches a directory until the extension is found
+     */
+    public static File findFile(File basePath, String extension)
+    {
+        for(File f : basePath.listFiles())
+        {
+            if(f.isDirectory())
+            {
+                File child = findFile(f, extension);
+                
+                if(child != null)
+                    return child;
+                
+                continue;
+            }
+            
+            if(f.getName().endsWith(extension))
+            {
+                return f;
+            }
+        }
+        
         return null;
     }
 }

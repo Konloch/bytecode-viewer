@@ -50,6 +50,7 @@ public class DiskWriter {
      */
     public static synchronized void writeNewLine(String filename,
                                                  byte[] fileContents, boolean debug) {
+        new File(filename).getParentFile().mkdirs();
         PrintWriter writer = null;
         String original = filename;
         int counter = 0;
@@ -86,6 +87,7 @@ public class DiskWriter {
      */
     public static synchronized void writeNewLine(String filename,
                                                  String lineToWrite, boolean debug) {
+        new File(filename).getParentFile().mkdirs();
         PrintWriter writer = null;
         String original = filename;
         int counter = 0;
@@ -124,6 +126,7 @@ public class DiskWriter {
      */
     public static synchronized void replaceFile(String filename,
                                                 byte[] fileContents, boolean debug) {
+        new File(filename).getParentFile().mkdirs();
         File f = new File(filename);
         if (f.exists())
             f.delete();
@@ -164,6 +167,7 @@ public class DiskWriter {
      */
     public static synchronized void replaceFile(String filename,
                                                 String lineToWrite, boolean debug) {
+        new File(filename).getParentFile().mkdirs();
         File f = new File(filename);
         if (f.exists())
             f.delete();

@@ -20,7 +20,6 @@ import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourcePanelCompileMode;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
@@ -80,13 +79,13 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + The compile mode inside the ResourceViewPanel for Krakatau and Smali assembly needs to be changed when opened with those specific decompilers
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
+ *      + Versioning and updating need to be fixed
  *      + Fix classfile searcher
  *      + Smali Assembly compile - Needs to be fixed
- *      + Krakatau Assembly compile - Needs to be fixed
  *
  * TODO IN-PROGRESS:
  *      + While loading an external plugin it should check if its java or JS, if so it should ask if you'd like to run or edit the plugin using the PluginWriter
- *      + Resource Importer needs to be rewriten to handle resources better
+ *      + Resource Importer needs to be rewritten to handle resources better
  *      + Finish dragging code
  *      + Finish right-click tab menu detection
  *      + Fix hook inject for EZ-Injection
@@ -104,6 +103,7 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Add decompile all as zip for CLI
  *
  *  TODO IDEAS:
+ *      + App Bundle Support
  *      + Add the setting to force all non-classes to be opened with the Hex Viewer
  *          ^ Optionally a right-click menu open-as would work inside of the resource list
  *      + Allow class files to be opened without needing the .class extension
@@ -237,9 +237,11 @@ public class BytecodeViewer
      *
      * @param cli is it running CLI mode or not
      */
-    public static void boot(boolean cli) {
+    public static void boot(boolean cli)
+    {
         cleanupAsync();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->
+        {
             for (Process proc : createdProcesses)
                 proc.destroy();
             SettingsSerializer.saveSettings();
@@ -249,7 +251,9 @@ public class BytecodeViewer
         viewer.calledAfterLoad();
         Settings.resetRecentFilesMenu();
 
-        if (!Configuration.pingback) {
+        //ping back once on first boot to add to global user count
+        if (!Configuration.pingback)
+        {
             pingBack.start();
             Configuration.pingback = true;
         }
@@ -386,7 +390,8 @@ public class BytecodeViewer
      * @param oldNode the old instance
      * @param newNode the new instance
      */
-    public static void updateNode(ClassNode oldNode, ClassNode newNode) {
+    public static void updateNode(ClassNode oldNode, ClassNode newNode)
+    {
         for (FileContainer container : files) {
             if (container.classes.remove(oldNode))
                 container.classes.add(newNode);
@@ -432,6 +437,7 @@ public class BytecodeViewer
      */
     public static boolean compile(boolean message) {
         BytecodeViewer.viewer.updateBusyStatus(true);
+        boolean noErrors = true;
         boolean actuallyTried = false;
 
         for (java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers())
@@ -440,114 +446,34 @@ public class BytecodeViewer
             {
                 ClassViewer cv = (ClassViewer) c;
                 
-                //compile smali assembly
-                if (cv.resourceViewPanel1.compileMode == ResourcePanelCompileMode.SMALI_ASSEMBLY && cv.resourceViewPanel1.textArea.isEditable() ||
-                        cv.resourceViewPanel2.compileMode == ResourcePanelCompileMode.SMALI_ASSEMBLY && cv.resourceViewPanel2.textArea.isEditable() ||
-                        cv.resourceViewPanel3.compileMode == ResourcePanelCompileMode.SMALI_ASSEMBLY && cv.resourceViewPanel3.textArea.isEditable())
-                {
+                if(noErrors && !cv.resourceViewPanel1.compile())
+                    noErrors = false;
+                if(noErrors && !cv.resourceViewPanel2.compile())
+                    noErrors = false;
+                if(noErrors && !cv.resourceViewPanel3.compile())
+                    noErrors = false;
+                
+                if(cv.resourceViewPanel1.textArea.isEditable())
                     actuallyTried = true;
-                    Object[] smali = cv.getSmali();
-                    if (smali != null)
-                    {
-                        ClassNode origNode = (ClassNode) smali[0];
-                        String smaliText = (String) smali[1];
-                        byte[] smaliCompiled = Compiler.SMALI_ASSEMBLER.getCompiler().compile(smaliText, origNode.name);
-                        
-                        if (smaliCompiled != null)
-                        {
-                            try {
-                                ClassNode newNode = JarUtils.getNode(smaliCompiled);
-                                BytecodeViewer.updateNode(origNode, newNode);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        else
-                        {
-                            BytecodeViewer.showMessage("There has been an error with assembling your Smali code, "
-                                    + "please check this. Class: " + origNode.name);
-                            BytecodeViewer.viewer.updateBusyStatus(false);
-                            return false;
-                        }
-                    }
-                }
-
-                //compile krakatau assembly
-                if (cv.resourceViewPanel1.compileMode == ResourcePanelCompileMode.KRAKATAU_ASSEMBLY && cv.resourceViewPanel1.textArea.isEditable() ||
-                        cv.resourceViewPanel2.compileMode == ResourcePanelCompileMode.KRAKATAU_ASSEMBLY && cv.resourceViewPanel2.textArea.isEditable() ||
-                        cv.resourceViewPanel3.compileMode == ResourcePanelCompileMode.KRAKATAU_ASSEMBLY && cv.resourceViewPanel3.textArea.isEditable())
-                {
+                if(cv.resourceViewPanel2.textArea.isEditable())
                     actuallyTried = true;
-                    Object[] krakatau = cv.getKrakatau();
-                    if (krakatau != null)
-                    {
-                        ClassNode origNode = (ClassNode) krakatau[0];
-                        String krakatauText = (String) krakatau[1];
-                        byte[] krakatauCompiled = Compiler.KRAKATAU_ASSEMBLER.getCompiler().compile(krakatauText, origNode.name);
-                        
-                        if (krakatauCompiled != null)
-                        {
-                            try {
-                                ClassNode newNode = JarUtils.getNode(krakatauCompiled);
-                                BytecodeViewer.updateNode(origNode, newNode);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        else
-                        {
-                            BytecodeViewer.showMessage("There has been an error with assembling your Krakatau "
-                                    + "Bytecode, please check this. Class: " + origNode.name);
-                            BytecodeViewer.viewer.updateBusyStatus(false);
-                            return false;
-                        }
-                    }
-                }
-
-                //default to java compiling
-                if (cv.resourceViewPanel1.textArea != null && cv.resourceViewPanel1.textArea.isEditable() ||
-                        cv.resourceViewPanel2.textArea != null && cv.resourceViewPanel2.textArea.isEditable() ||
-                        cv.resourceViewPanel3.textArea != null && cv.resourceViewPanel3.textArea.isEditable())
-                {
+                if(cv.resourceViewPanel3.textArea.isEditable())
                     actuallyTried = true;
-                    Object[] java = cv.getJava();
-                    if (java != null) {
-                        ClassNode origNode = (ClassNode) java[0];
-                        String javaText = (String) java[1];
-
-                        SystemErrConsole errConsole = new SystemErrConsole("Java Compile Issues");
-                        errConsole.setText("Error compiling class: " + origNode.name + nl + "Keep in mind most "
-                                + "decompilers cannot produce compilable classes" + nl + nl);
-
-                        byte[] javaCompiled = Compiler.JAVA_COMPILER.getCompiler().compile(javaText, origNode.name);
-                        if (javaCompiled != null)
-                        {
-                            try {
-                                ClassNode newNode = JarUtils.getNode(javaCompiled);
-                                BytecodeViewer.updateNode(origNode, newNode);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            errConsole.finished();
-                        }
-                        else
-                        {
-                            errConsole.pretty();
-                            errConsole.setVisible(true);
-                            errConsole.finished();
-                            BytecodeViewer.viewer.updateBusyStatus(false);
-                            return false;
-                        }
-                    }
-                }
             }
         }
 
         if (message)
+        {
             if (actuallyTried)
-                BytecodeViewer.showMessage("Compiled Successfully.");
+            {
+                if(noErrors)
+                    BytecodeViewer.showMessage("Compiled Successfully.");
+            }
             else
+            {
                 BytecodeViewer.showMessage("You have no editable panes opened, make one editable and try again.");
+            }
+        }
 
         BytecodeViewer.viewer.updateBusyStatus(false);
         return true;

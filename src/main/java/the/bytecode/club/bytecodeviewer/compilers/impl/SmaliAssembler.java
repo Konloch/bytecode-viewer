@@ -56,7 +56,8 @@ public class SmaliAssembler extends InternalCompiler
         try {
             DiskWriter.replaceFile(tempSmali.getAbsolutePath(), contents, false);
         } catch (final Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            e.printStackTrace();
+            //new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
 
         try {
@@ -64,7 +65,7 @@ public class SmaliAssembler extends InternalCompiler
             // .getAbsolutePath()});
         } catch (Exception e) {
             e.printStackTrace();
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            //new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
 
 
@@ -96,7 +97,8 @@ public class SmaliAssembler extends InternalCompiler
                 return FileUtils.readFileToByteArray(outputClass);
             } catch (java.lang.NullPointerException ignored) { }
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            e.printStackTrace();
+            //new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
 
         return null;

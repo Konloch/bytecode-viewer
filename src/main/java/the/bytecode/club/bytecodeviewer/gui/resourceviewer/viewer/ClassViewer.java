@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourcePanelCompileMode;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceViewPanel;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
 import java.awt.BorderLayout;
@@ -62,9 +61,9 @@ public class ClassViewer extends ResourceViewer
 {
     public JSplitPane sp;
     public JSplitPane sp2;
-    public ResourceViewPanel resourceViewPanel1 = new ResourceViewPanel(0);
-    public ResourceViewPanel resourceViewPanel2 = new ResourceViewPanel(1);
-    public ResourceViewPanel resourceViewPanel3 = new ResourceViewPanel(2);
+    public ResourceViewPanel resourceViewPanel1 = new ResourceViewPanel(0, this);
+    public ResourceViewPanel resourceViewPanel2 = new ResourceViewPanel(1, this);
+    public ResourceViewPanel resourceViewPanel3 = new ResourceViewPanel(2, this);
     
     public File[] tempFiles;
     public ClassViewer THIS = this;
@@ -209,42 +208,6 @@ public class ClassViewer extends ResourceViewer
     {
         if(tabbedPane != null)
             tabbedPane.label.setText(getTabName());
-    }
-    
-    public Object[] getSmali()
-    {
-        if (resourceViewPanel1.compileMode == ResourcePanelCompileMode.SMALI_ASSEMBLY)
-            return new Object[]{cn, resourceViewPanel1.textArea.getText()};
-        if (resourceViewPanel2.compileMode == ResourcePanelCompileMode.SMALI_ASSEMBLY)
-            return new Object[]{cn, resourceViewPanel2.textArea.getText()};
-        if (resourceViewPanel3.compileMode == ResourcePanelCompileMode.SMALI_ASSEMBLY)
-            return new Object[]{cn, resourceViewPanel3.textArea.getText()};
-
-        return null;
-    }
-
-    public Object[] getKrakatau()
-    {
-        if (resourceViewPanel1.compileMode == ResourcePanelCompileMode.KRAKATAU_ASSEMBLY)
-            return new Object[]{cn, resourceViewPanel1.textArea.getText()};
-        if (resourceViewPanel2.compileMode == ResourcePanelCompileMode.KRAKATAU_ASSEMBLY)
-            return new Object[]{cn, resourceViewPanel2.textArea.getText()};
-        if (resourceViewPanel3.compileMode == ResourcePanelCompileMode.KRAKATAU_ASSEMBLY)
-            return new Object[]{cn, resourceViewPanel3.textArea.getText()};
-
-        return null;
-    }
-
-    public Object[] getJava()
-    {
-        if (resourceViewPanel1.textArea != null)
-            return new Object[]{cn, resourceViewPanel1.textArea.getText()};
-        if (resourceViewPanel2.textArea != null)
-            return new Object[]{cn, resourceViewPanel2.textArea.getText()};
-        if (resourceViewPanel3.textArea != null)
-            return new Object[]{cn, resourceViewPanel3.textArea.getText()};
-
-        return null;
     }
     
     public void setPanes() {
