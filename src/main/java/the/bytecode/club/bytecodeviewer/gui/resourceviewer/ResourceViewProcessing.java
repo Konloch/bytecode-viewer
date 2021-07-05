@@ -110,7 +110,7 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 						else if(isPanelEditable && decompiler == Decompiler.KRAKATAU_DISASSEMBLER)
 							resourceViewPanel.compileMode = Compiler.KRAKATAU_ASSEMBLER;
 						
-						resourceViewPanel.textArea.getTitleHeader().setText(decompiler.getDecompilerName() + " - Editable: " + resourceViewPanel.textArea.isEditable());
+						resourceViewPanel.textArea.getTitleHeader().setText(decompiler.getDecompilerName() + " - Editable: " + isPanelEditable);
 						resourceViewPanel.textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN,
 								(int) BytecodeViewer.viewer.fontSpinner.getValue()));
 						
