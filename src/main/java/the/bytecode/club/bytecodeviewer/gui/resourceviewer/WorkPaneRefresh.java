@@ -35,12 +35,6 @@ public class WorkPaneRefresh implements Runnable
 		if(tabComp == null)
 			return;
 		
-		if(src != null)
-		{
-			JButton finalSrc = src;
-			SwingUtilities.invokeLater(()-> finalSrc.setEnabled(false));
-		}
-		
 		BytecodeViewer.viewer.updateBusyStatus(true);
 		
 		if (tabComp instanceof ClassViewer)
