@@ -12,8 +12,8 @@ import java.io.IOException;
  */
 public enum PluginTemplate
 {
-	JAVA("/templates/Template.java"),
-	JAVASCRIPT("/templates/Template.js"),
+	JAVA("/templates/Template_Plugin.java"),
+	JAVASCRIPT("/templates/Template_Plugin.js"),
 	;
 	
 	private final String resourcePath;
