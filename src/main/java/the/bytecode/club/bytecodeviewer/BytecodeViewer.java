@@ -75,9 +75,8 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  * http://the.bytecode.club
  *
  * TODO BUGS:
- *      + Pane krakatau bytecode edit option fails to save
+ *      + Panes that currently are being opened/decompiled should not be able to be refreshed - Causes a lock
  *      + View>Visual Settings>Show Class Methods
- *      + The compile mode inside the ResourceViewPanel for Krakatau and Smali assembly needs to be changed when opened with those specific decompilers
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
  *      + Versioning and updating need to be fixed
@@ -87,6 +86,7 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  * TODO IN-PROGRESS:
  *      + While loading an external plugin it should check if its java or JS, if so it should ask if you'd like to run or edit the plugin using the PluginWriter
  *      + Resource Importer needs to be rewritten to handle resources better
+ *      + Resource Exporter/Save/Decompile As Zip needs to be rewrittern
  *      + Finish dragging code
  *      + Finish right-click tab menu detection
  *      + Fix hook inject for EZ-Injection
@@ -105,7 +105,7 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *
  *  TODO IDEAS:
  *      + App Bundle Support
- *      + Add the setting to force all non-classes to be opened with the Hex Viewer
+ *      + Add the setting to force all non-class resources to be opened with the Hex Viewer
  *          ^ Optionally a right-click menu open-as would work inside of the resource list
  *      + Allow class files to be opened without needing the .class extension
  *          ^ Easiest way to do this is to read the file header CAFEBABE on resource view
@@ -131,6 +131,7 @@ public class BytecodeViewer
     public static final DecompilerViewComponent krakatau = new DecompilerViewComponent("Krakatau", true);
     public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final boolean EXPERIMENTAL_TAB_CODE = false;
+    public static final boolean DEV_MODE = false; //if true error streams as preserved
     
     /**
      * The version checker thread

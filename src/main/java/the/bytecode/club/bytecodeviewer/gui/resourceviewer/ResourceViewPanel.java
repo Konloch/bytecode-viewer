@@ -76,6 +76,7 @@ public class ResourceViewPanel
 		
 		//WARNING: Any errors thrown will get swallowed by this class
 		//if it fails to display it may be hiding exceptions you can't see
+		//make sure to enable DEV_MODE in BytecodeViewer
 		
 		SystemErrConsole errConsole = new SystemErrConsole("Java Compile Issues");
 		errConsole.setText("Error compiling class: " + viewer.cn.name +
