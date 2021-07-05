@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.resources.importing;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Settings;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
@@ -49,6 +50,7 @@ public class ImportResource implements Runnable
 				{
 					update = false;
 					BytecodeViewer.showMessage("The file " + file.getAbsolutePath() + " could not be found.");
+					Settings.removeRecentFile(file);
 				}
 				else
 				{

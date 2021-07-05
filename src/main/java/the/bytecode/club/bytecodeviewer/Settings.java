@@ -52,7 +52,7 @@ public class Settings
 	 *
 	 * @param f the recent file
 	 */
-	public static void addRecentFile(File f)
+	public static synchronized void addRecentFile(File f)
 	{
 		recentFiles.remove(f.getAbsolutePath()); // already added on the list
 		recentFiles.add(0, f.getAbsolutePath());
@@ -61,18 +61,36 @@ public class Settings
 		resetRecentFilesMenu();
 	}
 	
+	public static synchronized void removeRecentFile(File f)
+	{
+		if(recentFiles.remove(f.getAbsolutePath()))
+		{
+			DiskWriter.replaceFile(filesName, MiscUtils.listToString(recentFiles), false);
+			resetRecentFilesMenu();
+		}
+	}
+	
 	/**
 	 * Add to the recent plugin list
 	 *
 	 * @param f the plugin file
 	 */
-	public static void addRecentPlugin(File f)
+	public static synchronized void addRecentPlugin(File f)
 	{
 		recentPlugins.remove(f.getAbsolutePath()); // already added on the list
 		recentPlugins.add(0, f.getAbsolutePath());
 		MiscUtils.deduplicateAndTrim(recentPlugins, 25);
 		DiskWriter.replaceFile(pluginsName, MiscUtils.listToString(recentPlugins), false);
 		resetRecentFilesMenu();
+	}
+	
+	public static synchronized void removeRecentPlugin(File f)
+	{
+		if(recentPlugins.remove(f.getAbsolutePath()))
+		{
+			DiskWriter.replaceFile(pluginsName, MiscUtils.listToString(recentPlugins), false);
+			resetRecentFilesMenu();
+		}
 	}
 	
 	/**

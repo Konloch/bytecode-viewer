@@ -509,7 +509,11 @@ public class BytecodeViewer
      */
     public static void startPlugin(File file) {
         if (!file.exists())
+        {
+            BytecodeViewer.showMessage("The plugin file " + file.getAbsolutePath() + " could not be found.");
+            Settings.removeRecentPlugin(file);
             return;
+        }
 
         try {
             PluginManager.runPlugin(file);
