@@ -241,25 +241,25 @@ public class SettingsSerializer
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.viewPane1.getSmali().getEditable().isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.viewer.viewPane2.getProcyon().getJava().isSelected()), false);
+                    String.valueOf(BytecodeViewer.viewer.viewPane2.getProcyon().getEditable().isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.viewer.viewPane2.getCFR().getJava().isSelected()), false);
+                    String.valueOf(BytecodeViewer.viewer.viewPane2.getCFR().getEditable().isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.viewer.viewPane2.getFern().getJava().isSelected()), false);
+                    String.valueOf(BytecodeViewer.viewer.viewPane2.getFern().getEditable().isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.viewer.viewPane2.getKrakatau().getJava().isSelected()), false);
+                    String.valueOf(BytecodeViewer.viewer.viewPane2.getKrakatau().getEditable().isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.viewer.viewPane2.getSmali().getJava().isSelected()), false);
+                    String.valueOf(BytecodeViewer.viewer.viewPane2.getSmali().getEditable().isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.viewer.viewPane3.getProcyon().getJava().isSelected()), false);
+                    String.valueOf(BytecodeViewer.viewer.viewPane3.getProcyon().getEditable().isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.viewer.viewPane3.getCFR().getJava().isSelected()), false);
+                    String.valueOf(BytecodeViewer.viewer.viewPane3.getCFR().getEditable().isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.viewer.viewPane3.getFern().getJava().isSelected()), false);
+                    String.valueOf(BytecodeViewer.viewer.viewPane3.getFern().getEditable().isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.viewer.viewPane3.getKrakatau().getJava().isSelected()), false);
+                    String.valueOf(BytecodeViewer.viewer.viewPane3.getKrakatau().getEditable().isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
-                    String.valueOf(BytecodeViewer.viewer.viewPane3.getSmali().getJava().isSelected()), false);
+                    String.valueOf(BytecodeViewer.viewer.viewPane3.getSmali().getEditable().isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
                     String.valueOf(BytecodeViewer.viewer.decodeAPKResources.isSelected()), false);
             DiskWriter.writeNewLine(settingsName,
