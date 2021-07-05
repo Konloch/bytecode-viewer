@@ -74,6 +74,8 @@ public class ResourceViewPanel
 		if(!textArea.isEditable())
 			return true;
 		
+		//WARNING: Any errors thrown will get swallowed by this class
+		//if it fails to display it may be hiding exceptions you can't see
 		
 		SystemErrConsole errConsole = new SystemErrConsole("Java Compile Issues");
 		errConsole.setText("Error compiling class: " + viewer.cn.name +
