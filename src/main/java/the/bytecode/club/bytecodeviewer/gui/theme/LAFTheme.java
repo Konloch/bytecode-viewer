@@ -56,11 +56,31 @@ public enum LAFTheme
 			
 			case DARK:
 				LafManager.install(new DarculaTheme());
+				failSafe();
 				break;
 			
 			case LIGHT:
 				LafManager.install(new IntelliJTheme());
+				failSafe();
 				break;
+		}
+	}
+	
+	/**
+	 * Attempts to failsafe by forcing an error before the mainviewer is called.
+	 * It then defaults to the system theme
+	 */
+	private static void failSafe() throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException
+	{
+		try
+		{
+			JInternalFrame test = new JInternalFrame("Test LAF");
+			test.dispose();
+		}
+		catch(Error e)
+		{
+			e.printStackTrace();
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 	}
 }
