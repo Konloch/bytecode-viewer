@@ -124,7 +124,6 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 							Thread.sleep(1);
 						} catch (Exception e) {}
 					}
-					
 				}
 			}
 		}

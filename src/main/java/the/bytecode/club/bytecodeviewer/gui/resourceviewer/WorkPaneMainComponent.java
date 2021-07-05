@@ -179,6 +179,11 @@ public class WorkPaneMainComponent extends VisibleComponent
         //create a new tab if the resource isn't opened currently
         if (!openedTabs.contains(workingName))
         {
+            if(resourceView instanceof ClassViewer)
+            {
+                ((ClassViewer)resourceView).startPaneUpdater(null);
+            }
+            
             resourceView.workingName = workingName;
             
             tabs.add(resourceView);

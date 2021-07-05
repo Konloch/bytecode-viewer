@@ -81,16 +81,9 @@ public class ClassViewer extends ResourceViewer
         this.setLayout(new BorderLayout());
 
         this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, resourceViewPanel1.panel, resourceViewPanel2.panel);
-        final ClassWriter cw = new ClassWriter(0);
-        cn.accept(cw);
-        JHexEditor hex = new JHexEditor(cw.toByteArray());
         this.sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, resourceViewPanel3.panel);
         this.add(sp2, BorderLayout.CENTER);
 
-        hex.setMaximumSize(new Dimension(0, Integer.MAX_VALUE));
-        hex.setSize(0, Integer.MAX_VALUE);
-
-        startPaneUpdater(null);
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
