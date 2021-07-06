@@ -28,16 +28,21 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
  * @author Konloch
  */
 
-public abstract class Plugin extends Thread {
-
+public abstract class Plugin extends Thread
+{
     @Override
-    public void run() {
+    public void run()
+    {
         BytecodeViewer.viewer.updateBusyStatus(true);
-        try {
-            if (BytecodeViewer.getLoadedClasses().isEmpty()) {
+        
+        try
+        {
+            if (BytecodeViewer.getLoadedClasses().isEmpty())
+            {
                 BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
                 return;
             }
+            
             execute(BytecodeViewer.getLoadedClasses());
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
