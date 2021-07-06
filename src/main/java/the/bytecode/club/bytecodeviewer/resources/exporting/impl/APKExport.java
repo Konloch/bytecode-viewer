@@ -92,14 +92,14 @@ public class APKExport implements Exporter
 				
 				Thread saveThread = new Thread(() ->
 				{
-					BytecodeViewer.viewer.updateBusyStatus(true);
+					BytecodeViewer.updateBusyStatus(true);
 					final String input = tempDirectory + fs + MiscUtils.getRandomizedName() + ".jar";
 					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 					
 					Thread buildAPKThread = new Thread(() ->
 					{
 						APKTool.buildAPK(new File(input), file2, finalContainer);
-						BytecodeViewer.viewer.updateBusyStatus(false);
+						BytecodeViewer.updateBusyStatus(false);
 					}, "Process APK");
 					buildAPKThread.start();
 				}, "Jar Export");

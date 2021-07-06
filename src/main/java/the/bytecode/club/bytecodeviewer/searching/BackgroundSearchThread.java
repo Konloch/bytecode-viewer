@@ -41,9 +41,9 @@ public abstract class BackgroundSearchThread extends Thread
     @Override
     public void run()
     {
-        BytecodeViewer.viewer.updateBusyStatus(true);
+        BytecodeViewer.updateBusyStatus(true);
         search();
         finished = true;
-        BytecodeViewer.viewer.updateBusyStatus(false);
+        BytecodeViewer.updateBusyStatus(false);
     }
 }

@@ -22,7 +22,7 @@ public class APKResourceImporter implements Importer
 	public boolean open(File file) throws Exception
 	{
 		try {
-			BytecodeViewer.viewer.updateBusyStatus(true);
+			BytecodeViewer.updateBusyStatus(true);
 			
 			File tempCopy = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
 			
@@ -50,7 +50,7 @@ public class APKResourceImporter implements Importer
 			
 			container.classes = JarUtils.loadClasses(output);
 			
-			BytecodeViewer.viewer.updateBusyStatus(false);
+			BytecodeViewer.updateBusyStatus(false);
 			BytecodeViewer.files.add(container);
 		} catch (final Exception e) {
 			new ExceptionUI(e);

@@ -201,7 +201,7 @@ public class BytecodeViewer {
      * @param ask if it should ask the user about resetting the workspace
      */
     public static void resetWorkSpace(boolean ask) {
-        the.bytecode.club.bytecodeviewer.BytecodeViewer.resetWorkSpace(ask);
+        the.bytecode.club.bytecodeviewer.BytecodeViewer.resetWorkspace(ask);
     }
 
     /**
@@ -211,7 +211,7 @@ public class BytecodeViewer {
      * @param busy if it should display the busy icon or not
      */
     public static void setBusy(boolean busy) {
-        the.bytecode.club.bytecodeviewer.BytecodeViewer.viewer.updateBusyStatus(busy);
+        the.bytecode.club.bytecodeviewer.BytecodeViewer.updateBusyStatus(busy);
     }
 
     /**

@@ -58,7 +58,7 @@ public class DexExport implements Exporter
 				
 				Thread saveAsJar = new Thread(() ->
 				{
-					BytecodeViewer.viewer.updateBusyStatus(true);
+					BytecodeViewer.updateBusyStatus(true);
 					final String input = tempDirectory + fs + MiscUtils.getRandomizedName() + ".jar";
 					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 					
@@ -66,7 +66,7 @@ public class DexExport implements Exporter
 					{
 						Dex2Jar.saveAsDex(new File(input), outputPath);
 						
-						BytecodeViewer.viewer.updateBusyStatus(false);
+						BytecodeViewer.updateBusyStatus(false);
 					}, "Process DEX");
 					saveAsDex.start();
 				}, "Jar Export");

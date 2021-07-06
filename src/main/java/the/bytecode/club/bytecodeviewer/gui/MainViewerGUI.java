@@ -332,7 +332,7 @@ public class MainViewerGUI extends JFrame
         saveAsZip.setActionCommand("");
     
         addResource.addActionListener(e -> selectFile());
-        newWorkSpace.addActionListener(e -> BytecodeViewer.resetWorkSpace(true));
+        newWorkSpace.addActionListener(e -> BytecodeViewer.resetWorkspace(true));
         reloadResources.addActionListener(arg0 -> reloadResources());
         runButton.addActionListener(e -> runResources());
         compileButton.addActionListener(arg0 -> compileOnNewThread());
@@ -840,9 +840,9 @@ public class MainViewerGUI extends JFrame
         if(file == null)
             return;
         
-        BytecodeViewer.viewer.updateBusyStatus(true);
+        BytecodeViewer.updateBusyStatus(true);
         BytecodeViewer.openFiles(new File[]{file}, true);
-        BytecodeViewer.viewer.updateBusyStatus(false);
+        BytecodeViewer.updateBusyStatus(false);
     }
 
     public void selectPythonC()
@@ -932,9 +932,9 @@ public class MainViewerGUI extends JFrame
         if(file == null)
             return;
     
-        BytecodeViewer.viewer.updateBusyStatus(true);
+        BytecodeViewer.updateBusyStatus(true);
         BytecodeViewer.startPlugin(file);
-        BytecodeViewer.viewer.updateBusyStatus(false);
+        BytecodeViewer.updateBusyStatus(false);
         SettingsSerializer.saveSettingsAsync();
     }
     

@@ -18,24 +18,18 @@ import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
-import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
-import the.bytecode.club.bytecodeviewer.gui.resourcesearch.SearchBoxPane;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkPaneMainComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.util.*;
 import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
 
-import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 import static the.bytecode.club.bytecodeviewer.Settings.addRecentPlugin;
-import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentTypes.JAVA;
 import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentTypes.JAVA_AND_BYTECODE;
 import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
 
@@ -440,7 +434,7 @@ public class BytecodeViewer
      * @return true if no errors, false if it failed to compile.
      */
     public static boolean compile(boolean message, boolean successAlert) {
-        BytecodeViewer.viewer.updateBusyStatus(true);
+        BytecodeViewer.updateBusyStatus(true);
         boolean noErrors = true;
         boolean actuallyTried = false;
     
@@ -479,7 +473,7 @@ public class BytecodeViewer
             }
         }
         
-        BytecodeViewer.viewer.updateBusyStatus(false);
+        BytecodeViewer.updateBusyStatus(false);
         return true;
     }
 
@@ -499,7 +493,7 @@ public class BytecodeViewer
             SettingsSerializer.saveSettingsAsync();
         }
 
-        BytecodeViewer.viewer.updateBusyStatus(true);
+        BytecodeViewer.updateBusyStatus(true);
         Configuration.needsReDump = true;
         Thread t = new Thread(new ImportResource(files), "Import Resource");
         t.start();
@@ -534,13 +528,29 @@ public class BytecodeViewer
     public static void showMessage(String message) {
         BetterJOptionPane.showMessageDialog(viewer, message);
     }
+    
+    /**
+     * Alerts the user the program is running something in the background
+     */
+    public static void updateBusyStatus(boolean busyStatus)
+    {
+        viewer.updateBusyStatus(busyStatus);
+    }
+    
+    /**
+     * Clears all active busy status icons
+     */
+    public static void clearBusyStatus()
+    {
+        viewer.clearBusyStatus();
+    }
 
     /**
      * Resets the workspace with optional user input required
      *
      * @param ask if should require user input or not
      */
-    public static void resetWorkSpace(boolean ask)
+    public static void resetWorkspace(boolean ask)
     {
         if (ask)
         {
@@ -548,17 +558,12 @@ public class BytecodeViewer
                     "Are you sure you want to reset the workspace?" +
                             "\n\rIt will also reset your file navigator and search.",
                     new String[]{"Yes", "No"});
-
+        
             if (dialogue.promptChoice() != 0)
                 return;
         }
-
-        files.clear();
-        LazyNameUtil.reset();
-        Objects.requireNonNull(MainViewerGUI.getComponent(ResourceListPane.class)).resetWorkspace();
-        Objects.requireNonNull(MainViewerGUI.getComponent(WorkPaneMainComponent.class)).resetWorkspace();
-        Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).resetWorkspace();
-        the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
+    
+        BCVResourceUtils.resetWorkspace();
     }
     
     /**
@@ -579,8 +584,7 @@ public class BytecodeViewer
 
         try {
             FileUtils.deleteDirectory(tempF);
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) { }
 
         while (!tempF.exists()) // keep making dirs
             tempF.mkdir();
@@ -615,12 +619,12 @@ public class BytecodeViewer
             if(file == null)
                 return;
     
-            BytecodeViewer.viewer.updateBusyStatus(true);
+            BytecodeViewer.updateBusyStatus(true);
             BytecodeViewer.openFiles(new File[]{file}, true);
-            BytecodeViewer.viewer.updateBusyStatus(false);
+            BytecodeViewer.updateBusyStatus(false);
         } else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-            BytecodeViewer.resetWorkSpace(true);
+            BytecodeViewer.resetWorkspace(true);
         } else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
             Thread t = new Thread(() -> BytecodeViewer.compile(true, false), "Compile");
@@ -664,11 +668,11 @@ public class BytecodeViewer
 
                     final File file2 = file;
 
-                    BytecodeViewer.viewer.updateBusyStatus(true);
+                    BytecodeViewer.updateBusyStatus(true);
                     Thread jarExport = new Thread(() -> {
                         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
                                 file2.getAbsolutePath());
-                        BytecodeViewer.viewer.updateBusyStatus(false);
+                        BytecodeViewer.updateBusyStatus(false);
                     }, "Jar Export");
                     jarExport.start();
                 }
@@ -680,75 +684,6 @@ public class BytecodeViewer
             Configuration.lastHotKeyExecuted = System.currentTimeMillis();
             if (viewer.workPane.getCurrentViewer() != null)
                 viewer.workPane.tabs.remove(viewer.workPane.getCurrentViewer());
-        }
-    }
-
-    public static File[] dumpTempFile(FileContainer container)
-    {
-        File[] files = new File[2];
-        
-        //currently won't optimize if you've got two containers with the same name, will need to add this later
-        if (!LazyNameUtil.SAME_NAME_JAR_WORKSPACE) {
-            if (Configuration.krakatauTempJar != null && !Configuration.krakatauTempJar.exists()) {
-                Configuration.needsReDump = true;
-            }
-
-            if (Configuration.needsReDump && Configuration.krakatauTempJar != null) {
-                Configuration.krakatauTempDir = null;
-                Configuration.krakatauTempJar = null;
-            }
-
-            boolean passes = false;
-
-            if (BytecodeViewer.viewer.viewPane1.getGroup().isSelected(BytecodeViewer.viewer.viewPane1.getKrakatau().getJava().getModel()))
-                passes = true;
-            else if (BytecodeViewer.viewer.viewPane1.getGroup().isSelected(BytecodeViewer.viewer.viewPane1.getKrakatau().getBytecode().getModel()))
-                passes = true;
-            else if (BytecodeViewer.viewer.viewPane2.getGroup().isSelected(BytecodeViewer.viewer.viewPane2.getKrakatau().getJava().getModel()))
-                passes = true;
-            else if (BytecodeViewer.viewer.viewPane2.getGroup().isSelected(BytecodeViewer.viewer.viewPane2.getKrakatau().getBytecode().getModel()))
-                passes = true;
-            else if (BytecodeViewer.viewer.viewPane3.getGroup().isSelected(BytecodeViewer.viewer.viewPane3.getKrakatau().getJava().getModel()))
-                passes = true;
-            else if (BytecodeViewer.viewer.viewPane3.getGroup().isSelected(BytecodeViewer.viewer.viewPane3.getKrakatau().getBytecode().getModel()))
-                passes = true;
-
-            if (Configuration.krakatauTempJar != null || !passes) {
-                files[0] = Configuration.krakatauTempJar;
-                files[1] = Configuration.krakatauTempDir;
-                return files;
-            }
-        }
-    
-        Configuration.currentlyDumping = true;
-        Configuration.needsReDump = false;
-        Configuration.krakatauTempDir = new File(tempDirectory + fs + MiscUtils.randomString(32) + fs);
-        Configuration.krakatauTempDir.mkdir();
-        Configuration.krakatauTempJar = new File(tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
-        //krakatauTempJar = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp" + MiscUtils
-        // .randomString(32) + ".jar."+container.name);
-        JarUtils.saveAsJarClassesOnly(container.classes, Configuration.krakatauTempJar.getAbsolutePath());
-        Configuration.currentlyDumping = false;
-
-        files[0] = Configuration.krakatauTempJar;
-        files[1] = Configuration.krakatauTempDir;
-        return files;
-    }
-
-    public synchronized static void rtCheck() {
-        if (Configuration.rt.isEmpty()) {
-            if (RT_JAR.exists()) {
-                Configuration.rt = RT_JAR.getAbsolutePath();
-            } else if (RT_JAR_DUMPED.exists()) {
-                Configuration.rt = RT_JAR_DUMPED.getAbsolutePath();
-            } else {
-                try {
-                    JRTExtractor.extractRT(RT_JAR_DUMPED.getAbsolutePath());
-                    Configuration.rt = RT_JAR_DUMPED.getAbsolutePath();
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                }
-            }
         }
     }
 }

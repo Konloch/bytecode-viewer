@@ -143,7 +143,7 @@ public class EZInjection extends Plugin {
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
-        BytecodeViewer.viewer.updateBusyStatus(true);
+        BytecodeViewer.updateBusyStatus(true);
         gui.setText("");
 
         if (console)
@@ -315,6 +315,6 @@ public class EZInjection extends Plugin {
             }
         }
 
-        BytecodeViewer.viewer.updateBusyStatus(false);
+        BytecodeViewer.updateBusyStatus(false);
     }
 }

@@ -50,11 +50,11 @@ public class ZipExport implements Exporter
 				
 				final File file2 = file;
 				
-				BytecodeViewer.viewer.updateBusyStatus(true);
+				BytecodeViewer.updateBusyStatus(true);
 				Thread saveThread = new Thread(() ->
 				{
 					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file2.getAbsolutePath());
-					BytecodeViewer.viewer.updateBusyStatus(false);
+					BytecodeViewer.updateBusyStatus(false);
 				}, "Jar Export");
 				saveThread.start();
 			}

@@ -99,7 +99,7 @@ public class ImportResource implements Runnable
 		}
 		finally
 		{
-			BytecodeViewer.viewer.updateBusyStatus(false);
+			BytecodeViewer.updateBusyStatus(false);
 			
 			if (update)
 				try {

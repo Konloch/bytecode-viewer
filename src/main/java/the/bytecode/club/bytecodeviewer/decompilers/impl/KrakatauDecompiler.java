@@ -14,6 +14,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.util.BCVResourceUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
@@ -70,7 +71,7 @@ public class KrakatauDecompiler extends InternalDecompiler
             BytecodeViewer.viewer.selectPythonC();
         }
 
-        BytecodeViewer.rtCheck();
+        BCVResourceUtils.rtCheck();
         if (Configuration.rt.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)"
                     + "\\Java\\jre7\\lib\\rt.jar)");
@@ -243,7 +244,8 @@ public class KrakatauDecompiler extends InternalDecompiler
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
             BytecodeViewer.viewer.selectPythonC();
         }
-        BytecodeViewer.rtCheck();
+        
+        BCVResourceUtils.rtCheck();
         if (Configuration.rt.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your JRE RT Library." +
                     "\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");

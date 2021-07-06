@@ -26,6 +26,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
+import the.bytecode.club.bytecodeviewer.util.BCVResourceUtils;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
@@ -155,7 +156,8 @@ public class ClassViewer extends ResourceViewer
 
         Thread t = new Thread(() ->
         {
-            BytecodeViewer.viewer.updateBusyStatus(true);
+            BytecodeViewer.updateBusyStatus(true);
+            
             while (Configuration.currentlyDumping)
             {
                 //wait until it's not dumping
@@ -165,9 +167,10 @@ public class ClassViewer extends ResourceViewer
                     e.printStackTrace();
                 }
             }
-            tempFiles = BytecodeViewer.dumpTempFile(container);
+            
+            tempFiles = BCVResourceUtils.dumpTempFile(container);
 
-            BytecodeViewer.viewer.updateBusyStatus(false);
+            BytecodeViewer.updateBusyStatus(false);
 
             if (resourceViewPanel1.decompiler != Decompiler.NONE)
                 resourceViewPanel1.updateThread.startNewThread();

@@ -62,7 +62,7 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 	{
 		try
 		{
-			BytecodeViewer.viewer.updateBusyStatus(true);
+			BytecodeViewer.updateBusyStatus(true);
 			
 			if (resourceViewPanel.decompiler != Decompiler.NONE)
 			{
@@ -138,7 +138,7 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 		finally
 		{
 			viewer.resetDivider();
-			BytecodeViewer.viewer.updateBusyStatus(false);
+			BytecodeViewer.updateBusyStatus(false);
 			SwingUtilities.invokeLater(() ->
 			{
 				if (button != null)

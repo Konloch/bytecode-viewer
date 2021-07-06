@@ -33,7 +33,7 @@ public abstract class Plugin extends Thread
     @Override
     public void run()
     {
-        BytecodeViewer.viewer.updateBusyStatus(true);
+        BytecodeViewer.updateBusyStatus(true);
         
         try
         {
@@ -48,7 +48,7 @@ public abstract class Plugin extends Thread
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         } finally {
             finished = true;
-            BytecodeViewer.viewer.updateBusyStatus(false);
+            BytecodeViewer.updateBusyStatus(false);
         }
     }
 

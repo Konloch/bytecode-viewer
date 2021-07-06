@@ -35,13 +35,13 @@ public class WorkPaneRefresh implements Runnable
 		if(tabComp == null)
 			return;
 		
-		BytecodeViewer.viewer.updateBusyStatus(true);
+		BytecodeViewer.updateBusyStatus(true);
 		
 		if (tabComp instanceof ClassViewer)
 			((ClassViewer) tabComp).startPaneUpdater(src);
 		else if (tabComp instanceof FileViewer)
 			((FileViewer) tabComp).refresh(src);
 		
-		BytecodeViewer.viewer.updateBusyStatus(false);
+		BytecodeViewer.updateBusyStatus(false);
 	}
 }
