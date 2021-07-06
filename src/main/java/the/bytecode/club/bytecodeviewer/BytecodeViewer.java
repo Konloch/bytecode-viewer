@@ -114,7 +114,7 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
 
 public class BytecodeViewer
 {
-    public static String[] args;
+    public static String[] launchArgs;
     public static MainViewerGUI viewer = null;
     public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV,
     public static SecurityMan sm = new SecurityMan(); //might be insecure due to assholes targeting BCV,
@@ -137,7 +137,7 @@ public class BytecodeViewer
      */
     public static void main(String[] args)
     {
-        BytecodeViewer.args = args;
+        launchArgs = args;
         
         //welcome message
         System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + VERSION + ", " + "Fat-Jar: " + FAT_JAR);
@@ -235,8 +235,8 @@ public class BytecodeViewer
         System.out.println("Start up took " + ((System.currentTimeMillis() - Configuration.start) / 1000) + " seconds");
 
         if (!cli)
-            if (args.length >= 1)
-                for (String s : args)
+            if (launchArgs.length >= 1)
+                for (String s : launchArgs)
                     openFiles(new File[]{new File(s)}, true);
     }
 

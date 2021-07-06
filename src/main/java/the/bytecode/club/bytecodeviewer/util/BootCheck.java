@@ -15,7 +15,7 @@ import java.util.List;
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 /**
- * Loads the libraries on boot.
+ * Loads the libraries on boot. If booting failed for some reason, this kicks in as a fail safe.
  *
  * This broke with maven so now only FatJar builds will work.
  *
@@ -105,11 +105,11 @@ public class BootCheck implements Runnable
 			Boot.globalstop = false;
 			Boot.hide();
 			
-			if (CommandLineInput.parseCommandLine(BytecodeViewer.args) == CommandLineInput.OPEN_FILE)
+			if (CommandLineInput.parseCommandLine(BytecodeViewer.launchArgs) == CommandLineInput.OPEN_FILE)
 				BytecodeViewer.boot(false);
 			else {
 				BytecodeViewer.boot(true);
-				CommandLineInput.executeCommandLine(BytecodeViewer.args);
+				CommandLineInput.executeCommandLine(BytecodeViewer.launchArgs);
 			}
 		}
 	}
