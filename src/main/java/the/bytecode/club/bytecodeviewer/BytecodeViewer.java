@@ -35,6 +35,8 @@ import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 import static the.bytecode.club.bytecodeviewer.Settings.addRecentPlugin;
+import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentTypes.JAVA;
+import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentTypes.JAVA_AND_BYTECODE;
 import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
 
 /***************************************************************************
@@ -128,7 +130,7 @@ public class BytecodeViewer
     public static Refactorer refactorer = new Refactorer();
     public static List<FileContainer> files = new ArrayList<>(); //all of BCV's loaded files/classes/etc
     public static List<Process> createdProcesses = new ArrayList<>();
-    public static final DecompilerViewComponent krakatau = new DecompilerViewComponent("Krakatau", true);
+    public static final DecompilerViewComponent krakatau = new DecompilerViewComponent("Krakatau", JAVA_AND_BYTECODE);
     public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final boolean EXPERIMENTAL_TAB_CODE = false;
     public static final boolean DEV_MODE = false; //if true error streams as preserved

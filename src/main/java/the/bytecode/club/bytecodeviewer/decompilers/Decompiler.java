@@ -6,6 +6,8 @@ import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
 
 import javax.swing.*;
 
+import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentTypes.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -32,17 +34,17 @@ import javax.swing.*;
 public enum Decompiler
 {
     NONE("None", null, (JRadioButtonMenuItem) null),
-    PROCYON_DECOMPILER("Procyon Decompiler", new ProcyonDecompiler(), new DecompilerViewComponent("Procyon")),
-    CFR_DECOMPILER("CFR Decompiler", new CFRDecompiler(), new DecompilerViewComponent("Procyon")),
-    FERNFLOWER_DECOMPILER("FernFlower Decompiler", new FernFlowerDecompiler(), new DecompilerViewComponent("Procyon")),
+    PROCYON_DECOMPILER("Procyon Decompiler", new ProcyonDecompiler(), new DecompilerViewComponent("Procyon", JAVA)),
+    CFR_DECOMPILER("CFR Decompiler", new CFRDecompiler(), new DecompilerViewComponent("CFR", JAVA)),
+    FERNFLOWER_DECOMPILER("FernFlower Decompiler", new FernFlowerDecompiler(), new DecompilerViewComponent("FernFlower", JAVA)),
     BYTECODE_DISASSEMBLER("Bytecode Disassembler", new BytecodeDisassembler(), new JRadioButtonMenuItem("Bytecode")),
     HEXCODE_VIEWER("Hexcode Viewer", null, new JRadioButtonMenuItem("Hexcode")),
-    SMALI_DISASSEMBLER("Smali Disassembler", new SmaliDisassembler(), new DecompilerViewComponent("Smali")),
+    SMALI_DISASSEMBLER("Smali Disassembler", new SmaliDisassembler(), new DecompilerViewComponent("Smali", BYTECODE)),
     KRAKATAU_DECOMPILER("Krakatau Decompiler", new KrakatauDecompiler(), BytecodeViewer.krakatau),
     KRAKATAU_DISASSEMBLER("Krakatau Disassembler", new KrakatauDisassembler(), BytecodeViewer.krakatau),
-    JD_DECOMPILER("JD-GUI Decompiler", new JDGUIDecompiler(), new DecompilerViewComponent("Bytecode")),
-    JADX_DECOMPILER("JADX Decompiler", new JADXDecompiler(), new DecompilerViewComponent("JADX")),
-    ASM_TEXTIFY_DISASSEMBLER("ASM Disassembler", new ASMTextifierDecompiler(), new DecompilerViewComponent("ASM Textify")),
+    JD_DECOMPILER("JD-GUI Decompiler", new JDGUIDecompiler(), new DecompilerViewComponent("JD-GUI", JAVA)),
+    JADX_DECOMPILER("JADX Decompiler", new JADXDecompiler(), new DecompilerViewComponent("JADX", JAVA)),
+    ASM_TEXTIFY_DISASSEMBLER("ASM Disassembler", new ASMTextifierDecompiler(), new DecompilerViewComponent("ASM Textify", BYTECODE)),
     ;
     
     private final String decompilerName;

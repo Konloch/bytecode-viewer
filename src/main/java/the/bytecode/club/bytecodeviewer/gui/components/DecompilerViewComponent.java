@@ -32,27 +32,24 @@ import javax.swing.*;
 public class DecompilerViewComponent
 {
 	private final String name;
-	private final boolean hasBytecodeOption;
 	private final JMenu menu;
+	private final DecompilerComponentTypes types;
 	private final JRadioButtonMenuItem java = new TranslatedJRadioButtonMenuItem("Java", Translation.JAVA);
 	private final JRadioButtonMenuItem bytecode = new TranslatedJRadioButtonMenuItem("Bytecode", Translation.BYTECODE);
 	private final JCheckBoxMenuItem editable = new TranslatedJCheckBoxMenuItem("Editable", Translation.EDITABLE);
 	
-	public DecompilerViewComponent(String name) {
-		this(name, false);
-	}
-	
-	public DecompilerViewComponent(String name, boolean hasBytecodeOption) {
+	public DecompilerViewComponent(String name, DecompilerComponentTypes types) {
 		this.name = name;
 		this.menu = new JMenu(name);
-		this.hasBytecodeOption = hasBytecodeOption;
+		this.types = types;
 		createMenu();
 	}
 	
 	private void createMenu()
 	{
-		menu.add(java);
-		if(hasBytecodeOption)
+		if(types == DecompilerComponentTypes.JAVA || types == DecompilerComponentTypes.JAVA_AND_BYTECODE)
+			menu.add(java);
+		if(types == DecompilerComponentTypes.BYTECODE || types == DecompilerComponentTypes.JAVA_AND_BYTECODE)
 			menu.add(bytecode);
 		
 		menu.add(new JSeparator());
@@ -63,8 +60,9 @@ public class DecompilerViewComponent
 	
 	public void addToGroup(ButtonGroup group)
 	{
-		group.add(java);
-		if(hasBytecodeOption)
+		if(types == DecompilerComponentTypes.JAVA || types == DecompilerComponentTypes.JAVA_AND_BYTECODE)
+			group.add(java);
+		if(types == DecompilerComponentTypes.BYTECODE || types == DecompilerComponentTypes.JAVA_AND_BYTECODE)
 			group.add(bytecode);
 	}
 	
@@ -86,5 +84,12 @@ public class DecompilerViewComponent
 	public JCheckBoxMenuItem getEditable()
 	{
 		return editable;
+	}
+	
+	public enum DecompilerComponentTypes
+	{
+		JAVA,
+		BYTECODE,
+		JAVA_AND_BYTECODE
 	}
 }

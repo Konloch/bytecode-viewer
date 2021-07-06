@@ -8,6 +8,8 @@ import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioB
 
 import javax.swing.*;
 
+import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentTypes.*;
+
 /**
  * @author Konloch
  * @since 6/21/2021
@@ -18,13 +20,13 @@ public class DecompilerSelectionPane
 	public final JMenu menu;
 	public final ButtonGroup group = new ButtonGroup();
 	public final JRadioButtonMenuItem none = new TranslatedJRadioButtonMenuItem("None", Translation.NONE);
-	public final DecompilerViewComponent procyon = new DecompilerViewComponent("Procyon");
-	public final DecompilerViewComponent CFR = new DecompilerViewComponent("CFR");
-	public final DecompilerViewComponent JADX = new DecompilerViewComponent("JADX");
-	public final DecompilerViewComponent JD = new DecompilerViewComponent("JD-GUI");
-	public final DecompilerViewComponent fern = new DecompilerViewComponent("FernFlower");
-	public final DecompilerViewComponent krakatau = new DecompilerViewComponent("Krakatau", true);
-	public final DecompilerViewComponent smali = new DecompilerViewComponent("Smali/DEX");
+	public final DecompilerViewComponent procyon = new DecompilerViewComponent("Procyon", JAVA);
+	public final DecompilerViewComponent CFR = new DecompilerViewComponent("CFR", JAVA);
+	public final DecompilerViewComponent JADX = new DecompilerViewComponent("JADX", JAVA);
+	public final DecompilerViewComponent JD = new DecompilerViewComponent("JD-GUI", JAVA);
+	public final DecompilerViewComponent fern = new DecompilerViewComponent("FernFlower", JAVA);
+	public final DecompilerViewComponent krakatau = new DecompilerViewComponent("Krakatau", JAVA_AND_BYTECODE);
+	public final DecompilerViewComponent smali = new DecompilerViewComponent("Smali", BYTECODE);
 	public final JRadioButtonMenuItem hexcode = new TranslatedJRadioButtonMenuItem("Hexcode", Translation.HEXCODE);
 	public final JRadioButtonMenuItem bytecode = new TranslatedJRadioButtonMenuItem("Bytecode", Translation.BYTECODE);
 	public final JRadioButtonMenuItem asmTextify = new TranslatedJRadioButtonMenuItem("ASM Textify", Translation.ASM_TEXTIFY);
@@ -86,7 +88,7 @@ public class DecompilerSelectionPane
 			return Decompiler.BYTECODE_DISASSEMBLER;
 		else if (group.isSelected(hexcode.getModel()))
 			return Decompiler.HEXCODE_VIEWER;
-		else if (group.isSelected(smali.getJava().getModel()))
+		else if (group.isSelected(smali.getBytecode().getModel()))
 			return Decompiler.SMALI_DISASSEMBLER;
 		else if (group.isSelected(krakatau.getJava().getModel()))
 			return Decompiler.KRAKATAU_DECOMPILER;
@@ -128,7 +130,7 @@ public class DecompilerSelectionPane
 				group.setSelected(hexcode.getModel(), true);
 				break;
 			case SMALI_DISASSEMBLER:
-				group.setSelected(smali.getJava().getModel(), true);
+				group.setSelected(smali.getBytecode().getModel(), true);
 				break;
 			case KRAKATAU_DECOMPILER:
 				group.setSelected(krakatau.getJava().getModel(), true);
@@ -162,7 +164,7 @@ public class DecompilerSelectionPane
 			return true;
 		if((group.isSelected(krakatau.getJava().getModel()) || group.isSelected(krakatau.getBytecode().getModel())) && krakatau.getEditable().isSelected())
 			return true;
-		if(group.isSelected(smali.getJava().getModel()) && smali.getEditable().isSelected())
+		if(group.isSelected(smali.getBytecode().getModel()) && smali.getEditable().isSelected())
 			return true;
 		
 		return false;
