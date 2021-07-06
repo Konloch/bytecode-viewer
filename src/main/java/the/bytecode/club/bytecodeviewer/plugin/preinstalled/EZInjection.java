@@ -69,21 +69,22 @@ public class EZInjection extends Plugin {
                        String invokeMethodInformation, boolean sandboxRuntime,
                        boolean sandboxSystem, String debugClasses, String proxy,
                        boolean useProxy, boolean launchKit, boolean console,
-                       boolean printCmdL) {
-        the.bytecode.club.bytecodeviewer.api.BytecodeViewer
-                .createNewClassNodeLoaderInstance();
+                       boolean printCmdL)
+    {
+        the.bytecode.club.bytecodeviewer.api.BytecodeViewer.createNewClassNodeLoaderInstance();
         this.accessModifiers = accessModifiers;
         this.injectHooks = injectHooks;
         EZInjection.debugHooks = debugHooks;
         this.invokeMethod = invokeMethod;
-        this.invokeMethodInformation = invokeMethodInformation
-                + "([Ljava/lang/String;)V";
+        this.invokeMethodInformation = invokeMethodInformation + "([Ljava/lang/String;)V";
         EZInjection.sandboxRuntime = sandboxRuntime;
         EZInjection.sandboxSystem = sandboxSystem;
+        
         if (debugClasses.equals("*"))
             EZInjection.all = true;
         else
             EZInjection.debugClasses = debugClasses.split(",");
+        
         this.proxy = proxy;
         this.useProxy = useProxy;
         this.launchKit = launchKit;
@@ -91,7 +92,8 @@ public class EZInjection extends Plugin {
         EZInjection.printCmdL = printCmdL;
     }
 
-    public static void setProxy(String host, String port) {
+    public static void setProxy(String host, String port)
+    {
         System.setProperty("java.net.useSystemProxies", "true");
         System.setProperty("socksProxyHost", host);
         System.setProperty("socksProxyPort", port);
@@ -99,21 +101,25 @@ public class EZInjection extends Plugin {
 
     private static String lastMessage = "";
 
-    public static void hook(String info) {
+    public static void hook(String info)
+    {
         for (BytecodeHook hook : hookArray)
             hook.callHook(info);
 
-        if (debugHooks) {
+        if (debugHooks)
+        {
             if (lastMessage.equals(info)) // just a small anti spam measurement
                 return;
 
             lastMessage = info;
-
             boolean print = all;
 
-            if (!all && debugClasses.length >= 1) {
-                for (String s : debugClasses) {
-                    if (info.split("\\.")[0].equals(s.replaceAll("\\.", "/"))) {
+            if (!all && debugClasses.length >= 1)
+            {
+                for (String s : debugClasses)
+                {
+                    if (info.split("\\.")[0].equals(s.replaceAll("\\.", "/")))
+                    {
                         print = true;
                         break;
                     }
@@ -125,7 +131,8 @@ public class EZInjection extends Plugin {
         }
     }
 
-    public static void print(String message) {
+    public static void print(String message)
+    {
         if (printCmdL)
             System.out.println(message);
 
@@ -134,7 +141,8 @@ public class EZInjection extends Plugin {
     }
 
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList) {
+    public void execute(ArrayList<ClassNode> classNodeList)
+    {
         BytecodeViewer.viewer.updateBusyStatus(true);
         gui.setText("");
 
@@ -143,111 +151,103 @@ public class EZInjection extends Plugin {
 
         if (accessModifiers)
             print("Setting all of the access modifiers to public/public static.");
+        
         if (injectHooks)
             print("Injecting hook...");
+        
         if (debugHooks)
             print("Hooks are debugging.");
         else if (injectHooks)
             print("Hooks are not debugging.");
         else
             print("Hooks are disabled completely.");
+        
         if (useProxy)
             print("Forcing proxy as '" + proxy + "'.");
+        
         if (launchKit)
             print("Launching the Graphicial Reflection Kit upon a succcessful invoke of the main method.");
-
-        for (ClassNode classNode : classNodeList) {
-            for (Object o : classNode.fields.toArray()) {
+    
+        //force everything to be public
+        for (ClassNode classNode : classNodeList)
+        {
+            for (Object o : classNode.fields.toArray())
+            {
                 FieldNode f = (FieldNode) o;
 
-                if (accessModifiers) {
+                if (accessModifiers)
+                {
                     if (f.access == Opcodes.ACC_PRIVATE
                             || f.access == Opcodes.ACC_PROTECTED)
                         f.access = Opcodes.ACC_PUBLIC;
 
                     if (f.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_STATIC
-                            || f.access == Opcodes.ACC_PROTECTED
-                            + Opcodes.ACC_STATIC)
+                            || f.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC)
                         f.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC;
 
                     if (f.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL
-                            || f.access == Opcodes.ACC_PROTECTED
-                            + Opcodes.ACC_FINAL)
+                            || f.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL)
                         f.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL;
 
-                    if (f.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL
-                            + Opcodes.ACC_STATIC
-                            || f.access == Opcodes.ACC_PROTECTED
-                            + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC)
-                        f.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL
-                                + Opcodes.ACC_STATIC;
+                    if (f.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC
+                            || f.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC)
+                        f.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC;
                 }
             }
-            for (Object o : classNode.methods.toArray()) {
+            
+            for (Object o : classNode.methods.toArray())
+            {
                 MethodNode m = (MethodNode) o;
-
-                if (accessModifiers) {
+                if (accessModifiers)
+                {
                     if (m.access == Opcodes.ACC_PRIVATE
                             || m.access == Opcodes.ACC_PROTECTED)
                         m.access = Opcodes.ACC_PUBLIC;
 
                     if (m.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_STATIC
-                            || m.access == Opcodes.ACC_PROTECTED
-                            + Opcodes.ACC_STATIC)
+                            || m.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC)
                         m.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC;
 
                     if (m.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL
-                            || m.access == Opcodes.ACC_PROTECTED
-                            + Opcodes.ACC_FINAL)
+                            || m.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL)
                         m.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL;
 
-                    if (m.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL
-                            + Opcodes.ACC_STATIC
-                            || m.access == Opcodes.ACC_PROTECTED
-                            + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC)
-                        m.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL
-                                + Opcodes.ACC_STATIC;
+                    if (m.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC
+                            || m.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC)
+                        m.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC;
                 }
 
                 if (injectHooks
                         && m.access != Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PUBLIC
-                        + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PRIVATE
-                        + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PROTECTED
-                        + Opcodes.ACC_ABSTRACT
+                        && m.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_ABSTRACT
+                        && m.access != Opcodes.ACC_PRIVATE + Opcodes.ACC_ABSTRACT
+                        && m.access != Opcodes.ACC_PROTECTED + Opcodes.ACC_ABSTRACT
                         && m.access != Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL
-                        + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL
-                        + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PROTECTED
-                        + Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL
-                        + Opcodes.ACC_STATIC + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL
-                        + Opcodes.ACC_STATIC + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PROTECTED
-                        + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC
-                        + Opcodes.ACC_ABSTRACT) {
+                        && m.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT
+                        && m.access != Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT
+                        && m.access != Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT
+                        && m.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ABSTRACT
+                        && m.access != Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ABSTRACT
+                        && m.access != Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ABSTRACT)
+                {
                     boolean inject = true;
                     if (m.instructions.size() >= 2
-                            && m.instructions.get(1) instanceof MethodInsnNode) {
-                        MethodInsnNode mn = (MethodInsnNode) m.instructions
-                                .get(1);
-                        if (mn.owner
-                                .equals(EZInjection.class.getName().replace(".", "/")))//"the/bytecode/club
-                            // /bytecodeviewer/plugins/EZInjection")) // already been injected
+                            && m.instructions.get(1) instanceof MethodInsnNode)
+                    {
+                        MethodInsnNode mn = (MethodInsnNode) m.instructions.get(1);
+    
+                        // already been injected
+                        if (mn.owner.equals(EZInjection.class.getName().replace(".", "/")))
                             inject = false;
                     }
-                    if (inject) {
+                    
+                    if (inject)
+                    {
                         // make this function grab parameters eventually
                         m.instructions
                                 .insert(new MethodInsnNode(
                                         Opcodes.INVOKESTATIC,
-                                        EZInjection.class.getName().replace(".", "/"),//"the/bytecode/club
-                                        // /bytecodeviewer/plugins/EZInjection",
+                                        EZInjection.class.getName().replace(".", "/"),
                                         "hook", "(Ljava/lang/String;)V"));
                         m.instructions.insert(new LdcInsnNode(classNode.name
                                 + "." + m.name + m.desc));
@@ -256,8 +256,10 @@ public class EZInjection extends Plugin {
             }
         }
 
-        if (useProxy) {
-            try {
+        if (useProxy)
+        {
+            try
+            {
                 String[] split = proxy.split(":");
                 setProxy(split[0], split[1]);
             } catch (Exception e) {
@@ -269,32 +271,38 @@ public class EZInjection extends Plugin {
 
         setFinished();
 
-        if (invokeMethod) {
+        if (invokeMethod)
+        {
+            // load all the classnodes into the classloader
             for (ClassNode cn : BytecodeViewer.getLoadedClasses())
-                // load all the classnodes into the classloader
-                the.bytecode.club.bytecodeviewer.api.BytecodeViewer
-                        .getClassNodeLoader().addClass(cn);
+                the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().addClass(cn);
 
             print("Invoking " + invokeMethodInformation + ":" + nl + nl);
 
-            for (ClassNode classNode : classNodeList) {
-                for (Object o : classNode.methods.toArray()) {
+            for (ClassNode classNode : classNodeList)
+            {
+                for (Object o : classNode.methods.toArray())
+                {
                     MethodNode m = (MethodNode) o;
-                    String methodInformation = classNode.name + "." + m.name
-                            + m.desc;
-                    if (invokeMethodInformation.equals(methodInformation)) {
+                    String methodInformation = classNode.name + "." + m.name + m.desc;
+                    
+                    if (invokeMethodInformation.equals(methodInformation))
+                    {
                         for (Method m2 : the.bytecode.club.bytecodeviewer.api.BytecodeViewer
                                 .getClassNodeLoader().nodeToClass(classNode)
-                                .getMethods()) {
-                            if (m2.getName().equals(m.name)) {
-                                try {
-                                    m2.invoke(classNode.getClass()
-                                                    .newInstance(),
-                                            (Object[]) new String[1]);
+                                .getMethods())
+                        {
+                            if (m2.getName().equals(m.name))
+                            {
+                                try
+                                {
+                                    m2.invoke(classNode.getClass().newInstance(), (Object[]) new String[1]);
+                                    
                                     if (launchKit)
-                                        new GraphicalReflectionKit()
-                                                .setVisible(true);
-                                } catch (Exception e) {
+                                        new GraphicalReflectionKit().setVisible(true);
+                                }
+                                catch (Exception e)
+                                {
                                     StringWriter sw = new StringWriter();
                                     e.printStackTrace(new PrintWriter(sw));
                                     e.printStackTrace();
