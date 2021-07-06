@@ -38,22 +38,20 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class ExceptionUI extends JFrame {
-
-    private static final long serialVersionUID = -5230501978224926296L;
-
+public class ExceptionUI extends JFrame
+{
     /**
      * @param e The exception to be shown
      */
     public ExceptionUI(Throwable e) {
-        setup(e, "@Konloch - konloch@gmail.com");
+        setupException(e, "@Konloch - konloch@gmail.com");
     }
 
     /**
      * @param e The exception to be shown
      */
     public ExceptionUI(String e) {
-        setup(e, "@Konloch - konloch@gmail.com");
+        setupFrame(e, "@Konloch - konloch@gmail.com");
     }
 
     /**
@@ -61,7 +59,7 @@ public class ExceptionUI extends JFrame {
      * @param author the author of the plugin throwing this exception.
      */
     public ExceptionUI(Throwable e, String author) {
-        setup(e, author);
+        setupException(e, author);
     }
 
     /**
@@ -69,58 +67,55 @@ public class ExceptionUI extends JFrame {
      * @param author the author of the plugin throwing this exception.
      */
     public ExceptionUI(String e, String author) {
-        setup(e, author);
+        setupFrame(e, author);
     }
 
-    private void setup(Throwable e, String author)
+    private void setupException(Throwable error, String author)
     {
         //exceptions are completely hidden
         if(Configuration.silenceExceptionGUI > 0)
             return;
-        
+    
         //exception GUI is disabled but printstack is still enabled
         if(Configuration.pauseExceptionGUI > 0)
         {
-            e.printStackTrace();
+            error.printStackTrace();
             return;
         }
         
+        StringWriter sw = new StringWriter();
+        error.printStackTrace(new PrintWriter(sw));
+        error.printStackTrace();
+        
+        setupFrame(sw.toString(), author);
+    }
+
+    private void setupFrame(String error, String author)
+    {
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(600, 400));
         setTitle("Bytecode Viewer " + VERSION + " - Stack Trace - Send this to " + author);
         getContentPane().setLayout(new CardLayout(0, 0));
 
-        JTextArea txtrBytecodeViewerIs = new JTextArea();
-        txtrBytecodeViewerIs.setDisabledTextColor(Color.BLACK);
-        txtrBytecodeViewerIs.setWrapStyleWord(true);
-        getContentPane().add(new JScrollPane(txtrBytecodeViewerIs), "name_140466576080695");
-        StringWriter sw = new StringWriter();
-        e.printStackTrace(new PrintWriter(sw));
-        e.printStackTrace();
+        JTextArea textArea = new JTextArea();
+        textArea.setDisabledTextColor(Color.BLACK);
+        textArea.setWrapStyleWord(true);
+        getContentPane().add(new JScrollPane(textArea));
 
-        txtrBytecodeViewerIs.setText("Bytecode Viewer Version: " + VERSION +
+        textArea.setText(
+                "Please send this error log to " + author +
+                "\nIf you " +
+                "\nIif you hold appropriate legal rights the relevant class file." +
+                "Bytecode Viewer Version: " + VERSION +
                 ", Preview Copy: " + PREVIEW_COPY +
                 ", Fat Jar: " + FAT_JAR +
                 ", OS: " + System.getProperty("os.name") +
                 ", Java: " + System.getProperty("java.version") +
-                nl + nl + sw);
+                nl + nl + error);
+        
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
-
-    private void setup(String e, String author) {
-        this.setIconImages(Resources.iconList);
-        setSize(new Dimension(600, 400));
-        setTitle("Bytecode Viewer " + VERSION + " - Stack Trace - Send this to " + author);
-        getContentPane().setLayout(new CardLayout(0, 0));
-
-        JTextArea txtrBytecodeViewerIs = new JTextArea();
-        txtrBytecodeViewerIs.setDisabledTextColor(Color.BLACK);
-        txtrBytecodeViewerIs.setWrapStyleWord(true);
-        getContentPane().add(new JScrollPane(txtrBytecodeViewerIs), "name_140466576080695");
-        txtrBytecodeViewerIs.setText(e);
-        System.err.println(e);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-    }
+    
+    private static final long serialVersionUID = -5230501978224926296L;
 }
