@@ -61,8 +61,10 @@ public class SmaliAssembler extends InternalCompiler
         }
 
         try {
-            com.googlecode.d2j.smali.SmaliCmd.main(new String[]{tempSmaliFolder.getAbsolutePath()});//, "-o", tempDex
-            // .getAbsolutePath()});
+            com.googlecode.d2j.smali.SmaliCmd.main(new String[]{
+                    tempSmaliFolder.getAbsolutePath(),
+                    //"-o", tempDex.getAbsolutePath()
+            });
         } catch (Exception e) {
             e.printStackTrace();
             //new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -73,7 +75,9 @@ public class SmaliAssembler extends InternalCompiler
             Dex2Jar.dex2Jar(tempDex, tempJar);
         else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
             Enjarify.apk2Jar(tempDex, tempJar);
-
+    
+        System.out.println("Temporary dex: " + tempDex.getAbsolutePath());
+        
         try {
             System.out.println("Unzipping to " + tempJarFolder.getAbsolutePath());
             ZipUtils.unzipFilesToPath(tempJar.getAbsolutePath(), tempJarFolder.getAbsolutePath());
@@ -93,12 +97,18 @@ public class SmaliAssembler extends InternalCompiler
                         found = true;
                     }
                 }
+                
+                System.out.println("Saved as: " + outputClass.getAbsolutePath());
 
                 return FileUtils.readFileToByteArray(outputClass);
             } catch (java.lang.NullPointerException ignored) { }
         } catch (Exception e) {
             e.printStackTrace();
             //new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+        }
+        finally
+        {
+            tempDex.delete();
         }
 
         return null;

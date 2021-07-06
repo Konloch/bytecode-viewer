@@ -71,7 +71,7 @@ public class ResourceViewPanel
 	
 	public boolean compile()
 	{
-		if(!textArea.isEditable())
+		if(textArea == null || !textArea.isEditable())
 			return true;
 		
 		//WARNING: Any errors thrown will get swallowed by this class
@@ -91,18 +91,16 @@ public class ResourceViewPanel
 			try {
 				ClassNode newNode = JarUtils.getNode(compiledClass);
 				BytecodeViewer.updateNode(viewer.cn, newNode);
+				errConsole.finished();
+				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			return true;
 		}
-		else
-		{
-			errConsole.pretty();
-			errConsole.setVisible(true);
-			errConsole.finished();
-			return false;
-		}
+		
+		errConsole.pretty();
+		errConsole.setVisible(true);
+		errConsole.finished();
+		return false;
 	}
 }

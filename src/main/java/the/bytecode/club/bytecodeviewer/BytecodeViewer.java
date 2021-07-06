@@ -441,7 +441,7 @@ public class BytecodeViewer
         BytecodeViewer.viewer.updateBusyStatus(true);
         boolean noErrors = true;
         boolean actuallyTried = false;
-
+    
         for (java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers())
         {
             if (c instanceof ClassViewer)
@@ -455,11 +455,11 @@ public class BytecodeViewer
                 if(noErrors && !cv.resourceViewPanel3.compile())
                     noErrors = false;
                 
-                if(cv.resourceViewPanel1.textArea.isEditable())
+                if(cv.resourceViewPanel1.textArea != null && cv.resourceViewPanel1.textArea.isEditable())
                     actuallyTried = true;
-                if(cv.resourceViewPanel2.textArea.isEditable())
+                if(cv.resourceViewPanel2.textArea != null && cv.resourceViewPanel2.textArea.isEditable())
                     actuallyTried = true;
-                if(cv.resourceViewPanel3.textArea.isEditable())
+                if(cv.resourceViewPanel3.textArea != null && cv.resourceViewPanel3.textArea.isEditable())
                     actuallyTried = true;
             }
         }
@@ -476,7 +476,7 @@ public class BytecodeViewer
                 BytecodeViewer.showMessage("You have no editable panes opened, make one editable and try again.");
             }
         }
-
+        
         BytecodeViewer.viewer.updateBusyStatus(false);
         return true;
     }

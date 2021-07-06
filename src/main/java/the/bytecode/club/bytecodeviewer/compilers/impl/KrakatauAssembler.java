@@ -12,6 +12,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
+import the.bytecode.club.bytecodeviewer.util.BCVFileUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -111,7 +112,7 @@ public class KrakatauAssembler extends InternalCompiler
             log.append(nl).append(nl).append("Exit Value is ").append(exitValue);
             System.err.println(log);
 
-            byte[] b = FileUtils.readFileToByteArray(Objects.requireNonNull(findFile(tempDirectory, ".class")));
+            byte[] b = FileUtils.readFileToByteArray(Objects.requireNonNull(BCVFileUtils.findFile(tempDirectory, ".class")));
             tempDirectory.delete();
             tempJar.delete();
             return b;
@@ -122,32 +123,6 @@ public class KrakatauAssembler extends InternalCompiler
             BytecodeViewer.sm.setBlocking();
         }
 
-        return null;
-    }
-    
-    /**
-     * Searches a directory until the extension is found
-     */
-    public static File findFile(File basePath, String extension)
-    {
-        for(File f : basePath.listFiles())
-        {
-            if(f.isDirectory())
-            {
-                File child = findFile(f, extension);
-                
-                if(child != null)
-                    return child;
-                
-                continue;
-            }
-            
-            if(f.getName().endsWith(extension))
-            {
-                return f;
-            }
-        }
-        
         return null;
     }
 }
