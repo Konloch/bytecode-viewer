@@ -37,25 +37,34 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class ShowAllStrings extends Plugin {
-
+public class ShowAllStrings extends Plugin
+{
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList) {
+    public void execute(ArrayList<ClassNode> classNodeList)
+    {
         PluginConsole frame = new PluginConsole("Show All Strings");
         StringBuilder sb = new StringBuilder();
-        for (ClassNode classNode : classNodeList) {
-            for (Object o : classNode.fields.toArray()) {
+        
+        for (ClassNode classNode : classNodeList)
+        {
+            for (Object o : classNode.fields.toArray())
+            {
                 FieldNode f = (FieldNode) o;
                 Object v = f.value;
-                if (v instanceof String) {
+                
+                if (v instanceof String)
+                {
                     String s = (String) v;
                     if (!s.isEmpty())
                         sb.append(classNode.name).append(".").append(f.name).append(f.desc).append(" -> \"")
                                 .append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r"))
                                 .append("\"").append(nl);
                 }
-                if (v instanceof String[]) {
-                    for (int i = 0; i < ((String[]) v).length; i++) {
+                
+                if (v instanceof String[])
+                {
+                    for (int i = 0; i < ((String[]) v).length; i++)
+                    {
                         String s = ((String[]) v)[i];
                         if (!s.isEmpty())
                             sb.append(classNode.name).append(".").append(f.name).append(f.desc).append("[").append(i)
@@ -65,13 +74,17 @@ public class ShowAllStrings extends Plugin {
                 }
             }
 
-            for (Object o : classNode.methods.toArray()) {
+            for (Object o : classNode.methods.toArray())
+            {
                 MethodNode m = (MethodNode) o;
-
                 InsnList iList = m.instructions;
-                for (AbstractInsnNode a : iList.toArray()) {
-                    if (a instanceof LdcInsnNode) {
-                        if (((LdcInsnNode) a).cst instanceof String) {
+                
+                for (AbstractInsnNode a : iList.toArray())
+                {
+                    if (a instanceof LdcInsnNode)
+                    {
+                        if (((LdcInsnNode) a).cst instanceof String)
+                        {
                             final String s = (String) ((LdcInsnNode) a).cst;
                             if (!s.isEmpty())
                                 sb.append(classNode.name).append(".").append(m.name).append(m.desc).append(" -> \"")

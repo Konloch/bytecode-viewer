@@ -32,19 +32,26 @@ import the.bytecode.club.bytecodeviewer.api.PluginConsole;
  * @author Sh1ftchg
  */
 
-public class ShowMainMethods extends Plugin {
+public class ShowMainMethods extends Plugin
+{
     private static final int PUBLIC_STATIC = Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC;
 
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList) {
+    public void execute(ArrayList<ClassNode> classNodeList)
+    {
         PluginConsole frame = new PluginConsole("Show Main Methods");
         StringBuilder sb = new StringBuilder();
-        for (ClassNode classNode : classNodeList) {
-            for (Object o : classNode.methods.toArray()) {
+        
+        for (ClassNode classNode : classNodeList)
+        {
+            for (Object o : classNode.methods.toArray())
+            {
                 MethodNode m = (MethodNode) o;
 
-                if ((m.access & (PUBLIC_STATIC)) == PUBLIC_STATIC) {
-                    if (m.name.equals("main") && m.desc.equals("([Ljava/lang/String;)V")) {
+                if ((m.access & (PUBLIC_STATIC)) == PUBLIC_STATIC)
+                {
+                    if (m.name.equals("main") && m.desc.equals("([Ljava/lang/String;)V"))
+                    {
                         sb.append(classNode.name);
                         sb.append(".");
                         sb.append(m.name);
@@ -55,11 +62,10 @@ public class ShowMainMethods extends Plugin {
             }
         }
 
-        if (sb.length() == 0) {
+        if (sb.length() == 0)
             frame.appendText("No main methods found.");
-        } else {
+        else
             frame.appendText(sb.toString());
-        }
 
         frame.setVisible(true);
     }

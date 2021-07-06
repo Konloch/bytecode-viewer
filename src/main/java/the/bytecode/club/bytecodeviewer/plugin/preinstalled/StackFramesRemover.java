@@ -9,16 +9,21 @@ import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 
-public class StackFramesRemover extends Plugin {
-
+public class StackFramesRemover extends Plugin
+{
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList) {
+    public void execute(ArrayList<ClassNode> classNodeList)
+    {
         AtomicInteger counter = new AtomicInteger();
         PluginConsole frame = new PluginConsole("StackFrames Remover");
-        for (ClassNode cn : classNodeList) {
-            for (MethodNode mn : cn.methods) {
-                for (AbstractInsnNode insn : mn.instructions.toArray()) {
-                    if (insn instanceof FrameNode) {
+        for (ClassNode cn : classNodeList)
+        {
+            for (MethodNode mn : cn.methods)
+            {
+                for (AbstractInsnNode insn : mn.instructions.toArray())
+                {
+                    if (insn instanceof FrameNode)
+                    {
                         mn.instructions.remove(insn);
                         counter.incrementAndGet();
                     }
