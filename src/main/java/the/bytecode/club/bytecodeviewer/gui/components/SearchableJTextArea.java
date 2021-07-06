@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.GlobalHotKeys;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.PressKeyListener;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.ReleaseKeyListener;
@@ -76,7 +77,7 @@ public class SearchableJTextArea extends JTextArea
 			if ((keyEvent.getKeyCode() == KeyEvent.VK_F) && ((keyEvent.getModifiers() & KeyEvent.CTRL_MASK) != 0))
 				searchInput.requestFocus();
 			
-			BytecodeViewer.checkHotKey(keyEvent);
+			GlobalHotKeys.keyPressed(keyEvent);
 		}));
 	}
 	

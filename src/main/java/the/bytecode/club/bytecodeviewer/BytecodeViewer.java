@@ -354,7 +354,8 @@ public class BytecodeViewer
      * @param name the file name
      * @return the file contents as a byte[]
      */
-    public static byte[] getFileContents(String name) {
+    public static byte[] getFileContents(String name)
+    {
         for (FileContainer container : files)
             if (container.files.containsKey(name))
                 return container.files.get(name);
@@ -369,15 +370,15 @@ public class BytecodeViewer
      * @return
      * @throws IOException
      */
-    public static byte[] getClassFile(Class<?> clazz) throws IOException {
-        try (InputStream is = clazz.getResourceAsStream(
-                "/" + clazz.getName().replace('.', '/') + ".class");
-             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+    public static byte[] getClassFile(Class<?> clazz) throws IOException
+    {
+        try (InputStream is = clazz.getResourceAsStream("/" + clazz.getName().replace('.', '/') + ".class");
+             ByteArrayOutputStream baos = new ByteArrayOutputStream())
+        {
             int r;
             byte[] buffer = new byte[8192];
-            while ((r = Objects.requireNonNull(is).read(buffer)) >= 0) {
+            while ((r = Objects.requireNonNull(is).read(buffer)) >= 0)
                 baos.write(buffer, 0, r);
-            }
             return baos.toByteArray();
         }
     }
@@ -390,10 +391,9 @@ public class BytecodeViewer
      */
     public static void updateNode(ClassNode oldNode, ClassNode newNode)
     {
-        for (FileContainer container : files) {
+        for (FileContainer container : files)
             if (container.classes.remove(oldNode))
                 container.classes.add(newNode);
-        }
     }
 
     /**
@@ -401,7 +401,8 @@ public class BytecodeViewer
      *
      * @return the loaded classes as an array list
      */
-    public static ArrayList<ClassNode> getLoadedClasses() {
+    public static ArrayList<ClassNode> getLoadedClasses()
+    {
         ArrayList<ClassNode> a = new ArrayList<>();
 
         for (FileContainer container : files)
@@ -433,7 +434,8 @@ public class BytecodeViewer
      * @param message if it should send a message saying it's compiled sucessfully.
      * @return true if no errors, false if it failed to compile.
      */
-    public static boolean compile(boolean message, boolean successAlert) {
+    public static boolean compile(boolean message, boolean successAlert)
+    {
         BytecodeViewer.updateBusyStatus(true);
         boolean noErrors = true;
         boolean actuallyTried = false;
@@ -483,7 +485,8 @@ public class BytecodeViewer
      * @param files       the file(s) you wish to open
      * @param recentFiles if it should append to the recent files menu
      */
-    public static void openFiles(final File[] files, boolean recentFiles) {
+    public static void openFiles(final File[] files, boolean recentFiles)
+    {
         if (recentFiles)
         {
             for (File f : files)
@@ -504,7 +507,8 @@ public class BytecodeViewer
      *
      * @param file the file of the plugin
      */
-    public static void startPlugin(File file) {
+    public static void startPlugin(File file)
+    {
         if (!file.exists())
         {
             BytecodeViewer.showMessage("The plugin file " + file.getAbsolutePath() + " could not be found.");
@@ -525,7 +529,8 @@ public class BytecodeViewer
      *
      * @param message the message you need to send
      */
-    public static void showMessage(String message) {
+    public static void showMessage(String message)
+    {
         BetterJOptionPane.showMessageDialog(viewer, message);
     }
     
@@ -590,100 +595,15 @@ public class BytecodeViewer
             tempF.mkdir();
     }
     
+    /**
+     * Refreshes the title on all of the opened tabs
+     */
     public static void refreshAllTabTitles()
     {
         for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
         {
             ResourceViewer viewer = ((TabbedPane) BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i)).resource;
             viewer.refreshTitle();
-        }
-    }
-
-    /**
-     * Checks the hotkeys
-     *
-     * @param e
-     */
-    public static void checkHotKey(KeyEvent e) {
-        if (System.currentTimeMillis() - Configuration.lastHotKeyExecuted <= (4000))
-            return;
-
-        if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
-        {
-            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-            
-            final File file = DialogueUtils.fileChooser("Select File or Folder to open in BCV",
-                    "APKs, DEX, Class Files or Zip/Jar/War Archives",
-                    Constants.SUPPORTED_FILE_EXTENSIONS);
-            
-            if(file == null)
-                return;
-    
-            BytecodeViewer.updateBusyStatus(true);
-            BytecodeViewer.openFiles(new File[]{file}, true);
-            BytecodeViewer.updateBusyStatus(false);
-        } else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-            BytecodeViewer.resetWorkspace(true);
-        } else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-            Thread t = new Thread(() -> BytecodeViewer.compile(true, false), "Compile");
-            t.start();
-        } else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-            if (BytecodeViewer.getLoadedClasses().isEmpty()) {
-                BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
-                return;
-            }
-            new RunOptions().setVisible(true);
-        } else if ((e.getKeyCode() == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-
-            if (BytecodeViewer.getLoadedClasses().isEmpty()) {
-                BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
-                return;
-            }
-
-            Thread resourceExport = new Thread(() ->
-            {
-                if (BytecodeViewer.autoCompileSuccessful())
-                    return;
-                
-                JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
-                        "Select Zip Export",
-                        "Zip Archives",
-                        "zip");
-                
-                int returnVal = fc.showSaveDialog(viewer);
-                if (returnVal == JFileChooser.APPROVE_OPTION)
-                {
-                    Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
-                    File file = fc.getSelectedFile();
-                    
-                    if (!file.getAbsolutePath().endsWith(".zip"))
-                        file = new File(file.getAbsolutePath() + ".zip");
-                    
-                    if (!DialogueUtils.canOverwriteFile(file))
-                        return;
-
-                    final File file2 = file;
-
-                    BytecodeViewer.updateBusyStatus(true);
-                    Thread jarExport = new Thread(() -> {
-                        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
-                                file2.getAbsolutePath());
-                        BytecodeViewer.updateBusyStatus(false);
-                    }, "Jar Export");
-                    jarExport.start();
-                }
-            }, "Resource Export");
-            resourceExport.start();
-        }
-        else if ((e.getKeyCode() == KeyEvent.VK_W) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
-        {
-            Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-            if (viewer.workPane.getCurrentViewer() != null)
-                viewer.workPane.tabs.remove(viewer.workPane.getCurrentViewer());
         }
     }
 }

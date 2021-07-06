@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.GlobalHotKeys;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public class KeyEventDispatch implements KeyEventDispatcher
 				return false;
 		}
 		
-		BytecodeViewer.checkHotKey(e);
+		GlobalHotKeys.keyPressed(e);
 		return false;
 	}
 }
