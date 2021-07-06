@@ -427,7 +427,7 @@ public class BytecodeViewer
             return true;
         
         try {
-            return compile(true, false);
+            return compile(false, false);
         } catch (NullPointerException ignored) {
             return false;
         }
