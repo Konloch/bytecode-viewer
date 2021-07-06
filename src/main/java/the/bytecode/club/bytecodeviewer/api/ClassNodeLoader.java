@@ -33,8 +33,8 @@ import org.objectweb.asm.tree.ClassNode;
  * @author Demmonic
  */
 
-public final class ClassNodeLoader extends ClassLoader {
-
+public final class ClassNodeLoader extends ClassLoader
+{
     private final HashMap<String, ClassNode> classes = new HashMap<>();
 
     /**
@@ -112,15 +112,18 @@ public final class ClassNodeLoader extends ClassLoader {
      * @param node The node to convert
      * @return The converted class
      */
-    public Class<?> nodeToClass(ClassNode node) {
+    public Class<?> nodeToClass(ClassNode node)
+    {
         if (super.findLoadedClass(node.name.replace("/", ".")) != null)
             return findLoadedClass(node.name.replace("/", "."));
+       
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         try {
             node.accept(cw);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
         byte[] b = cw.toByteArray();
         return defineClass(node.name.replaceAll("/", "."), b, 0, b.length,
                 getDomain());
