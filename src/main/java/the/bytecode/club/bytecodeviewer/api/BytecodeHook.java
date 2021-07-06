@@ -19,19 +19,15 @@ package the.bytecode.club.bytecodeviewer.api;
  ***************************************************************************/
 
 /**
- * Whenever a function is executed, this class will be executed with the
- * function callHook(String);
+ * Used for BCV-Injected bytecode hooks
  *
  * @author Konloch
  */
 
-public abstract class BytecodeHook {
-
+public interface BytecodeHook
+{
     /**
-     * Called whenever a function is called (And EZ-Injection has been
-     * injected).
-     *
-     * @param information the full name of the class, method and method description.
+     * A callback event for functions that have been injected by EZ-Inject
      */
-    public abstract void callHook(String information);
+    void callHook(String information);
 }
