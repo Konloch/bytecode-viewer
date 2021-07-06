@@ -1,11 +1,9 @@
 package the.bytecode.club.bytecodeviewer;
 
-import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +11,6 @@ import javax.swing.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import me.konloch.kontainer.io.HTTPRequest;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
@@ -128,46 +125,9 @@ public class BytecodeViewer
     public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final boolean EXPERIMENTAL_TAB_CODE = false;
     public static final boolean DEV_MODE = false; //if true error streams as preserved
-    
-    /**
-     * The version checker thread
-     */
     private static final Thread versionChecker = new Thread(new VersionChecker(), "Version Checker");
-
-    /**
-     * Pings back to bytecodeviewer.com to be added into the total running statistics
-     */
-    private static final Thread pingBack = new Thread(() -> {
-        try {
-            new HTTPRequest(new URL("https://bytecodeviewer.com/add.php")).read();
-        } catch (Exception e) {
-            Configuration.pingback = false;
-        }
-    }, "Pingback");
-
-    /**
-     * Downloads & installs the krakatau & enjarify zips
-     */
-    private static final Thread installFatJar = new Thread(() -> {
-        try {
-            if (OFFLINE_MODE) {
-                Boot.dropKrakatau();
-                Boot.dropEnjarify();
-            } else {
-                Boot.populateUrlList();
-                Boot.populateLibsDirectory();
-                Boot.downloadZipsOnly();
-                Boot.checkKrakatau();
-                Boot.checkEnjarify();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }, "Install Fat-Jar");
-
-    /**
-     * Used to check incase booting failed for some reason, this kicks in as a fail safe
-     */
+    private static final Thread pingBack = new Thread(new PingBack(), "Pingback");
+    private static final Thread installFatJar = new Thread(new InstallFatJar(), "Install Fat-Jar");
     private static final Thread bootCheck = new Thread(new BootCheck(), "Boot Check");
 
     /**
@@ -178,10 +138,15 @@ public class BytecodeViewer
     public static void main(String[] args)
     {
         BytecodeViewer.args = args;
+        
+        //welcome message
         System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + VERSION + ", " + "Fat-Jar: " + FAT_JAR);
+        
+        //set the security manager
         System.setSecurityManager(sm);
         
-        try {
+        try
+        {
             //precache settings file
             SettingsSerializer.preloadSettingsFile();
             //setup look and feel
@@ -212,20 +177,25 @@ public class BytecodeViewer
             if (CLI == CommandLineInput.STOP)
                 return;
 
-            if (!FAT_JAR) {
+            if (!FAT_JAR)
+            {
                 bootCheck.start();
 
                 Boot.boot(args, CLI != CommandLineInput.OPEN_FILE);
-            } else
+            }
+            else
                 installFatJar.start();
 
             if (CLI == CommandLineInput.OPEN_FILE)
                 BytecodeViewer.boot(false);
-            else {
+            else
+            {
                 BytecodeViewer.boot(true);
                 CommandLineInput.executeCommandLine(args);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
     }
@@ -271,36 +241,36 @@ public class BytecodeViewer
     }
 
     /**
-     * because Smali and Baksmali System.exit if it failed
-     *
-     * @param i
-     */
-    public static void exit(int i) {
-
-    }
-
-    /**
      * Returns the java command it can use to launch the decompilers
      *
      * @return
      */
-    public static synchronized String getJavaCommand() {
-        try {
-            sm.stopBlocking();
+    public static synchronized String getJavaCommand()
+    {
+        sm.stopBlocking();
+        try
+        {
             ProcessBuilder pb = new ProcessBuilder("java", "-version");
             pb.start();
-            sm.setBlocking();
             return "java"; //java is set
-        } catch (Exception e) { //ignore
+        }
+        catch (Exception e) //ignore
+        {
             sm.setBlocking();
             boolean empty = Configuration.java.isEmpty();
-            while (empty) {
-                showMessage("You need to set your Java path, this requires the JRE to be downloaded." + nl +
-                        "(C:/Program Files/Java/JDK_xx/bin/java.exe)");
+            while (empty)
+            {
+                showMessage("You need to set your Java path, this requires the JRE to be downloaded." +
+                        nl + "(C:/Program Files/Java/JDK_xx/bin/java.exe)");
                 viewer.selectJava();
                 empty = Configuration.java.isEmpty();
             }
         }
+        finally
+        {
+            sm.setBlocking();
+        }
+        
         return Configuration.java;
     }
 
@@ -319,7 +289,8 @@ public class BytecodeViewer
      * @param name the class name
      * @return the ClassNode instance
      */
-    public static ClassNode getClassNode(String name) {
+    public static ClassNode getClassNode(String name)
+    {
         for (FileContainer container : files)
             for (ClassNode c : container.classes)
                 if (c.name.equals(name))
@@ -328,7 +299,8 @@ public class BytecodeViewer
         return null;
     }
 
-    public static FileContainer getFileContainer(String name) {
+    public static FileContainer getFileContainer(String name)
+    {
         for (FileContainer container : files)
             if (container.name.equals(name))
                 return container;
@@ -340,7 +312,8 @@ public class BytecodeViewer
         return files;
     }
 
-    public static ClassNode getClassNode(FileContainer container, String name) {
+    public static ClassNode getClassNode(FileContainer container, String name)
+    {
         for (ClassNode c : container.classes)
             if (c.name.equals(name))
                 return c;
@@ -549,6 +522,18 @@ public class BytecodeViewer
     {
         viewer.clearBusyStatus();
     }
+    
+    /**
+     * Refreshes the title on all of the opened tabs
+     */
+    public static void refreshAllTabTitles()
+    {
+        for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
+        {
+            ResourceViewer viewer = ((TabbedPane) BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i)).resource;
+            viewer.refreshTitle();
+        }
+    }
 
     /**
      * Resets the workspace with optional user input required
@@ -596,14 +581,9 @@ public class BytecodeViewer
     }
     
     /**
-     * Refreshes the title on all of the opened tabs
+     * because Smali and Baksmali System.exit if it failed
+     *
+     * @param i
      */
-    public static void refreshAllTabTitles()
-    {
-        for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
-        {
-            ResourceViewer viewer = ((TabbedPane) BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i)).resource;
-            viewer.refreshTitle();
-        }
-    }
+    public static void exit(int i) { }
 }
