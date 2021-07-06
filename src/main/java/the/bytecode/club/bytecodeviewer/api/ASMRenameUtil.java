@@ -30,25 +30,33 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
  ***************************************************************************/
 
 /**
- * Used to rename/replace methods/classes/fields
+ * Used to rename/replace methods/classes/fields loaded as a BCV resource
  *
  * @author Konloch
  */
-public final class ASMUtil_OLD {
+
+public final class ASMRenameUtil
+{
 
     public static void renameFieldNode(String originalParentName,
                                        String originalFieldName, String originalFieldDesc,
-                                       String newFieldParent, String newFieldName, String newFieldDesc) {
-        for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
-            for (Object o : c.methods.toArray()) {
+                                       String newFieldParent, String newFieldName, String newFieldDesc)
+    {
+        for (ClassNode c : BytecodeViewer.getLoadedClasses())
+        {
+            for (Object o : c.methods.toArray())
+            {
                 MethodNode m = (MethodNode) o;
-                for (AbstractInsnNode i : m.instructions.toArray()) {
-                    if (i instanceof FieldInsnNode) {
+                for (AbstractInsnNode i : m.instructions.toArray())
+                {
+                    if (i instanceof FieldInsnNode)
+                    {
                         FieldInsnNode field = (FieldInsnNode) i;
 
                         if (field.owner.equals(originalParentName)
                                 && field.name.equals(originalFieldName)
-                                && field.desc.equals(originalFieldDesc)) {
+                                && field.desc.equals(originalFieldDesc))
+                        {
                             if (newFieldParent != null)
                                 field.owner = newFieldParent;
                             if (newFieldName != null)
@@ -64,16 +72,22 @@ public final class ASMUtil_OLD {
 
     public static void renameMethodNode(String originalParentName,
                                         String originalMethodName, String originalMethodDesc,
-                                        String newParent, String newName, String newDesc) {
-        for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
-            for (Object o : c.methods.toArray()) {
+                                        String newParent, String newName, String newDesc)
+    {
+        for (ClassNode c : BytecodeViewer.getLoadedClasses())
+        {
+            for (Object o : c.methods.toArray())
+            {
                 MethodNode m = (MethodNode) o;
-                for (AbstractInsnNode i : m.instructions.toArray()) {
-                    if (i instanceof MethodInsnNode) {
+                for (AbstractInsnNode i : m.instructions.toArray())
+                {
+                    if (i instanceof MethodInsnNode)
+                    {
                         MethodInsnNode mi = (MethodInsnNode) i;
                         if (mi.owner.equals(originalParentName)
                                 && mi.name.equals(originalMethodName)
-                                && mi.desc.equals(originalMethodDesc)) {
+                                && mi.desc.equals(originalMethodDesc))
+                        {
                             if (newParent != null)
                                 mi.owner = newParent;
                             if (newName != null)
@@ -86,7 +100,8 @@ public final class ASMUtil_OLD {
                     }*/
                 }
 
-                if (m.signature != null) {
+                if (m.signature != null)
+                {
                     if (newName != null)
                         m.signature = m.signature.replace(originalMethodName,
                                 newName);
@@ -97,7 +112,8 @@ public final class ASMUtil_OLD {
 
                 if (m.name.equals(originalMethodName)
                         && m.desc.equals(originalMethodDesc)
-                        && c.name.equals(originalParentName)) {
+                        && c.name.equals(originalParentName))
+                {
                     if (newName != null)
                         m.name = newName;
                     if (newDesc != null)
@@ -108,63 +124,67 @@ public final class ASMUtil_OLD {
     }
 
     public static void renameClassNode(final String oldName,
-                                       final String newName) {
-        for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
-            for (InnerClassNode oo : c.innerClasses) {
-                if (oo.innerName != null
-                        && oo.innerName.equals(oldName)) {
+                                       final String newName)
+    {
+        for (ClassNode c : BytecodeViewer.getLoadedClasses())
+        {
+            for (InnerClassNode oo : c.innerClasses)
+            {
+                if (oo.innerName != null && oo.innerName.equals(oldName))
                     oo.innerName = newName;
-                }
-                if (oo.name.equals(oldName)) {
+                
+                if (oo.name.equals(oldName))
                     oo.name = newName;
-                }
-                if (oo.outerName != null
-                        && oo.outerName.equals(oldName)) {
+                
+                if (oo.outerName != null && oo.outerName.equals(oldName))
                     oo.outerName = newName;
-                }
             }
 
             if (c.signature != null)
                 c.signature = c.signature.replace(oldName, newName);
 
-            if (c.superName.equals(oldName)) {
+            if (c.superName.equals(oldName))
                 c.superName = newName;
-            }
-            for (Object o : c.fields.toArray()) {
+            
+            for (Object o : c.fields.toArray())
+            {
                 FieldNode f = (FieldNode) o;
                 f.desc = f.desc.replace(oldName, newName);
             }
-            for (Object o : c.methods.toArray()) {
+            
+            for (Object o : c.methods.toArray())
+            {
                 MethodNode m = (MethodNode) o;
 
-                if (m.localVariables != null) {
-                    for (LocalVariableNode node : m.localVariables) {
+                if (m.localVariables != null)
+                    for (LocalVariableNode node : m.localVariables)
                         node.desc = node.desc.replace(oldName, newName);
-                    }
-                }
 
                 if (m.signature != null)
                     m.signature = m.signature.replace(oldName, newName);
 
-                for (int i = 0; i < m.exceptions.size(); i++) {
+                for (int i = 0; i < m.exceptions.size(); i++)
                     if (m.exceptions.get(i).equals(oldName))
                         m.exceptions.set(i, newName);
-                }
 
-                for (AbstractInsnNode i : m.instructions.toArray()) {
-                    if (i instanceof TypeInsnNode) {
+                for (AbstractInsnNode i : m.instructions.toArray())
+                {
+                    if (i instanceof TypeInsnNode)
+                    {
                         TypeInsnNode t = (TypeInsnNode) i;
-                        if (t.desc.equals(oldName)) {
+                        if (t.desc.equals(oldName))
                             t.desc = newName;
-                        }
                     }
-                    if (i instanceof MethodInsnNode) {
+                    
+                    if (i instanceof MethodInsnNode)
+                    {
                         MethodInsnNode mi = (MethodInsnNode) i;
                         if (mi.owner.equals(oldName))
                             mi.owner = newName;
                         mi.desc = mi.desc.replace(oldName, newName);
                     }
-                    if (i instanceof FieldInsnNode) {
+                    if (i instanceof FieldInsnNode)
+                    {
                         FieldInsnNode fi = (FieldInsnNode) i;
                         if (fi.owner.equals(oldName))
                             fi.owner = newName;
