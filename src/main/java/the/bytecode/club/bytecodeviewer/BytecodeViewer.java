@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
@@ -137,7 +138,12 @@ public class BytecodeViewer
         launchArgs = args;
         
         //welcome message
-        System.out.println("https://the.bytecode.club - Created by @Konloch - Bytecode Viewer " + VERSION + ", " + "Fat-Jar: " + FAT_JAR);
+        System.out.print("Bytecode Viewer " + VERSION);
+        if(FAT_JAR)
+            System.out.print(" [FatJar]");
+        
+        System.out.println(" - Created by @Konloch");
+        System.out.println("https://bytecodeviewer.com - https://the.bytecode.club");
         
         //set the security manager
         System.setSecurityManager(sm);
