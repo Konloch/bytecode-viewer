@@ -301,6 +301,14 @@ public class BytecodeViewer
     }
     
     /**
+     * Returns true if there is at least one file resource loaded
+     */
+    public static boolean hasResources()
+    {
+        return !files.isEmpty();
+    }
+    
+    /**
      * Returns true if there is currently a tab open with a resource inside of it
      */
     public static boolean hasActiveResource()

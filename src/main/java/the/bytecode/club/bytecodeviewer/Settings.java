@@ -70,6 +70,14 @@ public class Settings
 		}
 	}
 	
+	public static String getRecentFile()
+	{
+		if(recentFiles.isEmpty())
+			return null;
+		
+		return recentFiles.get(0);
+	}
+	
 	/**
 	 * Add to the recent plugin list
 	 *

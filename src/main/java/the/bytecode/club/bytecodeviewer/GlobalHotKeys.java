@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer;
 
+import sun.security.krb5.Config;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
 import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
@@ -125,6 +126,20 @@ public class GlobalHotKeys
 			
 			if (BytecodeViewer.hasActiveResource())
 				BytecodeViewer.viewer.workPane.tabs.remove(BytecodeViewer.viewer.workPane.getActiveResource());
+		}
+		
+		//CTRL + L
+		//open last opened resource
+		else if ((e.getKeyCode() == KeyEvent.VK_L) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		{
+			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
+			
+			String recentFile = Settings.getRecentFile();
+			
+			System.out.println("Opening..." + recentFile);
+			
+			if(!BytecodeViewer.hasResources() && recentFile != null)
+				BytecodeViewer.openFiles(new File[]{new File(recentFile)}, false);
 		}
 	}
 }
