@@ -2,7 +2,7 @@ package the.bytecode.club.bytecodeviewer.util;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
+import the.bytecode.club.bytecodeviewer.api.BCV;
 
 import java.io.File;
 
@@ -22,7 +22,7 @@ public class BCVResourceUtils
 		BytecodeViewer.viewer.resourcePane.resetWorkspace();
 		BytecodeViewer.viewer.workPane.resetWorkspace();
 		BytecodeViewer.viewer.searchBoxPane.resetWorkspace();
-		the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().clear();
+		BCV.getClassNodeLoader().clear();
 	}
 	
 	/**

@@ -26,7 +26,7 @@ public class ExampleStringDecrypter extends Plugin {
         {
             for(ClassNode cn : classNodesList)
             {
-                the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().addClass(cn);
+                the.bytecode.club.bytecodeviewer.api.BCV.getClassNodeLoader().addClass(cn);
 
                 for(Object o : cn.fields.toArray())
                 {
@@ -34,7 +34,7 @@ public class ExampleStringDecrypter extends Plugin {
                     if(f.name.equals("z")) {// && f.desc.equals("([Ljava/lang/String;)V")) {
                         try
                         {
-                            for(Field f2 : the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().nodeToClass(cn).getFields())
+                            for(Field f2 : the.bytecode.club.bytecodeviewer.api.BCV.getClassNodeLoader().nodeToClass(cn).getFields())
                             {
                                 String s = f2.get(null);
                                 if(s != null && !s.empty())

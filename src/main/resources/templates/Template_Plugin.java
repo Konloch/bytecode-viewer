@@ -19,7 +19,7 @@ public class Template extends Plugin
 		for(ClassNode cn : classNodeList)
 			process(cn);
 		
-		BytecodeViewer.hideFrame(gui, 10000); //hides the console after 10 seconds
+		BCV.hideFrame(gui, 10000); //hides the console after 10 seconds
 	}
 	
 	/**

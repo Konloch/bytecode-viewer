@@ -9,10 +9,7 @@ import org.objectweb.asm.tree.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.Resources;
-import the.bytecode.club.bytecodeviewer.api.ASMUtil;
-import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.api.PluginConsole;
+import the.bytecode.club.bytecodeviewer.api.*;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
@@ -169,7 +166,7 @@ public class AllatoriStringDecrypter extends Plugin
 							{
 								System.out.println("Loading " + decrypterClassName);
 								
-								Class<?> decrypterClassList = the.bytecode.club.bytecodeviewer.api.BytecodeViewer
+								Class<?> decrypterClassList = BCV
 										.loadClassIntoClassLoader(decrypterClassNode);
 								
 								String decrypted = invokeDecrypter(decrypterClassList, decrypterMethodName, (String) laststringldconstack.cst);

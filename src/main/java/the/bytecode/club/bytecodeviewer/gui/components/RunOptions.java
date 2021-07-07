@@ -105,10 +105,10 @@ public class RunOptions extends JFrame
         console.setSelected(true);
         getContentPane().add(console);
 
-        final JCheckBox chckbxPrintToTerminal = new JCheckBox("Print To Command Line");
-        chckbxPrintToTerminal.setSelected(true);
-        chckbxPrintToTerminal.setBounds(6, 315, 232, 23);
-        getContentPane().add(chckbxPrintToTerminal);
+        final JCheckBox printToCommandLine = new JCheckBox("Print To Command Line");
+        printToCommandLine.setSelected(true);
+        printToCommandLine.setBounds(6, 315, 232, 23);
+        getContentPane().add(printToCommandLine);
         this.setLocationRelativeTo(null);
         btnNewButton.addActionListener(arg0 -> {
             PluginManager.runPlugin(new EZInjection(accessModifiers
@@ -119,7 +119,7 @@ public class RunOptions extends JFrame
                     .getText(), this.socksProxy.getText(), forceProxy
                     .isSelected(),
                     launchReflectionKit.isSelected(), console.isSelected(),
-                    chckbxPrintToTerminal.isSelected()));
+                    printToCommandLine.isSelected()));
             dispose();
         });
     }

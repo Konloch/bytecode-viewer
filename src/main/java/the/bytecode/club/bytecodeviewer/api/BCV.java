@@ -41,14 +41,15 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  ***************************************************************************/
 
 /**
- * The official API for BCV, this was designed for plugin authors and
- * people utilizing EZ-Injection.
+ * The official API for BCV, this was designed for plugin authors and developers utilizing EZ-Injection.
+ *
+ * The BCV Class is meant to to help aid in dynamic analysis and plugin utility.
  *
  * @author Konloch
  */
-public class BytecodeViewer
+public class BCV
 {
-    private static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV,
+    private static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV
     private static URLClassLoader cl;
 
     /**
@@ -94,7 +95,7 @@ public class BytecodeViewer
         {
             File f = new File(tempDirectory + fs + MiscUtils.randomString(12) + "loaded_temp.jar");
             
-            JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), f.getAbsolutePath());
+            JarUtils.saveAsJar(BCV.getLoadedClasses(), f.getAbsolutePath());
             JarFile jarFile = new JarFile("" + f.getAbsolutePath());
             
             Enumeration<JarEntry> e = jarFile.entries();

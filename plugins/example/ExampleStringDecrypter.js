@@ -4,7 +4,7 @@
 
 var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsole");
 var MultipleChoiceDialogue = Java.type("the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue")
-var BytecodeViewer = Java.type("the.bytecode.club.bytecodeviewer.api.BytecodeViewer")
+var BytecodeViewer = Java.type("the.bytecode.club.bytecodeviewer.api.BCV")
 
 var dialogue = new MultipleChoiceDialogue("Bytecode Viewer - WARNING",
                 "WARNING: This will load the classes into the JVM and execute the initialize function"

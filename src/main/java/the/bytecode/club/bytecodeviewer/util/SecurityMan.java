@@ -32,7 +32,7 @@ import java.security.Permission;
 
 public class SecurityMan extends SecurityManager
 {
-    private boolean blocking = true; //might be insecure due to assholes targeting BCV, however that's highly unlikely.
+    private boolean blocking = true; //might be insecure due to assholes targeting BCV
     private boolean printing = false;
     private boolean printingPackage = false;
     

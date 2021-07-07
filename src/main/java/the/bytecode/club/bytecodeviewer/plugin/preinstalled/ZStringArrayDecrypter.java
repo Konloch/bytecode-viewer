@@ -4,10 +4,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Objects;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
+
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
@@ -56,7 +56,7 @@ public class ZStringArrayDecrypter extends Plugin
         {
             boolean needsWarning = false;
             for (Class<?> cn :
-                    Objects.requireNonNull(the.bytecode.club.bytecodeviewer.api.BytecodeViewer.loadClassesIntoClassLoader()))
+                    Objects.requireNonNull(BCV.loadClassesIntoClassLoader()))
             {
                 try
                 {

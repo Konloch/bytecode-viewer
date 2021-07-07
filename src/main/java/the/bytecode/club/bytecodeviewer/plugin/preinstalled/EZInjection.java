@@ -11,6 +11,7 @@ import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.api.BytecodeHook;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
@@ -71,7 +72,7 @@ public class EZInjection extends Plugin {
                        boolean useProxy, boolean launchKit, boolean console,
                        boolean printCmdL)
     {
-        the.bytecode.club.bytecodeviewer.api.BytecodeViewer.createNewClassNodeLoaderInstance();
+        BCV.createNewClassNodeLoaderInstance();
         this.accessModifiers = accessModifiers;
         this.injectHooks = injectHooks;
         EZInjection.debugHooks = debugHooks;
@@ -279,7 +280,7 @@ public class EZInjection extends Plugin {
             
             // load all the classnodes into the classloader
             for (ClassNode cn : BytecodeViewer.getLoadedClasses())
-                the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().addClass(cn);
+                BCV.getClassNodeLoader().addClass(cn);
 
             print("Attempting to find " + invokeMethodInformation + ":" + nl + nl);
 
@@ -292,7 +293,7 @@ public class EZInjection extends Plugin {
                     
                     if (invokeMethodInformation.equals(methodInformation))
                     {
-                        for (Method m2 : the.bytecode.club.bytecodeviewer.api.BytecodeViewer
+                        for (Method m2 : BCV
                                 .getClassNodeLoader().nodeToClass(classNode)
                                 .getMethods())
                         {
