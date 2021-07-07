@@ -19,7 +19,7 @@
   "VISUAL_SETTINGS": "Grafikeinstellungen",
   "LANGUAGE": "Sprache",
 
-  "TODO1": "Diese existieren nur als Enums",
+
   "WINDOW_THEME": "Fenster-Erscheinungsbild",
   "SYSTEM_THEME": "Wie Betriebssystem",
   "DARK_THEME": "Dunkler Modus",
@@ -33,7 +33,7 @@
   "VISUAL_STUDIO": "Visual Studio",
   "DRUID_DARK": "Druid (Dunkler Modus)",
   "MONOKAI_DARK": "Monokai (Dunkler Modus)",
-  "TODO2": "Ende",
+
 
   "FONT_SIZE": "Schriftgröße",
   "SHOW_TAB_FILE_IN_TAB_TITLE": "Dateinamen in Reiter-Titel anzeigen",
@@ -64,8 +64,18 @@
   "SET_OPTIONAL_LIBRARY_FOLDER": "Optionalen Bibliothekenordner festlegen",
   "SET_JAVAC_EXECUTABLE": "Ausführbare Javac Datei festlegen",
 
-  "TODO3": "Diese existieren nur als Key/Value-Paare",
-  "TODO4": "Ende",
+  "JAVA": "Java",
+  "PROCYON": "Procyon",
+  "CFR": "CFR",
+  "FERNFLOWER": "FernFlower",
+  "KRAKATAU": "Krakatau",
+  "JDGUI": "JD-GUI",
+  "JADX": "JADX",
+  "SMALI": "Smali",
+  "SMALI_DEX": "Smali/Dex",
+  "HEXCODE": "Hexcode",
+  "BYTECODE": "Bytecode",
+  "ASM_TEXTIFY": "ASM Textify",
 
   "BYTECODE_DECOMPILER": "Bytecode-Dekompilierer",
   "DEBUG_HELPERS": "Debug-Helfer",
@@ -84,13 +94,19 @@
   "ALLATORI_STRING_DECRYPTER": "Allatori-String-Decrypter ausführen",
   "ZSTRINGARRAY_DECRYPTER": "ZStringArray-Decrypter ausführen",
 
-  "TODO5": "Diese existieren nur als Key/Value-Paare",
+
+
   "PROCYON_DECOMPILER": "Procyon-Dekompilierer",
   "CFR_DECOMPILER": "CFR-Dekompilierer",
   "FERNFLOWER_DECOMPILER": "FernFlower-Dekompilierer",
   "JADX_DECOMPILER": "JADX-Dekompilierer",
   "JD_DECOMPILER": "JD-GUI-Dekompilierer",
   "BYTECODE_DISASSEMBLER": "Bytecode-Disassembler",
+  "DISASSEMBLER": "Disassembler",
+
+  "ERROR": "Fehler",
+  "SUGGESTED_FIX_DECOMPILER_ERROR": "Vorgeschlagene Lösung: Klicken Sie auf Klasse aktualisieren und wenn es wieder fehlschlägt, versuchen Sie einen anderen Dekompilierer.",
+  "SUGGESTED_FIX_COMPILER_ERROR": "Vorgeschlagene Lösung: Aktivieren Sie unter Ansicht>Fenster>Krakatau>Bytecode Editierbar.",
 
   "FILES": "Dateien",
   "QUICK_FILE_SEARCH_NO_FILE_EXTENSION": "Dateien-Schnellsuche öffnen (ohne Dateiendungen)",
@@ -98,6 +114,5 @@
   "EXACT": "Exakt",
   "SEARCH": "Suchen",
   "RESULTS": "Ergebnisse",
-  "REFRESH": "Aktualisieren",
-  "TODO6": "Ende"
+  "REFRESH": "Aktualisieren"
 }
