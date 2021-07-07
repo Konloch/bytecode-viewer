@@ -14,6 +14,7 @@ Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 * Migrated to Maven
 
 #### Links
+* [BCV Discord](https://discord.gg/sXHcuS6aBG)
 * [Website](https://bytecodeviewer.com)
 * [Source Code](https://github.com/konloch/bytecode-viewer)
 * [Bin/Archive](https://github.com/konloch/bytecode-viewer/releases)
