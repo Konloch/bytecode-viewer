@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.DirectoryLoader;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.CommonPreferences;
@@ -116,7 +117,7 @@ public class JDGUIDecompiler extends InternalDecompiler
                     "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         }
         
-        return "JD-GUI error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com"
+        return "JD-GUI error! " + ExceptionUI.SEND_STACKTRACE_TO
                 + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
                 + nl + nl + exception;
     }

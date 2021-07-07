@@ -10,6 +10,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -129,7 +130,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
                 exception += nl + nl + sw;
             }
         }
-        return "FernFlower error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com"
+        return "FernFlower error! " + ExceptionUI.SEND_STACKTRACE_TO
                 + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
                 + nl + nl + exception;
     }

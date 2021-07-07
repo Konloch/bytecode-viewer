@@ -9,6 +9,7 @@ import java.util.Objects;
 import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
@@ -114,7 +115,7 @@ public class SmaliDisassembler extends InternalDecompiler
             exception += "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         }
 
-        return "Smali Disassembler error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com"
+        return "Smali Disassembler error! " + ExceptionUI.SEND_STACKTRACE_TO
                 + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
                 + nl + nl + exception;
     }

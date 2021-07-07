@@ -40,6 +40,9 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 public class ExceptionUI extends JFrame
 {
+    public static final String SEND_STACKTRACE_TO = "Send the stacktrace to https://github.com/Konloch/bytecode-viewer/issues or Konloch at https://the.bytcode.club or konloch@gmail.com" +
+            "\nIf you hold appropriate legal rights to the relevant class/jar/apk file please include that as well.";
+    
     /**
      * @param e The exception to be shown
      */
@@ -104,9 +107,8 @@ public class ExceptionUI extends JFrame
 
         textArea.setText(
                 "Please send this error log to " + author +
-                "\nIf you " +
-                "\nIif you hold appropriate legal rights the relevant class file." +
-                "Bytecode Viewer Version: " + VERSION +
+                "\nIf you hold appropriate legal rights to the relevant class/jar/apk file please include that as well." +
+                "\nBytecode Viewer Version: " + VERSION +
                 ", Preview Copy: " + PREVIEW_COPY +
                 ", Fat Jar: " + FAT_JAR +
                 ", OS: " + System.getProperty("os.name") +

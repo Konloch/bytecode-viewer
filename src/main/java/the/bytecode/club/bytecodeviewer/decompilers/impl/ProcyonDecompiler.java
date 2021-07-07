@@ -32,6 +32,7 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -129,7 +130,7 @@ public class ProcyonDecompiler extends InternalDecompiler
 
             exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         }
-        return "Procyon error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com"
+        return "Procyon error! " + ExceptionUI.SEND_STACKTRACE_TO
                 + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
                 + nl + nl + exception;
     }

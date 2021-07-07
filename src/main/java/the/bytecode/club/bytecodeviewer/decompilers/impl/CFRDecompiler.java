@@ -18,6 +18,7 @@ import java.util.zip.ZipOutputStream;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -142,7 +143,8 @@ public class CFRDecompiler extends InternalDecompiler
         if (file.exists())
             return findFile(Objects.requireNonNull(file.listFiles()));
 
-        return "CFR error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com" + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + nl + nl + exception;
+        return "CFR error! " + ExceptionUI.SEND_STACKTRACE_TO +
+                nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + nl + nl + exception;
     }
 
     Random r = new Random();
@@ -171,15 +173,17 @@ public class CFRDecompiler extends InternalDecompiler
 
                     String exception =
                             "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
-                    return "CFR error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail"
-                            + ".com" + nl + nl + "Suggested Fix: Click refresh class, "
-                            + "if it fails again try another decompiler." + nl + nl + exception;
+                    return "CFR error! " + ExceptionUI.SEND_STACKTRACE_TO +
+                            nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." +
+                            nl + nl + exception;
                 }
+                
                 return s;
             }
         }
-        return "CFR error!" + nl + nl + "Suggested Fix: Click refresh class, if it "
-                + "fails again try another decompiler.";
+        
+        return "CFR error!" +
+                nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler.";
     }
 
     public String[] generateMainMethod(String filePath, String outputPath) {

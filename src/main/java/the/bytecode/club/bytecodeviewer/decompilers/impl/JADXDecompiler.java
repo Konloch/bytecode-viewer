@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Random;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -84,7 +85,7 @@ public class JADXDecompiler extends InternalDecompiler
         if(exception.isEmpty())
             exception = "Decompiled source file not found!";
 
-        return "JADX error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail.com"
+        return "JADX error! " + ExceptionUI.SEND_STACKTRACE_TO
                 + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
                 + nl + nl + exception;
     }
@@ -114,9 +115,9 @@ public class JADXDecompiler extends InternalDecompiler
                     e.printStackTrace();
                     String exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
                     
-                    return "JADX error! Send the stacktrace to Konloch at https://the.bytecode.club or konloch@gmail"
-                            + ".com" + nl + nl + "Suggested Fix: Click refresh class, "
-                            + "if it fails again try another decompiler." + nl + nl + exception;
+                    return "JADX error! " + ExceptionUI.SEND_STACKTRACE_TO +
+                            nl + nl + "Suggested Fix: Click refresh class, " +
+                            "if it fails again try another decompiler." + nl + nl + exception;
                 }
                 return s;
             }
