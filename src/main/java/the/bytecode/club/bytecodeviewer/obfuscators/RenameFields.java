@@ -3,7 +3,7 @@ package the.bytecode.club.bytecodeviewer.obfuscators;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.api.ASMRenameUtil;
+import the.bytecode.club.bytecodeviewer.api.ASMResourceUtil;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -40,7 +40,7 @@ public class RenameFields extends JavaObfuscator {
             for (Object o : c.fields.toArray()) {
                 FieldNode f = (FieldNode) o;
                 String newName = generateUniqueName(stringLength);
-                ASMRenameUtil.renameFieldNode(c.name, f.name, f.desc, null,
+                ASMResourceUtil.renameFieldNode(c.name, f.name, f.desc, null,
                         newName, null);
                 f.name = newName;
             }

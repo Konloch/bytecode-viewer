@@ -2,7 +2,7 @@ package the.bytecode.club.bytecodeviewer.obfuscators;
 
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.api.ASMRenameUtil;
+import the.bytecode.club.bytecodeviewer.api.ASMResourceUtil;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -37,7 +37,7 @@ public class RenameClasses extends JavaObfuscator {
         System.out.println("Obfuscating class names...");
         for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
             String newName = generateUniqueName(stringLength);
-            ASMRenameUtil.renameClassNode(c.name, newName);
+            ASMResourceUtil.renameClassNode(c.name, newName);
             c.name = newName;
         }
 

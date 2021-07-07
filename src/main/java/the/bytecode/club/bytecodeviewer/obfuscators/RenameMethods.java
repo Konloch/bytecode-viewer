@@ -4,7 +4,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.api.ASMRenameUtil;
+import the.bytecode.club.bytecodeviewer.api.ASMResourceUtil;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -58,7 +58,7 @@ public class RenameMethods extends JavaObfuscator {
                     if (!m.name.equals("main") && !m.name.equals("<init>")
                             && !m.name.equals("<clinit>")) {
                         String newName = generateUniqueName(stringLength);
-                        ASMRenameUtil.renameMethodNode(c.name, m.name, m.desc,
+                        ASMResourceUtil.renameMethodNode(c.name, m.name, m.desc,
                                 null, newName, null);
                     }
                 }
