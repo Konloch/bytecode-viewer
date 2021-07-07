@@ -10,9 +10,12 @@ import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.util.PaneUpdaterThread;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.EDITABLE;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -93,11 +96,10 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 						updateUpdaterTextArea = new SearchableRSyntaxTextArea();
 						
 						Configuration.rstaTheme.apply(updateUpdaterTextArea);
-						resourceViewPanel.textArea = updateUpdaterTextArea;
-						
 						resourceViewPanel.panel.add(updateUpdaterTextArea.getScrollPane());
 						resourceViewPanel.panel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
 						
+						resourceViewPanel.textArea = updateUpdaterTextArea;
 						resourceViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 						resourceViewPanel.textArea.setCodeFoldingEnabled(true);
 						resourceViewPanel.textArea.setAntiAliasingEnabled(true);
@@ -110,9 +112,9 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 						else if(isPanelEditable && decompiler == Decompiler.KRAKATAU_DISASSEMBLER)
 							resourceViewPanel.compileMode = Compiler.KRAKATAU_ASSEMBLER;
 						
-						resourceViewPanel.textArea.getTitleHeader().setText(decompiler.getDecompilerName() + " - Editable: " + isPanelEditable);
-						resourceViewPanel.textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN,
-								(int) BytecodeViewer.viewer.fontSpinner.getValue()));
+						String editable = isPanelEditable ? " - " + EDITABLE : "";
+						resourceViewPanel.textArea.getTitleHeader().setText(decompiler.getDecompilerName() + editable);
+						resourceViewPanel.textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
 						
 						waitingFor = false;
 					});

@@ -12,6 +12,7 @@ import java.util.HashSet;
 
 public enum TranslatedStrings
 {
+	EDITABLE("Editable"),
 	JAVA("Java"),
 	PROCYON("Procyon"),
 	CFR("CFR"),
