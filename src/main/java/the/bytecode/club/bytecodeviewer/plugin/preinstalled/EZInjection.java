@@ -47,8 +47,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class EZInjection extends Plugin {
-
+public class EZInjection extends Plugin
+{
     public static ArrayList<BytecodeHook> hookArray = new ArrayList<>();
     private static final String version = "1.0";
     private static final PluginConsole gui = new PluginConsole("EZ Injection v" + version);
@@ -134,11 +134,7 @@ public class EZInjection extends Plugin {
 
     public static void print(String message)
     {
-        if (printCmdL)
-            System.out.println(message);
-
-        if (gui.isVisible())
-            gui.appendText(message);
+        System.out.println(message);
     }
 
     @Override

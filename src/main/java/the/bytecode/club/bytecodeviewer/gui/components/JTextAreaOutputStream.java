@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
@@ -29,7 +28,7 @@ import java.io.PrintStream;
  */
 public class JTextAreaOutputStream extends OutputStream
 {
-	private final StringBuilder sb = new StringBuilder();
+	private StringBuilder sb = new StringBuilder();
 	private final JTextArea textArea;
 	private final PrintStream og;
 	
@@ -39,13 +38,19 @@ public class JTextAreaOutputStream extends OutputStream
 		this.og = og;
 	}
 	
+	public boolean noUpdateRequired()
+	{
+		return sb.length() <= 0;
+	}
+	
 	public void update()
 	{
 		textArea.append(sb.toString());
+		sb = new StringBuilder();
 	}
 	
 	@Override
-	public void write(int b) throws IOException
+	public void write(int b)
 	{
 		sb.append((char) b);
 		og.write(b);

@@ -1,8 +1,8 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
 
+import javax.swing.*;
 import java.io.PrintStream;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
@@ -35,6 +35,9 @@ public class JFrameConsolePrintStream extends JFrameConsole
 {
 	private final JTextAreaOutputStream textAreaOutputStreamOut;
 	private final JTextAreaOutputStream textAreaOutputStreamErr;
+	private Thread updateThread;
+	private boolean finished;
+	private long lastUpdate = 0;
 	
 	public JFrameConsolePrintStream(String title)
 	{
@@ -47,33 +50,82 @@ public class JFrameConsolePrintStream extends JFrameConsole
 		System.setErr(new PrintStream(textAreaOutputStreamErr));
 	}
 	
+	@Override
+	public void setVisible(boolean b)
+	{
+		super.setVisible(b);
+		
+		if(b && updateThread == null)
+		{
+			updateThread = new Thread(() ->
+			{
+				while (isVisible() && !finished)
+				{
+					update();
+					
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) { }
+				}
+				
+				lastUpdate = 0;
+				update();
+			}, "Lazy Console Update");
+			
+			updateThread.start();
+		}
+	}
+	
 	public void finished()
 	{
+		finished = true;
 		System.setErr(Constants.ERR);
 		System.setOut(Constants.OUT);
 	}
 	
-	public void pretty()
+	private void update()
 	{
-		textAreaOutputStreamOut.update();
-		textAreaOutputStreamErr.update();
-		String[] test;
-		if (getTextArea().getText().split("\n").length >= 2)
-			test = getTextArea().getText().split("\n");
-		else
-			test = getTextArea().getText().split("\r");
+		if(System.currentTimeMillis()-lastUpdate <= 50)
+			return;
 		
-		StringBuilder replace = new StringBuilder();
-		for (String s : test)
+		lastUpdate = System.currentTimeMillis();
+		
+		//update only if required
+		if(textAreaOutputStreamErr.noUpdateRequired() && textAreaOutputStreamOut.noUpdateRequired())
+			return;
+		
+		SwingUtilities.invokeLater(()->
 		{
-			if (s.startsWith("File '"))
+			//print output to the pane
+			textAreaOutputStreamOut.update();
+			
+			//print error to the pane
+			textAreaOutputStreamErr.update();
+			
+			//reformat the pane
+			String content = getTextArea().getText();
+			if(content.contains("File `"))
 			{
-				String[] split = s.split("'");
-				String start = split[0] + "'" + split[1] + "', ";
-				s = s.substring(start.length());
+				String[] test;
+				if (content.split("\n").length >= 2)
+					test = content.split("\n");
+				else
+					test = content.split("\r");
+				
+				StringBuilder replace = new StringBuilder();
+				for (String s : test)
+				{
+					if (s.startsWith("File '"))
+					{
+						String[] split = s.split("'");
+						String start = split[0] + "'" + split[1] + "', ";
+						s = s.substring(start.length());
+					}
+					replace.append(s).append(nl);
+				}
+				
+				setText(replace.toString());
 			}
-			replace.append(s).append(nl);
-		}
-		setText(replace.toString());
+		});
 	}
 }

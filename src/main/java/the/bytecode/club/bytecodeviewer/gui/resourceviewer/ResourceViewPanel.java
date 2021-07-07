@@ -99,7 +99,6 @@ public class ResourceViewPanel
 			e.printStackTrace();
 		}
 		
-		errConsole.pretty();
 		errConsole.setVisible(true);
 		errConsole.finished();
 		return false;
