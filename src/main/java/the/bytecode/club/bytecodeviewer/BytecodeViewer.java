@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
@@ -222,7 +223,10 @@ public class BytecodeViewer
      */
     public static void boot(boolean cli)
     {
+        //delete files in the temp folder
         cleanupAsync();
+        
+        //shutdown hooks
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
         {
             for (Process proc : createdProcesses)
@@ -231,7 +235,10 @@ public class BytecodeViewer
             cleanup();
         }, "Shutdown Hook"));
 
+        //setup the viewer
         viewer.calledAfterLoad();
+        
+        //setup the recent files
         Settings.resetRecentFilesMenu();
 
         //ping back once on first boot to add to global user count
@@ -240,15 +247,19 @@ public class BytecodeViewer
             pingBack.start();
             Configuration.pingback = true;
         }
-
+        
+        //version checking
         if (viewer.updateCheck.isSelected())
             versionChecker.start();
 
+        //show the main UI
         if (!cli)
             viewer.setVisible(true);
 
+        //print startup time
         System.out.println("Start up took " + ((System.currentTimeMillis() - Configuration.start) / 1000) + " seconds");
-
+        
+        //open files from launch args
         if (!cli)
             if (launchArgs.length >= 1)
                 for (String s : launchArgs)
@@ -580,7 +591,7 @@ public class BytecodeViewer
      */
     public static void handleException(Throwable t)
     {
-        BytecodeViewer.handleException(t);
+        handleException(t, ExceptionUI.KONLOCH);
     }
     
     /**
@@ -588,7 +599,7 @@ public class BytecodeViewer
      */
     public static void handleException(Throwable t, String author)
     {
-        BytecodeViewer.handleException(t, author);
+        new ExceptionUI(t, author);
     }
     
     /**

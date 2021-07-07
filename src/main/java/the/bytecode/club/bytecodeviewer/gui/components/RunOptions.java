@@ -38,6 +38,11 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
 
 public class RunOptions extends JFrame
 {
+    private final JTextField mainMethodFQN;
+    private final JCheckBox debugMethodCalls;
+    private final JTextField debugClasses;
+    private final JTextField socksProxy;
+    
     public RunOptions()
     {
         this.setIconImages(Resources.iconList);
@@ -125,8 +130,4 @@ public class RunOptions extends JFrame
     }
 
     private static final long serialVersionUID = -2662514582647810868L;
-    private final JTextField mainMethodFQN;
-    private final JCheckBox debugMethodCalls;
-    private final JTextField debugClasses;
-    private final JTextField socksProxy;
 }
