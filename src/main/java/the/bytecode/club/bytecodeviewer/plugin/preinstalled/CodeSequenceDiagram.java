@@ -46,17 +46,18 @@ public class CodeSequenceDiagram extends Plugin
 {
     public static void open()
     {
-        if (BytecodeViewer.getLoadedClasses().isEmpty())
-        {
-            BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+        if (BytecodeViewer.promptIfNoLoadedClasses())
             return;
-        }
+        
         PluginManager.runPlugin(new CodeSequenceDiagram());
     }
     
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
+        if (BytecodeViewer.promptIfNoLoadedClasses())
+            return;
+    
         if (BytecodeViewer.viewer.workPane.getCurrentViewer() == null || !(BytecodeViewer.viewer.workPane.getCurrentViewer() instanceof ClassViewer))
         {
             BytecodeViewer.showMessage("First open a class file.");

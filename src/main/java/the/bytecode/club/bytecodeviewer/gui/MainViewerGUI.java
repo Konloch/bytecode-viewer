@@ -791,10 +791,8 @@ public class MainViewerGUI extends JFrame
     
     public void runResources()
     {
-        if (BytecodeViewer.getLoadedClasses().isEmpty()) {
-            BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+        if (BytecodeViewer.promptIfNoLoadedClasses())
             return;
-        }
         
         new RunOptions().setVisible(true);
     }

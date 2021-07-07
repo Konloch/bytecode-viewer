@@ -25,11 +25,8 @@ public class DexExport implements Exporter
 	@Override
 	public void promptForExport()
 	{
-		if (BytecodeViewer.getLoadedClasses().isEmpty())
-		{
-			BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+		if (BytecodeViewer.promptIfNoLoadedClasses())
 			return;
-		}
 		
 		Thread exportThread = new Thread(() ->
 		{

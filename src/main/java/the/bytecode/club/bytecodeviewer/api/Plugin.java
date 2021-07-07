@@ -37,11 +37,8 @@ public abstract class Plugin extends Thread
         
         try
         {
-            if (BytecodeViewer.getLoadedClasses().isEmpty())
-            {
-                BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+            if (BytecodeViewer.promptIfNoLoadedClasses())
                 return;
-            }
             
             execute(BytecodeViewer.getLoadedClasses());
         } catch (Exception e) {

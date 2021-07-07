@@ -47,18 +47,16 @@ public class GlobalHotKeys
 			t.start();
 		} else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-			if (BytecodeViewer.getLoadedClasses().isEmpty()) {
-				BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+			
+			if (BytecodeViewer.promptIfNoLoadedClasses())
 				return;
-			}
+			
 			new RunOptions().setVisible(true);
 		} else if ((e.getKeyCode() == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			
-			if (BytecodeViewer.getLoadedClasses().isEmpty()) {
-				BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+			if (BytecodeViewer.promptIfNoLoadedClasses())
 				return;
-			}
 			
 			Thread resourceExport = new Thread(() ->
 			{

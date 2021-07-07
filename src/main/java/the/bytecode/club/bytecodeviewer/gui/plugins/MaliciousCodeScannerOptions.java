@@ -41,11 +41,8 @@ public class MaliciousCodeScannerOptions extends JFrame
     
     public static void open()
     {
-        if (BytecodeViewer.getLoadedClasses().isEmpty())
-        {
-            BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+        if (BytecodeViewer.promptIfNoLoadedClasses())
             return;
-        }
         
         new MaliciousCodeScannerOptions().setVisible(true);
     }

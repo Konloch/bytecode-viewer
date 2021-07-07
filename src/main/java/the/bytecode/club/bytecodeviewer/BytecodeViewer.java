@@ -524,6 +524,28 @@ public class BytecodeViewer
     }
     
     /**
+     * Returns true if there are no loaded resource classes
+     */
+    public static boolean promptIfNoLoadedClasses()
+    {
+        if (BytecodeViewer.getLoadedClasses().isEmpty())
+        {
+            BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Handle the exception by creating a new window for bug reporting
+     */
+    public static void handleException(Throwable t)
+    {
+        new ExceptionUI(t);
+    }
+    
+    /**
      * Refreshes the title on all of the opened tabs
      */
     public static void refreshAllTabTitles()

@@ -28,11 +28,8 @@ public class ResourceDecompiling
 {
 	public static void decompileSaveAll()
 	{
-		if (BytecodeViewer.getLoadedClasses().isEmpty())
-		{
-			BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+		if (BytecodeViewer.promptIfNoLoadedClasses())
 			return;
-		}
 		
 		Thread decompileThread = new Thread(() ->
 		{
@@ -182,11 +179,8 @@ public class ResourceDecompiling
 	
 	public static void decompileSaveOpenedOnly()
 	{
-		if (BytecodeViewer.getLoadedClasses().isEmpty())
-		{
-			BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+		if (BytecodeViewer.promptIfNoLoadedClasses())
 			return;
-		}
 		
 		if (BytecodeViewer.viewer.workPane.getCurrentViewer() == null || !(BytecodeViewer.viewer.workPane.getCurrentViewer() instanceof ClassViewer))
 		{
