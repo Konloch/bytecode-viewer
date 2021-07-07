@@ -56,7 +56,9 @@ public class DiskWriter {
         int counter = 0;
 
         boolean saved = false;
-        while (!saved) {
+        int failSafe = 0;
+        while (!saved && failSafe++ <= 42069)
+        {
             try {
                 writer = new PrintWriter(new BufferedWriter(new FileWriter(
                         filename, true)));
@@ -93,7 +95,9 @@ public class DiskWriter {
         int counter = 0;
 
         boolean saved = false;
-        while (!saved) {
+        int failSafe = 0;
+        while (!saved && failSafe++ <= 42069)
+        {
             try {
                 writer = new PrintWriter(new BufferedWriter(new FileWriter(
                         filename, true)));
@@ -135,7 +139,9 @@ public class DiskWriter {
         int counter = 0;
 
         boolean saved = false;
-        while (!saved) {
+        int failSafe = 0;
+        while (!saved && failSafe++ <= 42069)
+        {
             try {
                 writer = new PrintWriter(new BufferedWriter(new FileWriter(
                         filename, true)));
@@ -176,7 +182,9 @@ public class DiskWriter {
         int counter = 0;
 
         boolean saved = false;
-        while (!saved) {
+        int failSafe = 0;
+        while (!saved && failSafe++ <= 42069)
+        {
             try {
                 writer = new PrintWriter(new BufferedWriter(new FileWriter(
                         filename, true)));
