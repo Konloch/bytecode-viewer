@@ -13,7 +13,8 @@ import org.jd.core.v1.service.deserializer.classfile.ClassFileFormatException;
 import org.jd.core.v1.service.deserializer.classfile.ClassFileReader;
 
 
-public class ClassFileUtil {
+public class JDGUIClassFileUtil
+{
     public static final char INTERNAL_PACKAGE_SEPARATOR = '/';
     public static final String CLASS_FILE_SUFFIX = ".class";
 

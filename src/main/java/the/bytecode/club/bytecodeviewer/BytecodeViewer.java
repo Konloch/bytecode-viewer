@@ -1,12 +1,9 @@
 package the.bytecode.club.bytecodeviewer;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import javax.swing.*;
 
 import com.google.gson.Gson;
@@ -27,7 +24,6 @@ import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 import static the.bytecode.club.bytecodeviewer.Settings.addRecentPlugin;
-import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentTypes.JAVA_AND_BYTECODE;
 import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
 
 /***************************************************************************
@@ -114,6 +110,9 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
 
 public class BytecodeViewer
 {
+    public static boolean EXPERIMENTAL_TAB_CODE = false;
+    public static boolean DEV_MODE = false; //if true error streams as preserved
+    
     public static String[] launchArgs;
     public static MainViewerGUI viewer = null;
     public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV,
@@ -121,10 +120,8 @@ public class BytecodeViewer
     public static Refactorer refactorer = new Refactorer();
     public static List<FileContainer> files = new ArrayList<>(); //all of BCV's loaded files/classes/etc
     public static List<Process> createdProcesses = new ArrayList<>();
-    public static final DecompilerViewComponent krakatau = new DecompilerViewComponent("Krakatau", JAVA_AND_BYTECODE);
     public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    public static final boolean EXPERIMENTAL_TAB_CODE = false;
-    public static final boolean DEV_MODE = false; //if true error streams as preserved
+    
     private static final Thread versionChecker = new Thread(new VersionChecker(), "Version Checker");
     private static final Thread pingBack = new Thread(new PingBack(), "Pingback");
     private static final Thread installFatJar = new Thread(new InstallFatJar(), "Install Fat-Jar");
@@ -298,7 +295,10 @@ public class BytecodeViewer
 
         return null;
     }
-
+    
+    /**
+     * Returns the File Container by the specific name
+     */
     public static FileContainer getFileContainer(String name)
     {
         for (FileContainer container : files)
@@ -307,11 +307,17 @@ public class BytecodeViewer
 
         return null;
     }
-
+    
+    /**
+     * Returns all of the loaded File Containers
+     */
     public static List<FileContainer> getFiles() {
         return files;
     }
-
+    
+    /**
+     * Returns a ClassNode by name specific namefrom a specific File Container
+     */
     public static ClassNode getClassNode(FileContainer container, String name)
     {
         for (ClassNode c : container.classes)
@@ -337,23 +343,11 @@ public class BytecodeViewer
     }
     
     /**
-     * Grab the byte array from the loaded Class object
-     *
-     * @param clazz
-     * @return
-     * @throws IOException
+     * Grab the byte array from the loaded Class object by getting the resource from the classloader
      */
-    public static byte[] getClassFile(Class<?> clazz) throws IOException
+    public static byte[] getClassFileBytes(Class<?> clazz) throws IOException
     {
-        try (InputStream is = clazz.getResourceAsStream("/" + clazz.getName().replace('.', '/') + ".class");
-             ByteArrayOutputStream baos = new ByteArrayOutputStream())
-        {
-            int r;
-            byte[] buffer = new byte[8192];
-            while ((r = Objects.requireNonNull(is).read(buffer)) >= 0)
-                baos.write(buffer, 0, r);
-            return baos.toByteArray();
-        }
+        return ClassFileUtils.getClassFileBytes(clazz);
     }
 
     /**

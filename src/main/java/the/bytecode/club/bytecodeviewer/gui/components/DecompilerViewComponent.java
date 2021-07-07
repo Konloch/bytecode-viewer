@@ -7,6 +7,8 @@ import the.bytecode.club.bytecodeviewer.util.RefreshWorkPane;
 
 import javax.swing.*;
 
+import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentTypes.JAVA_AND_BYTECODE;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -31,6 +33,8 @@ import javax.swing.*;
  */
 public class DecompilerViewComponent
 {
+	public static final DecompilerViewComponent KRAKATAU = new DecompilerViewComponent("Krakatau", JAVA_AND_BYTECODE);
+	
 	private final String name;
 	private final JMenu menu;
 	private final DecompilerComponentTypes types;
@@ -38,7 +42,8 @@ public class DecompilerViewComponent
 	private final JRadioButtonMenuItem bytecode = new TranslatedJRadioButtonMenuItem("Bytecode", Translation.BYTECODE);
 	private final JCheckBoxMenuItem editable = new TranslatedJCheckBoxMenuItem("Editable", Translation.EDITABLE);
 	
-	public DecompilerViewComponent(String name, DecompilerComponentTypes types) {
+	public DecompilerViewComponent(String name, DecompilerComponentTypes types)
+	{
 		this.name = name;
 		this.menu = new JMenu(name);
 		this.types = types;

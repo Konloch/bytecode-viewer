@@ -11,7 +11,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.DirectoryLoader;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.CommonPreferences;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.PlainTextPrinter;
-import the.bytecode.club.bytecodeviewer.decompilers.jdgui.ClassFileUtil;
+import the.bytecode.club.bytecodeviewer.decompilers.jdgui.JDGUIClassFileUtil;
 import me.konloch.kontainer.io.DiskReader;
 import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.objectweb.asm.tree.ClassNode;
@@ -78,8 +78,8 @@ public class JDGUIDecompiler extends InternalDecompiler
 
 
             String pathToClass = tempClass.getAbsolutePath().replace('/', File.separatorChar).replace('\\', File.separatorChar);
-            String directoryPath = ClassFileUtil.ExtractDirectoryPath(pathToClass);
-            String internalPath = ClassFileUtil.ExtractInternalPath(directoryPath, pathToClass);
+            String directoryPath = JDGUIClassFileUtil.ExtractDirectoryPath(pathToClass);
+            String internalPath = JDGUIClassFileUtil.ExtractInternalPath(directoryPath, pathToClass);
 
             CommonPreferences preferences = new CommonPreferences() {
                 @Override
