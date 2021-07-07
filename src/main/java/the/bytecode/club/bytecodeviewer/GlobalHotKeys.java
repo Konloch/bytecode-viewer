@@ -1,6 +1,5 @@
 package the.bytecode.club.bytecodeviewer;
 
-import sun.security.krb5.Config;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
 import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
@@ -135,11 +134,21 @@ public class GlobalHotKeys
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			
 			String recentFile = Settings.getRecentFile();
-			
 			System.out.println("Opening..." + recentFile);
 			
 			if(!BytecodeViewer.hasResources() && recentFile != null)
-				BytecodeViewer.openFiles(new File[]{new File(recentFile)}, false);
+			{
+				File file = new File(recentFile);
+				if(file.exists())
+				{
+					BytecodeViewer.openFiles(new File[]{file}, false);
+				}
+				else
+				{
+					BytecodeViewer.showMessage("The file " + file.getAbsolutePath() + " could not be found.");
+					Settings.removeRecentFile(file);
+				}
+			}
 		}
 	}
 }

@@ -3,17 +3,38 @@ package the.bytecode.club.bytecodeviewer.util;
 import java.util.function.BiFunction;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
+/**
+ * @author ThexXTURBOXx
+ */
 public enum SyntaxLanguage
 {
-    XML(SyntaxConstants.SYNTAX_STYLE_XML, (n, c) -> n.endsWith(".xml")
-            || c.startsWith("<?xml") || c.startsWith("<xml")),
+    XML(SyntaxConstants.SYNTAX_STYLE_XML,
+            (n, c) -> n.endsWith(".xml") || c.startsWith("<?xml") || c.startsWith("<xml")),
     PYTHON(SyntaxConstants.SYNTAX_STYLE_PYTHON, (n, c) -> n.endsWith(".py") || n.endsWith(".python")),
     RUBY(SyntaxConstants.SYNTAX_STYLE_RUBY, (n, c) -> n.endsWith(".rb") || n.endsWith(".ruby")),
     JAVA(SyntaxConstants.SYNTAX_STYLE_JAVA, (n, c) -> n.endsWith(".java")),
     HTML(SyntaxConstants.SYNTAX_STYLE_HTML, (n, c) -> n.endsWith(".html")),
     CSS(SyntaxConstants.SYNTAX_STYLE_CSS, (n, c) -> n.endsWith(".css")),
-    PROPERTIES(SyntaxConstants.SYNTAX_STYLE_PROPERTIES_FILE, (n, c) -> n.endsWith(".properties")
-            || n.endsWith(".mf") || n.endsWith(".sf")),
+    PROPERTIES(SyntaxConstants.SYNTAX_STYLE_PROPERTIES_FILE,
+            (n, c) -> n.endsWith(".properties") || n.endsWith(".mf") || n.endsWith(".sf")),
     PHP(SyntaxConstants.SYNTAX_STYLE_PHP, (n, c) -> n.endsWith(".php") || c.startsWith("<?php")),
     JS(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT, (n, c) -> n.endsWith(".js")),
     BATCH(SyntaxConstants.SYNTAX_STYLE_WINDOWS_BATCH, (n, c) -> n.endsWith(".bat")),

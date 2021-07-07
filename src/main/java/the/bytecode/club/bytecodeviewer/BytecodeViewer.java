@@ -11,7 +11,6 @@ import com.google.gson.GsonBuilder;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
-import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
