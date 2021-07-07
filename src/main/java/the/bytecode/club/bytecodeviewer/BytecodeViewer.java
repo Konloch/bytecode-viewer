@@ -258,6 +258,10 @@ public class BytecodeViewer
         //print startup time
         System.out.println("Start up took " + ((System.currentTimeMillis() - Configuration.start) / 1000) + " seconds");
         
+        //request focus on GUI for hotkeys on start
+        if(!cli)
+            viewer.requestFocus();
+        
         //open files from launch args
         if (!cli)
             if (launchArgs.length >= 1)

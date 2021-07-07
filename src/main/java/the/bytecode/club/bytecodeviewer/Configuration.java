@@ -38,7 +38,7 @@ public class Configuration
 	
 	public static boolean verifyCorruptedStateOnBoot = false; //eventually may be a setting
 	
-	public static long lastHotKeyExecuted = System.currentTimeMillis();
+	public static long lastHotKeyExecuted = 0;
 	
 	public static Language language = Language.ENGLISH;
 	
