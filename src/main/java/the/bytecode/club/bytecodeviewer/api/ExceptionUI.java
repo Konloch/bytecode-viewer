@@ -40,21 +40,21 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 public class ExceptionUI extends JFrame
 {
-    public static final String SEND_STACKTRACE_TO = "Send the stacktrace to https://github.com/Konloch/bytecode-viewer/issues or Konloch at https://the.bytcode.club or konloch@gmail.com" +
-            "\nIf you hold appropriate legal rights to the relevant class/jar/apk file please include that as well.";
+    public static final String KONLOCH = "https://github.com/Konloch/bytecode-viewer/issues or Konloch at https://the.bytcode.club or konloch@gmail.com";
+    public static final String SEND_STACKTRACE_TO = buildErrorLogHeader(KONLOCH);
     
     /**
      * @param e The exception to be shown
      */
     public ExceptionUI(Throwable e) {
-        setupException(e, "@Konloch - konloch@gmail.com");
+        setupException(e, KONLOCH);
     }
 
     /**
      * @param e The exception to be shown
      */
     public ExceptionUI(String e) {
-        setupFrame(e, "@Konloch - konloch@gmail.com");
+        setupFrame(e, KONLOCH);
     }
 
     /**
@@ -72,7 +72,10 @@ public class ExceptionUI extends JFrame
     public ExceptionUI(String e, String author) {
         setupFrame(e, author);
     }
-
+    
+    /**
+     * Handles error suppression and prints stacktraces to strings
+     */
     private void setupException(Throwable error, String author)
     {
         //exceptions are completely hidden
@@ -92,12 +95,15 @@ public class ExceptionUI extends JFrame
         
         setupFrame(sw.toString(), author);
     }
-
+    
+    /**
+     * Creates a new frame and fills it with the error log
+     */
     private void setupFrame(String error, String author)
     {
         this.setIconImages(Resources.iconList);
         setSize(new Dimension(600, 400));
-        setTitle("Bytecode Viewer " + VERSION + " - Stack Trace - Send this to " + author);
+        setTitle("Bytecode Viewer " + VERSION + " - Error Log - Send this to " + author);
         getContentPane().setLayout(new CardLayout(0, 0));
 
         JTextArea textArea = new JTextArea();
@@ -105,18 +111,25 @@ public class ExceptionUI extends JFrame
         textArea.setWrapStyleWord(true);
         getContentPane().add(new JScrollPane(textArea));
 
-        textArea.setText(
-                "Please send this error log to " + author +
-                "\nIf you hold appropriate legal rights to the relevant class/jar/apk file please include that as well." +
-                "\nBytecode Viewer Version: " + VERSION +
-                ", Preview Copy: " + PREVIEW_COPY +
-                ", Fat Jar: " + FAT_JAR +
-                ", OS: " + System.getProperty("os.name") +
-                ", Java: " + System.getProperty("java.version") +
-                nl + nl + error);
+        textArea.setText(buildErrorLogHeader(author) + nl + nl + error);
         
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+    
+    /**
+     * Returns the error log header
+     */
+    public static String buildErrorLogHeader(String author)
+    {
+        String fatJar = FAT_JAR ? " [FatJar] " : "";
+        String previewCopy = PREVIEW_COPY ? " [Preview Copy] " : "";
+        
+        return "Please send this error log to " + author +
+                "\nIf you hold appropriate legal rights to the relevant class/jar/apk file please include that as well." +
+                "\nBytecode Viewer Version: " + VERSION + previewCopy + fatJar +
+                ", OS: " + System.getProperty("os.name") +
+                ", Java: " + System.getProperty("java.version");
     }
     
     private static final long serialVersionUID = -5230501978224926296L;
