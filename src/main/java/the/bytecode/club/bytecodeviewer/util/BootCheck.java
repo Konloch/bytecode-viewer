@@ -77,8 +77,7 @@ public class BootCheck implements Runnable
 					File f = new File(s);
 					if (f.exists())
 					{
-						Boot.setState("Bytecode Viewer Boot Screen (OFFLINE MODE) - Force Loading Library "
-								+ f.getName());
+						Boot.setState("Bytecode Viewer Boot Screen (OFFLINE MODE) - Force Loading Library " + f.getName());
 						System.out.println("Force loading library " + f.getName());
 						
 						try
