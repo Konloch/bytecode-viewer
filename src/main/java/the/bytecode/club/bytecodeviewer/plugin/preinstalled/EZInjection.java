@@ -144,6 +144,7 @@ public class EZInjection extends Plugin {
     public void execute(ArrayList<ClassNode> classNodeList)
     {
         BytecodeViewer.updateBusyStatus(true);
+        
         gui.setText("");
 
         if (console)
@@ -273,11 +274,14 @@ public class EZInjection extends Plugin {
 
         if (invokeMethod)
         {
+            //start print debugging
+            BytecodeViewer.sm.setPrinting(true);
+            
             // load all the classnodes into the classloader
             for (ClassNode cn : BytecodeViewer.getLoadedClasses())
                 the.bytecode.club.bytecodeviewer.api.BytecodeViewer.getClassNodeLoader().addClass(cn);
 
-            print("Invoking " + invokeMethodInformation + ":" + nl + nl);
+            print("Attempting to find " + invokeMethodInformation + ":" + nl + nl);
 
             for (ClassNode classNode : classNodeList)
             {
@@ -294,12 +298,17 @@ public class EZInjection extends Plugin {
                         {
                             if (m2.getName().equals(m.name))
                             {
+                                print("Invoking " + invokeMethodInformation + ":" + nl + nl);
+                                
+                                GraphicalReflectionKit kit = launchKit ? new GraphicalReflectionKit() : null;
                                 try
                                 {
+                                    if(kit != null)
+                                        kit.setVisible(true);
+                                    
                                     m2.invoke(classNode.getClass().newInstance(), (Object[]) new String[1]);
                                     
-                                    if (launchKit)
-                                        new GraphicalReflectionKit().setVisible(true);
+                                    print("Finished running " + invokeMethodInformation);
                                 }
                                 catch (Exception e)
                                 {
@@ -307,6 +316,14 @@ public class EZInjection extends Plugin {
                                     e.printStackTrace(new PrintWriter(sw));
                                     e.printStackTrace();
                                     print(sw.toString());
+                                }
+                                finally
+                                {
+                                    //disable print debugging
+                                    BytecodeViewer.sm.setPrinting(false);
+                                    
+                                    if(kit != null)
+                                        kit.setVisible(false);
                                 }
                             }
                         }

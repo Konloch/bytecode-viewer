@@ -5,7 +5,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
-import the.bytecode.club.bytecodeviewer.gui.components.SystemErrConsole;
+import the.bytecode.club.bytecodeviewer.gui.components.SystemConsole;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.util.PaneUpdaterThread;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
@@ -74,11 +74,7 @@ public class ResourceViewPanel
 		if(textArea == null || !textArea.isEditable())
 			return true;
 		
-		//WARNING: Any errors thrown will get swallowed by this class
-		//if it fails to display it may be hiding exceptions you can't see
-		//make sure to enable DEV_MODE in BytecodeViewer
-		
-		SystemErrConsole errConsole = new SystemErrConsole("Java Compile Issues");
+		SystemConsole errConsole = new SystemConsole("Java Compile Issues");
 		errConsole.setText("Error compiling class: " + viewer.cn.name +
 				nl + "Keep in mind most decompilers cannot produce compilable classes" +
 				nl + nl);

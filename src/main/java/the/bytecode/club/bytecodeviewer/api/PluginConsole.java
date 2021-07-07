@@ -1,22 +1,6 @@
 package the.bytecode.club.bytecodeviewer.api;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Resources;
-import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsole;
-import the.bytecode.club.bytecodeviewer.gui.components.SearchableJTextArea;
-import the.bytecode.club.bytecodeviewer.gui.components.listeners.PressKeyListener;
-import the.bytecode.club.bytecodeviewer.gui.components.listeners.ReleaseKeyListener;
+import the.bytecode.club.bytecodeviewer.gui.components.SystemConsole;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -42,7 +26,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.listeners.ReleaseKeyListe
  * @author Konloch
  */
 
-public class PluginConsole extends JFrameConsole
+public class PluginConsole extends SystemConsole
 {
     public PluginConsole(String pluginName)
     {

@@ -1,5 +1,8 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
+
 import java.io.PrintStream;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
@@ -30,34 +33,30 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
  */
 public class JFrameConsolePrintStream extends JFrameConsole
 {
-	private final PrintStream originalOut;
-	private final PrintStream newPrintStream;
-	private final JTextAreaOutputStream s;
+	private final JTextAreaOutputStream textAreaOutputStreamOut;
+	private final JTextAreaOutputStream textAreaOutputStreamErr;
 	
-	public JFrameConsolePrintStream(String title, PrintStream originalOut)
+	public JFrameConsolePrintStream(String title)
 	{
 		super(title);
 		
-		this.originalOut = originalOut;
+		textAreaOutputStreamOut = new JTextAreaOutputStream(getTextArea(), System.out);
+		textAreaOutputStreamErr = new JTextAreaOutputStream(getTextArea(), System.err);
 		
-		s = new JTextAreaOutputStream(getTextArea());
-		newPrintStream = new PrintStream(s);
+		System.setOut(new PrintStream(textAreaOutputStreamOut));
+		System.setErr(new PrintStream(textAreaOutputStreamErr));
 	}
 	
 	public void finished()
 	{
-		if (originalOut != null)
-			System.setErr(originalOut);
-	}
-	
-	public PrintStream getNewPrintStream()
-	{
-		return newPrintStream;
+		System.setErr(Constants.ERR);
+		System.setOut(Constants.OUT);
 	}
 	
 	public void pretty()
 	{
-		s.update();
+		textAreaOutputStreamOut.update();
+		textAreaOutputStreamErr.update();
 		String[] test;
 		if (getTextArea().getText().split("\n").length >= 2)
 			test = getTextArea().getText().split("\n");

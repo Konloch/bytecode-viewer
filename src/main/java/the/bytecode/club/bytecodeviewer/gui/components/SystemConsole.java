@@ -18,18 +18,19 @@ package the.bytecode.club.bytecodeviewer.gui.components;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 /**
  * A simple console GUI.
  *
  * @author Konloch
  */
 
-public class SystemOutConsole extends JFrameConsolePrintStream
+public class SystemConsole extends JFrameConsolePrintStream
 {
-    public SystemOutConsole(String title)
+    public SystemConsole(String title)
     {
-        super(title,  System.out);
-        System.setOut(getNewPrintStream());
+        super(title);
     }
     
     private static final long serialVersionUID = -6666940545499937508L;

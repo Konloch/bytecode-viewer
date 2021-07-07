@@ -1,6 +1,12 @@
 package the.bytecode.club.bytecodeviewer;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
+import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
+
 import java.io.File;
+import java.io.PrintStream;
 
 /**
  * General program constants, to use this class include everything as a wildcard static import:
@@ -34,6 +40,9 @@ public class Constants
 	public static String krakatauWorkingDirectory = getBCVDirectory() + fs + "krakatau_" + krakatauVersion;
 	public static String enjarifyWorkingDirectory = getBCVDirectory() + fs + "enjarify_" + enjarifyVersion;
 	public static final String[] SUPPORTED_FILE_EXTENSIONS = new String[]{"jar", "zip", "class", "apk", "xapk", "dex", "war", "jsp"};
+	
+	public static final PrintStream ERR = System.err;
+	public static final PrintStream OUT = System.out;
 	
 	/**
 	 * Returns the BCV directory

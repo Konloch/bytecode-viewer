@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui.components;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -30,10 +31,12 @@ public class JTextAreaOutputStream extends OutputStream
 {
 	private final StringBuilder sb = new StringBuilder();
 	private final JTextArea textArea;
+	private final PrintStream og;
 	
-	public JTextAreaOutputStream(JTextArea textArea)
+	public JTextAreaOutputStream(JTextArea textArea, PrintStream og)
 	{
 		this.textArea = textArea;
+		this.og = og;
 	}
 	
 	public void update()
@@ -45,5 +48,6 @@ public class JTextAreaOutputStream extends OutputStream
 	public void write(int b) throws IOException
 	{
 		sb.append((char) b);
+		og.write(b);
 	}
 }

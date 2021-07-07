@@ -110,18 +110,31 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
 
 public class BytecodeViewer
 {
+    //TODO fix this for tab dragging & better tab controls
     public static boolean EXPERIMENTAL_TAB_CODE = false;
-    public static boolean DEV_MODE = false; //if true error streams as preserved
     
+    //the launch args called on BCV
     public static String[] launchArgs;
-    public static MainViewerGUI viewer = null;
-    public static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV,
-    public static SecurityMan sm = new SecurityMan(); //might be insecure due to assholes targeting BCV,
-    public static Refactorer refactorer = new Refactorer();
-    public static List<FileContainer> files = new ArrayList<>(); //all of BCV's loaded files/classes/etc
+    
+    //the GUI reference
+    public static MainViewerGUI viewer;
+    
+    //All of the opened resources (Files/Classes/Etc)
+    public static List<FileContainer> files = new ArrayList<>();
+    
+    //All of the created processes (Decompilers/etc)
     public static List<Process> createdProcesses = new ArrayList<>();
+    
+    //Security Manager for dynamic analysis debugging
+    public static SecurityMan sm = new SecurityMan(); //might be insecure due to assholes targeting BCV,
+    
+    //Refactorer
+    public static Refactorer refactorer = new Refactorer();
+    
+    //GSON Reference
     public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     
+    //Threads
     private static final Thread versionChecker = new Thread(new VersionChecker(), "Version Checker");
     private static final Thread pingBack = new Thread(new PingBack(), "Pingback");
     private static final Thread installFatJar = new Thread(new InstallFatJar(), "Install Fat-Jar");

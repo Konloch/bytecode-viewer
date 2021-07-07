@@ -30,13 +30,17 @@ import java.security.Permission;
  * @author Konloch
  */
 
-public class SecurityMan extends SecurityManager {
-
-    public void setBlocking() {
+public class SecurityMan extends SecurityManager
+{
+    private boolean blocking = true; //might be insecure due to assholes targeting BCV, however that's highly unlikely.
+    private boolean printing = false;
+    private boolean printingPackage = false;
+    
+    public void resumeBlocking() {
         blocking = true;
     }
-
-    public void stopBlocking() { //slightly safer security system than just a public static boolean being toggled
+    
+    public void pauseBlocking() { //slightly safer security system than just a public static boolean being toggled
         String executedClass = Thread.currentThread().getStackTrace()[2].getClassName();
         if (executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.impl.KrakatauDecompiler") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.impl.KrakatauDisassembler") ||
@@ -55,9 +59,17 @@ public class SecurityMan extends SecurityManager {
             System.out.println(stackTraceElements.getClassName());
         }
     }
-
-    private boolean blocking = true; //might be insecure due to assholes targeting BCV, however that's highly unlikely.
-
+    
+    public void setPrinting(boolean printing)
+    {
+        this.printing = printing;
+    }
+    
+    public void setPrintingPackage(boolean printingPackage)
+    {
+        this.printingPackage = printingPackage;
+    }
+    
     @Override
     public void checkExec(String cmd) {
         String[] whitelist = {
@@ -112,6 +124,8 @@ public class SecurityMan extends SecurityManager {
 
     @Override
     public void checkConnect(String host, int port) {
+        if(printing)
+            System.out.println("Connecting to: " + host + ":" + port);
     }
 
     @Override
@@ -124,6 +138,8 @@ public class SecurityMan extends SecurityManager {
 
     @Override
     public void checkDelete(String file) {
+        if(printing)
+            System.out.println("Deleting: " + file);
     }
 
     @Override
@@ -135,6 +151,8 @@ public class SecurityMan extends SecurityManager {
 
     @Override
     public void checkLink(String lib) {
+        if(printing)
+            System.out.println("Linking: " + lib);
     }
     
     @SuppressWarnings("deprecation")
@@ -151,6 +169,8 @@ public class SecurityMan extends SecurityManager {
     
     @SuppressWarnings("deprecation")
     public void checkPackageAccess(String pkg) {
+        if(printingPackage)
+            System.out.println("Accessing: " + pkg);
     }
 
     @Override
@@ -175,6 +195,8 @@ public class SecurityMan extends SecurityManager {
 
     @Override
     public void checkRead(String file) {
+        if(printing)
+            System.out.println("Reading: " + file);
     }
 
     @Override
@@ -199,5 +221,7 @@ public class SecurityMan extends SecurityManager {
 
     @Override
     public void checkWrite(String file) {
+        if(printing)
+            System.out.println("Writing: " + file);
     }
 }

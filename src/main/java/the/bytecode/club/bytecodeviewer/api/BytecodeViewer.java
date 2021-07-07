@@ -46,8 +46,9 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *
  * @author Konloch
  */
-public class BytecodeViewer {
-
+public class BytecodeViewer
+{
+    private static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV,
     private static URLClassLoader cl;
 
     /**
@@ -56,7 +57,7 @@ public class BytecodeViewer {
      * @return
      */
     public static ClassNodeLoader getClassNodeLoader() {
-        return the.bytecode.club.bytecodeviewer.BytecodeViewer.loader;
+        return loader;
     }
 
     /**
@@ -132,8 +133,8 @@ public class BytecodeViewer {
      * Creates a new instance of the ClassNode loader.
      */
     public static void createNewClassNodeLoaderInstance() {
-        the.bytecode.club.bytecodeviewer.BytecodeViewer.loader.clear();
-        the.bytecode.club.bytecodeviewer.BytecodeViewer.loader = new ClassNodeLoader();
+        loader.clear();
+        loader = new ClassNodeLoader();
     }
 
     /**
