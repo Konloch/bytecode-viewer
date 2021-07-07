@@ -20,10 +20,13 @@ public class GlobalHotKeys
 	/**
 	 * Checks the hotkeys
 	 */
-	public static void keyPressed(KeyEvent e) {
+	public static void keyPressed(KeyEvent e)
+	{
 		if (System.currentTimeMillis() - Configuration.lastHotKeyExecuted <= (4000))
 			return;
 		
+		//CTRL + O
+		//open resource
 		if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
@@ -38,21 +41,41 @@ public class GlobalHotKeys
 			BytecodeViewer.updateBusyStatus(true);
 			BytecodeViewer.openFiles(new File[]{file}, true);
 			BytecodeViewer.updateBusyStatus(false);
-		} else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+		}
+		
+		//CTRL + N
+		//new workspace
+		else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			BytecodeViewer.resetWorkspace(true);
-		} else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+		}
+		
+		//CTRL + T
+		//compile
+		else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			Thread t = new Thread(() -> BytecodeViewer.compile(true, false), "Compile");
 			t.start();
-		} else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+		}
+		
+		//CTRL + R
+		//Run remote code
+		else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			
 			if (BytecodeViewer.promptIfNoLoadedClasses())
 				return;
 			
 			new RunOptions().setVisible(true);
-		} else if ((e.getKeyCode() == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+		}
+		
+		//CTRL + S
+		//Export resources
+		else if ((e.getKeyCode() == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			
 			if (BytecodeViewer.promptIfNoLoadedClasses())
@@ -93,6 +116,9 @@ public class GlobalHotKeys
 			}, "Resource Export");
 			resourceExport.start();
 		}
+		
+		//CTRL + W
+		//close active resource (currently opened tab)
 		else if ((e.getKeyCode() == KeyEvent.VK_W) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
