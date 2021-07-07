@@ -14,9 +14,11 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -86,9 +88,9 @@ public class JADXDecompiler extends InternalDecompiler
         if(exception.isEmpty())
             exception = "Decompiled source file not found!";
 
-        return "JADX error! " + ExceptionUI.SEND_STACKTRACE_TO
-                + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
-                + nl + nl + exception;
+        return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
+                nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
+                nl + nl + exception;
     }
 
     Random r = new Random();
@@ -116,15 +118,16 @@ public class JADXDecompiler extends InternalDecompiler
                     e.printStackTrace();
                     String exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
                     
-                    return "JADX error! " + ExceptionUI.SEND_STACKTRACE_TO +
-                            nl + nl + "Suggested Fix: Click refresh class, " +
-                            "if it fails again try another decompiler." + nl + nl + exception;
+                    return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
+                            nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
+                            nl + nl + exception;
                 }
                 return s;
             }
         }
-        return "JADX error!" + nl + nl + "Suggested Fix: Click refresh class, if it "
-                + "fails again try another decompiler.";
+        
+        return "JADX error!" +
+                nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR;
     }
 
     @Override

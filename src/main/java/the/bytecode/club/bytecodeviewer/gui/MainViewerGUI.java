@@ -62,7 +62,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  */
 public class MainViewerGUI extends JFrame
 {
-    public AboutWindow aboutWindow = new AboutWindow();
     public boolean isMaximized;
     public final List<JMenuItem> waitIcons = new ArrayList<>();
     
@@ -156,7 +155,7 @@ public class MainViewerGUI extends JFrame
     public JCheckBoxMenuItem debugHelpers = new TranslatedJCheckBoxMenuItem("Debug Helpers", Translation.DEBUG_HELPERS);
     
     //FernFlower settings
-    public final JMenu fernFlowerSettingsSecondaryMenu = new JMenu("FernFlower");
+    public final JMenu fernFlowerSettingsSecondaryMenu = new TranslatedJMenu("FernFlower", Translation.FERNFLOWER);
     public JCheckBoxMenuItem rbr = new JCheckBoxMenuItem("Hide bridge methods");
     public JCheckBoxMenuItem rsy = new JCheckBoxMenuItem("Hide synthetic class members");
     public JCheckBoxMenuItem din = new JCheckBoxMenuItem("Decompile inner classes");
@@ -178,7 +177,7 @@ public class MainViewerGUI extends JFrame
     public JCheckBoxMenuItem ren = new JCheckBoxMenuItem("Rename ambiguous classes and class elements");
     
     //Proycon
-    public final JMenu procyonSettingsSecondaryMenu = new JMenu("Procyon");
+    public final JMenu procyonSettingsSecondaryMenu = new TranslatedJMenu("Procyon", Translation.PROCYON);
     public final JCheckBoxMenuItem alwaysGenerateExceptionVars = new JCheckBoxMenuItem("Always Generate Exception Variable For Catch Blocks");
     public final JCheckBoxMenuItem excludeNestedTypes = new JCheckBoxMenuItem("Exclude Nested Types");
     public final JCheckBoxMenuItem showDebugLineNumbers = new JCheckBoxMenuItem("Show Debug Line Numbers");
@@ -195,7 +194,7 @@ public class MainViewerGUI extends JFrame
     public final JCheckBoxMenuItem unicodeOutputEnabled = new JCheckBoxMenuItem("Unicode Output Enabled");
     
     //CFR
-    public final JMenu cfrSettingsSecondaryMenu = new JMenu("CFR");
+    public final JMenu cfrSettingsSecondaryMenu = new TranslatedJMenu("CFR", Translation.CFR);
     public final JCheckBoxMenuItem decodeEnumSwitch = new JCheckBoxMenuItem("Decode Enum Switch");
     public final JCheckBoxMenuItem sugarEnums = new JCheckBoxMenuItem("SugarEnums");
     public final JCheckBoxMenuItem decodeStringSwitch = new JCheckBoxMenuItem("Decode String Switch");
@@ -342,7 +341,7 @@ public class MainViewerGUI extends JFrame
         saveAsZip.addActionListener(arg0 -> Export.ZIP.getExporter().promptForExport());
         decompileSaveAll.addActionListener(arg0 -> ResourceDecompiling.decompileSaveAll());
         decompileSaveOpened.addActionListener(arg0 -> ResourceDecompiling.decompileSaveOpenedOnly());
-        about.addActionListener(arg0 -> aboutWindow.setVisible(true));
+        about.addActionListener(arg0 -> new AboutWindow().setVisible(true));
         exit.addActionListener(arg0 -> askBeforeExiting());
     }
     
@@ -382,8 +381,8 @@ public class MainViewerGUI extends JFrame
         settingsMainMenu.add(setOptionalLibrary);
         settingsMainMenu.add(setJavac);
         settingsMainMenu.add(new JSeparator());
-        fontSpinner.setPreferredSize(new Dimension(42, 20));
-        fontSpinner.setSize(new Dimension(42, 20));
+        fontSpinner.setPreferredSize(new Dimension(60, 24));
+        fontSpinner.setMinimumSize(new Dimension(60, 24));
         fontSpinner.setModel(new SpinnerNumberModel(12, 1, null, 1));
         fontSize.add(fontSpinner);
         

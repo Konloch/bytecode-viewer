@@ -18,9 +18,11 @@ import me.konloch.kontainer.io.DiskReader;
 import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -118,9 +120,9 @@ public class JDGUIDecompiler extends InternalDecompiler
                     "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         }
         
-        return "JD-GUI error! " + ExceptionUI.SEND_STACKTRACE_TO
-                + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
-                + nl + nl + exception;
+        return JDGUI + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
+                nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
+                nl + nl + exception;
     }
 
     @Override

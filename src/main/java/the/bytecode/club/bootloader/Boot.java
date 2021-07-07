@@ -56,18 +56,12 @@ public class Boot {
     private static final List<String> libsFileList = new ArrayList<>();
     private static final List<String> urlList = new ArrayList<>();
 
-    static {
-        try {
-            screen = new InitialBootScreen();
-        } catch (Exception e) {
-            BytecodeViewer.handleException(e);
-        }
-    }
-
     public static void boot(String[] args, boolean CLI) throws Exception {
         bootstrap();
         ILoader<?> loader = findLoader();
 
+        screen = new InitialBootScreen();
+        
         if (!CLI)
             SwingUtilities.invokeLater(() -> screen.setVisible(true));
 

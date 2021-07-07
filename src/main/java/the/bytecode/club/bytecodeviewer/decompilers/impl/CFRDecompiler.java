@@ -20,9 +20,11 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -143,8 +145,9 @@ public class CFRDecompiler extends InternalDecompiler
         if (file.exists())
             return findFile(Objects.requireNonNull(file.listFiles()));
 
-        return "CFR error! " + ExceptionUI.SEND_STACKTRACE_TO +
-                nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + nl + nl + exception;
+        return CFR + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
+                nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
+                nl + nl + exception;
     }
 
     Random r = new Random();
@@ -171,10 +174,10 @@ public class CFRDecompiler extends InternalDecompiler
                     e.printStackTrace(new PrintWriter(sw));
                     e.printStackTrace();
 
-                    String exception =
-                            "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
-                    return "CFR error! " + ExceptionUI.SEND_STACKTRACE_TO +
-                            nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." +
+                    String exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+                    
+                    return CFR + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
+                            nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
                             nl + nl + exception;
                 }
                 
@@ -183,7 +186,7 @@ public class CFRDecompiler extends InternalDecompiler
         }
         
         return "CFR error!" +
-                nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler.";
+                nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR;
     }
 
     public String[] generateMainMethod(String filePath, String outputPath) {

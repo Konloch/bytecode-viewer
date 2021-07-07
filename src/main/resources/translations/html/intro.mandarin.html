@@ -1,0 +1,135 @@
+<html>
+<h2>关于 </h2>
+
+Bytecode Viewer (BCV)被设计成对用户和初学者非常友好，因此，几乎所有的东西都可以通过一个界面访问。
+都可以通过一个界面、设置、工具等进行访问。
+
+<br><br>开始时，将你的Jar/APK/Class文件拖到资源列表中。
+
+<h2>设置</h2>
+<ul>
+    <li>预览副本。{previewCopy}</li>
+    <li>Fat Jar。{farJar}</li>
+    <li>Java。{java}</li>
+    <li>Javac: {javac}</li>
+    <li>BCV Dir: {bcvDir}</li>
+    <li>Python 2.7 (或 PyPy): {python}</li>
+    <li>Python 3.X (or PyPy): {python3}</li>
+    <li>RT.jar。{rt}</li>
+    <li>可选的 Lib。{lib}</li>
+    <li>BCV Krakatau: v{krakatauVersion}</li>
+    <li>Krakatau Dir: {krakatauDir}</li>
+    <li>BCV Enjarify: v{enjarifyVersion}</li>
+    <li>Enjarify Dir: {enjarifyDir}</li>
+</ul>
+
+<h2>命令行界面（CLI）</h2>
+<ul>
+    <li> -help 显示帮助菜单</li>
+    <li> -list 显示可用的反编译器</li>
+    <li> -decompiler [decompiler] 选择反编译器，默认为procyon</li>
+    <li> -i [输入文件] 选择输入文件（Jar、Class、APK、ZIP、DEX都能自动工作）</li>
+    <li> -o [输出文件] 选择输出文件（Java或Java-Bytecode）</li>
+    <li> -t [目标类名] 必须是完全合格的类名，或者是 "全部"，以便将所有的文件反编译为zip</li>
+    <li> -nowait 不等待用户阅读CLI信息</li>
+</ul>
+
+<h2>文件</h2>
+<ul>
+    <li>添加 (Ctrl + O) - 如果你添加一个jar/zip，BCV将解压它，如果你添加一个APK或DEX文件，BCV将运行dex2jar
+        然后运行jar的输入过程。
+    </li>
+    <li>重新打开最近的文件（Ctrl + L）--重新打开你最近打开的文件。
+    <li>新工作区（Ctrl + N）--它清除了已打开的 jars/资源。
+    <li>运行（Ctrl + R）--在一个安全的沙盒JVM实例中运行你已加载到BCV的类文件，你可以
+        完全调试。
+    </li>
+    <li>编译 (Ctrl + T) - 尝试编译你选择的所有可编辑面板，如果是Java，它将用
+        拉尼诺。Krakatau和*Smali使用他们自己的汇编程序。
+    </li>
+    <li>Save As Jar - 将类文件和加载的资源导出为一个可运行的 Jar 文件。
+    <li>Save As DEX - 运行 jar2dex 并将类文件导出为 DEX。
+    <li>Save Files As - 将所有的 Classfiles 和资源保存为一个 zip 文件。
+    <li>Save Java File As - 保存当前打开的反编译Classfile。
+    <li>Save Java Files As - 将所有反编译的Classsfiles保存为一个zip文件。
+    <li>最近的文件 - 你用BCV打开的最后25个文件/目录。
+    <li>About - 关于BCV的一个小信息窗口。
+    <li>退出 - 关闭BCV.</li>
+</ul>
+
+<h2>查看面板</h2>
+<ul>
+<li>Editable - 定义该观察窗格是否可编辑。</li>
+<li>None - 将不显示任何东西。</li>
+<li>Procyon - 使用Procyon反编译器进行反编译。</li>
+<li>CFR - 用CFR反编译器反编译。</li>
+<li>FernFlower - 使用FernFlower反编译器进行反编译。</li>
+<li>JD-GUI - 使用JD-GUI反编译器进行反编译.</li>
+<li>Krakatau Java - 使用Krakatau反编译器进行反编译。</li>
+<li>Krakatau Bytecode - 用Krakatau反汇编器进行反汇编。</li>
+<li>Smali - 使用Smali进行反汇编。</li>
+<li>Bytecode - 通过CFIDE对字节码进行反编译。不可编辑。</li>
+<li>Hexcode - 在一个十六进制浏览器中显示类文件。不可编辑。</li>
+</ul>
+
+<h2>设置</h2>
+<ul>
+<li>保存时编译 - 如果选择了这个选项，每当你执行文件>保存*功能时，它将在保存前尝试编译。
+    保存。
+</li>
+<li>刷新时编译 - 如果选择了这个选项，每当你按下刷新键，它将在重新加载资源/类之前进行编译。</li>
+<li>更新检查 - 如果选择了这个选项，它会查询 https://github.com/Konloch/bytecode-viewer 以确保你得到最新的
+    版本。
+</li>
+<li>在视图改变时刷新 - 如果选择了这个选项，每当你在视图面板中改变一个选项时，它将刷新当前打开的资源/类。
+    当前打开的资源/类。
+</li>
+<li>解码APK资源 - 如果选择了这个选项，当你添加一个APK时，它将首先运行APKTool.jar来解码资源。
+    资源。
+</li>
+<li>设置Python 2.7可执行文件 - 如果你希望Krakatau反编译器/反汇编器/反汇编器工作，请设置Python 2.7可执行文件。
+    工作。
+</li>
+<li>Set JRE RT Library - 为Krakatau反编译器设置JRE RT库。
+</ul>
+
+<h2>插件</h2>
+<ul>
+    <li>打开插件 - 打开一个为BCV创建的.java插件。</li>
+    <li>最近的插件 - 你用BCV打开的最后25个插件。</li>
+    <li>代码序列图 - 为当前打开的类文件建立一个粗糙的代码序列图。</li>
+    <li>恶意代码扫描器 - 允许你定义要搜索的内容，并输出它所发现的内容。</li>
+    <li>显示主要方法 - 检测并输出所有的公共静态void main(String[])函数。</li>
+    <li>显示所有字符串 - 抓取并输出每个类文件中的所有字符串。</li>
+    <li>替换字符串 - 允许你对classfile中的字符串做一个简单的永久.替换，对于URL交换非常有用。</li>
+    <li>Allatori字符串解密器 - 解密Allatori混淆/加密的字符串。</li>
+    <li>ZKM字符串解密器 - 解密ZKM混淆/加密的字符串。</li>
+    <li>ZStringArray字符串解密器--解密被混淆/加密的ZStringArray字符串。</li>
+</ul>
+
+<h2>使用了不同项目的代码，包括但不限于</h2>
+    <ul>
+        <li>WaterWolf的J-RET</li>
+        <li>Sam Koivu的JHexPane</li>
+        <li>Robert Futrell的RSynaxPane</li>
+        <li>Commons IO by Apache</li>
+        <li>ASM by OW2</li>
+        <li>FernFlower by Stiver</li>
+        <li>Procyon，作者：Mstrobel</li>
+        <li>CFR by Lee Benfield</li>
+        <li>CFIDE by Bibl</li>
+        <li>Smali by JesusFreke</li>
+        <li>Dex2Jar by pxb1988</li>
+        <li>Krakatau by Storyyeller</li>
+        <li>JD-GUI + JD-Core by The Java-Decompiler Team</li>
+        <li>Enjarify by Storyyeller</li>
+    </ul>
+
+<h2>注意事项</h2>
+    <ul>
+        <li>如果 BCV 无法启动，只需添加 -clean 作为参数来清理 lib 目录。
+        <li>在我吸食大麻烟的时候，请放松并做笔记。
+        <li>BCV 是出于对 Java 反向工程的热爱而创建的。
+        <li>Bytecode Viewer的主页是<a href="https://bytecodeviewer.com">https://bytecodeviewer.com</a> </li>
+    </ul>
+</html>

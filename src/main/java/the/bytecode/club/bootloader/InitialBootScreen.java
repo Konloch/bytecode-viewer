@@ -16,6 +16,9 @@ import javax.swing.text.html.HTMLEditorKit;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.gui.components.HTMLPane;
+
+import static the.bytecode.club.bytecodeviewer.Configuration.language;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -40,12 +43,12 @@ import the.bytecode.club.bytecodeviewer.Resources;
  * @author Bibl (don't ban me pls)
  * @created 19 Jul 2015 04:12:21
  */
-public class InitialBootScreen extends JFrame {
-    private static final long serialVersionUID = -1098467609722393444L;
-
+public class InitialBootScreen extends JFrame
+{
     private final JProgressBar progressBar = new JProgressBar();
 
-    public InitialBootScreen() throws IOException {
+    public InitialBootScreen() throws IOException
+    {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
@@ -56,24 +59,14 @@ public class InitialBootScreen extends JFrame {
         });
         this.setIconImages(Resources.iconList);
 
-        int i = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        if (i >= 840)
-            setSize(new Dimension(600, 800));
-        else if (i >= 640)
-            setSize(new Dimension(500, 600));
-        else if (i >= 440)
-            setSize(new Dimension(400, 400));
-        else
-            setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setSize(getSafeSize());
 
         setTitle("Bytecode Viewer Boot Screen - Starting Up");
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0};
-        gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0};
+        gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         getContentPane().setLayout(gridBagLayout);
 
         JScrollPane scrollPane = new JScrollPane();
@@ -84,14 +77,8 @@ public class InitialBootScreen extends JFrame {
         gbc_scrollPane.gridx = 0;
         gbc_scrollPane.gridy = 0;
         getContentPane().add(scrollPane, gbc_scrollPane);
-
-        JEditorPane editorPane = new JEditorPane();
-        editorPane.setEditorKit(new HTMLEditorKit());
-
-        editorPane.setText(convertStreamToString(InitialBootScreen.class.getClassLoader().getResourceAsStream("intro"
-                + ".html")));
-
-        scrollPane.setViewportView(editorPane);
+    
+        scrollPane.setViewportView(HTMLPane.fromResource(language.getHTMLPath("intro")));
 
         GridBagConstraints gbc_progressBar = new GridBagConstraints();
         gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
@@ -100,17 +87,23 @@ public class InitialBootScreen extends JFrame {
         getContentPane().add(progressBar, gbc_progressBar);
         this.setLocationRelativeTo(null);
     }
-
-    static String convertStreamToString(java.io.InputStream is) throws IOException {
-        @SuppressWarnings("resource")
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        String string = s.hasNext() ? s.next() : "";
-        is.close();
-        s.close();
-        return string;
+    
+    public static Dimension getSafeSize()
+    {
+        int i = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        if (i >= 840)
+           return new Dimension(600, 800);
+        else if (i >= 640)
+            return new Dimension(500, 600);
+        else if (i >= 440)
+            return new Dimension(400, 400);
+        else
+            return Toolkit.getDefaultToolkit().getScreenSize();
     }
 
     public JProgressBar getProgressBar() {
         return progressBar;
     }
+    
+    private static final long serialVersionUID = -1098467609722393444L;
 }

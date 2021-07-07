@@ -1,0 +1,137 @@
+<html>
+<h2>Über uns</h2>
+
+Der Bytecode Viewer (BCV) wurde so konzipiert, dass er extrem benutzer- und einsteigerfreundlich ist, deshalb ist fast alles
+ist über eine Schnittstelle zugänglich, Einstellungen, Werkzeuge, etc.
+
+<br><br>Zum Starten ziehen Sie Ihre Jar/APK/Class-Datei in die Ressourcenliste.
+
+<h2>Einstellungen</h2>
+<ul>
+    <li>Preview Copy: {previewCopy}</li>
+    <li>Fat Jar: {farJar}</li>
+    <li>Java: {java}</li>
+    <li>Javac: {javac}</li>
+    <li>BCV Dir: {bcvDir}</li>
+    <li>Python 2.7 (oder PyPy): {python}</li>
+    <li>Python 3.X (oder PyPy): {python3}</li>
+    <li>RT.jar: {rt}</li>
+    <li>Optional Lib: {lib}</li>
+    <li>BCV Krakatau: v{krakatauVersion}</li>
+    <li>Krakatau Dir: {krakatauDir}</li>
+    <li>BCV Enjarify: v{enjarifyVersion}</li>
+    <li>Enjarify Dir: {enjarifyDir}</li>
+</ul>
+
+<h2>Befehlszeilenschnittstelle (CLI)</h2>
+<ul>
+    <li> -help Zeigt das Hilfemenü an</li>
+    <li> -list Zeigt die verfügbaren Dekompilierer an</li>
+    <li> -decompiler [decompiler] Wählt den Decompiler aus, standardmäßig procyon</li>
+    <li> -i [input file] Wählt die Eingabedatei aus (Jar, Class, APK, ZIP, DEX funktionieren alle automatisch)</li>
+    <li> -o [Ausgabedatei] Wählt die Ausgabedatei aus (Java oder Java-Bytecode)</li>
+    <li> -t [target classname] Muss entweder der voll qualifizierte Klassenname sein oder "all", um alle als zip zu dekompilieren</li>
+    <li> -nowait Wartet nicht auf den Benutzer, um die CLI-Meldungen zu lesen</li>
+</ul>
+
+<h2>Datei</h2>
+<ul>
+    <li>Hinzufügen (Strg + O) - Wenn Sie ein jar/zip hinzufügen, wird BCV es entpacken, wenn Sie eine APK- oder DEX-Datei hinzufügen, wird BCV dex2jar
+        und führt dann den Jar-Eingabeprozess aus.
+    </li>
+    <li>Neue Datei öffnen (Strg + L) - Öffnet die zuletzt geöffnete Datei erneut.</li>
+    <li>Neuer Arbeitsbereich (Strg + N) - Es löscht die geöffneten Jars/Ressourcen.</li>
+    <li>Ausführen (Strg + R) - Führt die Klassendateien, die Sie in BCV geladen haben, in einer sicheren, sandboxed JVM-Instanz aus, die Sie
+        vollständig debuggen können.
+    </li>
+    <li>Kompilieren (Strg + T) - Versucht, alle bearbeitbaren Bereiche, die Sie ausgewählt haben, zu kompilieren, wenn es sich um Java handelt, wird es mit
+        Ranino. Krakatau und *Smali verwenden ihre eigenen Assembler.
+    </li>
+    <li>Save As Jar - Exportiert die Klassendateien und geladenen Ressourcen als lauffähige Jar-Datei.</li>
+    <li>Speichern als DEX - Führen Sie jar2dex aus und exportieren Sie die Klassendateien als DEX.</li>
+    <li>Dateien speichern unter - Speichert alle Klassendateien und Ressourcen als Zip-Datei.</li>
+    <li>Java-Datei speichern unter - Speichert die aktuell geöffnete dekompilierte Klassendatei.</li>
+    <li>Java-Dateien speichern unter - Alle dekompilierten Klassendateien als Zip-Datei speichern.</li>
+    <li>Aktuelle Dateien - Die letzten 25 Dateien/Verzeichnisse, die Sie mit BCV geöffnet haben.</li>
+    <li>About - Ein kleines Informationsfenster über BCV.</li>
+    <li>Beenden - Schließt BCV.</li>
+</ul>
+
+<h2>Ansichtsfenster</h2>
+<ul>
+    <li>Bearbeitbar - Legt fest, ob dieses Ansichtsfenster bearbeitet werden kann.</li>
+    <li>Keine - Es wird nichts angezeigt.</li>
+    <li>Procyon - Dekompiliert mit Procyon Decompiler.</li>
+    <li>CFR - Dekompiliert mit dem CFR-Decompiler.</li>
+    <li>FernFlower - Dekompiliert mit dem FernFlower-Decompiler.</li>
+    <li>JD-GUI - Dekompiliert mit dem JD-GUI-Decompiler.</li>
+    <li>Krakatau Java - Dekompiliert mit dem Krakatau Decompiler.</li>
+    <li>Krakatau Bytecode - Disassembliert mit Krakatau Disassembler.</li>
+    <li>Smali - Disassembliert mit Smali.</li>
+    <li>Bytecode - Dekompiliert den Bytecode mit CFIDE. Nicht editierbar.</li>
+    <li>Hexcode - Zeigt die Klassendatei in einem Hex-Viewer an. Nicht editierbar.</li>
+</ul>
+
+<h2>Einstellungen</h2>
+<ul>
+    <li>Kompilieren beim Speichern - Wenn diese Option ausgewählt ist, wird jedes Mal, wenn Sie eine der Funktionen Datei>Speichern * ausführen, versucht, die Datei zu kompilieren, bevor sie
+        speichert.
+    </li>
+    <li>Beim Aktualisieren kompilieren - Wenn diese Option ausgewählt ist, wird bei jedem Aktualisieren kompiliert, bevor die Ressource/Klasse neu geladen wird.
+    </li>
+    <li>Aktualisierungsprüfung - Wenn ausgewählt, wird https://github.com/Konloch/bytecode-viewer abgefragt, um sicherzustellen, dass Sie die neueste Version haben.
+        Version haben.
+    </li>
+    <li>Auffrischen bei Ansichtsänderung - Wenn diese Option ausgewählt ist, werden bei jeder Änderung einer Option in den Ansichtsfenstern die
+        aktuell geöffneten Ressourcen/Klasse aktualisiert.
+    </li>
+    <li>APK-Ressourcen dekodieren - Wenn diese Option ausgewählt ist, wird beim Hinzufügen einer APK zuerst APKTool.jar ausgeführt, um die Ressourcen zu dekodieren.
+        Ressourcen zu dekodieren.
+    </li>
+    <li>Set Python 2.7 Executable - Setzen Sie das Python 2.7 Executable, wenn Sie möchten, dass Krakatau Decompiler/Disassembler/Assembler
+        funktionieren soll.
+    </li>
+    <li>Set JRE RT Library - Stellen Sie die JRE RT Library für Krakatau Decompiler ein.</li>
+</ul>
+
+<h2>Plugins</h2>
+<ul>
+    <li>Plugin öffnen - Öffnen Sie ein für BCV erstelltes .java-Plugin.</li>
+    <li>Recent Plugins - Die letzten 25 Plugins, die Sie mit BCV geöffnet haben.</li>
+    <li>Codefolgediagramm - Erstellt ein grobes Codefolgediagramm für die aktuell geöffnete Klassendatei.</li>
+    <li>Scanner für bösartigen Code - Ermöglicht es Ihnen, zu definieren, wonach gesucht werden soll, und gibt aus, was gefunden wurde.</li>
+    <li>Hauptmethoden anzeigen - Erkennt und gibt alle öffentlichen statischen void main(String[]) Funktionen aus.</li>
+    <li>Alle Zeichenketten anzeigen - Erkennt alle Zeichenketten in jeder Klassendatei und gibt sie aus.</li>
+    <li>Strings ersetzen - Ermöglicht ein einfaches, permanentes Ersetzen der Strings in der Klassendatei, sehr nützlich für URL-Swapping.</li>
+    <li>Allatori String Decrypter - Entschlüsselt die mit Allatori verdeckten/verschlüsselten Strings.</li>
+    <li>ZKM String Decrypter - Entschlüsselt die ZKM-verschleierten/verschlüsselten Strings.</li>
+    <li>ZStringArray String Decrypter - Entschlüsselt die ZStringArray-verschleierten/verschlüsselten Strings.</li>
+</ul>
+
+<h2>Es wurde Code aus verschiedenen Projekten verwendet, einschließlich, aber nicht beschränkt auf</h2>
+<ul>
+    <li>J-RET von WaterWolf</li>
+    <li>JHexPane von Sam Koivu</li>
+    <li>RSynaxPane von Robert Futrell</li>
+    <li>Commons IO von Apache</li>
+    <li>ASM von OW2</li>
+    <li>FernFlower von Stiver</li>
+    <li>Procyon von Mstrobel</li>
+    <li>CFR von Lee Benfield</li>
+    <li>CFIDE von Bibl</li>
+    <li>Smali von JesusFreke</li>
+    <li>Dex2Jar von pxb1988</li>
+    <li>Krakatau von Storyyeller</li>
+    <li>JD-GUI + JD-Core von The Java-Decompiler Team</li>
+    <li>Enjarify von Storyyeller</li>
+</ul>
+
+<h2>Hinweise</h2>
+<ul>
+    <li>Wenn BCV nicht bootet, fügen Sie einfach -clean als Argument an, um das lib-Verzeichnis zu bereinigen.</li>
+    <li>Ruhen Sie sich aus und machen Sie sich Notizen, während ich einen Schluck Marihuanarauch nehme.</li>
+    <li>BCV wurde aus Liebe zum Java Reverse Engineering entwickelt.</li>
+    <li>Die Homepage von Bytecode Viewer ist <a href="https://bytecodeviewer.com">https://bytecodeviewer.com</a></li>
+</ul>
+
+</html>

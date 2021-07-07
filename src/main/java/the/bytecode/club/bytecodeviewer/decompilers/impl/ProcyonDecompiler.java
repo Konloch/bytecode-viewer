@@ -34,10 +34,12 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -115,9 +117,8 @@ public class ProcyonDecompiler extends InternalDecompiler
             decompilationOptions.setFullDecompilation(true);
 
             TypeDefinition resolvedType;
-            if (type == null || ((resolvedType = type.resolve()) == null)) {
+            if (type == null || ((resolvedType = type.resolve()) == null))
                 throw new Exception("Unable to resolve type.");
-            }
             
             StringWriter stringwriter = new StringWriter();
             settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(stringwriter), decompilationOptions);
@@ -130,9 +131,10 @@ public class ProcyonDecompiler extends InternalDecompiler
 
             exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         }
-        return "Procyon error! " + ExceptionUI.SEND_STACKTRACE_TO
-                + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
-                + nl + nl + exception;
+        
+        return PROCYON + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
+                nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
+                nl + nl + exception;
     }
 
     @Override

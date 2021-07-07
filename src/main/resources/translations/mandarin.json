@@ -68,7 +68,7 @@
   "TODO3": "These only exist as key/value map pairs",
   "JAVA": "Java",
   "PROCYON": "Procyon",
-  "CRF": "CFR",
+  "CFR": "CFR",
   "FERNFLOWER": "FernFlower",
   "KRAKATAU": "Krakatau",
   "JDGUI": "JD-GUI",
@@ -100,7 +100,7 @@
 
   "TODO5": "These only exist as key/value map pairs",
   "PROCYON_DECOMPILER": "Procyon Decompiler",
-  "CRF_DECOMPILER": "CFR Decompiler",
+  "CFR_DECOMPILER": "CFR Decompiler",
   "FERNFLOWER_DECOMPILER": "FernFlower Decompiler",
   "JADX_DECOMPILER": "JADX Decompiler",
   "JD_DECOMPILER": "JD-GUI Decompiler",

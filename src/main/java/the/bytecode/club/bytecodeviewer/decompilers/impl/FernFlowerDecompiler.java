@@ -12,9 +12,11 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -130,9 +132,10 @@ public class FernFlowerDecompiler extends InternalDecompiler
                 exception += nl + nl + sw;
             }
         }
-        return "FernFlower error! " + ExceptionUI.SEND_STACKTRACE_TO
-                + nl + nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler."
-                + nl + nl + exception;
+        
+        return FERNFLOWER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
+                nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
+                nl + nl + exception;
     }
 
     private String[] generateMainMethod(String className, String folder) {

@@ -86,7 +86,7 @@
 
   "TODO5": "Diese existieren nur als Key/Value-Paare",
   "PROCYON_DECOMPILER": "Procyon-Dekompilierer",
-  "CRF_DECOMPILER": "CFR-Dekompilierer",
+  "CFR_DECOMPILER": "CFR-Dekompilierer",
   "FERNFLOWER_DECOMPILER": "FernFlower-Dekompilierer",
   "JADX_DECOMPILER": "JADX-Dekompilierer",
   "JD_DECOMPILER": "JD-GUI-Dekompilierer",

@@ -39,17 +39,17 @@ import java.util.HashSet;
  */
 public enum Language
 {
-	ARABIC("/translations/arabic.json", "عربى", "ab"),
-	ENGLISH("/translations/english.json", "English", "en"),
-	FRENCH("/translations/french.json", "Français", "fr"),
-	GERMAN("/translations/german.json", "Deutsch", "de"),
-	//HINDI("/translations/hindi.json", "हिंदी", "hi"),
-	JAPANESE("/translations/japanese.json", "日本語", "ja"),
-	MALAY("/translations/malay.json", "Bahasa Melayu", "ms"),
-	MANDARIN("/translations/mandarin.json", "普通话", "zh_cn", "zh"),
-	PORTUGUESE("/translations/portuguese.json", "Português", "pt"),
-	RUSSIAN("/translations/russian.json", "русский", "ru"),
-	SPANISH("/translations/spanish.json", "Español", "es"),
+	ARABIC("/translations/arabic.json", "عربى", "English", "ab"),
+	ENGLISH("/translations/english.json", "English", "English", "en"),
+	FRENCH("/translations/french.json", "Français", "English", "fr"),
+	GERMAN("/translations/german.json", "Deutsch", "German", "de"),
+	//HINDI("/translations/hindi.json", "हिंदी", "English", "hi"),
+	JAPANESE("/translations/japanese.json", "日本語", "English", "ja"),
+	MALAY("/translations/malay.json", "Bahasa Melayu", "English", "ms"),
+	MANDARIN("/translations/mandarin.json", "普通话", "Mandarin", "zh_cn", "zh"),
+	PORTUGUESE("/translations/portuguese.json", "Português", "English", "pt"),
+	RUSSIAN("/translations/russian.json", "русский", "English", "ru"),
+	SPANISH("/translations/spanish.json", "Español", "English", "es"),
 	;
 	
 	private static final HashedMap<String, Language> languageCodeLookup;
@@ -64,13 +64,15 @@ public enum Language
 	
 	private final String resourcePath;
 	private final String readableName;
+	private final String htmlIdentifier;
 	private final HashSet<String> languageCode;
 	
-	Language(String resourcePath, String readableName, String... languageCodes)
+	Language(String resourcePath, String readableName, String htmlIdentifier, String... languageCodes)
 	{
 		this.resourcePath = resourcePath;
-		this.languageCode = new HashSet<>(Arrays.asList(languageCodes));
 		this.readableName = readableName;
+		this.htmlIdentifier = htmlIdentifier.toLowerCase();
+		this.languageCode = new HashSet<>(Arrays.asList(languageCodes));
 	}
 	
 	public void loadLanguage() throws IOException
@@ -92,9 +94,16 @@ public enum Language
 			//update translation text value
 			text.value = translationMap.get(text.key);
 			
+			//translate constant strings
+			try {
+				TranslatedStrings str = TranslatedStrings.valueOf(text.key);
+				str.setText(text.value);
+			} catch (IllegalArgumentException e) { }
+			
 			//check if translation key has been assigned to a component,
 			//on fail print an error alerting the devs
-			if(translation.getTranslatedComponent().runOnUpdate.isEmpty())
+			if(translation.getTranslatedComponent().runOnUpdate.isEmpty()
+					&& TranslatedStrings.nameSet.contains(translation.name()))
 			{
 				System.err.println("Translation Reference " + translation.name() + " is missing component attachment, skipping...");
 				continue;
@@ -126,7 +135,7 @@ public enum Language
 			existingKeys.add(t.name());
 		
 		for(String key : translationMap.keySet())
-			if(!existingKeys.contains(key) && !key.startsWith("TODO"))
+			if(!existingKeys.contains(key))
 				System.err.println(key + ",");
 	}
 	
@@ -143,6 +152,11 @@ public enum Language
 	public String getReadableName()
 	{
 		return readableName;
+	}
+	
+	public String getHTMLPath(String identifier)
+	{
+		return "translations/html/" + identifier + "." + htmlIdentifier +  ".html";
 	}
 	
 	public static HashedMap<String, Language> getLanguageCodeLookup()

@@ -22,7 +22,7 @@ public class GlobalHotKeys
 	 */
 	public static void keyPressed(KeyEvent e)
 	{
-		if (System.currentTimeMillis() - Configuration.lastHotKeyExecuted <= (4000))
+		if (System.currentTimeMillis() - Configuration.lastHotKeyExecuted <= (600))
 			return;
 		
 		//CTRL + O

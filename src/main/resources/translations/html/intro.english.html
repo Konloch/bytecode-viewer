@@ -1,9 +1,29 @@
-<html>Bytecode Viewer (BCV) was designed to be extremely user and beginner friendly, because of this almost everything
-is accessible through an interface, settings, tools, etc. This means if you give BCV a try you should get the gist of it
-can do, however for those who don't want to run BCV until they're convinced they should use it, below is a complete list
-of features BCV has, and what they do.
+<html>
+<h2>About</h2>
 
-<h2>Command Line Interface (CLI):</h2>
+Bytecode Viewer (BCV) was designed to be extremely user and beginner friendly, because of this almost everything
+is accessible through an interface, settings, tools, etc.
+
+<br><br>To start drag your Jar/APK/Class file into the resource list.
+
+<h2>Settings</h2>
+<ul>
+    <li>Preview Copy: {previewCopy}</li>
+    <li>Fat Jar: {farJar}</li>
+    <li>Java: {java}</li>
+    <li>Javac: {javac}</li>
+    <li>BCV Dir: {bcvDir}</li>
+    <li>Python 2.7 (or PyPy): {python}</li>
+    <li>Python 3.X (or PyPy): {python3}</li>
+    <li>RT.jar: {rt}</li>
+    <li>Optional Lib: {lib}</li>
+    <li>BCV Krakatau: v{krakatauVersion}</li>
+    <li>Krakatau Dir: {krakatauDir}</li>
+    <li>BCV Enjarify: v{enjarifyVersion}</li>
+    <li>Enjarify Dir: {enjarifyDir}</li>
+</ul>
+
+<h2>Command Line Interface (CLI)</h2>
 <ul>
     <li> -help Displays the help menu</li>
     <li> -list Displays the available decompilers</li>
@@ -14,7 +34,7 @@ of features BCV has, and what they do.
     <li> -nowait Doesn't wait for the user to read the CLI messages</li>
 </ul>
 
-<h2>File:</h2>
+<h2>File</h2>
 <ul>
     <li>Add (Ctrl + O) - If you add a jar/zip BCV will unzip it, if you add an APK or DEX file, BCV will run dex2jar
         then run the jar input process.
@@ -37,7 +57,7 @@ of features BCV has, and what they do.
     <li>Exit - Closes BCV.</li>
 </ul>
 
-<h2>View Panes:</h2>
+<h2>View Panes</h2>
 <ul>
     <li>Editable - Defines if that viewing pane will be editable.</li>
     <li>None - Nothing will be displayed.</li>
@@ -52,7 +72,7 @@ of features BCV has, and what they do.
     <li>Hexcode - Shows the classfile in a hex viewer. Not Editable.</li>
 </ul>
 
-<h2>Settings:</h2>
+<h2>Settings</h2>
 <ul>
     <li>Compile On Save - If selected whenever you do one of the File>Save * functions it will try to compile before it
         saves.
@@ -74,7 +94,7 @@ of features BCV has, and what they do.
     <li>Set JRE RT Library - Set the JRE RT library for Krakatau decompiler.</li>
 </ul>
 
-<h2>Plugins:</h2>
+<h2>Plugins</h2>
 <ul>
     <li>Open Plugin - Open a .java plugin created for BCV.</li>
     <li>Recent Plugins - Last 25 plugins you've opened with BCV.</li>
@@ -82,20 +102,36 @@ of features BCV has, and what they do.
     <li>Malicious Code Scanner - Allows you to define what to search for, and outputs what it found.</li>
     <li>Show Main Methods - Detects and outputs all of the public static void main(String[]) functions.</li>
     <li>Show All Strings - Grabs then outputs all of the strings in every classfile.</li>
-    <li>Replace Strings - Allows you to do a simple permanent .replace on the classfile strings, very useful for URL
-        swapping.
-    </li>
+    <li>Replace Strings - Allows you to do a simple permanent .replace on the classfile strings, very useful for URL swapping.</li>
     <li>Allatori String Decrypter - Decrypts the Allatori obfuscated/encrypted strings.</li>
     <li>ZKM String Decrypter - Decrypts the ZKM obfuscated/encrypted strings.</li>
     <li>ZStringArray String Decrypter - Decrypts the ZStringArray obfuscated/encrypted strings.</li>
 </ul>
 
-<h2>Notes:</h2>
+<h2>Code from various projects has been used, including but not limited to</h2>
+<ul>
+    <li>J-RET by WaterWolf</li>
+    <li>JHexPane by Sam Koivu</li>
+    <li>RSynaxPane by Robert Futrell</li>
+    <li>Commons IO by Apache</li>
+    <li>ASM by OW2</li>
+    <li>FernFlower by Stiver</li>
+    <li>Procyon by Mstrobel</li>
+    <li>CFR by Lee Benfield</li>
+    <li>CFIDE by Bibl</li>
+    <li>Smali by JesusFreke</li>
+    <li>Dex2Jar by pxb1988</li>
+    <li>Krakatau by Storyyeller</li>
+    <li>JD-GUI + JD-Core by The Java-Decompiler Team</li>
+    <li>Enjarify by Storyyeller</li>
+</ul>
+
+<h2>Notes</h2>
 <ul>
     <li>If BCV fails to boot simply append -clean as an argument to clean the lib directory.</li>
     <li>Relax and take notes, while I take tokes of the marijuana smoke.</li>
     <li>BCV was created out of love for Java Reverse engineering.</li>
-    <li>Bytecode Viewer's Homepage is <a href="http://bytecodeviewer.com">http://bytecodeviewer.com</a></li>
+    <li>Bytecode Viewer's Homepage is <a href="https://bytecodeviewer.com">https://bytecodeviewer.com</a></li>
 </ul>
 
 </html>
