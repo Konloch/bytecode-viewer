@@ -12,7 +12,6 @@ import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
-import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
@@ -276,14 +275,40 @@ public class BytecodeViewer
         
         return Configuration.java;
     }
+    
+    /**
+     * Returns true if there is currently a tab open with a resource inside of it
+     */
+    public static boolean hasActiveResource()
+    {
+        return getActiveResource() != null;
+    }
+    
+    /**
+     * Returns true if there is currently a tab open with a resource inside of it
+     */
+    public static boolean isActiveResourceClass()
+    {
+        ResourceViewer resource = getActiveResource();
+        return resource instanceof ClassViewer;
+    }
+    
+    /**
+     * Returns the currently opened & viewed resource
+     */
+    public static ResourceViewer getActiveResource()
+    {
+        return BytecodeViewer.viewer.workPane.getActiveResource();
+    }
 
     /**
      * Returns the currently opened ClassNode
      *
      * @return the currently opened ClassNode
      */
-    public static ClassNode getCurrentlyOpenedClassNode() {
-        return viewer.workPane.getCurrentViewer().cn;
+    public static ClassNode getCurrentlyOpenedClassNode()
+    {
+        return getActiveResource().cn;
     }
 
     /**

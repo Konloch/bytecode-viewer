@@ -16,8 +16,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkPaneMainComponent;
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
@@ -179,11 +177,10 @@ public class SearchBoxPane extends VisibleComponent
         }
         else if (radius == SearchRadius.Current_Class)
         {
-            final ResourceViewer cv = Objects.requireNonNull(MainViewerGUI.getComponent(WorkPaneMainComponent.class)).getCurrentViewer();
+            final ResourceViewer cv = BytecodeViewer.getActiveResource();
+            
             if (cv != null)
-            {
                 searchType.details.search(cv.container, cv.cn, srn, exact.isSelected());
-            }
         }
     }
     

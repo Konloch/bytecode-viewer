@@ -15,7 +15,6 @@ import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
 /***************************************************************************
@@ -58,19 +57,13 @@ public class CodeSequenceDiagram extends Plugin
         if (BytecodeViewer.promptIfNoLoadedClasses())
             return;
     
-        if (BytecodeViewer.viewer.workPane.getCurrentViewer() == null || !(BytecodeViewer.viewer.workPane.getCurrentViewer() instanceof ClassViewer))
+        if (!BytecodeViewer.isActiveResourceClass())
         {
             BytecodeViewer.showMessage("First open a class file.");
             return;
         }
         
-        ClassNode c = BytecodeViewer.viewer.workPane.getCurrentViewer().cn;
-        if (c == null)
-        {
-            BytecodeViewer.showMessage("Current viewer ClassNode is null inside of CodeSequenceDiagram. Please report to @Konloch");
-            return;
-        }
-        
+        ClassNode c = BytecodeViewer.getCurrentlyOpenedClassNode();
         JFrame frame = new JFrame("Code Sequence Diagram - " + c.name);
 
         frame.setIconImages(Resources.iconList);

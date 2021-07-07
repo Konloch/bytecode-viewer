@@ -14,8 +14,9 @@ public class RefreshWorkPane implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (BytecodeViewer.viewer.refreshOnChange.isSelected()) {
-			if (BytecodeViewer.viewer.workPane.getCurrentViewer() == null)
+		if (BytecodeViewer.viewer.refreshOnChange.isSelected())
+		{
+			if (!BytecodeViewer.hasActiveResource())
 				return;
 			
 			BytecodeViewer.viewer.workPane.refreshClass.doClick();

@@ -96,8 +96,9 @@ public class GlobalHotKeys
 		else if ((e.getKeyCode() == KeyEvent.VK_W) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
-			if (BytecodeViewer.viewer.workPane.getCurrentViewer() != null)
-				BytecodeViewer.viewer.workPane.tabs.remove(BytecodeViewer.viewer.workPane.getCurrentViewer());
+			
+			if (BytecodeViewer.hasActiveResource())
+				BytecodeViewer.viewer.workPane.tabs.remove(BytecodeViewer.viewer.workPane.getActiveResource());
 		}
 	}
 }

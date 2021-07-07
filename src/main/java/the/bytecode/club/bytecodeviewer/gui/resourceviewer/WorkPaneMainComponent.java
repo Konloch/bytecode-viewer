@@ -211,7 +211,7 @@ public class WorkPaneMainComponent extends VisibleComponent
         }
     }
 
-    public ResourceViewer getCurrentViewer() {
+    public ResourceViewer getActiveResource() {
         return (ResourceViewer) tabs.getSelectedComponent();
     }
 

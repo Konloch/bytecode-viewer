@@ -5,10 +5,8 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -182,7 +180,7 @@ public class ResourceDecompiling
 		if (BytecodeViewer.promptIfNoLoadedClasses())
 			return;
 		
-		if (BytecodeViewer.viewer.workPane.getCurrentViewer() == null || !(BytecodeViewer.viewer.workPane.getCurrentViewer() instanceof ClassViewer))
+		if (!BytecodeViewer.isActiveResourceClass())
 		{
 			BytecodeViewer.showMessage("First open a class file.");
 			return;
@@ -193,7 +191,7 @@ public class ResourceDecompiling
 			if (BytecodeViewer.autoCompileSuccessful())
 				return;
 			
-			final String s = BytecodeViewer.viewer.workPane.getCurrentViewer().cn.name;
+			final String s = BytecodeViewer.getCurrentlyOpenedClassNode().name;
 			
 			if (s == null)
 				return;
