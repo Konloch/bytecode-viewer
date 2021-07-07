@@ -79,19 +79,22 @@ public class ResourceViewPanel
 				nl + "Keep in mind most decompilers cannot produce compilable classes" +
 				nl + nl);
 		
-		String text = textArea.getText();
-		byte[] compiledClass = compileMode.getCompiler().compile(text, viewer.cn.name);
-		
-		if (compiledClass != null)
+		try
 		{
-			try {
+			String text = textArea.getText();
+			byte[] compiledClass = compileMode.getCompiler().compile(text, viewer.cn.name);
+			
+			if (compiledClass != null)
+			{
 				ClassNode newNode = JarUtils.getNode(compiledClass);
 				BytecodeViewer.updateNode(viewer.cn, newNode);
 				errConsole.finished();
 				return true;
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 		
 		errConsole.pretty();
