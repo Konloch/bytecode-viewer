@@ -1,16 +1,6 @@
 package the.bytecode.club.bytecodeviewer;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import me.konloch.kontainer.io.DiskReader;
-import me.konloch.kontainer.io.DiskWriter;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-
-import javax.swing.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * General program constants, to use this class include everything as a wildcard static import:
@@ -78,13 +68,13 @@ public class Constants
 	 */
 	private static void hideFile(File f)
 	{
-		BytecodeViewer.sm.stopBlocking();
+		BytecodeViewer.sm.pauseBlocking();
 		try {
 			// Hide file by running attrib system command (on Windows)
 			Runtime.getRuntime().exec("attrib +H " + f.getAbsolutePath());
 		} catch (Exception e) {
 			BytecodeViewer.handleException(e);
 		}
-		BytecodeViewer.sm.setBlocking();
+		BytecodeViewer.sm.resumeBlocking();
 	}
 }

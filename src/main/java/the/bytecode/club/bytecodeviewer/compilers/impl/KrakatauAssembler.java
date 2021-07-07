@@ -72,7 +72,7 @@ public class KrakatauAssembler extends InternalCompiler
     
         StringBuilder log = new StringBuilder();
         
-        BytecodeViewer.sm.stopBlocking();
+        BytecodeViewer.sm.pauseBlocking();
         try
         {
             ProcessBuilder pb = new ProcessBuilder(
@@ -120,7 +120,7 @@ public class KrakatauAssembler extends InternalCompiler
             e.printStackTrace();
             //BytecodeViewer.handleException(log.toString());
         } finally {
-            BytecodeViewer.sm.setBlocking();
+            BytecodeViewer.sm.resumeBlocking();
         }
 
         return null;

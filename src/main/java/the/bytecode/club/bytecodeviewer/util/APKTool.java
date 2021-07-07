@@ -68,10 +68,10 @@ public class APKTool {
 
             //save entire jar as smali files
             System.out.println("Building!");
-            BytecodeViewer.sm.stopBlocking();
+            BytecodeViewer.sm.pauseBlocking();
             brut.apktool.Main.main(new String[]{"b", container.APKToolContents.getAbsolutePath(), "--frame-path",
                     tempAPKPath.getAbsolutePath(), "-o", output.getAbsolutePath()});
-            BytecodeViewer.sm.setBlocking();
+            BytecodeViewer.sm.resumeBlocking();
             tempAPKPath.delete();
         } catch (Exception e) {
             BytecodeViewer.handleException(e);

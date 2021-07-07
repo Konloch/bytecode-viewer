@@ -59,7 +59,7 @@ public class KrakatauDisassembler extends InternalDecompiler
         String s = "Bytecode Viewer Version: " + VERSION + nl + nl +
                 "Please send this to konloch@gmail.com. " + nl + nl;
 
-        BytecodeViewer.sm.stopBlocking();
+        BytecodeViewer.sm.pauseBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python,
@@ -108,7 +108,7 @@ public class KrakatauDisassembler extends InternalDecompiler
             e.printStackTrace();
             s += nl + "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         } finally {
-            BytecodeViewer.sm.setBlocking();
+            BytecodeViewer.sm.resumeBlocking();
         }
         return s;
     }
@@ -133,7 +133,7 @@ public class KrakatauDisassembler extends InternalDecompiler
         final File tempJar = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
         JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 
-        BytecodeViewer.sm.stopBlocking();
+        BytecodeViewer.sm.pauseBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python,
@@ -181,7 +181,7 @@ public class KrakatauDisassembler extends InternalDecompiler
             e.printStackTrace();
             s += nl + "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
         } finally {
-            BytecodeViewer.sm.setBlocking();
+            BytecodeViewer.sm.resumeBlocking();
         }
         return s;
     }
@@ -199,7 +199,7 @@ public class KrakatauDisassembler extends InternalDecompiler
 
         final File tempJar = new File(sourceJar);
 
-        BytecodeViewer.sm.stopBlocking();
+        BytecodeViewer.sm.pauseBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python,
@@ -220,7 +220,7 @@ public class KrakatauDisassembler extends InternalDecompiler
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
         } finally {
-            BytecodeViewer.sm.setBlocking();
+            BytecodeViewer.sm.resumeBlocking();
         }
     }
 }

@@ -249,7 +249,7 @@ public class BytecodeViewer
      */
     public static synchronized String getJavaCommand()
     {
-        sm.stopBlocking();
+        sm.pauseBlocking();
         try
         {
             ProcessBuilder pb = new ProcessBuilder("java", "-version");
@@ -258,7 +258,7 @@ public class BytecodeViewer
         }
         catch (Exception e) //ignore
         {
-            sm.setBlocking();
+            sm.resumeBlocking();
             boolean empty = Configuration.java.isEmpty();
             while (empty)
             {
@@ -270,7 +270,7 @@ public class BytecodeViewer
         }
         finally
         {
-            sm.setBlocking();
+            sm.resumeBlocking();
         }
         
         return Configuration.java;

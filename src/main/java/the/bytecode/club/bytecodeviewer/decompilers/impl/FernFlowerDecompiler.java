@@ -91,14 +91,14 @@ public class FernFlowerDecompiler extends InternalDecompiler
                         generateMainMethod(tempClass.getAbsolutePath(),
                                 new File(tempDirectory).getAbsolutePath())
                 ));
-                BytecodeViewer.sm.stopBlocking();
+                BytecodeViewer.sm.pauseBlocking();
                 Process p = pb.start();
                 BytecodeViewer.createdProcesses.add(p);
                 p.waitFor();
             } catch (Exception e) {
                 BytecodeViewer.handleException(e);
             } finally {
-                BytecodeViewer.sm.setBlocking();
+                BytecodeViewer.sm.resumeBlocking();
             }
         } else {
             try {

@@ -49,7 +49,7 @@ public class Enjarify {
             return;
         }
 
-        BytecodeViewer.sm.stopBlocking();
+        BytecodeViewer.sm.pauseBlocking();
         try {
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python3,
@@ -71,7 +71,7 @@ public class Enjarify {
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
         } finally {
-            BytecodeViewer.sm.setBlocking();
+            BytecodeViewer.sm.resumeBlocking();
         }
     }
 }

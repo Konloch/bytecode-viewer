@@ -30,13 +30,33 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
  ***************************************************************************/
 
 /**
- * Used to rename/replace methods/classes/fields loaded as a BCV resource
+ * Used to interact with classnodes loaded inside of BCV as resources
  *
  * @author Konloch
  */
 
-public final class ASMRenameUtil
+public final class ASMResourceUtil
 {
+    /**
+     * Attempts to a method main inside of the loaded resources and returns the fully qualified name
+     */
+    public static String findMainMethod(String defaultFQN)
+    {
+        for (ClassNode cn : BytecodeViewer.getLoadedClasses())
+        {
+            for (Object o : cn.methods.toArray())
+            {
+                MethodNode m = (MethodNode) o;
+    
+                if (m.name.equals("main") && m.desc.equals("([Ljava/lang/String;)V"))
+                {
+                    return cn.name + "." + m.name;
+                }
+            }
+        }
+        
+        return defaultFQN;
+    }
 
     public static void renameFieldNode(String originalParentName,
                                        String originalFieldName, String originalFieldDesc,

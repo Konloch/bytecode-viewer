@@ -67,7 +67,7 @@ public class JavaCompiler extends InternalCompiler
         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), cp.getAbsolutePath());
 
         boolean cont = true;
-        BytecodeViewer.sm.stopBlocking();
+        BytecodeViewer.sm.pauseBlocking();
         try {
             StringBuilder log = new StringBuilder();
             ProcessBuilder pb;
@@ -142,7 +142,7 @@ public class JavaCompiler extends InternalCompiler
             cont = false;
             e.printStackTrace();
         } finally {
-            BytecodeViewer.sm.setBlocking();
+            BytecodeViewer.sm.resumeBlocking();
         }
 
         cp.delete();
