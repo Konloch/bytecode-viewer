@@ -85,7 +85,7 @@ public class ResourceDecompiling
 									MiscUtils.append(javaSucks, "-proycon.zip"));
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
-							new ExceptionUI(e);
+							BytecodeViewer.handleException(e);
 						}
 					});
 					t12.start();
@@ -96,7 +96,7 @@ public class ResourceDecompiling
 									MiscUtils.append(javaSucks, "-CFR.zip"));
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
-							new ExceptionUI(e);
+							BytecodeViewer.handleException(e);
 						}
 					});
 					t2.start();
@@ -107,7 +107,7 @@ public class ResourceDecompiling
 									MiscUtils.append(javaSucks, "-fernflower.zip"));
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
-							new ExceptionUI(e);
+							BytecodeViewer.handleException(e);
 						}
 					});
 					t3.start();
@@ -118,7 +118,7 @@ public class ResourceDecompiling
 									MiscUtils.append(javaSucks, "-kraktau.zip"));
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
-							new ExceptionUI(e);
+							BytecodeViewer.handleException(e);
 						}
 					});
 					t4.start();
@@ -129,7 +129,7 @@ public class ResourceDecompiling
 							Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
-							new ExceptionUI(e);
+							BytecodeViewer.handleException(e);
 						}
 					});
 					t12.start();
@@ -140,7 +140,7 @@ public class ResourceDecompiling
 							Decompiler.CFR_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
-							new ExceptionUI(e);
+							BytecodeViewer.handleException(e);
 						}
 					});
 					t12.start();
@@ -151,7 +151,7 @@ public class ResourceDecompiling
 							Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
-							new ExceptionUI(e);
+							BytecodeViewer.handleException(e);
 						}
 					});
 					t12.start();
@@ -163,7 +163,7 @@ public class ResourceDecompiling
 							Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
-							new ExceptionUI(e);
+							BytecodeViewer.handleException(e);
 						}
 					});
 					t12.start();
@@ -276,7 +276,7 @@ public class ResourceDecompiling
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
 							BytecodeViewer.updateBusyStatus(false);
-							new ExceptionUI(e);
+							BytecodeViewer.handleException(e);
 						}
 					});
 					t1.start();
@@ -301,7 +301,7 @@ public class ResourceDecompiling
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
 							BytecodeViewer.updateBusyStatus(false);
-							new ExceptionUI(
+							BytecodeViewer.handleException(
 									e);
 						}
 					});
@@ -327,7 +327,7 @@ public class ResourceDecompiling
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
 							BytecodeViewer.updateBusyStatus(false);
-							new ExceptionUI(
+							BytecodeViewer.handleException(
 									e);
 						}
 					});
@@ -355,7 +355,7 @@ public class ResourceDecompiling
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
 							BytecodeViewer.updateBusyStatus(false);
-							new ExceptionUI(
+							BytecodeViewer.handleException(
 									e);
 						}
 					});
@@ -383,7 +383,7 @@ public class ResourceDecompiling
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
 							BytecodeViewer.updateBusyStatus(false);
-							new ExceptionUI(
+							BytecodeViewer.handleException(
 									e);
 						}
 					});

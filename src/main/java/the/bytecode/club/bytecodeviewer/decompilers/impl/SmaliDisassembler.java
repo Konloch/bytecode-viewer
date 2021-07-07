@@ -9,6 +9,7 @@ import java.util.Objects;
 import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
@@ -62,7 +63,7 @@ public class SmaliDisassembler extends InternalDecompiler
 
             fos.close();
         } catch (final IOException e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
 
         //ZipUtils.zipFile(tempClass, tempZip);

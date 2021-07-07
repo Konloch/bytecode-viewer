@@ -83,7 +83,7 @@ public class Constants
 			// Hide file by running attrib system command (on Windows)
 			Runtime.getRuntime().exec("attrib +H " + f.getAbsolutePath());
 		} catch (Exception e) {
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			BytecodeViewer.handleException(e);
 		}
 		BytecodeViewer.sm.setBlocking();
 	}

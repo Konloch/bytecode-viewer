@@ -48,7 +48,7 @@ public class APKTool {
             container.APKToolContents = dir;
             tempAPKPath.delete();
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 
@@ -74,7 +74,7 @@ public class APKTool {
             BytecodeViewer.sm.setBlocking();
             tempAPKPath.delete();
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 }

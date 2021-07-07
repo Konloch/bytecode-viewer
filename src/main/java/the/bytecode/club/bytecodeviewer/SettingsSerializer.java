@@ -315,7 +315,7 @@ public class SettingsSerializer
             DiskWriter.writeNewLine(settingsName,
                     Configuration.language.name(), false);
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
     

@@ -215,7 +215,7 @@ public class MiscUtils
         try {
             return ImageIO.read(new ByteArrayInputStream(contents));
         } catch (IOException e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
         
         return defaultImage;

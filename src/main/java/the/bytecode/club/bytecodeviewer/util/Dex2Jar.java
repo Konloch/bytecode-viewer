@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import com.googlecode.d2j.dex.Dex2jar;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class Dex2Jar {
         } catch (com.googlecode.d2j.DexException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 
@@ -96,7 +97,7 @@ public class Dex2Jar {
             if (delete)
                 input.delete();
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 }

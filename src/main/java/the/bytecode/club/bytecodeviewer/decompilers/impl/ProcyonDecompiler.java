@@ -101,7 +101,7 @@ public class ProcyonDecompiler extends InternalDecompiler
 
                 fos.close();
             } catch (final IOException e) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
             }
 
             DecompilerSettings settings = getDecompilerSettings();
@@ -140,7 +140,7 @@ public class ProcyonDecompiler extends InternalDecompiler
         try {
             doSaveJarDecompiled(new File(sourceJar), new File(zipName));
         } catch (StackOverflowError | Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 

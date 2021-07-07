@@ -129,7 +129,7 @@ public class Resources {
             image = ImageIO.read(bis);
             bis.close();
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
 
         return image;

@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
@@ -30,13 +31,13 @@ public class ZipResourceImporter implements Importer
 			}
 			catch (final Exception e)
 			{
-				new ExceptionUI(e);
+				BytecodeViewer.handleException(e);
 				return false;
 			}
 		}
 		catch (final Exception e)
 		{
-			new ExceptionUI(e);
+			BytecodeViewer.handleException(e);
 			return false;
 		}
 		

@@ -96,7 +96,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
                 BytecodeViewer.createdProcesses.add(p);
                 p.waitFor();
             } catch (Exception e) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
             } finally {
                 BytecodeViewer.sm.setBlocking();
             }

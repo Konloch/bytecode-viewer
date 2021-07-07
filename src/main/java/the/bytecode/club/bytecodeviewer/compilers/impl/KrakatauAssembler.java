@@ -118,7 +118,7 @@ public class KrakatauAssembler extends InternalCompiler
             return b;
         } catch (Exception e) {
             e.printStackTrace();
-            //new the.bytecode.club.bytecodeviewer.api.ExceptionUI(log.toString());
+            //BytecodeViewer.handleException(log.toString());
         } finally {
             BytecodeViewer.sm.setBlocking();
         }

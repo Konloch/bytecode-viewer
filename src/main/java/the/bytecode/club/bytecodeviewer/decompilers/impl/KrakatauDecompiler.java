@@ -282,7 +282,7 @@ public class KrakatauDecompiler extends InternalDecompiler
 
             ZipUtils.zipFolder(tempDirectory.getAbsolutePath(), zipName, ran);
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         } finally {
             BytecodeViewer.sm.setBlocking();
         }

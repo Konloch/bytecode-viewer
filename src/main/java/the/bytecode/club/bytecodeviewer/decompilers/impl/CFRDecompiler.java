@@ -102,7 +102,7 @@ public class CFRDecompiler extends InternalDecompiler
 
             fos.close();
         } catch (final IOException e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
 
         String fuckery = fuckery(fileStart);
@@ -118,7 +118,7 @@ public class CFRDecompiler extends InternalDecompiler
                 BytecodeViewer.createdProcesses.add(p);
                 p.waitFor();
             } catch (Exception e) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
             } finally {
                 BytecodeViewer.sm.setBlocking();
             }
@@ -314,7 +314,7 @@ public class CFRDecompiler extends InternalDecompiler
         try {
             zip(fuck, new File(zipName));
         } catch (IOException e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
 
         fuck.delete();

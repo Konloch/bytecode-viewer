@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 import java.awt.datatransfer.DataFlavor;
 import java.io.BufferedReader;
 import java.io.File;
@@ -367,13 +369,13 @@ public class FileDrop {
                     } // end try
                     catch (final java.io.IOException io) {
                         log(out, "FileDrop: IOException - abort:");
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(io);
+                        BytecodeViewer.handleException(io);
                         evt.rejectDrop();
                     } // end catch IOException
                     catch (final java.awt.datatransfer.UnsupportedFlavorException ufe) {
                         log(out,
                                 "FileDrop: UnsupportedFlavorException - abort:");
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(
+                        BytecodeViewer.handleException(
                                 ufe);
                         evt.rejectDrop();
                     } // end catch: UnsupportedFlavorException
@@ -480,7 +482,7 @@ public class FileDrop {
             dt.addDropTargetListener(dropListener);
         } // end try
         catch (final java.util.TooManyListenersException e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
             log(out,
                     "FileDrop: Drop will not work due to previous error. Do you have another listener attached?");
         } // end catch

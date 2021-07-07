@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 import javax.swing.*;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Document;
@@ -127,7 +129,7 @@ public class JTextAreaUtils
 		}
 		catch (Exception e)
 		{
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			BytecodeViewer.handleException(e);
 		}
 	}
 	
@@ -164,7 +166,7 @@ public class JTextAreaUtils
 		}
 		catch (Exception e)
 		{
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			BytecodeViewer.handleException(e);
 		}
 	}
 }

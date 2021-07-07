@@ -199,7 +199,7 @@ public class BytecodeViewer
         }
         catch (Exception e)
         {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 
@@ -492,7 +492,7 @@ public class BytecodeViewer
         try {
             PluginManager.runPlugin(file);
         } catch (Throwable e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
         addRecentPlugin(file);
     }
@@ -542,7 +542,15 @@ public class BytecodeViewer
      */
     public static void handleException(Throwable t)
     {
-        new ExceptionUI(t);
+        BytecodeViewer.handleException(t);
+    }
+    
+    /**
+     * Handle the exception by creating a new window for bug reporting
+     */
+    public static void handleException(Throwable t, String author)
+    {
+        BytecodeViewer.handleException(t, author);
     }
     
     /**

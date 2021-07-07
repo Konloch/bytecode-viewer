@@ -390,7 +390,7 @@ public class InstructionPrinter {
             }
             bw.close();
         } catch (IOException e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 

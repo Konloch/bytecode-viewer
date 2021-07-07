@@ -84,7 +84,7 @@ public class AllatoriStringDecrypter extends Plugin
 			}
 			catch (Exception e)
 			{
-				new ExceptionUI(e, "github.com/Szperak");
+				BytecodeViewer.handleException(e, "github.com/Szperak");
 			}
 			finally
 			{

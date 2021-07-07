@@ -10,6 +10,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
@@ -103,7 +104,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
                     }
                 }
             } catch (Exception e) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
             } finally {
                 jis.closeEntry();
             }

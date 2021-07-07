@@ -73,7 +73,7 @@ public class DialogueUtils
 				Configuration.lastDirectory = file.getAbsolutePath();
 				return file;
 			} catch (Exception e1) {
-				new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e1);
+				BytecodeViewer.handleException(e1);
 			}
 		
 		return null;

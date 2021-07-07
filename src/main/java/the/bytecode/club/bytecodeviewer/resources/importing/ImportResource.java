@@ -95,7 +95,7 @@ public class ImportResource implements Runnable
 		}
 		catch (final Exception e)
 		{
-			new ExceptionUI(e);
+			BytecodeViewer.handleException(e);
 		}
 		finally
 		{

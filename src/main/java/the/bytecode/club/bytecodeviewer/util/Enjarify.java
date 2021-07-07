@@ -69,7 +69,7 @@ public class Enjarify {
             MiscUtils.printProcess(process);
 
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         } finally {
             BytecodeViewer.sm.setBlocking();
         }

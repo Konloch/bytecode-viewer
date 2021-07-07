@@ -60,7 +60,7 @@ public class Boot {
         try {
             screen = new InitialBootScreen();
         } catch (Exception e) {
-            new ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 
@@ -335,7 +335,7 @@ public class Boot {
                 System.out.println("Succesfully extracted Krakatau");
             } catch (Exception e) {
                 setState("Bytecode Viewer Boot Screen - ERROR, please contact @Konloch with your stacktrace.");
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
             }
         }
     }
@@ -371,7 +371,7 @@ public class Boot {
                 System.out.println("Succesfully extracted Enjarify");
             } catch (Exception e) {
                 setState("Bytecode Viewer Boot Screen - ERROR, please contact @Konloch with your stacktrace.");
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
             }
         }
     }
@@ -485,7 +485,7 @@ public class Boot {
                 BytecodeViewer.showMessage("ERROR: There was an issue unzipping enjarify (possibly corrupt). Restart "
                         + "BCV." + nl +
                         "If the error persists contact @Konloch.");
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
                 Objects.requireNonNull(enjarifyZip).delete();
             }
         }
@@ -530,7 +530,7 @@ public class Boot {
                 BytecodeViewer.showMessage("ERROR: There was an issue unzipping Krakatau decompiler (possibly "
                         + "corrupt). Restart BCV." + nl +
                         "If the error persists contact @Konloch.");
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
                 Objects.requireNonNull(krakatauZip).delete();
             }
         }

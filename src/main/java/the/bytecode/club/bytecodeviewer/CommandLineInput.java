@@ -162,7 +162,7 @@ public class CommandLineInput {
                 return CLI;
             }
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
 
         return OPEN_FILE;
@@ -208,7 +208,7 @@ public class CommandLineInput {
                         String contents = Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                        BytecodeViewer.handleException(e);
                     }
                 }
             } else if (decompiler.equalsIgnoreCase("cfr")) {
@@ -226,7 +226,7 @@ public class CommandLineInput {
                         String contents = Decompiler.CFR_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                        BytecodeViewer.handleException(e);
                     }
                 }
             } else if (decompiler.equalsIgnoreCase("fernflower")) {
@@ -244,7 +244,7 @@ public class CommandLineInput {
                         String contents = Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                        BytecodeViewer.handleException(e);
                     }
                 }
             } else if (decompiler.equalsIgnoreCase("krakatau")) {
@@ -262,7 +262,7 @@ public class CommandLineInput {
                         String contents = Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                        BytecodeViewer.handleException(e);
                     }
                 }
             } else if (decompiler.equalsIgnoreCase("krakatau-bytecode")) {
@@ -281,7 +281,7 @@ public class CommandLineInput {
                         String contents = Decompiler.KRAKATAU_DISASSEMBLER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                        BytecodeViewer.handleException(e);
                     }
                 }
             } else if (decompiler.equalsIgnoreCase("jd-gui")) {
@@ -300,7 +300,7 @@ public class CommandLineInput {
                         String contents = Decompiler.JD_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                        BytecodeViewer.handleException(e);
                     }
                 }
             } else if (decompiler.equalsIgnoreCase("smali")) {
@@ -319,7 +319,7 @@ public class CommandLineInput {
                         String contents = Decompiler.SMALI_DISASSEMBLER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                        BytecodeViewer.handleException(e);
                     }
                 }
             } else if (decompiler.equalsIgnoreCase("jadx")) {
@@ -338,7 +338,7 @@ public class CommandLineInput {
                         String contents = Decompiler.JADX_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                        BytecodeViewer.handleException(e);
                     }
                 }
             }
@@ -349,7 +349,7 @@ public class CommandLineInput {
             Configuration.canExit = true;
             System.exit(0);
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 

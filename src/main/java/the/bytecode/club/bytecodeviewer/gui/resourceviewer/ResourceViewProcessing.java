@@ -133,7 +133,7 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 		}
 		catch (Exception e)
 		{
-			new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+			BytecodeViewer.handleException(e);
 		}
 		finally
 		{

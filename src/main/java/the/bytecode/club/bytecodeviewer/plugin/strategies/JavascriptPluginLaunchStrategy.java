@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.plugin.strategies;
 
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
 
@@ -65,7 +66,7 @@ public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
                 }
                 catch (NoSuchMethodException | ScriptException e)
                 {
-                    new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                    BytecodeViewer.handleException(e);
                 }
             }
         };

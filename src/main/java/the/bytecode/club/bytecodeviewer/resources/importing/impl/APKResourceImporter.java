@@ -53,7 +53,7 @@ public class APKResourceImporter implements Importer
 			BytecodeViewer.updateBusyStatus(false);
 			BytecodeViewer.files.add(container);
 		} catch (final Exception e) {
-			new ExceptionUI(e);
+			BytecodeViewer.handleException(e);
 		}
 		
 		return true;

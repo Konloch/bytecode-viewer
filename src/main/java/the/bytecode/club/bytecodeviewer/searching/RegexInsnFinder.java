@@ -18,6 +18,7 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.MultiANewArrayInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -245,7 +246,7 @@ public class RegexInsnFinder {
                                 "Unknown opcode encountered: "
                                         + ain.getOpcode());
                     } catch (final UnexpectedException e) {
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                        BytecodeViewer.handleException(e);
                     }
                 }
                 offsets[i] = insnStringBuilder.length();
@@ -273,7 +274,7 @@ public class RegexInsnFinder {
                                 "Unknown opcode encountered: "
                                         + ain.getOpcode());
                     } catch (final UnexpectedException e) {
-                        new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                        BytecodeViewer.handleException(e);
                     }
                 }
                 String insnString = getInsString(ain);
@@ -385,7 +386,7 @@ public class RegexInsnFinder {
                 results.add(makeResult(regexMatcher.start(), regexMatcher.end()));
             }
         } catch (final PatternSyntaxException ex) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(ex);
+            BytecodeViewer.handleException(ex);
         }
         return results;
     }
@@ -411,7 +412,7 @@ public class RegexInsnFinder {
                 return result;
             }
         } catch (final PatternSyntaxException ex) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(ex);
+            BytecodeViewer.handleException(ex);
         }
         return new AbstractInsnNode[0][0];
     }
@@ -438,7 +439,7 @@ public class RegexInsnFinder {
                 results.add(result);
             }
         } catch (final PatternSyntaxException ex) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(ex);
+            BytecodeViewer.handleException(ex);
         }
         return results;
     }

@@ -40,7 +40,7 @@ public class ClassResourceImporter implements Importer
 		}
 		catch (final Exception e)
 		{
-			new ExceptionUI(e);
+			BytecodeViewer.handleException(e);
 			return false;
 		}
 		

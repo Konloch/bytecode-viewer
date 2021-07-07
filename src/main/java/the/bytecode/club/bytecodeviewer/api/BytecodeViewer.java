@@ -81,7 +81,7 @@ public class BytecodeViewer {
         try {
             return cl.loadClass(cn.name);
         } catch (Exception classLoadException) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(classLoadException);
+            the.bytecode.club.bytecodeviewer.BytecodeViewer.handleException(classLoadException);
         }
         
         return null;
@@ -115,7 +115,7 @@ public class BytecodeViewer {
                 try {
                     ret.add(cl.loadClass(className));
                 } catch (Exception classLoadException) {
-                    new the.bytecode.club.bytecodeviewer.api.ExceptionUI(classLoadException);
+                    the.bytecode.club.bytecodeviewer.BytecodeViewer.handleException(classLoadException);
                 }
             }
             
@@ -123,7 +123,7 @@ public class BytecodeViewer {
 
             return ret;
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            the.bytecode.club.bytecodeviewer.BytecodeViewer.handleException(e);
         }
         return null;
     }

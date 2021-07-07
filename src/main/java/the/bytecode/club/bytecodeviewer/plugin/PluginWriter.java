@@ -104,7 +104,7 @@ public class PluginWriter extends JFrame
 		}
 		catch (Exception e)
 		{
-			new ExceptionUI(e);
+			BytecodeViewer.handleException(e);
 		}
 		catch (Throwable t)
 		{

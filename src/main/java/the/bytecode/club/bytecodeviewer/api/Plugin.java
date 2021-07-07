@@ -42,7 +42,7 @@ public abstract class Plugin extends Thread
             
             execute(BytecodeViewer.getLoadedClasses());
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         } finally {
             finished = true;
             BytecodeViewer.updateBusyStatus(false);

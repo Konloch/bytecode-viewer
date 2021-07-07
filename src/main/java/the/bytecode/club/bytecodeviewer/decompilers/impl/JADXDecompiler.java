@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Random;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -54,7 +55,7 @@ public class JADXDecompiler extends InternalDecompiler
             fos.write(b);
             fos.close();
         } catch (final IOException e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
 
         File fuckery = new File(fuckery(fileStart));

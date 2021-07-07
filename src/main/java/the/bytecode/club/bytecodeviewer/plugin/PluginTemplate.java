@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.plugin;
 
 import org.apache.commons.io.FilenameUtils;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 
@@ -47,7 +48,7 @@ public enum PluginTemplate
 		}
 		catch (IOException e)
 		{
-			new ExceptionUI(e);
+			BytecodeViewer.handleException(e);
 		}
 		
 		return null;

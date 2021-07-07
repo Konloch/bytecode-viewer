@@ -94,7 +94,7 @@ public class JarUtils
             } catch (java.io.EOFException | ZipException e) {
                 //ignore cause apache unzip
             } catch (Exception e) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
             } finally {
                 jis.closeEntry();
             }
@@ -177,7 +177,7 @@ public class JarUtils
                 }
 
             } catch (Exception e) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
             } finally {
                 jis.closeEntry();
             }
@@ -210,7 +210,7 @@ public class JarUtils
                     jis.closeEntry();
                 }
             } catch (Exception e) {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
             } finally {
                 jis.closeEntry();
             }
@@ -289,7 +289,7 @@ public class JarUtils
 
             out.close();
         } catch (IOException e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 
@@ -327,7 +327,7 @@ public class JarUtils
             }
             catch (IOException e)
             {
-                new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+                BytecodeViewer.handleException(e);
             }
         }
     }
@@ -351,7 +351,7 @@ public class JarUtils
                 DiskWriter.replaceFile(name, cw.toByteArray(), false);
             }
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 
@@ -395,7 +395,7 @@ public class JarUtils
             noDupe.clear();
             out.close();
         } catch (IOException e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            BytecodeViewer.handleException(e);
         }
     }
 }

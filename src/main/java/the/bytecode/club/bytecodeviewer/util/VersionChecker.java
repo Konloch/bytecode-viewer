@@ -85,7 +85,7 @@ public class VersionChecker implements Runnable
 					try {
 						fc.setCurrentDirectory(new File(".").getAbsoluteFile()); //set the current working directory
 					} catch (Exception e) {
-						new ExceptionUI(e);
+						BytecodeViewer.handleException(e);
 					}
 					
 					int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
@@ -190,11 +190,11 @@ public class VersionChecker implements Runnable
 									BytecodeViewer.showMessage("Unable to download, the zip file has not been uploaded yet, "
 											+ "please try again in about 10 minutes.");
 								} catch (Exception ex) {
-									new ExceptionUI(ex);
+									BytecodeViewer.handleException(ex);
 								}
 								
 							} catch (Exception e) {
-								new ExceptionUI(e);
+								BytecodeViewer.handleException(e);
 							}
 							
 						}, "Downloader");
