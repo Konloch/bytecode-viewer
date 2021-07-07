@@ -30,11 +30,11 @@ import javax.swing.JInternalFrame;
 
 public abstract class VisibleComponent extends JInternalFrame
 {
-    private static final long serialVersionUID = -6453413772343643526L;
-
     public VisibleComponent(final String title)
     {
         super(title, false, false, false, false);
         this.setFrameIcon(null);
     }
+    
+    private static final long serialVersionUID = -6453413772343643526L;
 }

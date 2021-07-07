@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
 import the.bytecode.club.bytecodeviewer.gui.util.StringMetricsUtil;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -38,7 +39,7 @@ public class ResourceTree extends JTree
                 g.setColor(new Color(0, 0, 0, 100));
                 g.fillRect(0, 0, getWidth(), getHeight());
                 g.setColor(Color.white);
-                String s = "Drag class/jar/zip/APK/DEX here";
+                String s = TranslatedStrings.DRAG_CLASS_JAR.toString();
                 g.drawString(s,
                         ((int) ((getWidth() / 2) - (m.getWidth(s) / 2))),
                         getHeight() / 2);

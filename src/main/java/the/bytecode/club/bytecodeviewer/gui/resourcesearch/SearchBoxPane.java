@@ -21,7 +21,9 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
@@ -51,7 +53,7 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
  */
 
 @SuppressWarnings("rawtypes")
-public class SearchBoxPane extends VisibleComponent
+public class SearchBoxPane extends TranslatedVisibleComponent
 {
     public static final SearchRadius[] SEARCH_RADII = SearchRadius.values();
     public static final SearchType[] SEARCH_TYPES = SearchType.values();
@@ -64,13 +66,13 @@ public class SearchBoxPane extends VisibleComponent
     public SearchType searchType = null;
     public final JComboBox searchRadiusBox;
 
-    public JButton search = new JButton("Search");
+    public JButton search = new TranslatedJButton("Search", Translation.SEARCH);
     public BackgroundSearchThread performSearchThread;
 
     @SuppressWarnings("unchecked")
     public SearchBoxPane()
     {
-        super("Search");
+        super("Search", Translation.SEARCH);
 
         final JPanel optionPanel = new JPanel(new BorderLayout());
         final JPanel searchRadiusOpt = new JPanel(new BorderLayout());

@@ -32,6 +32,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
@@ -63,7 +64,7 @@ import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
  * @since 09/26/2011
  */
 
-public class ResourceListPane extends VisibleComponent implements FileDrop.Listener
+public class ResourceListPane extends TranslatedVisibleComponent implements FileDrop.Listener
 {
     public final JPopupMenu rightClickMenu = new JPopupMenu();
     public final JCheckBox exact = new TranslatedJCheckBox("Exact", Translation.EXACT);
@@ -116,11 +117,10 @@ public class ResourceListPane extends VisibleComponent implements FileDrop.Liste
 
     public ResourceListPane()
     {
-        super("ClassNavigation");
+        super("Files", Translation.FILES);
         tree.setRootVisible(false);
         tree.setShowsRootHandles(true);
         quickSearch.setForeground(Color.gray);
-        setTitle("Files");
 
         attachTreeListeners();
         attachQuickSearchListeners();

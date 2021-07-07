@@ -102,8 +102,8 @@ public enum Language
 			
 			//check if translation key has been assigned to a component,
 			//on fail print an error alerting the devs
-			if(translation.getTranslatedComponent().runOnUpdate.isEmpty()
-					&& TranslatedStrings.nameSet.contains(translation.name()))
+			if(translation.getTranslatedComponent().runOnUpdate.isEmpty())
+					//&& TranslatedStrings.nameSet.contains(translation.name()))
 			{
 				System.err.println("Translation Reference " + translation.name() + " is missing component attachment, skipping...");
 				continue;

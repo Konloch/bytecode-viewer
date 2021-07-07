@@ -29,6 +29,7 @@ public enum TranslatedStrings
 	DISASSEMBLER("Disassembler"),
 	SUGGESTED_FIX_DECOMPILER_ERROR("Suggested Fix: Click refresh class, if it fails again try another decompiler."),
 	SUGGESTED_FIX_COMPILER_ERROR("Suggested Fix: Try View>Pane>Krakatau>Bytecode and enable Editable."),
+	DRAG_CLASS_JAR("Drag class/jar/zip/APK/DEX here"),
 	;
 	
 	public static final HashSet<String> nameSet = new HashSet<>();

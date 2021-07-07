@@ -18,6 +18,9 @@ import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
+import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
@@ -47,7 +50,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
  * @author WaterWolf
  * @since 09/26/2011
  */
-public class WorkPaneMainComponent extends VisibleComponent
+public class WorkPaneMainComponent extends TranslatedVisibleComponent
 {
     public final JTabbedPane tabs;
     public final JPanel buttonPanel;
@@ -56,8 +59,7 @@ public class WorkPaneMainComponent extends VisibleComponent
 
     public WorkPaneMainComponent()
     {
-        super("WorkPanel");
-        setTitle("Work Space");
+        super("Workspace", Translation.WORK_SPACE);
 
         this.tabs = new JTabbedPane();
         
@@ -88,6 +90,7 @@ public class WorkPaneMainComponent extends VisibleComponent
                     tabs.remove(1);
             }
         });
+        
         tabs.addMouseListener(new MouseListener()
         {
             @Override
@@ -139,16 +142,17 @@ public class WorkPaneMainComponent extends VisibleComponent
 
         buttonPanel = new JPanel(new FlowLayout());
 
-        refreshClass = new JButton("Refresh");
-        refreshClass.addActionListener((event)->{
+        refreshClass = new TranslatedJButton("Refresh", Translation.REFRESH);
+        refreshClass.addActionListener((event)->
+        {
             refreshClass.setEnabled(false);
             Thread t = new Thread(() -> new WorkPaneRefresh(event).run(), "Refresh");
             t.start();
         });
 
         buttonPanel.add(refreshClass);
-
         buttonPanel.setVisible(false);
+        
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
         tabs.addContainerListener(new TabRemovalEvent());
