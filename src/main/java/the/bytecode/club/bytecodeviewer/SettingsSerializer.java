@@ -478,17 +478,15 @@ public class SettingsSerializer
             //line 128 is used for theme on preload
             BytecodeViewer.viewer.simplifyNameInTabTitle.setSelected(asBoolean(129));
             Configuration.simplifiedTabNames = BytecodeViewer.viewer.simplifyNameInTabTitle.isSelected();
+            
             //line 130 is used for preload
+            Language.ENGLISH.loadLanguage(); //load english first incase the translation file is missing anything
             if(Configuration.language != Language.ENGLISH)
-            {
-                Language.ENGLISH.loadLanguage(); //load english first incase the translation file is missing anything
                 Configuration.language.loadLanguage(); //load translation file and swap as needed
-            }
             Settings.hasSetLanguageAsSystemLanguage = true;
         } catch (Exception e) {
-            e.printStackTrace();
             //ignore because errors are expected, first start up and outdated settings.
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
     
@@ -516,7 +514,7 @@ public class SettingsSerializer
         catch (Exception e)
         {
             //ignore because errors are expected, first start up and outdated settings.
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
     
