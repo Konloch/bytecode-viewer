@@ -106,5 +106,7 @@
   "SUGGESTED_FIX_DECOMPILER_ERROR": "Предлагаемое исправление: нажмите «Обновить класс», если это не удается, снова попробуйте другой декомпилятор.",
   "NAME": "Имя: ",
   "SUGGESTED_FIX_COMPILER_ERROR": "Предлагаемое исправление: попробуйте «Просмотр»> «Панель»> «Кракатау»> «Байт-код» и включите «Редактируемый».",
-  "SEARCH_REGEX": "Искать Regex: "
+  "SEARCH_REGEX": "Искать Regex: ",
+  "NEW_JAVASCRIPT_PLUGIN": "Новый плагин Javascript",
+  "NEW_JAVA_PLUGIN": "Новый плагин Java"
 }

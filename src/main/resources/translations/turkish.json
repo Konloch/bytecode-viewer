@@ -105,5 +105,7 @@
   "PLUGINS": "Eklentiler",
   "DARK_THEME": "Karanlık Tema",
   "RELOAD_RESOURCES": "Kaynakları Yeniden Yükle",
-  "SAVE_AS_DEX": "DEX Olarak Kaydet..."
+  "SAVE_AS_DEX": "DEX Olarak Kaydet...",
+  "NEW_JAVASCRIPT_PLUGIN": "Yeni Javascript Eklentisi",
+  "NEW_JAVA_PLUGIN": "Yeni Java Eklentisi"
 }

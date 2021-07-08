@@ -105,5 +105,7 @@
   "PLUGINS": "Wtyczki",
   "DARK_THEME": "Ciemny schemat",
   "RELOAD_RESOURCES": "Przeładuj zasoby",
-  "SAVE_AS_DEX": "Zapisz jako DEX..."
+  "SAVE_AS_DEX": "Zapisz jako DEX...",
+  "NEW_JAVASCRIPT_PLUGIN": "Nowa wtyczka JavaScript",
+  "NEW_JAVA_PLUGIN": "Nowa wtyczka Java"
 }

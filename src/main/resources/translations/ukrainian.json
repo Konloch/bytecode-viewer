@@ -105,5 +105,7 @@
   "PLUGINS": "Плагіни",
   "DARK_THEME": "Темна тема",
   "RELOAD_RESOURCES": "Перезавантажте ресурси",
-  "SAVE_AS_DEX": "Зберегти як DEX ..."
+  "SAVE_AS_DEX": "Зберегти як DEX ...",
+  "NEW_JAVASCRIPT_PLUGIN": "Новий плагін Javascript",
+  "NEW_JAVA_PLUGIN": "Новий плагін Java"
 }

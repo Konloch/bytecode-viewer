@@ -105,5 +105,7 @@
   "PLUGINS": "Plugins",
   "DARK_THEME": "Mörkt tema",
   "RELOAD_RESOURCES": "Ladda om resurser",
-  "SAVE_AS_DEX": "Spara som DEX ..."
+  "SAVE_AS_DEX": "Spara som DEX ...",
+  "NEW_JAVASCRIPT_PLUGIN": "Nytt Javascript-plugin",
+  "NEW_JAVA_PLUGIN": "Nytt Java-plugin"
 }

@@ -106,5 +106,7 @@
   "SUGGESTED_FIX_DECOMPILER_ERROR": "推奨される修正：[クラスの更新]をクリックします。失敗した場合は、別の逆コンパイラーを試してください。",
   "NAME": "名前：",
   "SUGGESTED_FIX_COMPILER_ERROR": "推奨される修正：[表示]> [ペイン]> [Krakatau]> [バイトコード]を試して、[編集可能]を有効にします。",
-  "SEARCH_REGEX": "正規表現の検索："
+  "SEARCH_REGEX": "正規表現の検索：",
+  "NEW_JAVASCRIPT_PLUGIN": "新しいJavascriptプラグイン",
+  "NEW_JAVA_PLUGIN": "新しいJavaプラグイン"
 }

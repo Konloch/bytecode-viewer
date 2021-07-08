@@ -106,5 +106,7 @@
   "SUGGESTED_FIX_DECOMPILER_ERROR": "Solución sugerida: haga clic en actualizar la clase, si falla nuevamente, intente con otro descompilador.",
   "NAME": "Nombre: ",
   "SUGGESTED_FIX_COMPILER_ERROR": "Solución sugerida: intente Ver> Panel> Krakatau> Bytecode y habilite Editable.",
-  "SEARCH_REGEX": "Buscar Regex: "
+  "SEARCH_REGEX": "Buscar Regex: ",
+  "NEW_JAVASCRIPT_PLUGIN": "Nuevo complemento de Javascript",
+  "NEW_JAVA_PLUGIN": "Nuevo complemento de Java"
 }

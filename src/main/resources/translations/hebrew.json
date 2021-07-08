@@ -105,5 +105,7 @@
   "PLUGINS": "תוספים",
   "DARK_THEME": "ערכת נושא כהה",
   "RELOAD_RESOURCES": "טען משאבים מחדש",
-  "SAVE_AS_DEX": "שמור כ- DEX ..."
+  "SAVE_AS_DEX": "שמור כ- DEX ...",
+  "NEW_JAVASCRIPT_PLUGIN": "תוסף Javascript חדש",
+  "NEW_JAVA_PLUGIN": "תוסף Java חדש"
 }

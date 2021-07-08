@@ -105,5 +105,7 @@
   "PLUGINS": "Plug-ins",
   "DARK_THEME": "Donker thema",
   "RELOAD_RESOURCES": "Herlaad bronnen",
-  "SAVE_AS_DEX": "Opslaan als DEX..."
+  "SAVE_AS_DEX": "Opslaan als DEX...",
+  "NEW_JAVASCRIPT_PLUGIN": "Nieuwe Javascript-plug-in",
+  "NEW_JAVA_PLUGIN": "Nieuwe Java-plug-in"
 }

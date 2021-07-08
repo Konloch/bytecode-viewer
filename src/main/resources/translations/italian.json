@@ -105,5 +105,7 @@
   "PLUGINS": "Plugin",
   "DARK_THEME": "Tema scuro",
   "RELOAD_RESOURCES": "Ricarica risorse",
-  "SAVE_AS_DEX": "Salva come DEX..."
+  "SAVE_AS_DEX": "Salva come DEX...",
+  "NEW_JAVASCRIPT_PLUGIN": "Nuovo plugin Javascript",
+  "NEW_JAVA_PLUGIN": "Nuovo plugin Java"
 }

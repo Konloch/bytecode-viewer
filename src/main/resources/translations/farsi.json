@@ -105,5 +105,7 @@
   "PLUGINS": "پلاگین ها",
   "DARK_THEME": "تم تاریک",
   "RELOAD_RESOURCES": "بارگیری مجدد منابع",
-  "SAVE_AS_DEX": "ذخیره به عنوان DEX ..."
+  "SAVE_AS_DEX": "ذخیره به عنوان DEX ...",
+  "NEW_JAVASCRIPT_PLUGIN": "پلاگین Javascript جدید",
+  "NEW_JAVA_PLUGIN": "پلاگین جاوا جدید"
 }

@@ -112,5 +112,7 @@
   "SUGGESTED_FIX_DECOMPILER_ERROR": "建议修复：单击刷新类，如果再次失败，请尝试另一个反编译器。",
   "NAME": "名称：",
   "SUGGESTED_FIX_COMPILER_ERROR": "建议的修复：尝试查看>窗格>喀拉喀托>字节码并启用可编辑。",
-  "SEARCH_REGEX": "搜索正则表达式："
+  "SEARCH_REGEX": "搜索正则表达式：",
+  "NEW_JAVASCRIPT_PLUGIN": "新的 Javascript 插件",
+  "NEW_JAVA_PLUGIN": "新的 Java 插件"
 }

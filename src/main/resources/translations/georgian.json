@@ -105,5 +105,7 @@
   "PLUGINS": "დანამატები",
   "DARK_THEME": "მუქი თემა",
   "RELOAD_RESOURCES": "გადატვირთეთ რესურსები",
-  "SAVE_AS_DEX": "შეინახეთ როგორც DEX ..."
+  "SAVE_AS_DEX": "შეინახეთ როგორც DEX ...",
+  "NEW_JAVASCRIPT_PLUGIN": "ახალი Javascript მოდული",
+  "NEW_JAVA_PLUGIN": "ახალი ჯავა მოდული"
 }

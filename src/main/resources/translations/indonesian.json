@@ -105,5 +105,7 @@
   "PLUGINS": "Plugin",
   "DARK_THEME": "Tema gelap",
   "RELOAD_RESOURCES": "Muat Ulang Sumber Daya",
-  "SAVE_AS_DEX": "Simpan Sebagai DEX..."
+  "SAVE_AS_DEX": "Simpan Sebagai DEX...",
+  "NEW_JAVASCRIPT_PLUGIN": "Plugin Javascript baru",
+  "NEW_JAVA_PLUGIN": "Plugin Java Baru"
 }

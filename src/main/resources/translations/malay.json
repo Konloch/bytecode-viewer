@@ -106,5 +106,7 @@
   "SUGGESTED_FIX_DECOMPILER_ERROR": "Perbaikan yang Disarankan: Klik kelas muat semula, jika gagal sekali lagi, cubalah penyahkompilasi lain.",
   "NAME": "Nama: ",
   "SUGGESTED_FIX_COMPILER_ERROR": "Pembaikan yang Disarankan: Cuba Lihat> Panel> Krakatau> Bytecode dan aktifkan Editable.",
-  "SEARCH_REGEX": "Cari Regex: "
+  "SEARCH_REGEX": "Cari Regex: ",
+  "NEW_JAVASCRIPT_PLUGIN": "Plugin Javascript Baru",
+  "NEW_JAVA_PLUGIN": "Plugin Java Baru"
 }

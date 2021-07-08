@@ -106,5 +106,7 @@
   "SUGGESTED_FIX_DECOMPILER_ERROR": "Correção sugerida: clique em atualizar a classe; se falhar novamente, tente outro descompilador.",
   "NAME": "Nome: ",
   "SUGGESTED_FIX_COMPILER_ERROR": "Correção sugerida: tente Exibir> Painel> Krakatau> Bytecode e habilite Editável.",
-  "SEARCH_REGEX": "Pesquisar Regex: "
+  "SEARCH_REGEX": "Pesquisar Regex: ",
+  "NEW_JAVASCRIPT_PLUGIN": "Novo plugin Javascript",
+  "NEW_JAVA_PLUGIN": "Novo plugin Java"
 }

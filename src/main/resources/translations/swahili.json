@@ -105,5 +105,7 @@
   "PLUGINS": "Programu-jalizi",
   "DARK_THEME": "Mandhari meusi",
   "RELOAD_RESOURCES": "Pakia Rasilimali",
-  "SAVE_AS_DEX": "Hifadhi kama DEX ..."
+  "SAVE_AS_DEX": "Hifadhi kama DEX ...",
+  "NEW_JAVASCRIPT_PLUGIN": "Programu-jalizi mpya ya Javascript",
+  "NEW_JAVA_PLUGIN": "Programu-jalizi mpya ya Java"
 }

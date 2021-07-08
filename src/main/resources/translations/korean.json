@@ -105,5 +105,7 @@
   "PLUGINS": "플러그인",
   "DARK_THEME": "어두운 테마",
   "RELOAD_RESOURCES": "리소스 다시 로드",
-  "SAVE_AS_DEX": "DEX로 저장..."
+  "SAVE_AS_DEX": "DEX로 저장...",
+  "NEW_JAVASCRIPT_PLUGIN": "새로운 자바스크립트 플러그인",
+  "NEW_JAVA_PLUGIN": "새로운 자바 플러그인"
 }

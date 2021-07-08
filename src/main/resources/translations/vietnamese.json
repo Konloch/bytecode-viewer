@@ -105,5 +105,7 @@
   "PLUGINS": "bổ sung",
   "DARK_THEME": "Chủ đề tối",
   "RELOAD_RESOURCES": "Tải lại tài nguyên",
-  "SAVE_AS_DEX": "Lưu dưới dạng DEX ..."
+  "SAVE_AS_DEX": "Lưu dưới dạng DEX ...",
+  "NEW_JAVASCRIPT_PLUGIN": "Plugin Javascript mới",
+  "NEW_JAVA_PLUGIN": "Plugin Java mới"
 }

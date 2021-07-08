@@ -105,5 +105,7 @@
   "PLUGINS": "Laajennukset",
   "DARK_THEME": "Tumma teema",
   "RELOAD_RESOURCES": "Lataa resurssit uudelleen",
-  "SAVE_AS_DEX": "Tallenna nimellä DEX ..."
+  "SAVE_AS_DEX": "Tallenna nimellä DEX ...",
+  "NEW_JAVASCRIPT_PLUGIN": "Uusi Javascript-laajennus",
+  "NEW_JAVA_PLUGIN": "Uusi Java-laajennus"
 }

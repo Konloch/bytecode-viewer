@@ -105,5 +105,7 @@
   "PLUGINS": "Πρόσθετα",
   "DARK_THEME": "Σκούρο θέμα",
   "RELOAD_RESOURCES": "Επαναφόρτωση πόρων",
-  "SAVE_AS_DEX": "Αποθήκευση ως DEX ..."
+  "SAVE_AS_DEX": "Αποθήκευση ως DEX ...",
+  "NEW_JAVASCRIPT_PLUGIN": "Νέα προσθήκη Javascript",
+  "NEW_JAVA_PLUGIN": "Νέα προσθήκη Java"
 }

@@ -105,6 +105,8 @@
   "DISASSEMBLER": "Disassembler",
 
   "ERROR": "Error",
+  "NEW_JAVA_PLUGIN": "New Java Plugin",
+  "NEW_JAVASCRIPT_PLUGIN": "New Javascript Plugin",
   "SUGGESTED_FIX_DECOMPILER_ERROR": "Suggested Fix: Click refresh class, if it fails again try another decompiler.",
   "SUGGESTED_FIX_COMPILER_ERROR": "Suggested Fix: Try View>Pane>Krakatau>Bytecode and enable Editable.",
   "DRAG_CLASS_JAR": "Drag class/jar/zip/APK/DEX here",

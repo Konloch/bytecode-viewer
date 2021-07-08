@@ -105,5 +105,7 @@
   "PLUGINS": "Bővítmények",
   "DARK_THEME": "Sötét téma",
   "RELOAD_RESOURCES": "Erőforrások újratöltése",
-  "SAVE_AS_DEX": "Mentés DEX néven ..."
+  "SAVE_AS_DEX": "Mentés DEX néven ...",
+  "NEW_JAVASCRIPT_PLUGIN": "Új Javascript beépülő modul",
+  "NEW_JAVA_PLUGIN": "Új Java beépülő modul"
 }

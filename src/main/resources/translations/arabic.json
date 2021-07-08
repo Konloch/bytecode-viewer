@@ -106,5 +106,7 @@
   "SUGGESTED_FIX_DECOMPILER_ERROR": "الإصلاح المقترح: انقر فوق تحديث فئة ، إذا فشلت مرة أخرى ، فحاول برنامج فك ترجمة آخر.",
   "NAME": "اسم:",
   "SUGGESTED_FIX_COMPILER_ERROR": "الإصلاح المقترح: جرب View> Pane> Krakatau> Bytecode وتمكين التحرير.",
-  "SEARCH_REGEX": "البحث في Regex:"
+  "SEARCH_REGEX": "البحث في Regex:",
+  "NEW_JAVASCRIPT_PLUGIN": "البرنامج المساعد الجديد لجافا سكريبت",
+  "NEW_JAVA_PLUGIN": "البرنامج المساعد الجديد جافا"
 }
