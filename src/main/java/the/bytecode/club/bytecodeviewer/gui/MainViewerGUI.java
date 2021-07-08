@@ -255,7 +255,7 @@ public class MainViewerGUI extends JFrame
     public MainViewerGUI()
     {
         setIconImages(Resources.iconList);
-        setSize(new Dimension(800, 400));
+        setSize(new Dimension(800, 488));
     
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatch());
