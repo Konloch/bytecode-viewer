@@ -40,7 +40,7 @@ public class TranslatedJRadioButtonMenuItem extends JRadioButtonMenuItem
 			componentReference = translation.getTranslatedComponentReference();
 			componentReference.runOnUpdate.add(()->
 			{
-				if(componentReference.value != null && componentReference.value.isEmpty())
+				if(componentReference.value != null && !componentReference.value.isEmpty())
 					setText(componentReference.value);
 			});
 			componentReference.translate();

@@ -22,7 +22,7 @@ public class TranslatedDefaultMutableTreeNode extends DefaultMutableTreeNode
 			componentReference = translation.getTranslatedComponentReference();
 			componentReference.runOnUpdate.add(()->
 			{
-					if(componentReference.value != null && componentReference.value.isEmpty())
+					if(componentReference.value != null && !componentReference.value.isEmpty())
 						setUserObject(componentReference.value);
 			});
 			componentReference.translate();

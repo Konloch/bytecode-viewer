@@ -21,7 +21,7 @@ public class TranslatedVisibleComponent extends VisibleComponent
 			componentReference = translation.getTranslatedComponentReference();
 			componentReference.runOnUpdate.add(()->
 			{
-				if(componentReference.value != null && componentReference.value.isEmpty())
+				if(componentReference.value != null && !componentReference.value.isEmpty())
 					setTitle(componentReference.value);
 			});
 			componentReference.translate();
