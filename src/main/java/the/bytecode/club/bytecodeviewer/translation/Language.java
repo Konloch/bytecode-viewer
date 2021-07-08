@@ -33,7 +33,7 @@ import java.util.LinkedHashSet;
 /**
  * All of the supported languages
  *
- * TODO: Hindi, Bengali, Thai & Javanese need fonts to be supplied for them to show.
+ * TODO: Hindi, Bengali, Korean, Thai & Javanese need fonts to be supplied for them to show.
  *  The default font should be saved so it can be restored for latin-character based languages
  *
  * @author Konloch
@@ -58,7 +58,7 @@ public enum Language
 	ITALIAN("/translations/italian.json", "Italiano", "English", "it"),
 	JAPANESE("/translations/japanese.json", "日本語", "English", "ja"),
 	//JAVANESE("/translations/javanese.json", "ꦧꦱꦗꦮ", "English", "jw", "jv"),
-	KOREAN("/translations/korean.json", "Korean", "English", "ko"),
+	//KOREAN("/translations/korean.json", "Korean", "English", "ko"),
 	MALAY("/translations/malay.json", "Bahasa Melayu", "English", "ms"),
 	MANDARIN("/translations/mandarin.json", "普通话", "Mandarin", "zh-CN", "zh_cn", "zh"),
 	NEDERLANDS("/translations/nederlands.json", "Nederlands", "English", "nl"), //dutch
