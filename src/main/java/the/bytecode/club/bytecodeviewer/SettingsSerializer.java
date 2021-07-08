@@ -480,9 +480,11 @@ public class SettingsSerializer
             Configuration.simplifiedTabNames = BytecodeViewer.viewer.simplifyNameInTabTitle.isSelected();
             
             //line 130 is used for preload
-            Language.ENGLISH.loadLanguage(); //load english first incase the translation file is missing anything
             if(Configuration.language != Language.ENGLISH)
+            {
+                Language.ENGLISH.loadLanguage(); //load english first incase the translation file is missing anything
                 Configuration.language.loadLanguage(); //load translation file and swap as needed
+            }
             Settings.hasSetLanguageAsSystemLanguage = true;
         } catch (Exception e) {
             //ignore because errors are expected, first start up and outdated settings.
