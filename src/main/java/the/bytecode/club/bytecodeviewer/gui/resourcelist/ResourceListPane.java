@@ -30,8 +30,10 @@ import javax.swing.tree.TreePath;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJTextField;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
@@ -72,8 +74,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     public final JButton close = new JButton("-");
     public final ResourceTreeNode treeRoot = new ResourceTreeNode("Loaded Files:");
     public final ResourceTree tree = new ResourceTree(treeRoot);
-    public final String quickSearchText = "Quick file search (no file extension)";
-    public final JTextField quickSearch = new JTextField(quickSearchText);
+    public final JTextField quickSearch = new TranslatedJTextField("Quick file search (no file extension)", Translation.QUICK_FILE_SEARCH_NO_FILE_EXTENSION);
     public final FileDrop fileDrop;
     public boolean cancel = false;
 
@@ -419,7 +420,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         quickSearch.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(final FocusEvent arg0) {
-                if (quickSearch.getText().equals(quickSearchText)) {
+                if (quickSearch.getText().equals(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.getText())) {
                     quickSearch.setText("");
                     quickSearch.setForeground(Color.black);
                 }
@@ -428,7 +429,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             @Override
             public void focusLost(final FocusEvent arg0) {
                 if (quickSearch.getText().isEmpty()) {
-                    quickSearch.setText(quickSearchText);
+                    quickSearch.setText(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.getText());
                     quickSearch.setForeground(Color.gray);
                 }
             }

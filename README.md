@@ -3,7 +3,7 @@
 Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 
 #### New Features
-* Translation Process Started: Arabic, German, Japanese, Manadarin, Russian, Spanish & More
+* Translated Into 25 Languages Including: Arabic, German, Japanese, Mandarin, Russian, Spanish
 * Plugin Writer: Create and edit external plugins from within BCV
 * Fixed Java & Bytecode Editing/Compiling
 * XAPK Support

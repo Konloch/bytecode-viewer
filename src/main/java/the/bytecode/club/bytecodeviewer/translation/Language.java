@@ -3,15 +3,14 @@ package the.bytecode.club.bytecodeviewer.translation;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.collections4.map.LinkedMap;
-import org.apache.commons.io.IOUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Resources;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -34,22 +33,46 @@ import java.util.HashSet;
 /**
  * All of the supported languages
  *
+ * TODO: Hindi, Bengali, Thai & Javanese need fonts to be supplied for them to show.
+ *  The default font should be saved so it can be restored for latin-character based languages
+ *
  * @author Konloch
  * @since 6/28/2021
  */
 public enum Language
 {
-	ARABIC("/translations/arabic.json", "عربى", "English", "ab"),
+	ARABIC("/translations/arabic.json", "عربى", "English", "ar"),
 	ENGLISH("/translations/english.json", "English", "English", "en"),
+	FARSI("/translations/farsi.json", "فارسی ", "English", "fa"),
+	FINNISH("/translations/finnish.json", "Suomen Kieli", "English", "fi"),
 	FRENCH("/translations/french.json", "Français", "English", "fr"),
 	GERMAN("/translations/german.json", "Deutsch", "German", "de"),
+	GEORGIAN("/translations/georgian.json", "ქართული ენა", "English", "ka"),
+	GREEK("/translations/greek.json", "ελληνικά", "English", "el"),
+	HAUSA("/translations/hausa.json", "Hausa", "English", "ha"),
+	HEBREW("/translations/hebrew.json", "עִבְרִית\u200E", "English", "iw", "he"),
 	//HINDI("/translations/hindi.json", "हिंदी", "English", "hi"),
+	//BENGALI("/translations/bengali.json", "বাংলা", "English", "bn"),
+	HUNGARIAN("/translations/hungarian.json", "Magyar Nyelv", "English", "hu"),
+	INDONESIAN("/translations/indonesian.json", "bahasa Indonesia", "English", "id"),
+	ITALIAN("/translations/italian.json", "Italiano", "English", "it"),
 	JAPANESE("/translations/japanese.json", "日本語", "English", "ja"),
+	//JAVANESE("/translations/javanese.json", "ꦧꦱꦗꦮ", "English", "jw", "jv"),
+	KOREAN("/translations/korean.json", "Korean", "English", "ko"),
 	MALAY("/translations/malay.json", "Bahasa Melayu", "English", "ms"),
-	MANDARIN("/translations/mandarin.json", "普通话", "Mandarin", "zh_cn", "zh"),
+	MANDARIN("/translations/mandarin.json", "普通话", "Mandarin", "zh-CN", "zh_cn", "zh"),
+	NEDERLANDS("/translations/nederlands.json", "Nederlands", "English", "nl"), //dutch
+	NORWEGIAN("/translations/norwegian.json", "Norsk", "English", "no"),
+	POLISH("/translations/polish.json", "Polski", "English", "pl"),
 	PORTUGUESE("/translations/portuguese.json", "Português", "English", "pt"),
 	RUSSIAN("/translations/russian.json", "русский", "English", "ru"),
 	SPANISH("/translations/spanish.json", "Español", "English", "es"),
+	SWAHILI("/translations/swahili.json", "Kiswahili", "English", "sw"),
+	SWEDISH("/translations/swedish.json", "svenska", "English", "sv"),
+	//THAI("/translations/thai.json", "ภาษาไทย", "English", "th"),
+	TURKISH("/translations/turkish.json", "Türkçe", "English", "tr"),
+	UKRAINIAN("/translations/ukrainian.json", "украї́нська мо́ва", "English", "uk"),
+	VIETNAMESE("/translations/vietnamese.json", "Tiếng Việt", "English", "vi"),
 	;
 	
 	private static final HashedMap<String, Language> languageCodeLookup;
@@ -65,14 +88,14 @@ public enum Language
 	private final String resourcePath;
 	private final String readableName;
 	private final String htmlIdentifier;
-	private final HashSet<String> languageCode;
+	private final LinkedHashSet<String> languageCode;
 	
 	Language(String resourcePath, String readableName, String htmlIdentifier, String... languageCodes)
 	{
 		this.resourcePath = resourcePath;
 		this.readableName = readableName;
 		this.htmlIdentifier = htmlIdentifier.toLowerCase();
-		this.languageCode = new HashSet<>(Arrays.asList(languageCodes));
+		this.languageCode = new LinkedHashSet<>(Arrays.asList(languageCodes));
 	}
 	
 	public void loadLanguage() throws IOException
@@ -85,7 +108,7 @@ public enum Language
 		
 		for(Translation translation : Translation.values())
 		{
-			TranslatedComponent text = translation.getTranslatedComponent();
+			TranslatedComponentReference text = translation.getTranslatedComponentReference();
 			
 			//skip translating if the language config is missing the translation key
 			if(!translationMap.containsKey(text.key))
@@ -102,7 +125,7 @@ public enum Language
 			
 			//check if translation key has been assigned to a component,
 			//on fail print an error alerting the devs
-			if(translation.getTranslatedComponent().runOnUpdate.isEmpty())
+			if(translation.getTranslatedComponentReference().runOnUpdate.isEmpty())
 					//&& TranslatedStrings.nameSet.contains(translation.name()))
 			{
 				System.err.println("Translation Reference " + translation.name() + " is missing component attachment, skipping...");
@@ -110,7 +133,7 @@ public enum Language
 			}
 			
 			//trigger translation event
-			translation.getTranslatedComponent().runOnUpdate.forEach(Runnable::run);
+			translation.getTranslatedComponentReference().translate();
 		}
 	}
 	

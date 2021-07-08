@@ -14,12 +14,9 @@
   "RECENT_FILES": "Letzte geöffnete Dateien",
   "ABOUT": "Über Bytecode Viewer",
   "EXIT": "Bytecode Viewer beenden",
-
   "VIEW": "Ansicht",
   "VISUAL_SETTINGS": "Grafikeinstellungen",
   "LANGUAGE": "Sprache",
-
-
   "WINDOW_THEME": "Fenster-Erscheinungsbild",
   "SYSTEM_THEME": "Wie Betriebssystem",
   "DARK_THEME": "Dunkler Modus",
@@ -33,20 +30,16 @@
   "VISUAL_STUDIO": "Visual Studio",
   "DRUID_DARK": "Druid (Dunkler Modus)",
   "MONOKAI_DARK": "Monokai (Dunkler Modus)",
-
-
   "FONT_SIZE": "Schriftgröße",
   "SHOW_TAB_FILE_IN_TAB_TITLE": "Dateinamen in Reiter-Titel anzeigen",
   "SIMPLIFY_NAME_IN_TAB_TITLE": "Namen in Reiter-Titel simplifizieren",
   "SYNCHRONIZED_VIEWING": "Synchronisierte Ansicht",
   "SHOW_CLASS_METHODS": "Zeige Klassenmethoden",
-
   "PANE_1": "Fenster 1",
   "PANE_2": "Fenster 2",
   "PANE_3": "Fenster 3",
   "NONE": "Keins",
   "EDITABLE": "Editierbar",
-
   "SETTINGS": "Einstellungen",
   "COMPILE_ON_SAVE": "Bei Speichern kompilieren",
   "COMPILE_ON_REFRESH": "Bei Aktualisierung kompilieren",
@@ -63,7 +56,6 @@
   "SET_JRE_RT_LIBRARY": "JRE RT Bibliothek festlegen",
   "SET_OPTIONAL_LIBRARY_FOLDER": "Optionalen Bibliothekenordner festlegen",
   "SET_JAVAC_EXECUTABLE": "Ausführbare Javac Datei festlegen",
-
   "JAVA": "Java",
   "PROCYON": "Procyon",
   "CFR": "CFR",
@@ -76,11 +68,9 @@
   "HEXCODE": "Hexcode",
   "BYTECODE": "Bytecode",
   "ASM_TEXTIFY": "ASM Textify",
-
   "BYTECODE_DECOMPILER": "Bytecode-Dekompilierer",
   "DEBUG_HELPERS": "Debug-Helfer",
   "APPEND_BRACKETS_TO_LABEL": "Klammern zu Label hinzufügen",
-
   "PLUGINS": "Plugins",
   "OPEN_PLUGIN": "Plugin öffnen...",
   "RECENT_PLUGINS": "Zuletzt verwendete Plugins",
@@ -93,9 +83,6 @@
   "ZKM_STRING_DECRYPTER": "ZKM-String-Decrypter ausführen",
   "ALLATORI_STRING_DECRYPTER": "Allatori-String-Decrypter ausführen",
   "ZSTRINGARRAY_DECRYPTER": "ZStringArray-Decrypter ausführen",
-
-
-
   "PROCYON_DECOMPILER": "Procyon-Dekompilierer",
   "CFR_DECOMPILER": "CFR-Dekompilierer",
   "FERNFLOWER_DECOMPILER": "FernFlower-Dekompilierer",
@@ -103,16 +90,21 @@
   "JD_DECOMPILER": "JD-GUI-Dekompilierer",
   "BYTECODE_DISASSEMBLER": "Bytecode-Disassembler",
   "DISASSEMBLER": "Disassembler",
-
   "ERROR": "Fehler",
   "SUGGESTED_FIX_DECOMPILER_ERROR": "Vorgeschlagene Lösung: Klicken Sie auf Klasse aktualisieren und wenn es wieder fehlschlägt, versuchen Sie einen anderen Dekompilierer.",
   "SUGGESTED_FIX_COMPILER_ERROR": "Vorgeschlagene Lösung: Aktivieren Sie unter Ansicht>Fenster>Krakatau>Bytecode Editierbar.",
-
   "FILES": "Dateien",
   "QUICK_FILE_SEARCH_NO_FILE_EXTENSION": "Dateien-Schnellsuche öffnen (ohne Dateiendungen)",
   "WORK_SPACE": "Arbeitsbereich",
   "EXACT": "Exakt",
   "SEARCH": "Suchen",
   "RESULTS": "Ergebnisse",
-  "REFRESH": "Aktualisieren"
+  "REFRESH": "Aktualisieren",
+  "DRAG_CLASS_JAR": "Klasse/jar/zip/APK/DEX hierher ziehen",
+  "SEARCH_FROM": "Suche nach: ",
+  "OWNER": "Inhaber: ",
+  "SEARCH_STRING": "Suchbegriff: ",
+  "DESC": "Beschreibung: ",
+  "NAME": "Name: ",
+  "SEARCH_REGEX": "Regex suchen: "
 }

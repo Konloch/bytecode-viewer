@@ -135,22 +135,29 @@ public enum Translation
 	QUICK_FILE_SEARCH_NO_FILE_EXTENSION,
 	WORK_SPACE,
 	EXACT,
+	DRAG_CLASS_JAR,
 	SEARCH,
+	SEARCH_STRING,
+	SEARCH_FROM,
+	SEARCH_REGEX,
+	OWNER,
+	NAME,
+	DESC,
 	RESULTS,
 	REFRESH,
 	
 	;
 	
-	private final TranslatedComponent component;
+	private final TranslatedComponentReference componentReference;
 	
 	Translation()
 	{
-		this.component = new TranslatedComponent();
-		this.component.key = name();
+		this.componentReference = new TranslatedComponentReference();
+		this.componentReference.key = name();
 	}
 	
-	public TranslatedComponent getTranslatedComponent()
+	public TranslatedComponentReference getTranslatedComponentReference()
 	{
-		return component;
+		return componentReference;
 	}
 }

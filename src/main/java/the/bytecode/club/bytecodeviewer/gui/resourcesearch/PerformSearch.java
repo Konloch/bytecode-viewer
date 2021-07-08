@@ -7,6 +7,7 @@ import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
 import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
 import the.bytecode.club.bytecodeviewer.searching.impl.RegexSearch;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 import javax.swing.tree.TreePath;
@@ -46,7 +47,7 @@ class PerformSearch extends BackgroundSearchThread
 				searchBoxPane.searchType.details.search(container, c, srn, searchBoxPane.exact.isSelected());
 		
 		Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search.setEnabled(true);
-		Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search.setText("Search");
+		Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search.setText(TranslatedStrings.SEARCH.getText());
 		
 		searchBoxPane.tree.expandPath(new TreePath(searchBoxPane.tree.getModel().getRoot()));
 		searchBoxPane.tree.updateUI();

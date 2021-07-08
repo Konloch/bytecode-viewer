@@ -14,12 +14,9 @@
   "RECENT_FILES": "最近的文件",
   "ABOUT": "关于",
   "EXIT": "进出口",
-
   "VIEW": "看法",
   "VISUAL_SETTINGS": "视觉设置",
   "LANGUAGE": "语",
-
-
   "TODO1": "These only exist as enums",
   "WINDOW_THEME": "窗口主题",
   "SYSTEM_THEME": "系统主题",
@@ -35,20 +32,16 @@
   "DRUID_DARK": "德鲁伊（暗）",
   "MONOKAI_DARK": "物界（暗）",
   "TODO2": "End",
-
-
   "FONT_SIZE": "字体大小",
   "SHOW_TAB_FILE_IN_TAB_TITLE": "在选项卡标题中显示文件",
   "SIMPLIFY_NAME_IN_TAB_TITLE": "简化标签标题中的名称",
   "SYNCHRONIZED_VIEWING": "同步观看",
   "SHOW_CLASS_METHODS": "显示类方法",
-
   "PANE_1": "窗格 一",
   "PANE_2": "窗格 二",
   "PANE_3": "窗格 三",
   "NONE": "没有任何",
   "EDITABLE": "可编辑",
-
   "SETTINGS": "设置",
   "COMPILE_ON_SAVE": "保存时编译",
   "COMPILE_ON_REFRESH": "刷新时编译",
@@ -64,7 +57,6 @@
   "SET_JRE_RT_LIBRARY": "设置 JRE RT 库",
   "SET_OPTIONAL_LIBRARY_FOLDER": "设置可选库文件夹",
   "SET_JAVAC_EXECUTABLE": "设置 Javac 可执行文件",
-
   "TODO3": "These only exist as key/value map pairs",
   "JAVA": "Java",
   "PROCYON": "Procyon",
@@ -78,11 +70,9 @@
   "BYTECODE": "Bytecode",
   "ASM_TEXTIFY": "ASM Textify",
   "TODO4": "End",
-
   "BYTECODE_DECOMPILER": "字节码反编译器",
   "DEBUG_HELPERS": "调试助手",
   "APPEND_BRACKETS_TO_LABEL": "将括号附加到标签",
-
   "PLUGINS": "插件",
   "OPEN_PLUGIN": "打开插件...",
   "RECENT_PLUGINS": "最近的插件",
@@ -95,9 +85,6 @@
   "ZKM_STRING_DECRYPTER": "ZKM 字符串解密器",
   "ALLATORI_STRING_DECRYPTER": "Allatori 字符串解密器",
   "ZSTRINGARRAY_DECRYPTER": "ZStringArray 字符串解密器",
-
-
-
   "TODO5": "These only exist as key/value map pairs",
   "PROCYON_DECOMPILER": "Procyon Decompiler",
   "CFR_DECOMPILER": "CFR Decompiler",
@@ -105,7 +92,6 @@
   "JADX_DECOMPILER": "JADX Decompiler",
   "JD_DECOMPILER": "JD-GUI Decompiler",
   "BYTECODE_DISASSEMBLER": "Bytecode Disassembler",
-
   "FILES": "Files",
   "QUICK_FILE_SEARCH_NO_FILE_EXTENSION": "Quick file search (no file extension)",
   "WORK_SPACE": "Work Space",
@@ -113,5 +99,18 @@
   "SEARCH": "Search",
   "RESULTS": "Results",
   "REFRESH": "Refresh",
-  "TODO6": "End"
+  "TODO6": "End",
+  "DRAG_CLASS_JAR": "将 class/jar/zip/APK/DEX 拖到这里",
+  "SEARCH_FROM": "搜索自：",
+  "OWNER": "所有者：",
+  "ERROR": "错误",
+  "DISASSEMBLER": "反汇编器",
+  "SMALI": "斯马利",
+  "DELETE_UNKNOWN_LIBS": "删除外国/过时的 Libs",
+  "SEARCH_STRING": "搜索字符串：",
+  "DESC": "描述：",
+  "SUGGESTED_FIX_DECOMPILER_ERROR": "建议修复：单击刷新类，如果再次失败，请尝试另一个反编译器。",
+  "NAME": "名称：",
+  "SUGGESTED_FIX_COMPILER_ERROR": "建议的修复：尝试查看>窗格>喀拉喀托>字节码并启用可编辑。",
+  "SEARCH_REGEX": "搜索正则表达式："
 }

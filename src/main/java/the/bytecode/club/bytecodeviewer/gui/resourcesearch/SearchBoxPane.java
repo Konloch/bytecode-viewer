@@ -21,11 +21,9 @@ import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
-import the.bytecode.club.bytecodeviewer.translation.components.TranslatedDefaultMutableTreeNode;
-import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
-import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
-import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
+import the.bytecode.club.bytecodeviewer.translation.components.*;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 /***************************************************************************
@@ -61,7 +59,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
     public static final SearchType[] SEARCH_TYPES = SearchType.values();
 
     public final JCheckBox exact = new TranslatedJCheckBox("Exact", Translation.EXACT);
-    public final DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode("Results");
+    public final DefaultMutableTreeNode treeRoot = new TranslatedDefaultMutableTreeNode("Results", Translation.RESULTS);
     public final JTree tree;
     public final JComboBox typeBox;
     
@@ -80,7 +78,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
         final JPanel searchRadiusOpt = new JPanel(new BorderLayout());
         final JPanel searchOpts = new JPanel(new GridLayout(2, 1));
 
-        searchRadiusOpt.add(new JLabel("Search from "), BorderLayout.WEST);
+        searchRadiusOpt.add(new TranslatedJLabel("Search from ", Translation.SEARCH_FROM), BorderLayout.WEST);
 
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         
@@ -136,21 +134,28 @@ public class SearchBoxPane extends TranslatedVisibleComponent
 
         this.tree.addTreeSelectionListener(selectionEvent ->
         {
-            if (selectionEvent.getPath().getPathComponent(0).equals("Results"))
-                return;
-
-            selectionEvent.getPath().getPathComponent(1);
-
-            String path = selectionEvent.getPath().getPathComponent(1).toString();
-
-            String containerName = path.split(">", 2)[0];
-            String className = path.split(">", 2)[1].split("\\.")[0];
-            FileContainer container = BytecodeViewer.getFileContainer(containerName);
-
-            final ClassNode fN = Objects.requireNonNull(container).getClassNode(className);
-
-            if (fN != null)
-                BytecodeViewer.viewer.openClassFile(container, className + ".class", fN);
+            try
+            {
+                if (selectionEvent.getPath().getPathComponent(0).equals(TranslatedStrings.RESULTS))
+                    return;
+    
+                selectionEvent.getPath().getPathComponent(1);
+    
+                String path = selectionEvent.getPath().getPathComponent(1).toString();
+    
+                String containerName = path.split(">", 2)[0];
+                String className = path.split(">", 2)[1].split("\\.")[0];
+                FileContainer container = BytecodeViewer.getFileContainer(containerName);
+    
+                final ClassNode fN = Objects.requireNonNull(container).getClassNode(className);
+    
+                if (fN != null)
+                    BytecodeViewer.viewer.openClassFile(container, className + ".class", fN);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         });
 
         this.setVisible(true);

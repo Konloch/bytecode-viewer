@@ -9,11 +9,11 @@ import javax.swing.*;
  * @author Konloch
  * @since 7/7/2021
  */
-public class TranslatedJButton extends JButton
+public class TranslatedJLabel extends JLabel
 {
 	private final TranslatedComponentReference componentReference;
 	
-	public TranslatedJButton(String text, Translation translation)
+	public TranslatedJLabel(String text, Translation translation)
 	{
 		super(text);
 		

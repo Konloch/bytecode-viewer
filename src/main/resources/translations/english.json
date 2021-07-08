@@ -114,6 +114,11 @@
   "WORK_SPACE": "Work Space",
   "EXACT": "Exact",
   "SEARCH": "Search",
-  "RESULTS": "Results",
+  "SEARCH_FROM": "Search From: ",
+  "SEARCH_STRING": "Search String: ",
+  "SEARCH_REGEX": "Search Regex: ",
+  "OWNER": "Owner: ",
+  "NAME": "Name: ",
+  "DESC": "Desc: ",
   "REFRESH": "Refresh"
 }

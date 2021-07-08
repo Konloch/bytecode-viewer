@@ -1,6 +1,5 @@
 package the.bytecode.club.bytecodeviewer.translation;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -27,6 +26,9 @@ public enum TranslatedStrings
 	ASM_TEXTIFY("ASM Textify"),
 	ERROR("Error"),
 	DISASSEMBLER("Disassembler"),
+	RESULTS("Results"),
+	SEARCH("Search"),
+	QUICK_FILE_SEARCH_NO_FILE_EXTENSION("Quick file search (no file extension)"),
 	SUGGESTED_FIX_DECOMPILER_ERROR("Suggested Fix: Click refresh class, if it fails again try another decompiler."),
 	SUGGESTED_FIX_COMPILER_ERROR("Suggested Fix: Try View>Pane>Krakatau>Bytecode and enable Editable."),
 	DRAG_CLASS_JAR("Drag class/jar/zip/APK/DEX here"),

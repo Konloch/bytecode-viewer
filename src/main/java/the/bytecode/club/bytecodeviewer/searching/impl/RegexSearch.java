@@ -13,6 +13,8 @@ import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
 import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
+import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJLabel;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 import static the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder.processRegex;
@@ -60,7 +62,7 @@ public class RegexSearch implements SearchTypeDetails
         if (myPanel == null)
         {
             myPanel = new JPanel(new GridLayout(1, 2));
-            myPanel.add(new JLabel("Search Regex: "));
+            myPanel.add(new TranslatedJLabel("Search Regex: ", Translation.SEARCH_REGEX));
             myPanel.add(searchText);
         }
 

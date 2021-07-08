@@ -22,12 +22,19 @@ import java.util.List;
  ***************************************************************************/
 
 /**
+ * This class contains the runnable events that update the components for translation
+ *
  * @author Konloch
  * @since 6/28/2021
  */
-public class TranslatedComponent
+public class TranslatedComponentReference
 {
 	public String key;
 	public String value;
 	public List<Runnable> runOnUpdate = new ArrayList<>();
+	
+	public void translate()
+	{
+		runOnUpdate.forEach(Runnable::run);
+	}
 }

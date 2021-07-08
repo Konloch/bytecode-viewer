@@ -7,13 +7,13 @@ import javax.swing.*;
 
 /**
  * @author Konloch
- * @since 7/7/2021
+ * @since 7/8/2021
  */
-public class TranslatedJButton extends JButton
+public class TranslatedJTextField extends JTextField
 {
 	private final TranslatedComponentReference componentReference;
 	
-	public TranslatedJButton(String text, Translation translation)
+	public TranslatedJTextField(String text, Translation translation)
 	{
 		super(text);
 		

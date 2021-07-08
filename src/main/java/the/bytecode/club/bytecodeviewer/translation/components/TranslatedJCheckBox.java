@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.translation.components;
 
-import the.bytecode.club.bytecodeviewer.translation.TranslatedComponent;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 
 import javax.swing.*;
@@ -29,7 +29,7 @@ import javax.swing.*;
  */
 public class TranslatedJCheckBox extends JCheckBox
 {
-	private final TranslatedComponent component;
+	private final TranslatedComponentReference componentReference;
 	
 	public TranslatedJCheckBox(String text, Translation translation)
 	{
@@ -37,18 +37,13 @@ public class TranslatedJCheckBox extends JCheckBox
 		
 		if(translation != null)
 		{
-			this.component = translation.getTranslatedComponent();
-			this.component.runOnUpdate.add(this::updateText);
+			componentReference = translation.getTranslatedComponentReference();
+			componentReference.runOnUpdate.add(()-> setText(componentReference.value));
+			componentReference.translate();
 		}
 		else
 		{
-			this.component = null;
+			componentReference = null;
 		}
-	}
-	
-	public void updateText()
-	{
-		if(component != null)
-			setText(component.value);
 	}
 }
