@@ -38,7 +38,11 @@ public class TranslatedJMenu extends JMenu
 		if(translation != null)
 		{
 			componentReference = translation.getTranslatedComponentReference();
-			componentReference.runOnUpdate.add(()-> setText(componentReference.value));
+			componentReference.runOnUpdate.add(()->
+			{
+				if(componentReference.value != null && componentReference.value.isEmpty())
+					setText(componentReference.value);
+			});
 			componentReference.translate();
 		}
 		else
