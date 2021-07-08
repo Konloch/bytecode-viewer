@@ -9,6 +9,7 @@ import org.apache.commons.cli.Options;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.translation.Language;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -45,7 +46,7 @@ public class CommandLineInput {
 
     /*BECAUSE WHO DOESN'T LOVE MAGIC NUMBERS*/
     public static int STOP = -1;
-    public static int OPEN_FILE = 0;
+    public static int GUI = 0;
     public static int CLI = 1;
 
     static {
@@ -66,6 +67,8 @@ public class CommandLineInput {
             CommandLine cmd = parser.parse(options, args);
             if (
                     cmd.hasOption("help") ||
+                            cmd.hasOption("clean") ||
+                            cmd.hasOption("english") ||
                             cmd.hasOption("list") ||
                             cmd.hasOption("decompiler") ||
                             cmd.hasOption("i") ||
@@ -84,7 +87,7 @@ public class CommandLineInput {
 
     public static int parseCommandLine(String[] args) {
         if (!containsCommand(args))
-            return OPEN_FILE;
+            return GUI;
         try {
             CommandLine cmd = parser.parse(options, args);
             if (cmd.hasOption("list")) {
@@ -96,15 +99,24 @@ public class CommandLineInput {
                 System.out.println("JD-GUI");
                 System.out.println("Smali");
                 return STOP;
+            } else if (cmd.hasOption("clean")) {
+                new File(Constants.getBCVDirectory()).delete();
+                if(cmd.getOptionValue("i") == null && cmd.getOptionValue("o") == null
+                        && cmd.getOptionValue("t") == null)
+                    return GUI;
+            } else if (cmd.hasOption("english")) {
+                Configuration.language = Language.ENGLISH;
+                return GUI;
             } else if (cmd.hasOption("help")) {
                 for (String s : new String[]{
                         "-help                         Displays the help menu",
+                        "-clean                        Deletes BCV directory",
+                        "-english                      Forces English language translations",
                         "-list                         Displays the available decompilers",
                         "-decompiler <decompiler>      Selects the decompiler, procyon by default",
                         "-i <input file>               Selects the input file",
                         "-o <output file>              Selects the output file",
-                        "-t <target classname>         Must either be the fully qualified classname or \"all\" to "
-                                + "decompile all as zip",
+                        "-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile all as zip",
                         "-nowait                       Doesn't wait for the user to read the CLI messages"
                 })
                     System.out.println(s);
@@ -165,7 +177,7 @@ public class CommandLineInput {
             BytecodeViewer.handleException(e);
         }
 
-        return OPEN_FILE;
+        return GUI;
     }
 
     public static void executeCommandLine(String[] args) {
@@ -344,8 +356,7 @@ public class CommandLineInput {
             }
 
             System.out.println("Finished.");
-            System.out.println("Bytecode Viewer CLI v" + VERSION + " by @Konloch - "
-                    + "https://bytecodeviewer.com");
+            System.out.println("Bytecode Viewer " + VERSION + " [CLI] - Created by @Konloch - https://bytecodeviewer.com");
             Configuration.canExit = true;
             System.exit(0);
         } catch (Exception e) {

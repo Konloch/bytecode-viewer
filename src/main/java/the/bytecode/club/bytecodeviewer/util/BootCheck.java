@@ -122,7 +122,10 @@ public class BootCheck implements Runnable
 			Boot.globalstop = false;
 			Boot.hide();
 			
-			if (CommandLineInput.parseCommandLine(BytecodeViewer.launchArgs) == CommandLineInput.OPEN_FILE)
+			int CLI = CommandLineInput.parseCommandLine(BytecodeViewer.launchArgs);
+			
+			
+			if (CLI == CommandLineInput.GUI)
 				BytecodeViewer.boot(false);
 			else {
 				BytecodeViewer.boot(true);

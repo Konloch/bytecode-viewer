@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
@@ -20,7 +19,6 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
-import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.PluginWriter;
 import the.bytecode.club.bytecodeviewer.util.*;
 import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
@@ -199,12 +197,12 @@ public class BytecodeViewer
             {
                 bootCheck.start();
 
-                Boot.boot(args, CLI != CommandLineInput.OPEN_FILE);
+                Boot.boot(args, CLI != CommandLineInput.GUI);
             }
             else
                 installFatJar.start();
 
-            if (CLI == CommandLineInput.OPEN_FILE)
+            if (CLI == CommandLineInput.GUI)
                 BytecodeViewer.boot(false);
             else
             {
