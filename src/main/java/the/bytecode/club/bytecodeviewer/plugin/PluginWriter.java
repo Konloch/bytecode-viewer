@@ -74,9 +74,9 @@ public class PluginWriter extends JFrame
 		menuSave.setVisible(false);
 		
 		menuBar.add(menu);
-		menu.add(menuRun);
 		menu.add(menuSaveAs);
 		menu.add(menuSave);
+		menu.add(menuRun);
 		
 		setJMenuBar(menuBar);
 		add(area.getScrollPane());
@@ -98,7 +98,7 @@ public class PluginWriter extends JFrame
 		try
 		{
 			//write to temporary file location
-			DiskWriter.replaceFile(tempFile.getAbsolutePath(), area.getText(), false);
+			DiskWriter.replaceFile(tempFile.getAbsolutePath(), area.getText(), true);
 			//run plugin from that location
 			PluginManager.runPlugin(tempFile);
 		}
@@ -170,7 +170,9 @@ public class PluginWriter extends JFrame
 	{
 		menuSaveAs.setVisible(false);
 		menuSave.setVisible(true);
+		menuSaveAs.updateUI();
+		menuSave.updateUI();
 		savePath = file;
-		setPluginName(file.getAbsolutePath());
+		setPluginName(file.getName());
 	}
 }

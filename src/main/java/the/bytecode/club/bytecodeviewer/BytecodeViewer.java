@@ -8,7 +8,9 @@ import javax.swing.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
@@ -19,6 +21,7 @@ import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.plugin.PluginWriter;
 import the.bytecode.club.bytecodeviewer.util.*;
 import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
 
@@ -548,12 +551,16 @@ public class BytecodeViewer
             Settings.removeRecentPlugin(file);
             return;
         }
-
-        try {
-            PluginManager.runPlugin(file);
-        } catch (Throwable e) {
+        
+        try
+        {
+            PluginWriter writer = new PluginWriter(DiskReader.loadAsString(file.getAbsolutePath()), file.getName());
+            writer.setSourceFile(file);
+            writer.setVisible(true);
+        } catch (Exception e) {
             BytecodeViewer.handleException(e);
         }
+        
         addRecentPlugin(file);
     }
 
