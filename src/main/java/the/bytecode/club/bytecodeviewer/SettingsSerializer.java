@@ -481,10 +481,7 @@ public class SettingsSerializer
             
             //line 130 is used for preload
             if(Configuration.language != Language.ENGLISH)
-            {
-                Language.ENGLISH.loadLanguage(); //load english first incase the translation file is missing anything
-                Configuration.language.loadLanguage(); //load translation file and swap as needed
-            }
+                Configuration.language.loadLanguage(); //load language translations
             Settings.hasSetLanguageAsSystemLanguage = true;
         } catch (Exception e) {
             //ignore because errors are expected, first start up and outdated settings.
