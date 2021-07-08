@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ItemListener;
+import java.beans.PropertyVetoException;
 import java.util.Objects;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -21,6 +22,7 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedDefaultMutableTreeNode;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
@@ -114,12 +116,12 @@ public class SearchBoxPane extends TranslatedVisibleComponent
 
         optionPanel.add(searchOpts, BorderLayout.NORTH);
 
-        JPanel p2 = new JPanel();
-        p2.setLayout(new BorderLayout());
-        p2.add(searchOptPanel, BorderLayout.NORTH);
-        p2.add(exact, BorderLayout.SOUTH);
+        JPanel sharedPanel = new JPanel();
+        sharedPanel.setLayout(new BorderLayout());
+        sharedPanel.add(searchOptPanel, BorderLayout.NORTH);
+        sharedPanel.add(exact, BorderLayout.SOUTH);
 
-        optionPanel.add(p2, BorderLayout.CENTER);
+        optionPanel.add(sharedPanel, BorderLayout.CENTER);
 
         search.addActionListener(arg0 -> search());
 
@@ -129,7 +131,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
 
         getContentPane().setLayout(new BorderLayout());
 
-        getContentPane().add(new JScrollPane(optionPanel), BorderLayout.NORTH);
+        getContentPane().add(optionPanel, BorderLayout.NORTH);
         getContentPane().add(new JScrollPane(tree), BorderLayout.CENTER);
 
         this.tree.addTreeSelectionListener(selectionEvent ->
