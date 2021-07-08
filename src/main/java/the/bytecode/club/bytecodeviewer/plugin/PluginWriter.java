@@ -98,7 +98,7 @@ public class PluginWriter extends JFrame
 		try
 		{
 			//write to temporary file location
-			DiskWriter.replaceFile(tempFile.getAbsolutePath(), area.getText(), true);
+			DiskWriter.replaceFile(tempFile.getAbsolutePath(), area.getText(), false);
 			//run plugin from that location
 			PluginManager.runPlugin(tempFile);
 		}
