@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "טען משאבים מחדש",
   "SAVE_AS_DEX": "שמור כ- DEX ...",
   "NEW_JAVASCRIPT_PLUGIN": "תוסף Javascript חדש",
-  "NEW_JAVA_PLUGIN": "תוסף Java חדש"
+  "NEW_JAVA_PLUGIN": "תוסף Java חדש",
+  "SAVE_AS": "שמור כ...",
+  "SAVE": "להציל...",
+  "RESULTS": "תוצאות"
 }

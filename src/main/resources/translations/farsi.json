@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "بارگیری مجدد منابع",
   "SAVE_AS_DEX": "ذخیره به عنوان DEX ...",
   "NEW_JAVASCRIPT_PLUGIN": "پلاگین Javascript جدید",
-  "NEW_JAVA_PLUGIN": "پلاگین جاوا جدید"
+  "NEW_JAVA_PLUGIN": "پلاگین جاوا جدید",
+  "SAVE_AS": "ذخیره به عنوان...",
+  "SAVE": "صرفه جویی...",
+  "RESULTS": "نتایج"
 }

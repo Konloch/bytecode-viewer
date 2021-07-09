@@ -122,5 +122,8 @@
   "OWNER": "Owner: ",
   "NAME": "Name: ",
   "DESC": "Desc: ",
+  "SAVE": "Save...",
+  "SAVE_AS": "Save As...",
+  "RESULTS": "Results",
   "REFRESH": "Refresh"
 }

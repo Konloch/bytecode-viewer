@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "Ricarica risorse",
   "SAVE_AS_DEX": "Salva come DEX...",
   "NEW_JAVASCRIPT_PLUGIN": "Nuovo plugin Javascript",
-  "NEW_JAVA_PLUGIN": "Nuovo plugin Java"
+  "NEW_JAVA_PLUGIN": "Nuovo plugin Java",
+  "SAVE_AS": "Salva come...",
+  "SAVE": "Salva...",
+  "RESULTS": "Risultati"
 }

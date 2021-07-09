@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "Muat Ulang Sumber Daya",
   "SAVE_AS_DEX": "Simpan Sebagai DEX...",
   "NEW_JAVASCRIPT_PLUGIN": "Plugin Javascript baru",
-  "NEW_JAVA_PLUGIN": "Plugin Java Baru"
+  "NEW_JAVA_PLUGIN": "Plugin Java Baru",
+  "SAVE_AS": "Simpan Sebagai...",
+  "SAVE": "Menyimpan...",
+  "RESULTS": "Hasil"
 }

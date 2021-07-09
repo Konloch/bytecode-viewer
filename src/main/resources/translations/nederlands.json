@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "Herlaad bronnen",
   "SAVE_AS_DEX": "Opslaan als DEX...",
   "NEW_JAVASCRIPT_PLUGIN": "Nieuwe Javascript-plug-in",
-  "NEW_JAVA_PLUGIN": "Nieuwe Java-plug-in"
+  "NEW_JAVA_PLUGIN": "Nieuwe Java-plug-in",
+  "SAVE_AS": "Opslaan als...",
+  "SAVE": "Sparen...",
+  "RESULTS": "Resultaten"
 }

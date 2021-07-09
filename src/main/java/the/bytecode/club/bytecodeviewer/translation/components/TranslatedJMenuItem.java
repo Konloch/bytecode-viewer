@@ -29,25 +29,19 @@ import javax.swing.*;
  */
 public class TranslatedJMenuItem extends JMenuItem
 {
-	private final TranslatedComponentReference componentReference;
-	
 	public TranslatedJMenuItem(String text, Translation translation)
 	{
 		super(text);
 		
 		if(translation != null)
 		{
-			componentReference = translation.getTranslatedComponentReference();
+			TranslatedComponentReference componentReference = translation.getTranslatedComponentReference();
 			componentReference.runOnUpdate.add(()->
 			{
 				if(componentReference.value != null && !componentReference.value.isEmpty())
 					setText(componentReference.value);
 			});
 			componentReference.translate();
-		}
-		else
-		{
-			componentReference = null;
 		}
 	}
 }

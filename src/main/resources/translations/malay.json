@@ -108,5 +108,7 @@
   "SUGGESTED_FIX_COMPILER_ERROR": "Pembaikan yang Disarankan: Cuba Lihat> Panel> Krakatau> Bytecode dan aktifkan Editable.",
   "SEARCH_REGEX": "Cari Regex: ",
   "NEW_JAVASCRIPT_PLUGIN": "Plugin Javascript Baru",
-  "NEW_JAVA_PLUGIN": "Plugin Java Baru"
+  "NEW_JAVA_PLUGIN": "Plugin Java Baru",
+  "SAVE_AS": "Simpan sebagai...",
+  "SAVE": "Jimat ..."
 }

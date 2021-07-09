@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "Перезавантажте ресурси",
   "SAVE_AS_DEX": "Зберегти як DEX ...",
   "NEW_JAVASCRIPT_PLUGIN": "Новий плагін Javascript",
-  "NEW_JAVA_PLUGIN": "Новий плагін Java"
+  "NEW_JAVA_PLUGIN": "Новий плагін Java",
+  "SAVE_AS": "Зберегти як...",
+  "SAVE": "Зберегти ...",
+  "RESULTS": "Результати"
 }

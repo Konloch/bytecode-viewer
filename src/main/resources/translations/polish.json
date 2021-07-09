@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "Przeładuj zasoby",
   "SAVE_AS_DEX": "Zapisz jako DEX...",
   "NEW_JAVASCRIPT_PLUGIN": "Nowa wtyczka JavaScript",
-  "NEW_JAVA_PLUGIN": "Nowa wtyczka Java"
+  "NEW_JAVA_PLUGIN": "Nowa wtyczka Java",
+  "SAVE_AS": "Zapisz jako...",
+  "SAVE": "Zapisać...",
+  "RESULTS": "Wyniki"
 }

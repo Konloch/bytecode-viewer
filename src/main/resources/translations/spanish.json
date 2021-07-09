@@ -108,5 +108,7 @@
   "SUGGESTED_FIX_COMPILER_ERROR": "Solución sugerida: intente Ver> Panel> Krakatau> Bytecode y habilite Editable.",
   "SEARCH_REGEX": "Buscar Regex: ",
   "NEW_JAVASCRIPT_PLUGIN": "Nuevo complemento de Javascript",
-  "NEW_JAVA_PLUGIN": "Nuevo complemento de Java"
+  "NEW_JAVA_PLUGIN": "Nuevo complemento de Java",
+  "SAVE_AS": "Guardar como...",
+  "SAVE": "Ahorrar..."
 }

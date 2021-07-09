@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "Last inn ressurser på nytt",
   "SAVE_AS_DEX": "Lagre som DEX ...",
   "NEW_JAVASCRIPT_PLUGIN": "Ny Javascript-plugin",
-  "NEW_JAVA_PLUGIN": "Ny Java-plugin"
+  "NEW_JAVA_PLUGIN": "Ny Java-plugin",
+  "SAVE_AS": "Lagre som...",
+  "SAVE": "Lagre...",
+  "RESULTS": "Resultater"
 }

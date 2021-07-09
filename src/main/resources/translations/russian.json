@@ -108,5 +108,7 @@
   "SUGGESTED_FIX_COMPILER_ERROR": "Предлагаемое исправление: попробуйте «Просмотр»> «Панель»> «Кракатау»> «Байт-код» и включите «Редактируемый».",
   "SEARCH_REGEX": "Искать Regex: ",
   "NEW_JAVASCRIPT_PLUGIN": "Новый плагин Javascript",
-  "NEW_JAVA_PLUGIN": "Новый плагин Java"
+  "NEW_JAVA_PLUGIN": "Новый плагин Java",
+  "SAVE_AS": "Сохранить как...",
+  "SAVE": "Сохранить..."
 }

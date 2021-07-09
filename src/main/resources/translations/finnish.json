@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "Lataa resurssit uudelleen",
   "SAVE_AS_DEX": "Tallenna nimellä DEX ...",
   "NEW_JAVASCRIPT_PLUGIN": "Uusi Javascript-laajennus",
-  "NEW_JAVA_PLUGIN": "Uusi Java-laajennus"
+  "NEW_JAVA_PLUGIN": "Uusi Java-laajennus",
+  "SAVE_AS": "Tallenna nimellä...",
+  "SAVE": "Tallentaa...",
+  "RESULTS": "Tulokset"
 }

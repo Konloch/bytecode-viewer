@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -59,7 +60,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
     public static final SearchType[] SEARCH_TYPES = SearchType.values();
 
     public final JCheckBox exact = new TranslatedJCheckBox("Exact", Translation.EXACT);
-    public final DefaultMutableTreeNode treeRoot = new TranslatedDefaultMutableTreeNode("Results", Translation.RESULTS);
+    public final TranslatedDefaultMutableTreeNode treeRoot = new TranslatedDefaultMutableTreeNode("Results", Translation.RESULTS);
     public final JTree tree;
     public final JComboBox typeBox;
     
@@ -126,6 +127,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
         optionPanel.add(search, BorderLayout.SOUTH);
 
         this.tree = new JTree(treeRoot);
+        treeRoot.setTree((DefaultTreeModel) tree.getModel());
 
         getContentPane().setLayout(new BorderLayout());
 

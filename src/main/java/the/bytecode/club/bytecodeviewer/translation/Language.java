@@ -112,7 +112,10 @@ public enum Language
 			
 			//skip translating if the language config is missing the translation key
 			if(!translationMap.containsKey(text.key))
+			{
+				System.err.println("MISSING TRANSLATION KEY: " + text.key);
 				continue;
+			}
 			
 			//update translation text value
 			text.value = translationMap.get(text.key);

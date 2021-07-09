@@ -108,5 +108,7 @@
   "SUGGESTED_FIX_COMPILER_ERROR": "Solution suggérée : essayez Affichage > Volet > Krakatau > Bytecode et activez Modifiable.",
   "SEARCH_REGEX": "Rechercher une expression régulière :",
   "NEW_JAVASCRIPT_PLUGIN": "Nouveau plugin Javascript",
-  "NEW_JAVA_PLUGIN": "Nouveau plugin Java"
+  "NEW_JAVA_PLUGIN": "Nouveau plugin Java",
+  "SAVE_AS": "Enregistrer sous...",
+  "SAVE": "Sauvegarder..."
 }

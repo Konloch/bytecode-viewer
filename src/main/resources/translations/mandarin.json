@@ -108,5 +108,7 @@
   "DESC": "描述：",
   "NAME": "名称：",
   "SEARCH_REGEX": "搜索正则表达式：",
-  "NEW_JAVA_PLUGIN": "新的 Java 插件"
+  "NEW_JAVA_PLUGIN": "新的 Java 插件",
+  "SAVE_AS": "另存为...",
+  "SAVE": "保存..."
 }

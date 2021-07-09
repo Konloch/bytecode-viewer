@@ -4,6 +4,7 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  * @author Konloch
@@ -11,7 +12,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class TranslatedDefaultMutableTreeNode extends DefaultMutableTreeNode
 {
-	private final TranslatedComponentReference componentReference;
+	private DefaultTreeModel tree;
 	
 	public TranslatedDefaultMutableTreeNode(String text, Translation translation)
 	{
@@ -19,17 +20,22 @@ public class TranslatedDefaultMutableTreeNode extends DefaultMutableTreeNode
 		
 		if(translation != null)
 		{
-			componentReference = translation.getTranslatedComponentReference();
+			TranslatedComponentReference componentReference = translation.getTranslatedComponentReference();
 			componentReference.runOnUpdate.add(()->
 			{
-					if(componentReference.value != null && !componentReference.value.isEmpty())
-						setUserObject(componentReference.value);
+				if(componentReference.value != null && !componentReference.value.isEmpty())
+				{
+					setUserObject(componentReference.value);
+					if(tree != null)
+						tree.nodeChanged(this);
+				}
 			});
 			componentReference.translate();
 		}
-		else
-		{
-			componentReference = null;
-		}
+	}
+	
+	public void setTree(DefaultTreeModel tree)
+	{
+		this.tree = tree;
 	}
 }

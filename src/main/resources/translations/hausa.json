@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "Sake shigar da Albarkatu",
   "SAVE_AS_DEX": "Ajiye As DEX ...",
   "NEW_JAVASCRIPT_PLUGIN": "Sabon Javascript Plugin",
-  "NEW_JAVA_PLUGIN": "Sabon fulogin Java"
+  "NEW_JAVA_PLUGIN": "Sabon fulogin Java",
+  "SAVE_AS": "Ajiye Kamar ...",
+  "SAVE": "Ajiye ...",
+  "RESULTS": "Sakamako"
 }

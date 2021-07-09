@@ -108,5 +108,7 @@
   "SUGGESTED_FIX_COMPILER_ERROR": "الإصلاح المقترح: جرب View> Pane> Krakatau> Bytecode وتمكين التحرير.",
   "SEARCH_REGEX": "البحث في Regex:",
   "NEW_JAVASCRIPT_PLUGIN": "البرنامج المساعد الجديد لجافا سكريبت",
-  "NEW_JAVA_PLUGIN": "البرنامج المساعد الجديد جافا"
+  "NEW_JAVA_PLUGIN": "البرنامج المساعد الجديد جافا",
+  "SAVE_AS": "حفظ باسم ...",
+  "SAVE": "يحفظ..."
 }

@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "Tải lại tài nguyên",
   "SAVE_AS_DEX": "Lưu dưới dạng DEX ...",
   "NEW_JAVASCRIPT_PLUGIN": "Plugin Javascript mới",
-  "NEW_JAVA_PLUGIN": "Plugin Java mới"
+  "NEW_JAVA_PLUGIN": "Plugin Java mới",
+  "SAVE_AS": "Lưu thành...",
+  "SAVE": "Tiết kiệm...",
+  "RESULTS": "Các kết quả"
 }

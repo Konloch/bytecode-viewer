@@ -107,5 +107,8 @@
   "RELOAD_RESOURCES": "Επαναφόρτωση πόρων",
   "SAVE_AS_DEX": "Αποθήκευση ως DEX ...",
   "NEW_JAVASCRIPT_PLUGIN": "Νέα προσθήκη Javascript",
-  "NEW_JAVA_PLUGIN": "Νέα προσθήκη Java"
+  "NEW_JAVA_PLUGIN": "Νέα προσθήκη Java",
+  "SAVE_AS": "Αποθήκευση ως...",
+  "SAVE": "Σώσει...",
+  "RESULTS": "Αποτελέσματα"
 }

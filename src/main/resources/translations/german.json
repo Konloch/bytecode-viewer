@@ -108,5 +108,7 @@
   "NAME": "Name: ",
   "SEARCH_REGEX": "Regex suchen: ",
   "NEW_JAVASCRIPT_PLUGIN": "Neues Javascript-Plugin",
-  "NEW_JAVA_PLUGIN": "Neues Java-Plugin"
+  "NEW_JAVA_PLUGIN": "Neues Java-Plugin",
+  "SAVE_AS": "Speichern als...",
+  "SAVE": "Speichern..."
 }

@@ -10,25 +10,19 @@ import the.bytecode.club.bytecodeviewer.translation.Translation;
  */
 public class TranslatedVisibleComponent extends VisibleComponent
 {
-	private final TranslatedComponentReference componentReference;
-	
 	public TranslatedVisibleComponent(String title, Translation translation)
 	{
 		super(title);
 		
 		if(translation != null)
 		{
-			componentReference = translation.getTranslatedComponentReference();
+			TranslatedComponentReference componentReference = translation.getTranslatedComponentReference();
 			componentReference.runOnUpdate.add(()->
 			{
 				if(componentReference.value != null && !componentReference.value.isEmpty())
 					setTitle(componentReference.value);
 			});
 			componentReference.translate();
-		}
-		else
-		{
-			componentReference = null;
 		}
 	}
 }
