@@ -123,11 +123,10 @@ public class ExceptionUI extends JFrame
     public static String buildErrorLogHeader(String author)
     {
         String fatJar = FAT_JAR ? " [FatJar] " : "";
-        String previewCopy = PREVIEW_COPY ? " [Preview Copy] " : "";
         
         return "Please send this error log to " + author +
                 "\nIf you hold appropriate legal rights to the relevant class/jar/apk file please include that as well." +
-                "\nBytecode Viewer Version: " + VERSION + previewCopy + fatJar +
+                "\nBytecode Viewer Version: " + VERSION + fatJar +
                 ", OS: " + System.getProperty("os.name") +
                 ", Java: " + System.getProperty("java.version");
     }
