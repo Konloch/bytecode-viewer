@@ -89,7 +89,8 @@ public class SecurityMan extends SecurityManager
         }
 
         if (allow && !blocking) {
-            System.out.println("Allowing exec:" + cmd);
+            System.out.println("Allowing exec: " + cmd);
+            
         } else throw new SecurityException("BCV is awesome, blocking(" + blocking + ") exec " + cmd);
     }
 

@@ -29,7 +29,6 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
@@ -169,9 +168,9 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 ImageRenderer renderer = new ImageRenderer();
                 tree.setCellRenderer(renderer);
 
-                if (!container.classes.isEmpty())
+                if (!container.resourceClasses.isEmpty())
                 {
-                    for (ClassNode c : container.classes)
+                    for (ClassNode c : container.resourceClasses.values())
                     {
                         String name = c.name;
                         final String[] spl = name.split("/");
@@ -211,9 +210,9 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                     }
                 }
 
-                if (!container.files.isEmpty())
+                if (!container.resourceFiles.isEmpty())
                 {
-                    for (final Entry<String, byte[]> entry : container.files.entrySet())
+                    for (final Entry<String, byte[]> entry : container.resourceFiles.entrySet())
                     {
                         String name = entry.getKey();
                         final String[] spl = name.split("/");
@@ -311,7 +310,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         String name = nameBuffer.toString();
         if (name.endsWith(".class"))
         {
-            final ClassNode cn = BytecodeViewer.getClassNode(Objects.requireNonNull(container),
+            final ClassNode cn = Objects.requireNonNull(container).getClassNode(
                     name.substring(0, name.length() - ".class".length()));
             
             if (cn != null)

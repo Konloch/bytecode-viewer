@@ -1,8 +1,8 @@
 package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
+import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.FileContainer;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
@@ -18,32 +18,26 @@ import java.io.FileInputStream;
 public class ClassResourceImporter implements Importer
 {
 	@Override
-	public boolean open(File file) throws Exception
+	public void open(File file) throws Exception
 	{
-		final String fn = file.getName();
-		try
-		{
-			byte[] bytes = JarUtils.getBytes(new FileInputStream(file));
-			if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
-			{
-				final ClassNode cn = JarUtils.getNode(bytes);
-				
-				FileContainer container = new FileContainer(file);
-				container.classes.add(cn);
-				BytecodeViewer.files.add(container);
-			}
-			else
-			{
-				BytecodeViewer.showMessage(fn + ": Header does not start with CAFEBABE, ignoring.");
-				return false;
-			}
-		}
-		catch (final Exception e)
-		{
-			BytecodeViewer.handleException(e);
-			return false;
-		}
+		final String name = file.getName();
+		byte[] bytes = MiscUtils.getBytes(new FileInputStream(file));
+		FileContainer container = new FileContainer(file);
 		
-		return true;
+		if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
+		{
+			final ClassNode cn = JarUtils.getNode(bytes);
+			
+			container.resourceClasses.put(FilenameUtils.removeExtension(name), cn);
+			container.resourceClassBytes.put(name, bytes);
+		}
+		else
+		{
+			BytecodeViewer.showMessage(name + "\nHeader does not start with CAFEBABE\nimporting as resource instead.");
+			
+			//TODO double check this
+			container.resourceFiles.put(name, bytes);
+		}
+		BytecodeViewer.files.add(container);
 	}
 }

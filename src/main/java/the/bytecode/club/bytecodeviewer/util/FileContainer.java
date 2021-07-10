@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.Configuration;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -46,16 +45,13 @@ public class FileContainer {
     public String name;
     public File APKToolContents = null;
 
-    public HashMap<String, byte[]> files = new HashMap<>();
-    public ArrayList<ClassNode> classes = new ArrayList<>();
+    public HashMap<String, byte[]> resourceFiles = new HashMap<>();
+    public HashMap<String, byte[]> resourceClassBytes = new HashMap<>();
+    public HashMap<String, ClassNode> resourceClasses = new HashMap<>();
 
     public ClassNode getClassNode(String name)
     {
-        for (ClassNode c : classes)
-            if (c.name.equals(name))
-                return c;
-
-        return null;
+        return resourceClasses.get(name);
     }
     
     public String generateWorkName(String name)

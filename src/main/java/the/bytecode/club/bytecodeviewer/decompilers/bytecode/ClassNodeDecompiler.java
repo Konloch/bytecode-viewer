@@ -9,7 +9,6 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -101,7 +100,7 @@ public class ClassNodeDecompiler
             if ((innerClassName != null)
                     && !decompiledClasses.contains(innerClassName)) {
                 decompiledClasses.add(innerClassName);
-                ClassNode cn1 = BytecodeViewer.getClassNode(innerClassName);
+                ClassNode cn1 = BytecodeViewer.blindlySearchForClassNode(innerClassName);
                 if (cn1 != null) {
                     sb.appendPrefix("     ");
                     sb.append(nl + nl);

@@ -32,7 +32,6 @@ import java.util.Objects;
  */
 public class ImportResource implements Runnable
 {
-	private boolean update = true;
 	private final File[] files;
 	
 	public ImportResource(File[] files) {this.files = files;}
@@ -46,51 +45,44 @@ public class ImportResource implements Runnable
 			{
 				final String fn = file.getName();
 				
+				//check if file exists
 				if (!file.exists())
 				{
-					update = false;
 					BytecodeViewer.showMessage("The file " + file.getAbsolutePath() + " could not be found.");
 					Settings.removeRecentFile(file);
+					continue;
 				}
-				else
+				
+				//check if file is directory
+				if (file.isDirectory())
 				{
-					if (file.isDirectory())
-					{
-						Import.DIRECTORY.getImporter().open(file);
-					}
-					else
-					{
-						if (fn.endsWith(".jar") || fn.endsWith(".zip") || fn.endsWith(".war") || fn.endsWith(".ear"))
-						{
-							if(!Import.ZIP.getImporter().open(file))
-								update = false;
-						}
-						else if (fn.endsWith(".class"))
-						{
-							if(!Import.CLASS.getImporter().open(file))
-								update = false;
-						}
-						else if (fn.endsWith(".xapk"))
-						{
-							Import.XAPK.getImporter().open(file);
-							return;
-						}
-						else if (fn.endsWith(".apk"))
-						{
-							Import.APK.getImporter().open(file);
-							return;
-						}
-						else if (fn.endsWith(".dex"))
-						{
-							Import.DEX.getImporter().open(file);
-							return;
-						}
-						else
-						{
-							Import.FILE.getImporter().open(file);
-						}
-					}
+					Import.DIRECTORY.getImporter().open(file);
+					continue;
 				}
+				
+				//check for zip archives
+				if (fn.endsWith(".jar") || fn.endsWith(".zip") || fn.endsWith(".war") || fn.endsWith(".ear"))
+					Import.ZIP.getImporter().open(file);
+				
+				//check for classes
+				else if (fn.endsWith(".class"))
+					Import.CLASS.getImporter().open(file);
+				
+				//check for XAPKs
+				else if (fn.endsWith(".xapk"))
+					Import.XAPK.getImporter().open(file);
+				
+				//check for APKs
+				else if (fn.endsWith(".apk"))
+					Import.APK.getImporter().open(file);
+				
+				//check for DEX
+				else if (fn.endsWith(".dex"))
+					Import.DEX.getImporter().open(file);
+				
+				//everything else import as a resource
+				else
+					Import.FILE.getImporter().open(file);
 			}
 		}
 		catch (final Exception e)
@@ -100,11 +92,9 @@ public class ImportResource implements Runnable
 		finally
 		{
 			BytecodeViewer.updateBusyStatus(false);
-			
-			if (update)
-				try {
-					Objects.requireNonNull(MainViewerGUI.getComponent(ResourceListPane.class)).updateTree();
-				} catch (NullPointerException ignored) { }
+			try {
+				Objects.requireNonNull(MainViewerGUI.getComponent(ResourceListPane.class)).updateTree();
+			} catch (NullPointerException ignored) { }
 		}
 	}
 }

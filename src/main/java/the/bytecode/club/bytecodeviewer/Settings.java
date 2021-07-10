@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static the.bytecode.club.bytecodeviewer.BytecodeViewer.gson;
+import static the.bytecode.club.bytecodeviewer.Configuration.maxRecentFiles;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /**
@@ -38,8 +39,8 @@ public class Settings
 			else
 				recentPlugins = DiskReader.loadArrayList(getBCVDirectory() + fs + "recentplugins.bcv", false);
 			
-			MiscUtils.deduplicateAndTrim(recentFiles, 25);
-			MiscUtils.deduplicateAndTrim(recentPlugins, 25);
+			MiscUtils.deduplicateAndTrim(recentFiles, maxRecentFiles);
+			MiscUtils.deduplicateAndTrim(recentPlugins, maxRecentFiles);
 		}
 		catch (Exception e)
 		{
@@ -56,7 +57,7 @@ public class Settings
 	{
 		recentFiles.remove(f.getAbsolutePath()); // already added on the list
 		recentFiles.add(0, f.getAbsolutePath());
-		MiscUtils.deduplicateAndTrim(recentFiles, 25);
+		MiscUtils.deduplicateAndTrim(recentFiles, maxRecentFiles);
 		DiskWriter.replaceFile(filesName, MiscUtils.listToString(recentFiles), false);
 		resetRecentFilesMenu();
 	}
@@ -87,7 +88,7 @@ public class Settings
 	{
 		recentPlugins.remove(f.getAbsolutePath()); // already added on the list
 		recentPlugins.add(0, f.getAbsolutePath());
-		MiscUtils.deduplicateAndTrim(recentPlugins, 25);
+		MiscUtils.deduplicateAndTrim(recentPlugins, maxRecentFiles);
 		DiskWriter.replaceFile(pluginsName, MiscUtils.listToString(recentPlugins), false);
 		resetRecentFilesMenu();
 	}

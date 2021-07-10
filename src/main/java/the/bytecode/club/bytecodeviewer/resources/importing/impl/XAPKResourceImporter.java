@@ -2,7 +2,6 @@ package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.IOUtils;
-import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
@@ -14,6 +13,7 @@ import java.io.*;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
@@ -27,14 +27,13 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 public class XAPKResourceImporter implements Importer
 {
 	@Override
-	public boolean open(File file) throws Exception
+	public void open(File file) throws Exception
 	{
 		FileContainer container = new FileContainer(file);
 		HashMap<String, byte[]> allDirectoryFiles = new HashMap<>();
-		HashMap<String, ClassNode> allDirectoryClasses = new HashMap<>();
 		
 		Configuration.silenceExceptionGUI++; //turn exceptions off
-		try (java.util.zip.ZipFile zipFile = new java.util.zip.ZipFile(file))
+		try (ZipFile zipFile = new ZipFile(file))
 		{
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
 			while (entries.hasMoreElements())
@@ -69,13 +68,11 @@ public class XAPKResourceImporter implements Importer
 				}
 			}
 		}
+		
 		Configuration.silenceExceptionGUI--; //turn exceptions back on
 		BytecodeViewer.viewer.clearBusyStatus(); //clear errant busy signals from failed APK imports
-		
-		container.classes.addAll(allDirectoryClasses.values());
-		container.files = allDirectoryFiles;
-		BytecodeViewer.files.add(container);
-		return true;
+		container.resourceFiles = allDirectoryFiles; //store the file resource
+		BytecodeViewer.files.add(container); //add the file container to BCV's total loaded files
 	}
 	
 	public File exportTo(File original, String extension, byte[] bytes)

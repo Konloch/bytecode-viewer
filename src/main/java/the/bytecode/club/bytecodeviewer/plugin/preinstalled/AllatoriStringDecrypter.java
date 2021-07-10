@@ -147,7 +147,7 @@ public class AllatoriStringDecrypter extends Plugin
 						
 						// We have to create new node for editing
 						// Also, one decrypter method could be used for multiple methods in code, what gives us only part of string decrypted
-						ClassNode decrypterClassNode = ASMUtil.getClassNode(decrypterFileContents);
+						ClassNode decrypterClassNode = ASMUtil.bytesToNode(decrypterFileContents);
 						MethodNode decryptermethodnode = ASMUtil.getMethodByName(decrypterClassNode, decrypterMethodName);
 						
 						if (decryptermethodnode != null)

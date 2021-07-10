@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -17,6 +18,7 @@ import java.util.zip.ZipInputStream;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -45,11 +47,14 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 /**
  * Loading and saving jars
  *
+ * NOTE: This is in the process of being replaced with the Import & Export API
+ *
  * @author Konloch
  * @author WaterWolf
  * @since 09/26/2011
  */
 
+@Deprecated
 public class JarUtils
 {
     public static Object LOCK = new Object();
@@ -70,7 +75,7 @@ public class JarUtils
         while ((entry = jis.getNextEntry()) != null) {
             try {
                 final String name = entry.getName();
-                final byte[] bytes = getBytes(jis);
+                final byte[] bytes = MiscUtils.getBytes(jis);
                 if (!name.endsWith(".class")) {
                     if (!entry.isDirectory())
                         files.put(name, bytes);
@@ -79,7 +84,7 @@ public class JarUtils
                     {
                         try {
                             final ClassNode cn = getNode(bytes);
-                            container.classes.add(cn);
+                            container.resourceClasses.put(FilenameUtils.removeExtension(name), cn);
                         } catch (Exception e) {
                             System.err.println("Skipping: " + name);
                             e.printStackTrace();
@@ -100,7 +105,7 @@ public class JarUtils
             }
         }
         jis.close();
-        container.files = files;
+        container.resourceFiles = files;
         BytecodeViewer.files.add(container);
     }
     
@@ -126,7 +131,7 @@ public class JarUtils
                 String name = entry.getName();
                 if (!entry.isDirectory()) {
                     try (InputStream in = zipFile.getInputStream(entry)) {
-                        final byte[] bytes = getBytes(in);
+                        final byte[] bytes = MiscUtils.getBytes(in);
 
                         if (!name.endsWith(".class")) {
                             files.put(name, bytes);
@@ -135,7 +140,7 @@ public class JarUtils
                             {
                                 try {
                                     final ClassNode cn = getNode(bytes);
-                                    container.classes.add(cn);
+                                    container.resourceClasses.put(FilenameUtils.removeExtension(name), cn);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -149,7 +154,7 @@ public class JarUtils
             }
         }
 
-        container.files = files;
+        container.resourceFiles = files;
         BytecodeViewer.files.add(container);
     }
     
@@ -162,7 +167,7 @@ public class JarUtils
             try {
                 final String name = entry.getName();
                 if (name.endsWith(".class")) {
-                    byte[] bytes = getBytes(jis);
+                    byte[] bytes = MiscUtils.getBytes(jis);
                     if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
                     {
                         try {
@@ -205,7 +210,7 @@ public class JarUtils
                 final String name = entry.getName();
                 if (!name.endsWith(".class") && !name.endsWith(".dex")) {
                     if (!entry.isDirectory())
-                        files.put(name, getBytes(jis));
+                        files.put(name, MiscUtils.getBytes(jis));
 
                     jis.closeEntry();
                 }
@@ -218,25 +223,6 @@ public class JarUtils
         jis.close();
 
         return files;
-
-    }
-
-    /**
-     * Reads an InputStream and returns the read byte[]
-     *
-     * @param is InputStream
-     * @return the read byte[]
-     * @throws IOException
-     */
-    public static byte[] getBytes(final InputStream is) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int a;
-        while ((a = is.read(buffer)) != -1) {
-            baos.write(buffer, 0, a);
-        }
-        baos.close();
-        return baos.toByteArray();
     }
 
     /**
@@ -248,7 +234,7 @@ public class JarUtils
     public static ClassNode getNode(final byte[] bytez) {
         synchronized (LOCK)
         {
-            return ASMUtil.getClassNode(bytez);
+            return ASMUtil.bytesToNode(bytez);
         }
     }
 
@@ -278,7 +264,7 @@ public class JarUtils
             out.closeEntry();
 
             for (FileContainer container : BytecodeViewer.files)
-                for (Entry<String, byte[]> entry : container.files.entrySet()) {
+                for (Entry<String, byte[]> entry : container.resourceFiles.entrySet()) {
                     String filename = entry.getKey();
                     if (!filename.startsWith("META-INF")) {
                         out.putNextEntry(new ZipEntry(filename));
@@ -299,7 +285,8 @@ public class JarUtils
      * @param nodeList The loaded ClassNodes
      * @param path     the exact jar output path
      */
-    public static void saveAsJarClassesOnly(ArrayList<ClassNode> nodeList, String path) {
+    public static void saveAsJarClassesOnly(Collection<ClassNode> nodeList, String path)
+    {
         synchronized (LOCK)
         {
             try
@@ -380,7 +367,7 @@ public class JarUtils
             }
 
             for (FileContainer container : BytecodeViewer.files)
-                for (Entry<String, byte[]> entry : container.files.entrySet()) {
+                for (Entry<String, byte[]> entry : container.resourceFiles.entrySet()) {
                     String filename = entry.getKey();
                     if (!filename.startsWith("META-INF")) {
                         if (!noDupe.contains(filename)) {

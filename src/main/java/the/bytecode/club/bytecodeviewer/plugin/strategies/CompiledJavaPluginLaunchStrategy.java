@@ -87,7 +87,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
                 String name = entry.getName();
                 if (name.endsWith(".class"))
                 {
-                    byte[] bytes = JarUtils.getBytes(jis);
+                    byte[] bytes = MiscUtils.getBytes(jis);
                     if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
                     {
                         try {

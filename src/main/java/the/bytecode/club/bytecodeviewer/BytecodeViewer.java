@@ -12,6 +12,7 @@ import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bootloader.Boot;
+import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
@@ -168,11 +169,6 @@ public class BytecodeViewer
             //setup look and feel
             Configuration.lafTheme.setLAF();
             
-            if (PREVIEW_COPY && !CommandLineInput.containsCommand(args))
-                showMessage("WARNING: This is a preview/dev copy, you WON'T be alerted when " + VERSION + " is "
-                        + "actually out if you use this." + nl +
-                        "Make sure to watch the repo: https://github.com/Konloch/bytecode-viewer for " + VERSION + "'s release");
-            
             //set swing specific system properties
             System.setProperty("swing.aatext", "true");
             
@@ -189,7 +185,6 @@ public class BytecodeViewer
     
             //handle CLI
             int CLI = CommandLineInput.parseCommandLine(args);
-
             if (CLI == CommandLineInput.STOP)
                 return;
 
@@ -200,10 +195,14 @@ public class BytecodeViewer
                 Boot.boot(args, CLI != CommandLineInput.GUI);
             }
             else
+            {
                 installFatJar.start();
+            }
 
             if (CLI == CommandLineInput.GUI)
+            {
                 BytecodeViewer.boot(false);
+            }
             else
             {
                 BytecodeViewer.boot(true);
@@ -350,15 +349,20 @@ public class BytecodeViewer
     /**
      * Returns the ClassNode by the specified name
      *
+     * TODO anything relying on this should be rewritten to search using the file container
+     *
      * @param name the class name
      * @return the ClassNode instance
      */
-    public static ClassNode getClassNode(String name)
+    @Deprecated
+    public static ClassNode blindlySearchForClassNode(String name)
     {
         for (FileContainer container : files)
-            for (ClassNode c : container.classes)
-                if (c.name.equals(name))
-                    return c;
+        {
+            ClassNode node = container.getClassNode(name);
+            if(node != null)
+                return node;
+        }
 
         return null;
     }
@@ -381,18 +385,6 @@ public class BytecodeViewer
     public static List<FileContainer> getFiles() {
         return files;
     }
-    
-    /**
-     * Returns a ClassNode by name specific namefrom a specific File Container
-     */
-    public static ClassNode getClassNode(FileContainer container, String name)
-    {
-        for (ClassNode c : container.classes)
-            if (c.name.equals(name))
-                return c;
-
-        return null;
-    }
 
     /**
      * Grabs the file contents of the loaded resources.
@@ -403,8 +395,8 @@ public class BytecodeViewer
     public static byte[] getFileContents(String name)
     {
         for (FileContainer container : files)
-            if (container.files.containsKey(name))
-                return container.files.get(name);
+            if (container.resourceFiles.containsKey(name))
+                return container.resourceFiles.get(name);
 
         return null;
     }
@@ -426,8 +418,13 @@ public class BytecodeViewer
     public static void updateNode(ClassNode oldNode, ClassNode newNode)
     {
         for (FileContainer container : files)
-            if (container.classes.remove(oldNode))
-                container.classes.add(newNode);
+        {
+            if (container.resourceClasses.containsKey(oldNode.name))
+            {
+                container.resourceClasses.remove(oldNode.name);
+                container.resourceClasses.put(newNode.name, newNode);
+            }
+        }
     }
 
     /**
@@ -440,7 +437,7 @@ public class BytecodeViewer
         ArrayList<ClassNode> a = new ArrayList<>();
 
         for (FileContainer container : files)
-            for (ClassNode c : container.classes)
+            for (ClassNode c : container.resourceClasses.values())
                 if (!a.contains(c))
                     a.add(c);
 
@@ -648,7 +645,20 @@ public class BytecodeViewer
                 return;
         }
     
-        BCVResourceUtils.resetWorkspace();
+        resetWorkspace();
+    }
+    
+    /**
+     * Resets the workspace
+     */
+    public static void resetWorkspace()
+    {
+        BytecodeViewer.files.clear();
+        LazyNameUtil.reset();
+        BytecodeViewer.viewer.resourcePane.resetWorkspace();
+        BytecodeViewer.viewer.workPane.resetWorkspace();
+        BytecodeViewer.viewer.searchBoxPane.resetWorkspace();
+        BCV.getClassNodeLoader().clear();
     }
     
     /**

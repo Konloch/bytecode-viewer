@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.api;
 
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
@@ -12,11 +13,8 @@ public class ASMUtil
 {
 	/**
 	 * Creates a new ClassNode instances from the provided byte[]
-	 *
-	 * @param b the class file's byte[]
-	 * @return the ClassNode instance
 	 */
-	public static ClassNode getClassNode(final byte[] b)
+	public static ClassNode bytesToNode(final byte[] b)
 	{
 		ClassReader cr = new ClassReader(b);
 		ClassNode cn = new ClassNode();
@@ -26,6 +24,26 @@ public class ASMUtil
 			cr.accept(cn, ClassReader.SKIP_FRAMES);
 		}
 		return cn;
+	}
+	
+	/**
+	 * Writes a valid byte[] from the provided classnode
+	 */
+	public static byte[] nodeToBytes(ClassNode cn)
+	{
+		final ClassWriter cw = new ClassWriter(0);
+		
+		try {
+			cn.accept(cw);
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				Thread.sleep(200);
+				cn.accept(cw);
+			} catch (InterruptedException ignored) { }
+		}
+		
+		return cw.toByteArray();
 	}
 	
 	public static MethodNode getMethodByName(ClassNode cn, String name)

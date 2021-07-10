@@ -191,10 +191,7 @@ public class ResourceDecompiling
 			if (BytecodeViewer.autoCompileSuccessful())
 				return;
 			
-			final String s = BytecodeViewer.getCurrentlyOpenedClassNode().name;
-			
-			if (s == null)
-				return;
+			final ClassNode cn = BytecodeViewer.getCurrentlyOpenedClassNode();
 			
 			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
 					"Select Java Files",
@@ -230,7 +227,6 @@ public class ResourceDecompiling
 				if (result == 0) {
 					Thread t1 = new Thread(() -> {
 						try {
-							ClassNode cn = BytecodeViewer.getClassNode(s);
 							final ClassWriter cw = new ClassWriter(0);
 							try {
 								Objects.requireNonNull(cn).accept(cw);
@@ -282,7 +278,6 @@ public class ResourceDecompiling
 				if (result == 1) {
 					Thread t1 = new Thread(() -> {
 						try {
-							ClassNode cn = BytecodeViewer.getClassNode(s);
 							final ClassWriter cw = new ClassWriter(0);
 							try {
 								Objects.requireNonNull(cn).accept(cw);
@@ -308,7 +303,6 @@ public class ResourceDecompiling
 				if (result == 2) {
 					Thread t1 = new Thread(() -> {
 						try {
-							ClassNode cn = BytecodeViewer.getClassNode(s);
 							final ClassWriter cw = new ClassWriter(0);
 							try {
 								Objects.requireNonNull(cn).accept(cw);
@@ -334,7 +328,6 @@ public class ResourceDecompiling
 				if (result == 3) {
 					Thread t1 = new Thread(() -> {
 						try {
-							ClassNode cn = BytecodeViewer.getClassNode(s);
 							final ClassWriter cw = new ClassWriter(0);
 							try {
 								Objects.requireNonNull(cn).accept(cw);
@@ -362,7 +355,6 @@ public class ResourceDecompiling
 				if (result == 4) {
 					Thread t1 = new Thread(() -> {
 						try {
-							ClassNode cn = BytecodeViewer.getClassNode(s);
 							final ClassWriter cw = new ClassWriter(0);
 							try {
 								Objects.requireNonNull(cn).accept(cw);
@@ -371,18 +363,16 @@ public class ResourceDecompiling
 								try {
 									Thread.sleep(200);
 									Objects.requireNonNull(cn).accept(cw);
-								} catch (InterruptedException ignored) {
-								}
+								} catch (InterruptedException ignored) { }
 							}
 							
-							String contents = Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileClassNode(cn,
-									cw.toByteArray());
+							String contents = Decompiler.KRAKATAU_DECOMPILER.getDecompiler().
+									decompileClassNode(cn, cw.toByteArray());
 							DiskWriter.replaceFile(path, contents, false);
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
 							BytecodeViewer.updateBusyStatus(false);
-							BytecodeViewer.handleException(
-									e);
+							BytecodeViewer.handleException(e);
 						}
 					});
 					t1.start();

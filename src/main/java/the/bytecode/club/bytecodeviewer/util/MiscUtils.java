@@ -8,7 +8,6 @@ import the.bytecode.club.bytecodeviewer.translation.Language;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Field;
@@ -181,7 +180,7 @@ public class MiscUtils
         StringBuilder block = new StringBuilder();
         for (FileContainer container : fileContainers) {
             block.append(container.name);
-            for (ClassNode node : container.classes) {
+            for (ClassNode node : container.resourceClasses.values()) {
                 block.append(node.name);
             }
         }
@@ -272,5 +271,27 @@ public class MiscUtils
         }
         
         return path;
+    }
+    
+    
+    
+    /**
+     * Reads an InputStream and returns the read byte[]
+     *
+     * @param is InputStream
+     * @return the read byte[]
+     * @throws IOException
+     */
+    public static byte[] getBytes(final InputStream is) throws IOException
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        
+        byte[] buffer = new byte[1024];
+        int a;
+        while ((a = is.read(buffer)) != -1)
+            baos.write(buffer, 0, a);
+        
+        baos.close();
+        return baos.toByteArray();
     }
 }

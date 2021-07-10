@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
+import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceViewPanel;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
@@ -66,8 +67,6 @@ public class ClassViewer extends ResourceViewer
     public ResourceViewPanel resourceViewPanel2 = new ResourceViewPanel(1, this);
     public ResourceViewPanel resourceViewPanel3 = new ResourceViewPanel(2, this);
     
-    public File[] tempFiles;
-    public ClassViewer THIS = this;
     public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
     public final String workingName;
     
@@ -93,68 +92,31 @@ public class ClassViewer extends ResourceViewer
         });
     }
 
-    public void resetDivider()
-    {
-        SwingUtilities.invokeLater(() ->
-        {
-            sp.setResizeWeight(0.5);
-            
-            if (resourceViewPanel2.decompiler != Decompiler.NONE && resourceViewPanel1.decompiler != Decompiler.NONE) {
-                setDividerLocation(sp, 0.5);
-            } else if (resourceViewPanel1.decompiler != Decompiler.NONE) {
-                setDividerLocation(sp, 1);
-            } else if (resourceViewPanel2.decompiler != Decompiler.NONE) {
-                sp.setResizeWeight(1);
-                setDividerLocation(sp, 0);
-            } else {
-                setDividerLocation(sp, 0);
-            }
-            
-            if (resourceViewPanel3.decompiler != Decompiler.NONE) {
-                sp2.setResizeWeight(0.7);
-                setDividerLocation(sp2, 0.7);
-                if ((resourceViewPanel2.decompiler == Decompiler.NONE && resourceViewPanel1.decompiler != Decompiler.NONE)
-                        || (resourceViewPanel1.decompiler == Decompiler.NONE && resourceViewPanel2.decompiler != Decompiler.NONE)) {
-                    setDividerLocation(sp2, 0.5);
-                } else if (resourceViewPanel1.decompiler == Decompiler.NONE) {
-                    setDividerLocation(sp2, 0);
-                }
-            } else {
-                sp.setResizeWeight(1);
-                sp2.setResizeWeight(0);
-                setDividerLocation(sp2, 1);
-            }
-        });
-    }
-
     public void startPaneUpdater(final JButton button)
     {
-        this.cn = BytecodeViewer.getClassNode(container, cn.name); //update the classnode
-        setPanes();
+        this.cn = container.getClassNode(cn.name); //update the classnode
         
+        setPanes();
         refreshTitle();
         
         resourceViewPanel1.createPane(this);
         resourceViewPanel2.createPane(this);
         resourceViewPanel3.createPane(this);
 
-        final ClassWriter cw = new ClassWriter(0);
-        try {
-            cn.accept(cw);
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                Thread.sleep(200);
-                cn.accept(cw);
-            } catch (InterruptedException ignored) { }
+        byte[] classBytes = getBytes();
+        
+        //TODO remove this once all of the importers have been properly updated to use a FileContainerImporter
+        if(classBytes == null || classBytes.length == 0)
+        {
+            System.err.println("WARNING: Imported using the old importer!");
+            classBytes = ASMUtil.nodeToBytes(cn);
         }
+        
+        resourceViewPanel1.updatePane(this, classBytes, button, isPanel1Editable());
+        resourceViewPanel2.updatePane(this, classBytes, button, isPanel2Editable());
+        resourceViewPanel3.updatePane(this, classBytes, button, isPanel3Editable());
 
-        final byte[] b = cw.toByteArray();
-        resourceViewPanel1.updatePane(this, b, button, isPanel1Editable());
-        resourceViewPanel2.updatePane(this, b, button, isPanel2Editable());
-        resourceViewPanel3.updatePane(this, b, button, isPanel3Editable());
-
-        Thread t = new Thread(() ->
+        Thread dumpBuild = new Thread(() ->
         {
             BytecodeViewer.updateBusyStatus(true);
             
@@ -167,8 +129,6 @@ public class ClassViewer extends ResourceViewer
                     e.printStackTrace();
                 }
             }
-            
-            tempFiles = BCVResourceUtils.dumpTempFile(container);
 
             BytecodeViewer.updateBusyStatus(false);
 
@@ -179,7 +139,7 @@ public class ClassViewer extends ResourceViewer
             if (resourceViewPanel3.decompiler != Decompiler.NONE)
                 resourceViewPanel3.updateThread.startNewThread();
         }, "ClassViewer Temp Dump");
-        t.start();
+        dumpBuild.start();
 
         if (isPanel1Editable() || isPanel2Editable() || isPanel3Editable())
         {
@@ -225,42 +185,6 @@ public class ClassViewer extends ResourceViewer
     public boolean isPanel3Editable() {
         setPanes();
         return BytecodeViewer.viewer.viewPane3.isPaneEditable();
-    }
-
-    /**
-     * Whoever wrote this function, THANK YOU!
-     *
-     * @param splitter
-     * @param proportion
-     * @return
-     */
-    public static JSplitPane setDividerLocation(final JSplitPane splitter,
-                                                final double proportion) {
-        if (splitter.isShowing()) {
-            if (splitter.getWidth() > 0 && splitter.getHeight() > 0) {
-                splitter.setDividerLocation(proportion);
-            } else {
-                splitter.addComponentListener(new ComponentAdapter() {
-                    @Override
-                    public void componentResized(ComponentEvent ce) {
-                        splitter.removeComponentListener(this);
-                        setDividerLocation(splitter, proportion);
-                    }
-                });
-            }
-        } else {
-            splitter.addHierarchyListener(new HierarchyListener() {
-                @Override
-                public void hierarchyChanged(HierarchyEvent e) {
-                    if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0
-                            && splitter.isShowing()) {
-                        splitter.removeHierarchyListener(this);
-                        setDividerLocation(splitter, proportion);
-                    }
-                }
-            });
-        }
-        return splitter;
     }
 
 
@@ -341,6 +265,73 @@ public class ClassViewer extends ResourceViewer
         try {
             area.setCaretPosition(area.getLineStartOffset(line));
         } catch (BadLocationException ignored) { }
+    }
+    
+    public void resetDivider()
+    {
+        SwingUtilities.invokeLater(() ->
+        {
+            sp.setResizeWeight(0.5);
+            
+            if (resourceViewPanel2.decompiler != Decompiler.NONE && resourceViewPanel1.decompiler != Decompiler.NONE) {
+                setDividerLocation(sp, 0.5);
+            } else if (resourceViewPanel1.decompiler != Decompiler.NONE) {
+                setDividerLocation(sp, 1);
+            } else if (resourceViewPanel2.decompiler != Decompiler.NONE) {
+                sp.setResizeWeight(1);
+                setDividerLocation(sp, 0);
+            } else {
+                setDividerLocation(sp, 0);
+            }
+            
+            if (resourceViewPanel3.decompiler != Decompiler.NONE) {
+                sp2.setResizeWeight(0.7);
+                setDividerLocation(sp2, 0.7);
+                if ((resourceViewPanel2.decompiler == Decompiler.NONE && resourceViewPanel1.decompiler != Decompiler.NONE)
+                        || (resourceViewPanel1.decompiler == Decompiler.NONE && resourceViewPanel2.decompiler != Decompiler.NONE)) {
+                    setDividerLocation(sp2, 0.5);
+                } else if (resourceViewPanel1.decompiler == Decompiler.NONE) {
+                    setDividerLocation(sp2, 0);
+                }
+            } else {
+                sp.setResizeWeight(1);
+                sp2.setResizeWeight(0);
+                setDividerLocation(sp2, 1);
+            }
+        });
+    }
+    
+    /**
+     * Whoever wrote this function, THANK YOU!
+     */
+    public static JSplitPane setDividerLocation(final JSplitPane splitter,
+                                                final double proportion)
+    {
+        if (splitter.isShowing()) {
+            if (splitter.getWidth() > 0 && splitter.getHeight() > 0) {
+                splitter.setDividerLocation(proportion);
+            } else {
+                splitter.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentResized(ComponentEvent ce) {
+                        splitter.removeComponentListener(this);
+                        setDividerLocation(splitter, proportion);
+                    }
+                });
+            }
+        } else {
+            splitter.addHierarchyListener(new HierarchyListener() {
+                @Override
+                public void hierarchyChanged(HierarchyEvent e) {
+                    if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0
+                            && splitter.isShowing()) {
+                        splitter.removeHierarchyListener(this);
+                        setDividerLocation(splitter, proportion);
+                    }
+                }
+            });
+        }
+        return splitter;
     }
     
     private static final long serialVersionUID = -8650495368920680024L;

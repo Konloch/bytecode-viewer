@@ -3,6 +3,8 @@ package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.FileContainerImporter;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 import java.io.File;
@@ -15,32 +17,15 @@ import java.io.IOException;
 public class ZipResourceImporter implements Importer
 {
 	@Override
-	public boolean open(File file) throws Exception
+	public void open(File file) throws Exception
 	{
-		//attempt to load archives using the first method
-		try
-		{
-			JarUtils.importArchiveA(file);
-		}
-		catch (IOException z)
-		{
-			//attempt to load archives using the fallback method on fail
-			try
-			{
-				JarUtils.importArchiveB(file);
-			}
-			catch (final Exception e)
-			{
-				BytecodeViewer.handleException(e);
-				return false;
-			}
-		}
-		catch (final Exception e)
-		{
-			BytecodeViewer.handleException(e);
-			return false;
-		}
-		
-		return true;
+		//create the new file container
+		FileContainer container = new FileContainer(file);
+		//create the new file importer
+		FileContainerImporter importer = new FileContainerImporter(container);
+		//import the file as zip into the file container
+		importer.importAsZip();
+		//add the file container to BCV's total loaded files
+		BytecodeViewer.files.add(container);
 	}
 }

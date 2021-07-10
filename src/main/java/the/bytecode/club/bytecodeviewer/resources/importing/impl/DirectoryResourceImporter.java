@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
+import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
@@ -22,7 +23,7 @@ import java.util.Objects;
 public class DirectoryResourceImporter implements Importer
 {
 	@Override
-	public boolean open(File file) throws Exception
+	public void open(File file) throws Exception
 	{
 		FileContainer container = new FileContainer(file);
 		HashMap<String, byte[]> allDirectoryFiles = new HashMap<>();
@@ -61,29 +62,22 @@ public class DirectoryResourceImporter implements Importer
 					
 					//attempt to import archives automatically
 					if (fileName.endsWith(".jar") || fileName.endsWith(".zip") || fileName.endsWith(".war") || fileName.endsWith(".ear"))
-					{
 						Import.ZIP.getImporter().open(child);
-					}
 					else if (fileName.endsWith(".apk"))
-					{
 						Import.APK.getImporter().open(child);
-					}
 					else if (fileName.endsWith(".dex"))
-					{
 						Import.DEX.getImporter().open(child);
-					}
 					else if (fileName.endsWith(".class"))
 					{
 						byte[] bytes = Files.readAllBytes(Paths.get(child.getAbsolutePath()));
 						if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
 						{
 							final ClassNode cn = JarUtils.getNode(bytes);
-							allDirectoryClasses.put(trimmedPath, cn);
+							allDirectoryClasses.put(FilenameUtils.removeExtension(trimmedPath), cn);
 						}
 					}
-					else
+					else //pack files into a single container
 					{
-						//pack files into a single container
 						allDirectoryFiles.put(trimmedPath, Files.readAllBytes(Paths.get(child.getAbsolutePath())));
 					}
 				}
@@ -92,9 +86,8 @@ public class DirectoryResourceImporter implements Importer
 			}
 		}
 		
-		container.classes.addAll(allDirectoryClasses.values());
-		container.files = allDirectoryFiles;
+		container.resourceClasses.putAll(allDirectoryClasses);
+		container.resourceFiles = allDirectoryFiles;
 		BytecodeViewer.files.add(container);
-		return true;
 	}
 }

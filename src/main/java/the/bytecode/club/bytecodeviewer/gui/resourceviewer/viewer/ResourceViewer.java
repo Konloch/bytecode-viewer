@@ -52,6 +52,14 @@ public abstract class ResourceViewer extends JPanel
         
         return tabName;
     }
+    
+    public byte[] getBytes()
+    {
+        if(container.resourceClassBytes.containsKey(name))
+            return container.resourceClassBytes.get(name);
+        else
+            return container.resourceFiles.get(name);
+    }
 
     private static final long serialVersionUID = -2965538493489119191L;
 }

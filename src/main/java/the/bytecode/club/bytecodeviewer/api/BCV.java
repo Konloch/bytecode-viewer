@@ -174,7 +174,7 @@ public class BCV
      */
     public static ClassNode getClassNode(String name) {
         return the.bytecode.club.bytecodeviewer.BytecodeViewer
-                .getClassNode(name);
+                .blindlySearchForClassNode(name);
     }
 
     /**

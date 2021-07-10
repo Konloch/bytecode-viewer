@@ -30,7 +30,6 @@ public class HTMLPane extends JEditorPane
 	{
 		HTMLPane pane = new HTMLPane();
 		
-		text = text.replace("{previewCopy}", String.valueOf(PREVIEW_COPY));
 		text = text.replace("{fatJar}", String.valueOf(FAT_JAR));
 		text = text.replace("{java}", Configuration.java);
 		text = text.replace("{javac}", Configuration.javac);

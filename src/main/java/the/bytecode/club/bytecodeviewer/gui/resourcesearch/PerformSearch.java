@@ -43,7 +43,7 @@ class PerformSearch extends BackgroundSearchThread
 		}
 		
 		for (FileContainer container : BytecodeViewer.files)
-			for (ClassNode c : container.classes)
+			for (ClassNode c : container.resourceClasses.values())
 				searchBoxPane.searchType.details.search(container, c, srn, searchBoxPane.exact.isSelected());
 		
 		Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search.setEnabled(true);
