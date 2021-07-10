@@ -36,6 +36,7 @@ public class Configuration
 	public static int silenceExceptionGUI = 0;
 	public static int pauseExceptionGUI = 0;
 	
+	public static final int maxRecentFiles = 25; //eventually may be a setting
 	public static boolean verifyCorruptedStateOnBoot = false; //eventually may be a setting
 	
 	public static long lastHotKeyExecuted = 0;

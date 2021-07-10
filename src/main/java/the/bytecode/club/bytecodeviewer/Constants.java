@@ -1,10 +1,5 @@
 package the.bytecode.club.bytecodeviewer;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import the.bytecode.club.bytecodeviewer.api.ClassNodeLoader;
-import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
-
 import java.io.File;
 import java.io.PrintStream;
 
@@ -22,11 +17,9 @@ public class Constants
 	public static String krakatauVersion = "12";
 	public static String enjarifyVersion = "4";
 	public static final boolean BLOCK_TAB_MENU = true;
-	public static final boolean PREVIEW_COPY = false;
 	public static final boolean FAT_JAR = true; //could be automatic by checking if it's loaded a class named whatever for a library
 	public static final boolean OFFLINE_MODE = true; //disables the automatic updater
 	
-	public static final int maxRecentFiles = 25;
 	public static final String fs = System.getProperty("file.separator");
 	public static final String nl = System.getProperty("line.separator");
 	public static final File BCVDir = new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
