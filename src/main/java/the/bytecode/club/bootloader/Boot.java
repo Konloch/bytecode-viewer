@@ -265,8 +265,10 @@ public class Boot {
         return dir;
     }
 
-    public static void setState(String s) {
-        screen.setTitle(s);
+    public static void setState(String s)
+    {
+        if(screen != null)
+            screen.setTitle(s);
     }
 
     public static ILoader<?> findLoader() {
