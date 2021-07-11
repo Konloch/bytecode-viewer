@@ -110,7 +110,7 @@ public class CommandLineInput {
             } else if (cmd.hasOption("help")) {
                 for (String s : new String[]{
                         "-help                         Displays the help menu",
-                        "-clean                        Deletes BCV directory",
+                        "-clean                        Deletes the BCV directory",
                         "-english                      Forces English language translations",
                         "-list                         Displays the available decompilers",
                         "-decompiler <decompiler>      Selects the decompiler, procyon by default",
