@@ -6,7 +6,10 @@ import the.bytecode.club.bytecodeviewer.SettingsSerializer;
 import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
 import the.bytecode.club.bytecodeviewer.util.JRTExtractor;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Objects;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
@@ -86,6 +89,37 @@ public class ExternalResources
 	/**
 	 * Check if the python command has been set
 	 */
+	public boolean hasJavaToolsSet()
+	{
+		return !getJavaTools(false).isEmpty();
+	}
+	
+	/**
+	 * Auto-detect the Java command
+	 */
+	public String getJavaTools(boolean blockTillSelected)
+	{
+		boolean empty = Configuration.javaTools.isEmpty();
+		
+		if(!empty)
+			return Configuration.javaTools;
+		
+		//TODO auto-detect the Java path
+		boolean block = true;
+		while (Configuration.javaTools.isEmpty() && block)
+		{
+			BytecodeViewer.showMessage("You need to set your Java Tools path, this requires the JDK to be downloaded." +
+					nl + "(C:/Program Files/Java/JDK_xx/lib/tools.jar)");
+			ExternalResources.getSingleton().selectJavaTools();
+			block = !blockTillSelected; //signal block flag off
+		}
+		
+		return Configuration.javaTools;
+	}
+	
+	/**
+	 * Check if the python command has been set
+	 */
 	public boolean hasSetPythonCommand()
 	{
 		return !getPythonCommand(false).isEmpty();
@@ -106,12 +140,18 @@ public class ExternalResources
 		//check using python CLI flag
 		try
 		{
-			//TODO read the version output to verify python 2
+			//read the version output to verify python 2
 			ProcessBuilder pb = new ProcessBuilder("python", "-2", "--version");
-			pb.start();
+			Process p = pb.start();
+			p.waitFor();
 			
-			Configuration.python2 = "python -2"; //python is set
-			return Configuration.python2;
+			//set python path
+			if(readProcess(p).toLowerCase().contains("python 2"))
+			{
+				Configuration.python2 = "python";
+				Configuration.python2Extra = "-2";
+				return Configuration.python2;
+			}
 		}
 		catch (Exception e) { } //ignore
 		finally
@@ -122,12 +162,17 @@ public class ExternalResources
 		//check if 'python' command is bound as python 2.X
 		try
 		{
-			//TODO read the version output to verify python 2
+			//read the version output to verify python 2
 			ProcessBuilder pb = new ProcessBuilder("python", "--version");
-			pb.start();
+			Process p = pb.start();
+			p.waitFor();
 			
-			Configuration.python2 = "python"; //python is set
-			return Configuration.python2;
+			//set python path
+			if(readProcess(p).toLowerCase().contains("python 2"))
+			{
+				Configuration.python2 = "python";
+				return Configuration.python2;
+			}
 		}
 		catch (Exception e) { } //ignore
 		finally
@@ -217,6 +262,19 @@ public class ExternalResources
 		SettingsSerializer.saveSettingsAsync();
 	}
 	
+	public void selectJavaTools()
+	{
+		final File file = DialogueUtils.fileChooser("Select Java Tools Jar",
+				"Java Tools Jar (Inside Of JDK 'C:/Program Files/Java/JDK_xx/lib/tools.jar')",
+				"everything");
+		
+		if(file == null)
+			return;
+		
+		Configuration.javaTools = file.getAbsolutePath();
+		SettingsSerializer.saveSettingsAsync();
+	}
+	
 	public void selectOptionalLibraryFolder()
 	{
 		final File file = DialogueUtils.fileChooser("Select Library Folder",
@@ -277,5 +335,22 @@ public class ExternalResources
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * @author https://stackoverflow.com/a/16714180
+	 */
+	public String readProcess(Process process) throws IOException
+	{
+		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		StringBuilder builder = new StringBuilder();
+		String line;
+		while ((line = reader.readLine()) != null)
+		{
+			builder.append(line);
+			builder.append(System.getProperty("line.separator"));
+		}
+		
+		return builder.toString();
 	}
 }

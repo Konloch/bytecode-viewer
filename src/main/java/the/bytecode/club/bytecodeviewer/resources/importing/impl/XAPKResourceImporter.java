@@ -78,7 +78,7 @@ public class XAPKResourceImporter implements Importer
 	public File exportTo(File original, String extension, byte[] bytes)
 	{
 		File file = new File(original.getAbsolutePath() + extension);
-		DiskWriter.replaceFile(file.getAbsolutePath(), bytes, false);
+		DiskWriter.replaceFileBytes(file.getAbsolutePath(), bytes, false);
 		return file;
 	}
 }

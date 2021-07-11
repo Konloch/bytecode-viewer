@@ -149,19 +149,13 @@ public class KrakatauDecompiler extends InternalDecompiler
 
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
-        if (Configuration.python2.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            ExternalResources.getSingleton().selectPython2();
-        }
+        if(!ExternalResources.getSingleton().hasSetPythonCommand())
+            return "You need to set your Python 2.7 path!";
+        
         if (Configuration.rt.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your JRE RT Library." +
                     "\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
             ExternalResources.getSingleton().selectJRERTLibrary();
-        }
-
-        if (Configuration.python2.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set Python!");
-            return "Set your paths";
         }
 
         if (Configuration.rt.isEmpty()) {
@@ -240,10 +234,8 @@ public class KrakatauDecompiler extends InternalDecompiler
 
     @Override
     public void decompileToZip(String sourceJar, String zipName) {
-        if (Configuration.python2.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            ExternalResources.getSingleton().selectPython2();
-        }
+        if(!ExternalResources.getSingleton().hasSetPythonCommand())
+            return;
     
         ExternalResources.getSingleton().rtCheck();
         if (Configuration.rt.isEmpty()) {

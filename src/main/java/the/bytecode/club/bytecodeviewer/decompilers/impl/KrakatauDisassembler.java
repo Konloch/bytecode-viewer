@@ -47,15 +47,8 @@ public class KrakatauDisassembler extends InternalDecompiler
 {
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
-        if (Configuration.python2.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            ExternalResources.getSingleton().selectPython2();
-        }
-
-        if (Configuration.python2.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set Python!");
-            return "Set your paths";
-        }
+        if(!ExternalResources.getSingleton().hasSetPythonCommand())
+            return "You need to set your Python 2.7 path!";
 
         String s = "Bytecode Viewer Version: " + VERSION + nl + nl +
                 "Please send this to konloch@gmail.com. " + nl + nl;
@@ -120,10 +113,8 @@ public class KrakatauDisassembler extends InternalDecompiler
 
     @Override
     public void decompileToZip(String sourceJar, String zipName) {
-        if (Configuration.python2.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            ExternalResources.getSingleton().selectPython2();
-        }
+        if(!ExternalResources.getSingleton().hasSetPythonCommand())
+            return;
 
         String ran = MiscUtils.randomString(32);
         final File tempDirectory = new File(Constants.tempDirectory + fs + ran + fs);

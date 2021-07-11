@@ -37,11 +37,12 @@ public class DecompilerSelectionPane
 	private final DecompilerViewComponent smali = new DecompilerViewComponent("Smali", BYTECODE, Decompiler.SMALI_DISASSEMBLER);
 	private final DecompilerViewComponent bytecode = new DecompilerViewComponent("Bytecode", BYTECODE_NON_EDITABLE, Decompiler.BYTECODE_DISASSEMBLER);
 	private final DecompilerViewComponent asmTextify = new DecompilerViewComponent("ASM Textify", BYTECODE_NON_EDITABLE, Decompiler.ASM_TEXTIFY_DISASSEMBLER);
+	private final DecompilerViewComponent javap = new DecompilerViewComponent("JavaP", BYTECODE_NON_EDITABLE, Decompiler.JAVAP_DISASSEMBLER);
 	
 	//TODO when adding new decompilers insert the DecompilerViewComponent object into here
 	// also in the group, then finally the build menu
 	public List<DecompilerViewComponent> components = new ArrayList<>(Arrays.asList(
-			procyon, CFR, JADX, JD, fern, krakatau, smali, bytecode, asmTextify));
+			procyon, CFR, JADX, JD, fern, krakatau, smali, bytecode, asmTextify, javap));
 	
 	public DecompilerSelectionPane(int paneID)
 	{
@@ -82,16 +83,8 @@ public class DecompilerSelectionPane
 	{
 		//build the radiobutton group
 		group.add(none);
-		procyon.addToGroup(group);
-		CFR.addToGroup(group);
-		JADX.addToGroup(group);
-		JD.addToGroup(group);
-		fern.addToGroup(group);
-		krakatau.addToGroup(group);
-		smali.addToGroup(group);
-		bytecode.addToGroup(group);
-		asmTextify.addToGroup(group);
 		group.add(hexcode);
+		components.forEach(decompilerViewComponent -> decompilerViewComponent.addToGroup(group));
 		
 		//build the action commands
 		none.setActionCommand(Decompiler.NONE.name());
@@ -137,6 +130,7 @@ public class DecompilerSelectionPane
 		menu.add(smali.getMenu());
 		menu.add(new JSeparator());
 		menu.add(bytecode.getMenu());
+		menu.add(javap.getMenu());
 		menu.add(asmTextify.getMenu());
 		menu.add(new JSeparator());
 		menu.add(hexcode);

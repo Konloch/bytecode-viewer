@@ -46,15 +46,8 @@ public class KrakatauAssembler extends InternalCompiler
 
     @Override
     public byte[] compile(String contents, String name) {
-        if (Configuration.python2.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            ExternalResources.getSingleton().selectPython2();
-        }
-
-        if (Configuration.python2.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set Python!");
+        if(!ExternalResources.getSingleton().hasSetPythonCommand())
             return null;
-        }
 
         String origName = MiscUtils.randomString(20);
 

@@ -191,6 +191,8 @@ public class SettingsSerializer
             save(BytecodeViewer.viewer.viewPane1.isPaneEditable());
             save(BytecodeViewer.viewer.viewPane2.isPaneEditable());
             save(BytecodeViewer.viewer.viewPane3.isPaneEditable());
+            
+            save(Configuration.javaTools);
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
         }
@@ -348,6 +350,8 @@ public class SettingsSerializer
             BytecodeViewer.viewer.viewPane1.setPaneEditable(asBoolean(131));
             BytecodeViewer.viewer.viewPane2.setPaneEditable(asBoolean(132));
             BytecodeViewer.viewer.viewPane3.setPaneEditable(asBoolean(133));
+            
+            Configuration.javaTools = asString(134);
         } catch (Exception e) {
             //ignore because errors are expected, first start up and outdated settings.
             e.printStackTrace();

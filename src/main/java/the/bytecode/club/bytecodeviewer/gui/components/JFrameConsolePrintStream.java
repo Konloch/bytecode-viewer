@@ -83,6 +83,16 @@ public class JFrameConsolePrintStream extends JFrameConsole
 		System.setOut(Constants.OUT);
 	}
 	
+	public JTextAreaOutputStream getTextAreaOutputStreamErr()
+	{
+		return textAreaOutputStreamErr;
+	}
+	
+	public JTextAreaOutputStream getTextAreaOutputStreamOut()
+	{
+		return textAreaOutputStreamOut;
+	}
+	
 	private void update()
 	{
 		if(System.currentTimeMillis()-lastUpdate <= 50)

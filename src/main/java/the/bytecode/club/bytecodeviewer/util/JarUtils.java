@@ -335,7 +335,7 @@ public class JarUtils
                 File f = new File(name);
                 f.mkdirs();
 
-                DiskWriter.replaceFile(name, cw.toByteArray(), false);
+                DiskWriter.replaceFileBytes(name, cw.toByteArray(), false);
             }
         } catch (Exception e) {
             BytecodeViewer.handleException(e);

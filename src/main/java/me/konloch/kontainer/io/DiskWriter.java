@@ -1,9 +1,6 @@
 package me.konloch.kontainer.io;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Arrays;
 
 /**
@@ -132,13 +129,13 @@ public class DiskWriter {
      * @param fileContents
      * @param debug
      */
-    public static synchronized void replaceFile(String filename,
-                                                byte[] fileContents, boolean debug) {
+    public static synchronized void replaceFileBytes(String filename,
+                                                     byte[] fileContents, boolean debug) {
         new File(filename).getParentFile().mkdirs();
         File f = new File(filename);
         if (f.exists())
             f.delete();
-        PrintWriter writer = null;
+    
         String original = filename;
         int counter = 0;
 
@@ -146,10 +143,10 @@ public class DiskWriter {
         int failSafe = 0;
         while (!saved && failSafe++ <= 42069)
         {
-            try {
-                writer = new PrintWriter(new BufferedWriter(new FileWriter(
-                        filename, true)));
-                writer.println(Arrays.toString(fileContents));
+            try(FileOutputStream stream = new FileOutputStream(new File(filename)))
+            {
+                stream.write(fileContents);
+                stream.flush();
                 if (debug)
                     System.out.println("Saved " + filename + " to disk");
                 saved = true;
@@ -164,7 +161,6 @@ public class DiskWriter {
                 counter++;
             }
         }
-        writer.close();
     }
 
     /**

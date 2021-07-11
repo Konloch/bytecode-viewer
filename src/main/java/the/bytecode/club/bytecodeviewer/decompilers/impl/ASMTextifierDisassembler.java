@@ -30,7 +30,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
  *
  * @author Thiakil
  */
-public class ASMTextifierDecompiler extends InternalDecompiler
+public class ASMTextifierDisassembler extends InternalDecompiler
 {
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
