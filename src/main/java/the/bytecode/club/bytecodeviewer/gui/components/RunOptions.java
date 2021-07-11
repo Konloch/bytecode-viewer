@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.api.ASMResourceUtil;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
@@ -45,7 +45,7 @@ public class RunOptions extends JFrame
     
     public RunOptions()
     {
-        this.setIconImages(Resources.iconList);
+        this.setIconImages(IconResources.iconList);
         setSize(new Dimension(250, 402));
         setResizable(false);
         setTitle("Run Options");

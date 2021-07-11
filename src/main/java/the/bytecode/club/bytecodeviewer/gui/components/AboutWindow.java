@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import the.bytecode.club.bootloader.InitialBootScreen;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.*;
 
@@ -38,7 +38,7 @@ public class AboutWindow extends JFrame
 {
     public AboutWindow()
     {
-        this.setIconImages(Resources.iconList);
+        this.setIconImages(IconResources.iconList);
         setSize(InitialBootScreen.getSafeSize());
         setTitle("Bytecode Viewer - About - https://bytecodeviewer.com | https://the.bytecode.club");
         getContentPane().setLayout(new CardLayout(0, 0));

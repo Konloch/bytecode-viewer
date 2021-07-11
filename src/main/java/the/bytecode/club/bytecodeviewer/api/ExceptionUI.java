@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -101,7 +101,7 @@ public class ExceptionUI extends JFrame
      */
     private void setupFrame(String error, String author)
     {
-        this.setIconImages(Resources.iconList);
+        this.setIconImages(IconResources.iconList);
         setSize(new Dimension(600, 400));
         setTitle("Bytecode Viewer " + VERSION + " - Error Log - Send this to " + author);
         getContentPane().setLayout(new CardLayout(0, 0));

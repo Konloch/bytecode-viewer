@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import javax.swing.*;
 
@@ -18,9 +18,9 @@ public class WaitBusyIcon extends JMenuItemIcon
 	
 	public static Icon loadIcon()
 	{
-		if(Resources.busyIcon != null)
-			return Resources.busyIcon;
+		if(IconResources.busyIcon != null)
+			return IconResources.busyIcon;
 			
-		return Resources.busyB64Icon;
+		return IconResources.busyB64Icon;
 	}
 }

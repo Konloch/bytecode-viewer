@@ -4,7 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.collections4.map.LinkedMap;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -103,7 +103,7 @@ public enum Language
 		printMissingLanguageKeys();
 		
 		HashMap<String, String> translationMap = BytecodeViewer.gson.fromJson(
-				Resources.loadResourceAsString(resourcePath),
+				IconResources.loadResourceAsString(resourcePath),
 				new TypeToken<HashMap<String, String>>(){}.getType());
 		
 		for(Translation translation : Translation.values())
@@ -153,7 +153,7 @@ public enum Language
 			return;
 		
 		LinkedMap<String, String> translationMap = BytecodeViewer.gson.fromJson(
-				Resources.loadResourceAsString(resourcePath),
+				IconResources.loadResourceAsString(resourcePath),
 				new TypeToken<LinkedMap<String, String>>(){}.getType());
 		
 		HashSet<String> existingKeys = new HashSet<>();

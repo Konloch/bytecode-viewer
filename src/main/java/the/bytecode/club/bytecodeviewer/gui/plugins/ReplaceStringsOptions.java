@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.ReplaceStrings;
 
@@ -48,7 +48,7 @@ public class ReplaceStringsOptions extends JFrame
     
     public ReplaceStringsOptions()
     {
-        this.setIconImages(Resources.iconList);
+        this.setIconImages(IconResources.iconList);
         setSize(new Dimension(250, 176));
         setResizable(false);
         setTitle("Replace Strings");

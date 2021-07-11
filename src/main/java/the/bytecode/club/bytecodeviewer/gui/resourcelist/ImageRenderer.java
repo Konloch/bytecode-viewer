@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -31,61 +31,61 @@ public class ImageRenderer extends DefaultTreeCellRenderer
 			
 			if (name.endsWith(".jar") || name.endsWith(".war") || name.endsWith(".ear"))
 			{
-				setIcon(Resources.jarIcon);
+				setIcon(IconResources.jarIcon);
 			}
 			else if (name.endsWith(".zip"))
 			{
-				setIcon(Resources.zipIcon);
+				setIcon(IconResources.zipIcon);
 			}
 			else if (name.endsWith(".bat"))
 			{
-				setIcon(Resources.batIcon);
+				setIcon(IconResources.batIcon);
 			}
 			else if (name.endsWith(".sh"))
 			{
-				setIcon(Resources.shIcon);
+				setIcon(IconResources.shIcon);
 			}
 			else if (name.endsWith(".cs"))
 			{
-				setIcon(Resources.csharpIcon);
+				setIcon(IconResources.csharpIcon);
 			}
 			else if (name.endsWith(".c") || name.endsWith(".cpp") || name.endsWith(".h"))
 			{
-				setIcon(Resources.cplusplusIcon);
+				setIcon(IconResources.cplusplusIcon);
 			}
 			else if (name.endsWith(".xapk") || name.endsWith(".apk") || name.endsWith(".dex"))
 			{
-				setIcon(Resources.androidIcon);
+				setIcon(IconResources.androidIcon);
 			}
 			else if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg")
 					|| name.endsWith(".bmp") || name.endsWith(".gif"))
 			{
-				setIcon(Resources.imageIcon);
+				setIcon(IconResources.imageIcon);
 			}
 			else if (name.endsWith(".class"))
 			{
-				setIcon(Resources.classIcon);
+				setIcon(IconResources.classIcon);
 			}
 			else if (name.endsWith(".java"))
 			{
-				setIcon(Resources.javaIcon);
+				setIcon(IconResources.javaIcon);
 			}
 			else if (name.endsWith(".txt") || name.endsWith(".md"))
 			{
-				setIcon(Resources.textIcon);
+				setIcon(IconResources.textIcon);
 			}
 			else if (name.equals("decoded resources"))
 			{
-				setIcon(Resources.decodedIcon);
+				setIcon(IconResources.decodedIcon);
 			}
 			else if (name.endsWith(".properties") || name.endsWith(".xml") || name.endsWith(".jsp")
 					|| name.endsWith(".mf") || name.endsWith(".config") || name.endsWith(".cfg"))
 			{
-				setIcon(Resources.configIcon);
+				setIcon(IconResources.configIcon);
 			}
 			else if (node.getChildCount() <= 0)
 			{ //random file
-				setIcon(Resources.fileIcon);
+				setIcon(IconResources.fileIcon);
 			}
 			else
 			{ //folder
@@ -128,10 +128,10 @@ public class ImageRenderer extends DefaultTreeCellRenderer
 				}
 				
 				if (isJava)
-					setIcon(Resources.packagesIcon);
+					setIcon(IconResources.packagesIcon);
 				else
 				{
-					setIcon(Resources.folderIcon);
+					setIcon(IconResources.folderIcon);
 				}
 			}
 		}

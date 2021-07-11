@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.plugins;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScanModule;
 import the.bytecode.club.bytecodeviewer.malwarescanner.util.MaliciousCodeOptions;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
@@ -49,7 +49,7 @@ public class MaliciousCodeScannerOptions extends JFrame
     
     public MaliciousCodeScannerOptions()
     {
-        this.setIconImages(Resources.iconList);
+        this.setIconImages(IconResources.iconList);
         setSize(new Dimension(250, 7 + (MalwareScanModule.values().length * SPACER_HEIGHT_BETWEEN_OPTIONS) + 90));
         setResizable(false);
         setTitle("Malicious Code Scanner Options");

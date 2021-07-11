@@ -13,7 +13,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.gui.components.HTMLPane;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.language;
@@ -55,7 +55,7 @@ public class InitialBootScreen extends JFrame
                 System.exit(0);
             }
         });
-        this.setIconImages(Resources.iconList);
+        this.setIconImages(IconResources.iconList);
 
         setSize(getSafeSize());
 

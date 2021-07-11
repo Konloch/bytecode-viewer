@@ -4,7 +4,7 @@ import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.compress.utils.FileNameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
@@ -53,7 +53,7 @@ public class PluginWriter extends JFrame
 	public void buildGUI()
 	{
 		setTitle("Editing BCV Plugin: " + pluginName);
-		setIconImages(Resources.iconList);
+		setIconImages(IconResources.iconList);
 		setSize(new Dimension(542, 316));
 		
 		area = (SearchableRSyntaxTextArea) Configuration.rstaTheme.apply(new SearchableRSyntaxTextArea());

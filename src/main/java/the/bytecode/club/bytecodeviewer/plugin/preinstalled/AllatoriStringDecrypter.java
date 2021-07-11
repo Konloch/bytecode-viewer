@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.objectweb.asm.tree.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.api.*;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
@@ -285,7 +285,7 @@ public class AllatoriStringDecrypter extends Plugin
 		
 		public AllatoriStringDecrypterOptionsFrame()
 		{
-			this.setIconImages(Resources.iconList);
+			this.setIconImages(IconResources.iconList);
 			setSize(new Dimension(250, 120));
 			setResizable(false);
 			setTitle("Allatori String Decrypter");

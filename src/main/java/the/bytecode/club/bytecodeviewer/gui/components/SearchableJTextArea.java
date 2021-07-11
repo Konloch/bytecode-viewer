@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
 import the.bytecode.club.bytecodeviewer.GlobalHotKeys;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.PressKeyListener;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.ReleaseKeyListener;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
@@ -49,10 +49,10 @@ public class SearchableJTextArea extends JTextArea
 		scrollPane.setColumnHeaderView(searchPanel);
 		
 		JButton searchNext = new JButton();
-		searchNext.setIcon(Resources.nextIcon);
+		searchNext.setIcon(IconResources.nextIcon);
 		
 		JButton searchPrev = new JButton();
-		searchPrev.setIcon(Resources.prevIcon);
+		searchPrev.setIcon(IconResources.prevIcon);
 		
 		JPanel buttonPane = new JPanel(new BorderLayout());
 		buttonPane.add(searchNext, BorderLayout.WEST);

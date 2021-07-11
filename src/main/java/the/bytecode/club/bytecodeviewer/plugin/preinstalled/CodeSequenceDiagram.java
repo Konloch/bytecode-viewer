@@ -13,7 +13,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
@@ -66,7 +66,7 @@ public class CodeSequenceDiagram extends Plugin
         ClassNode c = BytecodeViewer.getCurrentlyOpenedClassNode();
         JFrame frame = new JFrame("Code Sequence Diagram - " + c.name);
 
-        frame.setIconImages(Resources.iconList);
+        frame.setIconImages(IconResources.iconList);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(400, 320);
         mxGraph graph = new mxGraph();

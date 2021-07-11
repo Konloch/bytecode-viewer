@@ -2,7 +2,7 @@ package the.bytecode.club.bytecodeviewer.plugin;
 
 import org.apache.commons.io.FilenameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import java.io.IOException;
 
@@ -29,7 +29,7 @@ public enum PluginTemplate
 	public String getContents() throws IOException
 	{
 		if(contents == null)
-			contents = Resources.loadResourceAsString(resourcePath);
+			contents = IconResources.loadResourceAsString(resourcePath);
 		
 		return contents;
 	}

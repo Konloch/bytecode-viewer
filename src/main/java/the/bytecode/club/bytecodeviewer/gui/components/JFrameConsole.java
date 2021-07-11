@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +35,7 @@ public class JFrameConsole extends JFrame
 	
 	public JFrameConsole(String title)
 	{
-		this.setIconImages(Resources.iconList);
+		this.setIconImages(IconResources.iconList);
 		setTitle(title);
 		setSize(new Dimension(542, 316));
 		
