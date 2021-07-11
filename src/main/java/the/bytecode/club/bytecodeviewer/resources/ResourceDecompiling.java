@@ -31,7 +31,7 @@ public class ResourceDecompiling
 		
 		Thread decompileThread = new Thread(() ->
 		{
-			if (BytecodeViewer.autoCompileSuccessful())
+			if (!BytecodeViewer.autoCompileSuccessful())
 				return;
 			
 			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
@@ -188,7 +188,7 @@ public class ResourceDecompiling
 		
 		Thread decompileThread = new Thread(() ->
 		{
-			if (BytecodeViewer.autoCompileSuccessful())
+			if (!BytecodeViewer.autoCompileSuccessful())
 				return;
 			
 			final ClassNode cn = BytecodeViewer.getCurrentlyOpenedClassNode();

@@ -83,7 +83,7 @@ public class GlobalHotKeys
 			
 			Thread resourceExport = new Thread(() ->
 			{
-				if (BytecodeViewer.autoCompileSuccessful())
+				if (!BytecodeViewer.autoCompileSuccessful())
 					return;
 				
 				JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),

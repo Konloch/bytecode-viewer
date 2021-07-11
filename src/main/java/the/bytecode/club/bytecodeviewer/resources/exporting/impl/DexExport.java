@@ -30,7 +30,7 @@ public class DexExport implements Exporter
 		
 		Thread exportThread = new Thread(() ->
 		{
-			if (BytecodeViewer.autoCompileSuccessful())
+			if (!BytecodeViewer.autoCompileSuccessful())
 				return;
 			
 			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
