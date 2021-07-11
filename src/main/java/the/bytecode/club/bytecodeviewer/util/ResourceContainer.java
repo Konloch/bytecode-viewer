@@ -45,7 +45,7 @@ public class ResourceContainer
     
     public ResourceContainer(File f)
     {
-        this(f, LazyNameUtil.applyNameChanges(f.getName()));
+        this(f, f.getName());
     }
 
     public ResourceContainer(File f, String name)
