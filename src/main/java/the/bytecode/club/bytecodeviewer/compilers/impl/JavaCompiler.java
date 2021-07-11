@@ -9,6 +9,7 @@ import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
+import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -54,8 +55,8 @@ public class JavaCompiler extends InternalCompiler
         new File(fileStart2).mkdirs();
 
         if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists()) {
-            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + nl + "(C:/programfiles/Java/JDK_xx/bin/javac.exe)");
-            BytecodeViewer.viewer.selectJavac();
+            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + nl + "(C:/Program Files/Java/JDK_xx/bin/javac.exe)");
+            ExternalResources.getSingleton().selectJavac();
         }
 
         if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists()) {

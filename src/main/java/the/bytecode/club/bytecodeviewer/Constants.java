@@ -17,11 +17,14 @@ public class Constants
 	public static String krakatauVersion = "12";
 	public static String enjarifyVersion = "4";
 	public static final boolean BLOCK_TAB_MENU = true;
+	public static final boolean LAUNCH_DECOMPILERS_IN_NEW_PROCESS = false; //TODO
 	public static final boolean FAT_JAR = true; //could be automatic by checking if it's loaded a class named whatever for a library
 	public static final boolean OFFLINE_MODE = true; //disables the automatic updater
 	
 	public static final String fs = System.getProperty("file.separator");
 	public static final String nl = System.getProperty("line.separator");
+	
+	//TODO check if $HOME/.local/share exists, if so reference from there instead - #250
 	public static final File BCVDir = new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
 	public static final File RT_JAR = new File(System.getProperty("java.home") + fs + "lib" + fs + "rt.jar");
 	public static final File RT_JAR_DUMPED = new File(getBCVDirectory() + fs + "rt.jar");

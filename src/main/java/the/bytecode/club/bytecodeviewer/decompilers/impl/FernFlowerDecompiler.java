@@ -9,7 +9,8 @@ import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
+import the.bytecode.club.bytecodeviewer.resources.Resources;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
@@ -47,7 +48,8 @@ public class FernFlowerDecompiler extends InternalDecompiler
 {
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName) {
+    public void decompileToZip(String sourceJar, String zipName)
+    {
         File tempZip = new File(sourceJar);
 
         File f = new File(tempDirectory + fs + "temp" + fs);
@@ -55,9 +57,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
 
         try {
             org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempZip.getAbsolutePath(), tempDirectory + "./temp/"));
-        } catch (StackOverflowError | Exception ignored) {
-
-        }
+        } catch (StackOverflowError | Exception ignored) { }
 
         File tempZip2 = new File(tempDirectory + fs + "temp" + fs + tempZip.getName());
         if (tempZip2.exists())
@@ -86,10 +86,12 @@ public class FernFlowerDecompiler extends InternalDecompiler
         }
 
 
-        if (!FAT_JAR) {
-            try {
+        if (LAUNCH_DECOMPILERS_IN_NEW_PROCESS)
+        {
+            try
+            {
                 ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
-                        new String[]{BytecodeViewer.getJavaCommand(), "-jar", Resources.findLibrary("fernflower")},
+                        new String[]{ExternalResources.getSingleton().getJavaCommand(true), "-jar", ExternalResources.getSingleton().findLibrary("fernflower")},
                         generateMainMethod(tempClass.getAbsolutePath(),
                                 new File(tempDirectory).getAbsolutePath())
                 ));
@@ -102,9 +104,12 @@ public class FernFlowerDecompiler extends InternalDecompiler
             } finally {
                 BytecodeViewer.sm.resumeBlocking();
             }
-        } else {
+        }
+        else
+        {
             try {
-                org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClass.getAbsolutePath(), new File(tempDirectory).getAbsolutePath()));
+                org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(
+                        generateMainMethod(tempClass.getAbsolutePath(), new File(tempDirectory).getAbsolutePath()));
             } catch (Throwable e) {
                 StringWriter sw = new StringWriter();
                 e.printStackTrace(new PrintWriter(sw));

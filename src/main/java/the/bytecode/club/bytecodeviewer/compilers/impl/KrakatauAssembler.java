@@ -12,7 +12,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
-import the.bytecode.club.bytecodeviewer.util.BCVFileUtils;
+import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -46,12 +46,12 @@ public class KrakatauAssembler extends InternalCompiler
 
     @Override
     public byte[] compile(String contents, String name) {
-        if (Configuration.python.isEmpty()) {
+        if (Configuration.python2.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
-            BytecodeViewer.viewer.selectPythonC();
+            ExternalResources.getSingleton().selectPython2();
         }
 
-        if (Configuration.python.isEmpty()) {
+        if (Configuration.python2.isEmpty()) {
             BytecodeViewer.showMessage("You need to set Python!");
             return null;
         }
@@ -76,7 +76,7 @@ public class KrakatauAssembler extends InternalCompiler
         try
         {
             ProcessBuilder pb = new ProcessBuilder(
-                    Configuration.python,
+                    Configuration.python2,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "assemble.py",
                     "-out",
@@ -112,7 +112,8 @@ public class KrakatauAssembler extends InternalCompiler
             log.append(nl).append(nl).append("Exit Value is ").append(exitValue);
             System.err.println(log);
 
-            byte[] b = FileUtils.readFileToByteArray(Objects.requireNonNull(BCVFileUtils.findFile(tempDirectory, ".class")));
+            byte[] b = FileUtils.readFileToByteArray(Objects.requireNonNull(
+                    ExternalResources.getSingleton().findFile(tempDirectory, ".class")));
             tempDirectory.delete();
             tempJar.delete();
             return b;

@@ -49,6 +49,7 @@ public class SecurityMan extends SecurityManager
                 executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.impl.FernFlowerDecompiler") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.impl.JDGUIDecompiler") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.impl.KrakatauAssembler") ||
+                executedClass.equals("the.bytecode.club.bytecodeviewer.resources.ExternalResources") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.util.Enjarify") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.util.APKTool") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.BytecodeViewer") ||

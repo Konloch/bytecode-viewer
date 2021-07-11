@@ -8,14 +8,12 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.text.html.HTMLEditorKit;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.resources.Resources;
 import the.bytecode.club.bytecodeviewer.gui.components.HTMLPane;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.language;

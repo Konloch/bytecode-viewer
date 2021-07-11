@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.resources.Resources;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 

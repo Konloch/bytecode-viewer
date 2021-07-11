@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
-import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.resources.Resources;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;

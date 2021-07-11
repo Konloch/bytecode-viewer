@@ -22,17 +22,15 @@ public class APKResourceImporter implements Importer
 	@Override
 	public void open(File file) throws Exception
 	{
-		BytecodeViewer.updateBusyStatus(true);
-		
 		File tempCopy = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
-		
 		FileUtils.copyFile(file, tempCopy);
 		
 		ResourceContainer container = new ResourceContainer(tempCopy, file.getName());
 		
-		if (BytecodeViewer.viewer.decodeAPKResources.isSelected()) {
-			File decodedResources =
-					new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
+		//APK Resource Decoding Here
+		if (BytecodeViewer.viewer.decodeAPKResources.isSelected())
+		{
+			File decodedResources = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
 			APKTool.decodeResources(tempCopy, decodedResources, container);
 			container.resourceFiles = JarUtils.loadResources(decodedResources);
 		}
@@ -52,7 +50,6 @@ public class APKResourceImporter implements Importer
 		container.copy(new ResourceContainerImporter(
 				new ResourceContainer(output)).importAsZip().getContainer());
 		
-		BytecodeViewer.updateBusyStatus(false);
-		BytecodeViewer.files.add(container);
+		BytecodeViewer.resourceContainers.add(container);
 	}
 }

@@ -21,8 +21,6 @@ public class DEXResourceImporter implements Importer
 	@Override
 	public void open(File file) throws Exception
 	{
-		BytecodeViewer.updateBusyStatus(true);
-		
 		File tempCopy = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".dex");
 		
 		FileUtils.copyFile(file, tempCopy); //copy and rename to prevent unicode filenames
@@ -41,7 +39,6 @@ public class DEXResourceImporter implements Importer
 		container.copy(new ResourceContainerImporter(
 				new ResourceContainer(output)).importAsZip().getContainer());
 		
-		BytecodeViewer.updateBusyStatus(false);
-		BytecodeViewer.files.add(container);
+		BytecodeViewer.resourceContainers.add(container);
 	}
 }

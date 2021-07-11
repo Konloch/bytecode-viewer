@@ -1,6 +1,5 @@
-package the.bytecode.club.bytecodeviewer;
+package the.bytecode.club.bytecodeviewer.resources;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -15,6 +14,7 @@ import javax.swing.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.imgscalr.Scalr;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 import static the.bytecode.club.bytecodeviewer.Constants.libsDirectory;
 
@@ -42,8 +42,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.libsDirectory;
  * @author Konloch
  */
 
-public class Resources {
-
+public class Resources
+{
     public static List<BufferedImage> iconList;
     public static BufferedImage icon;
     public static ImageIcon nextIcon;
@@ -133,14 +133,5 @@ public class Resources {
         }
 
         return image;
-    }
-
-    public static String findLibrary(String nameContains) {
-        for (File f : Objects.requireNonNull(new File(libsDirectory).listFiles())) {
-            if (f.getName().contains(nameContains))
-                return f.getAbsolutePath();
-        }
-
-        return null;
     }
 }

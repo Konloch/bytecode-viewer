@@ -4,15 +4,11 @@ import java.awt.*;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 import the.bytecode.club.bootloader.InitialBootScreen;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.resources.Resources;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.*;
-import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

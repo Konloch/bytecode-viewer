@@ -44,7 +44,7 @@ public class ResourceListRightClickRemove extends AbstractAction
 				DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
 				root.remove(node);
 				
-				for (ResourceContainer resourceContainer : BytecodeViewer.files)
+				for (ResourceContainer resourceContainer : BytecodeViewer.resourceContainers)
 				{
 					if (resourceContainer.name.equals(selectNode.toString()))
 					{

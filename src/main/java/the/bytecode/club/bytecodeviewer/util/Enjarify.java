@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.util;
 import java.io.File;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 
 import static the.bytecode.club.bytecodeviewer.Constants.enjarifyWorkingDirectory;
 
@@ -41,7 +42,7 @@ public class Enjarify {
     public static synchronized void apk2Jar(File input, File output) {
         if (Configuration.python3.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 3.x executable path.");
-            BytecodeViewer.viewer.selectPythonC3();
+            ExternalResources.getSingleton().selectPython3();
         }
 
         if (Configuration.python3.isEmpty()) {

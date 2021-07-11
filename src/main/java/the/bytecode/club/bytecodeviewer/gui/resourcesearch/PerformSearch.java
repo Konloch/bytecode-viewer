@@ -2,7 +2,6 @@ package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
 
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
 import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
 import the.bytecode.club.bytecodeviewer.searching.impl.RegexSearch;
@@ -11,7 +10,6 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 import javax.swing.tree.TreePath;
-import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -42,7 +40,7 @@ class PerformSearch extends BackgroundSearchThread
 			BytecodeViewer.showMessage("You have an error in your regex syntax.");
 		}
 		
-		for (ResourceContainer container : BytecodeViewer.files)
+		for (ResourceContainer container : BytecodeViewer.resourceContainers)
 			for (ClassNode c : container.resourceClasses.values())
 				searchBoxPane.searchType.details.search(container, c, srn, searchBoxPane.exact.isSelected());
 		

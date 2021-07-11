@@ -89,7 +89,9 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Make zipfile not include the decode shit
  *      + Add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
  *      + Add decompile all as zip for CLI
- *      + Console on the UI
+ *      + Console on the Main Viewer UI
+ *      + Plugin Console/System/ETC needs ctrl + mouse wheel
+ *      + Font settings
  *
  *  TODO IDEAS:
  *      + App Bundle Support
@@ -116,7 +118,7 @@ public class BytecodeViewer
     public static MainViewerGUI viewer;
     
     //All of the opened resources (Files/Classes/Etc)
-    public static List<ResourceContainer> files = new ArrayList<>();
+    public static List<ResourceContainer> resourceContainers = new ArrayList<>();
     
     //All of the created processes (Decompilers/etc)
     public static List<Process> createdProcesses = new ArrayList<>();
@@ -264,47 +266,13 @@ public class BytecodeViewer
                 for (String s : launchArgs)
                     openFiles(new File[]{new File(s)}, true);
     }
-
-    /**
-     * Returns the java command it can use to launch the decompilers
-     *
-     * @return
-     */
-    public static synchronized String getJavaCommand()
-    {
-        sm.pauseBlocking();
-        try
-        {
-            ProcessBuilder pb = new ProcessBuilder("java", "-version");
-            pb.start();
-            return "java"; //java is set
-        }
-        catch (Exception e) //ignore
-        {
-            sm.resumeBlocking();
-            boolean empty = Configuration.java.isEmpty();
-            while (empty)
-            {
-                showMessage("You need to set your Java path, this requires the JRE to be downloaded." +
-                        nl + "(C:/Program Files/Java/JDK_xx/bin/java.exe)");
-                viewer.selectJava();
-                empty = Configuration.java.isEmpty();
-            }
-        }
-        finally
-        {
-            sm.resumeBlocking();
-        }
-        
-        return Configuration.java;
-    }
     
     /**
      * Returns true if there is at least one file resource loaded
      */
     public static boolean hasResources()
     {
-        return !files.isEmpty();
+        return !resourceContainers.isEmpty();
     }
     
     /**
@@ -353,7 +321,7 @@ public class BytecodeViewer
     @Deprecated
     public static ClassNode blindlySearchForClassNode(String name)
     {
-        for (ResourceContainer container : files)
+        for (ResourceContainer container : resourceContainers)
         {
             ClassNode node = container.getClassNode(name);
             if(node != null)
@@ -368,7 +336,7 @@ public class BytecodeViewer
      */
     public static ResourceContainer getFileContainer(String name)
     {
-        for (ResourceContainer container : files)
+        for (ResourceContainer container : resourceContainers)
             if (container.name.equals(name))
                 return container;
 
@@ -378,8 +346,8 @@ public class BytecodeViewer
     /**
      * Returns all of the loaded File Containers
      */
-    public static List<ResourceContainer> getFiles() {
-        return files;
+    public static List<ResourceContainer> getResourceContainers() {
+        return resourceContainers;
     }
 
     /**
@@ -390,7 +358,7 @@ public class BytecodeViewer
      */
     public static byte[] getFileContents(String name)
     {
-        for (ResourceContainer container : files)
+        for (ResourceContainer container : resourceContainers)
             if (container.resourceFiles.containsKey(name))
                 return container.resourceFiles.get(name);
 
@@ -414,7 +382,7 @@ public class BytecodeViewer
     {
         ArrayList<ClassNode> a = new ArrayList<>();
 
-        for (ResourceContainer container : files)
+        for (ResourceContainer container : resourceContainers)
             for (ClassNode c : container.resourceClasses.values())
                 if (!a.contains(c))
                     a.add(c);
@@ -631,7 +599,7 @@ public class BytecodeViewer
      */
     public static void resetWorkspace()
     {
-        BytecodeViewer.files.clear();
+        BytecodeViewer.resourceContainers.clear();
         LazyNameUtil.reset();
         BytecodeViewer.viewer.resourcePane.resetWorkspace();
         BytecodeViewer.viewer.workPane.resetWorkspace();

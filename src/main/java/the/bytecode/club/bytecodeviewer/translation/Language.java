@@ -4,7 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.collections4.map.LinkedMap;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.resources.Resources;
 
 import java.io.IOException;
 import java.util.Arrays;

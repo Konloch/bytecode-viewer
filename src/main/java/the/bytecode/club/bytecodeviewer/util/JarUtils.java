@@ -103,7 +103,7 @@ public class JarUtils
         }
         jis.close();
         container.resourceFiles = files;
-        BytecodeViewer.files.add(container);
+        BytecodeViewer.resourceContainers.add(container);
     }
     
     
@@ -152,7 +152,7 @@ public class JarUtils
         }
 
         container.resourceFiles = files;
-        BytecodeViewer.files.add(container);
+        BytecodeViewer.resourceContainers.add(container);
     }
     
     public static ArrayList<ClassNode> loadClasses(final File jarFile) throws IOException
@@ -262,7 +262,7 @@ public class JarUtils
             out.write((manifest.trim() + "\r\n\r\n").getBytes());
             out.closeEntry();
 
-            for (ResourceContainer container : BytecodeViewer.files)
+            for (ResourceContainer container : BytecodeViewer.resourceContainers)
                 for (Entry<String, byte[]> entry : container.resourceFiles.entrySet()) {
                     String filename = entry.getKey();
                     if (!filename.startsWith("META-INF")) {
@@ -366,7 +366,7 @@ public class JarUtils
                 }
             }
 
-            for (ResourceContainer container : BytecodeViewer.files)
+            for (ResourceContainer container : BytecodeViewer.resourceContainers)
                 for (Entry<String, byte[]> entry : container.resourceFiles.entrySet()) {
                     String filename = entry.getKey();
                     if (!filename.startsWith("META-INF")) {

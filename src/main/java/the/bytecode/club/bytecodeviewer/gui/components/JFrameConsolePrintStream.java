@@ -106,11 +106,7 @@ public class JFrameConsolePrintStream extends JFrameConsole
 			String content = getTextArea().getText();
 			if(content.contains("File `"))
 			{
-				String[] test;
-				if (content.split("\n").length >= 2)
-					test = content.split("\n");
-				else
-					test = content.split("\r");
+				String[] test = content.split("\r?\n");
 				
 				StringBuilder replace = new StringBuilder();
 				for (String s : test)

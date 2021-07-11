@@ -2,10 +2,9 @@ package the.bytecode.club.bytecodeviewer.gui.components;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.GlobalHotKeys;
-import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.resources.Resources;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.PressKeyListener;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.ReleaseKeyListener;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;

@@ -34,7 +34,16 @@ public class ViewAPKAndroidPermissions extends Plugin
             String[] lines = manifest.split("\r?\n");
             for(String line : lines)
                 if(line.toLowerCase().contains("uses-permission"))
-                    frame.appendText(line.trim());
+                {
+                    String cleaned = line.trim();
+                    if(cleaned.startsWith("<"))
+                        cleaned = cleaned.substring(1);
+                    if(cleaned.contains(" android:name=\""))
+                        cleaned = cleaned.replace(" android:name=\"", ": ");
+                    if(cleaned.endsWith("\"/>"))
+                        cleaned = cleaned.substring(0, cleaned.length()-3);
+                    frame.appendText(cleaned);
+                }
         }
         else
             frame.appendText("Enable Settings>Decode APK Resources!");

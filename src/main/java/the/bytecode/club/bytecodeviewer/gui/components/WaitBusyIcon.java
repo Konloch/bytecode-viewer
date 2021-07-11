@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.resources.Resources;
 
 import javax.swing.*;
 

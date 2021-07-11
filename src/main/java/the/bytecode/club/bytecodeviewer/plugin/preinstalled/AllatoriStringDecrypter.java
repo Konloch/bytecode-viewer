@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.objectweb.asm.tree.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
-import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.resources.Resources;
 import the.bytecode.club.bytecodeviewer.api.*;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;

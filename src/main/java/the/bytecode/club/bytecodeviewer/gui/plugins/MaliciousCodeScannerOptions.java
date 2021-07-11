@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.plugins;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.resources.Resources;
 import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScanModule;
 import the.bytecode.club.bytecodeviewer.malwarescanner.util.MaliciousCodeOptions;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;

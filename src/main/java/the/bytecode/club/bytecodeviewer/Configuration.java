@@ -14,7 +14,7 @@ import java.io.File;
  */
 public class Configuration
 {
-	public static String python = "";
+	public static String python2 = "";
 	public static String python3 = "";
 	public static String rt = "";
 	public static String library = "";

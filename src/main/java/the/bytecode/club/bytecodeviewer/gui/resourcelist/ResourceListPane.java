@@ -111,7 +111,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     //used to remove resources from the resource list
     public void removeFile(ResourceContainer resourceContainer)
     {
-        BytecodeViewer.files.remove(resourceContainer);
+        BytecodeViewer.resourceContainers.remove(resourceContainer);
         LazyNameUtil.removeName(resourceContainer.name);
     }
 
@@ -160,7 +160,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         try
         {
             treeRoot.removeAllChildren();
-            for (ResourceContainer container : BytecodeViewer.files)
+            for (ResourceContainer container : BytecodeViewer.resourceContainers)
             {
                 ResourceTreeNode root = new ResourceTreeNode(container.name);
                 treeRoot.add(root);
@@ -301,7 +301,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         String cheapHax = path.getPathComponent(1).toString();
         ResourceContainer container = null;
 
-        for (ResourceContainer c : BytecodeViewer.files)
+        for (ResourceContainer c : BytecodeViewer.resourceContainers)
         {
             if (c.name.equals(cheapHax))
                 container = c;

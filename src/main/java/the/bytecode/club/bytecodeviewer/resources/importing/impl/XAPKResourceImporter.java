@@ -72,7 +72,7 @@ public class XAPKResourceImporter implements Importer
 		Configuration.silenceExceptionGUI--; //turn exceptions back on
 		BytecodeViewer.viewer.clearBusyStatus(); //clear errant busy signals from failed APK imports
 		container.resourceFiles = allDirectoryFiles; //store the file resource
-		BytecodeViewer.files.add(container); //add the file container to BCV's total loaded files
+		BytecodeViewer.resourceContainers.add(container); //add the file container to BCV's total loaded files
 	}
 	
 	public File exportTo(File original, String extension, byte[] bytes)

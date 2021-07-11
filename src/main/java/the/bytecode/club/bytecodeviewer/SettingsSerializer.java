@@ -139,7 +139,7 @@ public class SettingsSerializer
             save("deprecated");
             save("deprecated");
             save(Configuration.lastDirectory);
-            save(Configuration.python);
+            save(Configuration.python2);
             save(Configuration.rt);
             save("deprecated");
             save("deprecated");
@@ -301,7 +301,7 @@ public class SettingsSerializer
             //86 is deprecated
             //87 is deprecated
             Configuration.lastDirectory = asString(88);
-            Configuration.python = asString(89);
+            Configuration.python2 = asString(89);
             Configuration.rt = asString(90);
             
             BytecodeViewer.viewer.decodeAPKResources.setSelected(asBoolean(106));

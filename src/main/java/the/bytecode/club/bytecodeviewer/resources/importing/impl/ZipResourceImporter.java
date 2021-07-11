@@ -23,6 +23,6 @@ public class ZipResourceImporter implements Importer
 		//import the file as zip into the file container
 		importer.importAsZip();
 		//add the file container to BCV's total loaded files
-		BytecodeViewer.files.add(container);
+		BytecodeViewer.resourceContainers.add(container);
 	}
 }

@@ -56,9 +56,7 @@ public class JTextAreaUtils
 			
 			int currentLine = 1;
 			boolean canSearch = false;
-			String[] test = (textArea.getText().split("\n").length >= 2
-					? textArea.getText().split("\n")
-					: textArea.getText().split("\r"));
+			String[] test = textArea.getText().split("\r?\n");
 			
 			int lastGoodLine = -1;
 			int firstPos = -1;

@@ -25,7 +25,9 @@ import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.PluginTemplate;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.*;
+import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.Resources;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Export;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBoxMenuItem;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
@@ -115,6 +117,8 @@ public class MainViewerGUI extends JFrame
     public final JMenuItem ZKMStringDecrypter = new TranslatedJMenuItem("ZKM String Decrypter", Translation.ZKM_STRING_DECRYPTER);
     public final JMenuItem allatoriStringDecrypter = new TranslatedJMenuItem("Allatori String Decrypter", Translation.ALLATORI_STRING_DECRYPTER);
     public final JMenuItem zStringArrayDecrypter = new TranslatedJMenuItem("ZStringArray Decrypter", Translation.ZSTRINGARRAY_DECRYPTER);
+    public final JMenuItem viewAPKAndroidPermissions = new JMenuItem("View Android Permissions");
+    public final JMenuItem viewManifest = new JMenuItem("View Manifest");
     
     //all of the settings main menu components
     public final ButtonGroup apkConversionGroup = new ButtonGroup();
@@ -560,11 +564,11 @@ public class MainViewerGUI extends JFrame
         
         deleteForeignOutdatedLibs.addActionListener(arg0 -> showForeignLibraryWarning());
         forcePureAsciiAsText.addActionListener(arg0 -> SettingsSerializer.saveSettingsAsync());
-        setPython2.addActionListener(arg0 -> selectPythonC());
-        setJRERT.addActionListener(arg0 -> selectJRERTLibrary());
-        setPython3.addActionListener(arg0 -> selectPythonC3());
-        setOptionalLibrary.addActionListener(arg0 -> selectOpenalLibraryFolder());
-        setJavac.addActionListener(arg0 -> selectJavac());
+        setPython2.addActionListener(arg0 -> ExternalResources.getSingleton().selectPython2());
+        setJRERT.addActionListener(arg0 -> ExternalResources.getSingleton().selectJRERTLibrary());
+        setPython3.addActionListener(arg0 -> ExternalResources.getSingleton().selectPython3());
+        setOptionalLibrary.addActionListener(arg0 -> ExternalResources.getSingleton().selectOptionalLibraryFolder());
+        setJavac.addActionListener(arg0 -> ExternalResources.getSingleton().selectJavac());
         showFileInTabTitle.addActionListener(arg0 -> {
             Configuration.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
             SettingsSerializer.saveSettingsAsync();
@@ -586,7 +590,10 @@ public class MainViewerGUI extends JFrame
         pluginsMainMenu.add(new JSeparator());
         pluginsMainMenu.add(newJavaPlugin);
         pluginsMainMenu.add(newJavascriptPlugin);
+        pluginsMainMenu.add(new JSeparator()); //android specific plugins first
+        pluginsMainMenu.add(viewAPKAndroidPermissions);
         pluginsMainMenu.add(new JSeparator());
+        pluginsMainMenu.add(viewManifest);
         pluginsMainMenu.add(codeSequenceDiagram);
         pluginsMainMenu.add(maliciousCodeScanner);
         pluginsMainMenu.add(showMainMethods);
@@ -594,10 +601,11 @@ public class MainViewerGUI extends JFrame
         pluginsMainMenu.add(replaceStrings);
         pluginsMainMenu.add(stackFramesRemover);
         
-        //allatori and ZKM are disabled since they are just placeholders
+        //allatori is disabled since they are just placeholders
+        //ZKM and ZStringArray decrypter are disabled until deobfuscation has been extended
         //mnNewMenu_1.add(mntmNewMenuItem_2);
         //mnNewMenu_1.add(mntmStartZkmString);
-        pluginsMainMenu.add(zStringArrayDecrypter);
+        //pluginsMainMenu.add(zStringArrayDecrypter);
         
         openExternalPlugin.addActionListener(arg0 -> openExternalPlugin());
         newJavaPlugin.addActionListener(arg0 -> PluginTemplate.JAVA.openEditorExceptionHandled());
@@ -611,6 +619,8 @@ public class MainViewerGUI extends JFrame
         allatoriStringDecrypter.addActionListener(e -> PluginManager.runPlugin(new AllatoriStringDecrypter.AllatoriStringDecrypterOptions()));
         ZKMStringDecrypter.addActionListener(e -> PluginManager.runPlugin(new ZKMStringDecrypter()));
         zStringArrayDecrypter.addActionListener(arg0 -> PluginManager.runPlugin(new ZStringArrayDecrypter()));
+        viewAPKAndroidPermissions.addActionListener(arg0 -> PluginManager.runPlugin(new ViewAPKAndroidPermissions()));
+        viewManifest.addActionListener(arg0 -> PluginManager.runPlugin(new ViewManifest()));
     }
     
     public void buildObfuscateMenu()
@@ -803,7 +813,7 @@ public class MainViewerGUI extends JFrame
             LazyNameUtil.reset();
             ArrayList<File> reopen = new ArrayList<>();
         
-            for (ResourceContainer container : BytecodeViewer.files) {
+            for (ResourceContainer container : BytecodeViewer.resourceContainers) {
                 File newFile = new File(container.file.getParent() + fs + container.name);
                 if (!container.file.getAbsolutePath().equals(newFile.getAbsolutePath()) &&
                         (container.file.getAbsolutePath().endsWith(".apk") || container.file.getAbsolutePath().endsWith(".dex"))) //APKs & dex get renamed
@@ -814,7 +824,7 @@ public class MainViewerGUI extends JFrame
                 reopen.add(container.file);
             }
         
-            BytecodeViewer.files.clear();
+            BytecodeViewer.resourceContainers.clear();
         
             for (File f : reopen) {
                 BytecodeViewer.openFiles(new File[]{f}, false);
@@ -836,83 +846,6 @@ public class MainViewerGUI extends JFrame
         BytecodeViewer.updateBusyStatus(true);
         BytecodeViewer.openFiles(new File[]{file}, true);
         BytecodeViewer.updateBusyStatus(false);
-    }
-
-    public void selectPythonC()
-    {
-        final File file = DialogueUtils.fileChooser("Select Python 2.7 Executable",
-                "Python (Or PyPy for speed) 2.7 Executable",
-                "everything");
-    
-        if(file == null)
-            return;
-    
-        Configuration.python = file.getAbsolutePath();
-        SettingsSerializer.saveSettingsAsync();
-    }
-
-    public void selectJavac()
-    {
-        final File file = DialogueUtils.fileChooser("Select Javac Executable",
-                "Javac Executable (Requires JDK  'C:/programfiles/Java/JDK_xx/bin/javac.exe)",
-                "everything");
-    
-        if(file == null)
-            return;
-        
-        Configuration.javac = file.getAbsolutePath();
-        SettingsSerializer.saveSettingsAsync();
-    }
-
-    public void selectJava()
-    {
-        final File file = DialogueUtils.fileChooser("Select Java Executable",
-                "Java Executable (Inside Of JRE/JDK 'C:/programfiles/Java/JDK_xx/bin/java.exe')",
-                "everything");
-    
-        if(file == null)
-            return;
-        
-        Configuration.java = file.getAbsolutePath();
-        SettingsSerializer.saveSettingsAsync();
-    }
-
-    public void selectPythonC3()
-    {
-        final File file = DialogueUtils.fileChooser("Select Python 3.x Executable",
-                "Python (Or PyPy for speed) 3.x Executable",
-                "everything");
-        
-        if(file == null)
-            return;
-    
-        Configuration.python3 = file.getAbsolutePath();
-        SettingsSerializer.saveSettingsAsync();
-    }
-
-    public void selectOpenalLibraryFolder()
-    {
-        final File file = DialogueUtils.fileChooser("Select Library Folder",
-                "Optional Library Folder",
-                "everything");
-    
-        if(file == null)
-            return;
-    
-        Configuration.library = file.getAbsolutePath();
-        SettingsSerializer.saveSettingsAsync();
-    }
-    
-    public void selectJRERTLibrary() {
-        final File file = DialogueUtils.fileChooser("Select JRE RT Jar",
-                "JRE RT Library",
-                "everything");
-        
-        if(file == null)
-            return;
-        
-        Configuration.rt = file.getAbsolutePath();
-        SettingsSerializer.saveSettingsAsync();
     }
     
     public void openExternalPlugin()

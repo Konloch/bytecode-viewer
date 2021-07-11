@@ -36,7 +36,7 @@ public class ViewManifest extends Plugin
         if(jarManifest != null)
         {
             if(!frame.getTextArea().getText().isEmpty())
-                frame.appendText("\r\r\r\r");
+                frame.appendText("\r\n\r\n");
     
             frame.appendText("Java Jar Manifest:\r");
             frame.appendText(new String(jarManifest, StandardCharsets.UTF_8));
