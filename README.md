@@ -36,7 +36,7 @@ Bytecode Viewer - a lightweight user-friendly Java/Android Bytecode Viewer, Deco
 * Customizable UI
 * Plugins + Script Engine Design
 * Malicious code scanning API
-* Translations (English, Mandarin)
+* Translated Into 25 Languages Including: Arabic, German, Japanese, Mandarin, Russian, Spanish)
 * Export functionality as Runnable Jar, Zip, APK, Decompile All As Zip, Etc.
 * And more! Give it a try for yourself!
 
