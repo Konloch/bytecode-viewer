@@ -45,7 +45,6 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
  */
 public class FernFlowerDecompiler extends InternalDecompiler
 {
-
     @Override
     public void decompileToZip(String sourceJar, String zipName)
     {
@@ -78,10 +77,10 @@ public class FernFlowerDecompiler extends InternalDecompiler
             fos.write(b);
             fos.close();
         } catch (final IOException e) {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
+            StringWriter exceptionWriter = new StringWriter();
+            e.printStackTrace(new PrintWriter(exceptionWriter));
             e.printStackTrace();
-            exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+            exception = exceptionWriter.toString();
         }
 
 
@@ -110,10 +109,10 @@ public class FernFlowerDecompiler extends InternalDecompiler
                 org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(
                         generateMainMethod(tempClass.getAbsolutePath(), new File(tempDirectory).getAbsolutePath()));
             } catch (Throwable e) {
-                StringWriter sw = new StringWriter();
-                e.printStackTrace(new PrintWriter(sw));
+                StringWriter exceptionWriter = new StringWriter();
+                e.printStackTrace(new PrintWriter(exceptionWriter));
                 e.printStackTrace();
-                exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+                exception =  exceptionWriter.toString();
             }
         }
 
@@ -129,11 +128,11 @@ public class FernFlowerDecompiler extends InternalDecompiler
                 
                 return s;
             } catch (Exception e) {
-                StringWriter sw = new StringWriter();
-                e.printStackTrace(new PrintWriter(sw));
+                StringWriter exceptionWriter = new StringWriter();
+                e.printStackTrace(new PrintWriter(exceptionWriter));
                 e.printStackTrace();
 
-                exception += nl + nl + sw;
+                exception += nl + nl + exceptionWriter;
             }
         }
         

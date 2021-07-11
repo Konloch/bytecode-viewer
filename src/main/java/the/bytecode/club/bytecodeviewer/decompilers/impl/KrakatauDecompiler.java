@@ -14,6 +14,7 @@ import the.bytecode.club.bootloader.resource.ExternalResource;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
@@ -88,8 +89,7 @@ public class KrakatauDecompiler extends InternalDecompiler
             return "Set your paths";
         }
 
-        String s = "Bytecode Viewer Version: " + VERSION + nl + nl +
-                "Please send this to konloch@gmail.com. " + nl + nl;
+        String s = ExceptionUI.SEND_STACKTRACE_TO_NL;
 
         BytecodeViewer.sm.pauseBlocking();
         try {
@@ -139,7 +139,7 @@ public class KrakatauDecompiler extends InternalDecompiler
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
-            s += nl + "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+            s += nl + ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         } finally {
             BytecodeViewer.sm.resumeBlocking();
         }
@@ -163,8 +163,7 @@ public class KrakatauDecompiler extends InternalDecompiler
             return "Set your paths";
         }
 
-        String s = "Bytecode Viewer Version: " + VERSION + nl + nl +
-                "Please send this to konloch@gmail.com. " + nl + nl;
+        String s = ExceptionUI.SEND_STACKTRACE_TO_NL;
 
         final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempDirectory.mkdir();
@@ -224,7 +223,7 @@ public class KrakatauDecompiler extends InternalDecompiler
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
-            s += nl + "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+            s += nl + ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         } finally {
             BytecodeViewer.sm.resumeBlocking();
         }

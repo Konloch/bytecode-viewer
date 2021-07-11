@@ -131,12 +131,10 @@ public class CFRDecompiler extends InternalDecompiler
         try {
             org.benf.cfr.reader.Main.main(generateMainMethod(tempClass.getAbsolutePath(), fuckery));
         } catch (StackOverflowError | Exception e) {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
+            StringWriter exceptionWriter = new StringWriter();
+            e.printStackTrace(new PrintWriter(exceptionWriter));
             e.printStackTrace();
-
-            exception =
-                    "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+            exception = exceptionWriter.toString();
         }
 
         tempClass.delete();
@@ -170,15 +168,13 @@ public class CFRDecompiler extends InternalDecompiler
                 try {
                     s = DiskReader.loadAsString(f.getAbsolutePath());
                 } catch (Exception e) {
-                    StringWriter sw = new StringWriter();
-                    e.printStackTrace(new PrintWriter(sw));
+                    StringWriter exceptionWriter = new StringWriter();
+                    e.printStackTrace(new PrintWriter(exceptionWriter));
                     e.printStackTrace();
-
-                    String exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
                     
                     return CFR + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
                             nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
-                            nl + nl + exception;
+                            nl + nl + exceptionWriter;
                 }
                 
                 return s;

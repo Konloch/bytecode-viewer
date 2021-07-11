@@ -78,7 +78,7 @@ public class SmaliDisassembler extends InternalDecompiler
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception += "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+            exception += ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
 
         File rename = new File(tempDex.getName().replaceFirst("\\.dex", "-out"));
@@ -90,7 +90,7 @@ public class SmaliDisassembler extends InternalDecompiler
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception += "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+            exception += ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
 
         File outputSmali = null;
@@ -114,7 +114,7 @@ public class SmaliDisassembler extends InternalDecompiler
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception += "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+            exception += ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
         
         return SMALI + " " + DISASSEMBLER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +

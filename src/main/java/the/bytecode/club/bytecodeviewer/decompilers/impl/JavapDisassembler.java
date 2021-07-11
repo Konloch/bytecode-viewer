@@ -21,6 +21,7 @@ import java.net.URLClassLoader;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.api.ExceptionUI.KONLOCH;
+import static the.bytecode.club.bytecodeviewer.api.ExceptionUI.SEND_STACKTRACE_TO;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -96,7 +97,7 @@ public class JavapDisassembler extends InternalDecompiler
             return sysOut.getTextAreaOutputStreamOut().getBuffer().toString();
         }
         
-        return KONLOCH;
+        return SEND_STACKTRACE_TO;
     }
 
     @Override

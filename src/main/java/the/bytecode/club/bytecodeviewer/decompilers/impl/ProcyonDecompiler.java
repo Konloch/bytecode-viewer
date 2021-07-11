@@ -129,7 +129,7 @@ public class ProcyonDecompiler extends InternalDecompiler
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+            exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
         
         return PROCYON + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +

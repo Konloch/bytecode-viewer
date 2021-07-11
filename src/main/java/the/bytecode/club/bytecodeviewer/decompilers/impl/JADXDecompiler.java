@@ -45,6 +45,9 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
  */
 public class JADXDecompiler extends InternalDecompiler
 {
+    private Random r = new Random();
+    private File f;
+    
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
         String fileStart = tempDirectory + fs;
@@ -74,10 +77,10 @@ public class JADXDecompiler extends InternalDecompiler
             jadx.saveSources();
             //jadx.close();
         } catch (StackOverflowError | Exception e) {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
+            StringWriter exceptionWriter = new StringWriter();
+            e.printStackTrace(new PrintWriter(exceptionWriter));
             e.printStackTrace();
-            exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+            exception = exceptionWriter.toString();
         }
 
         tempClass.delete();
@@ -93,15 +96,18 @@ public class JADXDecompiler extends InternalDecompiler
                 nl + nl + exception;
     }
 
-    Random r = new Random();
-    File f;
-
-    public String fuckery(String start) {
-        while (true) {
+    //TODO remove
+    public String fuckery(String start)
+    {
+        int failSafe = 0;
+        while (failSafe++ <= 42069)
+        {
             f = new File(start + r.nextInt(Integer.MAX_VALUE));
             if (!f.exists())
                 return f.toString();
         }
+        
+        return null;
     }
 
     public String findFile(File[] fA) {
@@ -116,7 +122,7 @@ public class JADXDecompiler extends InternalDecompiler
                     StringWriter sw = new StringWriter();
                     e.printStackTrace(new PrintWriter(sw));
                     e.printStackTrace();
-                    String exception = "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+                    String exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
                     
                     return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
                             nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
@@ -131,7 +137,5 @@ public class JADXDecompiler extends InternalDecompiler
     }
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName) {
-    }
-
+    public void decompileToZip(String sourceJar, String zipName) { }
 }

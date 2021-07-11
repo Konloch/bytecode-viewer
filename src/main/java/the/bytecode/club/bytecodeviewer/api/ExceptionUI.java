@@ -42,6 +42,7 @@ public class ExceptionUI extends JFrame
 {
     public static final String KONLOCH = "https://github.com/Konloch/bytecode-viewer/issues or Konloch at https://the.bytcode.club or konloch@gmail.com";
     public static final String SEND_STACKTRACE_TO = buildErrorLogHeader(KONLOCH);
+    public static final String SEND_STACKTRACE_TO_NL = SEND_STACKTRACE_TO + nl + nl;
     
     /**
      * @param e The exception to be shown

@@ -116,8 +116,7 @@ public class JDGUIDecompiler extends InternalDecompiler
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
-            exception =
-                    "Bytecode Viewer Version: " + VERSION + nl + nl + sw;
+            exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
         
         return JDGUI + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
