@@ -93,7 +93,7 @@ public class ImportResource implements Runnable
 		{
 			BytecodeViewer.updateBusyStatus(false);
 			try {
-				Objects.requireNonNull(MainViewerGUI.getComponent(ResourceListPane.class)).updateTree();
+				BytecodeViewer.viewer.resourcePane.updateTree();
 			} catch (NullPointerException ignored) { }
 		}
 	}

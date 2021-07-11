@@ -777,15 +777,6 @@ public class MainViewerGUI extends JFrame
     public void openFile(final ResourceContainer container, final String name, byte[] content) {
         workPane.addFileResource(container, name, content);
     }
-
-    @SuppressWarnings("unchecked")
-    public static <T> T getComponent(final Class<T> clazz) {
-        for (final VisibleComponent vc : uiComponents) {
-            if (vc.getClass() == clazz)
-                return (T) vc;
-        }
-        return null;
-    }
     
     public void compileOnNewThread()
     {

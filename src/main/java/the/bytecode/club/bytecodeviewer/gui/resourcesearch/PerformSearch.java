@@ -46,8 +46,8 @@ class PerformSearch extends BackgroundSearchThread
 			for (ClassNode c : container.resourceClasses.values())
 				searchBoxPane.searchType.details.search(container, c, srn, searchBoxPane.exact.isSelected());
 		
-		Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search.setEnabled(true);
-		Objects.requireNonNull(MainViewerGUI.getComponent(SearchBoxPane.class)).search.setText(TranslatedStrings.SEARCH.getText());
+		BytecodeViewer.viewer.searchBoxPane.search.setEnabled(true);
+		BytecodeViewer.viewer.searchBoxPane.search.setText(TranslatedStrings.SEARCH.getText());
 		
 		searchBoxPane.tree.expandPath(new TreePath(searchBoxPane.tree.getModel().getRoot()));
 		searchBoxPane.tree.updateUI();
