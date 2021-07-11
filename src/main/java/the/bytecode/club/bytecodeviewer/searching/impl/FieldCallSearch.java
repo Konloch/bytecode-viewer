@@ -8,7 +8,7 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -38,7 +38,7 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
 public class FieldCallSearch extends MethodCallSearch
 {
     @Override
-    public void search(final FileContainer container, final ClassNode node, final SearchResultNotifier srn,
+    public void search(final ResourceContainer container, final ClassNode node, final SearchResultNotifier srn,
                        boolean exact)
     {
         final Iterator<MethodNode> methods = node.methods.iterator();

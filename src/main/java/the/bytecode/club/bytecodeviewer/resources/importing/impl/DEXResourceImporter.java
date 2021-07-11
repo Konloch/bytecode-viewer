@@ -27,7 +27,7 @@ public class DEXResourceImporter implements Importer
 		
 		FileUtils.copyFile(file, tempCopy); //copy and rename to prevent unicode filenames
 		
-		FileContainer container = new FileContainer(tempCopy, file.getName());
+		ResourceContainer container = new ResourceContainer(tempCopy, file.getName());
 		
 		String name = MiscUtils.getRandomizedName() + ".jar";
 		File output = new File(tempDirectory + fs + name);
@@ -37,10 +37,9 @@ public class DEXResourceImporter implements Importer
 		else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
 			Enjarify.apk2Jar(tempCopy, output);
 		
-		//TODO update to FileContainerImporter
-		ArrayList<ClassNode> nodeList = JarUtils.loadClasses(output);
-		for(ClassNode cn : nodeList)
-			container.resourceClasses.put(cn.name, cn);
+		//create a new resource importer and copy the contents from it
+		container.clear().copy(new ResourceContainerImporter(
+				new ResourceContainer(output)).importAsZip().getContainer());
 		
 		BytecodeViewer.updateBusyStatus(false);
 		BytecodeViewer.files.add(container);

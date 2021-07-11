@@ -89,7 +89,7 @@ public class ResourceViewPanel
 			if (compiledClass != null)
 			{
 				ClassNode newNode = JarUtils.getNode(compiledClass);
-				BytecodeViewer.updateNode(viewer.cn, newNode);
+				viewer.container.updateNode(viewer.cn, newNode);
 				errConsole.finished();
 				return true;
 			}

@@ -3,16 +3,14 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceViewPanel;
-import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JButton;
@@ -22,13 +20,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
-import the.bytecode.club.bytecodeviewer.util.BCVResourceUtils;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
 import static the.bytecode.club.bytecodeviewer.util.MethodParser.Method;
@@ -70,9 +66,9 @@ public class ClassViewer extends ResourceViewer
     public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
     public final String workingName;
     
-    public ClassViewer(final FileContainer container, final String name, final ClassNode cn)
+    public ClassViewer(final ResourceContainer container, final String name, final ClassNode cn)
     {
-        this.workingName = container.generateWorkName(name);
+        this.workingName = container.getWorkingName(name);
         this.container = container;
         
         this.name = name;
@@ -103,12 +99,19 @@ public class ClassViewer extends ResourceViewer
         resourceViewPanel2.createPane(this);
         resourceViewPanel3.createPane(this);
 
-        byte[] classBytes = getBytes();
+        byte[] classBytes = getResourceBytes();
         
         //TODO remove this once all of the importers have been properly updated to use a FileContainerImporter
-        if(classBytes == null || classBytes.length == 0)
+        if(classBytes == null || classBytes.length == 0 || Configuration.forceResourceUpdateFromClassNode)
         {
-            System.err.println("WARNING: Imported using the old importer!");
+            //TODO remove this error message when all of the importers have been updated
+            // only APK and DEX are left
+            if(!Configuration.forceResourceUpdateFromClassNode)
+            {
+                System.err.println("WARNING: Class Resource imported using the old importer!");
+                System.err.println("TODO: Update it to use the FileContainerImporter");
+            }
+            
             classBytes = ASMUtil.nodeToBytes(cn);
         }
         
@@ -157,13 +160,6 @@ public class ClassViewer extends ResourceViewer
                 SettingsSerializer.saveSettingsAsync();
             }
         }
-    }
-    
-    @Override
-    public void refreshTitle()
-    {
-        if(tabbedPane != null)
-            tabbedPane.label.setText(getTabName());
     }
     
     public void setPanes() {

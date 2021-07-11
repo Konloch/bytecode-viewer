@@ -29,7 +29,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  */
 public class APKTool {
 
-    public static synchronized void decodeResources(File input, File output, FileContainer container) {
+    public static synchronized void decodeResources(File input, File output, ResourceContainer container) {
         try {
             File dir = new File(tempDirectory + fs + MiscUtils.randomString(32) + fs + "Decoded Resources");
             dir.mkdirs();
@@ -52,7 +52,7 @@ public class APKTool {
         }
     }
 
-    public static synchronized void buildAPK(File input, File output, FileContainer container) {
+    public static synchronized void buildAPK(File input, File output, ResourceContainer container) {
         String temp = tempDirectory + fs;
         File tempDir = new File(temp + fs + MiscUtils.getRandomizedName() + fs);
         tempDir.mkdirs();

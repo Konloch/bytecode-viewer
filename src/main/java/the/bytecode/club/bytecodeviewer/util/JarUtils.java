@@ -1,6 +1,5 @@
 package the.bytecode.club.bytecodeviewer.util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -67,7 +66,7 @@ public class JarUtils
      */
     public static void importArchiveA(final File jarFile) throws IOException
     {
-        FileContainer container = new FileContainer(jarFile);
+        ResourceContainer container = new ResourceContainer(jarFile);
         HashMap<String, byte[]> files = new HashMap<>();
 
         ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
@@ -121,7 +120,7 @@ public class JarUtils
         //if this ever fails, worst case import Sun's jarsigner code from JDK 7 re-sign the jar to rebuild the CRC,
         // should also rebuild the archive byte offsets
 
-        FileContainer container = new FileContainer(jarFile);
+        ResourceContainer container = new ResourceContainer(jarFile);
         HashMap<String, byte[]> files = new HashMap<>();
 
         try (ZipFile zipFile = new ZipFile(jarFile)) {
@@ -231,7 +230,9 @@ public class JarUtils
      * @param bytez the class file's byte[]
      * @return the ClassNode instance
      */
-    public static ClassNode getNode(final byte[] bytez) {
+    public static ClassNode getNode(final byte[] bytez)
+    {
+        //TODO figure out why is this synchronized and if it's actually needed (probably not)
         synchronized (LOCK)
         {
             return ASMUtil.bytesToNode(bytez);
@@ -263,7 +264,7 @@ public class JarUtils
             out.write((manifest.trim() + "\r\n\r\n").getBytes());
             out.closeEntry();
 
-            for (FileContainer container : BytecodeViewer.files)
+            for (ResourceContainer container : BytecodeViewer.files)
                 for (Entry<String, byte[]> entry : container.resourceFiles.entrySet()) {
                     String filename = entry.getKey();
                     if (!filename.startsWith("META-INF")) {
@@ -287,6 +288,7 @@ public class JarUtils
      */
     public static void saveAsJarClassesOnly(Collection<ClassNode> nodeList, String path)
     {
+        //TODO figure out why is this synchronized and if it's actually needed (probably not)
         synchronized (LOCK)
         {
             try
@@ -366,7 +368,7 @@ public class JarUtils
                 }
             }
 
-            for (FileContainer container : BytecodeViewer.files)
+            for (ResourceContainer container : BytecodeViewer.files)
                 for (Entry<String, byte[]> entry : container.resourceFiles.entrySet()) {
                     String filename = entry.getKey();
                     if (!filename.startsWith("META-INF")) {

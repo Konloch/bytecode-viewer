@@ -292,9 +292,9 @@ public class MainViewerGUI extends JFrame
         uiComponents.add(searchBoxPane);
         uiComponents.add(workPane);
 
-        viewPane1.getGroup().setSelected(viewPane1.getFern().getJava().getModel(), true);
-        viewPane2.getGroup().setSelected(viewPane1.getBytecode().getModel(), true);
-        viewPane3.getGroup().setSelected(viewPane1.getNone().getModel(), true);
+        viewPane1.setDefault();
+        viewPane2.setDefault();
+        viewPane3.setDefault();
 
         this.setLocationRelativeTo(null);
     }
@@ -349,9 +349,9 @@ public class MainViewerGUI extends JFrame
     {
         rootMenu.add(viewMainMenu);
         viewMainMenu.add(visualSettings);
-        viewMainMenu.add(viewPane1.menu);
-        viewMainMenu.add(viewPane2.menu);
-        viewMainMenu.add(viewPane3.menu);
+        viewMainMenu.add(viewPane1.getMenu());
+        viewMainMenu.add(viewPane2.getMenu());
+        viewMainMenu.add(viewPane3.getMenu());
     }
     
     public void buildSettingsMenu()
@@ -769,11 +769,11 @@ public class MainViewerGUI extends JFrame
         });
     }
 
-    public void openClassFile(final FileContainer container, final String name, final ClassNode cn) {
+    public void openClassFile(final ResourceContainer container, final String name, final ClassNode cn) {
         workPane.addClassResource(container, name, cn);
     }
 
-    public void openFile(final FileContainer container, final String name, byte[] content) {
+    public void openFile(final ResourceContainer container, final String name, byte[] content) {
         workPane.addFileResource(container, name, content);
     }
 
@@ -811,7 +811,7 @@ public class MainViewerGUI extends JFrame
             LazyNameUtil.reset();
             ArrayList<File> reopen = new ArrayList<>();
         
-            for (FileContainer container : BytecodeViewer.files) {
+            for (ResourceContainer container : BytecodeViewer.files) {
                 File newFile = new File(container.file.getParent() + fs + container.name);
                 if (!container.file.getAbsolutePath().equals(newFile.getAbsolutePath()) &&
                         (container.file.getAbsolutePath().endsWith(".apk") || container.file.getAbsolutePath().endsWith(".dex"))) //APKs & dex get renamed

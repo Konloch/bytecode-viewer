@@ -176,9 +176,9 @@ public class MiscUtils
         return path;
     }
     
-    public static int fileContainersHash(ArrayList<FileContainer> fileContainers) {
+    public static int fileContainersHash(ArrayList<ResourceContainer> resourceContainers) {
         StringBuilder block = new StringBuilder();
-        for (FileContainer container : fileContainers) {
+        for (ResourceContainer container : resourceContainers) {
             block.append(container.name);
             for (ClassNode node : container.resourceClasses.values()) {
                 block.append(node.name);

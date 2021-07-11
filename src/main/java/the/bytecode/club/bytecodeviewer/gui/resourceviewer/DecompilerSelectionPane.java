@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.SettingsSerializer;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
@@ -8,7 +10,12 @@ import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioB
 
 import javax.swing.*;
 
-import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentTypes.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
+
+import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentType.*;
 
 /**
  * @author Konloch
@@ -16,20 +23,25 @@ import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComp
  */
 public class DecompilerSelectionPane
 {
-	public final int paneID;
-	public final JMenu menu;
-	public final ButtonGroup group = new ButtonGroup();
-	public final JRadioButtonMenuItem none = new TranslatedJRadioButtonMenuItem("None", Translation.NONE);
-	public final DecompilerViewComponent procyon = new DecompilerViewComponent("Procyon", JAVA);
-	public final DecompilerViewComponent CFR = new DecompilerViewComponent("CFR", JAVA);
-	public final DecompilerViewComponent JADX = new DecompilerViewComponent("JADX", JAVA);
-	public final DecompilerViewComponent JD = new DecompilerViewComponent("JD-GUI", JAVA);
-	public final DecompilerViewComponent fern = new DecompilerViewComponent("FernFlower", JAVA);
-	public final DecompilerViewComponent krakatau = new DecompilerViewComponent("Krakatau", JAVA_AND_BYTECODE);
-	public final DecompilerViewComponent smali = new DecompilerViewComponent("Smali", BYTECODE);
-	public final JRadioButtonMenuItem hexcode = new TranslatedJRadioButtonMenuItem("Hexcode", Translation.HEXCODE);
-	public final JRadioButtonMenuItem bytecode = new TranslatedJRadioButtonMenuItem("Bytecode", Translation.BYTECODE);
-	public final JRadioButtonMenuItem asmTextify = new TranslatedJRadioButtonMenuItem("ASM Textify", Translation.ASM_TEXTIFY);
+	private final int paneID;
+	private final JMenu menu;
+	private final ButtonGroup group = new ButtonGroup();
+	private final JRadioButtonMenuItem none = new TranslatedJRadioButtonMenuItem("None", Translation.NONE);
+	private final JRadioButtonMenuItem hexcode = new TranslatedJRadioButtonMenuItem("Hexcode", Translation.HEXCODE);
+	private final DecompilerViewComponent procyon = new DecompilerViewComponent("Procyon", JAVA, Decompiler.PROCYON_DECOMPILER);
+	private final DecompilerViewComponent CFR = new DecompilerViewComponent("CFR", JAVA, Decompiler.CFR_DECOMPILER);
+	private final DecompilerViewComponent JADX = new DecompilerViewComponent("JADX", JAVA, Decompiler.JADX_DECOMPILER);
+	private final DecompilerViewComponent JD = new DecompilerViewComponent("JD-GUI", JAVA, Decompiler.JD_DECOMPILER);
+	private final DecompilerViewComponent fern = new DecompilerViewComponent("FernFlower", JAVA, Decompiler.FERNFLOWER_DECOMPILER);
+	private final DecompilerViewComponent krakatau = new DecompilerViewComponent( "Krakatau", JAVA_AND_BYTECODE, Decompiler.KRAKATAU_DECOMPILER, Decompiler.KRAKATAU_DISASSEMBLER);
+	private final DecompilerViewComponent smali = new DecompilerViewComponent("Smali", BYTECODE, Decompiler.SMALI_DISASSEMBLER);
+	private final DecompilerViewComponent bytecode = new DecompilerViewComponent("Bytecode", BYTECODE_NON_EDITABLE, Decompiler.BYTECODE_DISASSEMBLER);
+	private final DecompilerViewComponent asmTextify = new DecompilerViewComponent("ASM Textify", BYTECODE_NON_EDITABLE, Decompiler.ASM_TEXTIFY_DISASSEMBLER);
+	
+	//TODO when adding new decompilers insert the DecompilerViewComponent object into here
+	// also in the group, then finally the build menu
+	public List<DecompilerViewComponent> components = new ArrayList<>(Arrays.asList(
+			procyon, CFR, JADX, JD, fern, krakatau, smali, bytecode, asmTextify));
 	
 	public DecompilerSelectionPane(int paneID)
 	{
@@ -44,8 +56,31 @@ public class DecompilerSelectionPane
 		buildMenu();
 	}
 	
+	/**
+	 * Sets the default decompilers for each pane
+	 */
+	public void setDefault()
+	{
+		switch(paneID)
+		{
+			case 1:
+				group.setSelected(fern.getJava().getModel(), true);
+				break;
+			case 2:
+				group.setSelected(bytecode.getBytecode().getModel(), true);
+				break;
+			case 3:
+				group.setSelected(none.getModel(), true);
+				break;
+		}
+	}
+	
+	/**
+	 * Builds the Decompiler View menu
+	 */
 	public void buildMenu()
 	{
+		//build the radiobutton group
 		group.add(none);
 		procyon.addToGroup(group);
 		CFR.addToGroup(group);
@@ -54,10 +89,42 @@ public class DecompilerSelectionPane
 		fern.addToGroup(group);
 		krakatau.addToGroup(group);
 		smali.addToGroup(group);
-		group.add(bytecode);
+		bytecode.addToGroup(group);
+		asmTextify.addToGroup(group);
 		group.add(hexcode);
-		group.add(asmTextify);
 		
+		//build the action commands
+		none.setActionCommand(Decompiler.NONE.name());
+		hexcode.setActionCommand(Decompiler.HEXCODE_VIEWER.name());
+		for(DecompilerViewComponent component : components)
+		{
+			for(Decompiler decompiler : component.getDecompilers())
+			{
+				String cmd = decompiler.name();
+				
+				//TODO this is pretty janky and will break if a decompiler doesn't end with _DECOMPILER suffix
+				if(cmd.endsWith("DECOMPILER"))
+					component.getJava().setActionCommand(cmd);
+				else// if(cmd.endsWith("DISASSEMBLER"))
+					component.getBytecode().setActionCommand(cmd);
+			}
+		}
+		
+		//auto-save on decompiler change
+		Enumeration<AbstractButton> it = group.getElements();
+		while(it.hasMoreElements())
+		{
+			AbstractButton button = it.nextElement();
+			button.addActionListener((event)->
+			{
+				if(Configuration.bootState != Configuration.BootState.GUI_SHOWING)
+					return;
+				
+				SettingsSerializer.saveSettingsAsync();
+			});
+		}
+		
+		//build the menu
 		menu.add(none);
 		menu.add(new JSeparator());
 		menu.add(procyon.getMenu());
@@ -69,164 +136,58 @@ public class DecompilerSelectionPane
 		menu.add(new JSeparator());
 		menu.add(smali.getMenu());
 		menu.add(new JSeparator());
+		menu.add(bytecode.getMenu());
+		menu.add(asmTextify.getMenu());
+		menu.add(new JSeparator());
 		menu.add(hexcode);
-		menu.add(bytecode);
-		menu.add(asmTextify);
 	}
 	
 	public Decompiler getSelectedDecompiler()
 	{
-		if (group.isSelected(none.getModel()))
-			return Decompiler.NONE;
-		else if (group.isSelected(procyon.getJava().getModel()))
-			return Decompiler.PROCYON_DECOMPILER;
-		else if (group.isSelected(CFR.getJava().getModel()))
-			return Decompiler.CFR_DECOMPILER;
-		else if (group.isSelected(fern.getJava().getModel()))
-			return Decompiler.FERNFLOWER_DECOMPILER;
-		else if (group.isSelected(bytecode.getModel()))
-			return Decompiler.BYTECODE_DISASSEMBLER;
-		else if (group.isSelected(hexcode.getModel()))
-			return Decompiler.HEXCODE_VIEWER;
-		else if (group.isSelected(smali.getBytecode().getModel()))
-			return Decompiler.SMALI_DISASSEMBLER;
-		else if (group.isSelected(krakatau.getJava().getModel()))
-			return Decompiler.KRAKATAU_DECOMPILER;
-		else if (group.isSelected(krakatau.getBytecode().getModel()))
-			return Decompiler.KRAKATAU_DISASSEMBLER;
-		else if (group.isSelected(JD.getJava().getModel()))
-			return Decompiler.JD_DECOMPILER;
-		else if (group.isSelected(JADX.getJava().getModel()))
-			return Decompiler.JADX_DECOMPILER;
-		else if (group.isSelected(asmTextify.getModel()))
-			return Decompiler.ASM_TEXTIFY_DISASSEMBLER;
-		
-		System.out.println("DEFAULTING TO NULL");
-		
-		//default to none
-		return Decompiler.NONE;
+		return Decompiler.valueOf(group.getSelection().getActionCommand());
 	}
 	
 	public void setSelectedDecompiler(Decompiler decompiler)
 	{
-		switch (decompiler)
+		Enumeration<AbstractButton> it = group.getElements();
+		while(it.hasMoreElements())
 		{
-			case NONE:
-				group.setSelected(none.getModel(), true);
+			AbstractButton button = it.nextElement();
+			if(button.getActionCommand().equals(decompiler.name()))
+			{
+				group.setSelected(button.getModel(), true);
 				break;
-			case PROCYON_DECOMPILER:
-				group.setSelected(procyon.getJava().getModel(), true);
-				break;
-			case CFR_DECOMPILER:
-				group.setSelected(CFR.getJava().getModel(), true);
-				break;
-			case FERNFLOWER_DECOMPILER:
-				group.setSelected(fern.getJava().getModel(), true);
-				break;
-			case BYTECODE_DISASSEMBLER:
-				group.setSelected(bytecode.getModel(), true);
-				break;
-			case HEXCODE_VIEWER:
-				group.setSelected(hexcode.getModel(), true);
-				break;
-			case SMALI_DISASSEMBLER:
-				group.setSelected(smali.getBytecode().getModel(), true);
-				break;
-			case KRAKATAU_DECOMPILER:
-				group.setSelected(krakatau.getJava().getModel(), true);
-				break;
-			case KRAKATAU_DISASSEMBLER:
-				group.setSelected(krakatau.getBytecode().getModel(), true);
-				break;
-			case JD_DECOMPILER:
-				group.setSelected(JD.getJava().getModel(), true);
-				break;
-			case JADX_DECOMPILER:
-				group.setSelected(JADX.getJava().getModel(), true);
-				break;
-			case ASM_TEXTIFY_DISASSEMBLER:
-				group.setSelected(asmTextify.getModel(), true);
-				break;
+			}
 		}
 	}
 	
 	public boolean isPaneEditable()
 	{
-		if(group.isSelected(procyon.getJava().getModel()) && procyon.getEditable().isSelected())
-			return true;
-		if(group.isSelected(CFR.getJava().getModel()) && CFR.getEditable().isSelected())
-			return true;
-		if(group.isSelected(JADX.getJava().getModel()) && JADX.getEditable().isSelected())
-			return true;
-		if(group.isSelected(JD.getJava().getModel()) && JD.getEditable().isSelected())
-			return true;
-		if(group.isSelected(fern.getJava().getModel()) && fern.getEditable().isSelected())
-			return true;
-		if((group.isSelected(krakatau.getJava().getModel()) || group.isSelected(krakatau.getBytecode().getModel())) && krakatau.getEditable().isSelected())
-			return true;
-		if(group.isSelected(smali.getBytecode().getModel()) && smali.getEditable().isSelected())
-			return true;
+		String cmd = group.getSelection().getActionCommand();
+		
+		for(DecompilerViewComponent component : components)
+			for (Decompiler decompiler : component.getDecompilers())
+				if(decompiler.name().equalsIgnoreCase(cmd))
+					return component.getEditable().isSelected();
 		
 		return false;
 	}
 	
-	public ButtonGroup getGroup()
+	public void setPaneEditable(boolean value)
 	{
-		return group;
+		String cmd = group.getSelection().getActionCommand();
+		
+		for(DecompilerViewComponent component : components)
+			for (Decompiler decompiler : component.getDecompilers())
+				if(decompiler.name().equalsIgnoreCase(cmd))
+				{
+					component.getEditable().setSelected(value);
+					return;
+				}
 	}
 	
-	public JRadioButtonMenuItem getNone()
+	public JMenu getMenu()
 	{
-		return none;
-	}
-	
-	public DecompilerViewComponent getProcyon()
-	{
-		return procyon;
-	}
-	
-	public DecompilerViewComponent getCFR()
-	{
-		return CFR;
-	}
-	
-	public DecompilerViewComponent getJADX()
-	{
-		return JADX;
-	}
-	
-	public DecompilerViewComponent getJD()
-	{
-		return JD;
-	}
-	
-	public DecompilerViewComponent getFern()
-	{
-		return fern;
-	}
-	
-	public DecompilerViewComponent getKrakatau()
-	{
-		return krakatau;
-	}
-	
-	public DecompilerViewComponent getSmali()
-	{
-		return smali;
-	}
-	
-	public JRadioButtonMenuItem getHexcode()
-	{
-		return hexcode;
-	}
-	
-	public JRadioButtonMenuItem getBytecode()
-	{
-		return bytecode;
-	}
-	
-	public JRadioButtonMenuItem getAsmTextify()
-	{
-		return asmTextify;
+		return menu;
 	}
 }

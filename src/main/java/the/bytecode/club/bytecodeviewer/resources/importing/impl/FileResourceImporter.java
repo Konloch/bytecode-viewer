@@ -2,14 +2,10 @@ package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
-import the.bytecode.club.bytecodeviewer.util.FileContainerImporter;
-import the.bytecode.club.bytecodeviewer.util.JarUtils;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainerImporter;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.util.HashMap;
 
 /**
  * @author Konloch
@@ -21,9 +17,9 @@ public class FileResourceImporter implements Importer
 	public void open(File file) throws Exception
 	{
 		//create the new file container
-		FileContainer container = new FileContainer(file);
+		ResourceContainer container = new ResourceContainer(file);
 		//create the new file importer
-		FileContainerImporter importer = new FileContainerImporter(container);
+		ResourceContainerImporter importer = new ResourceContainerImporter(container);
 		//import the file into the file container
 		importer.importAsFile();
 		//add the file container to BCV's total loaded files

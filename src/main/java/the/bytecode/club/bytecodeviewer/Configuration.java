@@ -24,6 +24,7 @@ public class Configuration
 	public static File krakatauTempJar;
 	public static boolean displayParentInTab = false; //also change in the main GUI
 	public static boolean simplifiedTabNames = false;
+	public static boolean forceResourceUpdateFromClassNode = false; //TODO add to GUI
 	public static boolean currentlyDumping = false;
 	public static boolean needsReDump = true;
 	public static boolean warnForEditing = false;
@@ -39,12 +40,11 @@ public class Configuration
 	public static final int maxRecentFiles = 25; //eventually may be a setting
 	public static boolean verifyCorruptedStateOnBoot = false; //eventually may be a setting
 	
-	public static long lastHotKeyExecuted = 0;
-	
+	public static BootState bootState = BootState.START_UP;
 	public static Language language = Language.ENGLISH;
-	
 	public static LAFTheme lafTheme = LAFTheme.SYSTEM; //lightmode by default since it uses the system theme
 	public static RSTATheme rstaTheme = lafTheme.getRSTATheme();
+	public static long lastHotKeyExecuted = 0;
 	
 	public static File getLastDirectory()
 	{
@@ -53,5 +53,12 @@ public class Configuration
 			return lastDir;
 		
 		return new File(".");
+	}
+	
+	public enum BootState
+	{
+		START_UP,
+		SETTINGS_LOADED,
+		GUI_SHOWING,
 	}
 }

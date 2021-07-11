@@ -5,7 +5,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -25,7 +25,7 @@ public class DirectoryResourceImporter implements Importer
 	@Override
 	public void open(File file) throws Exception
 	{
-		FileContainer container = new FileContainer(file);
+		ResourceContainer container = new ResourceContainer(file);
 		HashMap<String, byte[]> allDirectoryFiles = new HashMap<>();
 		HashMap<String, ClassNode> allDirectoryClasses = new HashMap<>();
 		

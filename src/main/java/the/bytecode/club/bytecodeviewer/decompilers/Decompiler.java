@@ -1,12 +1,6 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.decompilers.impl.*;
-import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
-
-import javax.swing.*;
-
-import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentTypes.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -33,46 +27,28 @@ import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComp
  */
 public enum Decompiler
 {
-    NONE("None", null, (JRadioButtonMenuItem) null),
-    PROCYON_DECOMPILER("Procyon Decompiler", new ProcyonDecompiler(), new DecompilerViewComponent("Procyon", JAVA)),
-    CFR_DECOMPILER("CFR Decompiler", new CFRDecompiler(), new DecompilerViewComponent("CFR", JAVA)),
-    FERNFLOWER_DECOMPILER("FernFlower Decompiler", new FernFlowerDecompiler(), new DecompilerViewComponent("FernFlower", JAVA)),
-    BYTECODE_DISASSEMBLER("Bytecode Disassembler", new BytecodeDisassembler(), new JRadioButtonMenuItem("Bytecode")),
-    HEXCODE_VIEWER("Hexcode Viewer", null, new JRadioButtonMenuItem("Hexcode")),
-    SMALI_DISASSEMBLER("Smali Disassembler", new SmaliDisassembler(), new DecompilerViewComponent("Smali", BYTECODE)),
-    KRAKATAU_DECOMPILER("Krakatau Decompiler", new KrakatauDecompiler(), DecompilerViewComponent.KRAKATAU),
-    KRAKATAU_DISASSEMBLER("Krakatau Disassembler", new KrakatauDisassembler(), DecompilerViewComponent.KRAKATAU),
-    JD_DECOMPILER("JD-GUI Decompiler", new JDGUIDecompiler(), new DecompilerViewComponent("JD-GUI", JAVA)),
-    JADX_DECOMPILER("JADX Decompiler", new JADXDecompiler(), new DecompilerViewComponent("JADX", JAVA)),
-    ASM_TEXTIFY_DISASSEMBLER("ASM Disassembler", new ASMTextifierDecompiler(), new DecompilerViewComponent("ASM Textify", BYTECODE)),
+    //TODO WARNING: do not change the decompiler order, when adding a new decompiler just add it to the end
+    // enum ordinal is used for settings serialization instead of the enum name
+    NONE("None", null),
+    PROCYON_DECOMPILER("Procyon Decompiler", new ProcyonDecompiler()),
+    CFR_DECOMPILER("CFR Decompiler", new CFRDecompiler()),
+    FERNFLOWER_DECOMPILER("FernFlower Decompiler", new FernFlowerDecompiler()),
+    BYTECODE_DISASSEMBLER("Bytecode Disassembler", new BytecodeDisassembler()),
+    HEXCODE_VIEWER("Hexcode Viewer", null),
+    SMALI_DISASSEMBLER("Smali Disassembler", new SmaliDisassembler()),
+    KRAKATAU_DECOMPILER("Krakatau Decompiler", new KrakatauDecompiler()),
+    KRAKATAU_DISASSEMBLER("Krakatau Disassembler", new KrakatauDisassembler()),
+    JD_DECOMPILER("JD-GUI Decompiler", new JDGUIDecompiler()),
+    JADX_DECOMPILER("JADX Decompiler", new JADXDecompiler()),
+    ASM_TEXTIFY_DISASSEMBLER("ASM Disassembler", new ASMTextifierDecompiler()),
     ;
     
     private final String decompilerName;
     private final InternalDecompiler decompiler;
-    private final DecompilerViewComponent decompilerSelectComponent;
-    private final JRadioButtonMenuItem basicSelectComponent;
     
-    Decompiler(String decompilerName, InternalDecompiler decompiler, DecompilerViewComponent decompilerSelectComponent) {
+    Decompiler(String decompilerName, InternalDecompiler decompiler) {
         this.decompilerName = decompilerName;
         this.decompiler = decompiler;
-        this.decompilerSelectComponent = decompilerSelectComponent;
-        this.basicSelectComponent = null;
-    }
-    
-    Decompiler(String decompilerName, InternalDecompiler decompiler, JRadioButtonMenuItem basicSelectComponent)
-    {
-        this.decompilerName = decompilerName;
-        this.decompiler = decompiler;
-        this.decompilerSelectComponent = null;
-        this.basicSelectComponent = basicSelectComponent;
-    }
-    
-    public void addDecompilerToGroup(ButtonGroup group)
-    {
-        if(decompilerSelectComponent != null)
-            decompilerSelectComponent.addToGroup(group);
-        else if(basicSelectComponent != null)
-            group.add(basicSelectComponent);
     }
     
     public String getDecompilerName()
@@ -83,18 +59,5 @@ public enum Decompiler
     public InternalDecompiler getDecompiler()
     {
         return decompiler;
-    }
-    
-    public DecompilerViewComponent getDecompilerSelectComponent()
-    {
-        return decompilerSelectComponent;
-    }
-    
-    public JMenuItem getMenu()
-    {
-        if(decompilerSelectComponent != null)
-            return decompilerSelectComponent.getMenu();
-        
-        return basicSelectComponent;
     }
 }

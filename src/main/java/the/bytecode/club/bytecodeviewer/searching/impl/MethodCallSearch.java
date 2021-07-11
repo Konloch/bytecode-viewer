@@ -4,7 +4,6 @@ import eu.bibl.banalysis.asm.desc.OpcodeInfo;
 
 import java.awt.*;
 import java.util.Iterator;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import org.objectweb.asm.Type;
@@ -18,7 +17,7 @@ import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJLabel;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -81,7 +80,7 @@ public class MethodCallSearch implements SearchTypeDetails
     }
 
     @Override
-    public void search(final FileContainer container, final ClassNode node, final SearchResultNotifier srn,
+    public void search(final ResourceContainer container, final ClassNode node, final SearchResultNotifier srn,
                        boolean exact)
     {
         final Iterator<MethodNode> methods = node.methods.iterator();
@@ -137,7 +136,7 @@ public class MethodCallSearch implements SearchTypeDetails
         }
     }
     
-    public void found(final FileContainer container, final ClassNode node, final MethodNode method, final AbstractInsnNode insnNode, final SearchResultNotifier srn)
+    public void found(final ResourceContainer container, final ClassNode node, final MethodNode method, final AbstractInsnNode insnNode, final SearchResultNotifier srn)
     {
         String desc = method.desc;
         try

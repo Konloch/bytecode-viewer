@@ -2,7 +2,7 @@ package the.bytecode.club.bytecodeviewer.searching;
 
 import javax.swing.JPanel;
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -34,5 +34,5 @@ public interface SearchTypeDetails
 {
     JPanel getPanel();
     
-    void search(FileContainer container, ClassNode node, SearchResultNotifier srn, boolean exact);
+    void search(ResourceContainer container, ClassNode node, SearchResultNotifier srn, boolean exact);
 }

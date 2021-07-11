@@ -15,21 +15,26 @@ import java.util.zip.ZipInputStream;
  * @author Konloch
  * @since 7/10/2021
  */
-public class FileContainerImporter
+public class ResourceContainerImporter
 {
-	private final FileContainer container;
+	private final ResourceContainer container;
 	
-	public FileContainerImporter(FileContainer container)
+	public ResourceContainerImporter(ResourceContainer container)
 	{
 		this.container = container;
 	}
 	
-	public void importAsFile() throws IOException
+	public ResourceContainer getContainer()
 	{
-		addUnknownFile(container.file.getName(), new FileInputStream(container.file), false);
+		return container;
 	}
 	
-	public void importAsZip() throws IOException
+	public ResourceContainerImporter importAsFile() throws IOException
+	{
+		return addUnknownFile(container.file.getName(), new FileInputStream(container.file), false);
+	}
+	
+	public ResourceContainerImporter importAsZip() throws IOException
 	{
 		container.resourceClasses.clear();
 		container.resourceClassBytes.clear();
@@ -47,19 +52,22 @@ public class FileContainerImporter
 			//fallback to apache commons ZipFile
 			importApacheZipFile(false);
 		}
+		return this;
 	}
 	
 	//sorts the file type from classes or resources
-	public void addUnknownFile(String name, InputStream stream, boolean classesOnly) throws IOException
+	public ResourceContainerImporter addUnknownFile(String name, InputStream stream, boolean classesOnly) throws IOException
 	{
 		//TODO remove this .class check and just look for cafebabe
 		if (name.endsWith(".class"))
 			addClassResource(name, stream);
 		else if(!classesOnly)
 			addResource(name, stream);
+		
+		return this;
 	}
 	
-	public void addClassResource(String name, InputStream stream) throws IOException
+	public ResourceContainerImporter addClassResource(String name, InputStream stream) throws IOException
 	{
 		byte[] bytes = MiscUtils.getBytes(stream);
 		if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
@@ -87,15 +95,18 @@ public class FileContainerImporter
 		} else {
 			System.err.println(container.file + ">" + name + ": Header does not start with CAFEBABE, ignoring.");
 		}
+		
+		return this;
 	}
 	
-	public void addResource(String name, InputStream stream) throws IOException
+	public ResourceContainerImporter addResource(String name, InputStream stream) throws IOException
 	{
 		byte[] bytes = MiscUtils.getBytes(stream);
 		container.resourceFiles.put(name, bytes);
+		return this;
 	}
 	
-	public void importZipInputStream(boolean classesOnly) throws IOException
+	public ResourceContainerImporter importZipInputStream(boolean classesOnly) throws IOException
 	{
 		ZipInputStream jis = new ZipInputStream(new FileInputStream(container.file));
 		ZipEntry entry;
@@ -111,11 +122,12 @@ public class FileContainerImporter
 			jis.closeEntry();
 		}
 		jis.close();
+		return this;
 	}
 	
 	//TODO if this ever fails: import Sun's jarsigner code from JDK 7, re-sign the jar to rebuild the CRC,
 	// should also rebuild the archive byte offsets
-	public void importApacheZipFile(boolean classesOnly) throws IOException
+	public ResourceContainerImporter importApacheZipFile(boolean classesOnly) throws IOException
 	{
 		try (ZipFile zipFile = new ZipFile(container.file))
 		{
@@ -134,5 +146,7 @@ public class FileContainerImporter
 				}
 			}
 		}
+		
+		return this;
 	}
 }

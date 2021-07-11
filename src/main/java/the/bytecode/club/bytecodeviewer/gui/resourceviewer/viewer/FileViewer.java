@@ -1,27 +1,19 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
 import java.awt.BorderLayout;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-import org.fife.ui.rtextarea.RTextScrollPane;
 import org.imgscalr.Scalr;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.Resources;
 import the.bytecode.club.bytecodeviewer.gui.components.ImageJLabel;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
-import the.bytecode.club.bytecodeviewer.gui.components.listeners.PressKeyListener;
-import the.bytecode.club.bytecodeviewer.gui.components.listeners.ReleaseKeyListener;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
@@ -61,11 +53,11 @@ public class FileViewer extends ResourceViewer
     public BufferedImage image;
     public boolean canRefresh;
 
-    public FileViewer(final FileContainer container, final String name, final byte[] contents)
+    public FileViewer(final ResourceContainer container, final String name, final byte[] contents)
     {
         this.name = name;
         this.contents = contents;
-        this.workingName = container.generateWorkName(name);
+        this.workingName = container.getWorkingName(name);
         this.container = container;
         this.setName(name);
         this.setLayout(new BorderLayout());
@@ -128,13 +120,6 @@ public class FileViewer extends ResourceViewer
         textArea.setCaretPosition(0);
         
         mainPanel.add(textArea.getScrollPane());
-    }
-    
-    @Override
-    public void refreshTitle()
-    {
-        if(tabbedPane != null)
-            tabbedPane.label.setText(getTabName());
     }
     
     public void refresh(JButton src)

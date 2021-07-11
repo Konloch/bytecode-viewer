@@ -14,14 +14,13 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 
 import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
 
@@ -162,13 +161,13 @@ public class WorkPaneMainComponent extends TranslatedVisibleComponent
     }
 
     //load class resources
-    public void addClassResource(final FileContainer container, final String name, final ClassNode cn)
+    public void addClassResource(final ResourceContainer container, final String name, final ClassNode cn)
     {
         addResource(container, name, new ClassViewer(container, name, cn));
     }
 
     //Load file resources
-    public void addFileResource(final FileContainer container, final String name, byte[] contents)
+    public void addFileResource(final ResourceContainer container, final String name, byte[] contents)
     {
         if (contents == null) //a directory
             return;
@@ -176,9 +175,9 @@ public class WorkPaneMainComponent extends TranslatedVisibleComponent
         addResource(container, name, new FileViewer(container, name, contents));
     }
     
-    private void addResource(final FileContainer container, final String name, final ResourceViewer resourceView)
+    private void addResource(final ResourceContainer container, final String name, final ResourceViewer resourceView)
     {
-        final String workingName = container.generateWorkName(name);
+        final String workingName = container.getWorkingName(name);
         
         //create a new tab if the resource isn't opened currently
         if (!openedTabs.contains(workingName))

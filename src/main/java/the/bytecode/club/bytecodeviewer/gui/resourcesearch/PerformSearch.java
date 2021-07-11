@@ -8,7 +8,7 @@ import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
 import the.bytecode.club.bytecodeviewer.searching.impl.RegexSearch;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 
 import javax.swing.tree.TreePath;
 import java.util.Objects;
@@ -42,7 +42,7 @@ class PerformSearch extends BackgroundSearchThread
 			BytecodeViewer.showMessage("You have an error in your regex syntax.");
 		}
 		
-		for (FileContainer container : BytecodeViewer.files)
+		for (ResourceContainer container : BytecodeViewer.files)
 			for (ClassNode c : container.resourceClasses.values())
 				searchBoxPane.searchType.details.search(container, c, srn, searchBoxPane.exact.isSelected());
 		

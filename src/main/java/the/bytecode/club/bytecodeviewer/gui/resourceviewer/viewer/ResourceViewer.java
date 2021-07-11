@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
@@ -36,11 +36,12 @@ public abstract class ResourceViewer extends JPanel
     public ClassNode cn;
     public String name;
     public String workingName;
-    public FileContainer container;
+    public ResourceContainer container;
     public TabbedPane tabbedPane;
     
-    public abstract void refreshTitle();
-    
+    /**
+     * Returns the tab name
+     */
     public String getTabName()
     {
         String tabName = name;
@@ -53,12 +54,21 @@ public abstract class ResourceViewer extends JPanel
         return tabName;
     }
     
-    public byte[] getBytes()
+    /**
+     * Returns the resource bytes from the resource container
+     */
+    public byte[] getResourceBytes()
     {
-        if(container.resourceClassBytes.containsKey(name))
-            return container.resourceClassBytes.get(name);
-        else
-            return container.resourceFiles.get(name);
+        return container.getBytes(name);
+    }
+    
+    /**
+     * Updates the tab's title
+     */
+    public void refreshTitle()
+    {
+        if(tabbedPane != null)
+            tabbedPane.label.setText(getTabName());
     }
 
     private static final long serialVersionUID = -2965538493489119191L;

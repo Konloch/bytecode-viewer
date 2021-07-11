@@ -7,7 +7,6 @@ import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.*;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Objects;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
@@ -28,7 +27,7 @@ public class APKResourceImporter implements Importer
 		
 		FileUtils.copyFile(file, tempCopy);
 		
-		FileContainer container = new FileContainer(tempCopy, file.getName());
+		ResourceContainer container = new ResourceContainer(tempCopy, file.getName());
 		
 		if (BytecodeViewer.viewer.decodeAPKResources.isSelected()) {
 			File decodedResources =
@@ -48,10 +47,9 @@ public class APKResourceImporter implements Importer
 		else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
 			Enjarify.apk2Jar(tempCopy, output);
 		
-		//TODO update to FileContainerImporter
-		ArrayList<ClassNode> nodeList = JarUtils.loadClasses(output);
-		for(ClassNode cn : nodeList)
-			container.resourceClasses.put(cn.name, cn);
+		//create a new resource importer and copy the contents from it
+		container.clear().copy(new ResourceContainerImporter(
+				new ResourceContainer(output)).importAsZip().getContainer());
 		
 		BytecodeViewer.updateBusyStatus(false);
 		BytecodeViewer.files.add(container);

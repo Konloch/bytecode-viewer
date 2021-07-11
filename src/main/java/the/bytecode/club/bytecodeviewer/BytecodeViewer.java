@@ -122,7 +122,7 @@ public class BytecodeViewer
     public static MainViewerGUI viewer;
     
     //All of the opened resources (Files/Classes/Etc)
-    public static List<FileContainer> files = new ArrayList<>();
+    public static List<ResourceContainer> files = new ArrayList<>();
     
     //All of the created processes (Decompilers/etc)
     public static List<Process> createdProcesses = new ArrayList<>();
@@ -178,6 +178,7 @@ public class BytecodeViewer
             
             //load settings and set swing components state
             SettingsSerializer.loadSettings();
+            Configuration.bootState = Configuration.BootState.SETTINGS_LOADED;
             
             //set translation language
             if(!Settings.hasSetLanguageAsSystemLanguage)
@@ -188,20 +189,21 @@ public class BytecodeViewer
             if (CLI == CommandLineInput.STOP)
                 return;
 
-            if (!FAT_JAR)
-            {
-                bootCheck.start();
-
-                Boot.boot(args, CLI != CommandLineInput.GUI);
-            }
-            else
+            //load with shaded libraries
+            if (FAT_JAR)
             {
                 installFatJar.start();
+            }
+            else //load through bootloader
+            {
+                bootCheck.start();
+                Boot.boot(args, CLI != CommandLineInput.GUI);
             }
 
             if (CLI == CommandLineInput.GUI)
             {
                 BytecodeViewer.boot(false);
+                Configuration.bootState = Configuration.BootState.GUI_SHOWING;
             }
             else
             {
@@ -357,7 +359,7 @@ public class BytecodeViewer
     @Deprecated
     public static ClassNode blindlySearchForClassNode(String name)
     {
-        for (FileContainer container : files)
+        for (ResourceContainer container : files)
         {
             ClassNode node = container.getClassNode(name);
             if(node != null)
@@ -370,9 +372,9 @@ public class BytecodeViewer
     /**
      * Returns the File Container by the specific name
      */
-    public static FileContainer getFileContainer(String name)
+    public static ResourceContainer getFileContainer(String name)
     {
-        for (FileContainer container : files)
+        for (ResourceContainer container : files)
             if (container.name.equals(name))
                 return container;
 
@@ -382,7 +384,7 @@ public class BytecodeViewer
     /**
      * Returns all of the loaded File Containers
      */
-    public static List<FileContainer> getFiles() {
+    public static List<ResourceContainer> getFiles() {
         return files;
     }
 
@@ -394,7 +396,7 @@ public class BytecodeViewer
      */
     public static byte[] getFileContents(String name)
     {
-        for (FileContainer container : files)
+        for (ResourceContainer container : files)
             if (container.resourceFiles.containsKey(name))
                 return container.resourceFiles.get(name);
 
@@ -410,24 +412,6 @@ public class BytecodeViewer
     }
 
     /**
-     * Replaces an old node with a new instance
-     *
-     * @param oldNode the old instance
-     * @param newNode the new instance
-     */
-    public static void updateNode(ClassNode oldNode, ClassNode newNode)
-    {
-        for (FileContainer container : files)
-        {
-            if (container.resourceClasses.containsKey(oldNode.name))
-            {
-                container.resourceClasses.remove(oldNode.name);
-                container.resourceClasses.put(newNode.name, newNode);
-            }
-        }
-    }
-
-    /**
      * Gets all of the loaded classes as an array list
      *
      * @return the loaded classes as an array list
@@ -436,7 +420,7 @@ public class BytecodeViewer
     {
         ArrayList<ClassNode> a = new ArrayList<>();
 
-        for (FileContainer container : files)
+        for (ResourceContainer container : files)
             for (ClassNode c : container.resourceClasses.values())
                 if (!a.contains(c))
                     a.add(c);

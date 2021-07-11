@@ -27,17 +27,17 @@ public class APKExport implements Exporter
 		if (BytecodeViewer.promptIfNoLoadedClasses())
 			return;
 		
-		List<FileContainer> containers = BytecodeViewer.getFiles();
-		List<FileContainer> validContainers = new ArrayList<>();
+		List<ResourceContainer> containers = BytecodeViewer.getFiles();
+		List<ResourceContainer> validContainers = new ArrayList<>();
 		List<String> validContainersNames = new ArrayList<>();
-		FileContainer container;
+		ResourceContainer container;
 		
-		for (FileContainer fileContainer : containers)
+		for (ResourceContainer resourceContainer : containers)
 		{
-			if (fileContainer.APKToolContents != null && fileContainer.APKToolContents.exists())
+			if (resourceContainer.APKToolContents != null && resourceContainer.APKToolContents.exists())
 			{
-				validContainersNames.add(fileContainer.name);
-				validContainers.add(fileContainer);
+				validContainersNames.add(resourceContainer.name);
+				validContainers.add(resourceContainer);
 			}
 		}
 		
@@ -60,7 +60,7 @@ public class APKExport implements Exporter
 			return;
 		}
 		
-		final FileContainer finalContainer = container;
+		final ResourceContainer finalContainer = container;
 		
 		Thread exportThread = new Thread(() ->
 		{

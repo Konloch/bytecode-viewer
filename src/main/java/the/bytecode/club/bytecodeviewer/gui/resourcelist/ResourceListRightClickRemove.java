@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -44,11 +44,11 @@ public class ResourceListRightClickRemove extends AbstractAction
 				DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
 				root.remove(node);
 				
-				for (FileContainer fileContainer : BytecodeViewer.files)
+				for (ResourceContainer resourceContainer : BytecodeViewer.files)
 				{
-					if (fileContainer.name.equals(selectNode.toString()))
+					if (resourceContainer.name.equals(selectNode.toString()))
 					{
-						resourceListPane.removeFile(fileContainer);
+						resourceListPane.removeFile(resourceContainer);
 						break;
 					}
 				}

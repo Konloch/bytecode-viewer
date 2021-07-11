@@ -3,13 +3,11 @@ package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ItemListener;
-import java.beans.PropertyVetoException;
 import java.util.Objects;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -18,14 +16,13 @@ import javax.swing.tree.DefaultTreeModel;
 
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.*;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -147,7 +144,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
     
                 String containerName = path.split(">", 2)[0];
                 String className = path.split(">", 2)[1].split("\\.")[0];
-                FileContainer container = BytecodeViewer.getFileContainer(containerName);
+                ResourceContainer container = BytecodeViewer.getFileContainer(containerName);
     
                 final ClassNode fN = Objects.requireNonNull(container).getClassNode(className);
     

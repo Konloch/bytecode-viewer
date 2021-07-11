@@ -34,7 +34,7 @@ import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJTextField;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
-import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
 
@@ -109,10 +109,10 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     }
 
     //used to remove resources from the resource list
-    public void removeFile(FileContainer fileContainer)
+    public void removeFile(ResourceContainer resourceContainer)
     {
-        BytecodeViewer.files.remove(fileContainer);
-        LazyNameUtil.removeName(fileContainer.name);
+        BytecodeViewer.files.remove(resourceContainer);
+        LazyNameUtil.removeName(resourceContainer.name);
     }
 
     public ResourceListPane()
@@ -160,7 +160,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         try
         {
             treeRoot.removeAllChildren();
-            for (FileContainer container : BytecodeViewer.files)
+            for (ResourceContainer container : BytecodeViewer.files)
             {
                 ResourceTreeNode root = new ResourceTreeNode(container.name);
                 treeRoot.add(root);
@@ -299,9 +299,9 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
 
         String cheapHax = path.getPathComponent(1).toString();
-        FileContainer container = null;
+        ResourceContainer container = null;
 
-        for (FileContainer c : BytecodeViewer.files)
+        for (ResourceContainer c : BytecodeViewer.files)
         {
             if (c.name.equals(cheapHax))
                 container = c;
