@@ -79,13 +79,17 @@ public class DiskWriter {
         }
         writer.close();
     }
+    
+    /**
+     * Writes a string to the file
+     */
+    public static void writeNewLine(String filename, String lineToWrite)
+    {
+        writeNewLine(filename, lineToWrite, false);
+    }
 
     /**
      * Writes a string to the file
-     *
-     * @param filename
-     * @param lineToWrite
-     * @param debug
      */
     public static synchronized void writeNewLine(String filename,
                                                  String lineToWrite, boolean debug) {
