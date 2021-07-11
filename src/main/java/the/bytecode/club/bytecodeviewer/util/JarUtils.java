@@ -5,10 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
@@ -67,7 +64,7 @@ public class JarUtils
     public static void importArchiveA(final File jarFile) throws IOException
     {
         ResourceContainer container = new ResourceContainer(jarFile);
-        HashMap<String, byte[]> files = new HashMap<>();
+        LinkedHashMap<String, byte[]> files = new LinkedHashMap<>();
 
         ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
         ZipEntry entry;
@@ -121,7 +118,7 @@ public class JarUtils
         // should also rebuild the archive byte offsets
 
         ResourceContainer container = new ResourceContainer(jarFile);
-        HashMap<String, byte[]> files = new HashMap<>();
+        LinkedHashMap<String, byte[]> files = new LinkedHashMap<>();
 
         try (ZipFile zipFile = new ZipFile(jarFile)) {
             Enumeration<? extends ZipArchiveEntry> entries = zipFile.getEntries();
@@ -196,11 +193,11 @@ public class JarUtils
      * @param zipFile the input zip file
      * @throws IOException
      */
-    public static HashMap<String, byte[]> loadResources(final File zipFile) throws IOException {
+    public static LinkedHashMap<String, byte[]> loadResources(final File zipFile) throws IOException {
         if (!zipFile.exists())
             return null; //just ignore
-
-        HashMap<String, byte[]> files = new HashMap<>();
+    
+        LinkedHashMap<String, byte[]> files = new LinkedHashMap<>();
 
         ZipInputStream jis = new ZipInputStream(new FileInputStream(zipFile));
         ZipEntry entry;

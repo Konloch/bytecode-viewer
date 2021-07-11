@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.util;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
@@ -38,9 +39,9 @@ public class ResourceContainer
     public String name;
     public File APKToolContents = null;
     
-    public HashMap<String, byte[]> resourceFiles = new HashMap<>();
-    public HashMap<String, byte[]> resourceClassBytes = new HashMap<>();
-    public HashMap<String, ClassNode> resourceClasses = new HashMap<>();
+    public LinkedHashMap<String, byte[]> resourceFiles = new LinkedHashMap<>();
+    public LinkedHashMap<String, byte[]> resourceClassBytes = new LinkedHashMap<>();
+    public LinkedHashMap<String, ClassNode> resourceClasses = new LinkedHashMap<>();
     
     public ResourceContainer(File f)
     {

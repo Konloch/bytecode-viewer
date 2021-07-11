@@ -12,6 +12,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import java.io.*;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -30,7 +31,7 @@ public class XAPKResourceImporter implements Importer
 	public void open(File file) throws Exception
 	{
 		ResourceContainer container = new ResourceContainer(file);
-		HashMap<String, byte[]> allDirectoryFiles = new HashMap<>();
+		LinkedHashMap<String, byte[]> allDirectoryFiles = new LinkedHashMap<>();
 		
 		Configuration.silenceExceptionGUI++; //turn exceptions off
 		try (ZipFile zipFile = new ZipFile(file))

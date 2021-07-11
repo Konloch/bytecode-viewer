@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Objects;
 
 /**
@@ -26,8 +27,8 @@ public class DirectoryResourceImporter implements Importer
 	public void open(File file) throws Exception
 	{
 		ResourceContainer container = new ResourceContainer(file);
-		HashMap<String, byte[]> allDirectoryFiles = new HashMap<>();
-		HashMap<String, ClassNode> allDirectoryClasses = new HashMap<>();
+		LinkedHashMap<String, byte[]> allDirectoryFiles = new LinkedHashMap<>();
+		LinkedHashMap<String, ClassNode> allDirectoryClasses = new LinkedHashMap<>();
 		
 		boolean finished = false;
 		ArrayList<File> totalFiles = new ArrayList<>();
