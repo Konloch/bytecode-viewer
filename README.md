@@ -1,6 +1,6 @@
 # Bytecode Viewer
 
-Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
+Bytecode Viewer - a lightweight user-friendly Java/Android Bytecode Viewer, Decompiler & More.
 
 #### New Features
 * Translated Into 25 Languages Including: Arabic, German, Japanese, Mandarin, Russian, Spanish
@@ -43,6 +43,8 @@ Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 #### Command Line Input
 ```
 	-help                         Displays the help menu
+	-clean                        Deletes the BCV directory
+	-english                      Forces English language translations
 	-list                         Displays the available decompilers
 	-decompiler <decompiler>      Selects the decompiler, procyon by default
 	-i <input file>               Selects the input file (Jar, Class, APK, ZIP, DEX all work automatically)
@@ -52,21 +54,32 @@ Bytecode Viewer - a lightweight user friendly Java Bytecode Viewer.
 ```
 
 ## What is Bytecode Viewer?
-Bytecode Viewer (BCV) is an Advanced Lightweight Java Bytecode Viewer, GUI Java Decompiler, GUI Bytecode Editor, GUI Smali, GUI Baksmali, GUI APK Editor, GUI Dex Editor, GUI APK Decompiler, GUI DEX Decompiler, GUI Procyon Java Decompiler, GUI Krakatau, GUI CFR Java Decompiler, GUI FernFlower Java Decompiler, GUI DEX2Jar, GUI Jar2DEX, GUI Jar-Jar, Hex Viewer, Code Searcher, Debugger and more.
+Bytecode Viewer (BCV) is an Advanced Lightweight Java/Android Reverse Engineering Suite. Powered by several open source tools BCV is designed to aid in the reversing process.
+
+BCV comes with 6 decompilers, 3 disassemblers, 2 assemblers, 2 APK converters, advanced searching, debugging & more.
 
 It's written completely in Java, and it's open sourced. It's currently being maintained and developed by Konloch.
+
+## Is there a demo?
+[![BCV Demo](https://img.youtube.com/vi/I5GT6PoTGOw/0.jpg)](https://www.youtube.com/watch?v=I5GT6PoTGOw)
+
+Please note this demo is from a very old version
 
 ## How do I install BCV?
 Download the latest version from https://github.com/konloch/bytecode-viewer/releases and run the Bytecode-Viewer-2.10.x.jar.
 You may need to execute it via command line ```java -jar Bytecode-Viewer-2.10.x.jar``` (replace the X with the current minor version)
 
-## How do I use BCV?
-All you have to do is add a jar, class or APK file into the workspace. Then select the file you'd like to view from the workspace. BCV will automatically start decompiling the class in the background. When it's done it will show the Source code, Bytecode and Hexcode of the class file you chose (depending on the View panes you have selected). If you are trying to view a resource BCV will attempt to display it the best it can with code highlighting or by embedding the resources itself.
+## How can I use BCV?
+* Starting with a Jar, Zip, ClassFile or Android file (APK, DEX, XAPK, etc) drag it into BCV. It will start the decoding process automatically.
+* From here you can select the decompilers you would like to use by selecting the View Pane>View 1, View 2, View 3, etc.
+* The view panes are-used to display up to 3 decompilers side by side, you can also toggle edibility here.
+* Select the resource you would like to open by navigating using the resource list, BCV will do its best to display it (Decompiling, Disassembling, etc).
+* You can use plugins to help you search along with using the search pane in the left-hand bottom corner.
 
 ## How do the plugins work?
 There is also a plugin system that will allow you to interact with the loaded classfiles. You could for example write a String deobfuscator, a malicious code searcher, or anything else you can think of.
 
-You can either use one of the pre-written plugins, or write your own. The plugin system supports groovy, python, ruby, java and javascript scripting.
+You can either use one of the pre-written plugins, or write your own. The plugin system supports java and javascript scripting.
 
 Once a plugin is activated, it will execute the plugin with a ClassNode ArrayList of every single class loaded in BCV, this allows the user to handle it completely using ASM.
 
