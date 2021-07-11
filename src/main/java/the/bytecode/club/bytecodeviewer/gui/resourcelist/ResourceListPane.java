@@ -1,7 +1,5 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
-//TODO fix for Java 9+
-import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -29,6 +27,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
@@ -87,17 +86,14 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         
         rightClickMenu.add(new ResourceListRightClickRemove(this, x, y, tree));
 
-        //TODO fix for Java 9+
-        //  You can replace this with any Icon loaded from disk,
-        //  they could be re-used for the plus and minus symbols on the resource list too
-        rightClickMenu.add(new AbstractAction("Expand", WindowsTreeUI.ExpandedIcon.createExpandedIcon()) {
+        rightClickMenu.add(new AbstractAction("Expand", IconResources.CollapsedIcon.createCollapsedIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
                 expandAll(tree, Objects.requireNonNull(selPath), true);
             }
         });
-        rightClickMenu.add(new AbstractAction("Collapse", WindowsTreeUI.CollapsedIcon.createCollapsedIcon()) {
+        rightClickMenu.add(new AbstractAction("Collapse", IconResources.ExpandedIcon.createExpandedIcon()) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);

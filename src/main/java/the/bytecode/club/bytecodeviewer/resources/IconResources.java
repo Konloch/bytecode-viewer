@@ -1,8 +1,10 @@
 package the.bytecode.club.bytecodeviewer.resources;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,9 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 public class IconResources
 {
+    static protected final int HALF_SIZE = 4;
+    static protected final int SIZE = 9;
+    
     public static List<BufferedImage> iconList;
     public static BufferedImage icon;
     public static ImageIcon nextIcon;
@@ -130,5 +135,55 @@ public class IconResources
         }
 
         return image;
+    }
+    
+    
+    /**
+     * The minus sign button icon
+     */
+    public static class ExpandedIcon implements Icon, Serializable
+    {
+        static public Icon createExpandedIcon() {
+            return new ExpandedIcon();
+        }
+        
+        public void paintIcon(Component c, Graphics g, int x, int y)
+        {
+            Color backgroundColor = c.getBackground();
+            if(backgroundColor != null)
+                g.setColor(backgroundColor);
+            else
+                g.setColor(Color.white);
+            
+            g.fillRect(x, y, SIZE-1, SIZE-1);
+            g.setColor(Color.gray);
+            g.drawRect(x, y, SIZE-1, SIZE-1);
+            g.setColor(Color.black);
+            g.drawLine(x + 2, y + HALF_SIZE, x + (SIZE - 3), y + HALF_SIZE);
+        }
+        
+        public int getIconWidth() {
+            return SIZE;
+        }
+        
+        public int getIconHeight() {
+            return SIZE;
+        }
+    }
+    
+    /**
+     * The plus sign button icon
+     */
+    public static class CollapsedIcon extends ExpandedIcon
+    {
+        static public Icon createCollapsedIcon() {
+            return new CollapsedIcon();
+        }
+        
+        public void paintIcon(Component c, Graphics g, int x, int y)
+        {
+            super.paintIcon(c, g, x, y);
+            g.drawLine(x + HALF_SIZE, y + 2, x + HALF_SIZE, y + (SIZE - 3));
+        }
     }
 }
