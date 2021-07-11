@@ -40,13 +40,15 @@ public enum Decompiler
     KRAKATAU_DISASSEMBLER("Krakatau Disassembler", new KrakatauDisassembler()),
     JD_DECOMPILER("JD-GUI Decompiler", new JDGUIDecompiler()),
     JADX_DECOMPILER("JADX Decompiler", new JADXDecompiler()),
-    ASM_TEXTIFY_DISASSEMBLER("ASM Disassembler", new ASMTextifierDecompiler()),
+    ASM_TEXTIFY_DISASSEMBLER("ASM Disassembler", new ASMTextifierDisassembler()),
+    JAVAP_DISASSEMBLER("Javap Disassembler", new JavapDisassembler()),
     ;
     
     private final String decompilerName;
     private final InternalDecompiler decompiler;
     
-    Decompiler(String decompilerName, InternalDecompiler decompiler) {
+    Decompiler(String decompilerName, InternalDecompiler decompiler)
+    {
         this.decompilerName = decompilerName;
         this.decompiler = decompiler;
     }
