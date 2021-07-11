@@ -67,17 +67,13 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  * http://the.bytecode.club
  *
  * TODO BUGS:
- *      + Panes that currently are being opened/decompiled should not be able to be refreshed - Causes a lock
  *      + View>Visual Settings>Show Class Methods
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
  *      + Versioning and updating need to be fixed
  *      + Fix classfile searcher
- *      + Smali Assembly compile - Needs to be fixed
  *
  * TODO IN-PROGRESS:
- *      + While loading an external plugin it should check if its java or JS, if so it should ask if you'd like to run or edit the plugin using the PluginWriter
- *      + Resource Importer needs to be rewritten to handle resources better
  *      + Resource Exporter/Save/Decompile As Zip needs to be rewrittern
  *      + Finish dragging code
  *      + Finish right-click tab menu detection
@@ -89,11 +85,11 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Add JEB decompiler optionally, requires them to add jeb library jar
  *      + Add https://github.com/exbin/bined as the replacement Hed Viewer/Editor
  *      + Make the decompilers launch in a separate process
- *      + Make it use that global last used inside of export as jar
+ *      + Make it use that global last used file folder inside of export as jar
  *      + Make zipfile not include the decode shit
- *      + Make ez-injection plugin console show all sys.out calls
  *      + Add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
  *      + Add decompile all as zip for CLI
+ *      + Console on the UI
  *
  *  TODO IDEAS:
  *      + App Bundle Support
@@ -101,11 +97,8 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *          ^ Optionally a right-click menu open-as would work inside of the resource list
  *      + Allow class files to be opened without needing the .class extension
  *          ^ Easiest way to do this is to read the file header CAFEBABE on resource view
- *      + Look into removing the loaded classes from inside the FileContainer & then generate the ClassNodes on demand
- *          ^ This has the added benefit of only extracting on decompilation/when needed. It would also mean everything
- *            could be treated as byte[] file resources instead of juggling between Classes and File resources.
- *          ^ An added bonus would be you could also support BCEL (along with other bytecode manipulation libraries)
- *            and add support for https://github.com/ptnkjke/Java-Bytecode-Editor visualizer as a plugin
+ *      + Add BCEL Support:
+ *          ^ https://github.com/ptnkjke/Java-Bytecode-Editor visualizer as a plugin
  *
  * @author Konloch
  * @author The entire BCV community
