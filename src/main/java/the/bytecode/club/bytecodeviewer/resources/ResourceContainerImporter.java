@@ -12,6 +12,24 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
 /**
  * @author Konloch
  * @since 7/10/2021
@@ -25,16 +43,25 @@ public class ResourceContainerImporter
 		this.container = container;
 	}
 	
+	/**
+	 * Return the linked container
+	 */
 	public ResourceContainer getContainer()
 	{
 		return container;
 	}
 	
+	/**
+	 * Start importing the container file as a file
+	 */
 	public ResourceContainerImporter importAsFile() throws IOException
 	{
 		return addUnknownFile(container.file.getName(), new FileInputStream(container.file), false);
 	}
 	
+	/**
+	 * Start importing the container file as a zip archive
+	 */
 	public ResourceContainerImporter importAsZip() throws IOException
 	{
 		container.resourceClasses.clear();
@@ -56,7 +83,10 @@ public class ResourceContainerImporter
 		return this;
 	}
 	
-	//sorts the file type from classes or resources
+	/**
+	 * Adds an unknown resource to the container
+	 * This will sort the file and start the file-specific adding process
+	 */
 	public ResourceContainerImporter addUnknownFile(String name, InputStream stream, boolean classesOnly) throws IOException
 	{
 		//TODO remove this .class check and just look for cafebabe
@@ -68,6 +98,9 @@ public class ResourceContainerImporter
 		return this;
 	}
 	
+	/**
+	 * Adds a class resource to the container
+	 */
 	public ResourceContainerImporter addClassResource(String name, InputStream stream) throws IOException
 	{
 		byte[] bytes = MiscUtils.getBytes(stream);
@@ -100,6 +133,9 @@ public class ResourceContainerImporter
 		return this;
 	}
 	
+	/**
+	 * Adds a file resource to the container
+	 */
 	public ResourceContainerImporter addResource(String name, InputStream stream) throws IOException
 	{
 		byte[] bytes = MiscUtils.getBytes(stream);
@@ -107,7 +143,10 @@ public class ResourceContainerImporter
 		return this;
 	}
 	
-	public ResourceContainerImporter importZipInputStream(boolean classesOnly) throws IOException
+	/**
+	 * Imports resources from zip archives using ZipInputStream
+	 */
+	private ResourceContainerImporter importZipInputStream(boolean classesOnly) throws IOException
 	{
 		ZipInputStream jis = new ZipInputStream(new FileInputStream(container.file));
 		ZipEntry entry;
@@ -126,9 +165,13 @@ public class ResourceContainerImporter
 		return this;
 	}
 	
-	//TODO if this ever fails: import Sun's jarsigner code from JDK 7, re-sign the jar to rebuild the CRC,
-	// should also rebuild the archive byte offsets
-	public ResourceContainerImporter importApacheZipFile(boolean classesOnly) throws IOException
+	/**
+	 * Imports resources from zip archives using Apache ZipFile
+	 *
+	 * TODO if this ever fails: import Sun's jarsigner code from JDK 7, re-sign the jar to rebuild the CRC,
+	 *      should also rebuild the archive byte offsets
+	 */
+	private ResourceContainerImporter importApacheZipFile(boolean classesOnly) throws IOException
 	{
 		try (ZipFile zipFile = new ZipFile(container.file))
 		{
