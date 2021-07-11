@@ -8,7 +8,7 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
-import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

@@ -19,6 +19,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 

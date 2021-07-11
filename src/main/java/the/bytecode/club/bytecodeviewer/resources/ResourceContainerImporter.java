@@ -1,10 +1,11 @@
-package the.bytecode.club.bytecodeviewer.util;
+package the.bytecode.club.bytecodeviewer.resources;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.*;
 import java.util.Enumeration;
@@ -82,7 +83,7 @@ public class ResourceContainerImporter
 				if( existingNode != null)
 				{
 					//TODO prompt to ask the user if they would like to overwrite the resource conflict
-					// or solve it automatically by creating a new file container for each conflict
+					// or solve it automatically by creating a new file container for each conflict (means no editing)
 					
 					System.err.println("WARNING: Resource Conflict: " + name);
 					System.err.println("Suggested Fix: Contact Konloch to add support for resource conflicts");

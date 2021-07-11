@@ -1,8 +1,9 @@
 package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
 import org.apache.commons.io.FileUtils;
-import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainerImporter;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.*;
 

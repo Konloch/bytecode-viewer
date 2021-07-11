@@ -22,7 +22,7 @@ import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.*;
-import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

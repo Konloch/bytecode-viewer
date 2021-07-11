@@ -24,7 +24,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
-import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
 import static the.bytecode.club.bytecodeviewer.util.MethodParser.Method;

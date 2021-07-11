@@ -20,7 +20,7 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
-import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
 

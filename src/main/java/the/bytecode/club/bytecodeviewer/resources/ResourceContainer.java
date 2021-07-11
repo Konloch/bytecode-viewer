@@ -1,13 +1,11 @@
-package the.bytecode.club.bytecodeviewer.util;
+package the.bytecode.club.bytecodeviewer.resources;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
+import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -28,7 +26,8 @@ import the.bytecode.club.bytecodeviewer.api.ASMUtil;
  ***************************************************************************/
 
 /**
- * Represents a file container
+ * Represents a loaded file in the form of a resource container
+ * with all of the contents inside of it.
  *
  * @author Konloch
  */
@@ -106,6 +105,9 @@ public class ResourceContainer
         return this;
     }
     
+    /**
+     * Clear this container's resources
+     */
     public ResourceContainer clear()
     {
         resourceFiles.clear();
@@ -114,6 +116,9 @@ public class ResourceContainer
         return this;
     }
     
+    /**
+     * Copy a resource container's resources into this container
+     */
     public ResourceContainer copy(ResourceContainer copyFrom)
     {
         resourceFiles.putAll(copyFrom.resourceFiles);

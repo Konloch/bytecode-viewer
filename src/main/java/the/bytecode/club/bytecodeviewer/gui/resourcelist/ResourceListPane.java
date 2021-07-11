@@ -34,7 +34,7 @@ import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJTextField;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
-import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
 

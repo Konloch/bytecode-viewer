@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.util.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
