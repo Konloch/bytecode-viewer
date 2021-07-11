@@ -38,7 +38,7 @@ public class DEXResourceImporter implements Importer
 			Enjarify.apk2Jar(tempCopy, output);
 		
 		//create a new resource importer and copy the contents from it
-		container.clear().copy(new ResourceContainerImporter(
+		container.copy(new ResourceContainerImporter(
 				new ResourceContainer(output)).importAsZip().getContainer());
 		
 		BytecodeViewer.updateBusyStatus(false);
