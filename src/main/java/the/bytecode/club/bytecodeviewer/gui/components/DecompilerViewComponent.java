@@ -8,7 +8,7 @@ import the.bytecode.club.bytecodeviewer.util.RefreshWorkPane;
 
 import javax.swing.*;
 
-import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentType.JAVA_AND_BYTECODE;
+import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentType.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -57,13 +57,12 @@ public class DecompilerViewComponent
 	
 	private void createMenu()
 	{
-		if(type == DecompilerComponentType.JAVA || type == DecompilerComponentType.JAVA_AND_BYTECODE)
+		if(type == JAVA || type == JAVA_AND_BYTECODE)
 			menu.add(java);
-		if(type == DecompilerComponentType.BYTECODE || type == DecompilerComponentType.JAVA_AND_BYTECODE
-				|| type == DecompilerComponentType.BYTECODE_NON_EDITABLE)
+		if(type == BYTECODE || type == JAVA_AND_BYTECODE || type == BYTECODE_NON_EDITABLE)
 			menu.add(bytecode);
 		
-		if(type != DecompilerComponentType.BYTECODE_NON_EDITABLE)
+		if(type != BYTECODE_NON_EDITABLE)
 		{
 			menu.add(new JSeparator());
 			menu.add(editable);
@@ -74,9 +73,9 @@ public class DecompilerViewComponent
 	
 	public void addToGroup(ButtonGroup group)
 	{
-		if(type == DecompilerComponentType.JAVA || type == DecompilerComponentType.JAVA_AND_BYTECODE)
+		if(type == JAVA || type == JAVA_AND_BYTECODE)
 			group.add(java);
-		if(type == DecompilerComponentType.BYTECODE || type == DecompilerComponentType.JAVA_AND_BYTECODE)
+		if(type == BYTECODE || type == JAVA_AND_BYTECODE || type == BYTECODE_NON_EDITABLE)
 			group.add(bytecode);
 	}
 	
