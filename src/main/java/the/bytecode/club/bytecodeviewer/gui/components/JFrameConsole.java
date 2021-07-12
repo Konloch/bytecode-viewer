@@ -64,13 +64,27 @@ public class JFrameConsole extends JFrame
 	 */
 	public void setText(String t)
 	{
-		textArea.setText(t);
+		textArea.setText(trim(t));
 		textArea.setCaretPosition(0);
 	}
 	
 	public SearchableJTextArea getTextArea()
 	{
 		return textArea;
+	}
+	
+	public String trim(String s)
+	{
+		int len = s.length();
+		int max = 500_000; //TODO this can be increased to 1,000,000 the lower number was chosen to be safe
+		if(len >= max)
+		{
+			int skipped = len - max;
+			s = s.substring(0, max);
+			s += "\n\rSkipping " + skipped + " chars, allowing " + max;
+		}
+		
+		return s;
 	}
 	
 	private static final long serialVersionUID = -5056940543411437508L;

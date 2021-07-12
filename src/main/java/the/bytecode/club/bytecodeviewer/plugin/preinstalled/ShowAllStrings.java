@@ -11,6 +11,8 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 
+import javax.swing.*;
+
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /***************************************************************************
@@ -95,8 +97,8 @@ public class ShowAllStrings extends Plugin
                 }
             }
         }
-
-        frame.appendText(sb.toString());
+    
+        frame.setText(sb.toString());
         frame.setVisible(true);
     }
 }
