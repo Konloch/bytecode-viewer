@@ -93,7 +93,7 @@ public class SecurityMan extends SecurityManager
                 break;
             }
         
-        if (allow && blocking == 0)
+        if (allow && blocking <= 0)
         {
             if(silentExec == 1)
                 System.out.println("Allowing exec: " + cmd);
