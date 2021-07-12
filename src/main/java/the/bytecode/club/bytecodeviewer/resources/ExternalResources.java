@@ -38,6 +38,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  * @since 7/11/2021
  */
+
 public class ExternalResources
 {
 	private static final ExternalResources SINGLETON = new ExternalResources();
@@ -60,12 +61,16 @@ public class ExternalResources
 		try
 		{
 			BytecodeViewer.sm.pauseBlocking();
-			//TODO read the version output to verify it exists
+			//read the version output to verify it exists
 			ProcessBuilder pb = new ProcessBuilder("java", "-version");
-			pb.start();
+			Process p = pb.start();
+			p.waitFor();
 			
-			Configuration.java = "java"; //java is set
-			return Configuration.java;
+			if(readProcess(p).toLowerCase().contains("java version"))
+			{
+				Configuration.java = "java"; //java is set
+				return Configuration.java;
+			}
 		}
 		catch (Exception e) { } //ignore
 		finally
