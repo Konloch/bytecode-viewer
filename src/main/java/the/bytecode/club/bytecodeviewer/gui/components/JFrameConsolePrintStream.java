@@ -41,10 +41,15 @@ public class JFrameConsolePrintStream extends JFrameConsole
 	
 	public JFrameConsolePrintStream(String title)
 	{
+		this(title, true);
+	}
+	
+	public JFrameConsolePrintStream(String title, boolean preserveOriginalOutput)
+	{
 		super(title);
 		
-		textAreaOutputStreamOut = new JTextAreaOutputStream(getTextArea(), System.out);
-		textAreaOutputStreamErr = new JTextAreaOutputStream(getTextArea(), System.err);
+		textAreaOutputStreamOut = new JTextAreaOutputStream(getTextArea(), preserveOriginalOutput ? System.out : null);
+		textAreaOutputStreamErr = new JTextAreaOutputStream(getTextArea(), preserveOriginalOutput ? System.err : null);
 		
 		System.setOut(new PrintStream(textAreaOutputStreamOut));
 		System.setErr(new PrintStream(textAreaOutputStreamErr));

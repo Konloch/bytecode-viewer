@@ -8,6 +8,7 @@ import org.objectweb.asm.util.TraceClassVisitor;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsolePrintStream;
 import the.bytecode.club.bytecodeviewer.gui.components.SystemConsole;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -64,7 +65,7 @@ public class JavapDisassembler extends InternalDecompiler
         
         DiskWriter.replaceFileBytes(tempClass.getAbsolutePath(), b, false);
     
-        SystemConsole sysOut = null;
+        JFrameConsolePrintStream sysOut = null;
         try
         {
             URLClassLoader child = new URLClassLoader(
@@ -77,7 +78,7 @@ public class JavapDisassembler extends InternalDecompiler
             Object cl = javap.newInstance();
             
             //pipe sys out
-            sysOut = new SystemConsole("");
+            sysOut = new JFrameConsolePrintStream("", false);
             
             //invoke Javap
             main.invoke(cl, (Object) new String[]{"-c", "-l", "-constants", tempClass.getAbsolutePath()});

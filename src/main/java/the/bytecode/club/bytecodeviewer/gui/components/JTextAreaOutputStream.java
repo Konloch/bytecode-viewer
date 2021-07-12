@@ -53,7 +53,8 @@ public class JTextAreaOutputStream extends OutputStream
 	public void write(int b)
 	{
 		sb.append((char) b);
-		og.write(b);
+		if(og != null)
+			og.write(b);
 	}
 	
 	public StringBuilder getBuffer()
