@@ -6,6 +6,7 @@ Bytecode Viewer - a lightweight user-friendly Java/Android Bytecode Viewer, Deco
 * Translated Into 25 Languages Including: Arabic, German, Japanese, Mandarin, Russian, Spanish
 * Plugin Writer: Create and edit external plugins from within BCV
 * Fixed Java & Bytecode Editing/Compiling
+* Javap Support
 * XAPK Support
 * Dark Mode
 * Updated nearly all dependencies (incl. decompilers like CFR, JD-GUI etc.)
