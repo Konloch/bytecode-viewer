@@ -68,8 +68,8 @@ public class JavaCompiler extends InternalCompiler
         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), cp.getAbsolutePath());
 
         boolean cont = true;
-        BytecodeViewer.sm.pauseBlocking();
         try {
+            BytecodeViewer.sm.pauseBlocking();
             StringBuilder log = new StringBuilder();
             ProcessBuilder pb;
 

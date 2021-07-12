@@ -91,8 +91,8 @@ public class KrakatauDecompiler extends InternalDecompiler
 
         String s = ExceptionUI.SEND_STACKTRACE_TO_NL;
 
-        BytecodeViewer.sm.pauseBlocking();
         try {
+            BytecodeViewer.sm.pauseBlocking();
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python2,
                     "-O", //love you storyyeller <3
@@ -171,9 +171,8 @@ public class KrakatauDecompiler extends InternalDecompiler
 
         JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 
-        BytecodeViewer.sm.pauseBlocking();
-
         try {
+            BytecodeViewer.sm.pauseBlocking();
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python2,
                     "-O", //love you storyyeller <3
@@ -247,12 +246,10 @@ public class KrakatauDecompiler extends InternalDecompiler
         final File tempDirectory = new File(Constants.tempDirectory + fs + ran + fs);
         tempDirectory.mkdir();
 
-
         final File tempJar = new File(sourceJar);
-
-        BytecodeViewer.sm.pauseBlocking();
-
+        
         try {
+            BytecodeViewer.sm.pauseBlocking();
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python2,
                     "-O", //love you storyyeller <3

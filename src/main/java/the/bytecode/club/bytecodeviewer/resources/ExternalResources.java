@@ -57,9 +57,9 @@ public class ExternalResources
 		if(!empty)
 			return Configuration.java;
 		
-		BytecodeViewer.sm.pauseBlocking();
 		try
 		{
+			BytecodeViewer.sm.pauseBlocking();
 			//TODO read the version output to verify it exists
 			ProcessBuilder pb = new ProcessBuilder("java", "-version");
 			pb.start();

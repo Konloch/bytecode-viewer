@@ -58,8 +58,8 @@ public class KrakatauDisassembler extends InternalDecompiler
         final File tempJar = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
         JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 
-        BytecodeViewer.sm.pauseBlocking();
         try {
+            BytecodeViewer.sm.pauseBlocking();
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python2,
                     "-O", //love you storyyeller <3
@@ -122,8 +122,8 @@ public class KrakatauDisassembler extends InternalDecompiler
 
         final File tempJar = new File(sourceJar);
 
-        BytecodeViewer.sm.pauseBlocking();
         try {
+            BytecodeViewer.sm.pauseBlocking();
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python2,
                     "-O", //love you storyyeller <3

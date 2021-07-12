@@ -65,9 +65,9 @@ public class KrakatauAssembler extends InternalCompiler
     
         StringBuilder log = new StringBuilder();
         
-        BytecodeViewer.sm.pauseBlocking();
         try
         {
+            BytecodeViewer.sm.pauseBlocking();
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python2,
                     "-O", //love you storyyeller <3

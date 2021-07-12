@@ -73,13 +73,14 @@ public class Constants
 	 */
 	private static void hideFile(File f)
 	{
-		BytecodeViewer.sm.pauseBlocking();
 		try {
+			BytecodeViewer.sm.pauseBlocking();
 			// Hide file by running attrib system command (on Windows)
 			Runtime.getRuntime().exec("attrib +H " + f.getAbsolutePath());
 		} catch (Exception e) {
 			BytecodeViewer.handleException(e);
+		} finally {
+			BytecodeViewer.sm.resumeBlocking();
 		}
-		BytecodeViewer.sm.resumeBlocking();
 	}
 }

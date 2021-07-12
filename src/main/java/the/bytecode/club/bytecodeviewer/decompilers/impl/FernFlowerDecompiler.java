@@ -88,12 +88,12 @@ public class FernFlowerDecompiler extends InternalDecompiler
         {
             try
             {
+                BytecodeViewer.sm.pauseBlocking();
                 ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
                         new String[]{ExternalResources.getSingleton().getJavaCommand(true), "-jar", ExternalResources.getSingleton().findLibrary("fernflower")},
                         generateMainMethod(tempClass.getAbsolutePath(),
                                 new File(tempDirectory).getAbsolutePath())
                 ));
-                BytecodeViewer.sm.pauseBlocking();
                 Process p = pb.start();
                 BytecodeViewer.createdProcesses.add(p);
                 p.waitFor();
