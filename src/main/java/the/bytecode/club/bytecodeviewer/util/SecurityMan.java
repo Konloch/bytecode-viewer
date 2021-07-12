@@ -32,12 +32,12 @@ import java.security.Permission;
 
 public class SecurityMan extends SecurityManager
 {
-    private boolean blocking = true; //might be insecure due to assholes targeting BCV
+    private int blocking = 1; //might be insecure due to assholes targeting BCV
     private boolean printing = false;
     private boolean printingPackage = false;
     
     public void resumeBlocking() {
-        blocking = true;
+        blocking++;
     }
     
     public void pauseBlocking() { //slightly safer security system than just a public static boolean being toggled
@@ -55,7 +55,7 @@ public class SecurityMan extends SecurityManager
                 executedClass.equals("the.bytecode.club.bytecodeviewer.BytecodeViewer") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.Constants") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.impl.JavaCompiler")) {
-            blocking = false;
+            blocking--;
         } else for (StackTraceElement stackTraceElements : Thread.currentThread().getStackTrace()) {
             System.out.println(stackTraceElements.getClassName());
         }
@@ -82,17 +82,15 @@ public class SecurityMan extends SecurityManager
         };
         boolean allow = false;
 
-        for (String s : whitelist) {
+        for (String s : whitelist)
             if (cmd.contains(s)) {
                 allow = true;
                 break;
             }
-        }
-
-        if (allow && !blocking) {
+        
+        if (allow && blocking == 0)
             System.out.println("Allowing exec: " + cmd);
-            
-        } else throw new SecurityException("BCV is awesome, blocking(" + blocking + ") exec " + cmd);
+        else throw new SecurityException("BCV is awesome, blocking(" + blocking + ") exec " + cmd);
     }
 
     @Override

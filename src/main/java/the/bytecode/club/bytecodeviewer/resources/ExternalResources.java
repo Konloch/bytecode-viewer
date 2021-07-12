@@ -135,11 +135,11 @@ public class ExternalResources
 		if(!empty)
 			return Configuration.java;
 		
-		BytecodeViewer.sm.pauseBlocking();
-		
 		//check using python CLI flag
 		try
 		{
+			BytecodeViewer.sm.pauseBlocking();
+			
 			//read the version output to verify python 2
 			ProcessBuilder pb = new ProcessBuilder("python", "-2", "--version");
 			Process p = pb.start();
@@ -162,6 +162,8 @@ public class ExternalResources
 		//check if 'python' command is bound as python 2.X
 		try
 		{
+			BytecodeViewer.sm.pauseBlocking();
+			
 			//read the version output to verify python 2
 			ProcessBuilder pb = new ProcessBuilder("python", "--version");
 			Process p = pb.start();
