@@ -1,6 +1,8 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import java.io.File;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
@@ -59,7 +61,43 @@ public class Enjarify {
             pb.directory(new File(enjarifyWorkingDirectory));
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
-            process.waitFor();
+    
+            AtomicBoolean holdThread = new AtomicBoolean(true);
+            
+            //wait for the process to finish then signal when done
+            new Thread(()->{
+                try {
+                    process.waitFor();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    holdThread.set(false);
+                }
+            }, "Enjarify Wait Thread").start();
+            
+            //if python3 fails to close but it was able to process the APK
+            new Thread(()->{
+                while(holdThread.get())
+                {
+                    if(output.length() > 0)
+                        holdThread.set(false);
+                    
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) { }
+                }
+            }, "Enjarify Fail Safe Thread").start();
+            
+            //hold thread while enjarify is processing
+            while(holdThread.get())
+            {
+                Thread.sleep(100);
+            }
+            
+            //kill the python3 process if it's still alive
+            if(process.isAlive())
+                process.destroy();
+            
             MiscUtils.printProcess(process);
 
         } catch (Exception e) {
