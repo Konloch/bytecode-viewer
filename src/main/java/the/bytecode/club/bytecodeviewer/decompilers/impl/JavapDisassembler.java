@@ -5,6 +5,7 @@ import me.konloch.kontainer.io.DiskWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.util.TraceClassVisitor;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
@@ -65,7 +66,7 @@ public class JavapDisassembler extends InternalDecompiler
         
         DiskWriter.replaceFileBytes(tempClass.getAbsolutePath(), b, false);
     
-        JFrameConsolePrintStream sysOut = null;
+        JFrameConsolePrintStream sysOutBuffer = null;
         try
         {
             URLClassLoader child = new URLClassLoader(
@@ -78,7 +79,10 @@ public class JavapDisassembler extends InternalDecompiler
             Object cl = javap.newInstance();
             
             //pipe sys out
-            sysOut = new JFrameConsolePrintStream("", false);
+            sysOutBuffer = new JFrameConsolePrintStream("", false);
+            
+            //silence security manager debugging
+            BytecodeViewer.sm.silenceExec(true);
             
             //invoke Javap
             main.invoke(cl, (Object) new String[]{"-c", "-l", "-constants", tempClass.getAbsolutePath()});
@@ -89,13 +93,14 @@ public class JavapDisassembler extends InternalDecompiler
         }
         finally
         {
+            BytecodeViewer.sm.silenceExec(false);
             tempClass.delete();
         }
         
-        if(sysOut != null)
+        if(sysOutBuffer != null)
         {
-            sysOut.finished();
-            return sysOut.getTextAreaOutputStreamOut().getBuffer().toString();
+            sysOutBuffer.finished();
+            return sysOutBuffer.getTextAreaOutputStreamOut().getBuffer().toString();
         }
         
         return SEND_STACKTRACE_TO;

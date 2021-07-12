@@ -32,9 +32,14 @@ import java.security.Permission;
 
 public class SecurityMan extends SecurityManager
 {
-    private int blocking = 1; //might be insecure due to assholes targeting BCV
+    private int blocking = 1; //TODO replace with a more secure system
+    private int silentExec = 1;
     private boolean printing = false;
     private boolean printingPackage = false;
+    
+    public void silenceExec(boolean b) {
+        silentExec += (b ? 1 : -1);
+    }
     
     public void resumeBlocking() {
         blocking++;
@@ -89,7 +94,10 @@ public class SecurityMan extends SecurityManager
             }
         
         if (allow && blocking == 0)
-            System.out.println("Allowing exec: " + cmd);
+        {
+            if(silentExec == 1)
+                System.out.println("Allowing exec: " + cmd);
+        }
         else throw new SecurityException("BCV is awesome, blocking(" + blocking + ") exec " + cmd);
     }
 
