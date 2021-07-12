@@ -69,12 +69,14 @@ public class JavapDisassembler extends InternalDecompiler
         JFrameConsolePrintStream sysOutBuffer = null;
         try
         {
+            //load java tools into a temporary classloader
             URLClassLoader child = new URLClassLoader(
                     new URL[] {new File(Configuration.javaTools).toURI().toURL()},
                     this.getClass().getClassLoader()
             );
-            //Class<?> javap = child.loadClass("com.sun.tools.javap.Main");
-            Class<?> javap = Class.forName("com.sun.tools.javap.Main", true, child);
+            
+            //setup reflection
+            Class<?> javap = child.loadClass("com.sun.tools.javap.Main");
             Method main = javap.getMethod("main", String[].class);
             Object cl = javap.newInstance();
             
@@ -85,7 +87,12 @@ public class JavapDisassembler extends InternalDecompiler
             BytecodeViewer.sm.silenceExec(true);
             
             //invoke Javap
-            main.invoke(cl, (Object) new String[]{"-c", "-l", "-constants", tempClass.getAbsolutePath()});
+            main.invoke(cl, (Object) new String[]{
+                    "-p", //Shows all classes and members
+                    "-c", //Prints out disassembled code
+                    //"-l", //Prints out line and local variable tables
+                    "-constants", //Shows static final constants
+                    tempClass.getAbsolutePath()});
         }
         catch (Exception e)
         {
@@ -107,7 +114,5 @@ public class JavapDisassembler extends InternalDecompiler
     }
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName) {
-
-    }
+    public void decompileToZip(String sourceJar, String zipName) { }
 }
