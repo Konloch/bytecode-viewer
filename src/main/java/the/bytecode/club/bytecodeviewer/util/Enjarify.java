@@ -40,15 +40,8 @@ public class Enjarify {
      * @param output the output .jar file
      */
     public static synchronized void apk2Jar(File input, File output) {
-        if (Configuration.python3.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 3.x executable path.");
-            ExternalResources.getSingleton().selectPython3();
-        }
-
-        if (Configuration.python3.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set Python!");
+        if(!ExternalResources.getSingleton().hasSetPython3Command())
             return;
-        }
 
         try {
             BytecodeViewer.sm.pauseBlocking();

@@ -633,8 +633,6 @@ public class BytecodeViewer
     
     /**
      * because Smali and Baksmali System.exit if it failed
-     *
-     * @param i
      */
     public static void exit(int i) { }
 }

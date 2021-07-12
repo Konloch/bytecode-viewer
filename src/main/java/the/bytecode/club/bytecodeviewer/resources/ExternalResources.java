@@ -49,36 +49,21 @@ public class ExternalResources
 	}
 	
 	/**
-	 * Auto-detect the Java command
+	 * Auto-detect Java via command-line
 	 */
 	public String getJavaCommand(boolean blockTillSelected)
 	{
-		boolean empty = Configuration.java.isEmpty();
-		
-		if(!empty)
+		if(!Configuration.java.isEmpty())
 			return Configuration.java;
 		
-		try
-		{
-			BytecodeViewer.sm.pauseBlocking();
-			//read the version output to verify it exists
-			ProcessBuilder pb = new ProcessBuilder("java", "-version");
-			Process p = pb.start();
-			p.waitFor();
-			
-			if(readProcess(p).toLowerCase().contains("java version"))
-			{
-				Configuration.java = "java"; //java is set
-				return Configuration.java;
-			}
-		}
-		catch (Exception e) { } //ignore
-		finally
-		{
-			BytecodeViewer.sm.resumeBlocking();
-		}
+		//check CLI for java
+		testCommand(new String[]{"java", "-version"}, "java version", ()->{
+			Configuration.java = "java";
+		});
+		if(!Configuration.java.isEmpty())
+			return Configuration.java;
 		
-		//TODO auto-detect the Java path
+		//TODO auto-detect the JRE path
 		boolean block = true;
 		while (Configuration.java.isEmpty() && block)
 		{
@@ -92,7 +77,7 @@ public class ExternalResources
 	}
 	
 	/**
-	 * Check if the python command has been set
+	 * Check if java tools has been set
 	 */
 	public boolean hasJavaToolsSet()
 	{
@@ -100,7 +85,7 @@ public class ExternalResources
 	}
 	
 	/**
-	 * Auto-detect the Java command
+	 * Auto-detect Java tools.jar
 	 */
 	public String getJavaTools(boolean blockTillSelected)
 	{
@@ -109,7 +94,7 @@ public class ExternalResources
 		if(!empty)
 			return Configuration.javaTools;
 		
-		//TODO auto-detect the Java path
+		//TODO auto-detect the JDK path
 		boolean block = true;
 		while (Configuration.javaTools.isEmpty() && block)
 		{
@@ -123,80 +108,82 @@ public class ExternalResources
 	}
 	
 	/**
-	 * Check if the python command has been set
+	 * Check if the python 2 command has been set
 	 */
-	public boolean hasSetPythonCommand()
+	public boolean hasSetPython2Command()
 	{
-		return !getPythonCommand(false).isEmpty();
+		return !getPython2Command(false).isEmpty();
 	}
 	
 	/**
-	 * Auto-detect the Java command
+	 * Auto-detect python 2 via command-line
 	 */
-	public String getPythonCommand(boolean blockTillSelected)
+	public String getPython2Command(boolean blockTillSelected)
 	{
-		boolean empty = Configuration.java.isEmpty();
+		if(!Configuration.python2.isEmpty())
+			return Configuration.python2;
 		
-		if(!empty)
-			return Configuration.java;
 		
 		//check using python CLI flag
-		try
-		{
-			BytecodeViewer.sm.pauseBlocking();
-			
-			//read the version output to verify python 2
-			ProcessBuilder pb = new ProcessBuilder("python", "-2", "--version");
-			Process p = pb.start();
-			p.waitFor();
-			
-			//set python path
-			if(readProcess(p).toLowerCase().contains("python 2"))
-			{
-				Configuration.python2 = "python";
-				Configuration.python2Extra = "-2";
-				return Configuration.python2;
-			}
-		}
-		catch (Exception e) { } //ignore
-		finally
-		{
-			BytecodeViewer.sm.resumeBlocking();
-		}
+		testCommand(new String[]{"python", "-2", "--version"}, "python 2", ()->{
+			Configuration.python2 = "python";
+			Configuration.python2Extra = "-2";
+		});
+		if(!Configuration.python2.isEmpty())
+			return Configuration.python2;
+		
 		
 		//check if 'python' command is bound as python 2.X
-		try
-		{
-			BytecodeViewer.sm.pauseBlocking();
-			
-			//read the version output to verify python 2
-			ProcessBuilder pb = new ProcessBuilder("python", "--version");
-			Process p = pb.start();
-			p.waitFor();
-			
-			//set python path
-			if(readProcess(p).toLowerCase().contains("python 2"))
-			{
-				Configuration.python2 = "python";
-				return Configuration.python2;
-			}
-		}
-		catch (Exception e) { } //ignore
-		finally
-		{
-			BytecodeViewer.sm.resumeBlocking();
-		}
+		testCommand(new String[]{"python", "--version"}, "python 2", ()->{
+			Configuration.python2 = "python";
+		});
+		if(!Configuration.python2.isEmpty())
+			return Configuration.python2;
 		
-		//TODO auto-detect the Python path
+		
+		//TODO auto-detect the Python path (C:/Program Files/Python)
 		boolean block = true;
 		while (Configuration.python2.isEmpty() && block)
 		{
-			BytecodeViewer.showMessage("You need to set your Python (or PyPy for speed) 2.7 executable path.");
+			BytecodeViewer.showMessage("You need to set your Python 2.7 (or PyPy 2.7 for speed) executable path.");
 			selectPython2();
 			block = !blockTillSelected; //signal block flag off
 		}
 		
 		return Configuration.python2;
+	}
+	
+	/**
+	 * Check if the python 3 command has been set
+	 */
+	public boolean hasSetPython3Command()
+	{
+		return !getPython3Command(false).isEmpty();
+	}
+	
+	/**
+	 * Auto-detect python 3 via command-line
+	 */
+	public String getPython3Command(boolean blockTillSelected)
+	{
+		//check if 'python' command is bound as python 2.X
+		testCommand(new String[]{"python", "--version"}, "python 3", ()->{
+			Configuration.python3 = "python";
+		});
+		if(!Configuration.python3.isEmpty())
+			return Configuration.python3;
+		
+		
+		//TODO auto-detect the Python path (C:/Program Files/Python)
+		boolean block = true;
+		while (Configuration.python3.isEmpty() && block)
+		{
+			BytecodeViewer.showMessage("You need to set your Python 3.x (or PyPy 3.x for speed) executable path.");
+			selectPython3();
+			block = !blockTillSelected; //signal block flag off
+		}
+		
+		return Configuration.python3;
 	}
 	
 	//rt.jar check
@@ -220,7 +207,7 @@ public class ExternalResources
 	public void selectPython2()
 	{
 		final File file = DialogueUtils.fileChooser("Select Python 2.7 Executable",
-				"Python (Or PyPy for speed) 2.7 Executable",
+				"Python 2.7 (Or PyPy 2.7 for speed) Executable",
 				"everything");
 		
 		if(file == null)
@@ -233,7 +220,7 @@ public class ExternalResources
 	public void selectPython3()
 	{
 		final File file = DialogueUtils.fileChooser("Select Python 3.x Executable",
-				"Python (Or PyPy for speed) 3.x Executable",
+				"Python 3.x (Or PyPy 3.x for speed) Executable",
 				"everything");
 		
 		if(file == null)
@@ -345,6 +332,33 @@ public class ExternalResources
 	}
 	
 	/**
+	 * Used to test the command-line for compatibility
+	 */
+	public void testCommand(String[] command, String matchingText, Runnable onMatch)
+	{
+		try
+		{
+			BytecodeViewer.sm.pauseBlocking();
+			
+			//read the version output
+			ProcessBuilder pb = new ProcessBuilder(command);
+			Process p = pb.start();
+			p.waitFor();
+			
+			//check for matching text
+			if(readProcess(p).toLowerCase().contains(matchingText))
+			{
+				onMatch.run();
+			}
+		}
+		catch (Exception e) { } //ignore
+		finally
+		{
+			BytecodeViewer.sm.resumeBlocking();
+		}
+	}
+	
+	/**
 	 * @author https://stackoverflow.com/a/16714180
 	 */
 	public String readProcess(Process process) throws IOException
@@ -352,6 +366,7 @@ public class ExternalResources
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		StringBuilder builder = new StringBuilder();
 		String line;
+		
 		while ((line = reader.readLine()) != null)
 		{
 			builder.append(line);

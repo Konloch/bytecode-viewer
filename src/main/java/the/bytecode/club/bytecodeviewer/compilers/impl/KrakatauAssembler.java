@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
@@ -46,7 +47,7 @@ public class KrakatauAssembler extends InternalCompiler
 
     @Override
     public byte[] compile(String contents, String name) {
-        if(!ExternalResources.getSingleton().hasSetPythonCommand())
+        if(!ExternalResources.getSingleton().hasSetPython2Command())
             return null;
 
         String origName = MiscUtils.randomString(20);
@@ -68,14 +69,19 @@ public class KrakatauAssembler extends InternalCompiler
         try
         {
             BytecodeViewer.sm.pauseBlocking();
-            ProcessBuilder pb = new ProcessBuilder(
-                    Configuration.python2,
+    
+            String[] pythonCommands = new String[]{Configuration.python2};
+            if(!Configuration.python2Extra.isEmpty())
+                pythonCommands = ArrayUtils.addAll(pythonCommands, Configuration.python2Extra);
+            
+            ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
+                    pythonCommands,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "assemble.py",
                     "-out",
                     tempDirectory.getAbsolutePath(),
                     tempJ.getAbsolutePath()
-            );
+            ));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);

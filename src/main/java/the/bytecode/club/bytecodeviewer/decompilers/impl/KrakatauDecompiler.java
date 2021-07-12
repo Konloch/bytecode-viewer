@@ -9,8 +9,8 @@ import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import me.konloch.kontainer.io.DiskReader;
+import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bootloader.resource.ExternalResource;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
@@ -69,7 +69,7 @@ public class KrakatauDecompiler extends InternalDecompiler
 
     public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn)
     {
-        if(!ExternalResources.getSingleton().hasSetPythonCommand())
+        if(!ExternalResources.getSingleton().hasSetPython2Command())
             return "You need to set your Python 2.7 path!";
 
         ExternalResources.getSingleton().rtCheck();
@@ -93,8 +93,13 @@ public class KrakatauDecompiler extends InternalDecompiler
 
         try {
             BytecodeViewer.sm.pauseBlocking();
-            ProcessBuilder pb = new ProcessBuilder(
-                    Configuration.python2,
+    
+            String[] pythonCommands = new String[]{Configuration.python2};
+            if(!Configuration.python2Extra.isEmpty())
+                pythonCommands = ArrayUtils.addAll(pythonCommands, Configuration.python2Extra);
+            
+            ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
+                    pythonCommands,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "decompile.py",
                     "-skip", //love you storyyeller <3
@@ -104,7 +109,7 @@ public class KrakatauDecompiler extends InternalDecompiler
                     "-out",
                     krakatauTempDir.getAbsolutePath(),
                     cn.name + ".class"
-            );
+            ));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
@@ -149,7 +154,7 @@ public class KrakatauDecompiler extends InternalDecompiler
 
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
-        if(!ExternalResources.getSingleton().hasSetPythonCommand())
+        if(!ExternalResources.getSingleton().hasSetPython2Command())
             return "You need to set your Python 2.7 path!";
         
         if (Configuration.rt.isEmpty()) {
@@ -173,8 +178,13 @@ public class KrakatauDecompiler extends InternalDecompiler
 
         try {
             BytecodeViewer.sm.pauseBlocking();
-            ProcessBuilder pb = new ProcessBuilder(
-                    Configuration.python2,
+    
+            String[] pythonCommands = new String[]{Configuration.python2};
+            if(!Configuration.python2Extra.isEmpty())
+                pythonCommands = ArrayUtils.addAll(pythonCommands, Configuration.python2Extra);
+            
+            ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
+                    pythonCommands,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "decompile.py",
                     "-skip", //love you storyyeller <3
@@ -184,7 +194,7 @@ public class KrakatauDecompiler extends InternalDecompiler
                     "-out",
                     tempDirectory.getAbsolutePath(),
                     cn.name + ".class"
-            );
+            ));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
@@ -232,7 +242,7 @@ public class KrakatauDecompiler extends InternalDecompiler
 
     @Override
     public void decompileToZip(String sourceJar, String zipName) {
-        if(!ExternalResources.getSingleton().hasSetPythonCommand())
+        if(!ExternalResources.getSingleton().hasSetPython2Command())
             return;
     
         ExternalResources.getSingleton().rtCheck();
@@ -250,8 +260,13 @@ public class KrakatauDecompiler extends InternalDecompiler
         
         try {
             BytecodeViewer.sm.pauseBlocking();
-            ProcessBuilder pb = new ProcessBuilder(
-                    Configuration.python2,
+    
+            String[] pythonCommands = new String[]{Configuration.python2};
+            if(!Configuration.python2Extra.isEmpty())
+                pythonCommands = ArrayUtils.addAll(pythonCommands, Configuration.python2Extra);
+            
+            ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
+                    pythonCommands,
                     "-O", //love you storyyeller <3
                     krakatauWorkingDirectory + fs + "decompile.py",
                     "-skip", //love you storyyeller <3
@@ -261,7 +276,7 @@ public class KrakatauDecompiler extends InternalDecompiler
                     "-out",
                     tempDirectory.getAbsolutePath(),
                     tempJar.getAbsolutePath()
-            );
+            ));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
