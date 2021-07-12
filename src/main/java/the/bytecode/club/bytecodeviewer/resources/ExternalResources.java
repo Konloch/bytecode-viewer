@@ -166,7 +166,24 @@ public class ExternalResources
 	 */
 	public String getPython3Command(boolean blockTillSelected)
 	{
-		//check if 'python' command is bound as python 2.X
+		//check if 'pypy3' command is bound as python 3.X
+		//TODO test this and re-enable it
+		/*testCommand(new String[]{"pypy3", "--version"}, "python 3", ()->{
+			Configuration.python3 = "pypy3";
+		});
+		if(!Configuration.python3.isEmpty())
+			return Configuration.python3;*/
+		
+		
+		//check if 'python3' command is bound as python 3.X
+		testCommand(new String[]{"python3", "--version"}, "python 3", ()->{
+			Configuration.python3 = "python3";
+		});
+		if(!Configuration.python3.isEmpty())
+			return Configuration.python3;
+		
+		
+		//check if 'python' command is bound as python 3.X
 		testCommand(new String[]{"python", "--version"}, "python 3", ()->{
 			Configuration.python3 = "python";
 		});
