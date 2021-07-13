@@ -16,8 +16,9 @@ import javax.swing.JPanel;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.*;
 import the.bytecode.club.bytecodeviewer.util.*;
-import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.decompilers.FernFlowerDecompiler;
+import the.bytecode.club.bytecodeviewer.api.*;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.FernFlowerDecompiler;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 
 /**
  * @author jowasp
@@ -35,27 +36,29 @@ public class XposedGenerator extends Plugin
     public void execute(ArrayList<ClassNode> classNodeList)
     {
         //Get actual file class content
-        final Component tabComp = BytecodeViewer.viewer.workPane.tabs.getSelectedComponent();
-		
-		if(tabComp == null)
+        ResourceViewer viewer = BytecodeViewer.getActiveResource();
+        
+		if(viewer == null)
 		{
-            JOptionPane.showMessageDialog(null, "Open A Class First");
+		    BytecodeViewer.showMessage("Open A Class First");
 			return;
 		}
 		
-        String className = tabComp.getName();
-        String containerName = ((FileContainer)BytecodeViewer.files.get(0)).name;
+        String className = viewer.getName();
+        String containerName = viewer.name;
         ClassNode classnode = BytecodeViewer.getCurrentlyOpenedClassNode();
         
         //Call XposedGenerator class
         ParseChosenFileContent(className,containerName,classnode);
     }
 
-    public static void ParseChosenFileContent(String classname, String containerName, ClassNode classNode){
-
-        try{
+    public static void ParseChosenFileContent(String classname, String containerName, ClassNode classNode)
+    {
+        try
+        {
             //Parse content - Extract methods after APK /JAR has been extracted
-            byte[] cont = BytecodeViewer.getFileContents(classname.toString());
+            byte[] cont = ASMUtil.nodeToBytes(classNode);
+            
             //Use one of the decompilers
             //TODO:Allow users to select other decompilers?
             FernFlowerDecompiler decompilefern = new FernFlowerDecompiler();
@@ -132,15 +135,18 @@ public class XposedGenerator extends Plugin
                     file.createNewFile();
                 }
                 //Extract the package name only
-                String packageNameOnly = packageName.substring(8,packageName.length() - 2 );
-                String classToHookNameOnly = classToHook.substring(0, packageName.length() - 9);
+                String packageNameOnly = packageName.substring(8,packageName.length() - 2 ).trim();
+                String classToHookNameOnly = classToHook;
+                if(classToHookNameOnly.endsWith(".class"))
+                    classToHookNameOnly = classToHook.substring(0, classToHookNameOnly.length() - 6);
+                
                 String[] classClean = classToHookNameOnly.split("\\/");
                 String[] functionSplitValues = functionToHook.split("\\s+");
                 //select
                 String onlyClass = classClean[classClean.length-1];
                 //String onlyFunctionParateses = functionSplitValues[functionSplitValues.length-2];
 
-                String onlyFunction = CleanUpFuunction(functionSplitValues);
+                String onlyFunction = CleanUpFunction(functionSplitValues);
                 //String functionToHookOnly = "dummy function";
                 System.out.println(onlyClass);
                 System.out.println(packageNameOnly);
@@ -155,20 +161,20 @@ public class XposedGenerator extends Plugin
                                 "import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;"+"\r\n" +
                                 "import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;"+"\r\n" +"\r\n" +
                                 "public class XposedClassTest implements IXposedHookLoadPackage {"+"\r\n" +"\r\n" +
-                                "	public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {" + "\r\n" +"\r\n" +
-                                "		String classToHook = " + "\"" + packageNameOnly + "." + onlyClass + "\" ;" + "\r\n" +
+                                "   public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {" + "\r\n" +"\r\n" +
+                                "		String classToHook = " + "\"" + packageNameOnly + "." + onlyClass + "\";" + "\r\n" +
                                 "		String functionToHook = "+"\""+ onlyFunction+"\";"+"\r\n" +
                                 "		if (lpparam.packageName.equals("+"\""+packageNameOnly+ "\""+")){"+ "\r\n" +
                                 "			XposedBridge.log(" + "\" Loaded app: \" " + " + lpparam.packageName);"+ "\r\n" +"\r\n" +
                                 "			findAndHookMethod("+"\""+onlyClass+"\"" + ", lpparam.classLoader, "+" \"" +onlyFunction + "\""+", int.class,"+ "\r\n" +
                                 "			new XC_MethodHook() {"+ "\r\n" +
-                                "			@Override"+ "\r\n" +
-                                "		protected void beforeHookedMethod(MethodHookParam param) throws Throwable {"+ "\r\n" +
-                                "		//TO BE FILLED BY ANALYST {"+ "\r\n" +
-                                "			}"+ "\r\n" +
-                                "		});"+"\r\n" +
-                                "	}"+ "\r\n" +
-                                "}"+ "\r\n" +
+                                "			    @Override"+ "\r\n" +
+                                "		        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {"+ "\r\n" +
+                                "		            //TO BE FILLED BY ANALYST"+ "\r\n" +
+                                "			    }"+ "\r\n" +
+                                "		    });"+"\r\n" +
+                                "	    }"+ "\r\n" +
+                                "   }"+ "\r\n" +
                                 "}"+ "\r\n"
                         ;
                 FileWriter fw = new FileWriter(file.getAbsoluteFile());
@@ -210,7 +216,8 @@ public class XposedGenerator extends Plugin
 
                     if (matcher.group() != null)
                     {
-                        System.out.println("find() found the pattern \"" + quote(line.trim())) ;
+                        System.out.println("find() found the pattern \"" + quote(line.trim()));
+                        System.out.println("Function: " + CleanUpFunction(line.trim().split("\\s+")));
                         methodsNames.add(quote(line.trim()));
                     }
                     else
@@ -259,16 +266,15 @@ public class XposedGenerator extends Plugin
 
     }
 
-    private static String CleanUpFuunction(String[] rawFunction)
+    private static String CleanUpFunction(String[] rawFunction)
     {
         String onlyFunc = "functiondummy";
         for (String m:rawFunction)
         {
             if(m.contains("("))
             {
-                String[] functions = m.split("[ ,()]+");
-                onlyFunc = functions[functions.length -1];
-                return onlyFunc;
+                String[] split = m.split("\\(")[0].split(" ");
+                return split[split.length-1];
             }
             else
             {
