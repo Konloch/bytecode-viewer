@@ -7,10 +7,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
+import java.util.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -43,6 +40,7 @@ public enum Language
 {
 	ARABIC("/translations/arabic.json", "عربى", "English", "ar"),
 	ENGLISH("/translations/english.json", "English", "English", "en"),
+	ESTONIAN("/translations/estonian.json", "Eesti", "English", "et"),
 	FARSI("/translations/farsi.json", "فارسی ", "English", "fa"),
 	FINNISH("/translations/finnish.json", "Suomen Kieli", "English", "fi"),
 	FRENCH("/translations/french.json", "Français", "English", "fr"),
@@ -57,6 +55,8 @@ public enum Language
 	INDONESIAN("/translations/indonesian.json", "bahasa Indonesia", "English", "id"),
 	ITALIAN("/translations/italian.json", "Italiano", "English", "it"),
 	JAPANESE("/translations/japanese.json", "日本語", "English", "ja"),
+	LATVIAN("/translations/latvian.json", "Latvietis", "English", "lv"),
+	LITHUANIAN("/translations/lithuanian.json", "Lietuvių", "English", "lt"),
 	//JAVANESE("/translations/javanese.json", "ꦧꦱꦗꦮ", "English", "jw", "jv"),
 	//KOREAN("/translations/korean.json", "Korean", "English", "ko"),
 	MALAY("/translations/malay.json", "Bahasa Melayu", "English", "ms"),
@@ -65,7 +65,10 @@ public enum Language
 	NORWEGIAN("/translations/norwegian.json", "Norsk", "English", "no"),
 	POLISH("/translations/polish.json", "Polski", "English", "pl"),
 	PORTUGUESE("/translations/portuguese.json", "Português", "English", "pt"),
+	ROMANIAN("/translations/romanian.json", "Română", "English", "ro"),
 	RUSSIAN("/translations/russian.json", "русский", "English", "ru"),
+	SLOVAK("/translations/slovak.json", "Slovensky", "English", "sk"),
+	SLOVENIAN("/translations/slovenian.json", "Slovenščina", "English", "sl"),
 	SPANISH("/translations/spanish.json", "Español", "English", "es"),
 	SWAHILI("/translations/swahili.json", "Kiswahili", "English", "sw"),
 	SWEDISH("/translations/swedish.json", "svenska", "English", "sv"),
@@ -75,11 +78,11 @@ public enum Language
 	VIETNAMESE("/translations/vietnamese.json", "Tiếng Việt", "English", "vi"),
 	;
 	
-	private static final HashedMap<String, Language> languageCodeLookup;
+	private static final LinkedHashMap<String, Language> languageCodeLookup;
 	
 	static
 	{
-		languageCodeLookup = new HashedMap<>();
+		languageCodeLookup = new LinkedHashMap<>();
 		for(Language l : values())
 			l.languageCode.forEach((langCode)->
 					languageCodeLookup.put(langCode, l));
@@ -185,7 +188,7 @@ public enum Language
 		return "translations/html/" + identifier + "." + htmlIdentifier +  ".html";
 	}
 	
-	public static HashedMap<String, Language> getLanguageCodeLookup()
+	public static LinkedHashMap<String, Language> getLanguageCodeLookup()
 	{
 		return languageCodeLookup;
 	}
