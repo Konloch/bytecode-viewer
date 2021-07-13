@@ -14,11 +14,9 @@
   "RECENT_FILES": "最近的文件",
   "ABOUT": "关于",
   "EXIT": "退出",
-
   "VIEW": "视图",
   "VISUAL_SETTINGS": "界面设置",
   "LANGUAGE": "语言",
-
   "WINDOW_THEME": "窗口主题",
   "SYSTEM_THEME": "系统主题",
   "DARK_THEME": "深色主题",
@@ -32,19 +30,16 @@
   "VISUAL_STUDIO": "Visual Studio",
   "DRUID_DARK": "Druid (深色)",
   "MONOKAI_DARK": "Monokai (深色)",
-
   "FONT_SIZE": "字体大小",
   "SHOW_TAB_FILE_IN_TAB_TITLE": "标签页标题显示文件名",
   "SIMPLIFY_NAME_IN_TAB_TITLE": "简化标签页标题文件名",
   "SYNCHRONIZED_VIEWING": "同步视图",
   "SHOW_CLASS_METHODS": "显示类方法",
-
   "PANE_1": "面板 1",
   "PANE_2": "面板 2",
   "PANE_3": "面板 3",
   "NONE": "无",
   "EDITABLE": "可编辑",
-
   "SETTINGS": "设置",
   "COMPILE_ON_SAVE": "保存时编译",
   "COMPILE_ON_REFRESH": "刷新时编译",
@@ -61,7 +56,6 @@
   "SET_JRE_RT_LIBRARY": "设置 JRE RT 库",
   "SET_OPTIONAL_LIBRARY_FOLDER": "设置可选的库文件夹",
   "SET_JAVAC_EXECUTABLE": "设置 Javac 可执行文件",
-
   "JAVA": "Java",
   "PROCYON": "Procyon",
   "CFR": "CFR",
@@ -74,11 +68,9 @@
   "HEXCODE": "十六进制",
   "BYTECODE": "字节码",
   "ASM_TEXTIFY": "汇编文本",
-
   "BYTECODE_DECOMPILER": "字节码反编译器",
   "DEBUG_HELPERS": "调试辅助器",
   "APPEND_BRACKETS_TO_LABEL": "标签带花括号",
-
   "PLUGINS": "插件",
   "OPEN_PLUGIN": "打开插件…",
   "RECENT_PLUGINS": "最近的插件",
@@ -91,7 +83,6 @@
   "ZKM_STRING_DECRYPTER": "ZKM 字符串解密器",
   "ALLATORI_STRING_DECRYPTER": "Allatori 字符串解密器",
   "ZSTRINGARRAY_DECRYPTER": "ZStringArray 解密器",
-
   "PROCYON_DECOMPILER": "Procyon 反编译器",
   "CFR_DECOMPILER": "CFR 反编译器",
   "FERNFLOWER_DECOMPILER": "FernFlower 反编译器",
@@ -99,14 +90,12 @@
   "JD_DECOMPILER": "JD-GUI 反编译器",
   "BYTECODE_DISASSEMBLER": "字节码反汇编",
   "DISASSEMBLER": "反汇编",
-
   "ERROR": "错误",
   "NEW_JAVA_PLUGIN": "新 Java 插件",
   "NEW_JAVASCRIPT_PLUGIN": "新 Javascript 插件",
   "SUGGESTED_FIX_DECOMPILER_ERROR": "建议的办法：单击刷新类。如果又失败请尝试别的反编译器。",
-  "SUGGESTED_FIX_COMPILER_ERROR": "建议的办法：尝试“视图>面板>Krakatau>字节码”并启用可编辑。", 
+  "SUGGESTED_FIX_COMPILER_ERROR": "建议的办法：尝试“视图>面板>Krakatau>字节码”并启用可编辑。",
   "DRAG_CLASS_JAR": "拖放 class/jar/zip/APK/DEX 到这",
-
   "FILES": "文件",
   "QUICK_FILE_SEARCH_NO_FILE_EXTENSION": "快速文件搜索 (无扩展名)",
   "WORK_SPACE": "工作区",
@@ -121,5 +110,18 @@
   "DESC": "描述：",
   "SAVE_AS": "另存为…",
   "RESULTS": "结果",
-  "SAVE": "保存…"
+  "SAVE": "保存…",
+  "HIGH_CONTRAST_LIGHT": "高对比度灯",
+  "DARK_ALT": "暗Alt",
+  "ONE_DARK_THEME": "一个黑暗主题",
+  "HIGH_CONTRAST_DARK_THEME": "高对比度深色主题",
+  "DARK": "深色（推荐深色）",
+  "ONE_DARK": "一个黑暗",
+  "SOLARIZED_DARK": "日晒黑暗",
+  "SOLARIZED_DARK_THEME": "Solarized 黑暗主题",
+  "SOLARIZED_LIGHT_THEME": "Solarized Light 主题",
+  "THEME_MATCH": "主题搭配（推荐）",
+  "SOLARIZED_LIGHT": "日光灯",
+  "HIGH_CONTRAST_DARK": "高对比度暗",
+  "HIGH_CONTRAST_LIGHT_THEME": "高对比度灯光主题"
 }

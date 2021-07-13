@@ -1,28 +1,21 @@
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.util.Textifier;
-import org.objectweb.asm.util.TraceClassVisitor;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsolePrintStream;
-import the.bytecode.club.bytecodeviewer.gui.components.SystemConsole;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.api.ExceptionUI.KONLOCH;
 import static the.bytecode.club.bytecodeviewer.api.ExceptionUI.SEND_STACKTRACE_TO;
 
 /***************************************************************************
@@ -60,10 +53,15 @@ public class JavapDisassembler extends InternalDecompiler
         if(!ExternalResources.getSingleton().hasJavaToolsSet())
             return "Set Java Tools Path!";
         
+        return synchronizedDecompilation(cn, b);
+    }
+    
+    private synchronized String synchronizedDecompilation(ClassNode cn, byte[] b)
+    {
         final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempDirectory.mkdir();
         final File tempClass = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".class");
-        
+    
         DiskWriter.replaceFileBytes(tempClass.getAbsolutePath(), b, false);
     
         JFrameConsolePrintStream sysOutBuffer = null;
@@ -74,18 +72,18 @@ public class JavapDisassembler extends InternalDecompiler
                     new URL[] {new File(Configuration.javaTools).toURI().toURL()},
                     this.getClass().getClassLoader()
             );
-            
+        
             //setup reflection
             Class<?> javap = child.loadClass("com.sun.tools.javap.Main");
             Method main = javap.getMethod("main", String[].class);
             Object cl = javap.newInstance();
-            
+        
             //pipe sys out
             sysOutBuffer = new JFrameConsolePrintStream("", false);
-            
+        
             //silence security manager debugging
             BytecodeViewer.sm.silenceExec(true);
-            
+        
             //invoke Javap
             main.invoke(cl, (Object) new String[]{
                     "-p", //Shows all classes and members
@@ -103,13 +101,13 @@ public class JavapDisassembler extends InternalDecompiler
             BytecodeViewer.sm.silenceExec(false);
             tempClass.delete();
         }
-        
+    
         if(sysOutBuffer != null)
         {
             sysOutBuffer.finished();
             return sysOutBuffer.getTextAreaOutputStreamOut().getBuffer().toString();
         }
-        
+    
         return SEND_STACKTRACE_TO;
     }
 

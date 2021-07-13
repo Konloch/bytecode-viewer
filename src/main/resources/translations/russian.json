@@ -14,12 +14,9 @@
   "RECENT_FILES": "Недавние файлы",
   "ABOUT": "О программе",
   "EXIT": "Выход",
-    
   "VIEW": "Вид",
   "VISUAL_SETTINGS": "Визуальные настройки",
   "LANGUAGE": "Язык",
-  
-  
   "WINDOW_THEME": "Тема окна",
   "SYSTEM_THEME": "Системная тема",
   "DARK_THEME": "Темная тема",
@@ -33,20 +30,16 @@
   "VISUAL_STUDIO": "Visual Studio",
   "DRUID_DARK": "Druid (Темная)",
   "MONOKAI_DARK": "Monokai (Темная)",
-  
-  
   "FONT_SIZE": "Размер шрифта",
   "SHOW_TAB_FILE_IN_TAB_TITLE": "Показать файл в заголовке вкладки",
   "SIMPLIFY_NAME_IN_TAB_TITLE": "Упростить имя в заголовке вкладки",
   "SYNCHRONIZED_VIEWING": "Синхронизировать просмотр",
   "SHOW_CLASS_METHODS": "Показать методы класса",
-  
   "PANE_1": "Панель 1",
   "PANE_2": "Панель 2",
   "PANE_3": "Панель 3",
   "NONE": "Нет",
   "EDITABLE": "Редактируемый",
-  
   "SETTINGS": "Настройки",
   "COMPILE_ON_SAVE": "Скомпилировать при сохранении",
   "COMPILE_ON_REFRESH": "Скомпилировать при обновлении",
@@ -63,7 +56,6 @@
   "SET_JRE_RT_LIBRARY": "Указать библиотеку JRE RT",
   "SET_OPTIONAL_LIBRARY_FOLDER": "Указать папку дополнительных библиотек",
   "SET_JAVAC_EXECUTABLE": "Указать исполняемый файл Javac",
-  
   "JAVA": "Java",
   "PROCYON": "Procyon",
   "CFR": "CFR",
@@ -76,11 +68,9 @@
   "HEXCODE": "Шестнадцатеричный код",
   "BYTECODE": "Байт-код",
   "ASM_TEXTIFY": "ASM Textify",
-  
   "BYTECODE_DECOMPILER": "Декомпилятор байт-кода",
   "DEBUG_HELPERS": "Помощники отладки",
   "APPEND_BRACKETS_TO_LABEL": "Добавить скобки к названию",
-  
   "PLUGINS": "Плагины",
   "OPEN_PLUGIN": "Открыть плагин ...",
   "RECENT_PLUGINS": "Недавние плагины",
@@ -93,9 +83,6 @@
   "ZKM_STRING_DECRYPTER": "Расшифровать строки (ZKM)",
   "ALLATORI_STRING_DECRYPTER": "Расшифровать строки (Allatori)",
   "ZSTRINGARRAY_DECRYPTER": "Расшифровать (ZStringArray)",
-  
-  
-  
   "PROCYON_DECOMPILER": "Декомпилятор Procyon",
   "CFR_DECOMPILER": "Декомпилятор CFR",
   "FERNFLOWER_DECOMPILER": "Декомпилятор FernFlower",
@@ -103,14 +90,12 @@
   "JD_DECOMPILER": "Декомпилятор JD-GUI",
   "BYTECODE_DISASSEMBLER": "Дизассемблер байт-кода",
   "DISASSEMBLER": "Дизассемблер",
-  
   "ERROR": "Ошибка",
   "NEW_JAVA_PLUGIN": "Новый плагин Java",
   "NEW_JAVASCRIPT_PLUGIN": "Новый плагин Javascript",
   "SUGGESTED_FIX_DECOMPILER_ERROR": "Предлагаемое исправление: нажмите «Обновить класс», если не получится снова, то попробуйте другой декомпилятор.",
   "SUGGESTED_FIX_COMPILER_ERROR": "Предлагаемое исправление: попробуйте «Вид»> «Панель»> «Krakatau»> «Байт-код» и включите «Редактируемый».",
   "DRAG_CLASS_JAR": "Перетащите сюда class / jar / zip / APK / DEX",
-  
   "FILES": "Файлы",
   "QUICK_FILE_SEARCH_NO_FILE_EXTENSION": "Быстрый поиск файлов (без расширения)",
   "WORK_SPACE": "Рабочее пространство",
@@ -122,8 +107,21 @@
   "OWNER": "Владелец: ",
   "NAME": "Имя: ",
   "DESC": "Описание: ",
-  "SAVE": "Сохранить..."
+  "SAVE": "Сохранить...",
   "SAVE_AS": "Сохранить как...",
   "RESULTS": "Полученные результаты",
   "REFRESH": "Обновить",
+  "HIGH_CONTRAST_LIGHT": "Высококонтрастный свет",
+  "DARK_ALT": "Темный-Альт",
+  "ONE_DARK_THEME": "Одна темная тема",
+  "HIGH_CONTRAST_DARK_THEME": "Темная тема с высокой контрастностью",
+  "DARK": "Темный (рекомендуется темный)",
+  "ONE_DARK": "Один темный",
+  "SOLARIZED_DARK": "Соляризованная тьма",
+  "SOLARIZED_DARK_THEME": "Соляризованная темная тема",
+  "SOLARIZED_LIGHT_THEME": "Тема солнечного света",
+  "THEME_MATCH": "Соответствие темы (рекомендуется)",
+  "SOLARIZED_LIGHT": "Соляризованный свет",
+  "HIGH_CONTRAST_DARK": "Высококонтрастный темный",
+  "HIGH_CONTRAST_LIGHT_THEME": "Тема с высокой контрастностью света"
 }
