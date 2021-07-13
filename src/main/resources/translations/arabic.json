@@ -110,5 +110,18 @@
   "NEW_JAVASCRIPT_PLUGIN": "البرنامج المساعد الجديد لجافا سكريبت",
   "NEW_JAVA_PLUGIN": "البرنامج المساعد الجديد جافا",
   "SAVE_AS": "حفظ باسم ...",
-  "SAVE": "يحفظ..."
+  "SAVE": "يحفظ...",
+  "HIGH_CONTRAST_LIGHT": "ضوء عالي التباين",
+  "DARK_ALT": "الظلام البديل",
+  "ONE_DARK_THEME": "مظهر مظلم واحد",
+  "HIGH_CONTRAST_DARK_THEME": "مظهر داكن عالي التباين",
+  "DARK": "داكن (موصى به داكن)",
+  "ONE_DARK": "ظلام واحد",
+  "SOLARIZED_DARK": "الظلام الشمسي",
+  "SOLARIZED_DARK_THEME": "موضوع داكن بالطاقة الشمسية",
+  "SOLARIZED_LIGHT_THEME": "موضوع ضوء الشمس",
+  "THEME_MATCH": "تطابق الموضوع (موصى به)",
+  "SOLARIZED_LIGHT": "ضوء شمسي",
+  "HIGH_CONTRAST_DARK": "عالي التباين داكن",
+  "HIGH_CONTRAST_LIGHT_THEME": "موضوع ضوء التباين العالي"
 }

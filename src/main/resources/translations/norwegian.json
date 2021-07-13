@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Ny Java-plugin",
   "SAVE_AS": "Lagre som...",
   "SAVE": "Lagre...",
-  "RESULTS": "Resultater"
+  "RESULTS": "Resultater",
+  "HIGH_CONTRAST_LIGHT": "Høyt kontrastlys",
+  "DARK_ALT": "Dark-Alt",
+  "ONE_DARK_THEME": "Ett mørkt tema",
+  "HIGH_CONTRAST_DARK_THEME": "Mørkt tema med høy kontrast",
+  "DARK": "Mørk (anbefalt mørk)",
+  "ONE_DARK": "One Dark",
+  "SOLARIZED_DARK": "Solarized Dark",
+  "SOLARIZED_DARK_THEME": "Solarized Dark Theme",
+  "SOLARIZED_LIGHT_THEME": "Solarized Light Theme",
+  "THEME_MATCH": "Temakamp (anbefalt)",
+  "SOLARIZED_LIGHT": "Solarisert lys",
+  "HIGH_CONTRAST_DARK": "Høy kontrast mørk",
+  "HIGH_CONTRAST_LIGHT_THEME": "Tema med høyt kontrastlys"
 }

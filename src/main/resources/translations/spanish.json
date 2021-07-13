@@ -110,5 +110,18 @@
   "NEW_JAVASCRIPT_PLUGIN": "Nuevo complemento de Javascript",
   "NEW_JAVA_PLUGIN": "Nuevo complemento de Java",
   "SAVE_AS": "Guardar como...",
-  "SAVE": "Ahorrar..."
+  "SAVE": "Ahorrar...",
+  "HIGH_CONTRAST_LIGHT": "Luz de alto contraste",
+  "DARK_ALT": "Oscuro-Alt",
+  "ONE_DARK_THEME": "Un tema oscuro",
+  "HIGH_CONTRAST_DARK_THEME": "Tema oscuro de alto contraste",
+  "DARK": "Oscuro (oscuro recomendado)",
+  "ONE_DARK": "Uno oscuro",
+  "SOLARIZED_DARK": "Oscuridad solarizada",
+  "SOLARIZED_DARK_THEME": "Tema oscuro solarizado",
+  "SOLARIZED_LIGHT_THEME": "Tema de luz solarizada",
+  "THEME_MATCH": "Coincidencia de tema (recomendado)",
+  "SOLARIZED_LIGHT": "Luz solarizada",
+  "HIGH_CONTRAST_DARK": "Alto contraste oscuro",
+  "HIGH_CONTRAST_LIGHT_THEME": "Tema de luz de alto contraste"
 }

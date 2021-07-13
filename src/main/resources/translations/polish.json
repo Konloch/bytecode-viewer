@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Nowa wtyczka Java",
   "SAVE_AS": "Zapisz jako...",
   "SAVE": "Zapisać...",
-  "RESULTS": "Wyniki"
+  "RESULTS": "Wyniki",
+  "HIGH_CONTRAST_LIGHT": "Światło o wysokim kontraście",
+  "DARK_ALT": "Ciemny Alt",
+  "ONE_DARK_THEME": "Jeden ciemny motyw",
+  "HIGH_CONTRAST_DARK_THEME": "Ciemny motyw o wysokim kontraście",
+  "DARK": "Ciemny (zalecany ciemny)",
+  "ONE_DARK": "Jeden ciemny",
+  "SOLARIZED_DARK": "Solarized Dark",
+  "SOLARIZED_DARK_THEME": "Zsłoneczniony ciemny motyw",
+  "SOLARIZED_LIGHT_THEME": "Motyw światła słonecznego",
+  "THEME_MATCH": "Dopasowanie motywu (zalecane)",
+  "SOLARIZED_LIGHT": "Światło słoneczne",
+  "HIGH_CONTRAST_DARK": "Ciemny o wysokim kontraście",
+  "HIGH_CONTRAST_LIGHT_THEME": "Motyw światła o wysokim kontraście"
 }

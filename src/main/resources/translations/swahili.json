@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Programu-jalizi mpya ya Java",
   "SAVE_AS": "Hifadhi kama ...",
   "SAVE": "Hifadhi ...",
-  "RESULTS": "Matokeo"
+  "RESULTS": "Matokeo",
+  "HIGH_CONTRAST_LIGHT": "Mwanga wa Tofauti ya Juu",
+  "DARK_ALT": "Giza-Nyeusi",
+  "ONE_DARK_THEME": "Mandhari Moja meusi",
+  "HIGH_CONTRAST_DARK_THEME": "Mandhari ya Giza Tofauti ya Juu",
+  "DARK": "Giza (Inapendekezwa Giza)",
+  "ONE_DARK": "Giza Moja",
+  "SOLARIZED_DARK": "Nuru ya jua",
+  "SOLARIZED_DARK_THEME": "Mada ya Giza Iliyodhibitiwa",
+  "SOLARIZED_LIGHT_THEME": "Mandhari ya Nuru ya Nuru",
+  "THEME_MATCH": "Mechi ya Mandhari (Imependekezwa)",
+  "SOLARIZED_LIGHT": "Mwanga wa jua",
+  "HIGH_CONTRAST_DARK": "Tofauti ya Juu Giza",
+  "HIGH_CONTRAST_LIGHT_THEME": "Mandhari ya Nuru ya Tofauti"
 }

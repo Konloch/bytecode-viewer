@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "پلاگین جاوا جدید",
   "SAVE_AS": "ذخیره به عنوان...",
   "SAVE": "صرفه جویی...",
-  "RESULTS": "نتایج"
+  "RESULTS": "نتایج",
+  "HIGH_CONTRAST_LIGHT": "نور با کنتراست بالا",
+  "DARK_ALT": "Dark-Alt",
+  "ONE_DARK_THEME": "یک تم تاریک",
+  "HIGH_CONTRAST_DARK_THEME": "تم تاریک با کنتراست بالا",
+  "DARK": "تیره (تاریک توصیه شده)",
+  "ONE_DARK": "یک تاریک",
+  "SOLARIZED_DARK": "تاریک خورشیدی",
+  "SOLARIZED_DARK_THEME": "تم تاریک خورشیدی",
+  "SOLARIZED_LIGHT_THEME": "تم نور خورشیدی",
+  "THEME_MATCH": "مسابقه تم (توصیه می شود)",
+  "SOLARIZED_LIGHT": "نور خورشیدی",
+  "HIGH_CONTRAST_DARK": "تضاد بالا تیره",
+  "HIGH_CONTRAST_LIGHT_THEME": "تم نور با کنتراست بالا"
 }

@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Új Java beépülő modul",
   "SAVE_AS": "Mentés másként...",
   "SAVE": "Mentés...",
-  "RESULTS": "Eredmények"
+  "RESULTS": "Eredmények",
+  "HIGH_CONTRAST_LIGHT": "Nagy kontrasztú fény",
+  "DARK_ALT": "Dark-Alt",
+  "ONE_DARK_THEME": "Egy sötét téma",
+  "HIGH_CONTRAST_DARK_THEME": "Nagy kontrasztú sötét téma",
+  "DARK": "Sötét (ajánlott sötét)",
+  "ONE_DARK": "Egy Sötét",
+  "SOLARIZED_DARK": "Solarized Dark",
+  "SOLARIZED_DARK_THEME": "Solarized Dark téma",
+  "SOLARIZED_LIGHT_THEME": "Solarized Light téma",
+  "THEME_MATCH": "Témaegyezés (ajánlott)",
+  "SOLARIZED_LIGHT": "Szoláris fény",
+  "HIGH_CONTRAST_DARK": "Nagy kontrasztú sötét",
+  "HIGH_CONTRAST_LIGHT_THEME": "Nagy kontrasztú könnyű téma"
 }

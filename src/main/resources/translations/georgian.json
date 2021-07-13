@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "ახალი ჯავა მოდული",
   "SAVE_AS": "Შეინახე როგორც...",
   "SAVE": "Გადარჩენა...",
-  "RESULTS": "შედეგები"
+  "RESULTS": "შედეგები",
+  "HIGH_CONTRAST_LIGHT": "მაღალი კონტრასტული შუქი",
+  "DARK_ALT": "მუქი-ალტ",
+  "ONE_DARK_THEME": "ერთი ბნელი თემა",
+  "HIGH_CONTRAST_DARK_THEME": "მაღალი კონტრასტული მუქი თემა",
+  "DARK": "მუქი (რეკომენდებულია მუქი)",
+  "ONE_DARK": "ერთი ბნელი",
+  "SOLARIZED_DARK": "სოლარიზებული ბნელი",
+  "SOLARIZED_DARK_THEME": "სოლარიზებული მუქი თემა",
+  "SOLARIZED_LIGHT_THEME": "სოლარიზებული მსუბუქი თემა",
+  "THEME_MATCH": "თემის მატჩი (რეკომენდებულია)",
+  "SOLARIZED_LIGHT": "სოლარიზებული შუქი",
+  "HIGH_CONTRAST_DARK": "მაღალი კონტრასტული მუქი",
+  "HIGH_CONTRAST_LIGHT_THEME": "მაღალი კონტრასტული სინათლის თემა"
 }

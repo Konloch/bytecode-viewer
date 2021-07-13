@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Новий плагін Java",
   "SAVE_AS": "Зберегти як...",
   "SAVE": "Зберегти ...",
-  "RESULTS": "Результати"
+  "RESULTS": "Результати",
+  "HIGH_CONTRAST_LIGHT": "Висококонтрастне світло",
+  "DARK_ALT": "Темно-Альт",
+  "ONE_DARK_THEME": "Одна темна тема",
+  "HIGH_CONTRAST_DARK_THEME": "Темна тема з високим контрастом",
+  "DARK": "Темний (рекомендований темний)",
+  "ONE_DARK": "Один темний",
+  "SOLARIZED_DARK": "Соляризований Темний",
+  "SOLARIZED_DARK_THEME": "Соляризована темна тема",
+  "SOLARIZED_LIGHT_THEME": "Тема соляризованого світла",
+  "THEME_MATCH": "Відповідність теми (рекомендується)",
+  "SOLARIZED_LIGHT": "Соляризоване світло",
+  "HIGH_CONTRAST_DARK": "Високий контраст Темний",
+  "HIGH_CONTRAST_LIGHT_THEME": "Висока контрастність світлової теми"
 }

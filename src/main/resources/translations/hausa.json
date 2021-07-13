@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Sabon fulogin Java",
   "SAVE_AS": "Ajiye Kamar ...",
   "SAVE": "Ajiye ...",
-  "RESULTS": "Sakamako"
+  "RESULTS": "Sakamako",
+  "HIGH_CONTRAST_LIGHT": "Babban Bambancin Haske",
+  "DARK_ALT": "Duhu-Alt",
+  "ONE_DARK_THEME": "Jigo Guda Daya",
+  "HIGH_CONTRAST_DARK_THEME": "Babban Bambancin Duhu",
+  "DARK": "Duhu (Nagari mai duhu)",
+  "ONE_DARK": "Daya Duhu",
+  "SOLARIZED_DARK": "Duhun dare",
+  "SOLARIZED_DARK_THEME": "Haske Mai duhu",
+  "SOLARIZED_LIGHT_THEME": "Jigon Hasken Haske",
+  "THEME_MATCH": "Matsalar Jigo (Nagari)",
+  "SOLARIZED_LIGHT": "Haske mai haske",
+  "HIGH_CONTRAST_DARK": "Babban Bambanci Duhu",
+  "HIGH_CONTRAST_LIGHT_THEME": "Babban Haske Haske"
 }

@@ -1,8 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.theme;
 
 import com.github.weisj.darklaf.LafManager;
-import com.github.weisj.darklaf.theme.DarculaTheme;
-import com.github.weisj.darklaf.theme.IntelliJTheme;
+import com.github.weisj.darklaf.theme.*;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 
 import javax.swing.*;
@@ -14,9 +13,14 @@ import javax.swing.*;
  */
 public enum LAFTheme
 {
-	SYSTEM("System Theme", RSTATheme.DEFAULT, Translation.SYSTEM_THEME), //System theme
-	DARK("Dark Theme", RSTATheme.DARK, Translation.DARK_THEME), //DarkLaf
-	LIGHT("Light Theme", RSTATheme.DEFAULT, Translation.LIGHT_THEME), //Intellij theme
+	SYSTEM("System Theme", RSTATheme.THEME_MATCH, Translation.SYSTEM_THEME), //System theme
+	DARK("Dark Theme", RSTATheme.THEME_MATCH, Translation.DARK_THEME), //DarkLaf
+	LIGHT("Light Theme", RSTATheme.THEME_MATCH, Translation.LIGHT_THEME), //Intellij theme
+	ONE_DARK("One Dark Theme", RSTATheme.THEME_MATCH, Translation.ONE_DARK_THEME),
+	SOLARIZED_DARK("Solarized Dark Theme", RSTATheme.THEME_MATCH, Translation.SOLARIZED_DARK_THEME),
+	SOLARIZED_LIGHT("Solarized Light Theme", RSTATheme.THEME_MATCH, Translation.SOLARIZED_LIGHT_THEME),
+	HIGH_CONTRAST_DARK("High Contrast Dark Theme", RSTATheme.THEME_MATCH, Translation.HIGH_CONTRAST_DARK_THEME),
+	HIGH_CONTRAST_LIGHT("High Contrast Light Theme", RSTATheme.THEME_MATCH, Translation.HIGH_CONTRAST_LIGHT_THEME),
 	;
 	
 	private final String readableName;
@@ -47,23 +51,47 @@ public enum LAFTheme
 	
 	public void setLAF() throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException
 	{
+		boolean testLAF = true;
 		switch(this)
 		{
 			default:
 			case SYSTEM:
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				testLAF = false;
 				break;
 			
 			case DARK:
 				LafManager.install(new DarculaTheme());
-				failSafe();
 				break;
 			
 			case LIGHT:
 				LafManager.install(new IntelliJTheme());
-				failSafe();
+				break;
+			
+			case ONE_DARK:
+				LafManager.install(new OneDarkTheme());
+				break;
+			
+			case SOLARIZED_DARK:
+				LafManager.install(new SolarizedDarkTheme());
+				break;
+			
+			case SOLARIZED_LIGHT:
+				LafManager.install(new SolarizedLightTheme());
+				break;
+			
+			case HIGH_CONTRAST_DARK:
+				LafManager.install(new HighContrastDarkTheme());
+				break;
+			
+			case HIGH_CONTRAST_LIGHT:
+				LafManager.install(new HighContrastLightTheme());
 				break;
 		}
+		
+		//test theme installed correctly
+		if(testLAF)
+			failSafe();
 	}
 	
 	/**

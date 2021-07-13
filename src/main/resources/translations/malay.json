@@ -110,5 +110,18 @@
   "NEW_JAVASCRIPT_PLUGIN": "Plugin Javascript Baru",
   "NEW_JAVA_PLUGIN": "Plugin Java Baru",
   "SAVE_AS": "Simpan sebagai...",
-  "SAVE": "Jimat ..."
+  "SAVE": "Jimat ...",
+  "HIGH_CONTRAST_LIGHT": "Lampu Kontras Tinggi",
+  "DARK_ALT": "Gelap-Alt",
+  "ONE_DARK_THEME": "Tema Satu Gelap",
+  "HIGH_CONTRAST_DARK_THEME": "Tema Gelap Kontras Tinggi",
+  "DARK": "Gelap (Gelap Disyorkan)",
+  "ONE_DARK": "Satu Gelap",
+  "SOLARIZED_DARK": "Gelap terpolarisasi",
+  "SOLARIZED_DARK_THEME": "Tema Gelap Solarized",
+  "SOLARIZED_LIGHT_THEME": "Tema Cahaya Terpolarisasi",
+  "THEME_MATCH": "Padanan Tema (Disyorkan)",
+  "SOLARIZED_LIGHT": "Cahaya Terpolarisasi",
+  "HIGH_CONTRAST_DARK": "Gelap Kontras Tinggi",
+  "HIGH_CONTRAST_LIGHT_THEME": "Tema Cahaya Kontras Tinggi"
 }

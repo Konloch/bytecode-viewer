@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Plugin Java mới",
   "SAVE_AS": "Lưu thành...",
   "SAVE": "Tiết kiệm...",
-  "RESULTS": "Các kết quả"
+  "RESULTS": "Các kết quả",
+  "HIGH_CONTRAST_LIGHT": "Ánh sáng tương phản cao",
+  "DARK_ALT": "Dark-Alt",
+  "ONE_DARK_THEME": "Một chủ đề tối",
+  "HIGH_CONTRAST_DARK_THEME": "Chủ đề tối tương phản cao",
+  "DARK": "Tối (Đề xuất tối)",
+  "ONE_DARK": "Một bóng tối",
+  "SOLARIZED_DARK": "Tối phân cực",
+  "SOLARIZED_DARK_THEME": "Chủ đề tối phân cực",
+  "SOLARIZED_LIGHT_THEME": "Chủ đề ánh sáng phân cực",
+  "THEME_MATCH": "Đối sánh chủ đề (Được đề xuất)",
+  "SOLARIZED_LIGHT": "Ánh sáng phân cực",
+  "HIGH_CONTRAST_DARK": "Tối tương phản cao",
+  "HIGH_CONTRAST_LIGHT_THEME": "Chủ đề ánh sáng tương phản cao"
 }

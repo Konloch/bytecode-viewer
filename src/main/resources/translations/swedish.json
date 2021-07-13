@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Nytt Java-plugin",
   "SAVE_AS": "Spara som...",
   "SAVE": "Spara...",
-  "RESULTS": "Resultat"
+  "RESULTS": "Resultat",
+  "HIGH_CONTRAST_LIGHT": "Ljus med hög kontrast",
+  "DARK_ALT": "Dark-Alt",
+  "ONE_DARK_THEME": "Ett mörkt tema",
+  "HIGH_CONTRAST_DARK_THEME": "Mörkt tema med hög kontrast",
+  "DARK": "Mörk (rekommenderas mörk)",
+  "ONE_DARK": "One Dark",
+  "SOLARIZED_DARK": "Solarized Dark",
+  "SOLARIZED_DARK_THEME": "Solarized Dark Theme",
+  "SOLARIZED_LIGHT_THEME": "Solarized Light Theme",
+  "THEME_MATCH": "Temamatch (rekommenderas)",
+  "SOLARIZED_LIGHT": "Solariserat ljus",
+  "HIGH_CONTRAST_DARK": "Hög kontrast mörk",
+  "HIGH_CONTRAST_LIGHT_THEME": "Tema med hög kontrastljus"
 }

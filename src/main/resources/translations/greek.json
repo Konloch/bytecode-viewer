@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Νέα προσθήκη Java",
   "SAVE_AS": "Αποθήκευση ως...",
   "SAVE": "Σώσει...",
-  "RESULTS": "Αποτελέσματα"
+  "RESULTS": "Αποτελέσματα",
+  "HIGH_CONTRAST_LIGHT": "Φως υψηλής αντίθεσης",
+  "DARK_ALT": "Dark-Alt",
+  "ONE_DARK_THEME": "Ένα σκοτεινό θέμα",
+  "HIGH_CONTRAST_DARK_THEME": "Σκούρο θέμα υψηλής αντίθεσης",
+  "DARK": "Σκούρο (Προτεινόμενο σκοτάδι)",
+  "ONE_DARK": "Ένα σκοτάδι",
+  "SOLARIZED_DARK": "Σολωμένο σκοτάδι",
+  "SOLARIZED_DARK_THEME": "Σκούρο θέμα Solarized",
+  "SOLARIZED_LIGHT_THEME": "Θέμα Solarized Light",
+  "THEME_MATCH": "Αντιστοίχιση θεμάτων (συνιστάται)",
+  "SOLARIZED_LIGHT": "Ηλιακό φως",
+  "HIGH_CONTRAST_DARK": "Σκούρο με υψηλή αντίθεση",
+  "HIGH_CONTRAST_LIGHT_THEME": "Θέμα φωτός υψηλής αντίθεσης"
 }

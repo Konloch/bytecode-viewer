@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Nieuwe Java-plug-in",
   "SAVE_AS": "Opslaan als...",
   "SAVE": "Sparen...",
-  "RESULTS": "Resultaten"
+  "RESULTS": "Resultaten",
+  "HIGH_CONTRAST_LIGHT": "Licht met hoog contrast",
+  "DARK_ALT": "Donker-Alt",
+  "ONE_DARK_THEME": "Een donker thema",
+  "HIGH_CONTRAST_DARK_THEME": "Donker thema met hoog contrast",
+  "DARK": "Donker (aanbevolen donker)",
+  "ONE_DARK": "een donkere",
+  "SOLARIZED_DARK": "gesolariseerd donker",
+  "SOLARIZED_DARK_THEME": "Donker thema op zonne-energie",
+  "SOLARIZED_LIGHT_THEME": "Thema gesolariseerd licht",
+  "THEME_MATCH": "Themaovereenkomst (aanbevolen)",
+  "SOLARIZED_LIGHT": "gesolariseerd licht",
+  "HIGH_CONTRAST_DARK": "Hoog contrast donker",
+  "HIGH_CONTRAST_LIGHT_THEME": "Lichtthema met hoog contrast"
 }

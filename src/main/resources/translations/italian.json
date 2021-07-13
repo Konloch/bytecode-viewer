@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Nuovo plugin Java",
   "SAVE_AS": "Salva come...",
   "SAVE": "Salva...",
-  "RESULTS": "Risultati"
+  "RESULTS": "Risultati",
+  "HIGH_CONTRAST_LIGHT": "Luce ad alto contrasto",
+  "DARK_ALT": "Scuro-Alt",
+  "ONE_DARK_THEME": "Un tema oscuro",
+  "HIGH_CONTRAST_DARK_THEME": "Tema scuro ad alto contrasto",
+  "DARK": "Scuro (scuro consigliato)",
+  "ONE_DARK": "uno scuro",
+  "SOLARIZED_DARK": "Scuro Solarizzato",
+  "SOLARIZED_DARK_THEME": "Tema Scuro Solarizzato",
+  "SOLARIZED_LIGHT_THEME": "Tema Luce Solarizzata",
+  "THEME_MATCH": "Partita a tema (consigliata)",
+  "SOLARIZED_LIGHT": "Luce Solarizzata",
+  "HIGH_CONTRAST_DARK": "Scuro ad alto contrasto",
+  "HIGH_CONTRAST_LIGHT_THEME": "Tema luce ad alto contrasto"
 }

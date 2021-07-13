@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Uusi Java-laajennus",
   "SAVE_AS": "Tallenna nimellä...",
   "SAVE": "Tallentaa...",
-  "RESULTS": "Tulokset"
+  "RESULTS": "Tulokset",
+  "HIGH_CONTRAST_LIGHT": "Suuri kontrasti",
+  "DARK_ALT": "Tumma-Alt",
+  "ONE_DARK_THEME": "Yksi pimeä teema",
+  "HIGH_CONTRAST_DARK_THEME": "Erittäin kontrastinen tumma teema",
+  "DARK": "Tumma (suositeltava tumma)",
+  "ONE_DARK": "Yksi pimeä",
+  "SOLARIZED_DARK": "Solarized Dark",
+  "SOLARIZED_DARK_THEME": "Solarized Dark -teema",
+  "SOLARIZED_LIGHT_THEME": "Solarized Light -teema",
+  "THEME_MATCH": "Teeman ottelu (suositus)",
+  "SOLARIZED_LIGHT": "Solaroitu valo",
+  "HIGH_CONTRAST_DARK": "Suuri kontrasti tumma",
+  "HIGH_CONTRAST_LIGHT_THEME": "Korkean kontrastin kevyt teema"
 }

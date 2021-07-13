@@ -110,5 +110,18 @@
   "NEW_JAVASCRIPT_PLUGIN": "新しいJavascriptプラグイン",
   "NEW_JAVA_PLUGIN": "新しいJavaプラグイン",
   "SAVE_AS": "名前を付けて保存...",
-  "SAVE": "セーブ..."
+  "SAVE": "セーブ...",
+  "HIGH_CONTRAST_LIGHT": "ハイコントラストライト",
+  "DARK_ALT": "Dark-Alt",
+  "ONE_DARK_THEME": "1つのダークテーマ",
+  "HIGH_CONTRAST_DARK_THEME": "ハイコントラストダークテーマ",
+  "DARK": "ダーク（推奨ダーク）",
+  "ONE_DARK": "ワンダーク",
+  "SOLARIZED_DARK": "ソラリゼーションダーク",
+  "SOLARIZED_DARK_THEME": "ソラリゼーションダークテーマ",
+  "SOLARIZED_LIGHT_THEME": "ソラリゼーションライトのテーマ",
+  "THEME_MATCH": "テーママッチ（推奨）",
+  "SOLARIZED_LIGHT": "ソラリゼーションライト",
+  "HIGH_CONTRAST_DARK": "ハイコントラストダーク",
+  "HIGH_CONTRAST_LIGHT_THEME": "ハイコントラストライトテーマ"
 }

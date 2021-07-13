@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "Yeni Java Eklentisi",
   "SAVE_AS": "Farklı kaydet...",
   "SAVE": "Kayıt etmek...",
-  "RESULTS": "Sonuçlar"
+  "RESULTS": "Sonuçlar",
+  "HIGH_CONTRAST_LIGHT": "Yüksek Kontrastlı Işık",
+  "DARK_ALT": "Koyu-Alt",
+  "ONE_DARK_THEME": "Bir Karanlık Tema",
+  "HIGH_CONTRAST_DARK_THEME": "Yüksek Kontrastlı Koyu Tema",
+  "DARK": "Koyu (Önerilen Koyu)",
+  "ONE_DARK": "Bir Karanlık",
+  "SOLARIZED_DARK": "Solarize Karanlık",
+  "SOLARIZED_DARK_THEME": "Solarize Karanlık Tema",
+  "SOLARIZED_LIGHT_THEME": "Solarize Işık Teması",
+  "THEME_MATCH": "Tema Eşleştirme (Önerilen)",
+  "SOLARIZED_LIGHT": "Solarize Işık",
+  "HIGH_CONTRAST_DARK": "Yüksek Kontrastlı Koyu",
+  "HIGH_CONTRAST_LIGHT_THEME": "Yüksek Kontrastlı Işık Teması"
 }

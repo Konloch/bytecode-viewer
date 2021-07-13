@@ -110,5 +110,18 @@
   "NEW_JAVA_PLUGIN": "תוסף Java חדש",
   "SAVE_AS": "שמור כ...",
   "SAVE": "להציל...",
-  "RESULTS": "תוצאות"
+  "RESULTS": "תוצאות",
+  "HIGH_CONTRAST_LIGHT": "אור ניגודיות גבוה",
+  "DARK_ALT": "כהה-אלט",
+  "ONE_DARK_THEME": "נושא אפל אחד",
+  "HIGH_CONTRAST_DARK_THEME": "נושא כהה בעל ניגודיות גבוהה",
+  "DARK": "כהה (מומלץ כהה)",
+  "ONE_DARK": "אפל אחד",
+  "SOLARIZED_DARK": "חשוך שמש",
+  "SOLARIZED_DARK_THEME": "נושא אפל שמש",
+  "SOLARIZED_LIGHT_THEME": "נושא אור סולארי",
+  "THEME_MATCH": "התאמת נושא (מומלץ)",
+  "SOLARIZED_LIGHT": "אור שמש",
+  "HIGH_CONTRAST_DARK": "ניגודיות גבוהה כהה",
+  "HIGH_CONTRAST_LIGHT_THEME": "נושא אור בעל ניגודיות גבוהה"
 }

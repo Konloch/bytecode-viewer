@@ -1,24 +1,51 @@
 package the.bytecode.club.bytecodeviewer.gui.theme;
 
+import com.github.weisj.darklaf.extensions.rsyntaxarea.DarklafRSyntaxTheme;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
+
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
 
 /**
  * @author ThexXTURBOXx
  * @since 6/23/2021
  */
+
 public enum RSTATheme
 {
-	DEFAULT("Default (Recommended Light)", null, Translation.DEFAULT_RECOMMENDED_LIGHT),
-	DARK("Dark (Recommended Dark)", "/org/fife/ui/rsyntaxtextarea/themes/dark.xml", Translation.DARK_RECOMMENDED_DARK),
+	//uses the darklaf RSyntaxTextArea extension
+	THEME_MATCH("Theme Match (Recommended)", null, Translation.THEME_MATCH),
+	//uses the default theme from RSyntaxTextArea
+	DEFAULT("Default (Recommended Light)", "/org/fife/ui/rsyntaxtextarea/themes/default.xml", Translation.DEFAULT_RECOMMENDED_LIGHT),
+	//uses the default dark theme from RSyntaxTextArea
+	DARK("Dark (Recommended Dark)", "/org/fife/ui/rsyntaxtextarea/themes/dark.xml", Translation.DARK),
+	
 	DEFAULT_ALT( "Default-Alt", "/org/fife/ui/rsyntaxtextarea/themes/default-alt.xml", Translation.DEFAULT_ALT),
 	ECLIPSE("Eclipse", "/org/fife/ui/rsyntaxtextarea/themes/eclipse.xml", Translation.ECLIPSE),
 	IDEA("IntelliJ", "/org/fife/ui/rsyntaxtextarea/themes/idea.xml", Translation.INTELLIJ),
 	VS("Visual Studio", "/org/fife/ui/rsyntaxtextarea/themes/vs.xml", Translation.VISUAL_STUDIO),
 	DRUID( "Druid (Dark)", "/org/fife/ui/rsyntaxtextarea/themes/druid.xml", Translation.DRUID_DARK),
-	MONOKAI( "Monokai (Dark)", "/org/fife/ui/rsyntaxtextarea/themes/monokai.xml", Translation.MONOKAI_DARK);
+	MONOKAI( "Monokai (Dark)", "/org/fife/ui/rsyntaxtextarea/themes/monokai.xml", Translation.MONOKAI_DARK),
+	;
 	
 	private final String readableName;
 	private final String file;
@@ -41,11 +68,21 @@ public enum RSTATheme
 	}
 	
 	public RSyntaxTextArea apply(RSyntaxTextArea area) {
-		if (file != null) {
-			try {
-				Theme.load(Constants.class.getResourceAsStream(file)).apply(area);
-			} catch (Throwable ignored) {
+		try {
+			switch(this)
+			{
+				case THEME_MATCH:
+					if(Configuration.lafTheme == LAFTheme.SYSTEM) //on system theme force default theme
+						Theme.load(Constants.class.getResourceAsStream(DEFAULT.file)).apply(area);
+					else
+						new DarklafRSyntaxTheme().apply(area);
+					break;
+					
+				default:
+					Theme.load(Constants.class.getResourceAsStream(file)).apply(area);
+					break;
 			}
+		} catch (Throwable ignored) {
 		}
 		return area;
 	}
