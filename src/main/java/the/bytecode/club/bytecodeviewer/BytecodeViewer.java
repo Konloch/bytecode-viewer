@@ -77,7 +77,7 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + All of the plugins that modify code need to include BytecodeViewer.updateAllClassNodeByteArrays();
  *      + All of the plugins that do any code changes should also include BytecodeViewer.refreshAllTabs();
  *      + Anything using getLoadedClasses() needs to be replaced with the new API
- *      + Anything using blindlySearchForClassNode() should instead search through the file container search function
+ *      + Anything using blindlySearchForClassNode() should instead search through the resource container search function
  *
  * TODO IN-PROGRESS:
  *      + Resource Exporter/Save/Decompile As Zip needs to be rewrittern
@@ -319,7 +319,7 @@ public class BytecodeViewer
     /**
      * Returns the ClassNode by the specified name
      *
-     * TODO anything relying on this should be rewritten to search using the file container
+     * TODO anything relying on this should be rewritten to search using the resource container
      *
      * @param name the class name
      * @return the ClassNode instance
@@ -338,7 +338,7 @@ public class BytecodeViewer
     }
     
     /**
-     * Returns the File Container by the specific name
+     * Returns the resource container by the specific name
      */
     public static ResourceContainer getFileContainer(String name)
     {
@@ -350,7 +350,7 @@ public class BytecodeViewer
     }
     
     /**
-     * Returns all of the loaded File Containers
+     * Returns all of the loaded resource containers
      */
     public static List<ResourceContainer> getResourceContainers() {
         return resourceContainers;
@@ -359,9 +359,12 @@ public class BytecodeViewer
     /**
      * Grabs the file contents of the loaded resources.
      *
+     * TODO anything relying on this should be rewritten to use the resource container's getFileContents
+     *
      * @param name the file name
      * @return the file contents as a byte[]
      */
+    @Deprecated
     public static byte[] getFileContents(String name)
     {
         for (ResourceContainer container : resourceContainers)

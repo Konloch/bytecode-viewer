@@ -60,7 +60,7 @@ public abstract class ResourceViewer extends JPanel
      */
     public byte[] getResourceBytes()
     {
-        return container.getBytes(name);
+        return container.getFileContents(name);
     }
     
     

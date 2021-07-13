@@ -116,7 +116,7 @@ public class ResourceContainerImporter
 				if( existingNode != null)
 				{
 					//TODO prompt to ask the user if they would like to overwrite the resource conflict
-					// or solve it automatically by creating a new file container for each conflict (means no editing)
+					// or solve it automatically by creating a new resource container for each conflict (means no editing)
 					
 					System.err.println("WARNING: Resource Conflict: " + name);
 					System.err.println("Suggested Fix: Contact Konloch to add support for resource conflicts");

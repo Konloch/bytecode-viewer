@@ -111,7 +111,7 @@ public class AllatoriStringDecrypter extends Plugin
 	
 	private int getConstantPoolSize(String className)
 	{
-		byte[] fileContents = BytecodeViewer.getFileContents(className + ".class");
+		byte[] fileContents = activeContainer.getFileContents(className + ".class");
 		return readUnsignedShort(fileContents, 8);
 	}
 	
@@ -144,7 +144,7 @@ public class AllatoriStringDecrypter extends Plugin
 					// Decrypter is always a static method of other class's inner class
 					if (decrypterClassName.contains("$"))
 					{
-						byte[] decrypterFileContents = BytecodeViewer.getFileContents(decrypterClassName + ".class");
+						byte[] decrypterFileContents = activeContainer.getFileContents(decrypterClassName + ".class");
 						
 						// We have to create new node for editing
 						// Also, one decrypter method could be used for multiple methods in code, what gives us only part of string decrypted

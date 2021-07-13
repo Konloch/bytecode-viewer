@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
  ***************************************************************************/
 
 /**
- * Prevents name path collisions by allowing the same name to be used in multiple file containers.
+ * Prevents name path collisions by allowing the same name to be used in multiple resource containers.
  *
  * @author Konloch
  */

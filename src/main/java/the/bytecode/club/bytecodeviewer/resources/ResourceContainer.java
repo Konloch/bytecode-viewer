@@ -74,7 +74,7 @@ public class ResourceContainer
     /**
      * Returns the resource bytes for the specified resource key (full name path)
      */
-    public byte[] getBytes(String resourceName)
+    public byte[] getFileContents(String resourceName)
     {
         if(resourceClassBytes.containsKey(resourceName))
             return resourceClassBytes.get(resourceName);

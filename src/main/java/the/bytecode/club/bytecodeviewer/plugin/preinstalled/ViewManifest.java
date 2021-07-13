@@ -21,18 +21,18 @@ public class ViewManifest extends Plugin
         frame.setVisible(true);
         
         //TODO android APKs may have AndroidManifests that can be viewed normally, this should be checked
-        byte[] encodedAndroidManifest = BytecodeViewer.getFileContents("AndroidManifest.xml");
+        byte[] encodedAndroidManifest = activeContainer.getFileContents("AndroidManifest.xml");
         if(encodedAndroidManifest != null)
         {
             frame.appendText("Android APK Manifest:\r");
-            byte[] decodedAndroidManifest = BytecodeViewer.getFileContents("Decoded Resources/AndroidManifest.xml");
+            byte[] decodedAndroidManifest = activeContainer.getFileContents("Decoded Resources/AndroidManifest.xml");
             if(decodedAndroidManifest != null)
                 frame.appendText(new String(decodedAndroidManifest, StandardCharsets.UTF_8));
             else
                 frame.appendText("Enable Settings>Decode APK Resources!");
         }
         
-        byte[] jarManifest = BytecodeViewer.getFileContents("META-INF/MANIFEST.MF");
+        byte[] jarManifest = activeContainer.getFileContents("META-INF/MANIFEST.MF");
         if(jarManifest != null)
         {
             if(!frame.getTextArea().getText().isEmpty())

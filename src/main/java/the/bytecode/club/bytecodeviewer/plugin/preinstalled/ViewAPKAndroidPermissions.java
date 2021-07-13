@@ -20,14 +20,14 @@ public class ViewAPKAndroidPermissions extends Plugin
         PluginConsole frame = new PluginConsole(activeContainer.name + " - Android Permissions");
         frame.setVisible(true);
         
-        byte[] encodedAndroidManifest = BytecodeViewer.getFileContents("AndroidManifest.xml");
+        byte[] encodedAndroidManifest = activeContainer.getFileContents("AndroidManifest.xml");
         if(encodedAndroidManifest == null)
         {
             frame.appendText("This plugin only works on valid Android APKs");
             return;
         }
         
-        byte[] decodedAndroidManifest = BytecodeViewer.getFileContents("Decoded Resources/AndroidManifest.xml");
+        byte[] decodedAndroidManifest = activeContainer.getFileContents("Decoded Resources/AndroidManifest.xml");
         if(decodedAndroidManifest != null)
         {
             String manifest = new String(decodedAndroidManifest, StandardCharsets.UTF_8);

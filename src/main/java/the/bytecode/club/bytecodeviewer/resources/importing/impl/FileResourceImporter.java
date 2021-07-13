@@ -16,13 +16,13 @@ public class FileResourceImporter implements Importer
 	@Override
 	public void open(File file) throws Exception
 	{
-		//create the new file container
+		//create the new resource container
 		ResourceContainer container = new ResourceContainer(file);
 		//create the new file importer
 		ResourceContainerImporter importer = new ResourceContainerImporter(container);
-		//import the file into the file container
+		//import the file into the resource container
 		importer.importAsFile();
-		//add the file container to BCV's total loaded files
+		//add the resource container to BCV's total loaded files
 		BytecodeViewer.resourceContainers.add(container);
 	}
 }
