@@ -45,7 +45,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 public class AllatoriStringDecrypter extends Plugin
 {
-	final PluginConsole frame = new PluginConsole("Allatori String Decrypter");
 	final StringBuilder out = new StringBuilder();
 	final String className;
 	
@@ -54,6 +53,8 @@ public class AllatoriStringDecrypter extends Plugin
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList)
 	{
+		PluginConsole frame = new PluginConsole(activeContainer.name + " - Allatori String Decrypter");
+		
 		MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - WARNING",
 				"WARNING: This will load the classes into the JVM and execute the allatori decrypter function"
 						+ nl + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",

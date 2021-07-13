@@ -51,7 +51,7 @@ public class MaliciousCodeScanner extends Plugin
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
-        PluginConsole frame = new PluginConsole("Malicious Code Scanner");
+        PluginConsole frame = new PluginConsole(activeContainer.name + " - Malicious Code Scanner");
         StringBuilder sb = new StringBuilder();
         
         HashSet<String> scanOptions = new HashSet<>();

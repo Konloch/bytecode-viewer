@@ -4,7 +4,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 public class Template extends Plugin
 {
-	PluginConsole gui = new PluginConsole("Java Template");
+	PluginConsole gui;
 	
 	/**
 	 * Main function
@@ -12,7 +12,11 @@ public class Template extends Plugin
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList)
 	{
+		//create console
+		gui = new PluginConsole(activeContainer.name + "Java Template");
 		gui.setVisible(true); //show the console
+		
+		//debug text
 		out("Class Nodes: " + classNodeList.size());
 		
 		//iterate through each class node

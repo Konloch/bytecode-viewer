@@ -39,7 +39,7 @@ public class ShowMainMethods extends Plugin
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
-        PluginConsole frame = new PluginConsole("Show Main Methods");
+        PluginConsole frame = new PluginConsole(activeContainer.name + " - Show Main Methods");
         StringBuilder sb = new StringBuilder();
         
         for (ClassNode classNode : classNodeList)

@@ -51,7 +51,6 @@ public class EZInjection extends Plugin
 {
     public static ArrayList<BytecodeHook> hookArray = new ArrayList<>();
     private static final String version = "1.0";
-    private static final PluginConsole gui = new PluginConsole("EZ Injection v" + version);
     private final boolean accessModifiers;
     private final boolean injectHooks;
     private final boolean invokeMethod;
@@ -140,7 +139,7 @@ public class EZInjection extends Plugin
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
-        BytecodeViewer.updateBusyStatus(true);
+        PluginConsole gui = new PluginConsole(activeContainer.name + " - EZ Injection v" + version);
         
         gui.setText("");
 
@@ -328,7 +327,5 @@ public class EZInjection extends Plugin
                 }
             }
         }
-
-        BytecodeViewer.updateBusyStatus(false);
     }
 }

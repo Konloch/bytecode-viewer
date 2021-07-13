@@ -62,6 +62,10 @@ public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
             {
                 try
                 {
+                    //add the active container as a global variable to the JS script
+                    finalEngine.put("activeContainer", activeContainer);
+                    
+                    //invoke the JS function
                     ((Invocable) finalEngine).invokeFunction("execute", classNodeList);
                 }
                 catch (NoSuchMethodException | ScriptException e)

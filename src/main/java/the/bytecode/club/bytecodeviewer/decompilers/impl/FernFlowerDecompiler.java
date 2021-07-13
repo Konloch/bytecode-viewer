@@ -70,7 +70,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
         String start = tempDirectory + fs + MiscUtils.getUniqueName("", ".class");
 
         final File tempClass = new File(start + ".class");
-
+        
         String exception = "";
         try {
             final FileOutputStream fos = new FileOutputStream(tempClass);

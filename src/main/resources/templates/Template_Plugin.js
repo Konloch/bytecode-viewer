@@ -1,12 +1,13 @@
 var BCV = Java.type("the.bytecode.club.bytecodeviewer.api.BCV");
 var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsole");
-var gui = new PluginConsole("Javascript Template");
+var gui;
 
 /**
  * Main function
  */
 function execute(classNodeList)
 {
+    gui = new PluginConsole(activeContainer.name + "Javascript Template");
 	gui.setVisible(true); //show the console
 	out("Class Nodes: " + classNodeList.size());
 

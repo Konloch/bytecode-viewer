@@ -36,7 +36,7 @@ import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 
 public class ReplaceStrings extends Plugin
 {
-    PluginConsole frame = new PluginConsole("Replace Strings");
+    PluginConsole frame;
     String originalLDC;
     String newLDC;
     String className;
@@ -53,6 +53,8 @@ public class ReplaceStrings extends Plugin
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
+        frame = new PluginConsole(activeContainer.name + " - Replace Strings");
+        
         if (!className.equals("*"))
         {
             for (ClassNode classNode : classNodeList)

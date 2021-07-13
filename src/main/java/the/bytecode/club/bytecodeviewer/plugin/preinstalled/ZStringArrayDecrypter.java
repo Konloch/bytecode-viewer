@@ -41,12 +41,12 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 public class ZStringArrayDecrypter extends Plugin
 {
-    PluginConsole gui = new PluginConsole("ZStringArray Decrypter");
-    StringBuilder out = new StringBuilder();
-
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
+        PluginConsole gui = new PluginConsole(activeContainer.name + " - ZStringArray Decrypter");
+        StringBuilder out = new StringBuilder();
+    
         MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - WARNING",
                 "WARNING: This will load the classes into the JVM and execute the initialize function"
                         + nl + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
