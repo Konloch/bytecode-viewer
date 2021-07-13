@@ -50,7 +50,7 @@ public class KrakatauDisassembler extends InternalDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
         if(!ExternalResources.getSingleton().hasSetPython2Command())
-            return "You need to set your Python 2.7 path!";
+            return "You need to set your Python 2.7 (or PyPy 2.7 for speed) executable path!";
 
         String s = ExceptionUI.SEND_STACKTRACE_TO_NL;
 

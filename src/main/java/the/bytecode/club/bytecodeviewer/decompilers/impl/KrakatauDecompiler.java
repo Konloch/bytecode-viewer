@@ -70,7 +70,7 @@ public class KrakatauDecompiler extends InternalDecompiler
     public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn)
     {
         if(!ExternalResources.getSingleton().hasSetPython2Command())
-            return "You need to set your Python 2.7 path!";
+            return "You need to set your Python 2.7 (or PyPy 2.7 for speed) executable path!";
 
         ExternalResources.getSingleton().rtCheck();
         if (Configuration.rt.isEmpty()) {
@@ -155,7 +155,7 @@ public class KrakatauDecompiler extends InternalDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
         if(!ExternalResources.getSingleton().hasSetPython2Command())
-            return "You need to set your Python 2.7 path!";
+            return "You need to set your Python 2.7 (or PyPy 2.7 for speed) executable path!";
         
         if (Configuration.rt.isEmpty()) {
             BytecodeViewer.showMessage("You need to set your JRE RT Library." +
