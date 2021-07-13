@@ -1,8 +1,11 @@
 package the.bytecode.club.bytecodeviewer.api;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -30,6 +33,10 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 public abstract class Plugin extends Thread
 {
+    //as long as your code is being called from the execute function
+    // this will be the current container
+    public ResourceContainer activeContainer = null;
+    
     @Override
     public void run()
     {
@@ -39,8 +46,8 @@ public abstract class Plugin extends Thread
         {
             if (BytecodeViewer.promptIfNoLoadedClasses())
                 return;
-            
-            execute(BytecodeViewer.getLoadedClasses());
+    
+            executeContainer();
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
         } finally {
@@ -68,9 +75,24 @@ public abstract class Plugin extends Thread
     public void setFinished() {
         finished = true;
     }
-
+    
     /**
-     * Whenever the plugin is started, this method is called
+     * On plugin start each resource container is iterated through
+     */
+    public void executeContainer()
+    {
+        BytecodeViewer.getResourceContainers().forEach(container -> {
+            //set the active container
+            activeContainer = container;
+            
+            //call on the plugin code
+            execute(new ArrayList<>(container.resourceClasses.values()));
+        });
+    }
+    
+    /**
+     * On plugin start each resource container is iterated through,
+     * then this is called with the resource container classes
      *
      * @param classNodeList all of the loaded classes for easy access.
      */
