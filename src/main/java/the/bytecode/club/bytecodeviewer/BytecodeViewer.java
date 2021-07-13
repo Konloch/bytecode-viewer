@@ -514,6 +514,16 @@ public class BytecodeViewer
     {
         BetterJOptionPane.showMessageDialog(viewer, message);
     }
+
+    /**
+     * Send a message to alert the user
+     *
+     * @param message the message you need to send
+     */
+    public static String showInput(String message)
+    {
+        return BetterJOptionPane.showInputDialog(viewer, message);
+    }
     
     /**
      * Alerts the user the program is running something in the background
@@ -564,6 +574,14 @@ public class BytecodeViewer
     /**
      * Refreshes the title on all of the opened tabs
      */
+    public static void updateAllClassNodeByteArrays()
+    {
+        resourceContainers.forEach(ResourceContainer::updateClassNodeBytes);
+    }
+    
+    /**
+     * Refreshes the title on all of the opened tabs
+     */
     public static void refreshAllTabTitles()
     {
         for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
@@ -571,6 +589,23 @@ public class BytecodeViewer
             ResourceViewer viewer = ((TabbedPane) BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i)).resource;
             viewer.refreshTitle();
         }
+    }
+    
+    /**
+     * Refreshes the title on all of the opened tabs
+     */
+    public static void refreshAllTabs()
+    {
+        new Thread(()->
+        {
+            updateBusyStatus(true);
+            for (int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
+            {
+                ResourceViewer viewer = ((TabbedPane) BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i)).resource;
+                viewer.refresh(null);
+            }
+            updateBusyStatus(false);
+        }, "Refresh All Tabs").start();
     }
 
     /**
