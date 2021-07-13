@@ -41,6 +41,36 @@ public class BetterJOptionPane
 				messageType, icon, null, null);
 	}
 	
+	public static String showInputDialog(Object message)
+			throws HeadlessException {
+		return showInputDialog(null, message);
+	}
+	
+	public static String showInputDialog(Object message, Object initialSelectionValue) {
+		return showInputDialog(null, message, initialSelectionValue);
+	}
+	
+	public static String showInputDialog(Component parentComponent,
+	                                     Object message) throws HeadlessException {
+		return showInputDialog(parentComponent, message, UIManager.getString(
+				"OptionPane.inputDialogTitle", parentComponent.getLocale()), QUESTION_MESSAGE);
+	}
+	
+	public static String showInputDialog(Component parentComponent, Object message,
+	                                     Object initialSelectionValue) {
+		return (String)showInputDialog(parentComponent, message,
+				UIManager.getString("OptionPane.inputDialogTitle",
+						parentComponent.getLocale()), QUESTION_MESSAGE, null, null,
+				initialSelectionValue);
+	}
+	
+	public static String showInputDialog(Component parentComponent,
+	                                     Object message, String title, int messageType)
+			throws HeadlessException {
+		return (String)showInputDialog(parentComponent, message, title,
+				messageType, null, null, null);
+	}
+	
 	public static int showOptionDialog(Component parentComponent,
 	                                   Object message, String title, int optionType, int messageType,
 	                                   Icon icon, Object[] options, Object initialValue)
@@ -99,6 +129,52 @@ public class BetterJOptionPane
 		}
 		
 		return CLOSED_OPTION;
+	}
+	
+	public static Object showInputDialog(Component parentComponent,
+	                                     Object message, String title, int messageType, Icon icon,
+	                                     Object[] selectionValues, Object initialSelectionValue)
+			throws HeadlessException {
+		JOptionPane    pane = new JOptionPane(message, messageType,
+				OK_CANCEL_OPTION, icon,
+				null, null);
+		
+		pane.setWantsInput(true);
+		pane.setSelectionValues(selectionValues);
+		pane.setInitialSelectionValue(initialSelectionValue);
+		pane.setComponentOrientation(((parentComponent == null) ?
+				getRootFrame() : parentComponent).getComponentOrientation());
+		
+		int style = styleFromMessageType(messageType);
+		//reflection to cheat our way around the
+		// private createDialog(Component parentComponent, String title, int style)
+		JDialog dialog = null;
+		try
+		{
+			Method createDialog = pane.getClass().getDeclaredMethod("createDialog", Component.class, String.class, int.class);
+			createDialog.setAccessible(true);
+			dialog = (JDialog) createDialog.invoke(pane, parentComponent, title, style);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		pane.selectInitialValue();
+		
+		//check if the dialogue is in a poor location, attempt to correct
+		if(dialog.getLocation().getY() == 0)
+			dialog.setLocationRelativeTo(null);
+		
+		dialog.show();
+		dialog.dispose();
+		
+		Object value = pane.getInputValue();
+		
+		if (value == UNINITIALIZED_VALUE) {
+			return null;
+		}
+		return value;
 	}
 	
 	private static int styleFromMessageType(int messageType)
