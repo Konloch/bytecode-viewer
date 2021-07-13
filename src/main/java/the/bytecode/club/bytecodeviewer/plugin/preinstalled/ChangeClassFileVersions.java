@@ -30,13 +30,13 @@ public class ChangeClassFileVersions extends Plugin
         //update the ClassFile version
         classNodeList.forEach(classNode -> classNode.version = newVersion);
         
-        //update the the resource byte[]
+        //update the the container's resource byte-arrays
         BytecodeViewer.updateAllClassNodeByteArrays();
         
-        //force refresh all tabs
+        //force refresh all tabs (this forces the decompilers to run with the latest resource data)
         BytecodeViewer.refreshAllTabs();
         
-        //alert the changes
+        //alert the changes to the user
         BytecodeViewer.showMessage("Set all of the class versions to " + newVersion);
     }
 }

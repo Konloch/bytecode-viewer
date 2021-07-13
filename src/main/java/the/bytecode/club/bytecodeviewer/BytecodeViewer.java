@@ -73,6 +73,12 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Versioning and updating need to be fixed
  *      + Fix classfile searcher
  *
+ * TODO API BUGS:
+ *      + All of the plugins that modify code need to include BytecodeViewer.updateAllClassNodeByteArrays();
+ *      + All of the plugins that do any code changes should also include BytecodeViewer.refreshAllTabs();
+ *      + Anything using getLoadedClasses() needs to be replaced with the new API
+ *      + Anything using blindlySearchForClassNode() should instead search through the file container search function
+ *
  * TODO IN-PROGRESS:
  *      + Resource Exporter/Save/Decompile As Zip needs to be rewrittern
  *      + Finish dragging code
@@ -376,8 +382,14 @@ public class BytecodeViewer
     /**
      * Gets all of the loaded classes as an array list
      *
+     * TODO: remove this and replace it with:
+     *         BytecodeViewer.getResourceContainers().forEach(container -> {
+     *             execute(new ArrayList<>(container.resourceClasses.values()));
+     *         });
+     *
      * @return the loaded classes as an array list
      */
+    @Deprecated
     public static ArrayList<ClassNode> getLoadedClasses()
     {
         ArrayList<ClassNode> a = new ArrayList<>();
