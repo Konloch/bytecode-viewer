@@ -184,7 +184,7 @@ public class WorkPaneMainComponent extends TranslatedVisibleComponent
         {
             if(resourceView instanceof ClassViewer)
             {
-                ((ClassViewer)resourceView).startPaneUpdater(null);
+                ((ClassViewer)resourceView).refresh(null);
             }
             
             resourceView.workingName = workingName;

@@ -122,13 +122,15 @@ public class FileViewer extends ResourceViewer
         mainPanel.add(textArea.getScrollPane());
     }
     
+    @Override
     public void refresh(JButton src)
     {
         refreshTitle();
         
         if (!canRefresh)
         {
-            src.setEnabled(true);
+            if(src != null)
+                src.setEnabled(true);
             return;
         }
 
@@ -139,8 +141,9 @@ public class FileViewer extends ResourceViewer
         JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
         mainPanel.add(label, BorderLayout.CENTER);
         mainPanel.updateUI();
-
-        src.setEnabled(true);
+    
+        if(src != null)
+            src.setEnabled(true);
     }
     
     private static final long serialVersionUID = 6103372882168257164L;

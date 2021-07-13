@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,18 +31,13 @@ public class WorkPaneRefresh implements Runnable
 		if(event != null && event.getSource() instanceof JButton)
 			src = (JButton) event.getSource();
 		
-		final Component tabComp = BytecodeViewer.viewer.workPane.tabs.getSelectedComponent();
+		final ResourceViewer tabComp = (ResourceViewer) BytecodeViewer.viewer.workPane.tabs.getSelectedComponent();
 		
 		if(tabComp == null)
 			return;
 		
 		BytecodeViewer.updateBusyStatus(true);
-		
-		if (tabComp instanceof ClassViewer)
-			((ClassViewer) tabComp).startPaneUpdater(src);
-		else if (tabComp instanceof FileViewer)
-			((FileViewer) tabComp).refresh(src);
-		
+		tabComp.refresh(src);
 		BytecodeViewer.updateBusyStatus(false);
 	}
 }

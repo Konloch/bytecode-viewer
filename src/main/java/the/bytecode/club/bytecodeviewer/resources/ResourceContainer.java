@@ -117,6 +117,16 @@ public class ResourceContainer
     }
     
     /**
+     * Updates this container's class node byte[] map
+     */
+    public ResourceContainer updateClassNodeBytes()
+    {
+        resourceClassBytes.clear();
+        resourceClasses.forEach((s, cn) -> resourceClassBytes.put(s, ASMUtil.nodeToBytes(cn)));
+        return this;
+    }
+    
+    /**
      * Copy a resource container's resources into this container
      */
     public ResourceContainer copy(ResourceContainer copyFrom)

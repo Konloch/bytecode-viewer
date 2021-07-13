@@ -88,7 +88,8 @@ public class ClassViewer extends ResourceViewer
         });
     }
 
-    public void startPaneUpdater(final JButton button)
+    @Override
+    public void refresh(final JButton button)
     {
         this.cn = container.getClassNode(cn.name); //update the classnode
         

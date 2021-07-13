@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
@@ -61,6 +62,9 @@ public abstract class ResourceViewer extends JPanel
     {
         return container.getBytes(name);
     }
+    
+    
+    public abstract void refresh(final JButton button);
     
     /**
      * Updates the tab's title

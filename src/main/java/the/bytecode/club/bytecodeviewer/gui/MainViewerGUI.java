@@ -17,6 +17,8 @@ import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.resourcesearch.SearchBoxPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.DecompilerSelectionPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkPaneMainComponent;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
 import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
@@ -27,7 +29,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginTemplate;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.*;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-import the.bytecode.club.bytecodeviewer.resources.Resources;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Export;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBoxMenuItem;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
@@ -119,6 +121,7 @@ public class MainViewerGUI extends JFrame
     public final JMenuItem zStringArrayDecrypter = new TranslatedJMenuItem("ZStringArray Decrypter", Translation.ZSTRINGARRAY_DECRYPTER);
     public final JMenuItem viewAPKAndroidPermissions = new JMenuItem("View Android Permissions");
     public final JMenuItem viewManifest = new JMenuItem("View Manifest");
+    public final JMenuItem changeClassFileVersions = new JMenuItem("Change ClassFile Versions");
     
     //all of the settings main menu components
     public final ButtonGroup apkConversionGroup = new ButtonGroup();
@@ -259,7 +262,7 @@ public class MainViewerGUI extends JFrame
 
     public MainViewerGUI()
     {
-        setIconImages(Resources.iconList);
+        setIconImages(IconResources.iconList);
         setSize(new Dimension(800, 488));
     
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -405,6 +408,7 @@ public class MainViewerGUI extends JFrame
                 Configuration.rstaTheme = t;
                 item.setSelected(true);
                 SettingsSerializer.saveSettingsAsync();
+                updateTabTheme();
             });
             
             rstaThemes.put(t, item);
@@ -431,7 +435,7 @@ public class MainViewerGUI extends JFrame
                 try
                 {
                     theme.setLAF();
-                    SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer);
+                    updateTabTheme();
                 }
                 catch (Exception ex)
                 {
@@ -600,6 +604,7 @@ public class MainViewerGUI extends JFrame
         pluginsMainMenu.add(showAllStrings);
         pluginsMainMenu.add(replaceStrings);
         pluginsMainMenu.add(stackFramesRemover);
+        pluginsMainMenu.add(changeClassFileVersions);
         
         //allatori is disabled since they are just placeholders
         //ZKM and ZStringArray decrypter are disabled until deobfuscation has been extended
@@ -621,6 +626,7 @@ public class MainViewerGUI extends JFrame
         zStringArrayDecrypter.addActionListener(arg0 -> PluginManager.runPlugin(new ZStringArrayDecrypter()));
         viewAPKAndroidPermissions.addActionListener(arg0 -> PluginManager.runPlugin(new ViewAPKAndroidPermissions()));
         viewManifest.addActionListener(arg0 -> PluginManager.runPlugin(new ViewManifest()));
+        changeClassFileVersions.addActionListener(arg0 -> PluginManager.runPlugin(new ChangeClassFileVersions()));
     }
     
     public void buildObfuscateMenu()
@@ -886,6 +892,32 @@ public class MainViewerGUI extends JFrame
         }
         
         Configuration.deleteForeignLibraries = deleteForeignOutdatedLibs.isSelected();
+    }
+    
+    public void updateTabTheme()
+    {
+        try
+        {
+            for(Component viewerComponent : BytecodeViewer.viewer.workPane.tabs.getComponents())
+            {
+                if(!(viewerComponent instanceof ResourceViewer))
+                    continue;
+            
+                ResourceViewer viewerResource = (ResourceViewer) viewerComponent;
+                if(!(viewerResource instanceof ClassViewer))
+                    continue;
+            
+                ClassViewer viewerClass = (ClassViewer) viewerResource;
+                Configuration.rstaTheme.apply(viewerClass.resourceViewPanel1.textArea);
+                Configuration.rstaTheme.apply(viewerClass.resourceViewPanel2.textArea);
+                Configuration.rstaTheme.apply(viewerClass.resourceViewPanel3.textArea);
+            }
+            SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
     
     public static final long serialVersionUID = 1851409230530948543L;
