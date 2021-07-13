@@ -226,8 +226,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
-            <artifactId>darklaf-extensions</artifactId>
-            <version>0.3.3bcv</version>
+            <artifactId>darklaf-extensions-rsyntaxarea</artifactId>
+            <version>0.3.4</version>
         </dependency>
     </dependencies>
 
