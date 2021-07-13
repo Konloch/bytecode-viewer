@@ -48,19 +48,29 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	private final JTextField searchInput = new JTextField();
 	private final JCheckBox caseSensitiveSearch = new TranslatedJCheckBox("Exact", Translation.EXACT);
 	private final JLabel titleHeader = new JLabel("");
-	private final Color scrollBackground = new Color(0x3c3f41);
-	private final Color scrollForeground = new Color(0x575859);
+	private final Color darkScrollBackground = new Color(0x3c3f41);
+	private final Color darkScrollForeground = new Color(0x575859);
+	private final Color blackScrollBackground = new Color(0x232323);
+	private final Color blackScrollForeground = new Color(0x575859);
 	private Runnable onCtrlS;
 	
 	public SearchableRSyntaxTextArea()
 	{
-		if(Configuration.lafTheme == LAFTheme.DARK)
+		if(Configuration.lafTheme == LAFTheme.DARK || Configuration.lafTheme == LAFTheme.SOLARIZED_DARK)
 		{
 			//this fixes the white border on the jScrollBar panes
-			scrollPane.getHorizontalScrollBar().setBackground(scrollBackground);
-			scrollPane.getHorizontalScrollBar().setForeground(scrollForeground);
-			scrollPane.getVerticalScrollBar().setBackground(scrollBackground);
-			scrollPane.getVerticalScrollBar().setForeground(scrollForeground);
+			scrollPane.getHorizontalScrollBar().setBackground(darkScrollBackground);
+			scrollPane.getHorizontalScrollBar().setForeground(darkScrollForeground);
+			scrollPane.getVerticalScrollBar().setBackground(darkScrollBackground);
+			scrollPane.getVerticalScrollBar().setForeground(darkScrollForeground);
+		}
+		else if(Configuration.lafTheme == LAFTheme.HIGH_CONTRAST_DARK)
+		{
+			//this fixes the white border on the jScrollBar panes
+			scrollPane.getHorizontalScrollBar().setBackground(blackScrollBackground);
+			scrollPane.getHorizontalScrollBar().setForeground(blackScrollForeground);
+			scrollPane.getVerticalScrollBar().setBackground(blackScrollBackground);
+			scrollPane.getVerticalScrollBar().setForeground(blackScrollForeground);
 		}
 		
 		setAntiAliasingEnabled(true);
