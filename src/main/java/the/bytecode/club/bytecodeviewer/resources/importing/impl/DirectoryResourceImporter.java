@@ -70,7 +70,7 @@ public class DirectoryResourceImporter implements Importer
 					else if (fileName.endsWith(".class"))
 					{
 						byte[] bytes = Files.readAllBytes(Paths.get(child.getAbsolutePath()));
-						if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
+						if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
 						{
 							final ClassNode cn = JarUtils.getNode(bytes);
 							allDirectoryClasses.put(FilenameUtils.removeExtension(trimmedPath), cn);

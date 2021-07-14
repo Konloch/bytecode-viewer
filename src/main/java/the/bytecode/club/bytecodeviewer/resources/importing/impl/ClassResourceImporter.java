@@ -24,7 +24,7 @@ public class ClassResourceImporter implements Importer
 		byte[] bytes = MiscUtils.getBytes(new FileInputStream(file));
 		ResourceContainer container = new ResourceContainer(file);
 		
-		if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
+		if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
 		{
 			final ClassNode cn = JarUtils.getNode(bytes);
 			

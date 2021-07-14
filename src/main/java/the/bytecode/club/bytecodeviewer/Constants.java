@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer;
 
+import the.bytecode.club.bytecodeviewer.resources.ResourceType;
+
 import java.io.File;
 import java.io.PrintStream;
 
@@ -35,7 +37,7 @@ public class Constants
 	public static final String libsDirectory = getBCVDirectory() + fs + "libs" + fs;
 	public static String krakatauWorkingDirectory = getBCVDirectory() + fs + "krakatau_" + krakatauVersion;
 	public static String enjarifyWorkingDirectory = getBCVDirectory() + fs + "enjarify_" + enjarifyVersion;
-	public static final String[] SUPPORTED_FILE_EXTENSIONS = new String[]{"jar", "zip", "class", "apk", "xapk", "dex", "war", "jsp"};
+	public static final String[] SUPPORTED_FILE_EXTENSIONS = ResourceType.supportedBCVExtensionMap.keySet().toArray(new String[0]);
 	
 	public static final PrintStream ERR = System.err;
 	public static final PrintStream OUT = System.out;

@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -14,6 +15,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.ImageJLabel;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceType;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
@@ -70,14 +72,23 @@ public class FileViewer extends ResourceViewer
     public void setContents()
     {
         final String nameLowerCase = this.name.toLowerCase();
+        final String onlyName = FilenameUtils.getName(nameLowerCase);
         final String contentsAsString = new String(contents);
         
         //image viewer
         if (!MiscUtils.isPureAscii(contentsAsString))
         {
-            //TODO webp?
-            if (nameLowerCase.endsWith(".png") || nameLowerCase.endsWith(".jpg") || nameLowerCase.endsWith(".jpeg") ||
-                    nameLowerCase.endsWith(".gif") || nameLowerCase.endsWith(".tif") || nameLowerCase.endsWith(".bmp"))
+            //TODO:
+            //  + Webp?
+            //  + Add file header checks
+            //  + Check for CAFEBABE
+            //  + ClassRead then quick-decompile using Pane1 Decompiler
+            //      (If none selected, try Pane2, Pane3, default to Proycon)
+            
+            
+            //check by file extension to display image
+            if (!onlyName.contains(":") &&
+                    ResourceType.imageExtensionMap.containsKey(FilenameUtils.getExtension(onlyName)))
             {
                 canRefresh = true;
                 
@@ -101,9 +112,6 @@ public class FileViewer extends ResourceViewer
                 });
                 return;
             }
-            //check for CAFEBABE
-            //ClassRead then quick-decompile using Pane1 Decompiler
-            // (If none selected, try Pane2, Pane3, default to Proycon)
             
             //hex viewer
             else if (BytecodeViewer.viewer.forcePureAsciiAsText.isSelected())

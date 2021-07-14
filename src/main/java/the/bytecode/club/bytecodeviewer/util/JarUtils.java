@@ -77,7 +77,7 @@ public class JarUtils
                     if (!entry.isDirectory())
                         files.put(name, bytes);
                 } else {
-                    if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
+                    if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
                     {
                         try {
                             final ClassNode cn = getNode(bytes);
@@ -133,7 +133,7 @@ public class JarUtils
                         if (!name.endsWith(".class")) {
                             files.put(name, bytes);
                         } else {
-                            if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
+                            if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
                             {
                                 try {
                                     final ClassNode cn = getNode(bytes);
@@ -165,7 +165,7 @@ public class JarUtils
                 final String name = entry.getName();
                 if (name.endsWith(".class")) {
                     byte[] bytes = MiscUtils.getBytes(jis);
-                    if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
+                    if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
                     {
                         try {
                             final ClassNode cn = getNode(bytes);

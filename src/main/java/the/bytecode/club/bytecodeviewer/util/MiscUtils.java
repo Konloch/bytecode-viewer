@@ -160,7 +160,7 @@ public class MiscUtils
         return i;
     }
 
-    public static String getFileHeader(byte[] fileContents)
+    public static String getFileHeaderMagicNumber(byte[] fileContents)
     {
         return String.format("%02X%02X%02X%02X", fileContents[0],
                 fileContents[1], fileContents[2],fileContents[3]);

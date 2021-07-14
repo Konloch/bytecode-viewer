@@ -104,7 +104,7 @@ public class ResourceContainerImporter
 	public ResourceContainerImporter addClassResource(String name, InputStream stream) throws IOException
 	{
 		byte[] bytes = MiscUtils.getBytes(stream);
-		if (MiscUtils.getFileHeader(bytes).equalsIgnoreCase("cafebabe"))
+		if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
 		{
 			try
 			{
