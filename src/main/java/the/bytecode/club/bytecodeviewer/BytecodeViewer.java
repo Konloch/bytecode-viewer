@@ -86,6 +86,7 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Fix hook inject for EZ-Injection
  *
  * TODO FEATURES:
+ *      + Console Plugin needs tabbed consoles instead of creating a new window for each console
  *      + CLI Headless needs to be supported
  *      + Add stackmapframes to bytecode decompiler
  *      + Add JEB decompiler optionally, requires them to add jeb library jar
