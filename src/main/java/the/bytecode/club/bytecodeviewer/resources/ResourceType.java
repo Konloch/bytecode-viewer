@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 public enum ResourceType
 {
+	//TODO tar/gzip?
+	
 	CLASS_FILE(IconResources.classIcon, "class"),
 	JAVA_ARCHIVE(IconResources.jarIcon, "jar", "war", "ear"),
 	ZIP_ARCHIVE(IconResources.zipIcon, "zip"),

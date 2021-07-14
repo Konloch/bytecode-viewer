@@ -4,6 +4,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
+import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
@@ -61,12 +62,10 @@ public class DirectoryResourceImporter implements Importer
 					final String fileName = child.getName();
 					
 					//attempt to import archives automatically
-					if (fileName.endsWith(".jar") || fileName.endsWith(".zip") || fileName.endsWith(".war") || fileName.endsWith(".ear"))
-						Import.ZIP.getImporter().open(child);
-					else if (fileName.endsWith(".apk"))
-						Import.APK.getImporter().open(child);
-					else if (fileName.endsWith(".dex"))
-						Import.DEX.getImporter().open(child);
+					if(ImportResource.importFile(file))
+					{
+						//let import resource handle it
+					}
 					else if (fileName.endsWith(".class"))
 					{
 						byte[] bytes = Files.readAllBytes(Paths.get(child.getAbsolutePath()));

@@ -60,28 +60,12 @@ public class ImportResource implements Runnable
 					continue;
 				}
 				
-				//check for zip archives
-				if (fn.endsWith(".jar") || fn.endsWith(".zip") || fn.endsWith(".war") || fn.endsWith(".ear"))
-					Import.ZIP.getImporter().open(file);
-				
 				//check for classes
-				else if (fn.endsWith(".class"))
+				if (fn.endsWith(".class"))
 					Import.CLASS.getImporter().open(file);
 				
-				//check for XAPKs
-				else if (fn.endsWith(".xapk"))
-					Import.XAPK.getImporter().open(file);
-				
-				//check for APKs
-				else if (fn.endsWith(".apk"))
-					Import.APK.getImporter().open(file);
-				
-				//check for DEX
-				else if (fn.endsWith(".dex"))
-					Import.DEX.getImporter().open(file);
-				
 				//everything else import as a resource
-				else
+				else if(!importFile(file))
 					Import.FILE.getImporter().open(file);
 			}
 		}
@@ -96,5 +80,32 @@ public class ImportResource implements Runnable
 				BytecodeViewer.viewer.resourcePane.updateTree();
 			} catch (NullPointerException ignored) { }
 		}
+	}
+	
+	public static boolean importFile(File file) throws Exception
+	{
+		final String fn = file.getName();
+		
+		//check for zip archives
+		if (fn.endsWith(".jar") || fn.endsWith(".zip") || fn.endsWith(".war") || fn.endsWith(".ear"))
+			Import.ZIP.getImporter().open(file);
+			
+		//check for XAPKs
+		else if (fn.endsWith(".xapk"))
+			Import.XAPK.getImporter().open(file);
+			
+		//check for APKs
+		else if (fn.endsWith(".apk"))
+			Import.APK.getImporter().open(file);
+			
+		//check for DEX
+		else if (fn.endsWith(".dex"))
+			Import.DEX.getImporter().open(file);
+		
+		//return false
+		else
+			return false;
+		
+		return true;
 	}
 }
