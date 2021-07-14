@@ -14,6 +14,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.ImageJLabel;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
+import the.bytecode.club.bytecodeviewer.resources.Resource;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceType;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -45,22 +46,16 @@ import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
 public class FileViewer extends ResourceViewer
 {
-    public final byte[] contents;
-    public final String workingName;
-    
     public final SearchableRSyntaxTextArea textArea = (SearchableRSyntaxTextArea)
             Configuration.rstaTheme.apply(new SearchableRSyntaxTextArea());
-    
     public final JPanel mainPanel = new JPanel(new BorderLayout());
     public BufferedImage image;
     public boolean canRefresh;
 
-    public FileViewer(final ResourceContainer container, final String name, final byte[] contents)
+    public FileViewer(final ResourceContainer container, final String name)
     {
-        this.name = name;
-        this.contents = contents;
-        this.workingName = container.getWorkingName(name);
-        this.container = container;
+        super(new Resource(name, container.getWorkingName(name), container));
+        
         this.setName(name);
         this.setLayout(new BorderLayout());
         
@@ -71,7 +66,8 @@ public class FileViewer extends ResourceViewer
     
     public void setContents()
     {
-        final String nameLowerCase = this.name.toLowerCase();
+        final byte[] contents = resource.getResourceBytes();
+        final String nameLowerCase = this.resource.name.toLowerCase();
         final String onlyName = FilenameUtils.getName(nameLowerCase);
         final String contentsAsString = new String(contents);
         
@@ -144,7 +140,7 @@ public class FileViewer extends ResourceViewer
 
         mainPanel.removeAll();
       
-        image = MiscUtils.loadImage(image, contents);
+        image = MiscUtils.loadImage(image, resource.getResourceBytes());
         
         JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
         mainPanel.add(label, BorderLayout.CENTER);

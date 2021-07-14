@@ -2,10 +2,9 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
 import javax.swing.*;
 
-import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.Resource;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
@@ -34,23 +33,22 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 public abstract class ResourceViewer extends JPanel
 {
-    public ClassNode viewerClassNode;
-    public String name;
-    public String workingName;
-    public ResourceContainer container;
+    public final Resource resource;
     public TabbedPane tabbedPane;
+    
+    protected ResourceViewer(Resource resource) {this.resource = resource;}
     
     /**
      * Returns the tab name
      */
     public String getTabName()
     {
-        String tabName = name;
+        String tabName = resource.name;
         
         if (Configuration.simplifiedTabNames)
             tabName = MiscUtils.getChildFromPath(tabName);
         if (Configuration.displayParentInTab)
-            tabName = container.name + ">" + tabName;
+            tabName = resource.container.name + ">" + tabName;
         
         return tabName;
     }
@@ -60,7 +58,7 @@ public abstract class ResourceViewer extends JPanel
      */
     public byte[] getResourceBytes()
     {
-        return container.getFileContents(name);
+        return resource.getResourceBytes();
     }
     
     

@@ -304,21 +304,20 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
 
         String name = nameBuffer.toString();
         
+        //TODO add file header check
         if (name.endsWith(".class"))
         {
             final ClassNode cn = container.getClassNode(
                     name.substring(0, name.length() - ".class".length()));
             
             if (cn != null)
-                BytecodeViewer.viewer.openClassFile(container, nameBuffer.toString(), cn);
+                BytecodeViewer.viewer.workPane.addClassResource(container, nameBuffer.toString());
             else
-                BytecodeViewer.viewer.openFile(container, nameBuffer.toString(),
-                        BytecodeViewer.getFileContents(nameBuffer.toString()));
+                BytecodeViewer.viewer.workPane.addFileResource(container, nameBuffer.toString());
         }
         else
         {
-            BytecodeViewer.viewer.openFile(container, nameBuffer.toString(),
-                    BytecodeViewer.getFileContents(nameBuffer.toString()));
+            BytecodeViewer.viewer.workPane.addFileResource(container, nameBuffer.toString());
         }
     }
     

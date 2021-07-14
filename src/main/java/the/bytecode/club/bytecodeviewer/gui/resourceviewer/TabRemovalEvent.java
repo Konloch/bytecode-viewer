@@ -3,6 +3,8 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
+import the.bytecode.club.bytecodeviewer.resources.Resource;
 
 import java.awt.*;
 import java.awt.event.ContainerEvent;
@@ -21,16 +23,7 @@ public class TabRemovalEvent implements ContainerListener
 	public void componentRemoved(ContainerEvent e)
 	{
 		final Component c = e.getChild();
-		
-		if (c instanceof ClassViewer)
-		{
-			String workingName = ((ClassViewer) c).workingName;
-			BytecodeViewer.viewer.workPane.openedTabs.remove(workingName);
-		}
-		else if (c instanceof FileViewer)
-		{
-			String workingName = ((FileViewer) c).workingName;
-			BytecodeViewer.viewer.workPane.openedTabs.remove(workingName);
-		}
+		String workingName = ((ResourceViewer) c).resource.workingName;
+		BytecodeViewer.viewer.workPane.openedTabs.remove(workingName);
 	}
 }

@@ -161,18 +161,15 @@ public class WorkPaneMainComponent extends TranslatedVisibleComponent
     }
 
     //load class resources
-    public void addClassResource(final ResourceContainer container, final String name, final ClassNode cn)
+    public void addClassResource(final ResourceContainer container, final String name)
     {
-        addResource(container, name, new ClassViewer(container, name, cn));
+        addResource(container, name, new ClassViewer(container, name));
     }
 
     //Load file resources
-    public void addFileResource(final ResourceContainer container, final String name, byte[] contents)
+    public void addFileResource(final ResourceContainer container, final String name)
     {
-        if (contents == null) //a directory
-            return;
-        
-        addResource(container, name, new FileViewer(container, name, contents));
+        addResource(container, name, new FileViewer(container, name));
     }
     
     private void addResource(final ResourceContainer container, final String name, final ResourceViewer resourceView)
@@ -187,7 +184,7 @@ public class WorkPaneMainComponent extends TranslatedVisibleComponent
                 ((ClassViewer)resourceView).refresh(null);
             }
             
-            resourceView.workingName = workingName;
+            resourceView.resource.workingName = workingName;
             
             tabs.add(resourceView);
             final int tabIndex = tabs.indexOfComponent(resourceView);
@@ -205,7 +202,7 @@ public class WorkPaneMainComponent extends TranslatedVisibleComponent
             for(int i = 0; i < tabs.getTabCount(); i++)
             {
                 ResourceViewer tab = ((TabbedPane)tabs.getTabComponentAt(i)).resource;
-                if(tab.workingName.equals(workingName))
+                if(tab.resource.workingName.equals(workingName))
                 {
                     tabs.setSelectedIndex(i);
                     break;

@@ -60,7 +60,7 @@ public class BytecodeViewPanelUpdater implements Runnable
     public final ClassViewer viewer;
     public final BytecodeViewPanel bytecodeViewPanel;
     private final JButton button;
-    private final byte[] b;
+    private final byte[] classBytes;
     
     
     public SearchableRSyntaxTextArea updateUpdaterTextArea;
@@ -69,11 +69,11 @@ public class BytecodeViewPanelUpdater implements Runnable
     public boolean waitingFor;
     private Thread thread;
     
-    public BytecodeViewPanelUpdater(BytecodeViewPanel bytecodeViewPanel, ClassViewer cv, byte[] b, boolean isPanelEditable, JButton button)
+    public BytecodeViewPanelUpdater(BytecodeViewPanel bytecodeViewPanel, ClassViewer cv, byte[] classBytes, boolean isPanelEditable, JButton button)
     {
         this.viewer = cv;
         this.bytecodeViewPanel = bytecodeViewPanel;
-        this.b = b;
+        this.classBytes = classBytes;
         this.isPanelEditable = isPanelEditable;
         this.button = button;
         waitingFor = true;
@@ -91,7 +91,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                 if (bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER)
                 {
                     final ClassWriter cw = new ClassWriter(0);
-                    viewer.viewerClassNode.accept(cw);
+                    viewer.resource.getResourceClassNode().accept(cw);
                 
                     SwingUtilities.invokeLater(() ->
                     {
@@ -106,7 +106,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                     final Decompiler decompiler = bytecodeViewPanel.decompiler;
                 
                     //perform decompiling inside of this thread
-                    final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.viewerClassNode, b);
+                    final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.resource.getResourceClassNode(), classBytes);
                 
                     //set the swing components on the swing thread
                     SwingUtilities.invokeLater(() ->

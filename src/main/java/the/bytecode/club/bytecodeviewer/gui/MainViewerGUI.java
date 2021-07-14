@@ -785,14 +785,6 @@ public class MainViewerGUI extends JFrame
             rootMenu.updateUI();
         });
     }
-
-    public void openClassFile(final ResourceContainer container, final String name, final ClassNode cn) {
-        workPane.addClassResource(container, name, cn);
-    }
-
-    public void openFile(final ResourceContainer container, final String name, byte[] content) {
-        workPane.addFileResource(container, name, content);
-    }
     
     public void compileOnNewThread()
     {

@@ -24,6 +24,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
+import the.bytecode.club.bytecodeviewer.resources.Resource;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
@@ -64,18 +65,13 @@ public class ClassViewer extends ResourceViewer
     public BytecodeViewPanel bytecodeViewPanel3 = new BytecodeViewPanel(2, this);
     
     public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
-    public final String workingName;
     
-    public ClassViewer(final ResourceContainer container, final String name, final ClassNode cn)
+    public ClassViewer(final ResourceContainer container, final String name)
     {
-        this.workingName = container.getWorkingName(name);
-        this.container = container;
+        super(new Resource(name, container.getWorkingName(name), container));
         
-        this.name = name;
-        this.viewerClassNode = cn;
         this.setName(name);
         this.setLayout(new BorderLayout());
-
         this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, bytecodeViewPanel1.panel, bytecodeViewPanel2.panel);
         this.sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, bytecodeViewPanel3.panel);
         this.add(sp2, BorderLayout.CENTER);
@@ -91,8 +87,6 @@ public class ClassViewer extends ResourceViewer
     @Override
     public void refresh(final JButton button)
     {
-        this.viewerClassNode = container.getClassNode(name); //update the classnode
-        
         setPanes();
         refreshTitle();
         
@@ -113,7 +107,7 @@ public class ClassViewer extends ResourceViewer
                 System.err.println("TODO: Update it to use the FileContainerImporter");
             }
             
-            classBytes = ASMUtil.nodeToBytes(viewerClassNode);
+            classBytes = ASMUtil.nodeToBytes(resource.getResourceClassNode());
         }
         
         bytecodeViewPanel1.updatePane(this, classBytes, button, isPanel1Editable());

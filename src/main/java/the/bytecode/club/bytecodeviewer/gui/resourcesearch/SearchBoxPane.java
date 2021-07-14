@@ -149,7 +149,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
                 final ClassNode fN = Objects.requireNonNull(container).getClassNode(className);
     
                 if (fN != null)
-                    BytecodeViewer.viewer.openClassFile(container, className + ".class", fN);
+                    BytecodeViewer.viewer.workPane.addClassResource(container, className + ".class");
             }
             catch (Exception e)
             {
@@ -188,7 +188,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
             final ResourceViewer cv = BytecodeViewer.getActiveResource();
             
             if (cv != null)
-                searchType.details.search(cv.container, cv.viewerClassNode, srn, exact.isSelected());
+                searchType.details.search(cv.resource.container, cv.resource.getResourceClassNode(), srn, exact.isSelected());
         }
     }
     
