@@ -1,21 +1,14 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.objectweb.asm.ClassWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.util.PaneUpdaterThread;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.EDITABLE;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -46,7 +39,6 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 {
 	private final ResourceViewPanel resourceViewPanel;
 	private final byte[] b;
-	private final boolean isPanelEditable;
 	private final JButton button;
 	public boolean waitingFor;
 	
@@ -73,7 +65,7 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 				if (resourceViewPanel.decompiler == Decompiler.HEXCODE_VIEWER)
 				{
 					final ClassWriter cw = new ClassWriter(0);
-					viewer.cn.accept(cw);
+					viewer.viewerClassNode.accept(cw);
 					
 					SwingUtilities.invokeLater(() ->
 					{
@@ -88,34 +80,12 @@ public class ResourceViewProcessing extends PaneUpdaterThread
 					final Decompiler decompiler = resourceViewPanel.decompiler;
 					
 					//perform decompiling inside of this thread
-					final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.cn, b);
+					final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.viewerClassNode, b);
 					
 					//set the swing components on the swing thread
 					SwingUtilities.invokeLater(() ->
 					{
-						updateUpdaterTextArea = new SearchableRSyntaxTextArea();
-						
-						Configuration.rstaTheme.apply(updateUpdaterTextArea);
-						resourceViewPanel.panel.add(updateUpdaterTextArea.getScrollPane());
-						resourceViewPanel.panel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
-						
-						resourceViewPanel.textArea = updateUpdaterTextArea;
-						resourceViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-						resourceViewPanel.textArea.setCodeFoldingEnabled(true);
-						resourceViewPanel.textArea.setAntiAliasingEnabled(true);
-						resourceViewPanel.textArea.setText(decompiledSource);
-						resourceViewPanel.textArea.setCaretPosition(0);
-						resourceViewPanel.textArea.setEditable(isPanelEditable);
-						
-						if(isPanelEditable && decompiler == Decompiler.SMALI_DISASSEMBLER)
-							resourceViewPanel.compileMode = Compiler.SMALI_ASSEMBLER;
-						else if(isPanelEditable && decompiler == Decompiler.KRAKATAU_DISASSEMBLER)
-							resourceViewPanel.compileMode = Compiler.KRAKATAU_ASSEMBLER;
-						
-						String editable = isPanelEditable ? " - " + EDITABLE : "";
-						resourceViewPanel.textArea.getTitleHeader().setText(decompiler.getDecompilerName() + editable);
-						resourceViewPanel.textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
-						
+						buildTextArea(decompiler, decompiledSource);
 						waitingFor = false;
 					});
 					

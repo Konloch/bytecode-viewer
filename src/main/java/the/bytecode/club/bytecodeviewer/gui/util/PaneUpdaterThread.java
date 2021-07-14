@@ -11,8 +11,11 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.MethodsRenderer;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
@@ -21,6 +24,7 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
 import static the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane.BLANK_COLOR;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.EDITABLE;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -54,6 +58,7 @@ public abstract class PaneUpdaterThread implements Runnable
     public final ResourceViewPanel resourceViewPanel;
     public SearchableRSyntaxTextArea updateUpdaterTextArea;
     public JComboBox<Integer> methodsList;
+    public boolean isPanelEditable;
     private Thread thread;
     
     public PaneUpdaterThread(ClassViewer viewer, ResourceViewPanel resourceViewPanel)
@@ -77,7 +82,17 @@ public abstract class PaneUpdaterThread implements Runnable
             return;
         
         processDisplay();
-    
+        
+        //nullcheck broken pane
+        if(updateUpdaterTextArea == null || updateUpdaterTextArea.getScrollPane() == null
+                || updateUpdaterTextArea.getScrollPane().getViewport() == null)
+        {
+            //build an error message
+            SwingUtilities.invokeLater(() ->
+                    buildTextArea(resourceViewPanel.decompiler, "Critical BCV Error"));
+            return;
+        }
+        
         //this still freezes the swing UI
         synchronizePane();
     
@@ -283,5 +298,31 @@ public abstract class PaneUpdaterThread implements Runnable
                 });
             }
         }
+    }
+    
+    public void buildTextArea(Decompiler decompiler, String decompiledSource)
+    {
+        updateUpdaterTextArea = new SearchableRSyntaxTextArea();
+        
+        Configuration.rstaTheme.apply(updateUpdaterTextArea);
+        resourceViewPanel.panel.add(updateUpdaterTextArea.getScrollPane());
+        resourceViewPanel.panel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
+        
+        resourceViewPanel.textArea = updateUpdaterTextArea;
+        resourceViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+        resourceViewPanel.textArea.setCodeFoldingEnabled(true);
+        resourceViewPanel.textArea.setAntiAliasingEnabled(true);
+        resourceViewPanel.textArea.setText(decompiledSource);
+        resourceViewPanel.textArea.setCaretPosition(0);
+        resourceViewPanel.textArea.setEditable(isPanelEditable);
+        
+        if(isPanelEditable && decompiler == Decompiler.SMALI_DISASSEMBLER)
+            resourceViewPanel.compileMode = Compiler.SMALI_ASSEMBLER;
+        else if(isPanelEditable && decompiler == Decompiler.KRAKATAU_DISASSEMBLER)
+            resourceViewPanel.compileMode = Compiler.KRAKATAU_ASSEMBLER;
+        
+        String editable = isPanelEditable ? " - " + EDITABLE : "";
+        resourceViewPanel.textArea.getTitleHeader().setText(decompiler.getDecompilerName() + editable);
+        resourceViewPanel.textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
     }
 }

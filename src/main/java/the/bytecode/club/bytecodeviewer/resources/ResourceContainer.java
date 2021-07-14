@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.resources;
 import java.io.File;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
@@ -58,6 +59,10 @@ public class ResourceContainer
      */
     public ClassNode getClassNode(String resourceName)
     {
+        //fallback incase the resource contains the file extension
+        if(resourceClassBytes.containsKey(resourceName))
+            return resourceClasses.get(FilenameUtils.removeExtension(resourceName));
+        
         return resourceClasses.get(resourceName);
     }
     

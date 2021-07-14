@@ -313,7 +313,7 @@ public class BytecodeViewer
      */
     public static ClassNode getCurrentlyOpenedClassNode()
     {
-        return getActiveResource().cn;
+        return getActiveResource().viewerClassNode;
     }
 
     /**

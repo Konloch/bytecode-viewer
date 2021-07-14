@@ -30,7 +30,8 @@ public enum Import
 {
 	DIRECTORY(new DirectoryResourceImporter()),
 	FILE(new FileResourceImporter()),
-	//TODO ear needs to work the same as XAPK
+	//TODO ear needs to import the same as XAPK
+	//TODO war needs to add the /libs correctly similar to XAPK
 	ZIP(new ZipResourceImporter(), "zip", "jar", "war", "ear"),
 	CLASS(new ClassResourceImporter(), "class"),
 	XAPK(new XAPKResourceImporter(), "xapk"),

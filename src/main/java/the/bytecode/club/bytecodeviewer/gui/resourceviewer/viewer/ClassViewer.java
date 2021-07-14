@@ -72,7 +72,7 @@ public class ClassViewer extends ResourceViewer
         this.container = container;
         
         this.name = name;
-        this.cn = cn;
+        this.viewerClassNode = cn;
         this.setName(name);
         this.setLayout(new BorderLayout());
 
@@ -91,7 +91,7 @@ public class ClassViewer extends ResourceViewer
     @Override
     public void refresh(final JButton button)
     {
-        this.cn = container.getClassNode(cn.name); //update the classnode
+        this.viewerClassNode = container.getClassNode(name); //update the classnode
         
         setPanes();
         refreshTitle();
@@ -113,7 +113,7 @@ public class ClassViewer extends ResourceViewer
                 System.err.println("TODO: Update it to use the FileContainerImporter");
             }
             
-            classBytes = ASMUtil.nodeToBytes(cn);
+            classBytes = ASMUtil.nodeToBytes(viewerClassNode);
         }
         
         resourceViewPanel1.updatePane(this, classBytes, button, isPanel1Editable());

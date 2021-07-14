@@ -60,12 +60,7 @@ public class DirectoryResourceImporter implements Importer
 							.replaceAll("\\\\", "\\/");
 					final String fileName = child.getName();
 					
-					//attempt to import archives automatically
-					if(ImportResource.importKnownFile(file))
-					{
-						//let import resource handle it
-					}
-					else if (fileName.endsWith(".class"))
+					if (fileName.endsWith(".class"))
 					{
 						byte[] bytes = Files.readAllBytes(Paths.get(child.getAbsolutePath()));
 						if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
@@ -73,6 +68,11 @@ public class DirectoryResourceImporter implements Importer
 							final ClassNode cn = JarUtils.getNode(bytes);
 							allDirectoryClasses.put(FilenameUtils.removeExtension(trimmedPath), cn);
 						}
+					}
+					//attempt to import archives automatically
+					else if(ImportResource.importKnownFile(file))
+					{
+						//let import resource handle it
 					}
 					else //pack files into a single container
 					{

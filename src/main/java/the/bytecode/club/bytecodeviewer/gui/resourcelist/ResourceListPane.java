@@ -166,9 +166,8 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
 
                 if (!container.resourceClasses.isEmpty())
                 {
-                    for (ClassNode c : container.resourceClasses.values())
+                    for (String name : container.resourceClasses.keySet())
                     {
-                        String name = c.name;
                         final String[] spl = name.split("/");
                         if (spl.length < 2)
                         {
@@ -304,9 +303,10 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
 
         String name = nameBuffer.toString();
+        
         if (name.endsWith(".class"))
         {
-            final ClassNode cn = Objects.requireNonNull(container).getClassNode(
+            final ClassNode cn = container.getClassNode(
                     name.substring(0, name.length() - ".class".length()));
             
             if (cn != null)

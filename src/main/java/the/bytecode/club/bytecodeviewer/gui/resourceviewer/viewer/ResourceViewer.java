@@ -34,7 +34,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 public abstract class ResourceViewer extends JPanel
 {
-    public ClassNode cn;
+    public ClassNode viewerClassNode;
     public String name;
     public String workingName;
     public ResourceContainer container;

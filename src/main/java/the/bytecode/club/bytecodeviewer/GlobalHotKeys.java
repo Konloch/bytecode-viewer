@@ -134,7 +134,6 @@ public class GlobalHotKeys
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			
 			String recentFile = Settings.getRecentFile();
-			System.out.println("Opening..." + recentFile);
 			
 			if(!BytecodeViewer.hasResources() && recentFile != null)
 			{

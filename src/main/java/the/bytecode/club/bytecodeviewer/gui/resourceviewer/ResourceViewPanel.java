@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
@@ -59,9 +58,9 @@ public class ResourceViewPanel
 		panel.removeAll();
 		textArea = null;
 		
-		if(viewer.cn == null)
+		if(viewer.viewerClassNode == null)
 		{
-			panel.add(new JLabel("This resource has been removed."));
+			panel.add(new JLabel("ERROR: Resource Viewer Corrupt ClassNode"));
 		}
 	}
 	
@@ -76,7 +75,7 @@ public class ResourceViewPanel
 			return true;
 		
 		SystemConsole errConsole = new SystemConsole("Java Compile Issues");
-		errConsole.setText("Error compiling class: " + viewer.cn.name +
+		errConsole.setText("Error compiling class: " + viewer.viewerClassNode.name +
 				nl + "Keep in mind most decompilers cannot produce compilable classes" +
 				nl + nl + TranslatedStrings.SUGGESTED_FIX_COMPILER_ERROR +
 				nl + nl);
@@ -84,12 +83,12 @@ public class ResourceViewPanel
 		try
 		{
 			String text = textArea.getText();
-			byte[] compiledClass = compileMode.getCompiler().compile(text, viewer.cn.name);
+			byte[] compiledClass = compileMode.getCompiler().compile(text, viewer.viewerClassNode.name);
 			
 			if (compiledClass != null)
 			{
 				ClassNode newNode = JarUtils.getNode(compiledClass);
-				viewer.container.updateNode(viewer.cn, newNode);
+				viewer.container.updateNode(viewer.viewerClassNode, newNode);
 				errConsole.finished();
 				return true;
 			}

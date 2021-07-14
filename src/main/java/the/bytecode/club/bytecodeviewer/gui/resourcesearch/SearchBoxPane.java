@@ -188,7 +188,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
             final ResourceViewer cv = BytecodeViewer.getActiveResource();
             
             if (cv != null)
-                searchType.details.search(cv.container, cv.cn, srn, exact.isSelected());
+                searchType.details.search(cv.container, cv.viewerClassNode, srn, exact.isSelected());
         }
     }
     
