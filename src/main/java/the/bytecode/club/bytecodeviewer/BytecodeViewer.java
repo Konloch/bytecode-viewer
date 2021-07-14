@@ -438,18 +438,18 @@ public class BytecodeViewer
             {
                 ClassViewer cv = (ClassViewer) c;
                 
-                if(noErrors && !cv.resourceViewPanel1.compile())
+                if(noErrors && !cv.bytecodeViewPanel1.compile())
                     noErrors = false;
-                if(noErrors && !cv.resourceViewPanel2.compile())
+                if(noErrors && !cv.bytecodeViewPanel2.compile())
                     noErrors = false;
-                if(noErrors && !cv.resourceViewPanel3.compile())
+                if(noErrors && !cv.bytecodeViewPanel3.compile())
                     noErrors = false;
                 
-                if(cv.resourceViewPanel1.textArea != null && cv.resourceViewPanel1.textArea.isEditable())
+                if(cv.bytecodeViewPanel1.textArea != null && cv.bytecodeViewPanel1.textArea.isEditable())
                     actuallyTried = true;
-                if(cv.resourceViewPanel2.textArea != null && cv.resourceViewPanel2.textArea.isEditable())
+                if(cv.bytecodeViewPanel2.textArea != null && cv.bytecodeViewPanel2.textArea.isEditable())
                     actuallyTried = true;
-                if(cv.resourceViewPanel3.textArea != null && cv.resourceViewPanel3.textArea.isEditable())
+                if(cv.bytecodeViewPanel3.textArea != null && cv.bytecodeViewPanel3.textArea.isEditable())
                     actuallyTried = true;
             }
         }

@@ -13,13 +13,15 @@ import javax.swing.event.ChangeListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import org.objectweb.asm.ClassWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.MethodsRenderer;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceViewPanel;
+import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
@@ -45,29 +47,103 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.EDI
  ***************************************************************************/
 
 /**
- * Allows us to run a background thread
+ * Updates the Bytecode View Panel in a background thread
  *
  * @author Konloch
  * @author WaterWolf
  * @author DreamSworK
  * @since 09/26/2011
  */
-public abstract class PaneUpdaterThread implements Runnable
+
+public class BytecodeViewPanelUpdater implements Runnable
 {
     public final ClassViewer viewer;
-    public final ResourceViewPanel resourceViewPanel;
+    public final BytecodeViewPanel bytecodeViewPanel;
+    private final JButton button;
+    private final byte[] b;
+    
+    
     public SearchableRSyntaxTextArea updateUpdaterTextArea;
     public JComboBox<Integer> methodsList;
     public boolean isPanelEditable;
+    public boolean waitingFor;
     private Thread thread;
     
-    public PaneUpdaterThread(ClassViewer viewer, ResourceViewPanel resourceViewPanel)
+    public BytecodeViewPanelUpdater(BytecodeViewPanel bytecodeViewPanel, ClassViewer cv, byte[] b, boolean isPanelEditable, JButton button)
     {
-        this.viewer = viewer;
-        this.resourceViewPanel = resourceViewPanel;
+        this.viewer = cv;
+        this.bytecodeViewPanel = bytecodeViewPanel;
+        this.b = b;
+        this.isPanelEditable = isPanelEditable;
+        this.button = button;
+        waitingFor = true;
     }
     
-    public abstract void processDisplay();
+    public void processDisplay()
+    {
+        try
+        {
+            BytecodeViewer.updateBusyStatus(true);
+        
+            if (bytecodeViewPanel.decompiler != Decompiler.NONE)
+            {
+                //hex viewer
+                if (bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER)
+                {
+                    final ClassWriter cw = new ClassWriter(0);
+                    viewer.viewerClassNode.accept(cw);
+                
+                    SwingUtilities.invokeLater(() ->
+                    {
+                        final JHexEditor hex = new JHexEditor(cw.toByteArray());
+                        hex.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
+                    
+                        bytecodeViewPanel.panel.add(hex);
+                    });
+                }
+                else
+                {
+                    final Decompiler decompiler = bytecodeViewPanel.decompiler;
+                
+                    //perform decompiling inside of this thread
+                    final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.viewerClassNode, b);
+                
+                    //set the swing components on the swing thread
+                    SwingUtilities.invokeLater(() ->
+                    {
+                        buildTextArea(decompiler, decompiledSource);
+                        waitingFor = false;
+                    });
+                
+                    //hold this thread until the swing thread has finished attaching the components
+                    while (waitingFor)
+                    {
+                        try {
+                            Thread.sleep(1);
+                        } catch (Exception e) {}
+                    }
+                }
+            }
+        }
+        catch (IndexOutOfBoundsException | NullPointerException e)
+        {
+            //ignore
+        }
+        catch (Exception e)
+        {
+            BytecodeViewer.handleException(e);
+        }
+        finally
+        {
+            viewer.resetDivider();
+            BytecodeViewer.updateBusyStatus(false);
+            SwingUtilities.invokeLater(() ->
+            {
+                if (button != null)
+                    button.setEnabled(true);
+            });
+        }
+    }
     
     public void startNewThread()
     {
@@ -78,7 +154,7 @@ public abstract class PaneUpdaterThread implements Runnable
     @Override
     public void run()
     {
-        if(resourceViewPanel.decompiler == Decompiler.NONE)
+        if(bytecodeViewPanel.decompiler == Decompiler.NONE)
             return;
         
         processDisplay();
@@ -89,7 +165,7 @@ public abstract class PaneUpdaterThread implements Runnable
         {
             //build an error message
             SwingUtilities.invokeLater(() ->
-                    buildTextArea(resourceViewPanel.decompiler, "Critical BCV Error"));
+                    buildTextArea(bytecodeViewPanel.decompiler, "Critical BCV Error"));
             return;
         }
         
@@ -130,7 +206,7 @@ public abstract class PaneUpdaterThread implements Runnable
         @Override
         public void caretUpdate(CaretEvent e)
         {
-            MethodParser methods = viewer.methods.get(resourceViewPanel.panelIndex);
+            MethodParser methods = viewer.methods.get(bytecodeViewPanel.panelIndex);
             if (methods != null)
             {
                 int methodLine = methods.findActiveMethod(updateUpdaterTextArea.getCaretLineNumber());
@@ -145,11 +221,11 @@ public abstract class PaneUpdaterThread implements Runnable
                     }
                     if (BytecodeViewer.viewer.synchronizedViewing.isSelected()) {
                         int panes = 2;
-                        if (viewer.resourceViewPanel3.panel != null)
+                        if (viewer.bytecodeViewPanel3.panel != null)
                             panes = 3;
 
                         for (int i = 0; i < panes; i++) {
-                            if (i != resourceViewPanel.panelIndex) {
+                            if (i != bytecodeViewPanel.panelIndex) {
                                 ClassViewer.selectMethod(viewer, i, methods.getMethod(methodLine));
                             }
                         }
@@ -163,7 +239,7 @@ public abstract class PaneUpdaterThread implements Runnable
         @Override
         public void stateChanged(ChangeEvent e) {
             int panes = 2;
-            if (viewer.resourceViewPanel3.panel != null)
+            if (viewer.bytecodeViewPanel3.panel != null)
                 panes = 3;
 
             if (BytecodeViewer.viewer.synchronizedViewing.isSelected()) {
@@ -175,7 +251,7 @@ public abstract class PaneUpdaterThread implements Runnable
                             activeViewLine;
                     int activeLineDelta = -1;
                     MethodParser.Method activeMethod = null;
-                    MethodParser activeMethods = viewer.methods.get(resourceViewPanel.panelIndex);
+                    MethodParser activeMethods = viewer.methods.get(bytecodeViewPanel.panelIndex);
                     if (activeMethods != null) {
                         int activeMethodLine = activeMethods.findActiveMethod(activeLine);
                         if (activeMethodLine != -1) {
@@ -185,19 +261,19 @@ public abstract class PaneUpdaterThread implements Runnable
                         }
                     }
                     for (int i = 0; i < panes; i++) {
-                        if (i != resourceViewPanel.panelIndex) {
+                        if (i != bytecodeViewPanel.panelIndex) {
                             int setLine = -1;
 
                             RSyntaxTextArea area = null;
                             switch (i) {
                             case 0:
-                                area = viewer.resourceViewPanel1.updateThread.updateUpdaterTextArea;
+                                area = viewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
                                 break;
                             case 1:
-                                area = viewer.resourceViewPanel2.updateThread.updateUpdaterTextArea;
+                                area = viewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
                                 break;
                             case 2:
-                                area = viewer.resourceViewPanel3.updateThread.updateUpdaterTextArea;
+                                area = viewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
                                 break;
                             }
 
@@ -229,8 +305,8 @@ public abstract class PaneUpdaterThread implements Runnable
     
     public void synchronizePane()
     {
-        if(resourceViewPanel.decompiler == Decompiler.HEXCODE_VIEWER
-                || resourceViewPanel.decompiler == Decompiler.NONE)
+        if(bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER
+                || bytecodeViewPanel.decompiler == Decompiler.NONE)
             return;
         
         SwingUtilities.invokeLater(()->
@@ -240,7 +316,7 @@ public abstract class PaneUpdaterThread implements Runnable
             updateUpdaterTextArea.addCaretListener(caretListener);
         });
         
-        final MethodParser methods = viewer.methods.get(resourceViewPanel.panelIndex);
+        final MethodParser methods = viewer.methods.get(bytecodeViewPanel.panelIndex);
         for (int i = 0; i < updateUpdaterTextArea.getLineCount(); i++)
         {
             String lineText = updateUpdaterTextArea.getLineText(i);
@@ -269,16 +345,16 @@ public abstract class PaneUpdaterThread implements Runnable
                     int line = (int) Objects.requireNonNull(methodsList.getSelectedItem());
 
                     RSyntaxTextArea area = null;
-                    switch (resourceViewPanel.panelIndex)
+                    switch (bytecodeViewPanel.panelIndex)
                     {
                         case 0:
-                            area = viewer.resourceViewPanel1.updateThread.updateUpdaterTextArea;
+                            area = viewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
                             break;
                         case 1:
-                            area = viewer.resourceViewPanel2.updateThread.updateUpdaterTextArea;
+                            area = viewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
                             break;
                         case 2:
-                            area = viewer.resourceViewPanel3.updateThread.updateUpdaterTextArea;
+                            area = viewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
                             break;
                     }
 
@@ -305,24 +381,24 @@ public abstract class PaneUpdaterThread implements Runnable
         updateUpdaterTextArea = new SearchableRSyntaxTextArea();
         
         Configuration.rstaTheme.apply(updateUpdaterTextArea);
-        resourceViewPanel.panel.add(updateUpdaterTextArea.getScrollPane());
-        resourceViewPanel.panel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
+        bytecodeViewPanel.panel.add(updateUpdaterTextArea.getScrollPane());
+        bytecodeViewPanel.panel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
         
-        resourceViewPanel.textArea = updateUpdaterTextArea;
-        resourceViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-        resourceViewPanel.textArea.setCodeFoldingEnabled(true);
-        resourceViewPanel.textArea.setAntiAliasingEnabled(true);
-        resourceViewPanel.textArea.setText(decompiledSource);
-        resourceViewPanel.textArea.setCaretPosition(0);
-        resourceViewPanel.textArea.setEditable(isPanelEditable);
+        bytecodeViewPanel.textArea = updateUpdaterTextArea;
+        bytecodeViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+        bytecodeViewPanel.textArea.setCodeFoldingEnabled(true);
+        bytecodeViewPanel.textArea.setAntiAliasingEnabled(true);
+        bytecodeViewPanel.textArea.setText(decompiledSource);
+        bytecodeViewPanel.textArea.setCaretPosition(0);
+        bytecodeViewPanel.textArea.setEditable(isPanelEditable);
         
         if(isPanelEditable && decompiler == Decompiler.SMALI_DISASSEMBLER)
-            resourceViewPanel.compileMode = Compiler.SMALI_ASSEMBLER;
+            bytecodeViewPanel.compiler = Compiler.SMALI_ASSEMBLER;
         else if(isPanelEditable && decompiler == Decompiler.KRAKATAU_DISASSEMBLER)
-            resourceViewPanel.compileMode = Compiler.KRAKATAU_ASSEMBLER;
+            bytecodeViewPanel.compiler = Compiler.KRAKATAU_ASSEMBLER;
         
         String editable = isPanelEditable ? " - " + EDITABLE : "";
-        resourceViewPanel.textArea.getTitleHeader().setText(decompiler.getDecompilerName() + editable);
-        resourceViewPanel.textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
+        bytecodeViewPanel.textArea.getTitleHeader().setText(decompiler.getDecompilerName() + editable);
+        bytecodeViewPanel.textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
     }
 }

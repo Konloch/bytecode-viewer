@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.resources;
 import java.io.File;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.compress.compressors.FileNameUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
@@ -63,6 +64,7 @@ public class ResourceContainer
         if(resourceClassBytes.containsKey(resourceName))
             return resourceClasses.get(FilenameUtils.removeExtension(resourceName));
         
+        //TODO check if this is even being called, it's probably not
         return resourceClasses.get(resourceName);
     }
     
@@ -90,22 +92,22 @@ public class ResourceContainer
     /**
      * Updates the ClassNode reference on the resourceClass list and resourceClassBytes list
      */
-    public ResourceContainer updateNode(ClassNode oldNode, ClassNode newNode)
+    public ResourceContainer updateNode(String resourceKey, ClassNode newNode)
     {
+        String classNodeKey = FilenameUtils.removeExtension(resourceKey);
+        
         //update all classnode references for ASM
-        if (resourceClasses.containsKey(oldNode.name))
+        if (resourceClasses.containsKey(classNodeKey))
         {
-            resourceClasses.remove(oldNode.name);
-            resourceClasses.put(newNode.name, newNode);
+            resourceClasses.remove(classNodeKey);
+            resourceClasses.put(classNodeKey, newNode);
         }
         
         //update the resource bytes
-        String oldResourceKey = oldNode.name + ".class";
-        String newResourceKey = newNode.name + ".class";
-        if(resourceClassBytes.containsKey(oldResourceKey))
+        if(resourceClassBytes.containsKey(resourceKey))
         {
-            resourceClassBytes.remove(oldResourceKey);
-            resourceClassBytes.put(newResourceKey, ASMUtil.nodeToBytes(newNode));
+            resourceClassBytes.remove(resourceKey);
+            resourceClassBytes.put(resourceKey, ASMUtil.nodeToBytes(newNode));
         }
         return this;
     }

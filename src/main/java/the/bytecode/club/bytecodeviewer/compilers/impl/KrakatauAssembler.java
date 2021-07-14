@@ -44,9 +44,9 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  */
 public class KrakatauAssembler extends InternalCompiler
 {
-
     @Override
-    public byte[] compile(String contents, String name) {
+    public byte[] compile(String contents, String fullyQualifiedName)
+    {
         if(!ExternalResources.getSingleton().hasSetPython2Command())
             return null;
 
@@ -55,7 +55,7 @@ public class KrakatauAssembler extends InternalCompiler
         File tempD = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempD.mkdir();
 
-        File tempJ = new File(tempD.getAbsolutePath() + fs + name + ".j");
+        File tempJ = new File(tempD.getAbsolutePath() + fs + fullyQualifiedName + ".j");
         DiskWriter.replaceFile(tempJ.getAbsolutePath(), contents, true);
 
         final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);

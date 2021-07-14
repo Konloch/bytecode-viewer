@@ -908,9 +908,9 @@ public class MainViewerGUI extends JFrame
                     continue;
             
                 ClassViewer viewerClass = (ClassViewer) viewerResource;
-                Configuration.rstaTheme.apply(viewerClass.resourceViewPanel1.textArea);
-                Configuration.rstaTheme.apply(viewerClass.resourceViewPanel2.textArea);
-                Configuration.rstaTheme.apply(viewerClass.resourceViewPanel3.textArea);
+                Configuration.rstaTheme.apply(viewerClass.bytecodeViewPanel1.textArea);
+                Configuration.rstaTheme.apply(viewerClass.bytecodeViewPanel2.textArea);
+                Configuration.rstaTheme.apply(viewerClass.bytecodeViewPanel3.textArea);
             }
             SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer);
         }

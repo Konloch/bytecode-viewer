@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import the.bytecode.club.bytecodeviewer.gui.util.PaneUpdaterThread;
+import the.bytecode.club.bytecodeviewer.gui.util.BytecodeViewPanelUpdater;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
 import javax.swing.*;
@@ -31,11 +31,11 @@ import java.awt.*;
  */
 public class MethodsRenderer extends JLabel implements ListCellRenderer<Object>
 {
-	private final PaneUpdaterThread paneUpdaterThread;
+	private final BytecodeViewPanelUpdater bytecodeViewPanelUpdater;
 	
-	public MethodsRenderer(PaneUpdaterThread paneUpdaterThread)
+	public MethodsRenderer(BytecodeViewPanelUpdater bytecodeViewPanelUpdater)
 	{
-		this.paneUpdaterThread = paneUpdaterThread;
+		this.bytecodeViewPanelUpdater = bytecodeViewPanelUpdater;
 		setOpaque(true);
 	}
 	
@@ -43,7 +43,7 @@ public class MethodsRenderer extends JLabel implements ListCellRenderer<Object>
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 	                                              boolean cellHasFocus)
 	{
-		MethodParser methods = paneUpdaterThread.viewer.methods.get(paneUpdaterThread.resourceViewPanel.decompiler.ordinal());
+		MethodParser methods = bytecodeViewPanelUpdater.viewer.methods.get(bytecodeViewPanelUpdater.bytecodeViewPanel.decompiler.ordinal());
 		MethodParser.Method method = methods.getMethod((Integer) value);
 		setText(method.toString());
 		return this;

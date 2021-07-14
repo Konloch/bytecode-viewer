@@ -40,7 +40,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 public class SmaliAssembler extends InternalCompiler
 {
     @Override
-    public byte[] compile(String contents, String name)
+    public byte[] compile(String contents, String fullyQualifiedName)
     {
         String fileStart = tempDirectory + fs + "temp";
         int fileNumber = MiscUtils.getClassNumber(fileStart, ".dex");

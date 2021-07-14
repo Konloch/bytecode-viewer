@@ -2,7 +2,7 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.ResourceViewPanel;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -59,9 +59,9 @@ public class ClassViewer extends ResourceViewer
 {
     public JSplitPane sp;
     public JSplitPane sp2;
-    public ResourceViewPanel resourceViewPanel1 = new ResourceViewPanel(0, this);
-    public ResourceViewPanel resourceViewPanel2 = new ResourceViewPanel(1, this);
-    public ResourceViewPanel resourceViewPanel3 = new ResourceViewPanel(2, this);
+    public BytecodeViewPanel bytecodeViewPanel1 = new BytecodeViewPanel(0, this);
+    public BytecodeViewPanel bytecodeViewPanel2 = new BytecodeViewPanel(1, this);
+    public BytecodeViewPanel bytecodeViewPanel3 = new BytecodeViewPanel(2, this);
     
     public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
     public final String workingName;
@@ -76,8 +76,8 @@ public class ClassViewer extends ResourceViewer
         this.setName(name);
         this.setLayout(new BorderLayout());
 
-        this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, resourceViewPanel1.panel, resourceViewPanel2.panel);
-        this.sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, resourceViewPanel3.panel);
+        this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, bytecodeViewPanel1.panel, bytecodeViewPanel2.panel);
+        this.sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, bytecodeViewPanel3.panel);
         this.add(sp2, BorderLayout.CENTER);
 
         this.addComponentListener(new ComponentAdapter() {
@@ -96,9 +96,9 @@ public class ClassViewer extends ResourceViewer
         setPanes();
         refreshTitle();
         
-        resourceViewPanel1.createPane(this);
-        resourceViewPanel2.createPane(this);
-        resourceViewPanel3.createPane(this);
+        bytecodeViewPanel1.createPane(this);
+        bytecodeViewPanel2.createPane(this);
+        bytecodeViewPanel3.createPane(this);
 
         byte[] classBytes = getResourceBytes();
         
@@ -116,9 +116,9 @@ public class ClassViewer extends ResourceViewer
             classBytes = ASMUtil.nodeToBytes(viewerClassNode);
         }
         
-        resourceViewPanel1.updatePane(this, classBytes, button, isPanel1Editable());
-        resourceViewPanel2.updatePane(this, classBytes, button, isPanel2Editable());
-        resourceViewPanel3.updatePane(this, classBytes, button, isPanel3Editable());
+        bytecodeViewPanel1.updatePane(this, classBytes, button, isPanel1Editable());
+        bytecodeViewPanel2.updatePane(this, classBytes, button, isPanel2Editable());
+        bytecodeViewPanel3.updatePane(this, classBytes, button, isPanel3Editable());
 
         Thread dumpBuild = new Thread(() ->
         {
@@ -136,12 +136,12 @@ public class ClassViewer extends ResourceViewer
 
             BytecodeViewer.updateBusyStatus(false);
 
-            if (resourceViewPanel1.decompiler != Decompiler.NONE)
-                resourceViewPanel1.updateThread.startNewThread();
-            if (resourceViewPanel2.decompiler != Decompiler.NONE)
-                resourceViewPanel2.updateThread.startNewThread();
-            if (resourceViewPanel3.decompiler != Decompiler.NONE)
-                resourceViewPanel3.updateThread.startNewThread();
+            if (bytecodeViewPanel1.decompiler != Decompiler.NONE)
+                bytecodeViewPanel1.updateThread.startNewThread();
+            if (bytecodeViewPanel2.decompiler != Decompiler.NONE)
+                bytecodeViewPanel2.updateThread.startNewThread();
+            if (bytecodeViewPanel3.decompiler != Decompiler.NONE)
+                bytecodeViewPanel3.updateThread.startNewThread();
         }, "ClassViewer Temp Dump");
         dumpBuild.start();
 
@@ -164,9 +164,9 @@ public class ClassViewer extends ResourceViewer
     }
     
     public void setPanes() {
-        resourceViewPanel1.decompiler = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler();
-        resourceViewPanel2.decompiler = BytecodeViewer.viewer.viewPane2.getSelectedDecompiler();
-        resourceViewPanel3.decompiler = BytecodeViewer.viewer.viewPane3.getSelectedDecompiler();
+        bytecodeViewPanel1.decompiler = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler();
+        bytecodeViewPanel2.decompiler = BytecodeViewer.viewer.viewPane2.getSelectedDecompiler();
+        bytecodeViewPanel3.decompiler = BytecodeViewer.viewer.viewPane3.getSelectedDecompiler();
     }
 
     public boolean isPanel1Editable() {
@@ -196,13 +196,13 @@ public class ClassViewer extends ResourceViewer
         RSyntaxTextArea area = null;
         switch (paneId) {
             case 0:
-                area = classViewer.resourceViewPanel1.updateThread.updateUpdaterTextArea;
+                area = classViewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
                 break;
             case 1:
-                area = classViewer.resourceViewPanel2.updateThread.updateUpdaterTextArea;
+                area = classViewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
                 break;
             case 2:
-                area = classViewer.resourceViewPanel3.updateThread.updateUpdaterTextArea;
+                area = classViewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
                 break;
         }
 
@@ -270,24 +270,24 @@ public class ClassViewer extends ResourceViewer
         {
             sp.setResizeWeight(0.5);
             
-            if (resourceViewPanel2.decompiler != Decompiler.NONE && resourceViewPanel1.decompiler != Decompiler.NONE) {
+            if (bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel1.decompiler != Decompiler.NONE) {
                 setDividerLocation(sp, 0.5);
-            } else if (resourceViewPanel1.decompiler != Decompiler.NONE) {
+            } else if (bytecodeViewPanel1.decompiler != Decompiler.NONE) {
                 setDividerLocation(sp, 1);
-            } else if (resourceViewPanel2.decompiler != Decompiler.NONE) {
+            } else if (bytecodeViewPanel2.decompiler != Decompiler.NONE) {
                 sp.setResizeWeight(1);
                 setDividerLocation(sp, 0);
             } else {
                 setDividerLocation(sp, 0);
             }
             
-            if (resourceViewPanel3.decompiler != Decompiler.NONE) {
+            if (bytecodeViewPanel3.decompiler != Decompiler.NONE) {
                 sp2.setResizeWeight(0.7);
                 setDividerLocation(sp2, 0.7);
-                if ((resourceViewPanel2.decompiler == Decompiler.NONE && resourceViewPanel1.decompiler != Decompiler.NONE)
-                        || (resourceViewPanel1.decompiler == Decompiler.NONE && resourceViewPanel2.decompiler != Decompiler.NONE)) {
+                if ((bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel1.decompiler != Decompiler.NONE)
+                        || (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE)) {
                     setDividerLocation(sp2, 0.5);
-                } else if (resourceViewPanel1.decompiler == Decompiler.NONE) {
+                } else if (bytecodeViewPanel1.decompiler == Decompiler.NONE) {
                     setDividerLocation(sp2, 0);
                 }
             } else {

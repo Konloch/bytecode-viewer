@@ -6,7 +6,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.gui.components.SystemConsole;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
-import the.bytecode.club.bytecodeviewer.gui.util.PaneUpdaterThread;
+import the.bytecode.club.bytecodeviewer.gui.util.BytecodeViewPanelUpdater;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
@@ -34,22 +34,25 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
  ***************************************************************************/
 
 /**
+ * Represents a Bytecode/ClassFile View Panel
+ *
  * @author Konloch
  * @since 6/24/2021
  */
-public class ResourceViewPanel
+public class BytecodeViewPanel
 {
 	public final JPanel panel = new JPanel(new BorderLayout());
 	
 	public final int panelIndex;
 	public final ClassViewer viewer;
-	public Decompiler decompiler = Decompiler.NONE;
 	public SearchableRSyntaxTextArea textArea;
-	public PaneUpdaterThread updateThread;
+	public BytecodeViewPanelUpdater updateThread;
+	public Decompiler decompiler = Decompiler.NONE;
+	public Compiler compiler = Compiler.JAVA_COMPILER;
 	
-	public Compiler compileMode = Compiler.JAVA_COMPILER;
-	
-	public ResourceViewPanel(int panelIndex, ClassViewer viewer) {this.panelIndex = panelIndex;
+	public BytecodeViewPanel(int panelIndex, ClassViewer viewer)
+	{
+		this.panelIndex = panelIndex;
 		this.viewer = viewer;
 	}
 	
@@ -59,14 +62,12 @@ public class ResourceViewPanel
 		textArea = null;
 		
 		if(viewer.viewerClassNode == null)
-		{
 			panel.add(new JLabel("ERROR: Resource Viewer Corrupt ClassNode"));
-		}
 	}
 	
 	public void updatePane(ClassViewer cv, byte[] b, JButton button, boolean isPanelEditable)
 	{
-		updateThread = new ResourceViewProcessing(this, cv, b, isPanelEditable, button);
+		updateThread = new BytecodeViewPanelUpdater(this, cv, b, isPanelEditable, button);
 	}
 	
 	public boolean compile()
@@ -83,12 +84,12 @@ public class ResourceViewPanel
 		try
 		{
 			String text = textArea.getText();
-			byte[] compiledClass = compileMode.getCompiler().compile(text, viewer.viewerClassNode.name);
+			byte[] compiledClass = compiler.getCompiler().compile(text, viewer.viewerClassNode.name);
 			
 			if (compiledClass != null)
 			{
 				ClassNode newNode = JarUtils.getNode(compiledClass);
-				viewer.container.updateNode(viewer.viewerClassNode, newNode);
+				viewer.container.updateNode(viewer.name, newNode);
 				errConsole.finished();
 				return true;
 			}

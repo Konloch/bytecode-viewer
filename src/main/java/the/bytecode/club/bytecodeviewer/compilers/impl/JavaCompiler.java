@@ -42,14 +42,14 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 public class JavaCompiler extends InternalCompiler
 {
     @Override
-    public byte[] compile(String contents, String name)
+    public byte[] compile(String contents, String fullyQualifiedName)
     {
         String fileStart = tempDirectory + fs + "temp" + MiscUtils.randomString(12) + fs;
         String fileStart2 = tempDirectory + fs + "temp" + MiscUtils.randomString(12) + fs;
-        File java = new File(fileStart + fs + name + ".java");
-        File clazz = new File(fileStart2 + fs + name + ".class");
+        File java = new File(fileStart + fs + fullyQualifiedName + ".java");
+        File clazz = new File(fileStart2 + fs + fullyQualifiedName + ".class");
         File cp = new File(tempDirectory + fs + "cpath_" + MiscUtils.randomString(12) + ".jar");
-        File tempD = new File(fileStart + fs + name.substring(0, name.length() - name.split("/")[name.split("/").length - 1].length()));
+        File tempD = new File(fileStart + fs + fullyQualifiedName.substring(0, fullyQualifiedName.length() - fullyQualifiedName.split("/")[fullyQualifiedName.split("/").length - 1].length()));
         
         tempD.mkdirs();
         new File(fileStart2).mkdirs();
