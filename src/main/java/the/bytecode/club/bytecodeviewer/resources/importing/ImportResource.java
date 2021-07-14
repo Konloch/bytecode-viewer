@@ -87,34 +87,13 @@ public class ImportResource implements Runnable
 		final String fn = FilenameUtils.getName(file.getName()).toLowerCase();
 		final String extension = fn.contains(":") ? null : FilenameUtils.getExtension(fn);
 		
-		switch(extension)
-		{
-			//check for zip archives
-			case "jar":
-			case "zip":
-			case "war":
-			case "ear": //TODO ear needs to work the same as XAPK
-				Import.ZIP.getImporter().open(file);
-				break;
-			
-			//check for XAPKs
-			case "xapk":
-				Import.XAPK.getImporter().open(file);
-				break;
-			
-			//check for APKs
-			case "apk":
-				Import.APK.getImporter().open(file);
-				break;
-			
-			//check for DEX
-			case "dex":
-				Import.DEX.getImporter().open(file);
-				break;
-				
-			default:
-				return false;
-		}
+		Import imp = Import.extensionMap.get(extension);
+		
+		if(imp == null)
+			return false;
+		
+		//import/decode the file using the file specific importer
+		imp.getImporter().open(file);
 		
 		return true;
 	}

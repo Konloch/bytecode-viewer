@@ -2,6 +2,8 @@ package the.bytecode.club.bytecodeviewer.resources.importing;
 
 import the.bytecode.club.bytecodeviewer.resources.importing.impl.*;
 
+import java.util.HashMap;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -28,16 +30,29 @@ public enum Import
 {
 	DIRECTORY(new DirectoryResourceImporter()),
 	FILE(new FileResourceImporter()),
-	ZIP(new ZipResourceImporter()),
-	CLASS(new ClassResourceImporter()),
-	XAPK(new XAPKResourceImporter()),
-	APK(new APKResourceImporter()),
-	DEX(new DEXResourceImporter()),
+	//TODO ear needs to work the same as XAPK
+	ZIP(new ZipResourceImporter(), "zip", "jar", "war", "ear"),
+	CLASS(new ClassResourceImporter(), "class"),
+	XAPK(new XAPKResourceImporter(), "xapk"),
+	APK(new APKResourceImporter(), "apk"),
+	DEX(new DEXResourceImporter(), "dex"),
 	;
 	
-	private final Importer importer;
+	public static final HashMap<String, Import> extensionMap = new HashMap<>();
 	
-	Import(Importer importer) {this.importer = importer;}
+	private final Importer importer;
+	private final String[] extensions;
+	
+	static
+	{
+		for(Import i : values())
+			for(String s : i.extensions)
+				extensionMap.put(s, i);
+	}
+	
+	Import(Importer importer, String... extensions) {this.importer = importer;
+		this.extensions = extensions;
+	}
 	
 	public Importer getImporter()
 	{
