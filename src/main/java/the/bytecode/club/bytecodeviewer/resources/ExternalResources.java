@@ -231,6 +231,7 @@ public class ExternalResources
 			return;
 		
 		Configuration.python2 = file.getAbsolutePath();
+		Configuration.python2Extra = "";
 		SettingsSerializer.saveSettingsAsync();
 	}
 	
@@ -244,6 +245,7 @@ public class ExternalResources
 			return;
 		
 		Configuration.python3 = file.getAbsolutePath();
+		Configuration.python3Extra = "";
 		SettingsSerializer.saveSettingsAsync();
 	}
 	
