@@ -1,9 +1,16 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
+import me.konloch.kontainer.io.DiskWriter;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+
+import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -79,9 +86,18 @@ public class JFrameConsole extends JFrame
 		int max = 500_000; //TODO this can be increased to 1,000,000 the lower number was chosen to be safe
 		if(len >= max)
 		{
+			//TODO if two consoles are ran at the same time and exceed the maximum this file will be overwritten
+			
+			//save to disk
+			File tempFile = new File(tempDirectory+fs+"console.log");
+			DiskWriter.replaceFile(tempFile.getAbsolutePath(), s, false);
+			
+			//trim
 			int skipped = len - max;
 			s = s.substring(0, max);
-			s += "\n\rSkipping " + skipped + " chars, allowing " + max;
+			s = ("Skipping " + skipped + " chars, allowing " + max + "\n\r")
+					+ "Full log saved to: " + tempFile.getAbsolutePath() + "\n\r"
+					+ s;
 		}
 		
 		return s;
