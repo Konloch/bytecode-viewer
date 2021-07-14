@@ -11,15 +11,17 @@ import java.util.HashMap;
 public enum ResourceType
 {
 	//TODO tar/gzip?
+	//TODO add the files icons for the missing files from the.bytecode.club.bytecodeviewer.util.SyntaxLanguage
 	
 	CLASS_FILE(IconResources.classIcon, "class"),
 	JAVA_ARCHIVE(IconResources.jarIcon, "jar", "war", "ear"),
 	ZIP_ARCHIVE(IconResources.zipIcon, "zip"),
 	ANDROID_ARCHIVE(IconResources.androidIcon, "apk", "wapk", "dex"),
 	IMAGE_FILE(IconResources.imageIcon, "png", "jpg", "jpeg", "bmp", "wbmp", "gif", "tif"),
-	CONFIG_TEXT_FILE(IconResources.configIcon, "properties", "xml", "jsp", "mf", "config", "config", "yaml", "ini", "json"),
+	CONFIG_TEXT_FILE(IconResources.configIcon, "properties", "xml", "jsp", "mf", "config",
+			"csv", "yaml", "ini", "json", "sql", "gradle", "dockerfile", "htaccess"),
 	JAVA_FILE(IconResources.javaIcon, "java"),
-	TEXT_FILE(IconResources.textIcon, "txt", "md", "log"),
+	TEXT_FILE(IconResources.textIcon, "txt", "md", "log", "html", "css"),
 	CPP_FILE(IconResources.cplusplusIcon, "c", "cpp", "h"),
 	CSHAR_FILE(IconResources.csharpIcon, "cs"),
 	BAT_FILE(IconResources.batIcon, "bat", "batch"),
