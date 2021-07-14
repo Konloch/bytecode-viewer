@@ -3,7 +3,6 @@ package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.importing.Import;
 import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
@@ -62,7 +61,7 @@ public class DirectoryResourceImporter implements Importer
 					final String fileName = child.getName();
 					
 					//attempt to import archives automatically
-					if(ImportResource.importFile(file))
+					if(ImportResource.importKnownFile(file))
 					{
 						//let import resource handle it
 					}

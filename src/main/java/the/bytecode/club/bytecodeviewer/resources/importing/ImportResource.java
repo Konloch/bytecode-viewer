@@ -1,13 +1,10 @@
 package the.bytecode.club.bytecodeviewer.resources.importing;
 
+import org.apache.commons.io.FilenameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Settings;
-import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
-import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 
 import java.io.File;
-import java.util.Objects;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -65,7 +62,7 @@ public class ImportResource implements Runnable
 					Import.CLASS.getImporter().open(file);
 				
 				//everything else import as a resource
-				else if(!importFile(file))
+				else if(!importKnownFile(file))
 					Import.FILE.getImporter().open(file);
 			}
 		}
@@ -82,29 +79,42 @@ public class ImportResource implements Runnable
 		}
 	}
 	
-	public static boolean importFile(File file) throws Exception
+	/**
+	 * Imports a file using File-Specific importers/decoders
+	 */
+	public static boolean importKnownFile(File file) throws Exception
 	{
-		final String fn = file.getName();
+		final String fn = FilenameUtils.getName(file.getName()).toLowerCase();
+		final String extension = fn.contains(":") ? null : FilenameUtils.getExtension(fn);
 		
-		//check for zip archives
-		if (fn.endsWith(".jar") || fn.endsWith(".zip") || fn.endsWith(".war") || fn.endsWith(".ear"))
-			Import.ZIP.getImporter().open(file);
+		switch(extension)
+		{
+			//check for zip archives
+			case "jar":
+			case "zip":
+			case "war":
+			case "ear": //TODO ear needs to work the same as XAPK
+				Import.ZIP.getImporter().open(file);
+				break;
 			
-		//check for XAPKs
-		else if (fn.endsWith(".xapk"))
-			Import.XAPK.getImporter().open(file);
+			//check for XAPKs
+			case "xapk":
+				Import.XAPK.getImporter().open(file);
+				break;
 			
-		//check for APKs
-		else if (fn.endsWith(".apk"))
-			Import.APK.getImporter().open(file);
+			//check for APKs
+			case "apk":
+				Import.APK.getImporter().open(file);
+				break;
 			
-		//check for DEX
-		else if (fn.endsWith(".dex"))
-			Import.DEX.getImporter().open(file);
-		
-		//return false
-		else
-			return false;
+			//check for DEX
+			case "dex":
+				Import.DEX.getImporter().open(file);
+				break;
+				
+			default:
+				return false;
+		}
 		
 		return true;
 	}
