@@ -301,7 +301,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             if (c.name.equals(cheapHax))
                 container = c;
         }
-
+        
         String name = nameBuffer.toString();
         
         //TODO add file header check
@@ -311,13 +311,13 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                     name.substring(0, name.length() - ".class".length()));
             
             if (cn != null)
-                BytecodeViewer.viewer.workPane.addClassResource(container, nameBuffer.toString());
+                BytecodeViewer.viewer.workPane.addClassResource(container, name);
             else
-                BytecodeViewer.viewer.workPane.addFileResource(container, nameBuffer.toString());
+                BytecodeViewer.viewer.workPane.addFileResource(container, name);
         }
-        else
+        else if(container.resourceFiles.containsKey(name))
         {
-            BytecodeViewer.viewer.workPane.addFileResource(container, nameBuffer.toString());
+            BytecodeViewer.viewer.workPane.addFileResource(container, name);
         }
     }
     

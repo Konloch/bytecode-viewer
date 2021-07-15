@@ -1,7 +1,9 @@
-package the.bytecode.club.bytecodeviewer.api;
+package the.bytecode.club.bytecodeviewer.gui.components;
 
-import the.bytecode.club.bytecodeviewer.gui.components.SystemConsole;
-import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
+
+import javax.swing.*;
+import java.awt.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -22,31 +24,28 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
  ***************************************************************************/
 
 /**
- * A simple console GUI.
- *
  * @author Konloch
+ * @since 7/14/2021
  */
 
-public class PluginConsole extends SystemConsole
+public class JFrameConsoleTabbed extends JFrame
 {
-    private boolean showWindow;
-    
-    public PluginConsole(String pluginName)
-    {
-        super("Bytecode Viewer - Plugin Console - " + pluginName);
-        
-        PluginManager.addConsole(this);
-    }
-    
-    @Override
-    public void setVisible(boolean b)
-    {
-        //do nothing
-        if(!showWindow)
-            return;
-        
-        super.setVisible(b);
-    }
-    
-    private static final long serialVersionUID = -6556940545421437508L;
+	private final JTabbedPane tabbedPane;
+	
+	public JFrameConsoleTabbed(String title)
+	{
+		setIconImages(IconResources.iconList);
+		setTitle(title);
+		setSize(new Dimension(542, 316));
+		
+		tabbedPane = new JTabbedPane();
+		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		
+		this.setLocationRelativeTo(null);
+	}
+	
+	public void addConsole(Component console, String containerName)
+	{
+		tabbedPane.add(console, containerName);
+	}
 }

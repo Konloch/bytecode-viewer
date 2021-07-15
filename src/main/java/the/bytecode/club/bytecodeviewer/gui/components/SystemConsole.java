@@ -18,8 +18,6 @@ package the.bytecode.club.bytecodeviewer.gui.components;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
 /**
  * A simple console GUI.
  *

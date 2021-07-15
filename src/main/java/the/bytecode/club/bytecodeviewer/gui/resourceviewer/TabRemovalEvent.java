@@ -23,6 +23,10 @@ public class TabRemovalEvent implements ContainerListener
 	public void componentRemoved(ContainerEvent e)
 	{
 		final Component c = e.getChild();
+		
+		if(!(c instanceof ResourceViewer))
+			return;
+		
 		String workingName = ((ResourceViewer) c).resource.workingName;
 		BytecodeViewer.viewer.workPane.openedTabs.remove(workingName);
 	}

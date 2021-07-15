@@ -5,6 +5,8 @@ import java.util.*;
 import javax.swing.filechooser.FileFilter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.api.PluginConsole;
+import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsoleTabbed;
 import the.bytecode.club.bytecodeviewer.plugin.strategies.*;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -35,11 +37,20 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
  * @author Bibl
  * @since 01/16/16, 14:36, Adaptable PluginLaunchStrategy system.
  */
-public final class PluginManager {
 
+public final class PluginManager
+{
     private static final Map<String, PluginLaunchStrategy> launchStrategies = new HashMap<>();
     private static final PluginFileFilter filter = new PluginFileFilter();
     private static List<Plugin> pluginInstances = new ArrayList<>();
+    
+    //TODO this system needs to be redone, currently it will conflict if more than one plugin is ran at the same time
+    // the solution is to tie the plugin object into the plugin console,
+    // then move all of this into the plugin class as non-static objects
+    
+    private static Plugin activePlugin;
+    private static JFrameConsoleTabbed activeTabbedConsole;
+    private static int consoleCount = 0;
 
     static
     {
@@ -67,6 +78,15 @@ public final class PluginManager {
      */
     public static void runPlugin(Plugin newPluginInstance)
     {
+        //reset the console count
+        consoleCount = 0;
+        
+        //reset the active tabbed console
+        activeTabbedConsole = null;
+    
+        //reset the active plugin
+        activePlugin = newPluginInstance;
+        
         //clean the plugin list from dead threads
         pluginInstances.removeIf(Plugin::isFinished);
         
@@ -95,6 +115,23 @@ public final class PluginManager {
 
         if (p != null)
             runPlugin(p);
+    }
+    
+    /**
+     * Add an active console from a plugin being ran
+     */
+    public static void addConsole(PluginConsole console)
+    {
+        int id = consoleCount++;
+    
+        if(activeTabbedConsole == null)
+        {
+            activeTabbedConsole = new JFrameConsoleTabbed(console.getTitle());
+            activeTabbedConsole.setVisible(true);
+        }
+    
+        console.setConsoleID(id);
+        activeTabbedConsole.addConsole(console.getComponent(0), activePlugin.activeContainer.name);
     }
 
     public static void register(String name, PluginLaunchStrategy strat) {

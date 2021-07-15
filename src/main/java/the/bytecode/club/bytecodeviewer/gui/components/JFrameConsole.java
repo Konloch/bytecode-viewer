@@ -1,15 +1,12 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
 import me.konloch.kontainer.io.DiskWriter;
-import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 
 /***************************************************************************
@@ -38,14 +35,17 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
  */
 public class JFrameConsole extends JFrame
 {
-	private final SearchableJTextArea textArea = new SearchableJTextArea();
+	private String containerName;
+	private int consoleID;
+	private final SearchableJTextArea textArea;
 	
 	public JFrameConsole(String title)
 	{
-		this.setIconImages(IconResources.iconList);
+		setIconImages(IconResources.iconList);
 		setTitle(title);
 		setSize(new Dimension(542, 316));
 		
+		textArea = new SearchableJTextArea();
 		getContentPane().add(textArea.getScrollPane(), BorderLayout.CENTER);
 		
 		this.setLocationRelativeTo(null);
@@ -71,33 +71,78 @@ public class JFrameConsole extends JFrame
 	 */
 	public void setText(String t)
 	{
-		textArea.setText(trim(t));
+		textArea.setText(trimConsoleText(t));
 		textArea.setCaretPosition(0);
 	}
 	
+	/**
+	 * Returns the SearchableJTextArea pane
+	 */
 	public SearchableJTextArea getTextArea()
 	{
 		return textArea;
 	}
 	
-	public String trim(String s)
+	/**
+	 * Returns the console ID
+	 */
+	public int getConsoleID()
+	{
+		return consoleID;
+	}
+	
+	/**
+	 * Returns the current container name
+	 */
+	public String getContainerName()
+	{
+		return containerName;
+	}
+	
+	/**
+	 * Set the console ID
+	 */
+	public void setConsoleID(int consoleID)
+	{
+		this.consoleID = consoleID;
+	}
+	
+	/**
+	 * Set the container name
+	 */
+	public void setContainerName(String containerName)
+	{
+		this.containerName = containerName;
+	}
+	
+	/**
+	 * Trims the console text to prevent killing the swing thread
+	 */
+	public String trimConsoleText(final String s)
 	{
 		int len = s.length();
-		int max = 500_000; //TODO this can be increased to 1,000,000 the lower number was chosen to be safe
+		
+		//TODO this should also be a setting eventually
+		int max = 500_000;
 		if(len >= max)
 		{
 			//TODO if two consoles are ran at the same time and exceed the maximum this file will be overwritten
 			
-			//save to disk
-			File tempFile = new File(tempDirectory+fs+"console.log");
-			DiskWriter.replaceFile(tempFile.getAbsolutePath(), s, false);
+			final File tempFile = new File(tempDirectory, "console_" + consoleID + ".log");
+			new Thread(()->
+			{
+				//save to disk
+				DiskWriter.replaceFile(tempFile.getAbsolutePath(), s, false);
+			}, "Console Log Saving").start();
 			
 			//trim
 			int skipped = len - max;
-			s = s.substring(0, max);
-			s = ("Skipping " + skipped + " chars, allowing " + max + "\n\r")
-					+ "Full log saved to: " + tempFile.getAbsolutePath() + "\n\r"
-					+ s;
+			String trimmed = s.substring(0, max);
+			trimmed = ("WARNING: Skipping " + skipped + " chars, allowing " + max + "\n\r")
+					+ "Full log saved to: " + tempFile.getAbsolutePath() + "\n\r\n\r"
+					+ trimmed;
+			
+			return trimmed;
 		}
 		
 		return s;
