@@ -29,7 +29,8 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 		if (value instanceof ResourceTreeNode)
 		{
 			ResourceTreeNode node = (ResourceTreeNode) value;
-			String name = node.toString().toLowerCase();
+			String nameOG = node.toString();
+			String name = nameOG.toLowerCase();
 			String onlyName = FilenameUtils.getName(name);
 			boolean iconSet = false;
 			
@@ -38,15 +39,26 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 					: ResourceType.extensionMap.get(FilenameUtils.getExtension(onlyName).toLowerCase());
 			
 			//set the icon to a known file type
-			if (knownResourceType != null)
+			if (knownResourceType != null
+					//check if is parent/root node, or not a directory
+					&& (node.getParent() == node.getRoot()
+					|| node.getChildCount() == 0))
 			{
 				setIcon(knownResourceType.getIcon());
 				iconSet = true;
 			}
 			//hardcoded resource icons go here
-			else if (name.equals("decoded resources"))
+			else if (nameOG.equals("Decoded Resources") && node.getChildCount() > 0)
 			{
 				setIcon(IconResources.decodedIcon);
+				iconSet = true;
+			}
+			else if (node.getChildCount() == 0
+					&& (nameOG.equals("README")
+					|| nameOG.equals("LICENSE")
+					|| nameOG.equals("NOTICE")))
+			{
+				setIcon(IconResources.configIcon);
 				iconSet = true;
 			}
 				
