@@ -25,9 +25,14 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
+
+import me.konloch.kontainer.io.DiskWriter;
+import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
+import the.bytecode.club.bytecodeviewer.resources.importing.Import;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
@@ -36,6 +41,9 @@ import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisible
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
+
+import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -155,6 +163,8 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     {
         try
         {
+            
+            //TODO refresh while preserving the opened files from before the refresh
             treeRoot.removeAllChildren();
             for (ResourceContainer container : BytecodeViewer.resourceContainers)
             {
@@ -317,7 +327,43 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
         else if(container.resourceFiles.containsKey(name))
         {
-            BytecodeViewer.viewer.workPane.addFileResource(container, name);
+            final String fn = name.toLowerCase();
+            final String extension = fn.contains(":") ? null : FilenameUtils.getExtension(fn);
+    
+            Import imp = Import.extensionMap.get(extension);
+            if(imp == null) //show images, text files, or hex view
+                BytecodeViewer.viewer.workPane.addFileResource(container, name);
+            else //attempt to import known resources
+            {
+                int hash = (container.name + name).hashCode();
+                
+                //TODO make a settings toggle to disable preservation of the original name
+                // it should also detect if the file name is not compatible with the current OS and enable automatically
+                File tempFile = new File(tempDirectory + fs + hash + fs + name + "." + extension);
+                if(!tempFile.exists())
+                {
+                    DiskWriter.replaceFileBytes(tempFile.getAbsolutePath(), container.resourceFiles.get(name), false);
+    
+                    try
+                    {
+                        imp.getImporter().open(tempFile);
+                        try {
+                            updateTree();
+                        } catch (NullPointerException ignored) { }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+        
+                        //failsafe
+                        BytecodeViewer.viewer.workPane.addFileResource(container, name);
+                    }
+                }
+                else
+                {
+                    //alert the user
+                }
+            }
         }
     }
     
