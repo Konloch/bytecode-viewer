@@ -14,14 +14,7 @@ import java.io.File;
 import java.util.Enumeration;
 import java.util.Map.Entry;
 import java.util.Objects;
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -163,7 +156,6 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     {
         try
         {
-            
             //TODO refresh while preserving the opened files from before the refresh
             treeRoot.removeAllChildren();
             for (ResourceContainer container : BytecodeViewer.resourceContainers)
@@ -347,9 +339,14 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                     try
                     {
                         imp.getImporter().open(tempFile);
-                        try {
-                            updateTree();
-                        } catch (NullPointerException ignored) { }
+                        SwingUtilities.invokeLater(()->
+                        {
+                            try
+                            {
+                                updateTree();
+                            }
+                            catch (NullPointerException ignored) { }
+                        });
                     }
                     catch (Exception e)
                     {

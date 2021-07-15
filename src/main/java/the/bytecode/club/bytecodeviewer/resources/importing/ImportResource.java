@@ -4,6 +4,7 @@ import org.apache.commons.io.FilenameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Settings;
 
+import javax.swing.*;
 import java.io.File;
 
 /***************************************************************************
@@ -74,9 +75,14 @@ public class ImportResource implements Runnable
 		finally
 		{
 			BytecodeViewer.updateBusyStatus(false);
-			try {
-				BytecodeViewer.viewer.resourcePane.updateTree();
-			} catch (NullPointerException ignored) { }
+			SwingUtilities.invokeLater(()->
+			{
+				try
+				{
+					BytecodeViewer.viewer.resourcePane.updateTree();
+				}
+				catch (NullPointerException ignored) { }
+			});
 		}
 	}
 	
