@@ -3,16 +3,21 @@
 Bytecode Viewer - a lightweight user-friendly Java/Android Bytecode Viewer, Decompiler & More.
 
 #### New Features
+* Dark mode with multiple themes
 * Translated into over 30 languages including: Arabic, German, Japanese, Mandarin, Russian, Spanish
 * Plugin Writer - create and edit external plugins from within BCV
 * Fixed Java & Bytecode editing/compiling
+* Tabbed plugin console
 * Javap support
 * XAPK support
-* Dark mode
 * Updated nearly all dependencies (incl. decompilers like CFR, JD-GUI etc.)
 * Updated ASM library to version 9.1
 * Added support to Java files compiled using JDK > 13
 * Migrated to Maven
+
+#### v2.10.x Notes
+* The rewrite/refactoring process is currently ongoing so please report any bugs you find
+* If you're encountering any issues try using [v2.9.22](https://github.com/Konloch/bytecode-viewer/releases/tag/v2.9.22)
 
 #### Links
 * [BCV Discord](https://discord.gg/aexsYpfMEf)
@@ -37,7 +42,7 @@ Bytecode Viewer - a lightweight user-friendly Java/Android Bytecode Viewer, Deco
 * Customizable UI
 * Plugins + Script Engine Design
 * Malicious code scanning API
-* Translated Into 25 Languages Including: Arabic, German, Japanese, Mandarin, Russian, Spanish)
+* Translated Into over 30 Languages Including: Arabic, German, Japanese, Mandarin, Russian, Spanish)
 * Export functionality as Runnable Jar, Zip, APK, Decompile All As Zip, Etc.
 * And more! Give it a try for yourself!
 
