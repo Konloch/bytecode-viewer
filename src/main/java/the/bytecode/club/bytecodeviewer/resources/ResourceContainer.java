@@ -129,7 +129,8 @@ public class ResourceContainer
     public ResourceContainer updateClassNodeBytes()
     {
         resourceClassBytes.clear();
-        resourceClasses.forEach((s, cn) -> resourceClassBytes.put(s, ASMUtil.nodeToBytes(cn)));
+        resourceClasses.forEach((s, cn) ->
+                    resourceClassBytes.put(s+".class", ASMUtil.nodeToBytes(cn)));
         return this;
     }
     
