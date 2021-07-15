@@ -34,7 +34,9 @@ public enum SyntaxLanguage
     HTML(SyntaxConstants.SYNTAX_STYLE_HTML, (n, c) -> n.endsWith(".html")),
     CSS(SyntaxConstants.SYNTAX_STYLE_CSS, (n, c) -> n.endsWith(".css")),
     PROPERTIES(SyntaxConstants.SYNTAX_STYLE_PROPERTIES_FILE,
-            (n, c) -> n.endsWith(".properties") || n.endsWith(".mf") || n.endsWith(".sf")),
+            (n, c) -> n.endsWith(".properties") || n.endsWith(".mf") || n.endsWith(".sf")
+                    || n.endsWith(".plugin") || n.endsWith(".attachprovider") || n.endsWith(".transportservice")
+                    || n.endsWith(".connector")),
     PHP(SyntaxConstants.SYNTAX_STYLE_PHP, (n, c) -> n.endsWith(".php") || c.startsWith("<?php")),
     JS(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT, (n, c) -> n.endsWith(".js")),
     BATCH(SyntaxConstants.SYNTAX_STYLE_WINDOWS_BATCH, (n, c) -> n.endsWith(".bat")),

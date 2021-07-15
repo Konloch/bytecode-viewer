@@ -62,7 +62,7 @@ public class IconResources
     public static ImageIcon packagesIcon;
     public static ImageIcon folderIcon;
     public static ImageIcon androidIcon;
-    public static ImageIcon fileIcon;
+    public static ImageIcon unknownFileIcon;
     public static ImageIcon textIcon;
     public static ImageIcon classIcon;
     public static ImageIcon imageIcon;
@@ -93,7 +93,7 @@ public class IconResources
         packagesIcon = new ImageIcon(Objects.requireNonNull(IconResources.class.getResource("/gui/package.png")));
         folderIcon = new ImageIcon(Objects.requireNonNull(IconResources.class.getResource("/gui/folder.png")));
         androidIcon = new ImageIcon(Objects.requireNonNull(IconResources.class.getResource("/gui/android.png")));
-        fileIcon = new ImageIcon(Objects.requireNonNull(IconResources.class.getResource("/gui/file.png")));
+        unknownFileIcon = new ImageIcon(Objects.requireNonNull(IconResources.class.getResource("/gui/file.png")));
         textIcon = new ImageIcon(Objects.requireNonNull(IconResources.class.getResource("/gui/text.png")));
         classIcon = new ImageIcon(Objects.requireNonNull(IconResources.class.getResource("/gui/class.png")));
         imageIcon = new ImageIcon(Objects.requireNonNull(IconResources.class.getResource("/gui/image.png")));

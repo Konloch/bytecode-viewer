@@ -58,7 +58,7 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 					|| nameOG.equals("LICENSE")
 					|| nameOG.equals("NOTICE")))
 			{
-				setIcon(IconResources.configIcon);
+				setIcon(IconResources.textIcon);
 				iconSet = true;
 			}
 				
@@ -114,8 +114,8 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 			}
 			
 			//unknown files
-			else if (knownResourceType == null)
-				setIcon(IconResources.fileIcon);
+			else if (knownResourceType == null && !iconSet)
+				setIcon(IconResources.unknownFileIcon);
 		}
 		
 		return ret;
