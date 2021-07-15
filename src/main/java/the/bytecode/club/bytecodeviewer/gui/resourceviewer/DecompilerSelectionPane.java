@@ -37,7 +37,7 @@ public class DecompilerSelectionPane
 	private final DecompilerViewComponent smali = new DecompilerViewComponent("Smali", BYTECODE, Decompiler.SMALI_DISASSEMBLER);
 	private final DecompilerViewComponent bytecode = new DecompilerViewComponent("Bytecode", BYTECODE_NON_EDITABLE, Decompiler.BYTECODE_DISASSEMBLER);
 	private final DecompilerViewComponent asmTextify = new DecompilerViewComponent("ASM Textify", BYTECODE_NON_EDITABLE, Decompiler.ASM_TEXTIFY_DISASSEMBLER);
-	private final DecompilerViewComponent javap = new DecompilerViewComponent("JavaP", BYTECODE_NON_EDITABLE, Decompiler.JAVAP_DISASSEMBLER);
+	private final DecompilerViewComponent javap = new DecompilerViewComponent("Javap", BYTECODE_NON_EDITABLE, Decompiler.JAVAP_DISASSEMBLER);
 	
 	//TODO when adding new decompilers insert the DecompilerViewComponent object into here
 	// also in the group, then finally the build menu
