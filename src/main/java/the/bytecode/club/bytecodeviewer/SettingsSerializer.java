@@ -49,7 +49,8 @@ public class SettingsSerializer
     
     public static synchronized void saveSettings()
     {
-        try {
+        try
+        {
             DiskWriter.replaceFile(settingsName, "BCV: " + VERSION, false);
             save(BytecodeViewer.viewer.rbr.isSelected());
             save(BytecodeViewer.viewer.rsy.isSelected());
@@ -197,6 +198,37 @@ public class SettingsSerializer
             save(Configuration.python3Extra);
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
+        }
+    }
+    
+    /**
+     * Preload data used to configure the looks and components of the application
+     */
+    public static void preloadSettingsFile()
+    {
+        try
+        {
+            settingsFileExists = new File(settingsName).exists();
+            
+            if(!settingsFileExists)
+                return;
+            
+            //precache the file
+            DiskReader.loadString(settingsName, 0, true);
+            
+            //process the cached file
+            Configuration.lafTheme = LAFTheme.valueOf(asString(127));
+            Configuration.rstaTheme = RSTATheme.valueOf(asString(128));
+            //line 129 is used normal loading
+            Configuration.language = Language.valueOf(asString(130));
+        }
+        catch (ArrayIndexOutOfBoundsException e)
+        {
+            //ignore because errors are expected, first start up and outdated settings.
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
     
@@ -356,36 +388,13 @@ public class SettingsSerializer
             Configuration.javaTools = asString(134);
             Configuration.python2Extra = asString(135);
             Configuration.python3Extra = asString(136);
-        } catch (Exception e) {
-            //ignore because errors are expected, first start up and outdated settings.
-            e.printStackTrace();
         }
-    }
-    
-    /**
-     * Preload data used to configure the looks and components of the application
-     */
-    public static void preloadSettingsFile()
-    {
-        try
+        catch (ArrayIndexOutOfBoundsException e)
         {
-            settingsFileExists = new File(settingsName).exists();
-            
-            if(!settingsFileExists)
-                return;
-            
-            //precache the file
-            DiskReader.loadString(settingsName, 0, true);
-            
-            //process the cached file
-            Configuration.lafTheme = LAFTheme.valueOf(asString(127));
-            Configuration.rstaTheme = RSTATheme.valueOf(asString(128));
-            //line 129 is used normal loading
-            Configuration.language = Language.valueOf(asString(130));
+            //ignore because errors are expected, first start up and outdated settings.
         }
         catch (Exception e)
         {
-            //ignore because errors are expected, first start up and outdated settings.
             e.printStackTrace();
         }
     }
