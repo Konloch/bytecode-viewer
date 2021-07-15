@@ -58,11 +58,6 @@ public class ImportResource implements Runnable
 					Import.DIRECTORY.getImporter().open(file);
 					continue;
 				}
-				
-				//check for classes
-				if (fn.endsWith(".class"))
-					Import.CLASS.getImporter().open(file);
-				
 				//everything else import as a resource
 				else if(!importKnownFile(file))
 					Import.FILE.getImporter().open(file);
