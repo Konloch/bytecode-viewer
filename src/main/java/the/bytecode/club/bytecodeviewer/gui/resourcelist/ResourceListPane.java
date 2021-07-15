@@ -161,7 +161,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 ResourceTreeNode root = new ResourceTreeNode(container.name);
                 treeRoot.add(root);
                 
-                ImageRenderer renderer = new ImageRenderer();
+                ResourceListIconRenderer renderer = new ResourceListIconRenderer();
                 tree.setCellRenderer(renderer);
 
                 if (!container.resourceClasses.isEmpty())

@@ -14,7 +14,8 @@ import java.util.ArrayList;
  * @author http://stackoverflow.com/questions/14968005
  * @author Konloch
  */
-public class ImageRenderer extends DefaultTreeCellRenderer
+
+public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 {
 	//called every time there is a pane update
 	@Override
