@@ -17,8 +17,18 @@
 
   "VIEW": "View",
   "VISUAL_SETTINGS": "Visual Settings",
-  "LANGUAGE": "Language",
+  "PANE_1": "Pane 1",
+  "PANE_2": "Pane 2",
+  "PANE_3": "Pane 3",
+  "NONE": "None",
+  "EDITABLE": "Editable",
 
+  "LANGUAGE": "Language",
+  "FONT_SIZE": "Font Size",
+  "SHOW_TAB_FILE_IN_TAB_TITLE": "Show File In Tab Title",
+  "SIMPLIFY_NAME_IN_TAB_TITLE": "Simplify Name In Tab Title",
+  "SYNCHRONIZED_VIEWING": "Synchronized Viewing",
+  "SHOW_CLASS_METHODS": "Show Class Methods",
 
   "WINDOW_THEME": "Window Theme",
   "SYSTEM_THEME": "System Theme",
@@ -45,19 +55,6 @@
   "VISUAL_STUDIO": "Visual Studio",
   "DRUID_DARK": "Druid (Dark)",
   "MONOKAI_DARK": "Monokai (Dark)",
-
-
-  "FONT_SIZE": "Font Size",
-  "SHOW_TAB_FILE_IN_TAB_TITLE": "Show File In Tab Title",
-  "SIMPLIFY_NAME_IN_TAB_TITLE": "Simplify Name In Tab Title",
-  "SYNCHRONIZED_VIEWING": "Synchronized Viewing",
-  "SHOW_CLASS_METHODS": "Show Class Methods",
-
-  "PANE_1": "Pane 1",
-  "PANE_2": "Pane 2",
-  "PANE_3": "Pane 3",
-  "NONE": "None",
-  "EDITABLE": "Editable",
 
   "SETTINGS": "Settings",
   "COMPILE_ON_SAVE": "Compile On Save",
