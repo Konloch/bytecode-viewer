@@ -1,5 +1,10 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
+import com.github.weisj.darklaf.icons.ThemedSVGIcon;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.Workspace;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
+
 import javax.swing.JInternalFrame;
 
 /***************************************************************************
@@ -33,7 +38,19 @@ public abstract class VisibleComponent extends JInternalFrame
     public VisibleComponent(final String title)
     {
         super(title, false, false, false, false);
-        this.setFrameIcon(null);
+        this.setDefaultIcon();
+    }
+    
+    public void setDefaultIcon()
+    {
+        try {
+            if(Configuration.showDarkLAFComponentIcons)
+                setFrameIcon(new ThemedSVGIcon(Workspace.class.getResource("/com/github/weisj/darklaf/icons/frame/frame.svg").toURI(), 16, 16));
+            else
+                setFrameIcon(IconResources.jarIcon);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     private static final long serialVersionUID = -6453413772343643526L;

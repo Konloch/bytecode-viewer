@@ -28,6 +28,7 @@ public class Configuration
 	public static boolean displayParentInTab = false; //also change in the main GUI
 	public static boolean simplifiedTabNames = false;
 	public static boolean forceResourceUpdateFromClassNode = false; //TODO add to GUI
+	public static boolean showDarkLAFComponentIcons = false;
 	public static boolean currentlyDumping = false;
 	public static boolean needsReDump = true;
 	public static boolean warnForEditing = false;
