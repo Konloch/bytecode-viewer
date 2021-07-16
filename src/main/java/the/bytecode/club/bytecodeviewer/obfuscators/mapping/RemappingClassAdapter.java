@@ -34,8 +34,8 @@ import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.TypePath;
+import the.bytecode.club.bytecodeviewer.Constants;
 
 /**
  * A {@link ClassVisitor} for type remapping.
@@ -49,7 +49,7 @@ public class RemappingClassAdapter extends ClassVisitor {
     protected String className;
 
     public RemappingClassAdapter(final ClassVisitor cv, final Remapper remapper) {
-        this(Opcodes.ASM5, cv, remapper);
+        this(Constants.ASM_VERSION, cv, remapper);
     }
 
     protected RemappingClassAdapter(final int api, final ClassVisitor cv,

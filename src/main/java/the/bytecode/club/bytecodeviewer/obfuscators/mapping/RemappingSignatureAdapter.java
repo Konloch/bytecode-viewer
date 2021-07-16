@@ -30,9 +30,9 @@
 
 package the.bytecode.club.bytecodeviewer.obfuscators.mapping;
 
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.Remapper;
 import org.objectweb.asm.signature.SignatureVisitor;
+import the.bytecode.club.bytecodeviewer.Constants;
 
 /**
  * A {@link SignatureVisitor} adapter for type mapping.
@@ -49,7 +49,7 @@ public class RemappingSignatureAdapter extends SignatureVisitor {
 
     public RemappingSignatureAdapter(final SignatureVisitor v,
                                      final org.objectweb.asm.commons.Remapper remapper) {
-        this(Opcodes.ASM5, v, remapper);
+        this(Constants.ASM_VERSION, v, remapper);
     }
 
     protected RemappingSignatureAdapter(final int api,
