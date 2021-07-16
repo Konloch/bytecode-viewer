@@ -39,10 +39,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
  * @author Konloch
  * @since 6/24/2021
  */
-public class BytecodeViewPanel
+public class BytecodeViewPanel extends JPanel
 {
-	public final JPanel panel = new JPanel(new BorderLayout());
-	
 	public final int panelIndex;
 	public final ClassViewer viewer;
 	public SearchableRSyntaxTextArea textArea;
@@ -52,17 +50,18 @@ public class BytecodeViewPanel
 	
 	public BytecodeViewPanel(int panelIndex, ClassViewer viewer)
 	{
+		super(new BorderLayout());
 		this.panelIndex = panelIndex;
 		this.viewer = viewer;
 	}
 	
 	public void createPane(ClassViewer viewer)
 	{
-		panel.removeAll();
+		removeAll();
 		textArea = null;
 		
 		if(viewer.resource == null || viewer.resource.getResourceClassNode() == null)
-			panel.add(new JLabel("ERROR: Resource Viewer Corrupt ClassNode"));
+			add(new JLabel("ERROR: Resource Viewer Corrupt ClassNode"));
 	}
 	
 	public void updatePane(ClassViewer cv, byte[] b, JButton button, boolean isPanelEditable)

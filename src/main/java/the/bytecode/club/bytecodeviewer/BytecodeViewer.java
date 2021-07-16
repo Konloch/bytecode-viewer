@@ -201,13 +201,14 @@ public class BytecodeViewer
                 bootCheck.start();
                 Boot.boot(args, CLI != CommandLineInput.GUI);
             }
-
+            
+            //CLI arguments say spawn the GUI
             if (CLI == CommandLineInput.GUI)
             {
                 BytecodeViewer.boot(false);
                 Configuration.bootState = Configuration.BootState.GUI_SHOWING;
             }
-            else
+            else //CLI arguments say keep it CLI
             {
                 BytecodeViewer.boot(true);
                 CommandLineInput.executeCommandLine(args);

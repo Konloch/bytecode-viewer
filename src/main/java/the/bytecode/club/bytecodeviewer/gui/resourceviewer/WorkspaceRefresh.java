@@ -13,11 +13,11 @@ import java.awt.event.ActionEvent;
  * @author Konloch
  * @since 6/24/2021
  */
-public class WorkPaneRefresh implements Runnable
+public class WorkspaceRefresh implements Runnable
 {
 	private final ActionEvent event;
 	
-	public WorkPaneRefresh(ActionEvent event) {
+	public WorkspaceRefresh(ActionEvent event) {
 		this.event = event;
 	}
 	

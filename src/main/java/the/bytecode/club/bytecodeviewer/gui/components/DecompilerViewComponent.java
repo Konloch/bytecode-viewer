@@ -4,7 +4,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBoxMenuItem;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
-import the.bytecode.club.bytecodeviewer.util.RefreshWorkPane;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkspaceRefreshEvent;
 
 import javax.swing.*;
 
@@ -68,7 +68,7 @@ public class DecompilerViewComponent
 			menu.add(editable);
 		}
 		
-		java.addActionListener(new RefreshWorkPane());
+		java.addActionListener(new WorkspaceRefreshEvent());
 	}
 	
 	public void addToGroup(ButtonGroup group)

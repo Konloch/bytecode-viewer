@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.*;
 
-import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.*;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.plugins.MaliciousCodeScannerOptions;
@@ -16,7 +15,7 @@ import the.bytecode.club.bytecodeviewer.gui.plugins.ReplaceStringsOptions;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListPane;
 import the.bytecode.club.bytecodeviewer.gui.resourcesearch.SearchBoxPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.DecompilerSelectionPane;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkPaneMainComponent;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.Workspace;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
@@ -72,7 +71,7 @@ public class MainViewerGUI extends JFrame
     
     //main UI components
     private static final ArrayList<VisibleComponent> uiComponents = new ArrayList<>();
-    public final WorkPaneMainComponent workPane = new WorkPaneMainComponent();
+    public final Workspace workPane = new Workspace();
     public final ResourceListPane resourcePane = new ResourceListPane();
     public final SearchBoxPane searchBoxPane = new SearchBoxPane();
     public JSplitPane splitPane1;

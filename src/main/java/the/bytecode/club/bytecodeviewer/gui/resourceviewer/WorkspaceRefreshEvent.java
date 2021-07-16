@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.util;
+package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
@@ -27,7 +27,8 @@ import java.awt.event.ActionListener;
  * @author Konloch
  * @since 6/21/2021
  */
-public class RefreshWorkPane implements ActionListener
+
+public class WorkspaceRefreshEvent implements ActionListener
 {
 	@Override
 	public void actionPerformed(ActionEvent e)

@@ -72,8 +72,8 @@ public class ClassViewer extends ResourceViewer
         
         this.setName(name);
         this.setLayout(new BorderLayout());
-        this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, bytecodeViewPanel1.panel, bytecodeViewPanel2.panel);
-        this.sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, bytecodeViewPanel3.panel);
+        this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, bytecodeViewPanel1, bytecodeViewPanel2);
+        this.sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, bytecodeViewPanel3);
         this.add(sp2, BorderLayout.CENTER);
 
         this.addComponentListener(new ComponentAdapter() {

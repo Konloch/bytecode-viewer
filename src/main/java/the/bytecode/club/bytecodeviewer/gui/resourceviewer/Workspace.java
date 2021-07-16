@@ -12,7 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
-import org.objectweb.asm.tree.ClassNode;
+
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
@@ -49,14 +49,15 @@ import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
  * @author WaterWolf
  * @since 09/26/2011
  */
-public class WorkPaneMainComponent extends TranslatedVisibleComponent
+
+public class Workspace extends TranslatedVisibleComponent
 {
     public final JTabbedPane tabs;
     public final JPanel buttonPanel;
     public final JButton refreshClass;
     public final HashSet<String> openedTabs = new HashSet<>();
 
-    public WorkPaneMainComponent()
+    public Workspace()
     {
         super("Workspace", Translation.WORK_SPACE);
 
@@ -145,7 +146,7 @@ public class WorkPaneMainComponent extends TranslatedVisibleComponent
         refreshClass.addActionListener((event)->
         {
             refreshClass.setEnabled(false);
-            Thread t = new Thread(() -> new WorkPaneRefresh(event).run(), "Refresh");
+            Thread t = new Thread(() -> new WorkspaceRefresh(event).run(), "Refresh");
             t.start();
         });
 
@@ -179,28 +180,41 @@ public class WorkPaneMainComponent extends TranslatedVisibleComponent
         //create a new tab if the resource isn't opened currently
         if (!openedTabs.contains(workingName))
         {
+            //start processing the resource to be viewed
             if(resourceView instanceof ClassViewer)
-            {
-                ((ClassViewer)resourceView).refresh(null);
-            }
+                resourceView.refresh(null);
             
-            resourceView.resource.workingName = workingName;
-            
+            //add the resource view to the tabs
             tabs.add(resourceView);
+            
+            //get the resource view index
             final int tabIndex = tabs.indexOfComponent(resourceView);
-            openedTabs.add(workingName);
-        
+            
+            //create a new tabbed pane
             TabbedPane tabbedPane = new TabbedPane(tabIndex, workingName, container.name, name, tabs, resourceView);
             resourceView.tabbedPane = tabbedPane;
+            resourceView.resource.workingName = workingName;
+            
+            //set the tabs index
             tabs.setTabComponentAt(tabIndex, tabbedPane);
+            
+            //open the tab that was just added
             tabs.setSelectedIndex(tabIndex);
+            
+            //set resource as opened in a tab
+            openedTabs.add(workingName);
+            
+            //refresh the tab title
             resourceView.refreshTitle();
         }
-        //if the resource is already opened select this tab as the active one
-        else
+        else //if the resource is already opened select this tab as the active one
         {
+            //TODO openedTabs could be changed to a HashMap<String, Integer> for faster lookups
+            
+            //search through each tab
             for(int i = 0; i < tabs.getTabCount(); i++)
             {
+                //find the matching resource and open it
                 ResourceViewer tab = ((TabbedPane)tabs.getTabComponentAt(i)).resource;
                 if(tab.resource.workingName.equals(workingName))
                 {

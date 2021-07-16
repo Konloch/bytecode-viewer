@@ -98,7 +98,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                         final JHexEditor hex = new JHexEditor(cw.toByteArray());
                         hex.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
                     
-                        bytecodeViewPanel.panel.add(hex);
+                        bytecodeViewPanel.add(hex);
                     });
                 }
                 else
@@ -221,7 +221,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                     }
                     if (BytecodeViewer.viewer.synchronizedViewing.isSelected()) {
                         int panes = 2;
-                        if (viewer.bytecodeViewPanel3.panel != null)
+                        if (viewer.bytecodeViewPanel3 != null)
                             panes = 3;
 
                         for (int i = 0; i < panes; i++) {
@@ -239,7 +239,7 @@ public class BytecodeViewPanelUpdater implements Runnable
         @Override
         public void stateChanged(ChangeEvent e) {
             int panes = 2;
-            if (viewer.bytecodeViewPanel3.panel != null)
+            if (viewer.bytecodeViewPanel3 != null)
                 panes = 3;
 
             if (BytecodeViewer.viewer.synchronizedViewing.isSelected()) {
@@ -381,8 +381,8 @@ public class BytecodeViewPanelUpdater implements Runnable
         updateUpdaterTextArea = new SearchableRSyntaxTextArea();
         
         Configuration.rstaTheme.apply(updateUpdaterTextArea);
-        bytecodeViewPanel.panel.add(updateUpdaterTextArea.getScrollPane());
-        bytecodeViewPanel.panel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
+        bytecodeViewPanel.add(updateUpdaterTextArea.getScrollPane());
+        bytecodeViewPanel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
         
         bytecodeViewPanel.textArea = updateUpdaterTextArea;
         bytecodeViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
