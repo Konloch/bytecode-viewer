@@ -38,6 +38,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.TypePath;
 import org.objectweb.asm.commons.LocalVariablesSorter;
 import org.objectweb.asm.commons.Remapper;
+import the.bytecode.club.bytecodeviewer.Constants;
 
 /**
  * A {@link LocalVariablesSorter} for type mapping.
@@ -50,7 +51,7 @@ public class RemappingMethodAdapter extends LocalVariablesSorter {
 
     public RemappingMethodAdapter(final int access, final String desc,
                                   final MethodVisitor mv, final org.objectweb.asm.commons.Remapper remapper) {
-        this(Opcodes.ASM5, access, desc, mv, remapper);
+        this(Constants.ASM_VERSION, access, desc, mv, remapper);
     }
 
     protected RemappingMethodAdapter(final int api, final int access,
@@ -125,7 +126,7 @@ public class RemappingMethodAdapter extends LocalVariablesSorter {
     @Override
     public void visitMethodInsn(final int opcode, final String owner,
                                 final String name, final String desc) {
-        if (api >= Opcodes.ASM5) {
+        if (api >= Constants.ASM_VERSION) {
             super.visitMethodInsn(opcode, owner, name, desc);
             return;
         }
@@ -136,7 +137,7 @@ public class RemappingMethodAdapter extends LocalVariablesSorter {
     @Override
     public void visitMethodInsn(final int opcode, final String owner,
                                 final String name, final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
+        if (api < Constants.ASM_VERSION) {
             super.visitMethodInsn(opcode, owner, name, desc, itf);
             return;
         }

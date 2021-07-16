@@ -32,9 +32,9 @@ package the.bytecode.club.bytecodeviewer.obfuscators.mapping;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.TypePath;
 import org.objectweb.asm.commons.Remapper;
+import the.bytecode.club.bytecodeviewer.Constants;
 
 /**
  * A {@link FieldVisitor} adapter for type remapping.
@@ -46,7 +46,7 @@ public class RemappingFieldAdapter extends FieldVisitor {
     private final org.objectweb.asm.commons.Remapper remapper;
 
     public RemappingFieldAdapter(final FieldVisitor fv, final org.objectweb.asm.commons.Remapper remapper) {
-        this(Opcodes.ASM5, fv, remapper);
+        this(Constants.ASM_VERSION, fv, remapper);
     }
 
     protected RemappingFieldAdapter(final int api, final FieldVisitor fv,

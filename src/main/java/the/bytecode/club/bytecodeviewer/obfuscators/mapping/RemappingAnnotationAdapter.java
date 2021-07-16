@@ -31,8 +31,8 @@
 package the.bytecode.club.bytecodeviewer.obfuscators.mapping;
 
 import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.Remapper;
+import the.bytecode.club.bytecodeviewer.Constants;
 
 /**
  * An {@link AnnotationVisitor} adapter for type remapping.
@@ -45,7 +45,7 @@ public class RemappingAnnotationAdapter extends AnnotationVisitor {
 
     public RemappingAnnotationAdapter(final AnnotationVisitor av,
                                       final org.objectweb.asm.commons.Remapper remapper) {
-        this(Opcodes.ASM5, av, remapper);
+        this(Constants.ASM_VERSION, av, remapper);
     }
 
     protected RemappingAnnotationAdapter(final int api,
