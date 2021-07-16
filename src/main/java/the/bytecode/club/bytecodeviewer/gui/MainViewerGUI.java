@@ -70,7 +70,7 @@ public class MainViewerGUI extends JFrame
     public final List<JMenuItem> waitIcons = new ArrayList<>();
     
     //main UI components
-    private static final ArrayList<VisibleComponent> uiComponents = new ArrayList<>();
+    public final ArrayList<VisibleComponent> uiComponents = new ArrayList<>();
     public final Workspace workPane = new Workspace();
     public final ResourceListPane resourcePane = new ResourceListPane();
     public final SearchBoxPane searchBoxPane = new SearchBoxPane();

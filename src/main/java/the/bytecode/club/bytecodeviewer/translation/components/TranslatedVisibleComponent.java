@@ -1,8 +1,6 @@
 package the.bytecode.club.bytecodeviewer.translation.components;
 
-import com.github.weisj.darklaf.icons.ThemedSVGIcon;
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.Workspace;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 

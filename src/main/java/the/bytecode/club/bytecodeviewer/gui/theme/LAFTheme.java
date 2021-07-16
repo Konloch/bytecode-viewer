@@ -4,6 +4,7 @@ import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.theme.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 
@@ -55,6 +56,7 @@ public enum LAFTheme
 	public void setLAF() throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException
 	{
 		boolean darkLAF = true;
+		
 		switch(this)
 		{
 			default:
@@ -94,18 +96,12 @@ public enum LAFTheme
 		
 		//test theme installed correctly
 		if(darkLAF)
-		{
 			failSafe();
-		}
 		
 		Configuration.showDarkLAFComponentIcons = darkLAF;
 		
 		if(BytecodeViewer.viewer != null)
-		{
-			BytecodeViewer.viewer.resourcePane.setDefaultIcon();
-			BytecodeViewer.viewer.workPane.setDefaultIcon();
-			BytecodeViewer.viewer.searchBoxPane.setDefaultIcon();
-		}
+			BytecodeViewer.viewer.uiComponents.forEach(VisibleComponent::setDefaultIcon);
 	}
 	
 	/**
