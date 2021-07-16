@@ -38,6 +38,6 @@ public class ClassResourceImporter implements Importer
 			//TODO double check this
 			container.resourceFiles.put(name, bytes);
 		}
-		BytecodeViewer.resourceContainers.add(container);
+		BytecodeViewer.addResourceContainer(container);
 	}
 }

@@ -25,7 +25,7 @@ public class DexExport implements Exporter
 	@Override
 	public void promptForExport()
 	{
-		if (BytecodeViewer.promptIfNoLoadedClasses())
+		if (BytecodeViewer.promptIfNoLoadedResources())
 			return;
 		
 		Thread exportThread = new Thread(() ->

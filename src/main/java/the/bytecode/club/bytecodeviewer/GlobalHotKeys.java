@@ -78,7 +78,7 @@ public class GlobalHotKeys
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			
-			if (BytecodeViewer.promptIfNoLoadedClasses())
+			if (BytecodeViewer.promptIfNoLoadedResources())
 				return;
 			
 			Thread resourceExport = new Thread(() ->

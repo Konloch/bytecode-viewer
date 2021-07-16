@@ -70,14 +70,6 @@ public class ImportResource implements Runnable
 		finally
 		{
 			BytecodeViewer.updateBusyStatus(false);
-			SwingUtilities.invokeLater(()->
-			{
-				try
-				{
-					BytecodeViewer.viewer.resourcePane.updateTree();
-				}
-				catch (NullPointerException ignored) { }
-			});
 		}
 	}
 	

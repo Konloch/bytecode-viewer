@@ -153,7 +153,10 @@ public class KrakatauDecompiler extends InternalDecompiler
     }
 
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b) {
+    public String decompileClassNode(ClassNode cn, byte[] b)
+    {
+        //TODO look into transforming through krakatau as a zip rather than direct classfile
+        
         if(!ExternalResources.getSingleton().hasSetPython2Command())
             return "You need to set your Python 2.7 (or PyPy 2.7 for speed) executable path!";
         

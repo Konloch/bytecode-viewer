@@ -44,7 +44,7 @@ public abstract class Plugin extends Thread
         
         try
         {
-            if (BytecodeViewer.promptIfNoLoadedClasses())
+            if (BytecodeViewer.promptIfNoLoadedResources())
                 return;
     
             executeContainer();

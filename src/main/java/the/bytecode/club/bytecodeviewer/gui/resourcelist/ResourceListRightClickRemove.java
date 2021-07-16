@@ -48,12 +48,12 @@ public class ResourceListRightClickRemove extends AbstractAction
 				{
 					if (resourceContainer.name.equals(selectNode.toString()))
 					{
+						resourceListPane.removeResource(resourceContainer);
 						resourceListPane.removeFile(resourceContainer);
 						break;
 					}
 				}
 				
-				resourceListPane.updateTree();
 				return;
 			}
 		}

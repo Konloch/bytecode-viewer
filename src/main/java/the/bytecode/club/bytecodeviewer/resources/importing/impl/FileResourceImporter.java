@@ -23,6 +23,6 @@ public class FileResourceImporter implements Importer
 		//import the file into the resource container
 		importer.importAsFile();
 		//add the resource container to BCV's total loaded files
-		BytecodeViewer.resourceContainers.add(container);
+		BytecodeViewer.addResourceContainer(container);
 	}
 }

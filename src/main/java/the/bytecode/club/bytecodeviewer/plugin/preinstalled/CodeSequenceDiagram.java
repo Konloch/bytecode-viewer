@@ -45,18 +45,12 @@ public class CodeSequenceDiagram extends Plugin
 {
     public static void open()
     {
-        if (BytecodeViewer.promptIfNoLoadedClasses())
-            return;
-        
         PluginManager.runPlugin(new CodeSequenceDiagram());
     }
     
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
-        if (BytecodeViewer.promptIfNoLoadedClasses())
-            return;
-    
         if (!BytecodeViewer.isActiveResourceClass())
         {
             BytecodeViewer.showMessage("First open a class file.");

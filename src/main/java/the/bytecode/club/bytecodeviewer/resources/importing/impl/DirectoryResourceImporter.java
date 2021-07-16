@@ -86,6 +86,6 @@ public class DirectoryResourceImporter implements Importer
 		
 		container.resourceClasses.putAll(allDirectoryClasses);
 		container.resourceFiles = allDirectoryFiles;
-		BytecodeViewer.resourceContainers.add(container);
+		BytecodeViewer.addResourceContainer(container);
 	}
 }

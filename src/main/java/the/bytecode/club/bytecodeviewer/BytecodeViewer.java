@@ -67,6 +67,7 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  * http://the.bytecode.club
  *
  * TODO BUGS:
+ *      + Switching from Dark to System theme crashes
  *      + View>Visual Settings>Show Class Methods
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
@@ -80,7 +81,7 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Anything using blindlySearchForClassNode() should instead search through the resource container search function
  *
  * TODO IN-PROGRESS:
- *      + Resource Exporter/Save/Decompile As Zip needs to be rewrittern
+ *      + Resource Exporter/Save/Decompile As Zip needs to be rewritten
  *      + Finish dragging code
  *      + Finish right-click tab menu detection
  *      + Fix hook inject for EZ-Injection
@@ -272,6 +273,22 @@ public class BytecodeViewer
             if (launchArgs.length >= 1)
                 for (String s : launchArgs)
                     openFiles(new File[]{new File(s)}, true);
+    }
+    
+    /**
+     * Adds a resource container to BCVs resource container list
+     */
+    public static void addResourceContainer(ResourceContainer container)
+    {
+        resourceContainers.add(container);
+        SwingUtilities.invokeLater(()->
+        {
+            try {
+                viewer.resourcePane.addResourceContainer(container);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
     
     /**
@@ -565,6 +582,20 @@ public class BytecodeViewer
         if (BytecodeViewer.getLoadedClasses().isEmpty())
         {
             BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Returns true if there are no loaded resource classes
+     */
+    public static boolean promptIfNoLoadedResources()
+    {
+        if (BytecodeViewer.resourceContainers.isEmpty())
+        {
+            BytecodeViewer.showMessage("First open a resource such as class, jar, zip or apk file.");
             return true;
         }
         

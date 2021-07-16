@@ -25,7 +25,7 @@ public class APKExport implements Exporter
 	@Override
 	public void promptForExport()
 	{
-		if (BytecodeViewer.promptIfNoLoadedClasses())
+		if (BytecodeViewer.promptIfNoLoadedResources())
 			return;
 		
 		List<ResourceContainer> containers = BytecodeViewer.getResourceContainers();

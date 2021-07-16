@@ -76,52 +76,57 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     public final JTextField quickSearch = new TranslatedJTextField("Quick file search (no file extension)", Translation.QUICK_FILE_SEARCH_NO_FILE_EXTENSION);
     public final FileDrop fileDrop;
     public boolean cancel = false;
-
+    
     public final KeyAdapter search = new SearchKeyAdapter(this);
-
-    private void showPopMenu(ResourceTree tree, TreePath selPath, int x, int y) {
+    
+    private void showPopMenu(ResourceTree tree, TreePath selPath, int x, int y)
+    {
         if (selPath == null)
             return;
-
+        
         rightClickMenu.removeAll();
         
         rightClickMenu.add(new ResourceListRightClickRemove(this, x, y, tree));
-
-        rightClickMenu.add(new AbstractAction("Expand", IconResources.CollapsedIcon.createCollapsedIcon()) {
+        
+        rightClickMenu.add(new AbstractAction("Expand", IconResources.CollapsedIcon.createCollapsedIcon())
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
                 expandAll(tree, Objects.requireNonNull(selPath), true);
             }
         });
-        rightClickMenu.add(new AbstractAction("Collapse", IconResources.ExpandedIcon.createExpandedIcon()) {
+        rightClickMenu.add(new AbstractAction("Collapse", IconResources.ExpandedIcon.createExpandedIcon())
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
                 expandAll(tree, Objects.requireNonNull(selPath), false);
             }
         });
-
+        
         rightClickMenu.show(this.tree, x, y);
     }
-
+    
     //used to remove resources from the resource list
     public void removeFile(ResourceContainer resourceContainer)
     {
         BytecodeViewer.resourceContainers.remove(resourceContainer);
         LazyNameUtil.removeName(resourceContainer.name);
     }
-
+    
     public ResourceListPane()
     {
         super("Files", Translation.FILES);
         tree.setRootVisible(false);
         tree.setShowsRootHandles(true);
         quickSearch.setForeground(Color.gray);
-
+    
         attachTreeListeners();
         attachQuickSearchListeners();
-
+    
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(new JScrollPane(tree), BorderLayout.CENTER);
     
@@ -136,13 +141,13 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         buttonPanel.add(close, BorderLayout.WEST);
         exactPanel.add(buttonPanel, BorderLayout.EAST);
         quickSearchPanel.add(exactPanel, BorderLayout.SOUTH);
-
+    
         getContentPane().add(quickSearchPanel, BorderLayout.SOUTH);
-
+    
         this.setVisible(true);
         fileDrop = new FileDrop(this, this);
     }
-
+    
     @Override
     public void filesDropped(final File[] files)
     {
@@ -151,107 +156,108 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         
         BytecodeViewer.openFiles(files, true);
     }
-
-    public void updateTree()
+    
+    public void addResourceContainer(ResourceContainer container)
     {
-        try
+        ResourceTreeNode root = container.treeNode = new ResourceTreeNode(container.name);
+    
+        treeRoot.add(root);
+        tree.setCellRenderer(new ResourceListIconRenderer());
+        
+        buildTree(container, root);
+    
+        treeRoot.sort();
+        
+        tree.expandPath(new TreePath(tree.getModel().getRoot()));
+        tree.updateUI();
+    
+        //TODO add a setting for this
+        // expandAll(tree, true);
+    }
+    
+    public void removeResource(ResourceContainer container)
+    {
+        container.treeNode.removeFromParent();
+        tree.updateUI();
+    }
+    
+    private void buildTree(ResourceContainer container, ResourceTreeNode root)
+    {
+        if (!container.resourceClasses.isEmpty())
         {
-            //TODO refresh while preserving the opened files from before the refresh
-            treeRoot.removeAllChildren();
-            for (ResourceContainer container : BytecodeViewer.resourceContainers)
+            for (String name : container.resourceClasses.keySet())
             {
-                ResourceTreeNode root = new ResourceTreeNode(container.name);
-                treeRoot.add(root);
-                
-                ResourceListIconRenderer renderer = new ResourceListIconRenderer();
-                tree.setCellRenderer(renderer);
-
-                if (!container.resourceClasses.isEmpty())
+                final String[] spl = name.split("/");
+                if (spl.length < 2)
                 {
-                    for (String name : container.resourceClasses.keySet())
-                    {
-                        final String[] spl = name.split("/");
-                        if (spl.length < 2)
-                        {
-                            root.add(new ResourceTreeNode(name + ".class"));
-                        }
-                        else
-                        {
-                            ResourceTreeNode parent = root;
-                            for (int i1 = 0; i1 < spl.length; i1++)
-                            {
-                                String s = spl[i1];
-                                
-                                if (i1 == spl.length - 1)
-                                    s += ".class";
-                                
-                                ResourceTreeNode child = null;
-                                for (int i = 0; i < parent.getChildCount(); i++)
-                                {
-                                    if (((ResourceTreeNode) parent.getChildAt(i)).getUserObject().equals(s))
-                                    {
-                                        child = (ResourceTreeNode) parent.getChildAt(i);
-                                        break;
-                                    }
-                                }
-                                
-                                if (child == null)
-                                {
-                                    child = new ResourceTreeNode(s);
-                                    parent.add(child);
-                                }
-                                
-                                parent = child;
-                            }
-                        }
-                    }
+                    root.add(new ResourceTreeNode(name + ".class"));
                 }
-
-                if (!container.resourceFiles.isEmpty())
+                else
                 {
-                    for (final Entry<String, byte[]> entry : container.resourceFiles.entrySet())
+                    ResourceTreeNode parent = root;
+                    for (int i1 = 0; i1 < spl.length; i1++)
                     {
-                        String name = entry.getKey();
-                        final String[] spl = name.split("/");
-                        if (spl.length < 2)
+                        String s = spl[i1];
+                    
+                        if (i1 == spl.length - 1)
+                            s += ".class";
+                    
+                        ResourceTreeNode child = null;
+                        for (int i = 0; i < parent.getChildCount(); i++)
                         {
-                            root.add(new ResourceTreeNode(name));
-                        }
-                        else
-                        {
-                            ResourceTreeNode parent = root;
-                            for (final String s : spl)
+                            if (((ResourceTreeNode) parent.getChildAt(i)).getUserObject().equals(s))
                             {
-                                ResourceTreeNode child = null;
-                                for (int i = 0; i < parent.getChildCount(); i++)
-                                {
-                                    if (((ResourceTreeNode) parent.getChildAt(i)).getUserObject().equals(s))
-                                    {
-                                        child = (ResourceTreeNode) parent.getChildAt(i);
-                                        break;
-                                    }
-                                }
-                                if (child == null)
-                                {
-                                    child = new ResourceTreeNode(s);
-                                    parent.add(child);
-                                }
-                                parent = child;
+                                child = (ResourceTreeNode) parent.getChildAt(i);
+                                break;
                             }
                         }
+                    
+                        if (child == null)
+                        {
+                            child = new ResourceTreeNode(s);
+                            parent.add(child);
+                        }
+                    
+                        parent = child;
                     }
                 }
             }
-
-            treeRoot.sort();
-            tree.expandPath(new TreePath(tree.getModel().getRoot()));
-            tree.updateUI();
-        } catch (java.util.ConcurrentModificationException e) {
-            //ignore, the last file will reset everything
         }
-        
-        //TODO add a setting for this
-        // expandAll(tree, true);
+    
+        if (!container.resourceFiles.isEmpty())
+        {
+            for (final Entry<String, byte[]> entry : container.resourceFiles.entrySet())
+            {
+                String name = entry.getKey();
+                final String[] spl = name.split("/");
+                if (spl.length < 2)
+                {
+                    root.add(new ResourceTreeNode(name));
+                }
+                else
+                {
+                    ResourceTreeNode parent = root;
+                    for (final String s : spl)
+                    {
+                        ResourceTreeNode child = null;
+                        for (int i = 0; i < parent.getChildCount(); i++)
+                        {
+                            if (((ResourceTreeNode) parent.getChildAt(i)).getUserObject().equals(s))
+                            {
+                                child = (ResourceTreeNode) parent.getChildAt(i);
+                                break;
+                            }
+                        }
+                        if (child == null)
+                        {
+                            child = new ResourceTreeNode(s);
+                            parent.add(child);
+                        }
+                        parent = child;
+                    }
+                }
+            }
+        }
     }
 
     @SuppressWarnings("rawtypes")
@@ -339,14 +345,6 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                     try
                     {
                         imp.getImporter().open(tempFile);
-                        SwingUtilities.invokeLater(()->
-                        {
-                            try
-                            {
-                                updateTree();
-                            }
-                            catch (NullPointerException ignored) { }
-                        });
                     }
                     catch (Exception e)
                     {

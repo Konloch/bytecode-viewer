@@ -50,6 +50,6 @@ public class APKResourceImporter implements Importer
 		container.copy(new ResourceContainerImporter(
 				new ResourceContainer(output)).importAsZip().getContainer());
 		
-		BytecodeViewer.resourceContainers.add(container);
+		BytecodeViewer.addResourceContainer(container);
 	}
 }

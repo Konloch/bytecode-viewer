@@ -103,7 +103,7 @@ public class JarUtils
         }
         jis.close();
         container.resourceFiles = files;
-        BytecodeViewer.resourceContainers.add(container);
+        BytecodeViewer.addResourceContainer(container);
     }
     
     
@@ -152,7 +152,7 @@ public class JarUtils
         }
 
         container.resourceFiles = files;
-        BytecodeViewer.resourceContainers.add(container);
+        BytecodeViewer.addResourceContainer(container);
     }
     
     public static ArrayList<ClassNode> loadClasses(final File jarFile) throws IOException

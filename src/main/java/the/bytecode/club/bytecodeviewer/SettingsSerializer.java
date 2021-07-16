@@ -222,7 +222,7 @@ public class SettingsSerializer
             //line 129 is used normal loading
             Configuration.language = Language.valueOf(asString(130));
         }
-        catch (ArrayIndexOutOfBoundsException e)
+        catch (IndexOutOfBoundsException e)
         {
             //ignore because errors are expected, first start up and outdated settings.
         }
@@ -389,7 +389,7 @@ public class SettingsSerializer
             Configuration.python2Extra = asString(135);
             Configuration.python3Extra = asString(136);
         }
-        catch (ArrayIndexOutOfBoundsException e)
+        catch (IndexOutOfBoundsException e)
         {
             //ignore because errors are expected, first start up and outdated settings.
         }

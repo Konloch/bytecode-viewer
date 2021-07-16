@@ -7,6 +7,7 @@ import org.apache.commons.compress.compressors.FileNameUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTreeNode;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
 
 /***************************************************************************
@@ -38,7 +39,8 @@ public class ResourceContainer
 {
     public File file;
     public String name;
-    public File APKToolContents = null;
+    public File APKToolContents;
+    public ResourceTreeNode treeNode;
     
     public LinkedHashMap<String, byte[]> resourceFiles = new LinkedHashMap<>();
     public LinkedHashMap<String, byte[]> resourceClassBytes = new LinkedHashMap<>();
