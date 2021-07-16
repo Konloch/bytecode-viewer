@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer;
 
+import org.objectweb.asm.Opcodes;
 import the.bytecode.club.bytecodeviewer.resources.ResourceType;
 
 import java.io.File;
@@ -38,6 +39,7 @@ public class Constants
 	public static String krakatauWorkingDirectory = getBCVDirectory() + fs + "krakatau_" + krakatauVersion;
 	public static String enjarifyWorkingDirectory = getBCVDirectory() + fs + "enjarify_" + enjarifyVersion;
 	public static final String[] SUPPORTED_FILE_EXTENSIONS = ResourceType.supportedBCVExtensionMap.keySet().toArray(new String[0]);
+	public static final int ASM_VERSION = Opcodes.ASM9;
 	
 	public static final PrintStream ERR = System.err;
 	public static final PrintStream OUT = System.out;
