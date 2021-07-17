@@ -11,6 +11,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.ImageJLabel;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
@@ -70,9 +71,12 @@ public class FileViewer extends ResourceViewer
         final String nameLowerCase = this.resource.name.toLowerCase();
         final String onlyName = FilenameUtils.getName(nameLowerCase);
         final String contentsAsString = new String(contents);
+        final boolean hexViewerOnly = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.HEXCODE_VIEWER &&
+                BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE &&
+                BytecodeViewer.viewer.viewPane3.getSelectedDecompiler() == Decompiler.NONE;
         
         //image viewer
-        if (!MiscUtils.isPureAscii(contentsAsString))
+        if (!MiscUtils.isPureAscii(contentsAsString) || hexViewerOnly)
         {
             //TODO:
             //  + Webp?
@@ -84,7 +88,8 @@ public class FileViewer extends ResourceViewer
             
             //check by file extension to display image
             if (!onlyName.contains(":") &&
-                    ResourceType.imageExtensionMap.containsKey(FilenameUtils.getExtension(onlyName)))
+                    ResourceType.imageExtensionMap.containsKey(FilenameUtils.getExtension(onlyName)) &&
+                    !hexViewerOnly)
             {
                 canRefresh = true;
                 
@@ -108,9 +113,8 @@ public class FileViewer extends ResourceViewer
                 });
                 return;
             }
-            
             //hex viewer
-            else if (BytecodeViewer.viewer.forcePureAsciiAsText.isSelected())
+            else if (BytecodeViewer.viewer.forcePureAsciiAsText.isSelected() || hexViewerOnly)
             {
                 JHexEditor hex = new JHexEditor(contents);
                 mainPanel.add(hex);
@@ -135,6 +139,7 @@ public class FileViewer extends ResourceViewer
         {
             if(src != null)
                 src.setEnabled(true);
+            
             return;
         }
 
