@@ -3,10 +3,10 @@
   <groupId>com.android</groupId>
   <artifactId>D2Jar-obf</artifactId>
   <versioning>
-    <release>1.0bcv</release>
+    <release>1.0bcv2</release>
     <versions>
-      <version>1.0bcv</version>
+      <version>1.0bcv2</version>
     </versions>
-    <lastUpdated>20210622185021</lastUpdated>
+    <lastUpdated>20210717191524</lastUpdated>
   </versioning>
 </metadata>

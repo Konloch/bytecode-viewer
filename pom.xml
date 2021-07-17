@@ -136,7 +136,7 @@
         <dependency>
             <groupId>com.jd</groupId>
             <artifactId>jd-gui</artifactId>
-            <version>1.6.6bcv</version>
+            <version>1.6.6bcv2</version>
         </dependency>
         <dependency>
             <groupId>eu.bibl.banalysis</groupId>
@@ -221,7 +221,17 @@
         <dependency>
             <groupId>com.android</groupId>
             <artifactId>D2Jar-obf</artifactId>
-            <version>1.0bcv</version>
+            <version>1.0bcv2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.abego.treelayout</groupId>
+            <artifactId>org.abego.treelayout.core</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4</artifactId>
+            <version>4.9.2</version>
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
@@ -237,19 +247,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.1</version> <!-- 3.1.2 breaks build on JDK 9+ -->
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>the.bytecode.club.bytecodeviewer.BytecodeViewer</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -287,9 +284,18 @@
                                 <exclude>META-INF/*.SF</exclude>
                                 <exclude>META-INF/*.DSA</exclude>
                                 <exclude>META-INF/*.RSA</exclude>
+                                <exclude>META-INF/*LICENSE*</exclude>
+                                <exclude>META-INF/*NOTICE*</exclude>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
                             </excludes>
                         </filter>
                     </filters>
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>the.bytecode.club.bytecodeviewer.BytecodeViewer</mainClass>
+                        </transformer>
+                    </transformers>
                 </configuration>
             </plugin>
         </plugins>
