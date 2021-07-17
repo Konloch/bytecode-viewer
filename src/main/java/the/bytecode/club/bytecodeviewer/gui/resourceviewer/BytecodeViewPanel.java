@@ -60,8 +60,12 @@ public class BytecodeViewPanel extends JPanel
 		removeAll();
 		textArea = null;
 		
-		if(viewer.resource == null || viewer.resource.getResourceClassNode() == null)
-			add(new JLabel("ERROR: Resource Viewer Corrupt ClassNode"));
+		if(viewer.resource == null)
+			add(new JLabel("ERROR: Resource Viewer Missing Resource"));
+
+		//TODO remove when bcel support is added
+		else if(viewer.resource.getResourceClassNode() == null)
+			add(new JLabel("ERROR: Resource Viewer Missing ClassNode"));
 	}
 	
 	public void updatePane(ClassViewer cv, byte[] b, JButton button, boolean isPanelEditable)
@@ -74,9 +78,9 @@ public class BytecodeViewPanel extends JPanel
 		if(textArea == null || !textArea.isEditable())
 			return true;
 		
-		SystemConsole errConsole = new SystemConsole("Java Compile Issues");
-		errConsole.setText("Error compiling class: " + viewer.resource.getResourceClassNode().name +
-				nl + "Keep in mind most decompilers cannot produce compilable classes" +
+		SystemConsole errConsole = new SystemConsole(TranslatedStrings.JAVA_COMPILE_FAILED.toString());
+		errConsole.setText(TranslatedStrings.ERROR_COMPILING_CLASS.toString() + " " + viewer.resource.getResourceClassNode().name +
+				nl + TranslatedStrings.COMPILER_TIP.toString() +
 				nl + nl + TranslatedStrings.SUGGESTED_FIX_COMPILER_ERROR +
 				nl + nl);
 		

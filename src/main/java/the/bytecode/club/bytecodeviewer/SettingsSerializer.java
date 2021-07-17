@@ -378,7 +378,7 @@ public class SettingsSerializer
             
             //line 130 is used for preload
             if(Configuration.language != Language.ENGLISH)
-                Configuration.language.loadLanguage(); //load language translations
+                Configuration.language.setLanguageTranslations(); //load language translations
             Settings.hasSetLanguageAsSystemLanguage = true;
             
             BytecodeViewer.viewer.viewPane1.setPaneEditable(asBoolean(131));

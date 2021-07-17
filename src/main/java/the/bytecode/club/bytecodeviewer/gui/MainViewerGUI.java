@@ -850,7 +850,7 @@ public class MainViewerGUI extends JFrame
         final File file = DialogueUtils.fileChooser("Select External Plugin",
                 "External Plugin",
                 PluginManager.fileFilter(),
-                "everything");
+                FileChooser.EVERYTHING);
     
         if(file == null)
             return;

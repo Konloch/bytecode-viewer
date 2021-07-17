@@ -14,6 +14,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -97,7 +98,7 @@ public class KrakatauAssembler extends InternalCompiler
             
             br.close();
 
-            log.append(nl).append(nl).append("Error:").append(nl).append(nl);
+            log.append(nl).append(nl).append(TranslatedStrings.ERROR2).append(nl).append(nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
@@ -108,7 +109,7 @@ public class KrakatauAssembler extends InternalCompiler
             br.close();
 
             int exitValue = process.waitFor();
-            log.append(nl).append(nl).append("Exit Value is ").append(exitValue);
+            log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS + " ").append(exitValue);
             System.err.println(log);
 
             byte[] b = FileUtils.readFileToByteArray(Objects.requireNonNull(

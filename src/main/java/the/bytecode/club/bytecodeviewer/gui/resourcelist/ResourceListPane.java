@@ -455,7 +455,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         quickSearch.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(final FocusEvent arg0) {
-                if (quickSearch.getText().equals(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.getText())) {
+                if (quickSearch.getText().equals(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString())) {
                     quickSearch.setText("");
                     quickSearch.setForeground(Color.black);
                 }
@@ -464,7 +464,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             @Override
             public void focusLost(final FocusEvent arg0) {
                 if (quickSearch.getText().isEmpty()) {
-                    quickSearch.setText(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.getText());
+                    quickSearch.setText(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString());
                     quickSearch.setForeground(Color.gray);
                 }
             }

@@ -5,10 +5,11 @@ import com.github.weisj.darklaf.theme.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 
 import javax.swing.*;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Konloch

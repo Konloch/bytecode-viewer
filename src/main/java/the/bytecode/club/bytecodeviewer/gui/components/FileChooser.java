@@ -14,6 +14,8 @@ import java.util.HashSet;
  */
 public class FileChooser extends JFileChooser
 {
+	public static final String EVERYTHING = "everything";
+	
 	public FileChooser(File filePath, String title, String description, String... extensions)
 	{
 		HashSet<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
@@ -35,7 +37,7 @@ public class FileChooser extends JFileChooser
 				if (f.isDirectory())
 					return true;
 				
-				if(extensions[0].equals("everything"))
+				if(extensions[0].equals(EVERYTHING))
 					return true;
 				
 				return extensionSet.contains(MiscUtils.extension(f.getAbsolutePath()));

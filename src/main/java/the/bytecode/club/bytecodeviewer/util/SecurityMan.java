@@ -1,6 +1,12 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.compilers.impl.JavaCompiler;
+import the.bytecode.club.bytecodeviewer.compilers.impl.KrakatauAssembler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.*;
+import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 
 import java.io.FileDescriptor;
 import java.net.InetAddress;
@@ -45,23 +51,28 @@ public class SecurityMan extends SecurityManager
         blocking++;
     }
     
-    public void pauseBlocking() { //slightly safer security system than just a public static boolean being toggled
+    //slightly safer security system than just a public static boolean being toggled
+    public void pauseBlocking()
+    {
         String executedClass = Thread.currentThread().getStackTrace()[2].getClassName();
-        if (executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.impl.KrakatauDecompiler") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.impl.KrakatauDisassembler") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.impl.CFRDecompiler") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.impl.ProcyonDecompiler") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.impl.FernFlowerDecompiler") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.impl.JDGUIDecompiler") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.impl.KrakatauAssembler") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.resources.ExternalResources") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.util.Enjarify") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.util.APKTool") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.BytecodeViewer") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.Constants") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.impl.JavaCompiler")) {
+        if (executedClass.equals(KrakatauDecompiler.class.getCanonicalName()) ||
+                executedClass.equals(KrakatauDisassembler.class.getCanonicalName()) ||
+                executedClass.equals(CFRDecompiler.class.getCanonicalName()) ||
+                executedClass.equals(ProcyonDecompiler.class.getCanonicalName()) ||
+                executedClass.equals(FernFlowerDecompiler.class.getCanonicalName()) ||
+                executedClass.equals(JDGUIDecompiler.class.getCanonicalName()) ||
+                executedClass.equals(KrakatauAssembler.class.getCanonicalName()) ||
+                executedClass.equals(ExternalResources.class.getCanonicalName()) ||
+                executedClass.equals(Enjarify.class.getCanonicalName()) ||
+                executedClass.equals(APKTool.class.getCanonicalName()) ||
+                executedClass.equals(BytecodeViewer.class.getCanonicalName()) ||
+                executedClass.equals(Constants.class.getCanonicalName()) ||
+                executedClass.equals(JavaCompiler.class.getCanonicalName()))
+        {
             blocking--;
-        } else for (StackTraceElement stackTraceElements : Thread.currentThread().getStackTrace()) {
+        }
+        else for (StackTraceElement stackTraceElements : Thread.currentThread().getStackTrace())
+        {
             System.out.println(stackTraceElements.getClassName());
         }
     }

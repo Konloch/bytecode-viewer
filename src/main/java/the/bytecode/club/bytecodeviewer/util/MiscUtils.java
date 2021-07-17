@@ -253,8 +253,8 @@ public class MiscUtils
     
         try
         {
-            Language.ENGLISH.loadLanguage(); //load english first incase the translation file is missing anything
-            language.loadLanguage(); //load translation file and swap text around as needed
+            Language.ENGLISH.setLanguageTranslations(); //load english first incase the translation file is missing anything
+            language.setLanguageTranslations(); //load translation file and swap text around as needed
             SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer);
         }
         catch (Exception ex)

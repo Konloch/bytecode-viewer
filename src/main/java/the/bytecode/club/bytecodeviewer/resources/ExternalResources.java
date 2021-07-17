@@ -3,6 +3,8 @@ package the.bytecode.club.bytecodeviewer.resources;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
+import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
 import the.bytecode.club.bytecodeviewer.util.JRTExtractor;
 
@@ -123,7 +125,6 @@ public class ExternalResources
 		if(!Configuration.python2.isEmpty())
 			return Configuration.python2;
 		
-		
 		//check using python CLI flag
 		testCommand(new String[]{"python", "-2", "--version"}, "python 2", ()->{
 			Configuration.python2 = "python";
@@ -132,7 +133,6 @@ public class ExternalResources
 		if(!Configuration.python2.isEmpty())
 			return Configuration.python2;
 		
-		
 		//check if 'python' command is bound as python 2.X
 		testCommand(new String[]{"python", "--version"}, "python 2", ()->{
 			Configuration.python2 = "python";
@@ -140,12 +140,11 @@ public class ExternalResources
 		if(!Configuration.python2.isEmpty())
 			return Configuration.python2;
 		
-		
 		//TODO auto-detect the Python path (C:/Program Files/Python)
 		boolean block = true;
 		while (Configuration.python2.isEmpty() && block)
 		{
-			BytecodeViewer.showMessage("You need to set your Python 2.7 (or PyPy 2.7 for speed) executable path.");
+			BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH.toString());
 			selectPython2();
 			block = !blockTillSelected; //signal block flag off
 		}
@@ -195,7 +194,7 @@ public class ExternalResources
 		boolean block = true;
 		while (Configuration.python3.isEmpty() && block)
 		{
-			BytecodeViewer.showMessage("You need to set your Python 3.x (or PyPy 3.x for speed) executable path.");
+			BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_3_PATH.toString());
 			selectPython3();
 			block = !blockTillSelected; //signal block flag off
 		}
@@ -223,9 +222,9 @@ public class ExternalResources
 	
 	public void selectPython2()
 	{
-		final File file = DialogueUtils.fileChooser("Select Python 2.7 Executable",
-				"Python 2.7 (Or PyPy 2.7 for speed) Executable",
-				"everything");
+		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_PYTHON_2.toString(),
+				TranslatedStrings.PYTHON_2_EXECUTABLE.toString(),
+				FileChooser.EVERYTHING);
 		
 		if(file == null)
 			return;
@@ -237,9 +236,9 @@ public class ExternalResources
 	
 	public void selectPython3()
 	{
-		final File file = DialogueUtils.fileChooser("Select Python 3.x Executable",
-				"Python 3.x (Or PyPy 3.x for speed) Executable",
-				"everything");
+		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_PYTHON_3.toString(),
+				TranslatedStrings.PYTHON_3_EXECUTABLE.toString(),
+				FileChooser.EVERYTHING);
 		
 		if(file == null)
 			return;
@@ -249,24 +248,11 @@ public class ExternalResources
 		SettingsSerializer.saveSettingsAsync();
 	}
 	
-	public void selectJavac()
-	{
-		final File file = DialogueUtils.fileChooser("Select Javac Executable",
-				"Javac Executable (Requires JDK  'C:/Program Files/Java/JDK_xx/bin/javac.exe)",
-				"everything");
-		
-		if(file == null)
-			return;
-		
-		Configuration.javac = file.getAbsolutePath();
-		SettingsSerializer.saveSettingsAsync();
-	}
-	
 	public void selectJava()
 	{
-		final File file = DialogueUtils.fileChooser("Select Java Executable",
-				"Java Executable (Inside Of JRE/JDK 'C:/Program Files/Java/JDK_xx/bin/java.exe')",
-				"everything");
+		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_JAVA.toString(),
+				TranslatedStrings.JAVA_EXECUTABLE.toString(),
+				FileChooser.EVERYTHING);
 		
 		if(file == null)
 			return;
@@ -275,11 +261,37 @@ public class ExternalResources
 		SettingsSerializer.saveSettingsAsync();
 	}
 	
+	public void selectJavac()
+	{
+		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_JAVAC.toString(),
+				TranslatedStrings.JAVAC_EXECUTABLE.toString(),
+				FileChooser.EVERYTHING);
+		
+		if(file == null)
+			return;
+		
+		Configuration.javac = file.getAbsolutePath();
+		SettingsSerializer.saveSettingsAsync();
+	}
+	
+	public void selectJRERTLibrary()
+	{
+		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_JAVA_RT.toString(),
+				TranslatedStrings.JAVA_RT_JAR.toString(),
+				FileChooser.EVERYTHING);
+		
+		if(file == null)
+			return;
+		
+		Configuration.rt = file.getAbsolutePath();
+		SettingsSerializer.saveSettingsAsync();
+	}
+	
 	public void selectJavaTools()
 	{
-		final File file = DialogueUtils.fileChooser("Select Java Tools Jar",
-				"Java Tools Jar (Inside Of JDK 'C:/Program Files/Java/JDK_xx/lib/tools.jar')",
-				"everything");
+		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_JAVA_TOOLS.toString(),
+				TranslatedStrings.JAVA_TOOLS_JAR.toString(),
+				FileChooser.EVERYTHING);
 		
 		if(file == null)
 			return;
@@ -290,27 +302,14 @@ public class ExternalResources
 	
 	public void selectOptionalLibraryFolder()
 	{
-		final File file = DialogueUtils.fileChooser("Select Library Folder",
-				"Optional Library Folder",
-				"everything");
+		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_LIBRARY_FOLDER.toString(),
+				TranslatedStrings.OPTIONAL_LIBRARY_FOLDER.toString(),
+				FileChooser.EVERYTHING);
 		
 		if(file == null)
 			return;
 		
 		Configuration.library = file.getAbsolutePath();
-		SettingsSerializer.saveSettingsAsync();
-	}
-	
-	public void selectJRERTLibrary()
-	{
-		final File file = DialogueUtils.fileChooser("Select JRE RT Jar",
-				"JRE RT Library",
-				"everything");
-		
-		if(file == null)
-			return;
-		
-		Configuration.rt = file.getAbsolutePath();
 		SettingsSerializer.saveSettingsAsync();
 	}
 	
@@ -353,8 +352,13 @@ public class ExternalResources
 	/**
 	 * Used to test the command-line for compatibility
 	 */
-	public void testCommand(String[] command, String matchingText, Runnable onMatch)
+	private void testCommand(String[] command, String matchingText, Runnable onMatch)
 	{
+		//prevents reflection calls, the stacktrace can be faked to bypass this, so it's not perfect
+		String executedClass = Thread.currentThread().getStackTrace()[2].getClassName();
+		if(!executedClass.equals(ExternalResources.class.getCanonicalName()))
+			return;
+		
 		try
 		{
 			BytecodeViewer.sm.pauseBlocking();
@@ -366,9 +370,7 @@ public class ExternalResources
 			
 			//check for matching text
 			if(readProcess(p).toLowerCase().contains(matchingText))
-			{
 				onMatch.run();
-			}
 		}
 		catch (Exception e) { } //ignore
 		finally

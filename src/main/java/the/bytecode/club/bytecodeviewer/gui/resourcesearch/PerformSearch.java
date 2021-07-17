@@ -45,7 +45,7 @@ class PerformSearch extends BackgroundSearchThread
 				searchBoxPane.searchType.details.search(container, c, srn, searchBoxPane.exact.isSelected());
 		
 		BytecodeViewer.viewer.searchBoxPane.search.setEnabled(true);
-		BytecodeViewer.viewer.searchBoxPane.search.setText(TranslatedStrings.SEARCH.getText());
+		BytecodeViewer.viewer.searchBoxPane.search.setText(TranslatedStrings.SEARCH.toString());
 		
 		searchBoxPane.tree.expandPath(new TreePath(searchBoxPane.tree.getModel().getRoot()));
 		searchBoxPane.tree.updateUI();

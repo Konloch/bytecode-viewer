@@ -86,7 +86,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
 
         if (LAUNCH_DECOMPILERS_IN_NEW_PROCESS)
         {
-            try
+            /*try
             {
                 BytecodeViewer.sm.pauseBlocking();
                 ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
@@ -101,7 +101,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
                 BytecodeViewer.handleException(e);
             } finally {
                 BytecodeViewer.sm.resumeBlocking();
-            }
+            }*/
         }
         else
         {

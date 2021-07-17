@@ -15,6 +15,7 @@ import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
@@ -50,7 +51,7 @@ public class KrakatauDisassembler extends InternalDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
         if(!ExternalResources.getSingleton().hasSetPython2Command())
-            return "You need to set your Python 2.7 (or PyPy 2.7 for speed) executable path!";
+            return TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH.toString();
 
         String s = ExceptionUI.SEND_STACKTRACE_TO_NL;
 
@@ -84,14 +85,14 @@ public class KrakatauDisassembler extends InternalDecompiler
             InputStream is = process.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
-            StringBuilder log = new StringBuilder("Process:" + nl + nl);
+            StringBuilder log = new StringBuilder(TranslatedStrings.PROCESS2 + nl + nl);
             String line;
             while ((line = br.readLine()) != null) {
                 log.append(nl).append(line);
             }
             br.close();
 
-            log.append(nl).append(nl).append("Error:").append(nl).append(nl);
+            log.append(nl).append(nl).append(TranslatedStrings.ERROR2).append(nl).append(nl);
             is = process.getErrorStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
@@ -101,7 +102,7 @@ public class KrakatauDisassembler extends InternalDecompiler
             br.close();
 
             int exitValue = process.waitFor();
-            log.append(nl).append(nl).append("Exit Value is ").append(exitValue);
+            log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS + " ").append(exitValue);
             s = log.toString();
 
             //if the motherfucker failed this'll fail, aka wont set.

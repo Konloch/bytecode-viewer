@@ -92,6 +92,7 @@ public enum Language
 	private final String readableName;
 	private final String htmlIdentifier;
 	private final LinkedHashSet<String> languageCode;
+	private HashMap<String, String> translationMap;
 	
 	Language(String resourcePath, String readableName, String htmlIdentifier, String... languageCodes)
 	{
@@ -101,13 +102,11 @@ public enum Language
 		this.languageCode = new LinkedHashSet<>(Arrays.asList(languageCodes));
 	}
 	
-	public void loadLanguage() throws IOException
+	public void setLanguageTranslations() throws IOException
 	{
 		printMissingLanguageKeys();
 		
-		HashMap<String, String> translationMap = BytecodeViewer.gson.fromJson(
-				IconResources.loadResourceAsString(resourcePath),
-				new TypeToken<HashMap<String, String>>(){}.getType());
+		HashMap<String, String> translationMap = getTranslation();
 		
 		for(Translation translation : Translation.values())
 		{
@@ -141,6 +140,18 @@ public enum Language
 			//trigger translation event
 			translation.getTranslatedComponentReference().translate();
 		}
+	}
+	
+	public HashMap<String, String> getTranslation() throws IOException
+	{
+		if(translationMap == null)
+		{
+			translationMap = BytecodeViewer.gson.fromJson(
+					IconResources.loadResourceAsString(resourcePath),
+					new TypeToken<HashMap<String, String>>() {}.getType());
+		}
+		
+		return translationMap;
 	}
 	
 	//TODO

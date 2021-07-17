@@ -54,8 +54,19 @@ public class Constants
 		while (!BCVDir.exists())
 			BCVDir.mkdirs();
 		
+		//hides the BCV directory
 		if (!BCVDir.isHidden() && isWindows())
-			hideFile(BCVDir);
+		{
+			try {
+				BytecodeViewer.sm.pauseBlocking();
+				// Hide file by running attrib system command (on Windows)
+				Runtime.getRuntime().exec("attrib +H " + BCVDir.getAbsolutePath());
+			} catch (Exception e) {
+				//ignore
+			} finally {
+				BytecodeViewer.sm.resumeBlocking();
+			}
+		}
 		
 		return BCVDir.getAbsolutePath();
 	}
@@ -68,23 +79,5 @@ public class Constants
 	private static boolean isWindows()
 	{
 		return System.getProperty("os.name").toLowerCase().contains("win");
-	}
-	
-	/**
-	 * Runs the windows command to hide files
-	 *
-	 * @param f file you want hidden
-	 */
-	private static void hideFile(File f)
-	{
-		try {
-			BytecodeViewer.sm.pauseBlocking();
-			// Hide file by running attrib system command (on Windows)
-			Runtime.getRuntime().exec("attrib +H " + f.getAbsolutePath());
-		} catch (Exception e) {
-			BytecodeViewer.handleException(e);
-		} finally {
-			BytecodeViewer.sm.resumeBlocking();
-		}
 	}
 }
