@@ -7,7 +7,7 @@ var gui;
  */
 function execute(classNodeList)
 {
-    gui = new PluginConsole(activeContainer.name + "Javascript Template");
+	gui = new PluginConsole(activeContainer.name + "Javascript Template");
 	gui.setVisible(true); //show the console
 	out("Class Nodes: " + classNodeList.size());
 
