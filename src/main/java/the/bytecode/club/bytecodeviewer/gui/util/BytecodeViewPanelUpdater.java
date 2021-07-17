@@ -158,6 +158,9 @@ public class BytecodeViewPanelUpdater implements Runnable
             return;
         
         processDisplay();
+    
+        if(bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER)
+            return;
         
         //nullcheck broken pane
         if(updateUpdaterTextArea == null || updateUpdaterTextArea.getScrollPane() == null

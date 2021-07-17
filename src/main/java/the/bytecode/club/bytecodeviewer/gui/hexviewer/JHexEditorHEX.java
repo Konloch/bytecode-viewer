@@ -11,42 +11,32 @@ import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 
 /**
- * Created by IntelliJ IDEA. User: laullon Date: 09-abr-2003 Time: 12:47:32
+ * @author laullon
+ * @since 09/04/2003
  */
-public class JHexEditorHEX extends JComponent implements MouseListener,
-        KeyListener {
-    private static final long serialVersionUID = 1481995655372014571L;
+
+public class JHexEditorHEX extends JComponent implements MouseListener, KeyListener
+{
     private final JHexEditor he;
 
-    public JHexEditorHEX(JHexEditor he) {
+    public JHexEditorHEX(JHexEditor he)
+    {
         this.he = he;
         addMouseListener(this);
         addKeyListener(this);
         addFocusListener(he);
     }
 
-    /*
-     * public Dimension getPreferredSize() { debug("getPreferredSize()"); return
-     * getMinimumSize(); }
-     */
-
     @Override
-    public Dimension getMaximumSize() {
+    public Dimension getMaximumSize()
+    {
         debug("getMaximumSize()");
         return getMinimumSize();
     }
 
-    /*
-     * public Dimension getMinimumSize() { debug("getMinimumSize()");
-     *
-     * Dimension d=new Dimension(); FontMetrics fn=getFontMetrics(he.font); int
-     * h=fn.getHeight(); int nl=he.getLineas();
-     * d.setSize(((fn.stringWidth(" ")+1
-     * )*+((16*3)-1))+(he.border*2)+1,h*nl+(he.border*2)+1); return d; }
-     */
-
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics g)
+    {
         debug("paint(" + g + ")");
         debug("cursor=" + he.cursor + " buff.length=" + he.buff.length);
         Dimension d = getMinimumSize();
@@ -56,8 +46,8 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
 
         g.setFont(JHexEditor.font);
 
-        int ini = he.getInicio() * 16;
-        int fin = ini + (he.getLineas() * 16);
+        int ini = he.getInicio() * he.textLength;
+        int fin = ini + (he.getLineas() * he.textLength);
         if (fin > he.buff.length)
             fin = he.buff.length;
 
@@ -88,7 +78,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
             String s = ("0" + Integer.toHexString(he.buff[n]));
             s = s.substring(s.length() - 2);
             he.printString(g, s, ((x++) * 3), y);
-            if (x == 16) {
+            if (x == he.textLength) {
                 x = 0;
                 y++;
             }
@@ -106,7 +96,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
         x = x / ((fn.stringWidth(" ") + 1) * 3);
         y = y / fn.getHeight();
         debug("x=" + x + " ,y=" + y);
-        return x + ((y + he.getInicio()) * 16);
+        return x + ((y + he.getInicio()) * he.textLength);
     }
 
     // mouselistener
@@ -174,4 +164,6 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
     public boolean isFocusable() {
         return true;
     }
+    
+    private static final long serialVersionUID = 1481995655372014571L;
 }

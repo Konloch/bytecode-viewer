@@ -11,11 +11,12 @@ import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 
 /**
- * Created by IntelliJ IDEA. User: laullon Date: 09-abr-2003 Time: 12:47:18
+ * @author laullon
+ * @since 09/04/2003
  */
-public class JHexEditorASCII extends JComponent implements MouseListener,
-        KeyListener {
-    private static final long serialVersionUID = 5505374841731053461L;
+
+public class JHexEditorASCII extends JComponent implements MouseListener, KeyListener
+{
     private final JHexEditor he;
 
     public JHexEditorASCII(JHexEditor he) {
@@ -32,15 +33,30 @@ public class JHexEditorASCII extends JComponent implements MouseListener,
     }
 
     @Override
-    public Dimension getMinimumSize() {
+    public Dimension getMinimumSize()
+    {
         debug("getMinimumSize()");
 
         Dimension d = new Dimension();
         FontMetrics fn = getFontMetrics(JHexEditor.font);
+        int w = fn.stringWidth(" ");
         int h = fn.getHeight();
         int nl = he.getLineas();
-        d.setSize((fn.stringWidth(" ") + 1) * (16) + (he.border * 2) + 1, h
-                * nl + (he.border * 2) + 1);
+        int len = he.textLength + 1;
+        
+        int width = (len * w) + (he.border * 2) + 5;
+        
+        //trim inaccuracy
+        if(len > 16)
+        {
+            int diff = 16-len;
+            width += ((len * w) / (diff) * diff);
+        }
+    
+        //System.out.println("Values: " + w + " and " + nl + " vs " + len + " ["+width+"]");
+        
+        d.setSize(width, h * nl + (he.border * 2) + 1);
+        
         return d;
     }
 
@@ -56,8 +72,8 @@ public class JHexEditorASCII extends JComponent implements MouseListener,
         g.setFont(JHexEditor.font);
 
         // datos ascii
-        int ini = he.getInicio() * 16;
-        int fin = ini + (he.getLineas() * 16);
+        int ini = he.getInicio() * he.textLength;
+        int fin = ini + (he.getLineas() * he.textLength);
         if (fin > he.buff.length)
             fin = he.buff.length;
 
@@ -82,7 +98,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener,
             if ((he.buff[n] < 20) || (he.buff[n] > 126))
                 s = ".";//"" + (char) 16;
             he.printString(g, s, (x++), y);
-            if (x == 16) {
+            if (x == he.textLength) {
                 x = 0;
                 y++;
             }
@@ -101,7 +117,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener,
         x = x / (fn.stringWidth(" ") + 1);
         y = y / fn.getHeight();
         debug("x=" + x + " ,y=" + y);
-        return x + ((y + he.getInicio()) * 16);
+        return x + ((y + he.getInicio()) * he.textLength);
     }
 
     // mouselistener
@@ -162,4 +178,6 @@ public class JHexEditorASCII extends JComponent implements MouseListener,
     public boolean isFocusable() {
         return true;
     }
+    
+    private static final long serialVersionUID = 5505374841731053461L;
 }

@@ -14,15 +14,18 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
+import javax.swing.*;
 
 /**
- * Created by IntelliJ IDEA. User: laullon Date: 08-abr-2003 Time: 13:21:09
+ * @author laullon
+ * @since 08/04/2003
  */
-public class JHexEditor extends JPanel implements FocusListener,
-        AdjustmentListener, MouseWheelListener {
-    private static final long serialVersionUID = 2289328616534802372L;
+
+public class JHexEditor extends JPanel implements FocusListener, AdjustmentListener, MouseWheelListener
+{
+    protected int textLength = 16;
+    protected int lastWidth;
+    
     byte[] buff;
     public int cursor;
     protected static Font font = new Font("Monospaced", Font.PLAIN, 12);
@@ -31,10 +34,14 @@ public class JHexEditor extends JPanel implements FocusListener,
     private final JScrollBar sb;
     private int inicio = 0;
     private int lineas = 10;
-
-    public JHexEditor(byte[] buff) {
+    private JHexEditorHEX hex;
+    private JHexEditorASCII ascii;
+    
+    public JHexEditor(byte[] buff)
+    {
         super();
         this.buff = buff;
+        checkSize();
 
         this.addMouseWheelListener(this);
 
@@ -45,8 +52,9 @@ public class JHexEditor extends JPanel implements FocusListener,
 
         JPanel p1, p2, p3;
         // centro
+        hex = new JHexEditorHEX(this);
         p1 = new JPanel(new BorderLayout(1, 1));
-        p1.add(new JHexEditorHEX(this), BorderLayout.CENTER);
+        p1.add(hex, BorderLayout.CENTER);
         p1.add(new Columnas(), BorderLayout.NORTH);
 
         // izq.
@@ -55,9 +63,10 @@ public class JHexEditor extends JPanel implements FocusListener,
         p2.add(new Caja(), BorderLayout.NORTH);
 
         // der
+        ascii = new JHexEditorASCII(this);
         p3 = new JPanel(new BorderLayout(1, 1));
         p3.add(sb, BorderLayout.EAST);
-        p3.add(new JHexEditorASCII(this), BorderLayout.CENTER);
+        p3.add(ascii, BorderLayout.CENTER);
         p3.add(new Caja(), BorderLayout.NORTH);
 
         JPanel panel = new JPanel();
@@ -71,17 +80,20 @@ public class JHexEditor extends JPanel implements FocusListener,
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics g)
+    {
+        checkSize();
+        
         FontMetrics fn = getFontMetrics(font);
         Rectangle rec = this.getBounds();
         lineas = (rec.height / fn.getHeight()) - 1;
-        int n = (buff.length / 16) - 1;
+        int n = (buff.length / textLength) - 1;
         if (lineas > n) {
             lineas = n;
             inicio = 0;
         }
 
-        sb.setValues(getInicio(), +getLineas(), 0, buff.length / 16);
+        sb.setValues(getInicio(), +getLineas(), 0, buff.length / textLength);
         sb.setValueIsAdjusting(true);
         super.paint(g);
     }
@@ -135,8 +147,8 @@ public class JHexEditor extends JPanel implements FocusListener,
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         inicio += (e.getUnitsToScroll());
-        if ((inicio + lineas) >= buff.length / 16)
-            inicio = (buff.length / 16) - lineas;
+        if ((inicio + lineas) >= buff.length / textLength)
+            inicio = (buff.length / textLength) - lineas;
         if (inicio < 0)
             inicio = 0;
         repaint();
@@ -175,7 +187,7 @@ public class JHexEditor extends JPanel implements FocusListener,
             FontMetrics fn = getFontMetrics(font);
             int h = fn.getHeight();
             int nl = 1;
-            d.setSize(((fn.stringWidth(" ") + 1) * +((16 * 3) - 1))
+            d.setSize(((fn.stringWidth(" ") + 1) * +((textLength * 3) - 1))
                     + (border * 2) + 1, h * nl + (border * 2) + 1);
             return d;
         }
@@ -188,8 +200,8 @@ public class JHexEditor extends JPanel implements FocusListener,
             g.setColor(Color.black);
             g.setFont(font);
 
-            for (int n = 0; n < 16; n++) {
-                if (n == (cursor % 16))
+            for (int n = 0; n < textLength; n++) {
+                if (n == (cursor % textLength))
                     cuadro(g, n * 3, 0, 2);
                 String s = "00" + Integer.toHexString(n);
                 s = s.substring(s.length() - 2);
@@ -242,7 +254,8 @@ public class JHexEditor extends JPanel implements FocusListener,
         }
 
         @Override
-        public void paint(Graphics g) {
+        public void paint(Graphics g)
+        {
             Dimension d = getMinimumSize();
             g.setColor(Color.white);
             g.fillRect(0, 0, d.width, d.height);
@@ -252,8 +265,9 @@ public class JHexEditor extends JPanel implements FocusListener,
             int ini = getInicio();
             int fin = ini + getLineas();
             int y = 0;
-            for (int n = ini; n < fin; n++) {
-                if (n == (cursor / 16))
+            for (int n = ini; n < fin; n++)
+            {
+                if (n == (cursor / textLength))
                     cuadro(g, 0, y, 8);
                 String s = "0000000000000" + Integer.toHexString(n);
                 s = s.substring(s.length() - 8);
@@ -261,4 +275,21 @@ public class JHexEditor extends JPanel implements FocusListener,
             }
         }
     }
+    
+    public void checkSize()
+    {
+        int width = getWidth();
+        
+        if(lastWidth != width)
+        {
+            double spacer = 1.5;
+            textLength = (int) ((int) (width / 28.4)/spacer);
+            lastWidth = width;
+            hex.revalidate();
+            ascii.revalidate();
+            revalidate();
+        }
+    }
+    
+    private static final long serialVersionUID = 2289328616534802372L;
 }
