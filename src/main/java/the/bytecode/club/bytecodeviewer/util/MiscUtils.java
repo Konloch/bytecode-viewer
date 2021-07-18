@@ -295,4 +295,14 @@ public class MiscUtils
         baos.close();
         return baos.toByteArray();
     }
+
+    public static File[] listFiles(File file) {
+        if (file == null)
+            return new File[0];
+        File[] list = file.listFiles();
+        if (list != null)
+            return list;
+        return new File[0];
+    }
+
 }

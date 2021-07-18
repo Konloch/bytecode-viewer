@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Objects;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -319,7 +320,7 @@ public class ExternalResources
 	 */
 	public String findLibrary(String nameContains)
 	{
-		for (File f : Objects.requireNonNull(new File(libsDirectory).listFiles()))
+		for (File f : MiscUtils.listFiles(new File(libsDirectory)))
 			if (f.getName().contains(nameContains))
 				return f.getAbsolutePath();
 		
@@ -331,7 +332,7 @@ public class ExternalResources
 	 */
 	public File findFile(File basePath, String extension)
 	{
-		for(File f : basePath.listFiles())
+		for(File f : MiscUtils.listFiles(basePath))
 		{
 			if(f.isDirectory())
 			{
