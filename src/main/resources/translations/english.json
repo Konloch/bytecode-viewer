@@ -118,8 +118,11 @@
   "NEW_JAVASCRIPT_PLUGIN": "New Javascript Plugin",
   "SUGGESTED_FIX_DECOMPILER_ERROR": "Suggested Fix: Click refresh class, if it fails again try another decompiler.",
   "SUGGESTED_FIX_COMPILER_ERROR": "Suggested Fix: Try View>Pane>Krakatau>Bytecode and enable Editable.",
+  "COMPILER_TIP": "Keep in mind most decompilers cannot produce compilable classes",
   "DRAG_CLASS_JAR": "Drag class/jar/zip/APK/DEX here",
 
+  "YES": "Yes",
+  "NO": "No",
   "ERROR2": "Error:",
   "PROCESS2": "Process:",
   "EXIT_VALUE_IS": "Exit Value is:",

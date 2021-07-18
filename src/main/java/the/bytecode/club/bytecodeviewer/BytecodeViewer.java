@@ -22,6 +22,7 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginWriter;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.*;
 import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
 
@@ -67,7 +68,6 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  * http://the.bytecode.club
  *
  * TODO BUGS:
- *      + Switching from Dark to System theme crashes (DarkLAF 2.6.1 works fine)
  *      + View>Visual Settings>Show Class Methods
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
@@ -667,7 +667,7 @@ public class BytecodeViewer
             MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Reset Workspace",
                     "Are you sure you want to reset the workspace?" +
                             "\n\rIt will also reset your file navigator and search.",
-                    new String[]{"Yes", "No"});
+                    new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
         
             if (dialogue.promptChoice() != 0)
                 return;

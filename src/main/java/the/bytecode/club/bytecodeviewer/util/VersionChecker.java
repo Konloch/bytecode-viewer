@@ -6,6 +6,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -100,7 +101,7 @@ public class VersionChecker implements Runnable
 						{
 							MultipleChoiceDialogue overwriteDialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
 									"The file " + file + " exists, would you like to overwrite it?",
-									new String[]{"Yes", "No"});
+									new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
 							
 							if (overwriteDialogue.promptChoice() != 0)
 								return;

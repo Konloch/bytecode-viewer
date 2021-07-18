@@ -30,6 +30,7 @@ import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Export;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBoxMenuItem;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
 import the.bytecode.club.bytecodeviewer.util.*;
@@ -803,7 +804,7 @@ public class MainViewerGUI extends JFrame
     {
         MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Reload Resources",
                 "Are you sure you wish to reload the resources?",
-                new String[]{"Yes", "No"});
+                new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
     
         if (dialogue.promptChoice() == 0)
         {
@@ -865,7 +866,7 @@ public class MainViewerGUI extends JFrame
     {
         MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Exit",
                 "Are you sure you want to exit?",
-                new String[]{"Yes", "No"});
+                new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
     
         if (dialogue.promptChoice() == 0)
         {

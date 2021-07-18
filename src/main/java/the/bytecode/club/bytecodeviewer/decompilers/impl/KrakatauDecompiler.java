@@ -49,8 +49,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 public class KrakatauDecompiler extends InternalDecompiler
 {
-
-    public String quick() {
+    public String buildCLIArguments()
+    {
         if (Configuration.library.isEmpty())
             return "";
 
@@ -74,20 +74,19 @@ public class KrakatauDecompiler extends InternalDecompiler
             return TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH.toString();
 
         ExternalResources.getSingleton().rtCheck();
-        if (Configuration.rt.isEmpty()) {
+        if (Configuration.rt.isEmpty())
+        {
             BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A
                     + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
             ExternalResources.getSingleton().selectJRERTLibrary();
         }
 
-        if (Configuration.python2.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set Python!");
-            return "Set your paths";
-        }
-
-        if (Configuration.rt.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set RT.jar!");
-            return "Set your paths";
+        if (Configuration.rt.isEmpty())
+        {
+            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A
+                    + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
+            return TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A
+                    + " " + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B;
         }
 
         String s = ExceptionUI.SEND_STACKTRACE_TO_NL;
@@ -106,7 +105,7 @@ public class KrakatauDecompiler extends InternalDecompiler
                     "-skip", //love you storyyeller <3
                     "-nauto",
                     "-path",
-                    Configuration.rt + ";" + krakatauTempJar.getAbsolutePath() + quick(),
+                    Configuration.rt + ";" + krakatauTempJar.getAbsolutePath() + buildCLIArguments(),
                     "-out",
                     krakatauTempDir.getAbsolutePath(),
                     cn.name + ".class"
@@ -194,7 +193,7 @@ public class KrakatauDecompiler extends InternalDecompiler
                     "-skip", //love you storyyeller <3
                     "-nauto",
                     "-path",
-                    Configuration.rt + ";" + tempJar.getAbsolutePath() + quick(),
+                    Configuration.rt + ";" + tempJar.getAbsolutePath() + buildCLIArguments(),
                     "-out",
                     tempDirectory.getAbsolutePath(),
                     cn.name + ".class"

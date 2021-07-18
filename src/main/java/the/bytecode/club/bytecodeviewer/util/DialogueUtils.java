@@ -4,6 +4,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -49,7 +50,7 @@ public class DialogueUtils
 		{
 			MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
 					"Are you sure you wish to overwrite this existing file?",
-					new String[]{"Yes", "No"});
+					new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
 			
 			if (dialogue.promptChoice() == 0) {
 				file.delete();

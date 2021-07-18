@@ -30,6 +30,10 @@ import java.util.HashSet;
 
 public enum TranslatedStrings
 {
+	PRODUCTNAME("BytecodeViewer"),
+	PRODUCT_NAME("Bytecode Viewer"),
+	PRODUCT_H_NAME("Bytecode-Viewer"),
+	
 	EDITABLE,
 	JAVA,
 	PROCYON,
@@ -47,6 +51,9 @@ public enum TranslatedStrings
 	DISASSEMBLER,
 	RESULTS,
 	SEARCH,
+	
+	YES,
+	NO,
 	ERROR2,
 	PROCESS2,
 	EXIT_VALUE_IS,
@@ -85,14 +92,20 @@ public enum TranslatedStrings
 			nameSet.add(s.name());
 	}
 	
-	private String text;
+	private final String TEXT_ERROR = "FAILED_TO_LOAD";
+	private String text = TEXT_ERROR;
+	
+	TranslatedStrings(String text)
+	{
+		this.text = text;
+	}
 	
 	TranslatedStrings()
 	{
 		//load english translations by default
 		try
 		{
-			this.text = Language.ENGLISH.getTranslation().get(name());
+			setText(Language.ENGLISH.getTranslation().get(name()));
 		}
 		catch (IOException e)
 		{
@@ -102,6 +115,16 @@ public enum TranslatedStrings
 	
 	public void setText(String text)
 	{
+		if(text == null)
+		{
+			System.err.println("TranslatedStrings:"+name() + " - Missing Translation");
+			text = TEXT_ERROR;
+		}
+		
+		text = text.replace("%PRODUCTNAME%", PRODUCTNAME.toString())
+				.replace("%PRODUCT_NAME%", PRODUCT_NAME.toString())
+				.replace("%PRODUCT-NAME%", PRODUCT_H_NAME.toString());
+		
 		this.text = text;
 	}
 	

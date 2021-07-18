@@ -55,7 +55,7 @@ public class Constants
 			BCVDir.mkdirs();
 		
 		//hides the BCV directory
-		if (!BCVDir.isHidden() && isWindows())
+		if (isWindows() && !BCVDir.isHidden())
 		{
 			try {
 				BytecodeViewer.sm.pauseBlocking();
