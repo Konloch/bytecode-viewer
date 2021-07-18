@@ -33,7 +33,7 @@ public class DexExport implements Exporter
 			if (!BytecodeViewer.autoCompileSuccessful())
 				return;
 			
-			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
+			JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(),
 					"Select DEX Export",
 					"Android DEX Files",
 					"dex");
@@ -41,7 +41,7 @@ public class DexExport implements Exporter
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+				Configuration.lastSaveDirectory = fc.getSelectedFile().getAbsolutePath();
 				final File file = fc.getSelectedFile();
 				String output = file.getAbsolutePath();
 				

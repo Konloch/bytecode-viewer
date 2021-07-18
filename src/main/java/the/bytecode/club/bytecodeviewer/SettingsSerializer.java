@@ -139,7 +139,7 @@ public class SettingsSerializer
             save(BytecodeViewer.viewer.isMaximized);
             save("deprecated");
             save("deprecated");
-            save(Configuration.lastDirectory);
+            save(Configuration.lastOpenDirectory);
             save(Configuration.python2);
             save(Configuration.rt);
             save("deprecated");
@@ -336,7 +336,7 @@ public class SettingsSerializer
             }
             //86 is deprecated
             //87 is deprecated
-            Configuration.lastDirectory = asString(88);
+            Configuration.lastOpenDirectory = asString(88);
             Configuration.python2 = asString(89);
             Configuration.rt = asString(90);
             
@@ -388,6 +388,8 @@ public class SettingsSerializer
             Configuration.javaTools = asString(134);
             Configuration.python2Extra = asString(135);
             Configuration.python3Extra = asString(136);
+            Configuration.lastSaveDirectory = asString(137);
+            Configuration.lastPluginDirectory = asString(138);
         }
         catch (IndexOutOfBoundsException e)
         {

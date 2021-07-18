@@ -77,7 +77,16 @@ public class DialogueUtils
 	 */
 	public static File fileChooser(String title, String description, FileFilter filter, String... extensions)
 	{
-		final JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
+		return fileChooser(title, description, Configuration.getLastOpenDirectory(), filter,
+				(f)-> Configuration.lastOpenDirectory = f.getAbsolutePath(), extensions);
+	}
+	
+	/**
+	 * Prompts a File Chooser dilogue
+	 */
+	public static File fileChooser(String title, String description, File directory, FileFilter filter, OnOpenEvent onOpen, String... extensions)
+	{
+		final JFileChooser fc = new FileChooser(directory,
 				title,
 				description,
 				extensions);
@@ -89,12 +98,17 @@ public class DialogueUtils
 		if (returnVal == JFileChooser.APPROVE_OPTION)
 			try {
 				File file = fc.getSelectedFile();
-				Configuration.lastDirectory = file.getAbsolutePath();
+				onOpen.onOpen(file);
 				return file;
 			} catch (Exception e1) {
 				BytecodeViewer.handleException(e1);
 			}
 		
 		return null;
+	}
+	
+	public interface OnOpenEvent
+	{
+		void onOpen(File fileSelected);
 	}
 }

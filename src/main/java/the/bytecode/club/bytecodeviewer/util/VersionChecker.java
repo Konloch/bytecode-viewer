@@ -3,13 +3,11 @@ package the.bytecode.club.bytecodeviewer.util;
 import me.konloch.kontainer.io.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,7 +76,7 @@ public class VersionChecker implements Runnable
 				}
 				else if (result == 1)
 				{
-					JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
+					JFileChooser fc = new FileChooser(Configuration.getLastOpenDirectory(),
 							"Select Save File",
 							"Zip Archives",
 							"zip");
@@ -92,7 +90,7 @@ public class VersionChecker implements Runnable
 					int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 					if (returnVal == JFileChooser.APPROVE_OPTION)
 					{
-						Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+						Configuration.lastOpenDirectory = fc.getSelectedFile().getAbsolutePath();
 						File file = fc.getSelectedFile();
 						if (!file.getAbsolutePath().endsWith(".zip"))
 							file = new File(file.getAbsolutePath() + ".zip");

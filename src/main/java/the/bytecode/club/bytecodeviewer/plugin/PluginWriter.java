@@ -131,7 +131,7 @@ public class PluginWriter extends JFrame
 			if(savePath == null)
 			{
 				final String ext = FileNameUtils.getExtension(pluginName);
-				JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
+				JFileChooser fc = new FileChooser(Configuration.getLastPluginDirectory(),
 						"Save Plugin",
 						"BCV Plugin",
 						ext);
@@ -139,7 +139,7 @@ public class PluginWriter extends JFrame
 				int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 				if (returnVal == JFileChooser.APPROVE_OPTION)
 				{
-					Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+					Configuration.lastPluginDirectory = fc.getSelectedFile().getAbsolutePath();
 					File file = fc.getSelectedFile();
 					String path = file.getAbsolutePath();
 					

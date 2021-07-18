@@ -34,7 +34,9 @@ public class Configuration
 	public static boolean warnForEditing = false;
 	public static boolean runningObfuscation = false;
 	public static final long start = System.currentTimeMillis();
-	public static String lastDirectory = ".";
+	public static String lastOpenDirectory = ".";
+	public static String lastSaveDirectory = ".";
+	public static String lastPluginDirectory = ".";
 	public static boolean pingback = false;
 	public static boolean deleteForeignLibraries = true;
 	public static boolean canExit = false;
@@ -50,9 +52,27 @@ public class Configuration
 	public static RSTATheme rstaTheme = lafTheme.getRSTATheme();
 	public static long lastHotKeyExecuted = 0;
 	
-	public static File getLastDirectory()
+	public static File getLastOpenDirectory()
 	{
-		File lastDir = new File(lastDirectory);
+		File lastDir = new File(lastOpenDirectory);
+		if(lastDir.exists())
+			return lastDir;
+		
+		return new File(".");
+	}
+	
+	public static File getLastSaveDirectory()
+	{
+		File lastDir = new File(lastSaveDirectory);
+		if(lastDir.exists())
+			return lastDir;
+		
+		return new File(".");
+	}
+	
+	public static File getLastPluginDirectory()
+	{
+		File lastDir = new File(lastPluginDirectory);
 		if(lastDir.exists())
 			return lastDir;
 		

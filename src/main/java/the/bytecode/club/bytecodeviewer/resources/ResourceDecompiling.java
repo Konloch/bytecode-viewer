@@ -34,7 +34,7 @@ public class ResourceDecompiling
 			if (!BytecodeViewer.autoCompileSuccessful())
 				return;
 			
-			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
+			JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(),
 					"Select Zip Export",
 					"Zip Archives",
 					"zip");
@@ -42,7 +42,7 @@ public class ResourceDecompiling
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+				Configuration.lastSaveDirectory = fc.getSelectedFile().getAbsolutePath();
 				File file = fc.getSelectedFile();
 				
 				//auto appened zip
@@ -193,7 +193,7 @@ public class ResourceDecompiling
 			
 			final ClassNode cn = BytecodeViewer.getCurrentlyOpenedClassNode();
 			
-			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
+			JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(),
 					"Select Java Files",
 					"Java Source Files",
 					"java");
@@ -201,7 +201,7 @@ public class ResourceDecompiling
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+				Configuration.lastSaveDirectory = fc.getSelectedFile().getAbsolutePath();
 				File file = fc.getSelectedFile();
 				
 				BytecodeViewer.updateBusyStatus(true);

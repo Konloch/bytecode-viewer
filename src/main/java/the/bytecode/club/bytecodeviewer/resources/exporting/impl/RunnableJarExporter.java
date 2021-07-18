@@ -27,7 +27,7 @@ public class RunnableJarExporter implements Exporter
 			if (!BytecodeViewer.autoCompileSuccessful())
 				return;
 			
-			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
+			JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(),
 					"Select Jar Export",
 					"Jar Archives",
 					"jar");
@@ -35,7 +35,7 @@ public class RunnableJarExporter implements Exporter
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+				Configuration.lastSaveDirectory = fc.getSelectedFile().getAbsolutePath();
 				File file = fc.getSelectedFile();
 				String path = file.getAbsolutePath();
 				

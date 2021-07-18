@@ -27,7 +27,7 @@ public class ZipExport implements Exporter
 			if (!BytecodeViewer.autoCompileSuccessful())
 				return;
 			
-			JFileChooser fc = new FileChooser(Configuration.getLastDirectory(),
+			JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(),
 					"Select Zip Export",
 					"Zip Archives",
 					"zip");
@@ -35,7 +35,7 @@ public class ZipExport implements Exporter
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				Configuration.lastDirectory = fc.getSelectedFile().getAbsolutePath();
+				Configuration.lastSaveDirectory = fc.getSelectedFile().getAbsolutePath();
 				File file = fc.getSelectedFile();
 				
 				//auto append .zip
