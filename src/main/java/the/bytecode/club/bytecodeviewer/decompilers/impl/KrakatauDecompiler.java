@@ -75,8 +75,8 @@ public class KrakatauDecompiler extends InternalDecompiler
 
         ExternalResources.getSingleton().rtCheck();
         if (Configuration.rt.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set your JRE RT Library.\r\n(C:\\Program Files (x86)"
-                    + "\\Java\\jre7\\lib\\rt.jar)");
+            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A
+                    + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
             ExternalResources.getSingleton().selectJRERTLibrary();
         }
 
@@ -162,8 +162,8 @@ public class KrakatauDecompiler extends InternalDecompiler
             return TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH.toString();
         
         if (Configuration.rt.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set your JRE RT Library." +
-                    "\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
+            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A
+                    + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
             ExternalResources.getSingleton().selectJRERTLibrary();
         }
 
@@ -251,8 +251,8 @@ public class KrakatauDecompiler extends InternalDecompiler
     
         ExternalResources.getSingleton().rtCheck();
         if (Configuration.rt.isEmpty()) {
-            BytecodeViewer.showMessage("You need to set your JRE RT Library." +
-                    "\r\n(C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar)");
+            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A
+                    + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
             ExternalResources.getSingleton().selectJRERTLibrary();
         }
 

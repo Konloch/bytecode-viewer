@@ -137,6 +137,8 @@
   "PYTHON_3_EXECUTABLE": "Python 3.x (Or PyPy 3.x for speed) Executable",
   "YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH": "You need to set your Python 2.7 (or PyPy 2.7 for speed) executable path.",
   "YOU_NEED_TO_SET_YOUR_PYTHON_3_PATH": "You need to set your Python 3.x (or PyPy 3.x for speed) executable path.",
+  "YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A": "You need to set your JRE RT Library.",
+  "YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B": "(C:\\Program Files\\Java\\jre7\\lib\\rt.jar)",
   "JAVA_EXECUTABLE": "Java Executable (Inside Of JRE C:/Program Files/Java/JRE_xx/bin/java.exe)",
   "JAVAC_EXECUTABLE": "Javac Executable (Requires JDK C:/Program Files/Java/JDK_xx/bin/javac.exe)",
   "JAVA_TOOLS_JAR": "Java Tools Jar (Inside Of JDK C:/Program Files/Java/JDK_xx/lib/tools.jar)",
