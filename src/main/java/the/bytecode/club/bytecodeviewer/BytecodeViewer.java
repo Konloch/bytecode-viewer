@@ -581,7 +581,7 @@ public class BytecodeViewer
     {
         if (BytecodeViewer.getLoadedClasses().isEmpty())
         {
-            BytecodeViewer.showMessage("First open a class, jar, zip, apk or dex file.");
+            BytecodeViewer.showMessage(TranslatedStrings.FIRST_OPEN_A_CLASS.toString());
             return true;
         }
         
@@ -595,7 +595,7 @@ public class BytecodeViewer
     {
         if (BytecodeViewer.resourceContainers.isEmpty())
         {
-            BytecodeViewer.showMessage("First open a resource such as class, jar, zip or apk file.");
+            BytecodeViewer.showMessage(TranslatedStrings.FIRST_OPEN_A_RESOURCE.toString());
             return true;
         }
         

@@ -7,6 +7,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -182,7 +183,7 @@ public class ResourceDecompiling
 		
 		if (!BytecodeViewer.isActiveResourceClass())
 		{
-			BytecodeViewer.showMessage("First open a class file.");
+			BytecodeViewer.showMessage(TranslatedStrings.FIRST_VIEW_A_CLASS.toString());
 			return;
 		}
 		

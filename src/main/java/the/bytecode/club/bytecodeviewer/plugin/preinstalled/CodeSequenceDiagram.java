@@ -16,6 +16,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -53,7 +54,7 @@ public class CodeSequenceDiagram extends Plugin
     {
         if (!BytecodeViewer.isActiveResourceClass())
         {
-            BytecodeViewer.showMessage("First open a class file.");
+            BytecodeViewer.showMessage(TranslatedStrings.FIRST_VIEW_A_CLASS.toString());
             return;
         }
         
