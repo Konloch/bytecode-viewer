@@ -141,7 +141,7 @@ public class CFRDecompiler extends InternalDecompiler
         File file = new File(fuckery);
 
         if (file.exists())
-            return findFile(Objects.requireNonNull(file.listFiles()));
+            return findFile(MiscUtils.listFiles(file));
 
         return CFR + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
                 nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
@@ -162,7 +162,7 @@ public class CFRDecompiler extends InternalDecompiler
     public String findFile(File[] fA) {
         for (File f : fA) {
             if (f.isDirectory())
-                return findFile(Objects.requireNonNull(f.listFiles()));
+                return findFile(MiscUtils.listFiles(f));
             else {
                 String s;
                 try {
@@ -331,7 +331,7 @@ public class CFRDecompiler extends InternalDecompiler
             res = zout;
             while (!queue.isEmpty()) {
                 directory = queue.pop();
-                for (File kid : Objects.requireNonNull(directory.listFiles())) {
+                for (File kid : MiscUtils.listFiles(directory)) {
                     String name = base.relativize(kid.toURI()).getPath();
                     if (kid.isDirectory()) {
                         queue.push(kid);

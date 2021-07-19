@@ -17,6 +17,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
@@ -267,7 +268,7 @@ public class Boot {
 
     public static void setState(String s)
     {
-        if(screen != null)
+        if (screen != null)
             screen.setTitle(s);
     }
 
@@ -295,7 +296,7 @@ public class Boot {
     public static void populateLibsDirectory() {
         File libsDir = libsDir();
         if (libsDir.exists())
-            for (File f : Objects.requireNonNull(libsDir.listFiles())) {
+            for (File f : MiscUtils.listFiles(libsDir)) {
                 libsList.add(f.getName());
                 libsFileList.add(f.getAbsolutePath());
             }
@@ -450,14 +451,14 @@ public class Boot {
         setState("Bytecode Viewer Boot Screen - Checking Enjarify...");
         System.out.println("Checking enjarify");
         File enjarifyZip = null;
-        for (File f : Objects.requireNonNull(new File(Constants.libsDirectory).listFiles())) {
+        for (File f : MiscUtils.listFiles(new File(Constants.libsDirectory))) {
             if (f.getName().toLowerCase().startsWith("enjarify-")) {
                 Constants.enjarifyVersion = f.getName().split("-")[1].split("\\.")[0];
                 enjarifyZip = f;
             }
         }
 
-        for (File f : Objects.requireNonNull(new File(getBCVDirectory()).listFiles())) {
+        for (File f : MiscUtils.listFiles(new File(getBCVDirectory()))) {
             if (f.getName().toLowerCase().startsWith("enjarify_") && !f.getName().split("_")[1].split("\\.")[0].equals(Constants.enjarifyVersion)) {
                 setState("Bytecode Viewer Boot Screen - Removing Outdated " + f.getName() + "...");
                 System.out.println("Removing oudated " + f.getName());
@@ -493,7 +494,7 @@ public class Boot {
         System.out.println("Checking krakatau");
 
         File krakatauZip = null;
-        for (File f : Objects.requireNonNull(new File(Constants.libsDirectory).listFiles())) {
+        for (File f : MiscUtils.listFiles(new File(Constants.libsDirectory))) {
             if (f.getName().toLowerCase().startsWith("krakatau-")) {
                 //System.out.println(f.getName());
                 Constants.krakatauVersion = f.getName().split("-")[1].split("\\.")[0];
@@ -501,7 +502,7 @@ public class Boot {
             }
         }
 
-        for (File f : Objects.requireNonNull(new File(getBCVDirectory()).listFiles())) {
+        for (File f : MiscUtils.listFiles(new File(getBCVDirectory()))) {
             if (f.getName().toLowerCase().startsWith("krakatau_") && !f.getName().split("_")[1].split("\\.")[0].equals(Constants.krakatauVersion)) {
                 setState("Bytecode Viewer Boot Screen - Removing Outdated " + f.getName() + "...");
                 System.out.println("Removing oudated " + f.getName());
