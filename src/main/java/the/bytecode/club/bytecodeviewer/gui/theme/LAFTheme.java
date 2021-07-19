@@ -102,7 +102,13 @@ public enum LAFTheme
 		Configuration.showDarkLAFComponentIcons = darkLAF;
 		
 		if(BytecodeViewer.viewer != null)
+		{
 			BytecodeViewer.viewer.uiComponents.forEach(VisibleComponent::setDefaultIcon);
+			SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer.procyonSettingsDialogue);
+			SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer.cfrSettingsDialogue);
+			SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer.fernFlowerSettingsDialogue);
+			SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer.bytecodeDecompilerSettingsDialogue);
+		}
 	}
 	
 	/**

@@ -81,7 +81,7 @@ public class ResourceDecompiling
 					Thread t12 = new Thread(() -> {
 						try {
 							Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
-									MiscUtils.append(javaSucks, "-proycon.zip"));
+									MiscUtils.append(javaSucks, "-procyon.zip"));
 							BytecodeViewer.updateBusyStatus(false);
 						} catch (Exception e) {
 							BytecodeViewer.handleException(e);
@@ -241,7 +241,7 @@ public class ResourceDecompiling
 							}
 							
 							try {
-								DiskWriter.replaceFile(MiscUtils.append(file, "-proycon.java"),
+								DiskWriter.replaceFile(MiscUtils.append(file, "-procyon.java"),
 										Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
 							} catch (Exception e) {
 								e.printStackTrace();

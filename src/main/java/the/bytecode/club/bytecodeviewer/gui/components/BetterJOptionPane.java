@@ -16,6 +16,7 @@ import static javax.swing.JOptionPane.*;
  * @author Scott Violet
  * @since 7/4/2021
  */
+
 public class BetterJOptionPane
 {
 	public static void showMessageDialog(Component parentComponent,
@@ -85,29 +86,12 @@ public class BetterJOptionPane
 				getRootFrame() : parentComponent).getComponentOrientation());
 		
 		int style = styleFromMessageType(messageType);
-		
-		//reflection to cheat our way around the
-		// private createDialog(Component parentComponent, String title, int style)
-		JDialog dialog = null;
-		try
+		JDialog dialog = createNewJDialogue(parentComponent, pane, title, style, (d)->
 		{
-			Method createDialog = pane.getClass().getDeclaredMethod("createDialog", Component.class, String.class, int.class);
-			createDialog.setAccessible(true);
-			dialog = (JDialog) createDialog.invoke(pane, parentComponent, title, style);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+			pane.selectInitialValue();
+		});
 		
 		pane.selectInitialValue();
-		
-		//check if the dialogue is in a poor location, attempt to correct
-		if(dialog.getLocation().getY() == 0)
-			dialog.setLocationRelativeTo(null);
-		
-		dialog.show();
-		dialog.dispose();
 		
 		Object selectedValue = pane.getValue();
 		
@@ -146,57 +130,49 @@ public class BetterJOptionPane
 				getRootFrame() : parentComponent).getComponentOrientation());
 		
 		int style = styleFromMessageType(messageType);
-		//reflection to cheat our way around the
-		// private createDialog(Component parentComponent, String title, int style)
-		JDialog dialog = null;
-		try
+		JDialog dialog = createNewJDialogue(parentComponent, pane, title, style, (d)->
 		{
-			Method createDialog = pane.getClass().getDeclaredMethod("createDialog", Component.class, String.class, int.class);
-			createDialog.setAccessible(true);
-			dialog = (JDialog) createDialog.invoke(pane, parentComponent, title, style);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+			pane.selectInitialValue();
+		});
 		
 		pane.selectInitialValue();
 		
-		//check if the dialogue is in a poor location, attempt to correct
-		if(dialog.getLocation().getY() == 0)
-			dialog.setLocationRelativeTo(null);
-		
-		dialog.show();
-		dialog.dispose();
-		
 		Object value = pane.getInputValue();
 		
-		if (value == UNINITIALIZED_VALUE) {
+		if (value == UNINITIALIZED_VALUE)
 			return null;
-		}
+		
 		return value;
 	}
 	
 	public static void showJPanelDialogue(Component parentComponent, JScrollPane panel, int minimumHeight)
 			throws HeadlessException
 	{
+		//create a new option pane with a empty text and just 'ok'
 		JOptionPane pane = new JOptionPane("");
 		pane.add(panel, 0);
 		
+		JDialog dialog = createNewJDialogue(parentComponent, pane, panel.getName(), 0, (d)->
+		{
+			int newHeight = Math.min(minimumHeight, d.getHeight());
+			d.setMinimumSize(new Dimension(d.getWidth(), newHeight));
+			d.setSize(new Dimension(d.getWidth(), newHeight));
+		});
+	}
+	
+	private static JDialog createNewJDialogue(Component parentComponent, JOptionPane pane, String title, int style, OnCreate onCreate)
+	{
+		JDialog dialog = null;
+		
 		//reflection to cheat our way around the
 		// private createDialog(Component parentComponent, String title, int style)
-		JDialog dialog = null;
 		try
 		{
 			Method createDialog = pane.getClass().getDeclaredMethod("createDialog", Component.class, String.class, int.class);
 			createDialog.setAccessible(true);
-			dialog = (JDialog) createDialog.invoke(pane, parentComponent, panel.getName(), 0);
+			dialog = (JDialog) createDialog.invoke(pane, parentComponent, title, style);
 			
-			//dialog.setResizable(true);
-			
-			int newHeight = minimumHeight < dialog.getHeight() ? minimumHeight : dialog.getHeight();
-			dialog.setMinimumSize(new Dimension(dialog.getWidth(), newHeight));
-			dialog.setSize(new Dimension(dialog.getWidth(), newHeight));
+			onCreate.onCreate(dialog);
 		}
 		catch(Exception e)
 		{
@@ -209,6 +185,8 @@ public class BetterJOptionPane
 		
 		dialog.show();
 		dialog.dispose();
+		
+		return dialog;
 	}
 	
 	private static int styleFromMessageType(int messageType)
@@ -227,5 +205,10 @@ public class BetterJOptionPane
 			default:
 				return JRootPane.PLAIN_DIALOG;
 		}
+	}
+	
+	interface OnCreate
+	{
+		void onCreate(JDialog dialog);
 	}
 }

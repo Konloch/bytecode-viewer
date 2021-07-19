@@ -561,6 +561,7 @@ public class MainViewerGUI extends JFrame
         //FERNFLOWER SETTINGS
         //settingsMainMenu.add(fernFlowerSettingsSecondaryMenu);
         settingsMainMenu.add(fernFlowerSettings);
+        fernFlowerSettingsSecondaryMenu.add(ren);
         fernFlowerSettingsSecondaryMenu.add(dc4);
         fernFlowerSettingsSecondaryMenu.add(nns);
         fernFlowerSettingsSecondaryMenu.add(ner);
@@ -579,7 +580,6 @@ public class MainViewerGUI extends JFrame
         fernFlowerSettingsSecondaryMenu.add(udv);
         fernFlowerSettingsSecondaryMenu.add(fdi);
         fernFlowerSettingsSecondaryMenu.add(asc);
-        fernFlowerSettingsSecondaryMenu.add(ren);
         fernFlowerSettingsDialogue = new SettingsDialogue(
                 fernFlowerSettingsSecondaryMenu,
                 new JPanel());

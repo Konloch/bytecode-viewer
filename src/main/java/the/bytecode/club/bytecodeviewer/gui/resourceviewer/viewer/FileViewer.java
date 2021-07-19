@@ -83,7 +83,7 @@ public class FileViewer extends ResourceViewer
             //  + Add file header checks
             //  + Check for CAFEBABE
             //  + ClassRead then quick-decompile using Pane1 Decompiler
-            //      (If none selected, try Pane2, Pane3, default to Proycon)
+            //      (If none selected, try Pane2, Pane3, default to Procyon)
             
             
             //check by file extension to display image
