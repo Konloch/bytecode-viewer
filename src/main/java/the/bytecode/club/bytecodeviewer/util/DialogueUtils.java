@@ -78,7 +78,7 @@ public class DialogueUtils
 	public static File fileChooser(String title, String description, FileFilter filter, String... extensions)
 	{
 		return fileChooser(title, description, Configuration.getLastOpenDirectory(), filter,
-				(f)-> Configuration.lastOpenDirectory = f.getAbsolutePath(), extensions);
+				Configuration::setLastOpenDirectory, extensions);
 	}
 	
 	/**

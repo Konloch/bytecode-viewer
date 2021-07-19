@@ -105,7 +105,7 @@ public class PluginWriter extends JFrame
 				"External Plugin",
 				Configuration.getLastPluginDirectory(),
 				PluginManager.fileFilter(),
-				(f)-> Configuration.lastPluginDirectory = f.getAbsolutePath(),
+				Configuration::setLastPluginDirectory,
 				FileChooser.EVERYTHING);
 		
 		if(file == null || !file.exists())
@@ -168,7 +168,8 @@ public class PluginWriter extends JFrame
 				int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 				if (returnVal == JFileChooser.APPROVE_OPTION)
 				{
-					Configuration.lastPluginDirectory = fc.getSelectedFile().getAbsolutePath();
+					Configuration.setLastPluginDirectory(fc.getSelectedFile());
+					
 					File file = fc.getSelectedFile();
 					String path = file.getAbsolutePath();
 					

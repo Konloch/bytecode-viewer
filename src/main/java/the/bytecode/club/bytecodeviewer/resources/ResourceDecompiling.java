@@ -43,7 +43,8 @@ public class ResourceDecompiling
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				Configuration.lastSaveDirectory = fc.getSelectedFile().getAbsolutePath();
+				Configuration.setLastSaveDirectory(fc.getSelectedFile());
+				
 				File file = fc.getSelectedFile();
 				
 				//auto appened zip
@@ -202,7 +203,8 @@ public class ResourceDecompiling
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				Configuration.lastSaveDirectory = fc.getSelectedFile().getAbsolutePath();
+				Configuration.setLastSaveDirectory(fc.getSelectedFile());
+				
 				File file = fc.getSelectedFile();
 				
 				BytecodeViewer.updateBusyStatus(true);

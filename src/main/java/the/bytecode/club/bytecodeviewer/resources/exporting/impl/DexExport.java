@@ -41,7 +41,8 @@ public class DexExport implements Exporter
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				Configuration.lastSaveDirectory = fc.getSelectedFile().getAbsolutePath();
+				Configuration.setLastSaveDirectory(fc.getSelectedFile());
+				
 				final File file = fc.getSelectedFile();
 				String output = file.getAbsolutePath();
 				

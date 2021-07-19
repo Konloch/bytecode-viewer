@@ -898,7 +898,7 @@ public class MainViewerGUI extends JFrame
                 "External Plugin",
                 Configuration.getLastPluginDirectory(),
                 PluginManager.fileFilter(),
-                (f)-> Configuration.lastPluginDirectory = f.getAbsolutePath(),
+                Configuration::setLastPluginDirectory,
                 FileChooser.EVERYTHING);
     
         if(file == null)

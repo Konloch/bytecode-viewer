@@ -35,7 +35,8 @@ public class RunnableJarExporter implements Exporter
 			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				Configuration.lastSaveDirectory = fc.getSelectedFile().getAbsolutePath();
+				Configuration.setLastSaveDirectory(fc.getSelectedFile());
+				
 				File file = fc.getSelectedFile();
 				String path = file.getAbsolutePath();
 				

@@ -90,7 +90,8 @@ public class VersionChecker implements Runnable
 					int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 					if (returnVal == JFileChooser.APPROVE_OPTION)
 					{
-						Configuration.lastOpenDirectory = fc.getSelectedFile().getAbsolutePath();
+						Configuration.setLastOpenDirectory(fc.getSelectedFile());
+						
 						File file = fc.getSelectedFile();
 						if (!file.getAbsolutePath().endsWith(".zip"))
 							file = new File(file.getAbsolutePath() + ".zip");

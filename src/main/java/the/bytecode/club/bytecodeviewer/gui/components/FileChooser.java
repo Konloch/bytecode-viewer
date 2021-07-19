@@ -5,6 +5,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -16,13 +17,12 @@ public class FileChooser extends JFileChooser
 {
 	public static final String EVERYTHING = "everything";
 	
-	public FileChooser(File filePath, String title, String description, String... extensions)
+	public FileChooser(File file, String title, String description, String... extensions)
 	{
 		HashSet<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
 		
 		try {
-			if (filePath.exists())
-				setSelectedFile(filePath);
+			setSelectedFile(file);
 		} catch (Exception ignored) { }
 		
 		setDialogTitle(title);

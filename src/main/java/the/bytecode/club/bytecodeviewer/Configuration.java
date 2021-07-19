@@ -53,10 +53,25 @@ public class Configuration
 	public static RSTATheme rstaTheme = lafTheme.getRSTATheme();
 	public static long lastHotKeyExecuted = 0;
 	
+	public static void setLastOpenDirectory(File file)
+	{
+		lastOpenDirectory = file.getAbsolutePath();
+	}
+	
+	public static void setLastSaveDirectory(File file)
+	{
+		lastSaveDirectory = file.getAbsolutePath();
+	}
+	
+	public static void setLastPluginDirectory(File file)
+	{
+		lastPluginDirectory = file.getAbsolutePath();
+	}
+	
 	public static File getLastOpenDirectory()
 	{
 		File lastDir = new File(lastOpenDirectory);
-		if(lastDir.exists())
+		if(lastDir.getParentFile().exists())
 			return lastDir;
 		
 		return new File(".");
@@ -65,7 +80,7 @@ public class Configuration
 	public static File getLastSaveDirectory()
 	{
 		File lastDir = new File(lastSaveDirectory);
-		if(lastDir.exists())
+		if(lastDir.getParentFile().exists())
 			return lastDir;
 		
 		return new File(".");
@@ -74,7 +89,8 @@ public class Configuration
 	public static File getLastPluginDirectory()
 	{
 		File lastDir = new File(lastPluginDirectory);
-		if(lastDir.exists())
+		
+		if(lastDir.getParentFile().exists())
 			return lastDir;
 		
 		return new File(".");

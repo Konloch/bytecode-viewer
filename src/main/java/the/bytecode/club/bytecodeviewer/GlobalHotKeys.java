@@ -94,7 +94,8 @@ public class GlobalHotKeys
 				int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 				if (returnVal == JFileChooser.APPROVE_OPTION)
 				{
-					Configuration.lastSaveDirectory = fc.getSelectedFile().getAbsolutePath();
+					Configuration.setLastSaveDirectory(fc.getSelectedFile());
+					
 					File file = fc.getSelectedFile();
 					
 					if (!file.getAbsolutePath().endsWith(".zip"))
