@@ -19,5 +19,6 @@ Some dependencies may have been modified or could be released by their author in
 
 #### Modifications
 
- - `JD-GUI`: Removed ASM and RSyntaxTextArea
+ - `JD-GUI`: Removed ASM, RSyntaxTextArea, ANTLR, and TreeLayout
  - `APKTool`: Recompiled with the newest dependency versions, removed prebuilt folder
+ - `D2Jar`: Removed TreeLayout, ANTLR, ST4, and com.android
