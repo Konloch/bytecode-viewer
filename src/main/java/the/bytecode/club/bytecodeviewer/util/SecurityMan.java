@@ -98,8 +98,9 @@ public class SecurityMan extends SecurityManager
         };
         boolean allow = false;
 
+        String lowerCaseCMD = cmd.toLowerCase();
         for (String s : whitelist)
-            if (cmd.contains(s)) {
+            if (lowerCaseCMD.contains(s)) {
                 allow = true;
                 break;
             }
