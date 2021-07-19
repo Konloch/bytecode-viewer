@@ -30,6 +30,8 @@ public class Constants
 	//TODO check if $HOME/.local/share exists, if so reference from there instead - #250
 	public static final File BCVDir = new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
 	public static final File RT_JAR = new File(System.getProperty("java.home") + fs + "lib" + fs + "rt.jar");
+	public static final File JAVA_BINARY = new File(System.getProperty("java.home") + fs + "bin" + fs + "java.exe");
+	public static final File JAVA_BINARY_NIX = new File(System.getProperty("java.home") + fs + "bin" + fs + "java");
 	public static final File RT_JAR_DUMPED = new File(getBCVDirectory() + fs + "rt.jar");
 	public static final String filesName = getBCVDirectory() + fs + "recentfiles.json";
 	public static final String pluginsName = getBCVDirectory() + fs + "recentplugins.json";
