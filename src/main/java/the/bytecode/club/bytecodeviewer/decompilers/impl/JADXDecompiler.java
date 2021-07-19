@@ -86,7 +86,7 @@ public class JADXDecompiler extends InternalDecompiler
         tempClass.delete();
 
         if (fuckery.exists())
-            return findFile(Objects.requireNonNull(fuckery.listFiles()));
+            return findFile(MiscUtils.listFiles(fuckery));
         
         if(exception.isEmpty())
             exception = "Decompiled source file not found!";
@@ -113,7 +113,7 @@ public class JADXDecompiler extends InternalDecompiler
     public String findFile(File[] fA) {
         for (File f : fA) {
             if (f.isDirectory())
-                return findFile(Objects.requireNonNull(f.listFiles()));
+                return findFile(MiscUtils.listFiles(f));
             else {
                 String s;
                 try {

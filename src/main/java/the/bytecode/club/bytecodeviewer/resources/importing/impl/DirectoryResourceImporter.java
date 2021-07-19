@@ -40,13 +40,12 @@ public class DirectoryResourceImporter implements Importer
 			for (int i = 0; i < totalFiles.size(); i++)
 			{
 				File child = totalFiles.get(i);
-				if (child.listFiles() != null)
-					for (File rocket : Objects.requireNonNull(child.listFiles()))
-						if (!totalFiles.contains(rocket))
-						{
-							totalFiles.add(rocket);
-							added = true;
-						}
+				for (File rocket : MiscUtils.listFiles(child))
+					if (!totalFiles.contains(rocket))
+					{
+						totalFiles.add(rocket);
+						added = true;
+					}
 			}
 			
 			if (!added)
