@@ -8,7 +8,9 @@ import the.bytecode.club.bytecodeviewer.compilers.impl.KrakatauAssembler;
 import the.bytecode.club.bytecodeviewer.decompilers.impl.*;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.security.Permission;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -39,7 +41,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SecurityMan extends SecurityManager
 {
-    private AtomicInteger silentExec = new AtomicInteger(1);
+    private final AtomicInteger silentExec = new AtomicInteger(1);
     private boolean printing = false;
     private boolean printingPackage = false;
     
@@ -57,10 +59,21 @@ public class SecurityMan extends SecurityManager
         this.printingPackage = printingPackage;
     }
     
+    /**
+     * Attempts to secure untrusted code
+     *
+     * When paired with checkWrite it should prevent most escapes
+     * JNI is still possible so make sure to block checkLink as well //TODO for BCV
+     * 
+     * Rewritten on 07/19/2021
+     *
+     * @author Konloch
+     */
     @Override
     public void checkExec(String cmd)
     {
-        String[] whitelist =
+        //incoming command must contain the following or it will be automatically denied
+        String[] execWhitelist =
         {
                 "attrib",
                 "python",
@@ -68,16 +81,57 @@ public class SecurityMan extends SecurityManager
                 "java",
                 "brut_util",
         };
+        
+        //the goal is to make this true
         boolean allow = false;
+        //while keeping this false
+        boolean blocked = false;
 
-        String lowerCaseCMD = cmd.toLowerCase();
-        for (String s : whitelist)
-            if (lowerCaseCMD.contains(s))
+        //normalize all command paths
+        final String normalizedPath;
+        try
+        {
+            normalizedPath = new File(cmd.toLowerCase()).getCanonicalPath();
+        }
+        catch (IOException e)
+        {
+            throw new SecurityException(e);
+        }
+    
+        //don't trust .jar file extensions being executed
+        if(normalizedPath.endsWith(".jar"))
+            blocked = true;
+        
+        //don't trust .js file extensions being executed
+        else if(normalizedPath.endsWith(".js"))
+            blocked = true;
+        
+        //block anything executing in system temp
+        else if(normalizedPath.startsWith(Constants.systemTempDirectory.toLowerCase()))
+            blocked = true;
+        
+        //can only write into BCV dir, so anything executing from here has probably been dropped
+        try
+        {
+            if(normalizedPath.startsWith(Constants.BCVDir.getCanonicalPath().toLowerCase()))
+                blocked = true;
+        }
+        catch (IOException e)
+        {
+            throw new SecurityException(e);
+        }
+    
+        //filter exec whitelist
+        for (String whiteList : execWhitelist)
+        {
+            if (normalizedPath.contains(whiteList))
             {
                 allow = true;
                 break;
             }
+        }
         
+        //filter class whitelist
         boolean validClassCall = false;
         if(canClassExecute(Thread.currentThread().getStackTrace()[3].getClassName()))
             validClassCall = true;
@@ -92,16 +146,17 @@ public class SecurityMan extends SecurityManager
             }
         }
         
-        if (allow && validClassCall)
+        //log exec if allowed
+        if (allow && validClassCall && !blocked)
         {
             if(silentExec.get() >= 1)
                 System.err.println("Allowing exec: " + cmd);
-        }
+        } //throw exception stopping execution
         else throw new SecurityException("BCV is awesome! Blocking exec: " + cmd);
     }
     
     /**
-     * Execute Whitelist goes here
+     * Class Whitelist goes here
      */
     private boolean canClassExecute(String fullyQualifiedClassName)
     {
@@ -250,5 +305,29 @@ public class SecurityMan extends SecurityManager
     public void checkWrite(String file) {
         if(printing)
             System.out.println("Writing: " + file);
+        
+        try
+        {
+            //can only export as the following extensions
+            if(file.endsWith(".zip") || file.endsWith(".jar") || file.endsWith(".apk")
+                    || file.endsWith(".dex") || file.endsWith(".class") || file.endsWith("js")
+                    || file.endsWith(".java") || file.endsWith(".gy") || file.endsWith(".bcv")
+                    || file.endsWith(".json") || file.endsWith(".txt") || file.endsWith(".log"))
+                return;
+            
+            //can only write into BCV dir
+            if(file.startsWith(Constants.BCVDir.getCanonicalPath()))
+                return;
+            
+            //can only write into system temp
+            if(file.startsWith(Constants.systemTempDirectory))
+                return;
+        }
+        catch (IOException e)
+        {
+            throw new SecurityException(e);
+        }
+    
+        throw new SecurityException("BCV is awesome, blocking write(" + file + ");");
     }
 }

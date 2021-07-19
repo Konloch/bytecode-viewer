@@ -131,7 +131,7 @@ public class BytecodeViewer
     public static List<Process> createdProcesses = new ArrayList<>();
     
     //Security Manager for dynamic analysis debugging
-    public static SecurityMan sm = new SecurityMan(); //might be insecure due to assholes targeting BCV
+    public static SecurityMan sm = new SecurityMan();
     
     //Refactorer
     public static Refactorer refactorer = new Refactorer();

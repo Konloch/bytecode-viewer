@@ -49,7 +49,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  */
 public class BCV
 {
-    private static ClassNodeLoader loader = new ClassNodeLoader(); //might be insecure due to assholes targeting BCV
+    private static ClassNodeLoader loader = new ClassNodeLoader();
     private static URLClassLoader cl;
 
     /**

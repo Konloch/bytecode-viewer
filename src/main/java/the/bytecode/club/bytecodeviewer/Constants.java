@@ -35,6 +35,7 @@ public class Constants
 	public static final String pluginsName = getBCVDirectory() + fs + "recentplugins.json";
 	public static final String settingsName = getBCVDirectory() + fs + "settings.bcv";
 	public static final String tempDirectory = getBCVDirectory() + fs + "bcv_temp" + fs;
+	public static final String systemTempDirectory = System.getProperty("java.io.tmpdir");
 	public static final String libsDirectory = getBCVDirectory() + fs + "libs" + fs;
 	public static String krakatauWorkingDirectory = getBCVDirectory() + fs + "krakatau_" + krakatauVersion;
 	public static String enjarifyWorkingDirectory = getBCVDirectory() + fs + "enjarify_" + enjarifyVersion;
