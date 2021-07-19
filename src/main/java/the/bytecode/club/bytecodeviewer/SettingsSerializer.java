@@ -196,6 +196,8 @@ public class SettingsSerializer
             save(Configuration.javaTools);
             save(Configuration.python2Extra);
             save(Configuration.python3Extra);
+            save(Configuration.lastSaveDirectory);
+            save(Configuration.lastPluginDirectory);
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
         }
