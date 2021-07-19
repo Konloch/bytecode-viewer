@@ -71,7 +71,7 @@ public class Configuration
 	public static File getLastOpenDirectory()
 	{
 		File lastDir = new File(lastOpenDirectory);
-		if(lastDir.getParentFile().exists())
+		if(lastDir.getParentFile() != null && lastDir.getParentFile().exists())
 			return lastDir;
 		
 		return new File(".");
@@ -80,7 +80,7 @@ public class Configuration
 	public static File getLastSaveDirectory()
 	{
 		File lastDir = new File(lastSaveDirectory);
-		if(lastDir.getParentFile().exists())
+		if(lastDir.getParentFile() != null && lastDir.getParentFile().exists())
 			return lastDir;
 		
 		return new File(".");
@@ -90,7 +90,7 @@ public class Configuration
 	{
 		File lastDir = new File(lastPluginDirectory);
 		
-		if(lastDir.getParentFile().exists())
+		if(lastDir.getParentFile() != null && lastDir.getParentFile().exists())
 			return lastDir;
 		
 		return new File(".");
