@@ -126,8 +126,14 @@ public class MainViewerGUI extends JFrame
     
     //all of the settings main menu components
     public final JMenu rstaTheme = new TranslatedJMenu("Text Area Theme", Translation.TEXT_AREA_THEME);
+    public final JMenuItem rstaThemeSettings = new TranslatedJMenuItem("Text Area Theme", Translation.TEXT_AREA_THEME);
+    public SettingsDialogue rstaThemeSettingsDialogue;
     public final JMenu lafTheme = new TranslatedJMenu("Window Theme", Translation.WINDOW_THEME);
+    public final JMenuItem lafThemeSettings = new TranslatedJMenuItem("Window Theme", Translation.WINDOW_THEME);
+    public SettingsDialogue lafThemeSettingsDialogue;
     public final JMenu language = new TranslatedJMenu("Language", Translation.LANGUAGE);
+    public final JMenuItem languageSettings = new TranslatedJMenuItem("Language", Translation.LANGUAGE);
+    public SettingsDialogue languageSettingsDialogue;
     public final JMenu fontSize = new TranslatedJMenu("Font Size", Translation.FONT_SIZE);
     public final JSpinner fontSpinner = new JSpinner();
     public final Map<RSTATheme, JRadioButtonMenuItem> rstaThemes = new HashMap<>();
@@ -437,6 +443,9 @@ public class MainViewerGUI extends JFrame
             rstaThemes.put(t, item);
             rstaTheme.add(item);
         }
+        
+        rstaThemeSettingsDialogue = new SettingsDialogue(rstaTheme, new JPanel());
+        rstaThemeSettings.addActionListener((e)-> rstaThemeSettingsDialogue.showDialogue());
     
         ButtonGroup lafGroup = new ButtonGroup();
         for (LAFTheme theme : LAFTheme.values())
@@ -469,6 +478,9 @@ public class MainViewerGUI extends JFrame
             lafThemes.put(theme, item);
             lafTheme.add(item);
         }
+        
+        lafThemeSettingsDialogue = new SettingsDialogue(lafTheme, new JPanel());
+        lafThemeSettings.addActionListener((e)-> lafThemeSettingsDialogue.showDialogue());
     
         ButtonGroup languageGroup = new ButtonGroup();
         for (Language l : Language.values())
@@ -489,9 +501,12 @@ public class MainViewerGUI extends JFrame
             language.add(item);
         }
         
-        visualSettings.add(lafTheme);
-        visualSettings.add(rstaTheme);
-        visualSettings.add(language);
+        languageSettingsDialogue = new SettingsDialogue(language, new JPanel());
+        languageSettings.addActionListener((e)-> languageSettingsDialogue.showDialogue());
+        
+        visualSettings.add(useNewSettingsDialogue ? lafThemeSettings : lafTheme);
+        visualSettings.add(useNewSettingsDialogue ? rstaThemeSettings : rstaTheme);
+        visualSettings.add(useNewSettingsDialogue ? languageSettings : language);
         visualSettings.add(fontSize);
         visualSettings.add(showFileInTabTitle);
         visualSettings.add(simplifyNameInTabTitle);
@@ -514,9 +529,7 @@ public class MainViewerGUI extends JFrame
         procyonSettingsSecondaryMenu.add(retainPointlessSwitches);
         procyonSettingsSecondaryMenu.add(retainRedunantCasts);
         procyonSettingsSecondaryMenu.add(unicodeOutputEnabled);
-        procyonSettingsDialogue = new SettingsDialogue(
-                procyonSettingsSecondaryMenu,
-                new JPanel());
+        procyonSettingsDialogue = new SettingsDialogue(procyonSettingsSecondaryMenu, new JPanel());
         procyonSettings.addActionListener((e)-> procyonSettingsDialogue.showDialogue());
         
         //CFR SETTINGS
@@ -565,9 +578,7 @@ public class MainViewerGUI extends JFrame
         cfrSettingsSecondaryMenu.add(recoveryTypehInts);
         cfrSettingsSecondaryMenu.add(forceTurningIFs);
         cfrSettingsSecondaryMenu.add(forLoopAGGCapture);
-        cfrSettingsDialogue = new SettingsDialogue(
-                cfrSettingsSecondaryMenu,
-                new JPanel());
+        cfrSettingsDialogue = new SettingsDialogue(cfrSettingsSecondaryMenu, new JPanel());
         cfrSettings.addActionListener((e)-> cfrSettingsDialogue.showDialogue());
         
         //FERNFLOWER SETTINGS
@@ -591,18 +602,14 @@ public class MainViewerGUI extends JFrame
         fernFlowerSettingsSecondaryMenu.add(udv);
         fernFlowerSettingsSecondaryMenu.add(fdi);
         fernFlowerSettingsSecondaryMenu.add(asc);
-        fernFlowerSettingsDialogue = new SettingsDialogue(
-                fernFlowerSettingsSecondaryMenu,
-                new JPanel());
+        fernFlowerSettingsDialogue = new SettingsDialogue(fernFlowerSettingsSecondaryMenu, new JPanel());
         fernFlowerSettings.addActionListener((e)-> fernFlowerSettingsDialogue.showDialogue());
         
         //CFIDE SETTINGS
         settingsMainMenu.add(useNewSettingsDialogue ? bytecodeDecompilerSettings : bytecodeDecompilerSettingsSecondaryMenu);
         bytecodeDecompilerSettingsSecondaryMenu.add(debugHelpers);
         bytecodeDecompilerSettingsSecondaryMenu.add(appendBracketsToLabels);
-        bytecodeDecompilerSettingsDialogue = new SettingsDialogue(
-                bytecodeDecompilerSettingsSecondaryMenu,
-                new JPanel());
+        bytecodeDecompilerSettingsDialogue = new SettingsDialogue(bytecodeDecompilerSettingsSecondaryMenu, new JPanel());
         bytecodeDecompilerSettings.addActionListener((e)-> bytecodeDecompilerSettingsDialogue.showDialogue());
         
         deleteForeignOutdatedLibs.addActionListener(arg0 -> showForeignLibraryWarning());

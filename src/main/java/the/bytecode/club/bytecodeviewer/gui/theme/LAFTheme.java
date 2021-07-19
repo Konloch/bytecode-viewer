@@ -9,6 +9,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author Konloch
@@ -103,7 +104,13 @@ public enum LAFTheme
 		if(BytecodeViewer.viewer != null)
 		{
 			BytecodeViewer.viewer.uiComponents.forEach(VisibleComponent::setDefaultIcon);
-			SettingsDialogue.dialogues.forEach(SwingUtilities::updateComponentTreeUI);
+			//update all of the setting dialogue components
+			SettingsDialogue.components.forEach(SwingUtilities::updateComponentTreeUI);
+			
+			//TODO instead of hiding this should update/rebuild the dialogue
+			
+			//hide any existing jDialogues
+			SettingsDialogue.dialogues.forEach(Dialog::dispose);
 		}
 	}
 	

@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Method;
@@ -7,9 +9,7 @@ import java.lang.reflect.Method;
 import static javax.swing.JOptionPane.*;
 
 /**
- * All this does is fix the bug with parentComponents being minimized.
- * The bug is the JOptionPane location ends up 0,0 instead of centered.
- * The fix is to center the frame manually before showing.
+ * Extends the JOptionPane
  *
  * @author Konloch
  * @author James Gosling
@@ -145,7 +145,7 @@ public class BetterJOptionPane
 		return value;
 	}
 	
-	public static void showJPanelDialogue(Component parentComponent, JScrollPane panel, int minimumHeight)
+	public static void showJPanelDialogue(Component parentComponent, JScrollPane panel, int minimumHeight, OnCreate onCreate)
 			throws HeadlessException
 	{
 		//create a new option pane with a empty text and just 'ok'
@@ -157,6 +157,9 @@ public class BetterJOptionPane
 			int newHeight = Math.min(minimumHeight, d.getHeight());
 			d.setMinimumSize(new Dimension(d.getWidth(), newHeight));
 			d.setSize(new Dimension(d.getWidth(), newHeight));
+			
+			if(onCreate != null)
+				onCreate.onCreate(d);
 		});
 	}
 	
@@ -172,16 +175,18 @@ public class BetterJOptionPane
 			createDialog.setAccessible(true);
 			dialog = (JDialog) createDialog.invoke(pane, parentComponent, title, style);
 			
+			//check if the dialogue is in a poor location, attempt to correct
+			if(dialog.getLocation().getY() == 0 || dialog.getLocation().getY() == 1)
+				dialog.setLocationRelativeTo(null); //TODO check if BytecodeViewer.viewer is better on multi monitor for this edgecase
+			else
+				dialog.setLocationRelativeTo(BytecodeViewer.viewer);
+			
 			onCreate.onCreate(dialog);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		
-		//check if the dialogue is in a poor location, attempt to correct
-		if(dialog.getLocation().getY() == 0 || dialog.getLocation().getY() == 1)
-			dialog.setLocationRelativeTo(null);
 		
 		dialog.show();
 		dialog.dispose();

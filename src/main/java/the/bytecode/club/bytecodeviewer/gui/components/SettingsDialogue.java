@@ -32,7 +32,8 @@ import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialo
 
 public class SettingsDialogue extends JScrollPane
 {
-	public static final List<SettingsDialogue> dialogues = new ArrayList<>();
+	public static final List<JComponent> components = new ArrayList<>();
+	public static final List<JDialog> dialogues = new ArrayList<>();
 	private final List<JMenuItem> options = new ArrayList<>();
 	private final JMenu menu;
 	private final JPanel display;
@@ -60,7 +61,7 @@ public class SettingsDialogue extends JScrollPane
 		
 		buildPanel();
 		
-		dialogues.add(this);
+		components.add(this);
 	}
 	
 	private void buildPanel()
@@ -72,7 +73,7 @@ public class SettingsDialogue extends JScrollPane
 	
 	public void showDialogue()
 	{
-		BetterJOptionPane.showJPanelDialogue(null, this, 460);
+		BetterJOptionPane.showJPanelDialogue(null, this, 460, dialogues::add);
 	}
 	
 	@Override
