@@ -54,7 +54,13 @@ public class SettingsDialogue extends JScrollPane
 			if(!(child instanceof JMenuItem))
 				continue;
 			
-			options.add((JMenuItem) child);
+			JMenuItem menuItem = (JMenuItem) child;
+			
+			options.add(menuItem);
+			
+			//force unselect after a selection has been made
+			//this fixes a graphical bug from forcing menu items on non-menus
+			menuItem.addActionListener(e -> unselectAll());
 		}
 		
 		this.options.addAll(options);
@@ -64,16 +70,21 @@ public class SettingsDialogue extends JScrollPane
 		components.add(this);
 	}
 	
-	private void buildPanel()
+	public void unselectAll()
 	{
-		display.setLayout(new BoxLayout(display, BoxLayout.Y_AXIS));
-		for(JMenuItem menuItem : options)
-			display.add(menuItem);
+		options.forEach(jMenuItem -> jMenuItem.setArmed(false));
 	}
 	
 	public void showDialogue()
 	{
 		BetterJOptionPane.showJPanelDialogue(null, this, 460, dialogues::add);
+	}
+	
+	private void buildPanel()
+	{
+		display.setLayout(new BoxLayout(display, BoxLayout.Y_AXIS));
+		for(JMenuItem menuItem : options)
+			display.add(menuItem);
 	}
 	
 	@Override
