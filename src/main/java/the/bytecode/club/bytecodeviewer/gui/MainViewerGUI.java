@@ -142,7 +142,6 @@ public class MainViewerGUI extends JFrame
     public final JMenu settingsMainMenu = new TranslatedJMenu("Settings", Translation.SETTINGS);
     public final JMenu visualSettings = new TranslatedJMenu("Visual Settings", Translation.VISUAL_SETTINGS);
     public final JMenu apkConversion = new TranslatedJMenu("APK Conversion", Translation.APK_CONVERSION);
-    public final JMenu bytecodeDecompilerSettingsSecondaryMenu = new TranslatedJMenu("Bytecode Decompiler", Translation.BYTECODE_DECOMPILER);
     public final JCheckBoxMenuItem updateCheck = new TranslatedJCheckBoxMenuItem("Update Check", Translation.UPDATE_CHECK);
     public final JMenuItem setPython2 = new TranslatedJMenuItem("Set Python 2.7 Executable", Translation.SET_PYTHON_27_EXECUTABLE);
     public final JMenuItem setPython3 = new TranslatedJMenuItem("Set Python 3.X Executable", Translation.SET_PYTHON_30_EXECUTABLE);
@@ -159,11 +158,16 @@ public class MainViewerGUI extends JFrame
     public final JCheckBoxMenuItem showClassMethods = new TranslatedJCheckBoxMenuItem("Show Class Methods", Translation.SHOW_CLASS_METHODS);
     
     //CFIDE settings
+    public final JMenu bytecodeDecompilerSettingsSecondaryMenu = new TranslatedJMenu("Bytecode Decompiler", Translation.BYTECODE_DECOMPILER);
+    public final JMenuItem bytecodeDecompilerSettings = new TranslatedJMenuItem("Bytecode Decompiler", Translation.BYTECODE_DECOMPILER);
+    public SettingsDialogue bytecodeDecompilerSettingsDialogue;
     public final JCheckBoxMenuItem appendBracketsToLabels = new TranslatedJCheckBoxMenuItem("Append Brackets To Labels", Translation.APPEND_BRACKETS_TO_LABEL);
     public JCheckBoxMenuItem debugHelpers = new TranslatedJCheckBoxMenuItem("Debug Helpers", Translation.DEBUG_HELPERS);
     
     //FernFlower settings
-    public final JMenu fernFlowerSettingsSecondaryMenu = new TranslatedJMenu("FernFlower", Translation.FERNFLOWER);
+    public final JMenu fernFlowerSettingsSecondaryMenu = new TranslatedJMenu("FernFlower Settings", Translation.FERNFLOWER_SETTINGS);
+    public final JMenuItem fernFlowerSettings = new TranslatedJMenuItem("FernFlower Settings", Translation.FERNFLOWER_SETTINGS);
+    public SettingsDialogue fernFlowerSettingsDialogue;
     public TranslatedJCheckBoxMenuItem rbr = new TranslatedJCheckBoxMenuItem("Hide bridge methods", Translation.HIDE_BRIDGE_METHODS);
     public TranslatedJCheckBoxMenuItem rsy = new TranslatedJCheckBoxMenuItem("Hide synthetic class members", Translation.HIDE_SYNTHETIC_CLASS_MEMBERS);
     public TranslatedJCheckBoxMenuItem din = new TranslatedJCheckBoxMenuItem("Decompile inner classes", Translation.DECOMPILE_INNER_CLASSES);
@@ -184,70 +188,74 @@ public class MainViewerGUI extends JFrame
     public TranslatedJCheckBoxMenuItem asc = new TranslatedJCheckBoxMenuItem("Allow only ASCII characters in strings", Translation.ALLOW_ONLY_ASCII_CHARACTERS_IN_STRINGS);
     public TranslatedJCheckBoxMenuItem ren = new TranslatedJCheckBoxMenuItem("Rename ambiguous classes and class elements", Translation.RENAME_AMBIGUOUS_CLASSES_AND_CLASS_ELEMENTS);
     
-    //Proycon
-    public final JMenu procyonSettingsSecondaryMenu = new TranslatedJMenu("Procyon", Translation.PROCYON);
-    public final TranslatedJCheckBoxMenuItem alwaysGenerateExceptionVars = new TranslatedJCheckBoxMenuItem("Always Generate Exception Variable For Catch Blocks", Translation.ALWAYS_GENERATE_EXCEPTION_VARIABLE_FOR_CATCH_BLOCKS);
-    public final TranslatedJCheckBoxMenuItem excludeNestedTypes = new TranslatedJCheckBoxMenuItem("Exclude Nested Types", Translation.EXCLUDE_NESTED_TYPES);
-    public final TranslatedJCheckBoxMenuItem showDebugLineNumbers = new TranslatedJCheckBoxMenuItem("Show Debug Line Numbers", Translation.SHOW_DEBUG_LINE_NUMBERS);
-    public final TranslatedJCheckBoxMenuItem includeLineNumbersInBytecode = new TranslatedJCheckBoxMenuItem("Include Line Numbers In Bytecode", Translation.INCLUDE_LINE_NUMBERS_IN_BYTECODE);
-    public final TranslatedJCheckBoxMenuItem includeErrorDiagnostics = new TranslatedJCheckBoxMenuItem("Include Error Diagnostics", Translation.INCLUDE_ERROR_DIAGNOSTICS);
-    public final TranslatedJCheckBoxMenuItem showSyntheticMembers = new TranslatedJCheckBoxMenuItem("Show Synthetic Members", Translation.SHOW_SYNTHETIC_MEMBERS);
-    public final TranslatedJCheckBoxMenuItem simplifyMemberReferences = new TranslatedJCheckBoxMenuItem("Simplify Member References", Translation.SIMPLIFY_MEMBER_REFERENCES);
-    public final TranslatedJCheckBoxMenuItem mergeVariables = new TranslatedJCheckBoxMenuItem("Merge Variables", Translation.MERGE_VARIABLES);
-    public final TranslatedJCheckBoxMenuItem forceExplicitTypeArguments = new TranslatedJCheckBoxMenuItem("Force Explicit Type Arguments", Translation.FORCE_EXPLICIT_TYPE_ARGUMENTS);
-    public final TranslatedJCheckBoxMenuItem forceExplicitImports = new TranslatedJCheckBoxMenuItem("Force Explicit Imports", Translation.FORCE_EXPLICIT_IMPORTS);
-    public final TranslatedJCheckBoxMenuItem flattenSwitchBlocks = new TranslatedJCheckBoxMenuItem("Flatten Switch Blocks", Translation.FLATTEN_SWITCH_BLOCKS);
-    public final TranslatedJCheckBoxMenuItem retainPointlessSwitches = new TranslatedJCheckBoxMenuItem("Retain Pointless Switches", Translation.RETAIN_POINTLESS_SWITCHES);
-    public final TranslatedJCheckBoxMenuItem retainRedunantCasts = new TranslatedJCheckBoxMenuItem("Retain Redundant Casts", Translation.RETAIN_REDUNDANT_CASTS);
-    public final TranslatedJCheckBoxMenuItem unicodeOutputEnabled = new TranslatedJCheckBoxMenuItem("Unicode Output Enabled", Translation.UNICODE_OUTPUT_ENABLED);
-
+    //Procyon
+    public final JMenu procyonSettingsSecondaryMenu = new TranslatedJMenu("Procyon Settings", Translation.PROCYON_SETTINGS);
+    public final JMenuItem procyonSettings = new TranslatedJMenuItem("Procyon Settings", Translation.PROCYON_SETTINGS);
+    public SettingsDialogue procyonSettingsDialogue;
+    public final JCheckBoxMenuItem alwaysGenerateExceptionVars = new TranslatedJCheckBoxMenuItem("Always Generate Exception Variable For Catch Blocks", Translation.ALWAYS_GENERATE_EXCEPTION_VARIABLE_FOR_CATCH_BLOCKS);
+    public final JCheckBoxMenuItem excludeNestedTypes = new TranslatedJCheckBoxMenuItem("Exclude Nested Types", Translation.EXCLUDE_NESTED_TYPES);
+    public final JCheckBoxMenuItem showDebugLineNumbers = new TranslatedJCheckBoxMenuItem("Show Debug Line Numbers", Translation.SHOW_DEBUG_LINE_NUMBERS);
+    public final JCheckBoxMenuItem includeLineNumbersInBytecode = new TranslatedJCheckBoxMenuItem("Include Line Numbers In Bytecode", Translation.INCLUDE_LINE_NUMBERS_IN_BYTECODE);
+    public final JCheckBoxMenuItem includeErrorDiagnostics = new TranslatedJCheckBoxMenuItem("Include Error Diagnostics", Translation.INCLUDE_ERROR_DIAGNOSTICS);
+    public final JCheckBoxMenuItem showSyntheticMembers = new TranslatedJCheckBoxMenuItem("Show Synthetic Members", Translation.SHOW_SYNTHETIC_MEMBERS);
+    public final JCheckBoxMenuItem simplifyMemberReferences = new TranslatedJCheckBoxMenuItem("Simplify Member References", Translation.SIMPLIFY_MEMBER_REFERENCES);
+    public final JCheckBoxMenuItem mergeVariables = new TranslatedJCheckBoxMenuItem("Merge Variables", Translation.MERGE_VARIABLES);
+    public final JCheckBoxMenuItem forceExplicitTypeArguments = new TranslatedJCheckBoxMenuItem("Force Explicit Type Arguments", Translation.FORCE_EXPLICIT_TYPE_ARGUMENTS);
+    public final JCheckBoxMenuItem forceExplicitImports = new TranslatedJCheckBoxMenuItem("Force Explicit Imports", Translation.FORCE_EXPLICIT_IMPORTS);
+    public final JCheckBoxMenuItem flattenSwitchBlocks = new TranslatedJCheckBoxMenuItem("Flatten Switch Blocks", Translation.FLATTEN_SWITCH_BLOCKS);
+    public final JCheckBoxMenuItem retainPointlessSwitches = new TranslatedJCheckBoxMenuItem("Retain Pointless Switches", Translation.RETAIN_POINTLESS_SWITCHES);
+    public final JCheckBoxMenuItem retainRedunantCasts = new TranslatedJCheckBoxMenuItem("Retain Redundant Casts", Translation.RETAIN_REDUNDANT_CASTS);
+    public final JCheckBoxMenuItem unicodeOutputEnabled = new TranslatedJCheckBoxMenuItem("Unicode Output Enabled", Translation.UNICODE_OUTPUT_ENABLED);
+    
     //CFR
-    public final JMenu cfrSettingsSecondaryMenu = new TranslatedJMenu("CFR", Translation.CFR);
-    public final TranslatedJCheckBoxMenuItem decodeEnumSwitch = new TranslatedJCheckBoxMenuItem("Decode Enum Switch", Translation.DECODE_ENUM_SWITCH);
-    public final TranslatedJCheckBoxMenuItem sugarEnums = new TranslatedJCheckBoxMenuItem("SugarEnums", Translation.SUGARENUMS);
-    public final TranslatedJCheckBoxMenuItem decodeStringSwitch = new TranslatedJCheckBoxMenuItem("Decode String Switch", Translation.DECODE_STRING_SWITCH);
-    public final TranslatedJCheckBoxMenuItem arrayiter = new TranslatedJCheckBoxMenuItem("Arrayiter", Translation.ARRAYITER);
-    public final TranslatedJCheckBoxMenuItem collectioniter = new TranslatedJCheckBoxMenuItem("Collectioniter", Translation.COLLECTIONITER);
-    public final TranslatedJCheckBoxMenuItem innerClasses = new TranslatedJCheckBoxMenuItem("Inner Classes", Translation.INNER_CLASSES);
-    public final TranslatedJCheckBoxMenuItem removeBoilerPlate = new TranslatedJCheckBoxMenuItem("Remove Boiler Plate", Translation.REMOVE_BOILER_PLATE);
-    public final TranslatedJCheckBoxMenuItem removeInnerClassSynthetics = new TranslatedJCheckBoxMenuItem("Remove Inner Class Synthetics", Translation.REMOVE_INNER_CLASS_SYNTHETICS);
-    public final TranslatedJCheckBoxMenuItem decodeLambdas = new TranslatedJCheckBoxMenuItem("Decode Lambdas", Translation.DECODE_LAMBDAS);
-    public final TranslatedJCheckBoxMenuItem hideBridgeMethods = new TranslatedJCheckBoxMenuItem("Hide Bridge Methods", Translation.HIDE_BRIDGE_METHODS);
-    public final TranslatedJCheckBoxMenuItem liftConstructorInit = new TranslatedJCheckBoxMenuItem("Lift  Constructor Init", Translation.LIFT__CONSTRUCTOR_INIT);
-    public final TranslatedJCheckBoxMenuItem removeDeadMethods = new TranslatedJCheckBoxMenuItem("Remove Dead Methods", Translation.REMOVE_DEAD_METHODS);
-    public final TranslatedJCheckBoxMenuItem removeBadGenerics = new TranslatedJCheckBoxMenuItem("Remove Bad Generics", Translation.REMOVE_BAD_GENERICS);
-    public final TranslatedJCheckBoxMenuItem sugarAsserts = new TranslatedJCheckBoxMenuItem("Sugar Asserts", Translation.SUGAR_ASSERTS);
-    public final TranslatedJCheckBoxMenuItem sugarBoxing = new TranslatedJCheckBoxMenuItem("Sugar Boxing", Translation.SUGAR_BOXING);
-    public final TranslatedJCheckBoxMenuItem showVersion = new TranslatedJCheckBoxMenuItem("Show Version", Translation.SHOW_VERSION);
-    public final TranslatedJCheckBoxMenuItem decodeFinally = new TranslatedJCheckBoxMenuItem("Decode Finally", Translation.DECODE_FINALLY);
-    public final TranslatedJCheckBoxMenuItem tidyMonitors = new TranslatedJCheckBoxMenuItem("Tidy Monitors", Translation.TIDY_MONITORS);
-    public final TranslatedJCheckBoxMenuItem lenient = new TranslatedJCheckBoxMenuItem("Lenient", Translation.LENIENT);
-    public final TranslatedJCheckBoxMenuItem dumpClassPath = new TranslatedJCheckBoxMenuItem("Dump Classpath", Translation.DUMP_CLASSPATH);
-    public final TranslatedJCheckBoxMenuItem comments = new TranslatedJCheckBoxMenuItem("Comments", Translation.COMMENTS);
-    public final TranslatedJCheckBoxMenuItem forceTopSort = new TranslatedJCheckBoxMenuItem("Force Top Sort", Translation.FORCE_TOP_SORT);
-    public final TranslatedJCheckBoxMenuItem forceTopSortAggress = new TranslatedJCheckBoxMenuItem("Force Top Sort Aggress", Translation.FORCE_TOP_SORT_AGGRESS);
-    public final TranslatedJCheckBoxMenuItem forceExceptionPrune = new TranslatedJCheckBoxMenuItem("Force Exception Prune", Translation.FORCE_EXCEPTION_PRUNE);
-    public final TranslatedJCheckBoxMenuItem stringBuffer = new TranslatedJCheckBoxMenuItem("String Buffer", Translation.STRING_BUFFER);
-    public final TranslatedJCheckBoxMenuItem stringBuilder = new TranslatedJCheckBoxMenuItem("String Builder", Translation.STRING_BUILDER);
-    public final TranslatedJCheckBoxMenuItem silent = new TranslatedJCheckBoxMenuItem("Silent", Translation.SILENT);
-    public final TranslatedJCheckBoxMenuItem recover = new TranslatedJCheckBoxMenuItem("Recover", Translation.RECOVER);
-    public final TranslatedJCheckBoxMenuItem eclipse = new TranslatedJCheckBoxMenuItem("Eclipse", Translation.ECLIPSE);
-    public final TranslatedJCheckBoxMenuItem override = new TranslatedJCheckBoxMenuItem("Override", Translation.OVERRIDE);
-    public final TranslatedJCheckBoxMenuItem showInferrable = new TranslatedJCheckBoxMenuItem("Show Inferrable", Translation.SHOW_INFERRABLE);
-    public final TranslatedJCheckBoxMenuItem aexagg = new TranslatedJCheckBoxMenuItem("Aexagg", Translation.AEXAGG);
-    public final TranslatedJCheckBoxMenuItem forceCondPropagate = new TranslatedJCheckBoxMenuItem("Force Cond Propagate", Translation.FORCE_COND_PROPAGATE);
-    public final TranslatedJCheckBoxMenuItem hideUTF = new TranslatedJCheckBoxMenuItem("Hide UTF", Translation.HIDE_UTF);
-    public final TranslatedJCheckBoxMenuItem hideLongStrings = new TranslatedJCheckBoxMenuItem("Hide Long Strings", Translation.HIDE_LONG_STRINGS);
-    public final TranslatedJCheckBoxMenuItem commentMonitor = new TranslatedJCheckBoxMenuItem("Comment Monitors", Translation.COMMENT_MONITORS);
-    public final TranslatedJCheckBoxMenuItem allowCorrecting = new TranslatedJCheckBoxMenuItem("Allow Correcting", Translation.ALLOW_CORRECTING);
-    public final TranslatedJCheckBoxMenuItem labelledBlocks = new TranslatedJCheckBoxMenuItem("Labelled Blocks", Translation.LABELLED_BLOCKS);
-    public final TranslatedJCheckBoxMenuItem j14ClassOBJ = new TranslatedJCheckBoxMenuItem("J14ClassOBJ", Translation.J14CLASSOBJ);
-    public final TranslatedJCheckBoxMenuItem hideLangImports = new TranslatedJCheckBoxMenuItem("Hide Lang Imports", Translation.HIDE_LANG_IMPORTS);
-    public final TranslatedJCheckBoxMenuItem recoveryTypeClash = new TranslatedJCheckBoxMenuItem("Recover Type Clash", Translation.RECOVER_TYPE_CLASH);
-    public final TranslatedJCheckBoxMenuItem recoveryTypehInts = new TranslatedJCheckBoxMenuItem("Recover Type  Hints", Translation.RECOVER_TYPE__HINTS);
-    public final TranslatedJCheckBoxMenuItem forceTurningIFs = new TranslatedJCheckBoxMenuItem("Force Returning IFs", Translation.FORCE_RETURNING_IFS);
-    public final TranslatedJCheckBoxMenuItem forLoopAGGCapture = new TranslatedJCheckBoxMenuItem("For Loop AGG Capture", Translation.FOR_LOOP_AGG_CAPTURE);
-
+    public final JMenu cfrSettingsSecondaryMenu = new TranslatedJMenu("CFR Settings", Translation.CFR_SETTINGS);
+    public final JMenuItem cfrSettings = new TranslatedJMenuItem("CFR Settings", Translation.CFR_SETTINGS);
+    public SettingsDialogue cfrSettingsDialogue;
+    public final JCheckBoxMenuItem decodeEnumSwitch = new TranslatedJCheckBoxMenuItem("Decode Enum Switch", Translation.DECODE_ENUM_SWITCH);
+    public final JCheckBoxMenuItem sugarEnums = new TranslatedJCheckBoxMenuItem("SugarEnums", Translation.SUGARENUMS);
+    public final JCheckBoxMenuItem decodeStringSwitch = new TranslatedJCheckBoxMenuItem("Decode String Switch", Translation.DECODE_STRING_SWITCH);
+    public final JCheckBoxMenuItem arrayiter = new TranslatedJCheckBoxMenuItem("Arrayiter", Translation.ARRAYITER);
+    public final JCheckBoxMenuItem collectioniter = new TranslatedJCheckBoxMenuItem("Collectioniter", Translation.COLLECTIONITER);
+    public final JCheckBoxMenuItem innerClasses = new TranslatedJCheckBoxMenuItem("Inner Classes", Translation.INNER_CLASSES);
+    public final JCheckBoxMenuItem removeBoilerPlate = new TranslatedJCheckBoxMenuItem("Remove Boiler Plate", Translation.REMOVE_BOILER_PLATE);
+    public final JCheckBoxMenuItem removeInnerClassSynthetics = new TranslatedJCheckBoxMenuItem("Remove Inner Class Synthetics", Translation.REMOVE_INNER_CLASS_SYNTHETICS);
+    public final JCheckBoxMenuItem decodeLambdas = new TranslatedJCheckBoxMenuItem("Decode Lambdas", Translation.DECODE_LAMBDAS);
+    public final JCheckBoxMenuItem hideBridgeMethods = new TranslatedJCheckBoxMenuItem("Hide Bridge Methods", Translation.HIDE_BRIDGE_METHODS);
+    public final JCheckBoxMenuItem liftConstructorInit = new TranslatedJCheckBoxMenuItem("Lift  Constructor Init", Translation.LIFT__CONSTRUCTOR_INIT);
+    public final JCheckBoxMenuItem removeDeadMethods = new TranslatedJCheckBoxMenuItem("Remove Dead Methods", Translation.REMOVE_DEAD_METHODS);
+    public final JCheckBoxMenuItem removeBadGenerics = new TranslatedJCheckBoxMenuItem("Remove Bad Generics", Translation.REMOVE_BAD_GENERICS);
+    public final JCheckBoxMenuItem sugarAsserts = new TranslatedJCheckBoxMenuItem("Sugar Asserts", Translation.SUGAR_ASSERTS);
+    public final JCheckBoxMenuItem sugarBoxing = new TranslatedJCheckBoxMenuItem("Sugar Boxing", Translation.SUGAR_BOXING);
+    public final JCheckBoxMenuItem showVersion = new TranslatedJCheckBoxMenuItem("Show Version", Translation.SHOW_VERSION);
+    public final JCheckBoxMenuItem decodeFinally = new TranslatedJCheckBoxMenuItem("Decode Finally", Translation.DECODE_FINALLY);
+    public final JCheckBoxMenuItem tidyMonitors = new TranslatedJCheckBoxMenuItem("Tidy Monitors", Translation.TIDY_MONITORS);
+    public final JCheckBoxMenuItem lenient = new TranslatedJCheckBoxMenuItem("Lenient", Translation.LENIENT);
+    public final JCheckBoxMenuItem dumpClassPath = new TranslatedJCheckBoxMenuItem("Dump Classpath", Translation.DUMP_CLASSPATH);
+    public final JCheckBoxMenuItem comments = new TranslatedJCheckBoxMenuItem("Comments", Translation.COMMENTS);
+    public final JCheckBoxMenuItem forceTopSort = new TranslatedJCheckBoxMenuItem("Force Top Sort", Translation.FORCE_TOP_SORT);
+    public final JCheckBoxMenuItem forceTopSortAggress = new TranslatedJCheckBoxMenuItem("Force Top Sort Aggress", Translation.FORCE_TOP_SORT_AGGRESS);
+    public final JCheckBoxMenuItem forceExceptionPrune = new TranslatedJCheckBoxMenuItem("Force Exception Prune", Translation.FORCE_EXCEPTION_PRUNE);
+    public final JCheckBoxMenuItem stringBuffer = new TranslatedJCheckBoxMenuItem("String Buffer", Translation.STRING_BUFFER);
+    public final JCheckBoxMenuItem stringBuilder = new TranslatedJCheckBoxMenuItem("String Builder", Translation.STRING_BUILDER);
+    public final JCheckBoxMenuItem silent = new TranslatedJCheckBoxMenuItem("Silent", Translation.SILENT);
+    public final JCheckBoxMenuItem recover = new TranslatedJCheckBoxMenuItem("Recover", Translation.RECOVER);
+    public final JCheckBoxMenuItem eclipse = new TranslatedJCheckBoxMenuItem("Eclipse", Translation.ECLIPSE);
+    public final JCheckBoxMenuItem override = new TranslatedJCheckBoxMenuItem("Override", Translation.OVERRIDE);
+    public final JCheckBoxMenuItem showInferrable = new TranslatedJCheckBoxMenuItem("Show Inferrable", Translation.SHOW_INFERRABLE);
+    public final JCheckBoxMenuItem aexagg = new TranslatedJCheckBoxMenuItem("Aexagg", Translation.AEXAGG);
+    public final JCheckBoxMenuItem forceCondPropagate = new TranslatedJCheckBoxMenuItem("Force Cond Propagate", Translation.FORCE_COND_PROPAGATE);
+    public final JCheckBoxMenuItem hideUTF = new TranslatedJCheckBoxMenuItem("Hide UTF", Translation.HIDE_UTF);
+    public final JCheckBoxMenuItem hideLongStrings = new TranslatedJCheckBoxMenuItem("Hide Long Strings", Translation.HIDE_LONG_STRINGS);
+    public final JCheckBoxMenuItem commentMonitor = new TranslatedJCheckBoxMenuItem("Comment Monitors", Translation.COMMENT_MONITORS);
+    public final JCheckBoxMenuItem allowCorrecting = new TranslatedJCheckBoxMenuItem("Allow Correcting", Translation.ALLOW_CORRECTING);
+    public final JCheckBoxMenuItem labelledBlocks = new TranslatedJCheckBoxMenuItem("Labelled Blocks", Translation.LABELLED_BLOCKS);
+    public final JCheckBoxMenuItem j14ClassOBJ = new TranslatedJCheckBoxMenuItem("J14ClassOBJ", Translation.J14CLASSOBJ);
+    public final JCheckBoxMenuItem hideLangImports = new TranslatedJCheckBoxMenuItem("Hide Lang Imports", Translation.HIDE_LANG_IMPORTS);
+    public final JCheckBoxMenuItem recoveryTypeClash = new TranslatedJCheckBoxMenuItem("Recover Type Clash", Translation.RECOVER_TYPE_CLASH);
+    public final JCheckBoxMenuItem recoveryTypehInts = new TranslatedJCheckBoxMenuItem("Recover Type  Hints", Translation.RECOVER_TYPE__HINTS);
+    public final JCheckBoxMenuItem forceTurningIFs = new TranslatedJCheckBoxMenuItem("Force Returning IFs", Translation.FORCE_RETURNING_IFS);
+    public final JCheckBoxMenuItem forLoopAGGCapture = new TranslatedJCheckBoxMenuItem("For Loop AGG Capture", Translation.FOR_LOOP_AGG_CAPTURE);
+    
     //obfuscation
     public final JMenu obfuscate = new JMenu("Obfuscate");
     public final JMenuItem renameFields = new JMenuItem("Rename Fields");
@@ -476,7 +484,8 @@ public class MainViewerGUI extends JFrame
         visualSettings.add(showClassMethods);
         
         //PROCYON SETTINGS
-        settingsMainMenu.add(procyonSettingsSecondaryMenu);
+        //settingsMainMenu.add(procyonSettingsSecondaryMenu);
+        settingsMainMenu.add(procyonSettings);
         procyonSettingsSecondaryMenu.add(alwaysGenerateExceptionVars);
         procyonSettingsSecondaryMenu.add(excludeNestedTypes);
         procyonSettingsSecondaryMenu.add(showDebugLineNumbers);
@@ -491,9 +500,14 @@ public class MainViewerGUI extends JFrame
         procyonSettingsSecondaryMenu.add(retainPointlessSwitches);
         procyonSettingsSecondaryMenu.add(retainRedunantCasts);
         procyonSettingsSecondaryMenu.add(unicodeOutputEnabled);
+        procyonSettingsDialogue = new SettingsDialogue(
+                procyonSettingsSecondaryMenu,
+                new JPanel());
+        procyonSettings.addActionListener((e)-> procyonSettingsDialogue.showDialogue());
         
         //CFR SETTINGS
-        settingsMainMenu.add(cfrSettingsSecondaryMenu);
+        //settingsMainMenu.add(cfrSettingsSecondaryMenu);
+        settingsMainMenu.add(cfrSettings);
         cfrSettingsSecondaryMenu.add(decodeEnumSwitch);
         cfrSettingsSecondaryMenu.add(sugarEnums);
         cfrSettingsSecondaryMenu.add(decodeStringSwitch);
@@ -538,9 +552,15 @@ public class MainViewerGUI extends JFrame
         cfrSettingsSecondaryMenu.add(recoveryTypehInts);
         cfrSettingsSecondaryMenu.add(forceTurningIFs);
         cfrSettingsSecondaryMenu.add(forLoopAGGCapture);
+        cfrSettingsDialogue = new SettingsDialogue(
+                cfrSettingsSecondaryMenu,
+                new JPanel());
+        cfrSettings.addActionListener((e)-> cfrSettingsDialogue.showDialogue());
+        
         
         //FERNFLOWER SETTINGS
-        settingsMainMenu.add(fernFlowerSettingsSecondaryMenu);
+        //settingsMainMenu.add(fernFlowerSettingsSecondaryMenu);
+        settingsMainMenu.add(fernFlowerSettings);
         fernFlowerSettingsSecondaryMenu.add(dc4);
         fernFlowerSettingsSecondaryMenu.add(nns);
         fernFlowerSettingsSecondaryMenu.add(ner);
@@ -560,11 +580,20 @@ public class MainViewerGUI extends JFrame
         fernFlowerSettingsSecondaryMenu.add(fdi);
         fernFlowerSettingsSecondaryMenu.add(asc);
         fernFlowerSettingsSecondaryMenu.add(ren);
+        fernFlowerSettingsDialogue = new SettingsDialogue(
+                fernFlowerSettingsSecondaryMenu,
+                new JPanel());
+        fernFlowerSettings.addActionListener((e)-> fernFlowerSettingsDialogue.showDialogue());
         
         //CFIDE SETTINGS
-        settingsMainMenu.add(bytecodeDecompilerSettingsSecondaryMenu);
+        //settingsMainMenu.add(bytecodeDecompilerSettingsSecondaryMenu);
+        settingsMainMenu.add(bytecodeDecompilerSettings);
         bytecodeDecompilerSettingsSecondaryMenu.add(debugHelpers);
         bytecodeDecompilerSettingsSecondaryMenu.add(appendBracketsToLabels);
+        bytecodeDecompilerSettingsDialogue = new SettingsDialogue(
+                bytecodeDecompilerSettingsSecondaryMenu,
+                new JPanel());
+        bytecodeDecompilerSettings.addActionListener((e)-> bytecodeDecompilerSettingsDialogue.showDialogue());
         
         deleteForeignOutdatedLibs.addActionListener(arg0 -> showForeignLibraryWarning());
         forcePureAsciiAsText.addActionListener(arg0 -> SettingsSerializer.saveSettingsAsync());

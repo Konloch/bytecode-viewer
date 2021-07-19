@@ -4,6 +4,7 @@
   "NEW_WORKSPACE": "New Workspace",
   "RELOAD_RESOURCES": "Reload Resources",
   "RUN": "Run",
+  "OPEN": "Open...",
   "COMPILE": "Compile",
   "SAVE_AS_RUNNABLE_JAR": "Save As Runnable Jar...",
   "SAVE_AS_ZIP": "Save As Zip...",
@@ -74,6 +75,9 @@
   "SET_JAVAC_EXECUTABLE": "Set Javac Executable",
 
   "JAVA": "Java",
+  "PROCYON_SETTINGS": "Procyon Settings",
+  "CFR_SETTINGS": "CFR Settings",
+  "FERNFLOWER_SETTINGS": "FernFlower Settings",
   "PROCYON": "Procyon",
   "CFR": "CFR",
   "FERNFLOWER": "FernFlower",

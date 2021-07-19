@@ -177,6 +177,40 @@ public class BetterJOptionPane
 		return value;
 	}
 	
+	public static void showJPanelDialogue(Component parentComponent, JScrollPane panel, int minimumHeight)
+			throws HeadlessException
+	{
+		JOptionPane pane = new JOptionPane("");
+		pane.add(panel, 0);
+		
+		//reflection to cheat our way around the
+		// private createDialog(Component parentComponent, String title, int style)
+		JDialog dialog = null;
+		try
+		{
+			Method createDialog = pane.getClass().getDeclaredMethod("createDialog", Component.class, String.class, int.class);
+			createDialog.setAccessible(true);
+			dialog = (JDialog) createDialog.invoke(pane, parentComponent, panel.getName(), 0);
+			
+			//dialog.setResizable(true);
+			
+			int newHeight = minimumHeight < dialog.getHeight() ? minimumHeight : dialog.getHeight();
+			dialog.setMinimumSize(new Dimension(dialog.getWidth(), newHeight));
+			dialog.setSize(new Dimension(dialog.getWidth(), newHeight));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		//check if the dialogue is in a poor location, attempt to correct
+		if(dialog.getLocation().getY() == 0 || dialog.getLocation().getY() == 1)
+			dialog.setLocationRelativeTo(null);
+		
+		dialog.show();
+		dialog.dispose();
+	}
+	
 	private static int styleFromMessageType(int messageType)
 	{
 		switch (messageType)
