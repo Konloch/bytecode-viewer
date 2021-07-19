@@ -46,7 +46,6 @@ public class Enjarify {
             return;
 
         try {
-            BytecodeViewer.sm.pauseBlocking();
             ProcessBuilder pb = new ProcessBuilder(
                     Configuration.python3,
                     "-O",
@@ -102,8 +101,6 @@ public class Enjarify {
 
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
-        } finally {
-            BytecodeViewer.sm.resumeBlocking();
         }
     }
 }

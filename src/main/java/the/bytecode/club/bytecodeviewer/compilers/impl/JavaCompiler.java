@@ -70,7 +70,6 @@ public class JavaCompiler extends InternalCompiler
 
         boolean cont = true;
         try {
-            BytecodeViewer.sm.pauseBlocking();
             StringBuilder log = new StringBuilder();
             ProcessBuilder pb;
 
@@ -143,8 +142,6 @@ public class JavaCompiler extends InternalCompiler
         } catch (Exception e) {
             cont = false;
             e.printStackTrace();
-        } finally {
-            BytecodeViewer.sm.resumeBlocking();
         }
 
         cp.delete();

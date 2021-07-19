@@ -39,43 +39,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SecurityMan extends SecurityManager
 {
-    private AtomicInteger blocking = new AtomicInteger(1); //TODO replace with a more secure system
     private AtomicInteger silentExec = new AtomicInteger(1);
     private boolean printing = false;
     private boolean printingPackage = false;
     
     public void silenceExec(boolean b) {
         silentExec.addAndGet(b ? 1 : -1);
-    }
-    
-    public void resumeBlocking() {
-        blocking.incrementAndGet();
-    }
-    
-    //slightly safer security system than just a public static boolean being toggled
-    public void pauseBlocking()
-    {
-        String executedClass = Thread.currentThread().getStackTrace()[2].getClassName();
-        if (executedClass.equals(KrakatauDecompiler.class.getCanonicalName()) ||
-                executedClass.equals(KrakatauDisassembler.class.getCanonicalName()) ||
-                executedClass.equals(CFRDecompiler.class.getCanonicalName()) ||
-                executedClass.equals(ProcyonDecompiler.class.getCanonicalName()) ||
-                executedClass.equals(FernFlowerDecompiler.class.getCanonicalName()) ||
-                executedClass.equals(JDGUIDecompiler.class.getCanonicalName()) ||
-                executedClass.equals(KrakatauAssembler.class.getCanonicalName()) ||
-                executedClass.equals(ExternalResources.class.getCanonicalName()) ||
-                executedClass.equals(Enjarify.class.getCanonicalName()) ||
-                executedClass.equals(APKTool.class.getCanonicalName()) ||
-                executedClass.equals(BytecodeViewer.class.getCanonicalName()) ||
-                executedClass.equals(Constants.class.getCanonicalName()) ||
-                executedClass.equals(JavaCompiler.class.getCanonicalName()))
-        {
-            blocking.decrementAndGet();
-        }
-        else for (StackTraceElement stackTraceElements : Thread.currentThread().getStackTrace())
-        {
-            System.out.println(stackTraceElements.getClassName());
-        }
     }
     
     public void setPrinting(boolean printing)
@@ -89,8 +58,10 @@ public class SecurityMan extends SecurityManager
     }
     
     @Override
-    public void checkExec(String cmd) {
-        String[] whitelist = {
+    public void checkExec(String cmd)
+    {
+        String[] whitelist =
+        {
                 "attrib",
                 "python",
                 "pypy",
@@ -101,17 +72,52 @@ public class SecurityMan extends SecurityManager
 
         String lowerCaseCMD = cmd.toLowerCase();
         for (String s : whitelist)
-            if (lowerCaseCMD.contains(s)) {
+            if (lowerCaseCMD.contains(s))
+            {
                 allow = true;
                 break;
             }
         
-        if (allow && blocking.get() <= 0)
+        boolean validClassCall = false;
+        if(canClassExecute(Thread.currentThread().getStackTrace()[3].getClassName()))
+            validClassCall = true;
+        else if(canClassExecute(Thread.currentThread().getStackTrace()[6].getClassName()))
+            validClassCall = true;
+        else
+        {
+            int index = 0;
+            for (StackTraceElement stackTraceElements : Thread.currentThread().getStackTrace())
+            {
+                System.out.println(index++ + ":" + stackTraceElements.getClassName());
+            }
+        }
+        
+        if (allow && validClassCall)
         {
             if(silentExec.get() >= 1)
                 System.err.println("Allowing exec: " + cmd);
         }
-        else throw new SecurityException("BCV is awesome, blocking(" + blocking + ") exec " + cmd);
+        else throw new SecurityException("BCV is awesome! Blocking exec: " + cmd);
+    }
+    
+    /**
+     * Execute Whitelist goes here
+     */
+    private boolean canClassExecute(String fullyQualifiedClassName)
+    {
+        return  fullyQualifiedClassName.equals(KrakatauDecompiler.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(KrakatauDisassembler.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(CFRDecompiler.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(ProcyonDecompiler.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(FernFlowerDecompiler.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(JDGUIDecompiler.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(KrakatauAssembler.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(ExternalResources.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(Enjarify.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(APKTool.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(BytecodeViewer.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(Constants.class.getCanonicalName()) ||
+                fullyQualifiedClassName.equals(JavaCompiler.class.getCanonicalName());
     }
 
     @Override

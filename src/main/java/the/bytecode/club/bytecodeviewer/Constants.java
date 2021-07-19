@@ -59,16 +59,12 @@ public class Constants
 		{
 			new Thread(()->{
 				try {
-					BytecodeViewer.sm.pauseBlocking();
-					
 					// Hide file by running attrib system command (on Windows)
 					Process p = new ProcessBuilder("attrib",
 							"+H",
 							BCVDir.getAbsolutePath()).start();
 				} catch (Exception e) {
 					//ignore
-				} finally {
-					BytecodeViewer.sm.resumeBlocking();
 				}
 			}, "Hide BCV Dir").start();
 		}

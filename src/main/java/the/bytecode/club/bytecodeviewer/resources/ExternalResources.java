@@ -12,7 +12,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Objects;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
@@ -360,10 +359,7 @@ public class ExternalResources
 		if(!executedClass.equals(ExternalResources.class.getCanonicalName()))
 			return;
 		
-		try
-		{
-			BytecodeViewer.sm.pauseBlocking();
-			
+		try {
 			//read the version output
 			ProcessBuilder pb = new ProcessBuilder(command);
 			Process p = pb.start();
@@ -372,12 +368,7 @@ public class ExternalResources
 			//check for matching text
 			if(readProcess(p).toLowerCase().contains(matchingText))
 				onMatch.run();
-		}
-		catch (Exception e) { } //ignore
-		finally
-		{
-			BytecodeViewer.sm.resumeBlocking();
-		}
+		} catch (Exception e) { } //ignore
 	}
 	
 	/**

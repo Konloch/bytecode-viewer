@@ -92,8 +92,6 @@ public class KrakatauDecompiler extends InternalDecompiler
         String s = ExceptionUI.SEND_STACKTRACE_TO_NL;
 
         try {
-            BytecodeViewer.sm.pauseBlocking();
-    
             String[] pythonCommands = new String[]{Configuration.python2};
             if(!Configuration.python2Extra.isEmpty())
                 pythonCommands = ArrayUtils.addAll(pythonCommands, Configuration.python2Extra);
@@ -145,8 +143,6 @@ public class KrakatauDecompiler extends InternalDecompiler
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
             s += nl + ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
-        } finally {
-            BytecodeViewer.sm.resumeBlocking();
         }
 
         return s;
@@ -180,8 +176,6 @@ public class KrakatauDecompiler extends InternalDecompiler
         JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 
         try {
-            BytecodeViewer.sm.pauseBlocking();
-    
             String[] pythonCommands = new String[]{Configuration.python2};
             if(!Configuration.python2Extra.isEmpty())
                 pythonCommands = ArrayUtils.addAll(pythonCommands, Configuration.python2Extra);
@@ -236,8 +230,6 @@ public class KrakatauDecompiler extends InternalDecompiler
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
             s += nl + ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
-        } finally {
-            BytecodeViewer.sm.resumeBlocking();
         }
 
         return s;
@@ -262,8 +254,6 @@ public class KrakatauDecompiler extends InternalDecompiler
         final File tempJar = new File(sourceJar);
         
         try {
-            BytecodeViewer.sm.pauseBlocking();
-    
             String[] pythonCommands = new String[]{Configuration.python2};
             if(!Configuration.python2Extra.isEmpty())
                 pythonCommands = ArrayUtils.addAll(pythonCommands, Configuration.python2Extra);
@@ -289,8 +279,6 @@ public class KrakatauDecompiler extends InternalDecompiler
             ZipUtils.zipFolder(tempDirectory.getAbsolutePath(), zipName, ran);
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
-        } finally {
-            BytecodeViewer.sm.resumeBlocking();
         }
     }
 }

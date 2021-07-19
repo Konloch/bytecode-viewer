@@ -69,8 +69,6 @@ public class KrakatauAssembler extends InternalCompiler
         
         try
         {
-            BytecodeViewer.sm.pauseBlocking();
-    
             String[] pythonCommands = new String[]{Configuration.python2};
             if(!Configuration.python2Extra.isEmpty())
                 pythonCommands = ArrayUtils.addAll(pythonCommands, Configuration.python2Extra);
@@ -120,8 +118,6 @@ public class KrakatauAssembler extends InternalCompiler
         } catch (Exception e) {
             e.printStackTrace();
             //BytecodeViewer.handleException(log.toString());
-        } finally {
-            BytecodeViewer.sm.resumeBlocking();
         }
 
         return null;
