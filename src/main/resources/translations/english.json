@@ -63,6 +63,7 @@
   "REFRESH_ON_VIEW_CHANGE": "Refresh On View Change",
   "DECODE_APK_RESOURCES": "Decode APK Resources",
   "APK_CONVERSION": "APK Conversion",
+  "APK_CONVERSION_DECODING": "APK Conversion/Decoding",
   "DEX_TO_JAR": "Dex2Jar",
   "ENJARIFY": "Enjarify",
   "UPDATE_CHECK": "Update Check",

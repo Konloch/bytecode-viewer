@@ -5,6 +5,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialogue;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -38,6 +40,13 @@ public class SettingsDialogue extends JScrollPane
 	public SettingsDialogue(JMenu menu, JPanel display)
 	{
 		super(display);
+		
+		this.menu = menu;
+		this.display = display;
+		
+		if(!useNewSettingsDialogue)
+			return;
+		
 		List<JMenuItem> options = new ArrayList<>();
 		for(Component child : menu.getMenuComponents())
 		{
@@ -47,9 +56,7 @@ public class SettingsDialogue extends JScrollPane
 			options.add((JMenuItem) child);
 		}
 		
-		this.menu = menu;
 		this.options.addAll(options);
-		this.display = display;
 		
 		buildPanel();
 		
