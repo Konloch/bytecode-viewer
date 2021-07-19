@@ -155,7 +155,7 @@ public class MainViewerGUI extends JFrame
     public final JCheckBoxMenuItem showClassMethods = new TranslatedJCheckBoxMenuItem("Show Class Methods", Translation.SHOW_CLASS_METHODS);
     
     //apk conversion settings
-    public final JMenu apkConversionMenu = new TranslatedJMenu("APK Conversion/Decoding", Translation.APK_CONVERSION_DECODING);
+    public final JMenu apkConversionSecondaryMenu = new TranslatedJMenu("APK Conversion/Decoding", Translation.APK_CONVERSION_DECODING);
     public final JMenuItem apkConversionSettings = new TranslatedJMenuItem("APK Conversion/Decoding", Translation.APK_CONVERSION_DECODING);
     public SettingsDialogue apkConversionSettingsDialogue;
     public final ButtonGroup apkConversionGroup = new ButtonGroup();
@@ -395,7 +395,12 @@ public class MainViewerGUI extends JFrame
         settingsMainMenu.add(setOptionalLibrary);
         settingsMainMenu.add(setJavac);
         settingsMainMenu.add(new JSeparator());
-        settingsMainMenu.add(useNewSettingsDialogue ? apkConversionSettings : apkConversionMenu);
+        
+        //TODO the dialogue below works but for 3 options,
+        // it might be better to leave it as a secondary menu
+        settingsMainMenu.add(apkConversionSecondaryMenu);
+        //settingsMainMenu.add(useNewSettingsDialogue ? apkConversionSettings : apkConversionMenu);
+        
         settingsMainMenu.add(new JSeparator());
         
         fontSpinner.setPreferredSize(new Dimension(60, 24));
@@ -403,15 +408,13 @@ public class MainViewerGUI extends JFrame
         fontSpinner.setModel(new SpinnerNumberModel(12, 1, null, 1));
         fontSize.add(fontSpinner);
         
-        apkConversionMenu.add(decodeAPKResources);
-        apkConversionMenu.add(apkConversionDex);
-        apkConversionMenu.add(apkConversionEnjarify);
+        apkConversionSecondaryMenu.add(decodeAPKResources);
+        apkConversionSecondaryMenu.add(apkConversionDex);
+        apkConversionSecondaryMenu.add(apkConversionEnjarify);
         apkConversionGroup.add(apkConversionDex);
         apkConversionGroup.add(apkConversionEnjarify);
         apkConversionGroup.setSelected(apkConversionDex.getModel(), true);
-        apkConversionSettingsDialogue = new SettingsDialogue(
-                apkConversionMenu,
-                new JPanel());
+        //apkConversionSettingsDialogue = new SettingsDialogue(apkConversionSecondaryMenu, new JPanel());
         apkConversionSettings.addActionListener((e)-> apkConversionSettingsDialogue.showDialogue());
         
         ButtonGroup rstaGroup = new ButtonGroup();
@@ -886,7 +889,7 @@ public class MainViewerGUI extends JFrame
     {
         final File file = DialogueUtils.fileChooser("Select External Plugin",
                 "External Plugin",
-                Configuration.getLastOpenDirectory(),
+                Configuration.getLastPluginDirectory(),
                 PluginManager.fileFilter(),
                 (f)-> Configuration.lastPluginDirectory = f.getAbsolutePath(),
                 FileChooser.EVERYTHING);
