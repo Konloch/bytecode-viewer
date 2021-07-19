@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.plugin;
 
+import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.compress.utils.FileNameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -67,12 +68,14 @@ public class PluginWriter extends JFrame
 		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new TranslatedJMenu("File", Translation.FILE);
+		JMenuItem menuOpen = new TranslatedJMenuItem("Open...", Translation.OPEN);
 		JMenuItem menuRun = new TranslatedJMenuItem("Run", Translation.RUN);
 		menuSaveAs = new TranslatedJMenuItem("Save As...", Translation.SAVE_AS);
 		menuSave = new TranslatedJMenuItem("Save...", Translation.SAVE);
 		menuSave.setVisible(false);
 		
 		menuBar.add(menu);
+		menu.add(menuOpen);
 		menu.add(menuSaveAs);
 		menu.add(menuSave);
 		menu.add(menuRun);
@@ -81,12 +84,44 @@ public class PluginWriter extends JFrame
 		add(area.getScrollPane());
 		add(run, BorderLayout.SOUTH);
 		
+		menuOpen.addActionListener((l)->openPlugin());
 		run.addActionListener((l)->runPlugin());
 		menuRun.addActionListener((l)->runPlugin());
 		menuSaveAs.addActionListener((l)-> save());
 		menuSave.addActionListener((l)-> save());
 		
 		this.setLocationRelativeTo(null);
+	}
+	
+	public void setPluginName(String name)
+	{
+		this.pluginName = name;
+		setTitle("Editing BCV Plugin: " + name);
+	}
+	
+	public void openPlugin()
+	{
+		final File file = DialogueUtils.fileChooser("Select External Plugin",
+				"External Plugin",
+				Configuration.getLastPluginDirectory(),
+				PluginManager.fileFilter(),
+				(f)-> Configuration.lastPluginDirectory = f.getAbsolutePath(),
+				FileChooser.EVERYTHING);
+		
+		if(file == null || !file.exists())
+			return;
+		
+		try
+		{
+			area.setText(DiskReader.loadAsString(file.getAbsolutePath()));
+			area.setCaretPosition(0);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		setSourceFile(file);
 	}
 	
 	public void runPlugin()
@@ -113,12 +148,6 @@ public class PluginWriter extends JFrame
 		{
 			tempFile.getParentFile().delete();
 		}
-	}
-	
-	public void setPluginName(String name)
-	{
-		this.pluginName = name;
-		setTitle("Editing BCV Plugin: " + name);
 	}
 	
 	public void save()
