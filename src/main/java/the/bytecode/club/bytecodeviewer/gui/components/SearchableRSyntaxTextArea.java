@@ -152,6 +152,8 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 					setFont(new Font(font.getName(), font.getStyle(), --size >= 2 ? --size : 2));
 				else //Down
 					setFont(new Font(font.getName(), font.getStyle(), ++size));
+				
+				e.consume();
 			}
 			else if(ogListener != null)
 			{
