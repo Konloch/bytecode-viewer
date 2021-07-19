@@ -174,34 +174,6 @@ public class BytecodeViewPanelUpdater implements Runnable
         
         //this still freezes the swing UI
         synchronizePane();
-    
-        //attach CTRL + Mouse Wheel Zoom
-        SwingUtilities.invokeLater(()->
-                attachCtrlMouseWheelZoom(updateUpdaterTextArea.getScrollPane(), updateUpdaterTextArea));
-    }
-
-    public void attachCtrlMouseWheelZoom(RTextScrollPane scrollPane, RSyntaxTextArea panelArea)
-    {
-        if (scrollPane == null)
-            return;
-        
-        scrollPane.addMouseWheelListener(e ->
-        {
-            if (panelArea == null || panelArea.getText().isEmpty())
-                return;
-
-            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-            {
-                Font font = panelArea.getFont();
-                int size = font.getSize();
-                
-                if (e.getWheelRotation() > 0) //Up
-                    panelArea.setFont(new Font(font.getName(), font.getStyle(), --size >= 2 ? --size : 2));
-                else //Down
-                    panelArea.setFont(new Font(font.getName(), font.getStyle(), ++size));
-            }
-            e.consume();
-        });
     }
 
     public final CaretListener caretListener = new CaretListener()

@@ -15,7 +15,9 @@ import the.bytecode.club.bytecodeviewer.util.JTextAreaUtils;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelListener;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -110,6 +112,9 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 			
 			GlobalHotKeys.keyPressed(keyEvent);
 		}));
+		
+		//attach CTRL + Mouse Wheel Zoom
+		SwingUtilities.invokeLater(this::attachCtrlMouseWheelZoom);
 	}
 	
 	public void search(String search, boolean forwardSearchDirection, boolean caseSensitiveSearch)
@@ -120,6 +125,39 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	public void highlight(String pattern, boolean caseSensitiveSearch)
 	{
 		JTextAreaUtils.highlight(this, pattern, caseSensitiveSearch);
+	}
+	
+	public void attachCtrlMouseWheelZoom()
+	{
+		//get the existing scroll event
+		MouseWheelListener ogListener = scrollPane.getMouseWheelListeners().length > 0 ?
+				scrollPane.getMouseWheelListeners()[0] : null;
+		
+		//remove the existing event
+		if(ogListener != null)
+			scrollPane.removeMouseWheelListener(ogListener);
+		
+		//add a new event
+		scrollPane.addMouseWheelListener(e ->
+		{
+			if (getText().isEmpty())
+				return;
+			
+			if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+			{
+				Font font = getFont();
+				int size = font.getSize();
+				
+				if (e.getWheelRotation() > 0) //Up
+					setFont(new Font(font.getName(), font.getStyle(), --size >= 2 ? --size : 2));
+				else //Down
+					setFont(new Font(font.getName(), font.getStyle(), ++size));
+			}
+			else if(ogListener != null)
+			{
+				ogListener.mouseWheelMoved(e);
+			}
+		});
 	}
 	
 	public String getLineText(int line) {
