@@ -11,6 +11,7 @@ import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import java.io.FileDescriptor;
 import java.net.InetAddress;
 import java.security.Permission;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -38,17 +39,17 @@ import java.security.Permission;
 
 public class SecurityMan extends SecurityManager
 {
-    private int blocking = 1; //TODO replace with a more secure system
-    private int silentExec = 1;
+    private AtomicInteger blocking = new AtomicInteger(1); //TODO replace with a more secure system
+    private AtomicInteger silentExec = new AtomicInteger(1);
     private boolean printing = false;
     private boolean printingPackage = false;
     
     public void silenceExec(boolean b) {
-        silentExec += (b ? 1 : -1);
+        silentExec.addAndGet(b ? 1 : -1);
     }
     
     public void resumeBlocking() {
-        blocking++;
+        blocking.incrementAndGet();
     }
     
     //slightly safer security system than just a public static boolean being toggled
@@ -69,7 +70,7 @@ public class SecurityMan extends SecurityManager
                 executedClass.equals(Constants.class.getCanonicalName()) ||
                 executedClass.equals(JavaCompiler.class.getCanonicalName()))
         {
-            blocking--;
+            blocking.decrementAndGet();
         }
         else for (StackTraceElement stackTraceElements : Thread.currentThread().getStackTrace())
         {
@@ -105,10 +106,10 @@ public class SecurityMan extends SecurityManager
                 break;
             }
         
-        if (allow && blocking <= 0)
+        if (allow && blocking.get() <= 0)
         {
-            if(silentExec >= 1)
-                System.out.println("Allowing exec: " + cmd);
+            if(silentExec.get() >= 1)
+                System.err.println("Allowing exec: " + cmd);
         }
         else throw new SecurityException("BCV is awesome, blocking(" + blocking + ") exec " + cmd);
     }
