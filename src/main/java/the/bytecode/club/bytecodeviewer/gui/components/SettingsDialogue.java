@@ -1,7 +1,5 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,31 +30,36 @@ import java.util.List;
 
 public class SettingsDialogue extends JScrollPane
 {
-	private final List<JCheckBoxMenuItem> options = new ArrayList<>();
+	public static final List<SettingsDialogue> dialogues = new ArrayList<>();
+	private final List<JMenuItem> options = new ArrayList<>();
 	private final JMenu menu;
 	private final JPanel display;
 	
 	public SettingsDialogue(JMenu menu, JPanel display)
 	{
 		super(display);
-		List<JCheckBoxMenuItem> options = new ArrayList<>();
+		List<JMenuItem> options = new ArrayList<>();
 		for(Component child : menu.getMenuComponents())
 		{
-			if(!(child instanceof  JCheckBoxMenuItem))
+			if(!(child instanceof JMenuItem))
 				continue;
 			
-			options.add((JCheckBoxMenuItem) child);
+			options.add((JMenuItem) child);
 		}
+		
 		this.menu = menu;
 		this.options.addAll(options);
 		this.display = display;
+		
 		buildPanel();
+		
+		dialogues.add(this);
 	}
 	
 	private void buildPanel()
 	{
 		display.setLayout(new BoxLayout(display, BoxLayout.Y_AXIS));
-		for(JCheckBoxMenuItem menuItem : options)
+		for(JMenuItem menuItem : options)
 			display.add(menuItem);
 	}
 	

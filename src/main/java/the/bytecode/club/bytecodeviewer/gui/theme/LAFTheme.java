@@ -4,12 +4,11 @@ import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.theme.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.gui.components.SettingsDialogue;
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.translation.Translation;
 
 import javax.swing.*;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Konloch
@@ -104,10 +103,7 @@ public enum LAFTheme
 		if(BytecodeViewer.viewer != null)
 		{
 			BytecodeViewer.viewer.uiComponents.forEach(VisibleComponent::setDefaultIcon);
-			SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer.procyonSettingsDialogue);
-			SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer.cfrSettingsDialogue);
-			SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer.fernFlowerSettingsDialogue);
-			SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer.bytecodeDecompilerSettingsDialogue);
+			SettingsDialogue.dialogues.forEach(SwingUtilities::updateComponentTreeUI);
 		}
 	}
 	
