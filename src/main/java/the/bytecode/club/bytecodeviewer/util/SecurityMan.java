@@ -64,7 +64,7 @@ public class SecurityMan extends SecurityManager
      *
      * When paired with checkWrite it should prevent most escapes
      * JNI is still possible so make sure to block checkLink as well //TODO for BCV
-     * 
+     *
      * Rewritten on 07/19/2021
      *
      * @author Konloch

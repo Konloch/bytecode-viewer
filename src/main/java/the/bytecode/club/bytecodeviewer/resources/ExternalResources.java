@@ -128,7 +128,7 @@ public class ExternalResources
 		//check using python CLI flag
 		testCommand(new String[]{"python", "-2", "--version"}, "python 2", ()->{
 			Configuration.python2 = "python";
-			Configuration.python2Extra = "-2";
+			Configuration.python2Extra = true;
 		});
 		if(!Configuration.python2.isEmpty())
 			return Configuration.python2;
@@ -230,7 +230,7 @@ public class ExternalResources
 			return;
 		
 		Configuration.python2 = file.getAbsolutePath();
-		Configuration.python2Extra = "";
+		Configuration.python2Extra = false;
 		SettingsSerializer.saveSettingsAsync();
 	}
 	
@@ -244,7 +244,7 @@ public class ExternalResources
 			return;
 		
 		Configuration.python3 = file.getAbsolutePath();
-		Configuration.python3Extra = "";
+		Configuration.python3Extra = false;
 		SettingsSerializer.saveSettingsAsync();
 	}
 	

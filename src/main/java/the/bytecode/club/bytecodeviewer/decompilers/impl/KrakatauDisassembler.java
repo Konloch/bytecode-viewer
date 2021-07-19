@@ -62,8 +62,8 @@ public class KrakatauDisassembler extends InternalDecompiler
 
         try {
             String[] pythonCommands = new String[]{Configuration.python2};
-            if(!Configuration.python2Extra.isEmpty())
-                pythonCommands = ArrayUtils.addAll(pythonCommands, Configuration.python2Extra);
+            if(Configuration.python2Extra)
+                pythonCommands = ArrayUtils.addAll(pythonCommands, "-2");
             
             ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
                     pythonCommands,
@@ -127,8 +127,8 @@ public class KrakatauDisassembler extends InternalDecompiler
 
         try {
             String[] pythonCommands = new String[]{Configuration.python2};
-            if(!Configuration.python2Extra.isEmpty())
-                pythonCommands = ArrayUtils.addAll(pythonCommands, Configuration.python2Extra);
+            if(Configuration.python2Extra)
+                pythonCommands = ArrayUtils.addAll(pythonCommands, "-2");
             
             ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
                     pythonCommands,

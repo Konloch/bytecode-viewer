@@ -194,10 +194,12 @@ public class SettingsSerializer
             save(BytecodeViewer.viewer.viewPane3.isPaneEditable());
             
             save(Configuration.javaTools);
-            save(Configuration.python2Extra);
-            save(Configuration.python3Extra);
+            save("deprecated");
+            save("deprecated");
             save(Configuration.lastSaveDirectory);
             save(Configuration.lastPluginDirectory);
+            save(Configuration.python2Extra);
+            save(Configuration.python3Extra);
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
         }
@@ -388,10 +390,12 @@ public class SettingsSerializer
             BytecodeViewer.viewer.viewPane3.setPaneEditable(asBoolean(133));
             
             Configuration.javaTools = asString(134);
-            Configuration.python2Extra = asString(135);
-            Configuration.python3Extra = asString(136);
+            //ignore 135
+            //ignore 136
             Configuration.lastSaveDirectory = asString(137);
             Configuration.lastPluginDirectory = asString(138);
+            Configuration.python2Extra = asBoolean(139);
+            Configuration.python3Extra = asBoolean(140);
         }
         catch (IndexOutOfBoundsException e)
         {

@@ -34,8 +34,8 @@ public class HTMLPane extends JEditorPane
 		text = text.replace("{java}", Configuration.java);
 		text = text.replace("{javac}", Configuration.javac);
 		text = text.replace("{bcvDir}", BCVDir.getAbsolutePath());
-		text = text.replace("{python}", Configuration.python2+" " + Configuration.python2Extra);
-		text = text.replace("{python3}", Configuration.python3 + " " + Configuration.python3Extra);
+		text = text.replace("{python}", Configuration.python2+" " + (Configuration.python2Extra ? "-2" : ""));
+		text = text.replace("{python3}", Configuration.python3 + " " + (Configuration.python3Extra ? "-3" : ""));
 		text = text.replace("{rt}", Configuration.rt);
 		text = text.replace("{lib}", Configuration.library);
 		text = text.replace("{krakatauVersion}", krakatauVersion);

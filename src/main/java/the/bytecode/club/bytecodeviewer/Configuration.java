@@ -15,9 +15,9 @@ import java.io.File;
 public class Configuration
 {
 	public static String python2 = "";
-	public static String python2Extra = "";
+	public static boolean python2Extra = false;
 	public static String python3 = "";
-	public static String python3Extra = "";
+	public static boolean python3Extra = false;
 	public static String rt = "";
 	public static String library = "";
 	public static String javac = "";
