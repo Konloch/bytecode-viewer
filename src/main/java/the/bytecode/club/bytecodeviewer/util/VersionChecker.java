@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import java.util.Objects;
 import me.konloch.kontainer.io.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -58,7 +59,7 @@ public class VersionChecker implements Runnable
 			
 			}
 			
-			if (!VERSION.equals(version))
+			if (VERSION != null && !VERSION.equals(version))
 			{
 				MultipleChoiceDialogue outdatedDialogue = new MultipleChoiceDialogue("Bytecode Viewer - Outdated Version",
 						"Your version: " + VERSION + ", latest version: "

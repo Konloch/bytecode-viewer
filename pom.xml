@@ -226,7 +226,12 @@
         <dependency>
             <groupId>com.github.weisj</groupId>
             <artifactId>darklaf-core</artifactId>
-            <version>2.6.2-SNAPSHOT</version> <!-- TODO Change to release when ready -->
+            <version>2.6.2-20210719.010320-83</version> <!-- TODO Change to release when ready -->
+        </dependency>
+        <dependency>
+            <groupId>com.github.weisj</groupId>
+            <artifactId>darklaf-windows</artifactId>
+            <version>2.6.2-20210719.010320-83</version> <!-- TODO Remove when ready -->
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
@@ -237,19 +242,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.1</version> <!-- 3.1.2 breaks build on JDK 9+ -->
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>the.bytecode.club.bytecodeviewer.BytecodeViewer</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -287,9 +279,21 @@
                                 <exclude>META-INF/*.SF</exclude>
                                 <exclude>META-INF/*.DSA</exclude>
                                 <exclude>META-INF/*.RSA</exclude>
+                                <exclude>META-INF/*LICENSE*</exclude>
+                                <exclude>META-INF/*NOTICE*</exclude>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
                             </excludes>
                         </filter>
                     </filters>
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>the.bytecode.club.bytecodeviewer.BytecodeViewer</mainClass>
+                            <manifestEntries>
+                                <Implementation-Version>${project.version}</Implementation-Version>
+                            </manifestEntries>
+                        </transformer>
+                    </transformers>
                 </configuration>
             </plugin>
         </plugins>
