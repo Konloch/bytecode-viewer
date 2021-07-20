@@ -96,7 +96,7 @@ public class ClassViewer extends ResourceViewer
         if (bytecodeViewPanel1.decompiler == Decompiler.NONE
                 && bytecodeViewPanel2.decompiler == Decompiler.NONE
                 && bytecodeViewPanel3.decompiler == Decompiler.NONE) {
-            BytecodeViewer.showMessage(TranslatedStrings.SUGGESTED_FIX_NO_DECOMPILER_WARNING.getText());
+            BytecodeViewer.showMessage(TranslatedStrings.SUGGESTED_FIX_NO_DECOMPILER_WARNING.toString());
         }
 
         bytecodeViewPanel1.createPane(this);
