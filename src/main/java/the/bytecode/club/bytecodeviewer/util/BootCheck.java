@@ -1,9 +1,9 @@
 package the.bytecode.club.bytecodeviewer.util;
 
-import the.bytecode.club.bootloader.Boot;
-import the.bytecode.club.bootloader.ILoader;
-import the.bytecode.club.bootloader.resource.EmptyExternalResource;
-import the.bytecode.club.bootloader.resource.ExternalResource;
+import the.bytecode.club.bytecodeviewer.bootloader.Boot;
+import the.bytecode.club.bytecodeviewer.bootloader.ILoader;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.EmptyExternalResource;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.ExternalResource;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.CommandLineInput;
 

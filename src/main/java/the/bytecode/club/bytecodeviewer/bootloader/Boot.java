@@ -1,4 +1,4 @@
-package the.bytecode.club.bootloader;
+package the.bytecode.club.bytecodeviewer.bootloader;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,12 +11,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import me.konloch.kontainer.io.HTTPRequest;
 import org.apache.commons.io.FileUtils;
-import the.bytecode.club.bootloader.resource.EmptyExternalResource;
-import the.bytecode.club.bootloader.resource.ExternalResource;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.EmptyExternalResource;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.ExternalResource;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
-import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 

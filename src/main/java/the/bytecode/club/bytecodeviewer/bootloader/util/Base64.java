@@ -1,4 +1,4 @@
-package the.bytecode.club.bootloader.util;
+package the.bytecode.club.bytecodeviewer.bootloader.util;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;

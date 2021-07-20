@@ -1,8 +1,4 @@
-package the.bytecode.club.bootloader.resource;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
+package the.bytecode.club.bytecodeviewer.bootloader.resource;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -23,24 +19,32 @@ import java.util.Map;
  ***************************************************************************/
 
 /**
- * @author Bibl (don't ban me pls)
+ * Type of Jar Stored.
+ *
+ * @author Bibl
  * @created ages ago
  */
-public abstract class DataContainer<T> extends ArrayList<T> {
+public enum JarType {
 
-    private static final long serialVersionUID = -9022506488647444546L;
+    /**
+     * Local file
+     **/
+    FILE("file:"),
+    /**
+     * External URL
+     **/
+    WEB("");
 
-    public DataContainer() {
-        this(16);
+    private final String prefix;
+
+    JarType(String prefix) {
+        this.prefix = prefix;
     }
 
-    public DataContainer(int cap) {
-        super(cap);
+    /**
+     * Gets the prefix for the JarURLConnection.
+     **/
+    public String prefix() {
+        return prefix;
     }
-
-    public DataContainer(Collection<T> data) {
-        addAll(data);
-    }
-
-    public abstract Map<String, T> namedMap();
 }

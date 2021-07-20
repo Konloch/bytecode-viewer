@@ -1,4 +1,4 @@
-package the.bytecode.club.bootloader.util;
+package the.bytecode.club.bytecodeviewer.bootloader.util;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -9,8 +9,8 @@ import java.util.Set;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import static the.bytecode.club.bootloader.util.ClassHelper.convertToMap;
-import static the.bytecode.club.bootloader.util.ClassHelper.copyOf;
+import static the.bytecode.club.bytecodeviewer.bootloader.util.ClassHelper.convertToMap;
+import static the.bytecode.club.bytecodeviewer.bootloader.util.ClassHelper.copyOf;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

@@ -1,7 +1,8 @@
-package the.bytecode.club.bootloader.resource;
+package the.bytecode.club.bytecodeviewer.bootloader.resource;
 
-import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -23,22 +24,23 @@ import java.net.URL;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 21 Jul 2015 00:29:11
+ * @created ages ago
  */
-public class EmptyExternalResource<T> extends ExternalResource<T> {
+public abstract class DataContainer<T> extends ArrayList<T> {
 
-    /**
-     * @param location
-     */
-    public EmptyExternalResource(URL location) {
-        super(location);
+    private static final long serialVersionUID = -9022506488647444546L;
+
+    public DataContainer() {
+        this(16);
     }
 
-    /* (non-Javadoc)
-     * @see the.bytecode.club.bootloader.resource.ExternalResource#load()
-     */
-    @Override
-    public T load() throws IOException {
-        throw new UnsupportedOperationException();
+    public DataContainer(int cap) {
+        super(cap);
     }
+
+    public DataContainer(Collection<T> data) {
+        addAll(data);
+    }
+
+    public abstract Map<String, T> namedMap();
 }

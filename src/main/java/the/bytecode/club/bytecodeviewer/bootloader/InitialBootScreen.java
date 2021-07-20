@@ -1,4 +1,4 @@
-package the.bytecode.club.bootloader;
+package the.bytecode.club.bytecodeviewer.bootloader;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

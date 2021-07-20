@@ -1,7 +1,6 @@
-package the.bytecode.club.bootloader.resource;
+package the.bytecode.club.bytecodeviewer.bootloader;
 
-import java.net.URL;
-import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.ExternalResource;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -23,24 +22,13 @@ import org.objectweb.asm.tree.ClassNode;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created ages ago
+ * @created 19 Jul 2015 02:29:43
  */
-public class LocateableJarContents<C extends ClassNode> extends JarContents<C> {
+public interface ILoader<T> {
 
-    private final URL[] jarUrls;
+    void bind(ExternalResource<T> resource);
 
-    public LocateableJarContents(URL... jarUrls) {
-        super();
-        this.jarUrls = jarUrls;
-    }
+    Class<?> findClass(String name) throws ClassNotFoundException, NoClassDefFoundError;
 
-    public LocateableJarContents(DataContainer<C> classContents, DataContainer<JarResource> resourceContents,
-                                 URL... jarUrls) {
-        super(classContents, resourceContents);
-        this.jarUrls = jarUrls;
-    }
-
-    public URL[] getJarUrls() {
-        return jarUrls;
-    }
+    Class<?> loadClass(String name) throws ClassNotFoundException, NoClassDefFoundError;
 }

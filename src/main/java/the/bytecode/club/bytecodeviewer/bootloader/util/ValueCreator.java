@@ -1,4 +1,4 @@
-package the.bytecode.club.bootloader.resource;
+package the.bytecode.club.bytecodeviewer.bootloader.util;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -19,32 +19,10 @@ package the.bytecode.club.bootloader.resource;
  ***************************************************************************/
 
 /**
- * Type of Jar Stored.
- *
- * @author Bibl
+ * @author Bibl (don't ban me pls)
  * @created ages ago
  */
-public enum JarType {
+public interface ValueCreator<V> {
 
-    /**
-     * Local file
-     **/
-    FILE("file:"),
-    /**
-     * External URL
-     **/
-    WEB("");
-
-    private final String prefix;
-
-    JarType(String prefix) {
-        this.prefix = prefix;
-    }
-
-    /**
-     * Gets the prefix for the JarURLConnection.
-     **/
-    public String prefix() {
-        return prefix;
-    }
+    V create();
 }

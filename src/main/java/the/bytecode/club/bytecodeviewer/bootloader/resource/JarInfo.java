@@ -1,4 +1,4 @@
-package the.bytecode.club.bootloader.resource;
+package the.bytecode.club.bytecodeviewer.bootloader.resource;
 
 import java.io.File;
 import java.net.JarURLConnection;

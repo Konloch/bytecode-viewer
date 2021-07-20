@@ -1,10 +1,10 @@
-package the.bytecode.club.bootloader;
+package the.bytecode.club.bytecodeviewer.bootloader;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import the.bytecode.club.bootloader.resource.ExternalResource;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.ExternalResource;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

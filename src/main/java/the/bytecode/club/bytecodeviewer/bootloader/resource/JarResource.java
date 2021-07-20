@@ -1,4 +1,6 @@
-package the.bytecode.club.bootloader;
+package the.bytecode.club.bytecodeviewer.bootloader.resource;
+
+import java.util.Arrays;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -20,9 +22,48 @@ package the.bytecode.club.bootloader;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 21 Jul 2015 00:14:53
+ * @created ages ago
  */
-public interface LoaderFactory<T> {
+public class JarResource {
 
-    ILoader<T> spawnLoader();
+    private final String name;
+    private final byte[] data;
+
+    public JarResource(String name, byte[] data) {
+        this.name = name;
+        this.data = data;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = (prime * result) + Arrays.hashCode(data);
+        result = (prime * result) + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        JarResource other = (JarResource) obj;
+        if (!Arrays.equals(data, other.data))
+            return false;
+        if (name == null) {
+            return other.name == null;
+        } else return name.equals(other.name);
+    }
 }

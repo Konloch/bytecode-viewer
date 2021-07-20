@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import the.bytecode.club.bootloader.InitialBootScreen;
+import the.bytecode.club.bytecodeviewer.bootloader.InitialBootScreen;
 import the.bytecode.club.bytecodeviewer.Configuration;
 
 import javax.swing.*;

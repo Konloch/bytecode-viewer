@@ -1,7 +1,7 @@
-package the.bytecode.club.bootloader.util;
+package the.bytecode.club.bytecodeviewer.bootloader.resource;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.net.URL;
+import org.objectweb.asm.tree.ClassNode;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -23,12 +23,24 @@ import java.util.Set;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 25 May 2015 (actually before this)
+ * @created ages ago
  */
-public class SetCreator<T> implements ValueCreator<Set<T>> {
+public class LocateableJarContents<C extends ClassNode> extends JarContents<C> {
 
-    @Override
-    public Set<T> create() {
-        return new HashSet<>();
+    private final URL[] jarUrls;
+
+    public LocateableJarContents(URL... jarUrls) {
+        super();
+        this.jarUrls = jarUrls;
+    }
+
+    public LocateableJarContents(DataContainer<C> classContents, DataContainer<JarResource> resourceContents,
+                                 URL... jarUrls) {
+        super(classContents, resourceContents);
+        this.jarUrls = jarUrls;
+    }
+
+    public URL[] getJarUrls() {
+        return jarUrls;
     }
 }

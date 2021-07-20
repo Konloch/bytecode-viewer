@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
-import the.bytecode.club.bootloader.InitialBootScreen;
+import the.bytecode.club.bytecodeviewer.bootloader.InitialBootScreen;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.*;

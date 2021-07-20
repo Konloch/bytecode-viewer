@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.util;
 
-import the.bytecode.club.bootloader.Boot;
+import the.bytecode.club.bytecodeviewer.bootloader.Boot;
 
 import static the.bytecode.club.bytecodeviewer.Constants.OFFLINE_MODE;
 
