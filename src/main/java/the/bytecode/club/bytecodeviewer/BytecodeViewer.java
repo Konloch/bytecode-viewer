@@ -68,8 +68,8 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  * http://the.bytecode.club
  *
  * TODO BUGS:
- *      + Resource List Icons now create swing lag with large projects
- *          ^ This is because of the change to how they are created/called on
+ *      + Viewing a new resource should unlock the refresh button
+ *      + Resource List creates swing lag with large projects
  *      + View>Visual Settings>Show Class Methods
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
@@ -89,6 +89,8 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Fix hook inject for EZ-Injection
  *
  * TODO FEATURES:
+ *      + On refresh save position
+ *      + Option to only compile currently viewed class (true by default)
  *      + CLI Headless needs to be supported
  *      + Add stackmapframes to bytecode decompiler
  *      + Add JEB decompiler optionally, requires them to add jeb library jar

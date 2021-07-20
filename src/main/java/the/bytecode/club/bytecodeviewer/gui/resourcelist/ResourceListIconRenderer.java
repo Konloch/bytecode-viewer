@@ -61,7 +61,7 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 				setIcon(IconResources.textIcon);
 				iconSet = true;
 			}
-				
+			
 			//folders
 			if (node.getChildCount() > 0)
 			{
