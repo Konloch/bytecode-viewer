@@ -26,6 +26,8 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
 import the.bytecode.club.bytecodeviewer.resources.Resource;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
 import static the.bytecode.club.bytecodeviewer.util.MethodParser.Method;
@@ -89,7 +91,14 @@ public class ClassViewer extends ResourceViewer
     {
         setPanes();
         refreshTitle();
-        
+
+        // Warn user if no Decompiler is selected
+        if (bytecodeViewPanel1.decompiler == Decompiler.NONE
+                && bytecodeViewPanel2.decompiler == Decompiler.NONE
+                && bytecodeViewPanel3.decompiler == Decompiler.NONE) {
+            BytecodeViewer.showMessage(TranslatedStrings.SUGGESTED_FIX_NO_DECOMPILER_WARNING.getText());
+        }
+
         bytecodeViewPanel1.createPane(this);
         bytecodeViewPanel2.createPane(this);
         bytecodeViewPanel3.createPane(this);
