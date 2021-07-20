@@ -230,5 +230,10 @@
   "OVERRIDE": "Pārslēgt",
   "DECOMPILE_ASSERTIONS": "Dekompilēt apgalvojumus",
   "HIDE_UTF": "Paslēpt UTF",
-  "ERROR_COMPILING_CLASS": "Kļūda, kompilējot klasi"
+  "ERROR_COMPILING_CLASS": "Kļūda, kompilējot klasi",
+  "PROCYON_SETTINGS": "Procyon iestatījumi",
+  "OPEN": "Atvērt...",
+  "APK_CONVERSION_DECODING": "APK konvertēšana",
+  "CFR_SETTINGS": "CFR iestatījumi",
+  "FERNFLOWER_SETTINGS": "FernFlower iestatījumi"
 }

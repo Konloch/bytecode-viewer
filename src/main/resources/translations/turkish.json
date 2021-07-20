@@ -231,5 +231,10 @@
   "OVERRIDE": "geçersiz kıl",
   "DECOMPILE_ASSERTIONS": "iddiaları geri derleme",
   "HIDE_UTF": "UTF'yi gizle",
-  "ERROR_COMPILING_CLASS": "Sınıf derlenirken hata oluştu"
+  "ERROR_COMPILING_CLASS": "Sınıf derlenirken hata oluştu",
+  "PROCYON_SETTINGS": "Procyon Ayarları",
+  "OPEN": "Açık...",
+  "APK_CONVERSION_DECODING": "APK Dönüştürme/Kod Çözme",
+  "CFR_SETTINGS": "CFR Ayarları",
+  "FERNFLOWER_SETTINGS": "FernFlower Ayarları"
 }

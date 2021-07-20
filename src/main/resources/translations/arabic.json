@@ -231,5 +231,10 @@
   "OVERRIDE": "تجاوز",
   "DECOMPILE_ASSERTIONS": "فك التأكيدات",
   "HIDE_UTF": "إخفاء UTF",
-  "ERROR_COMPILING_CLASS": "خطأ في تجميع فئة"
+  "ERROR_COMPILING_CLASS": "خطأ في تجميع فئة",
+  "PROCYON_SETTINGS": "إعدادات Procyon",
+  "OPEN": "فتح...",
+  "APK_CONVERSION_DECODING": "APK التحويل / فك",
+  "CFR_SETTINGS": "إعدادات CFR",
+  "FERNFLOWER_SETTINGS": "إعدادات FernFlower"
 }

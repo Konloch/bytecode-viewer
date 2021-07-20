@@ -230,5 +230,10 @@
   "OVERRIDE": "Felülbírálás",
   "DECOMPILE_ASSERTIONS": "Állítások dekompilálása",
   "HIDE_UTF": "UTF elrejtése",
-  "ERROR_COMPILING_CLASS": "Hiba az osztály fordításában"
+  "ERROR_COMPILING_CLASS": "Hiba az osztály fordításában",
+  "PROCYON_SETTINGS": "Procyon beállítások",
+  "OPEN": "Nyisd ki...",
+  "APK_CONVERSION_DECODING": "APK átalakítás",
+  "CFR_SETTINGS": "CFR beállítások",
+  "FERNFLOWER_SETTINGS": "FernFlower beállítások"
 }

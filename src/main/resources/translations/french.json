@@ -230,5 +230,10 @@
   "OVERRIDE": "Remplacer",
   "DECOMPILE_ASSERTIONS": "Décompiler les assertions",
   "HIDE_UTF": "Cacher l'UTF",
-  "ERROR_COMPILING_CLASS": "Erreur de compilation de la classe"
+  "ERROR_COMPILING_CLASS": "Erreur de compilation de la classe",
+  "PROCYON_SETTINGS": "Paramètres de Procyon",
+  "OPEN": "Ouvrez...",
+  "APK_CONVERSION_DECODING": "Conversion APK",
+  "CFR_SETTINGS": "Paramètres du CFR",
+  "FERNFLOWER_SETTINGS": "Paramètres de FernFlower"
 }

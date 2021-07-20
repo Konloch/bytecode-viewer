@@ -230,5 +230,10 @@
   "OVERRIDE": "Override",
   "DECOMPILE_ASSERTIONS": "Dekompilácia tvrdení",
   "HIDE_UTF": "Skryť UTF",
-  "ERROR_COMPILING_CLASS": "Chyba pri kompilácii triedy"
+  "ERROR_COMPILING_CLASS": "Chyba pri kompilácii triedy",
+  "PROCYON_SETTINGS": "Nastavenia Procyonu",
+  "OPEN": "Otvorené...",
+  "APK_CONVERSION_DECODING": "Konverzia APK",
+  "CFR_SETTINGS": "Nastavenia CFR",
+  "FERNFLOWER_SETTINGS": "Nastavenia FernFlower"
 }

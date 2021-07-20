@@ -231,5 +231,10 @@
   "OVERRIDE": "Shafe",
   "DECOMPILE_ASSERTIONS": "Tattara maganganu",
   "HIDE_UTF": "Uoye UTF",
-  "ERROR_COMPILING_CLASS": "Kuskuren tattara aji"
+  "ERROR_COMPILING_CLASS": "Kuskuren tattara aji",
+  "PROCYON_SETTINGS": "Saitunan Procyon",
+  "OPEN": "Buɗe ...",
+  "APK_CONVERSION_DECODING": "Apc Juyawa / Mahimmanci",
+  "CFR_SETTINGS": "Saitunan CFR",
+  "FERNFLOWER_SETTINGS": "Saitunan FernFlower"
 }

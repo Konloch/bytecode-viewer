@@ -231,5 +231,10 @@
   "OVERRIDE": "უგულებელყოფა",
   "DECOMPILE_ASSERTIONS": "დაამტკიცეთ მტკიცებები",
   "HIDE_UTF": "UTF- ის დამალვა",
-  "ERROR_COMPILING_CLASS": "შეცდომა კლასის შედგენისას"
+  "ERROR_COMPILING_CLASS": "შეცდომა კლასის შედგენისას",
+  "PROCYON_SETTINGS": "Procyon პარამეტრები",
+  "OPEN": "ღია ...",
+  "APK_CONVERSION_DECODING": "APK კონვერტაცია / დეკოდირება",
+  "CFR_SETTINGS": "CFR პარამეტრები",
+  "FERNFLOWER_SETTINGS": "FernFlower პარამეტრები"
 }

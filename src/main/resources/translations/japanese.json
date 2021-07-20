@@ -230,5 +230,10 @@
   "OVERRIDE": "オーバーライド",
   "DECOMPILE_ASSERTIONS": "アサーションのデコンパイル",
   "HIDE_UTF": "Hide UTF",
-  "ERROR_COMPILING_CLASS": "クラスのコンパイルエラー"
+  "ERROR_COMPILING_CLASS": "クラスのコンパイルエラー",
+  "PROCYON_SETTINGS": "プロキオンの設定",
+  "OPEN": "オープン...",
+  "APK_CONVERSION_DECODING": "APK変換",
+  "CFR_SETTINGS": "CFR設定",
+  "FERNFLOWER_SETTINGS": "ファーンフラワーの設定"
 }

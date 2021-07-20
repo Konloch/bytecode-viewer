@@ -231,5 +231,10 @@
   "OVERRIDE": "Batilisha",
   "DECOMPILE_ASSERTIONS": "Tenganisha madai",
   "HIDE_UTF": "Ficha UTF",
-  "ERROR_COMPILING_CLASS": "Hitilafu wakati wa kukusanya darasa"
+  "ERROR_COMPILING_CLASS": "Hitilafu wakati wa kukusanya darasa",
+  "PROCYON_SETTINGS": "Mipangilio ya Procyon",
+  "OPEN": "Fungua ...",
+  "APK_CONVERSION_DECODING": "Ubadilishaji / Kusimba kwa APK",
+  "CFR_SETTINGS": "Mipangilio ya CFR",
+  "FERNFLOWER_SETTINGS": "Mipangilio ya FernFlower"
 }

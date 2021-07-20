@@ -231,5 +231,10 @@
   "OVERRIDE": "Переопределение",
   "DECOMPILE_ASSERTIONS": "Декомпиляция утверждений",
   "HIDE_UTF": "Скрыть UTF",
-  "ERROR_COMPILING_CLASS": "Ошибка компиляции класса"
+  "ERROR_COMPILING_CLASS": "Ошибка компиляции класса",
+  "PROCYON_SETTINGS": "Настройки Procyon",
+  "OPEN": "Открыть...",
+  "APK_CONVERSION_DECODING": "Конвертация APK",
+  "CFR_SETTINGS": "Настройки CFR",
+  "FERNFLOWER_SETTINGS": "Параметры цветка папоротника"
 }

@@ -230,5 +230,10 @@
   "OVERRIDE": "Override",
   "DECOMPILE_ASSERTIONS": "Dekompilacja asercji",
   "HIDE_UTF": "Ukryj UTF",
-  "ERROR_COMPILING_CLASS": "Błąd kompilacji klasy"
+  "ERROR_COMPILING_CLASS": "Błąd kompilacji klasy",
+  "PROCYON_SETTINGS": "Ustawienia Procyona",
+  "OPEN": "Otwórz...",
+  "APK_CONVERSION_DECODING": "Konwersja APK",
+  "CFR_SETTINGS": "Ustawienia CFR",
+  "FERNFLOWER_SETTINGS": "Ustawienia kwiatu paproci"
 }

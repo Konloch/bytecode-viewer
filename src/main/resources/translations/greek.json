@@ -230,5 +230,10 @@
   "OVERRIDE": "Παράκαμψη",
   "DECOMPILE_ASSERTIONS": "Αποσυμπίληση ισχυρισμών",
   "HIDE_UTF": "Απόκρυψη UTF",
-  "ERROR_COMPILING_CLASS": "Σφάλμα μεταγλώττισης κλάσης"
+  "ERROR_COMPILING_CLASS": "Σφάλμα μεταγλώττισης κλάσης",
+  "PROCYON_SETTINGS": "Ρυθμίσεις Procyon",
+  "OPEN": "Ανοίξτε...",
+  "APK_CONVERSION_DECODING": "Μετατροπή APK",
+  "CFR_SETTINGS": "Ρυθμίσεις CFR",
+  "FERNFLOWER_SETTINGS": "Ρυθμίσεις FernFlower"
 }

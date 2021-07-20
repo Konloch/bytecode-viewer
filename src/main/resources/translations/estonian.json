@@ -230,5 +230,10 @@
   "OVERRIDE": "Override",
   "DECOMPILE_ASSERTIONS": "Dekompileeri väited",
   "HIDE_UTF": "Peida UTF",
-  "ERROR_COMPILING_CLASS": "Viga klassi kompileerimisel"
+  "ERROR_COMPILING_CLASS": "Viga klassi kompileerimisel",
+  "PROCYON_SETTINGS": "Procyoni seaded",
+  "OPEN": "Avatud...",
+  "APK_CONVERSION_DECODING": "APK konverteerimine",
+  "CFR_SETTINGS": "CFR seaded",
+  "FERNFLOWER_SETTINGS": "FernFlower seaded"
 }

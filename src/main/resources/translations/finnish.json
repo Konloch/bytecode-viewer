@@ -230,5 +230,10 @@
   "OVERRIDE": "Ohita",
   "DECOMPILE_ASSERTIONS": "Väitteiden purkaminen",
   "HIDE_UTF": "Piilota UTF",
-  "ERROR_COMPILING_CLASS": "Virhe luokan kääntämisessä"
+  "ERROR_COMPILING_CLASS": "Virhe luokan kääntämisessä",
+  "PROCYON_SETTINGS": "Procyonin asetukset",
+  "OPEN": "Avaa...",
+  "APK_CONVERSION_DECODING": "APK-muunnos",
+  "CFR_SETTINGS": "CFR-asetukset",
+  "FERNFLOWER_SETTINGS": "FernFlower asetukset"
 }

@@ -230,5 +230,10 @@
   "OVERRIDE": "Prevlada",
   "DECOMPILE_ASSERTIONS": "Dekompiliranje trditev",
   "HIDE_UTF": "Skrij UTF",
-  "ERROR_COMPILING_CLASS": "Napaka pri sestavljanju razreda"
+  "ERROR_COMPILING_CLASS": "Napaka pri sestavljanju razreda",
+  "PROCYON_SETTINGS": "Nastavitve Procyona",
+  "OPEN": "Odprto...",
+  "APK_CONVERSION_DECODING": "Pretvorba APK",
+  "CFR_SETTINGS": "Nastavitve CFR",
+  "FERNFLOWER_SETTINGS": "Nastavitve FernFlower"
 }

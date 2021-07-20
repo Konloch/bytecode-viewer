@@ -231,5 +231,10 @@
   "OVERRIDE": "覆盖",
   "DECOMPILE_ASSERTIONS": "反编译断言",
   "HIDE_UTF": "隐藏 UTF",
-  "ERROR_COMPILING_CLASS": "编译类时出错"
+  "ERROR_COMPILING_CLASS": "编译类时出错",
+  "PROCYON_SETTINGS": "Procyon 设置",
+  "OPEN": "打开...",
+  "APK_CONVERSION_DECODING": "APK 转换/解码",
+  "CFR_SETTINGS": "病死率设置",
+  "FERNFLOWER_SETTINGS": "蕨花设置"
 }

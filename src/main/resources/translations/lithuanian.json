@@ -230,5 +230,10 @@
   "OVERRIDE": "Pakeisti",
   "DECOMPILE_ASSERTIONS": "Dekompiliuoti teiginius",
   "HIDE_UTF": "Paslėpti UTF",
-  "ERROR_COMPILING_CLASS": "Klaida kompiliuojant klasę"
+  "ERROR_COMPILING_CLASS": "Klaida kompiliuojant klasę",
+  "PROCYON_SETTINGS": "\"Procyon\" nustatymai",
+  "OPEN": "Atviras...",
+  "APK_CONVERSION_DECODING": "APK konversija",
+  "CFR_SETTINGS": "CFR nustatymai",
+  "FERNFLOWER_SETTINGS": "\"FernFlower\" nustatymai"
 }

@@ -231,5 +231,10 @@
   "OVERRIDE": "Ghi đè",
   "DECOMPILE_ASSERTIONS": "Giải mã xác nhận",
   "HIDE_UTF": "Ẩn UTF",
-  "ERROR_COMPILING_CLASS": "Lỗi biên dịch lớp"
+  "ERROR_COMPILING_CLASS": "Lỗi biên dịch lớp",
+  "PROCYON_SETTINGS": "Cài đặt Procyon",
+  "OPEN": "Mở...",
+  "APK_CONVERSION_DECODING": "Chuyển đổi / Giải mã APK",
+  "CFR_SETTINGS": "Cài đặt CFR",
+  "FERNFLOWER_SETTINGS": "Cài đặt FernFlower"
 }

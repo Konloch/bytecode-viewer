@@ -231,5 +231,10 @@
   "OVERRIDE": "Замінити",
   "DECOMPILE_ASSERTIONS": "Декомпілювати твердження",
   "HIDE_UTF": "Сховати UTF",
-  "ERROR_COMPILING_CLASS": "Помилка компіляції класу"
+  "ERROR_COMPILING_CLASS": "Помилка компіляції класу",
+  "PROCYON_SETTINGS": "Налаштування Procyon",
+  "OPEN": "Відчинено...",
+  "APK_CONVERSION_DECODING": "Перетворення / декодування APK",
+  "CFR_SETTINGS": "Налаштування CFR",
+  "FERNFLOWER_SETTINGS": "Налаштування FernFlower"
 }

@@ -231,5 +231,10 @@
   "OVERRIDE": "Mengesampingkan",
   "DECOMPILE_ASSERTIONS": "Dekompilasi pernyataan",
   "HIDE_UTF": "Sembunyikan UTF",
-  "ERROR_COMPILING_CLASS": "Kesalahan saat mengkompilasi kelas"
+  "ERROR_COMPILING_CLASS": "Kesalahan saat mengkompilasi kelas",
+  "PROCYON_SETTINGS": "Pengaturan Procyon",
+  "OPEN": "Buka...",
+  "APK_CONVERSION_DECODING": "Konversi/Dekode APK",
+  "CFR_SETTINGS": "Pengaturan CFR",
+  "FERNFLOWER_SETTINGS": "Pengaturan Bunga Pakis"
 }

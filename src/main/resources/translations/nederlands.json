@@ -230,5 +230,10 @@
   "OVERRIDE": "Overschrijven",
   "DECOMPILE_ASSERTIONS": "Decompileer beweringen",
   "HIDE_UTF": "Verberg UTF",
-  "ERROR_COMPILING_CLASS": "Fout bij het compileren van de klasse"
+  "ERROR_COMPILING_CLASS": "Fout bij het compileren van de klasse",
+  "PROCYON_SETTINGS": "Procyon Instellingen",
+  "OPEN": "Open...",
+  "APK_CONVERSION_DECODING": "APK conversie",
+  "CFR_SETTINGS": "CFR-instellingen",
+  "FERNFLOWER_SETTINGS": "FernFlower Instellingen"
 }

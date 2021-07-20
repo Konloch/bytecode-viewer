@@ -231,5 +231,10 @@
   "OVERRIDE": "Tolak",
   "DECOMPILE_ASSERTIONS": "Tegaskan penyataan",
   "HIDE_UTF": "Sembunyikan UTF",
-  "ERROR_COMPILING_CLASS": "Ralat menyusun kelas"
+  "ERROR_COMPILING_CLASS": "Ralat menyusun kelas",
+  "PROCYON_SETTINGS": "Tetapan Procyon",
+  "OPEN": "Buka...",
+  "APK_CONVERSION_DECODING": "Penukaran / Penyahkodan APK",
+  "CFR_SETTINGS": "Tetapan CFR",
+  "FERNFLOWER_SETTINGS": "Tetapan FernFlower"
 }

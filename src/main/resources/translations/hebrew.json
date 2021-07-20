@@ -231,5 +231,10 @@
   "OVERRIDE": "לבטל",
   "DECOMPILE_ASSERTIONS": "פירוט טענות",
   "HIDE_UTF": "הסתר UTF",
-  "ERROR_COMPILING_CLASS": "שגיאה בהרכבת הכיתה"
+  "ERROR_COMPILING_CLASS": "שגיאה בהרכבת הכיתה",
+  "PROCYON_SETTINGS": "הגדרות Procyon",
+  "OPEN": "לִפְתוֹחַ...",
+  "APK_CONVERSION_DECODING": "המרה / פענוח של APK",
+  "CFR_SETTINGS": "הגדרות CFR",
+  "FERNFLOWER_SETTINGS": "הגדרות FernFlower"
 }

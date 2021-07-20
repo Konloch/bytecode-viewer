@@ -231,5 +231,10 @@
   "OVERRIDE": "Überschreiben Sie",
   "DECOMPILE_ASSERTIONS": "Dekompilieren von Assertionen",
   "HIDE_UTF": "UTF ausblenden",
-  "ERROR_COMPILING_CLASS": "Fehler beim Kompilieren der Klasse"
+  "ERROR_COMPILING_CLASS": "Fehler beim Kompilieren der Klasse",
+  "PROCYON_SETTINGS": "Procyon-Einstellungen",
+  "OPEN": "Öffnen...",
+  "APK_CONVERSION_DECODING": "APK-Konvertierung",
+  "CFR_SETTINGS": "CFR-Einstellungen",
+  "FERNFLOWER_SETTINGS": "FernFlower Einstellungen"
 }

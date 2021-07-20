@@ -230,5 +230,10 @@
   "OVERRIDE": "Anulare",
   "DECOMPILE_ASSERTIONS": "Decompilați afirmațiile",
   "HIDE_UTF": "Ascundeți UTF",
-  "ERROR_COMPILING_CLASS": "Eroare la compilarea clasei"
+  "ERROR_COMPILING_CLASS": "Eroare la compilarea clasei",
+  "PROCYON_SETTINGS": "Setări Procyon",
+  "OPEN": "Deschideți...",
+  "APK_CONVERSION_DECODING": "Conversia APK",
+  "CFR_SETTINGS": "Setări CFR",
+  "FERNFLOWER_SETTINGS": "FernFlower Setări"
 }

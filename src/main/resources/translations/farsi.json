@@ -231,5 +231,10 @@
   "OVERRIDE": "لغو کردن",
   "DECOMPILE_ASSERTIONS": "ادعاها را دوباره کامپایل کنید",
   "HIDE_UTF": "UTF را مخفی کنید",
-  "ERROR_COMPILING_CLASS": "خطا در تنظیم کلاس"
+  "ERROR_COMPILING_CLASS": "خطا در تنظیم کلاس",
+  "PROCYON_SETTINGS": "تنظیمات Procyon",
+  "OPEN": "باز کن...",
+  "APK_CONVERSION_DECODING": "تبدیل / رمزگشایی APK",
+  "CFR_SETTINGS": "تنظیمات CFR",
+  "FERNFLOWER_SETTINGS": "تنظیمات FernFlower"
 }

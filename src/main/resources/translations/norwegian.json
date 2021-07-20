@@ -231,5 +231,10 @@
   "OVERRIDE": "Overstyring",
   "DECOMPILE_ASSERTIONS": "Dekompiler påstander",
   "HIDE_UTF": "Skjul UTF",
-  "ERROR_COMPILING_CLASS": "Feil ved kompilering av klassen"
+  "ERROR_COMPILING_CLASS": "Feil ved kompilering av klassen",
+  "PROCYON_SETTINGS": "Procyon-innstillinger",
+  "OPEN": "Åpen...",
+  "APK_CONVERSION_DECODING": "APK-konvertering / dekoding",
+  "CFR_SETTINGS": "CFR-innstillinger",
+  "FERNFLOWER_SETTINGS": "FernFlower-innstillinger"
 }

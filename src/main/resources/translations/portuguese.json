@@ -230,5 +230,10 @@
   "OVERRIDE": "Anular",
   "DECOMPILE_ASSERTIONS": "Afirmações descompiladas",
   "HIDE_UTF": "Ocultar UTF",
-  "ERROR_COMPILING_CLASS": "Classe de compilação de erros"
+  "ERROR_COMPILING_CLASS": "Classe de compilação de erros",
+  "PROCYON_SETTINGS": "Definições de Procyon",
+  "OPEN": "Aberto...",
+  "APK_CONVERSION_DECODING": "Conversão APK",
+  "CFR_SETTINGS": "Definições do CFR",
+  "FERNFLOWER_SETTINGS": "Definições FernFlower"
 }
