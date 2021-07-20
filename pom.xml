@@ -285,7 +285,7 @@
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                             <mainClass>the.bytecode.club.bytecodeviewer.BytecodeViewer</mainClass>
                             <manifestEntries>
-                                <Implementation-Version>${version}</Implementation-Version>
+                                <Implementation-Version>${project.version}</Implementation-Version>
                             </manifestEntries>
                         </transformer>
                     </transformers>
