@@ -51,8 +51,6 @@ public class KrakatauAssembler extends InternalCompiler
         if(!ExternalResources.getSingleton().hasSetPython2Command())
             return null;
 
-        String origName = MiscUtils.randomString(20);
-
         File tempD = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempD.mkdir();
 
