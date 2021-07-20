@@ -226,7 +226,12 @@
         <dependency>
             <groupId>com.github.weisj</groupId>
             <artifactId>darklaf-core</artifactId>
-            <version>2.6.2-SNAPSHOT</version> <!-- TODO Change to release when ready -->
+            <version>2.6.2-20210719.010320-83</version> <!-- TODO Change to release when ready -->
+        </dependency>
+        <dependency>
+            <groupId>com.github.weisj</groupId>
+            <artifactId>darklaf-windows</artifactId>
+            <version>2.6.2-20210719.010320-83</version> <!-- TODO Remove when ready -->
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
