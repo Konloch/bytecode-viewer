@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer.gui.components;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.GlobalHotKeys;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
@@ -58,21 +59,21 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	
 	public SearchableRSyntaxTextArea()
 	{
-		if(Configuration.lafTheme == LAFTheme.DARK || Configuration.lafTheme == LAFTheme.SOLARIZED_DARK)
-		{
-			//this fixes the white border on the jScrollBar panes
-			scrollPane.getHorizontalScrollBar().setBackground(darkScrollBackground);
-			scrollPane.getHorizontalScrollBar().setForeground(darkScrollForeground);
-			scrollPane.getVerticalScrollBar().setBackground(darkScrollBackground);
-			scrollPane.getVerticalScrollBar().setForeground(darkScrollForeground);
-		}
-		else if(Configuration.lafTheme == LAFTheme.HIGH_CONTRAST_DARK)
+		if(Configuration.lafTheme == LAFTheme.HIGH_CONTRAST_DARK)
 		{
 			//this fixes the white border on the jScrollBar panes
 			scrollPane.getHorizontalScrollBar().setBackground(blackScrollBackground);
 			scrollPane.getHorizontalScrollBar().setForeground(blackScrollForeground);
 			scrollPane.getVerticalScrollBar().setBackground(blackScrollBackground);
 			scrollPane.getVerticalScrollBar().setForeground(blackScrollForeground);
+		}
+		else if(Configuration.lafTheme.isDark())
+		{
+			//this fixes the white border on the jScrollBar panes
+			scrollPane.getHorizontalScrollBar().setBackground(darkScrollBackground);
+			scrollPane.getHorizontalScrollBar().setForeground(darkScrollForeground);
+			scrollPane.getVerticalScrollBar().setBackground(darkScrollBackground);
+			scrollPane.getVerticalScrollBar().setForeground(darkScrollForeground);
 		}
 		
 		setAntiAliasingEnabled(true);
@@ -113,8 +114,19 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 			GlobalHotKeys.keyPressed(keyEvent);
 		}));
 		
-		//attach CTRL + Mouse Wheel Zoom
-		SwingUtilities.invokeLater(this::attachCtrlMouseWheelZoom);
+		final Font newFont = getFont().deriveFont((float) BytecodeViewer.viewer.getFontSize());
+		
+		//set number-bar font
+		setFont(newFont);
+		
+		SwingUtilities.invokeLater(()-> {
+			//attach CTRL + Mouse Wheel Zoom
+			attachCtrlMouseWheelZoom();
+			
+			//set text font
+			setFont(newFont);
+		});
+		
 	}
 	
 	public void search(String search, boolean forwardSearchDirection, boolean caseSensitiveSearch)

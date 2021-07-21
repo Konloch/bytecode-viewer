@@ -9,13 +9,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 import javax.swing.*;
 
 /**
@@ -82,6 +76,9 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
 
         this.setLayout(new BorderLayout(1, 1));
         this.add(panel, BorderLayout.CENTER);
+        
+        //attach CTRL + Mouse Wheel Zoom
+        SwingUtilities.invokeLater(this::attachCtrlMouseWheelZoom);
     }
 
     @Override
@@ -102,6 +99,43 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
         sb.setValues(getInicio(), +getLineas(), 0, buff.length / textLength);
         sb.setValueIsAdjusting(true);
         super.paint(g);
+    }
+    
+    public void attachCtrlMouseWheelZoom()
+    {
+        //get the existing scroll event
+        MouseWheelListener ogListener = getMouseWheelListeners().length > 0 ?
+                getMouseWheelListeners()[0] : null;
+        
+        //remove the existing event
+        if(ogListener != null)
+            removeMouseWheelListener(ogListener);
+        
+        //add a new event
+        addMouseWheelListener(e ->
+        {
+            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+            {
+                int size = font.getSize();
+                
+                Font newFont;
+                if (e.getWheelRotation() > 0) //Up
+                    newFont = new Font(font.getName(), font.getStyle(), --size >= 2 ? --size : 2);
+                else //Down
+                    newFont = new Font(font.getName(), font.getStyle(), ++size);
+                
+                setFont(newFont);
+                hex.setFont(newFont);
+                ascii.setFont(newFont);
+                font = newFont;
+                
+                e.consume();
+            }
+            else if(ogListener != null)
+            {
+                ogListener.mouseWheelMoved(e);
+            }
+        });
     }
 
     protected int getInicio() {
