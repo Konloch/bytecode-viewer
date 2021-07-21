@@ -237,5 +237,5 @@
   "APK_CONVERSION_DECODING": "APK-Konvertierung",
   "CFR_SETTINGS": "CFR-Einstellungen",
   "FERNFLOWER_SETTINGS": "FernFlower Einstellungen",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "WARNUNG: Derzeit ist kein Decompiler ausgewählt. Versuchen Sie Ansicht>Fenster und wählen Sie einen Decompiler."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ACHTUNG: Derzeit ist kein Dekompilierer ausgewählt. Versuchen Sie unter Ansicht>Fenster einen Dekompilierer auszuwählen."
 }
