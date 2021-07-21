@@ -236,5 +236,6 @@
   "OPEN": "Buka...",
   "APK_CONVERSION_DECODING": "Penukaran / Penyahkodan APK",
   "CFR_SETTINGS": "Tetapan CFR",
-  "FERNFLOWER_SETTINGS": "Tetapan FernFlower"
+  "FERNFLOWER_SETTINGS": "Tetapan FernFlower",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "AMARAN: Tidak ada penyahkompilasi yang dipilih. Cuba Lihat> Panel dan pilih penyahkompilasi."
 }

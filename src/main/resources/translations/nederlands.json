@@ -235,5 +235,6 @@
   "OPEN": "Open...",
   "APK_CONVERSION_DECODING": "APK conversie",
   "CFR_SETTINGS": "CFR-instellingen",
-  "FERNFLOWER_SETTINGS": "FernFlower Instellingen"
+  "FERNFLOWER_SETTINGS": "FernFlower Instellingen",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "WAARSCHUWING: Er is momenteel geen decompiler geselecteerd. Probeer Beeld>Venster en kies een decompiler."
 }

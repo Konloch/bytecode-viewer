@@ -236,5 +236,6 @@
   "OPEN": "Åpen...",
   "APK_CONVERSION_DECODING": "APK-konvertering / dekoding",
   "CFR_SETTINGS": "CFR-innstillinger",
-  "FERNFLOWER_SETTINGS": "FernFlower-innstillinger"
+  "FERNFLOWER_SETTINGS": "FernFlower-innstillinger",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ADVARSEL: Ingen dekompilator er valgt for øyeblikket. Prøv Vis> Rute og velg en dekompilator."
 }

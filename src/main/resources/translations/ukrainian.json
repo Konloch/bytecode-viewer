@@ -236,5 +236,6 @@
   "OPEN": "Відчинено...",
   "APK_CONVERSION_DECODING": "Перетворення / декодування APK",
   "CFR_SETTINGS": "Налаштування CFR",
-  "FERNFLOWER_SETTINGS": "Налаштування FernFlower"
+  "FERNFLOWER_SETTINGS": "Налаштування FernFlower",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ПОПЕРЕДЖЕННЯ: На даний момент не обрано жодного декомпілятора. Спробуйте Переглянути> Панель та виберіть декомпілятор."
 }

@@ -235,5 +235,6 @@
   "OPEN": "Deschideți...",
   "APK_CONVERSION_DECODING": "Conversia APK",
   "CFR_SETTINGS": "Setări CFR",
-  "FERNFLOWER_SETTINGS": "FernFlower Setări"
+  "FERNFLOWER_SETTINGS": "FernFlower Setări",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "AVERTISMENT: În prezent nu este selectat niciun descompilator. Încercați View>Pane și alegeți un decompiler."
 }

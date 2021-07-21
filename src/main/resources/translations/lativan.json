@@ -235,5 +235,6 @@
   "OPEN": "Atvērt...",
   "APK_CONVERSION_DECODING": "APK konvertēšana",
   "CFR_SETTINGS": "CFR iestatījumi",
-  "FERNFLOWER_SETTINGS": "FernFlower iestatījumi"
+  "FERNFLOWER_SETTINGS": "FernFlower iestatījumi",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "BRĪDINĀJUMS: Pašlaik nav izvēlēts neviens dekompilētājs. Izmēģiniet View>Pane un izvēlieties dekompilatoru."
 }

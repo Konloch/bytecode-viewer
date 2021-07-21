@@ -235,5 +235,6 @@
   "OPEN": "Ouvrez...",
   "APK_CONVERSION_DECODING": "Conversion APK",
   "CFR_SETTINGS": "Paramètres du CFR",
-  "FERNFLOWER_SETTINGS": "Paramètres de FernFlower"
+  "FERNFLOWER_SETTINGS": "Paramètres de FernFlower",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ATTENTION : Aucun décompilateur n'est actuellement sélectionné. Essayez View>Pane et choisissez un décompilateur."
 }

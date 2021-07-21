@@ -236,5 +236,6 @@
   "OPEN": "打开...",
   "APK_CONVERSION_DECODING": "APK 转换/解码",
   "CFR_SETTINGS": "病死率设置",
-  "FERNFLOWER_SETTINGS": "蕨花设置"
+  "FERNFLOWER_SETTINGS": "蕨花设置",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "警告：当前没有选择反编译器。尝试查看>窗格并选择一个反编译器。"
 }

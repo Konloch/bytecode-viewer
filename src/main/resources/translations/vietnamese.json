@@ -236,5 +236,6 @@
   "OPEN": "Mở...",
   "APK_CONVERSION_DECODING": "Chuyển đổi / Giải mã APK",
   "CFR_SETTINGS": "Cài đặt CFR",
-  "FERNFLOWER_SETTINGS": "Cài đặt FernFlower"
+  "FERNFLOWER_SETTINGS": "Cài đặt FernFlower",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "CẢNH BÁO: Hiện không có trình dịch ngược nào được chọn. Hãy thử View> Pane và chọn một trình dịch ngược."
 }

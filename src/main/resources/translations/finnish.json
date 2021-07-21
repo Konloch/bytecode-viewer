@@ -235,5 +235,6 @@
   "OPEN": "Avaa...",
   "APK_CONVERSION_DECODING": "APK-muunnos",
   "CFR_SETTINGS": "CFR-asetukset",
-  "FERNFLOWER_SETTINGS": "FernFlower asetukset"
+  "FERNFLOWER_SETTINGS": "FernFlower asetukset",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "VAROITUS: Dekompileria ei ole valittu. Kokeile Näytä>Ruutu ja valitse dekompilaattori."
 }

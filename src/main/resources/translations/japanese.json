@@ -235,5 +235,6 @@
   "OPEN": "オープン...",
   "APK_CONVERSION_DECODING": "APK変換",
   "CFR_SETTINGS": "CFR設定",
-  "FERNFLOWER_SETTINGS": "ファーンフラワーの設定"
+  "FERNFLOWER_SETTINGS": "ファーンフラワーの設定",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "警告：現在、デコンパイラが選択されていません。表示」→「ペイン」を選択し、デコンパイラを選択してください。"
 }

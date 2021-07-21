@@ -236,5 +236,6 @@
   "OPEN": "Buka...",
   "APK_CONVERSION_DECODING": "Konversi/Dekode APK",
   "CFR_SETTINGS": "Pengaturan CFR",
-  "FERNFLOWER_SETTINGS": "Pengaturan Bunga Pakis"
+  "FERNFLOWER_SETTINGS": "Pengaturan Bunga Pakis",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "PERINGATAN: Saat ini tidak ada dekompiler yang dipilih. Coba View>Pane dan pilih decompiler."
 }

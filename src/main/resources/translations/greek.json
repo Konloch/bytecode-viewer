@@ -235,5 +235,6 @@
   "OPEN": "Ανοίξτε...",
   "APK_CONVERSION_DECODING": "Μετατροπή APK",
   "CFR_SETTINGS": "Ρυθμίσεις CFR",
-  "FERNFLOWER_SETTINGS": "Ρυθμίσεις FernFlower"
+  "FERNFLOWER_SETTINGS": "Ρυθμίσεις FernFlower",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Δεν έχει επιλεγεί κανένας αποσυμπιεστής. Δοκιμάστε View>Pane και επιλέξτε έναν αποσυμπιεστή."
 }

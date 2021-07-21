@@ -93,7 +93,6 @@
   "ERROR": "Fehler",
   "SUGGESTED_FIX_DECOMPILER_ERROR": "Vorgeschlagene Lösung: Klicken Sie auf Klasse aktualisieren und wenn es wieder fehlschlägt, versuchen Sie einen anderen Dekompilierer.",
   "SUGGESTED_FIX_COMPILER_ERROR": "Vorgeschlagene Lösung: Aktivieren Sie unter Ansicht>Fenster>Krakatau>Bytecode Editierbar.",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ACHTUNG: Derzeit ist kein Dekompilierer ausgewählt. Versuchen Sie unter Ansicht>Fenster einen Dekompilierer auszuwählen.",
   "FILES": "Dateien",
   "QUICK_FILE_SEARCH_NO_FILE_EXTENSION": "Dateien-Schnellsuche öffnen (ohne Dateiendungen)",
   "WORK_SPACE": "Arbeitsbereich",
@@ -237,5 +236,6 @@
   "OPEN": "Öffnen...",
   "APK_CONVERSION_DECODING": "APK-Konvertierung",
   "CFR_SETTINGS": "CFR-Einstellungen",
-  "FERNFLOWER_SETTINGS": "FernFlower Einstellungen"
+  "FERNFLOWER_SETTINGS": "FernFlower Einstellungen",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "WARNUNG: Derzeit ist kein Decompiler ausgewählt. Versuchen Sie Ansicht>Fenster und wählen Sie einen Decompiler."
 }

@@ -235,5 +235,6 @@
   "OPEN": "Otvorené...",
   "APK_CONVERSION_DECODING": "Konverzia APK",
   "CFR_SETTINGS": "Nastavenia CFR",
-  "FERNFLOWER_SETTINGS": "Nastavenia FernFlower"
+  "FERNFLOWER_SETTINGS": "Nastavenia FernFlower",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "VAROVANIE: V súčasnosti nie je vybraný žiadny dekompilátor. Skúste View>Pane a vyberte dekompilátor."
 }

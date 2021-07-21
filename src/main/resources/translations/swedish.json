@@ -235,5 +235,6 @@
   "OPEN": "Öppna...",
   "APK_CONVERSION_DECODING": "Konvertering av APK",
   "CFR_SETTINGS": "Inställningar för CFR",
-  "FERNFLOWER_SETTINGS": "Inställningar för FernFlower"
+  "FERNFLOWER_SETTINGS": "Inställningar för FernFlower",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "VARNING: Ingen dekompilator är för närvarande vald. Försök med Visa>Fönster och välj en dekompilator."
 }

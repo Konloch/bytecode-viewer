@@ -236,5 +236,6 @@
   "OPEN": "ღია ...",
   "APK_CONVERSION_DECODING": "APK კონვერტაცია / დეკოდირება",
   "CFR_SETTINGS": "CFR პარამეტრები",
-  "FERNFLOWER_SETTINGS": "FernFlower პარამეტრები"
+  "FERNFLOWER_SETTINGS": "FernFlower პარამეტრები",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "გაფრთხილება: ამჟამად არ არის არჩეული დეკომპილერი. სცადეთ View> Pane და შეარჩიეთ decompiler."
 }

@@ -236,5 +236,6 @@
   "OPEN": "باز کن...",
   "APK_CONVERSION_DECODING": "تبدیل / رمزگشایی APK",
   "CFR_SETTINGS": "تنظیمات CFR",
-  "FERNFLOWER_SETTINGS": "تنظیمات FernFlower"
+  "FERNFLOWER_SETTINGS": "تنظیمات FernFlower",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "هشدار: در حال حاضر هیچ کامپایلری انتخاب نشده است. View> Pane را امتحان کنید و یک decompiler را انتخاب کنید."
 }

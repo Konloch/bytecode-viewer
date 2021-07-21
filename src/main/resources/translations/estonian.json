@@ -235,5 +235,6 @@
   "OPEN": "Avatud...",
   "APK_CONVERSION_DECODING": "APK konverteerimine",
   "CFR_SETTINGS": "CFR seaded",
-  "FERNFLOWER_SETTINGS": "FernFlower seaded"
+  "FERNFLOWER_SETTINGS": "FernFlower seaded",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "HOIATUS: Praegu ei ole dekompilaatorit valitud. Proovige View>Pane ja valige dekompilaator."
 }

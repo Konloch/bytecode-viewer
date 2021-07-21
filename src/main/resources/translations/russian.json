@@ -236,5 +236,6 @@
   "OPEN": "Открыть...",
   "APK_CONVERSION_DECODING": "Конвертация APK",
   "CFR_SETTINGS": "Настройки CFR",
-  "FERNFLOWER_SETTINGS": "Параметры цветка папоротника"
+  "FERNFLOWER_SETTINGS": "Параметры цветка папоротника",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ВНИМАНИЕ: В настоящее время не выбран ни один декомпилятор. Попробуйте Вид>Панель и выберите декомпилятор."
 }

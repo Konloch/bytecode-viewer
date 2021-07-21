@@ -235,5 +235,6 @@
   "OPEN": "Nyisd ki...",
   "APK_CONVERSION_DECODING": "APK átalakítás",
   "CFR_SETTINGS": "CFR beállítások",
-  "FERNFLOWER_SETTINGS": "FernFlower beállítások"
+  "FERNFLOWER_SETTINGS": "FernFlower beállítások",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "FIGYELMEZTETÉS: Jelenleg nincs dekompilátor kiválasztva. Próbálja meg a Nézet>Rács, és válasszon ki egy dekompilátort."
 }

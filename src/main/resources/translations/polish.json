@@ -235,5 +235,6 @@
   "OPEN": "Otwórz...",
   "APK_CONVERSION_DECODING": "Konwersja APK",
   "CFR_SETTINGS": "Ustawienia CFR",
-  "FERNFLOWER_SETTINGS": "Ustawienia kwiatu paproci"
+  "FERNFLOWER_SETTINGS": "Ustawienia kwiatu paproci",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "OSTRZEŻENIE: Żaden dekompilator nie jest obecnie wybrany. Spróbuj Widok>Panewka i wybierz dekompilator."
 }

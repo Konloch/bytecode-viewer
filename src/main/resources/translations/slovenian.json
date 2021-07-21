@@ -235,5 +235,6 @@
   "OPEN": "Odprto...",
   "APK_CONVERSION_DECODING": "Pretvorba APK",
   "CFR_SETTINGS": "Nastavitve CFR",
-  "FERNFLOWER_SETTINGS": "Nastavitve FernFlower"
+  "FERNFLOWER_SETTINGS": "Nastavitve FernFlower",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "OPOZORILO: Trenutno ni izbran noben dekompilator. Poskusite View>Pane in izberite dekompilator."
 }

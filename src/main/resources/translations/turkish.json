@@ -236,5 +236,6 @@
   "OPEN": "Açık...",
   "APK_CONVERSION_DECODING": "APK Dönüştürme/Kod Çözme",
   "CFR_SETTINGS": "CFR Ayarları",
-  "FERNFLOWER_SETTINGS": "FernFlower Ayarları"
+  "FERNFLOWER_SETTINGS": "FernFlower Ayarları",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "UYARI: Şu anda hiçbir kod çözücü seçili değil. Görünüm> Bölmeyi deneyin ve bir kod çözücü seçin."
 }

@@ -236,5 +236,6 @@
   "OPEN": "לִפְתוֹחַ...",
   "APK_CONVERSION_DECODING": "המרה / פענוח של APK",
   "CFR_SETTINGS": "הגדרות CFR",
-  "FERNFLOWER_SETTINGS": "הגדרות FernFlower"
+  "FERNFLOWER_SETTINGS": "הגדרות FernFlower",
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "אזהרה: לא נבחר כרגע פורץ decompiler. נסה View> Pane ובחר decompiler."
 }
