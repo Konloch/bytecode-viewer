@@ -875,6 +875,7 @@ public class MainViewerGUI extends JFrame
                 reopen.add(container.file);
             }
         
+            BytecodeViewer.viewer.resourcePane.treeRoot.removeAllChildren();
             BytecodeViewer.resourceContainers.clear();
         
             for (File f : reopen)
