@@ -19,6 +19,11 @@ public class FileChooser extends JFileChooser
 	
 	public FileChooser(File file, String title, String description, String... extensions)
 	{
+		this(false, file, title, description, extensions);
+	}
+	
+	public FileChooser(boolean skipFileFilter, File file, String title, String description, String... extensions)
+	{
 		HashSet<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
 		
 		try {
@@ -29,24 +34,27 @@ public class FileChooser extends JFileChooser
 		setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		setFileHidingEnabled(false);
 		setAcceptAllFileFilterUsed(false);
-		setFileFilter(new FileFilter()
+		if(!skipFileFilter)
 		{
-			@Override
-			public boolean accept(File f)
+			setFileFilter(new FileFilter()
 			{
-				if (f.isDirectory())
-					return true;
+				@Override
+				public boolean accept(File f)
+				{
+					if (f.isDirectory())
+						return true;
+					
+					if(extensions[0].equals(EVERYTHING))
+						return true;
+					
+					return extensionSet.contains(MiscUtils.extension(f.getAbsolutePath()));
+				}
 				
-				if(extensions[0].equals(EVERYTHING))
-					return true;
-				
-				return extensionSet.contains(MiscUtils.extension(f.getAbsolutePath()));
-			}
-			
-			@Override
-			public String getDescription() {
-				return description;
-			}
-		});
+				@Override
+				public String getDescription() {
+					return description;
+				}
+			});
+		}
 	}
 }

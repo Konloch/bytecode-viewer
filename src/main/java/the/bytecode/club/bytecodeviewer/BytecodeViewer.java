@@ -8,27 +8,27 @@ import javax.swing.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
+
+import me.konloch.kontainer.io.DiskReader;
+
 import the.bytecode.club.bytecodeviewer.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
+import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
-import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
-import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginWriter;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.util.*;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
+import the.bytecode.club.bytecodeviewer.util.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
-import static the.bytecode.club.bytecodeviewer.Settings.addRecentPlugin;
-import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -193,7 +193,7 @@ public class BytecodeViewer
             
             //set translation language
             if (!Settings.hasSetLanguageAsSystemLanguage)
-                MiscUtils.setLanguage(guessLanguage());
+                MiscUtils.setLanguage(MiscUtils.guessLanguage());
     
             //handle CLI
             int CLI = CommandLineInput.parseCommandLine(args);
@@ -551,7 +551,7 @@ public class BytecodeViewer
             BytecodeViewer.handleException(e);
         }
         
-        addRecentPlugin(file);
+        Settings.addRecentPlugin(file);
     }
     
     /**

@@ -9,6 +9,10 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+
+import static the.bytecode.club.bytecodeviewer.gui.components.FileChooser.EVERYTHING;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -86,13 +90,36 @@ public class DialogUtils
 	 */
 	public static File fileChooser(String title, String description, File directory, FileFilter filter, OnOpenEvent onOpen, String... extensions)
 	{
-		final JFileChooser fc = new FileChooser(directory,
+		HashSet<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
+		
+		final JFileChooser fc = new FileChooser(true,
+				directory,
 				title,
 				description,
 				extensions);
 		
 		if(filter != null)
 			fc.setFileFilter(filter);
+		else
+			fc.setFileFilter(new FileFilter()
+			{
+				@Override
+				public boolean accept(File f)
+				{
+					if (f.isDirectory())
+						return true;
+					
+					if(extensions[0].equals(EVERYTHING))
+						return true;
+					
+					return extensionSet.contains(MiscUtils.extension(f.getAbsolutePath()));
+				}
+				
+				@Override
+				public String getDescription() {
+					return description;
+				}
+			});
 		
 		int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
 		if (returnVal == JFileChooser.APPROVE_OPTION)
