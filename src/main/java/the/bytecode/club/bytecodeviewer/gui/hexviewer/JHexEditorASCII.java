@@ -42,7 +42,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
         FontMetrics fn = getFontMetrics(he.font);
         int w = fn.stringWidth(" ");
         int h = fn.getHeight();
-        int nl = he.getLineas();
+        int nl = he.getLines();
         int len = he.textLength + 1;
         
         int width = (len * w) + (he.border * 2) + 5;
@@ -64,7 +64,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
     @Override
     public void paint(Graphics g) {
         debug("paint(" + g + ")");
-        debug("cursor=" + he.cursor + " buff.length=" + he.buff.length);
+        debug("cursor=" + he.cursor + " buff.length=" + he.buf.length);
         Dimension d = getMinimumSize();
         g.setColor(Configuration.lafTheme.isDark() ? Color.darkGray : Color.white);
         g.fillRect(0, 0, d.width, d.height);
@@ -72,21 +72,21 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
 
         g.setFont(he.font);
 
-        // datos ascii
-        int ini = he.getInicio() * he.textLength;
-        int fin = ini + (he.getLineas() * he.textLength);
-        if (fin > he.buff.length)
-            fin = he.buff.length;
+        // ASCII data
+        int start = he.getBegin() * he.textLength;
+        int stop = start + (he.getLines() * he.textLength);
+        if (stop > he.buf.length)
+            stop = he.buf.length;
 
         int x = 0;
         int y = 0;
-        for (int n = ini; n < fin; n++) {
+        for (int n = start; n < stop; n++) {
             if (n == he.cursor) {
                 g.setColor(Color.blue);
                 if (hasFocus())
-                    he.fondo(g, x, y, 1);
+                    he.background(g, x, y, 1);
                 else
-                    he.cuadro(g, x, y, 1);
+                    he.border(g, x, y, 1);
                 if (hasFocus())
                     g.setColor(Configuration.lafTheme.isDark() ? Color.black : Color.white);
                 else
@@ -95,8 +95,8 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
                 g.setColor(Configuration.lafTheme.isDark() ? Color.white : Color.black);
             }
 
-            String s = String.valueOf((char) (he.buff[n] & 0xFF));//"" + new Character((char) he.buff[n]);
-            if ((he.buff[n] < 20) || (he.buff[n] > 126))
+            String s = String.valueOf((char) (he.buf[n] & 0xFF));//"" + new Character((char) he.buff[n]);
+            if ((he.buf[n] < 20) || (he.buf[n] > 126))
                 s = ".";//"" + (char) 16;
             he.printString(g, s, (x++), y);
             if (x == he.textLength) {
@@ -112,20 +112,18 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
             System.out.println("JHexEditorASCII ==> " + s);
     }
 
-    // calcular la posicion del raton
-    public int calcularPosicionRaton(int x, int y) {
+    public int calculateMousePosition(int x, int y) {
         FontMetrics fn = getFontMetrics(he.font);
         x = x / (fn.stringWidth(" ") + 1);
         y = y / fn.getHeight();
         debug("x=" + x + " ,y=" + y);
-        return x + ((y + he.getInicio()) * he.textLength);
+        return x + ((y + he.getBegin()) * he.textLength);
     }
 
-    // mouselistener
     @Override
     public void mouseClicked(MouseEvent e) {
         debug("mouseClicked(" + e + ")");
-        he.cursor = calcularPosicionRaton(e.getX(), e.getY());
+        he.cursor = calculateMousePosition(e.getX(), e.getY());
         this.requestFocus();
         he.repaint();
     }
