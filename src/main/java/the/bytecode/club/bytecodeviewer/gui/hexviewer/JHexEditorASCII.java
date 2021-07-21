@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JComponent;
+import the.bytecode.club.bytecodeviewer.Configuration;
 
 /**
  * @author laullon
@@ -65,9 +66,9 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
         debug("paint(" + g + ")");
         debug("cursor=" + he.cursor + " buff.length=" + he.buff.length);
         Dimension d = getMinimumSize();
-        g.setColor(Color.white);
+        g.setColor(Configuration.lafTheme.isDark() ? Color.darkGray : Color.white);
         g.fillRect(0, 0, d.width, d.height);
-        g.setColor(Color.black);
+        g.setColor(Configuration.lafTheme.isDark() ? Color.white : Color.black);
 
         g.setFont(he.font);
 
@@ -87,11 +88,11 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
                 else
                     he.cuadro(g, x, y, 1);
                 if (hasFocus())
-                    g.setColor(Color.white);
+                    g.setColor(Configuration.lafTheme.isDark() ? Color.black : Color.white);
                 else
-                    g.setColor(Color.black);
+                    g.setColor(Configuration.lafTheme.isDark() ? Color.white : Color.black);
             } else {
-                g.setColor(Color.black);
+                g.setColor(Configuration.lafTheme.isDark() ? Color.white : Color.black);
             }
 
             String s = String.valueOf((char) (he.buff[n] & 0xFF));//"" + new Character((char) he.buff[n]);

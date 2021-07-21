@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.*;
 import javax.swing.*;
+import the.bytecode.club.bytecodeviewer.Configuration;
 
 /**
  * @author laullon
@@ -235,9 +236,9 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
         @Override
         public void paint(Graphics g) {
             Dimension d = getMinimumSize();
-            g.setColor(Color.white);
+            g.setColor(Configuration.lafTheme.isDark() ? Color.darkGray : Color.white);
             g.fillRect(0, 0, d.width, d.height);
-            g.setColor(Color.black);
+            g.setColor(Configuration.lafTheme.isDark() ? Color.white : Color.black);
             g.setFont(font);
 
             for (int n = 0; n < textLength; n++) {
@@ -297,9 +298,9 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
         public void paint(Graphics g)
         {
             Dimension d = getMinimumSize();
-            g.setColor(Color.white);
+            g.setColor(Configuration.lafTheme.isDark() ? Color.darkGray : Color.white);
             g.fillRect(0, 0, d.width, d.height);
-            g.setColor(Color.black);
+            g.setColor(Configuration.lafTheme.isDark() ? Color.white : Color.black);
             g.setFont(font);
 
             int ini = getInicio();
