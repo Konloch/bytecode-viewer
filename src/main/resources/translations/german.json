@@ -237,5 +237,20 @@
   "APK_CONVERSION_DECODING": "APK-Konvertierung",
   "CFR_SETTINGS": "CFR-Einstellungen",
   "FERNFLOWER_SETTINGS": "FernFlower Einstellungen",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "WARNUNG: Derzeit ist kein Decompiler ausgewählt. Versuchen Sie Ansicht>Fenster und wählen Sie einen Decompiler."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ACHTUNG: Derzeit ist kein Dekompilierer ausgewählt. Versuchen Sie unter Ansicht>Fenster einen Dekompilierer auszuwählen.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Ressourcen neu laden",
+  "RELOAD_RESOURCES_CONFIRM": "Sind Sie sicher, dass Sie die Ressourcen neu laden möchten?",
+  "SELECT_FILE_TITLE": "Wählen Sie Datei oder Ordner zum Öffnen in {BCV}",
+  "SELECT_FILE_DESCRIPTION": "APKs, DEX, Klassen oder Zip/Jar/War-Archive",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Externes Plugin auswählen",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV Externes Plugin in js, java, python, ruby oder groovy",
+  "FOREIGN_LIBRARY_WARNING": "ACHTUNG: Wenn dies ausgeschaltet ist, werden veraltete Bibliotheken NICHT entfernt.\nDies stellt auch ein Sicherheitsproblem dar.\nSCHALTEN SIE ES NUR AUS, WENN SIE WISSEN, WAS SIE TUN.",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Beenden",
+  "EXIT_CONFIRM": "Sind Sie sicher, dass Sie das Programm beenden wollen?",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Über - {WEBSITE} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Plugin-Konsole",
+  "RESET_TITLE": "{PRODUCT_NAME} - Arbeitsbereich zurücksetzen",
+  "RESET_CONFIRM": "Sind Sie sicher, dass Sie den Arbeitsbereich zurücksetzen wollen?\n\rDadurch werden auch der Datei-Navigator und die Suche zurückgesetzt.",
+  "CLOSE_ALL_BUT_THIS": "Alle außer diesen schließen",
+  "CLOSE_TAB": "Tab schließen"
 }

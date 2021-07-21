@@ -40,7 +40,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener, KeyListe
     public void paint(Graphics g)
     {
         debug("paint(" + g + ")");
-        debug("cursor=" + he.cursor + " buff.length=" + he.buff.length);
+        debug("cursor=" + he.cursor + " buff.length=" + he.buf.length);
         
         if(!Configuration.lafTheme.isDark())
         {
@@ -56,25 +56,25 @@ public class JHexEditorHEX extends JComponent implements MouseListener, KeyListe
 
         g.setFont(he.font);
 
-        int ini = he.getInicio() * he.textLength;
-        int fin = ini + (he.getLineas() * he.textLength);
-        if (fin > he.buff.length)
-            fin = he.buff.length;
+        int start = he.getBegin() * he.textLength;
+        int stop = start + (he.getLines() * he.textLength);
+        if (stop > he.buf.length)
+            stop = he.buf.length;
 
-        // datos hex
+        // HEX data
         int x = 0;
         int y = 0;
-        for (int n = ini; n < fin; n++) {
+        for (int n = start; n < stop; n++) {
             if (n == he.cursor) {
                 if (hasFocus()) {
                     g.setColor(Color.black);
-                    he.fondo(g, (x * 3), y, 2);
+                    he.background(g, (x * 3), y, 2);
                     g.setColor(Color.blue);
                     int cursor = 0;
-                    he.fondo(g, (x * 3) + cursor, y, 1);
+                    he.background(g, (x * 3) + cursor, y, 1);
                 } else {
                     g.setColor(Color.blue);
-                    he.cuadro(g, (x * 3), y, 2);
+                    he.border(g, (x * 3), y, 2);
                 }
 
                 if (hasFocus())
@@ -85,7 +85,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener, KeyListe
                 g.setColor(Configuration.lafTheme.isDark() ? Color.white : Color.black);
             }
 
-            String s = ("0" + Integer.toHexString(he.buff[n]));
+            String s = ("0" + Integer.toHexString(he.buf[n]));
             s = s.substring(s.length() - 2);
             he.printString(g, s, ((x++) * 3), y);
             if (x == he.textLength) {
@@ -100,20 +100,18 @@ public class JHexEditorHEX extends JComponent implements MouseListener, KeyListe
             System.out.println("JHexEditorHEX ==> " + s);
     }
 
-    // calcular la posicion del raton
-    public int calcularPosicionRaton(int x, int y) {
+    public int calculateMousePosition(int x, int y) {
         FontMetrics fn = getFontMetrics(he.font);
         x = x / ((fn.stringWidth(" ") + 1) * 3);
         y = y / fn.getHeight();
         debug("x=" + x + " ,y=" + y);
-        return x + ((y + he.getInicio()) * he.textLength);
+        return x + ((y + he.getBegin()) * he.textLength);
     }
 
-    // mouselistener
     @Override
     public void mouseClicked(MouseEvent e) {
         debug("mouseClicked(" + e + ")");
-        he.cursor = calcularPosicionRaton(e.getX(), e.getY());
+        he.cursor = calculateMousePosition(e.getX(), e.getY());
         this.requestFocus();
         he.repaint();
     }
@@ -149,7 +147,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener, KeyListe
          * he.buff[he.cursor]=(byte)Integer.parseInt(new String(str),16);
          *
          * if(cursor!=1) cursor=1; else if(he.cursor!=(he.buff.length-1)){
-         * he.cursor++; cursor=0;} he.actualizaCursor(); }
+         * he.cursor++; cursor=0;} he.refreshCursor(); }
          */
     }
 
