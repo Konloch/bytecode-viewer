@@ -115,7 +115,7 @@ public enum Language
 			//skip translating if the language config is missing the translation key
 			if(!translationMap.containsKey(text.key))
 			{
-				BCV.logE(true, "MISSING TRANSLATION KEY: " + text.key);
+				BCV.logE(true, resourcePath + " -> " + text.key + " - Missing Translation Key");
 				continue;
 			}
 			
@@ -133,7 +133,7 @@ public enum Language
 			if(translatedComponents.getTranslatedComponentReference().runOnUpdate.isEmpty())
 					//&& TranslatedStrings.nameSet.contains(translation.name()))
 			{
-				BCV.logE(true, "Translation Reference " + translatedComponents.name() + " is missing component attachment, skipping...");
+				BCV.logE(true, "TranslatedComponents:" + translatedComponents.name() + " is missing component attachment, skipping...");
 				continue;
 			}
 			
