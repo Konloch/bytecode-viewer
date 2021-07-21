@@ -19,10 +19,26 @@ public class Constants
 	public static String krakatauVersion = "12";
 	public static String enjarifyVersion = "4";
 	
+	//if true this disables testing code for tabs
+	//until dragging and full right-click menu support is added this is
+	//a starting point
 	public static final boolean BLOCK_TAB_MENU = true;
+	
+	//if true this will attempt to launch the decompilers in a new JVM process
+	//the pro's to this are:
+	//      + You can control the java arguments (more memory & stack)
+	//the cons to this are:
+	//      + If you could keep it in memory, now you need to write to disk (windows limitations)
 	public static final boolean LAUNCH_DECOMPILERS_IN_NEW_PROCESS = false; //TODO
-	public static final boolean FAT_JAR = true; //could be automatic by checking if it's loaded a class named whatever for a library
-	public static final boolean OFFLINE_MODE = true; //disables the automatic updater
+	
+	//could be automatic by checking if it's loaded a class named whatever for a library
+	//maybe it could be automatic with some maven plugin?
+	public static final boolean FAT_JAR = true;
+	
+	//the automatic updater
+	//SHADED_LIBRARIES must be false for the boot loader to startup
+	//TODO this needs to be changed to support maven
+	public static final boolean AUTOMATIC_LIBRARY_UPDATING = false;
 	
 	//version is set via maven
 	public static final String VERSION = getVersion(BytecodeViewer.class.getPackage().getImplementationVersion());
@@ -90,6 +106,9 @@ public class Constants
 		return System.getProperty("os.name").toLowerCase().contains("win");
 	}
 	
+	/**
+	 * Detects developer mode or returns the current version
+	 */
 	public static String getVersion(String mavenVersion)
 	{
 		if(mavenVersion == null)

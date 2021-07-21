@@ -165,7 +165,7 @@ public class BytecodeViewer
         //welcome message
         System.out.print("Bytecode Viewer " + VERSION);
         if(FAT_JAR)
-            System.out.print(" [FatJar]");
+            System.out.print(" [Fat Jar]");
         
         System.out.println(" - Created by @Konloch");
         System.out.println("https://bytecodeviewer.com - https://the.bytecode.club");

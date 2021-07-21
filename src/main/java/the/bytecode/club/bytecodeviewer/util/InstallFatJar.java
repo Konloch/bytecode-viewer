@@ -2,7 +2,7 @@ package the.bytecode.club.bytecodeviewer.util;
 
 import the.bytecode.club.bytecodeviewer.bootloader.Boot;
 
-import static the.bytecode.club.bytecodeviewer.Constants.OFFLINE_MODE;
+import static the.bytecode.club.bytecodeviewer.Constants.AUTOMATIC_LIBRARY_UPDATING;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -37,18 +37,18 @@ public class InstallFatJar implements Runnable
 	{
 		try
 		{
-			if (OFFLINE_MODE)
-			{
-				Boot.dropKrakatau();
-				Boot.dropEnjarify();
-			}
-			else
+			if (AUTOMATIC_LIBRARY_UPDATING)
 			{
 				Boot.populateUrlList();
 				Boot.populateLibsDirectory();
 				Boot.downloadZipsOnly();
 				Boot.checkKrakatau();
 				Boot.checkEnjarify();
+			}
+			else
+			{
+				Boot.dropKrakatau();
+				Boot.dropEnjarify();
 			}
 		}
 		catch (Exception e)
