@@ -83,7 +83,6 @@ public class FileViewer extends ResourceViewer
         if (!MiscUtils.isPureAscii(contentsAsString) || hexViewerOnly)
         {
             //TODO:
-            //  + Webp?
             //  + Add file header checks
             //  + Check for CAFEBABE
             //  + ClassRead then quick-decompile using Pane1 Decompiler
@@ -97,7 +96,7 @@ public class FileViewer extends ResourceViewer
             {
                 canRefresh = true;
 
-                image = MiscUtils.loadImage(image, contents); //gifs fail because of this
+                image = MiscUtils.loadImage(image, contents);
                 if (image == null) {
                     JHexEditor hex = new JHexEditor(contents);
                     mainPanel.add(hex);
