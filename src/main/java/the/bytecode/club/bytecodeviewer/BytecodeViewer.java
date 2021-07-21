@@ -75,8 +75,6 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
  *      + Versioning and updating need to be fixed
  *      + Fix classfile searcher
- *      + JHexEditor in dark mode is nearly unreadable -> Theme support
- *      + JHexEditor doesn't apply font size from settings
  *
  * TODO API BUGS:
  *      + All of the plugins that modify code need to include BytecodeViewer.updateAllClassNodeByteArrays();
@@ -91,11 +89,11 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *      + Fix hook inject for EZ-Injection
  *
  * TODO FEATURES:
- *      + On refresh save position
+ *      + System Consoles and Error Dialogs should create a new tab rather than a new window
+ *      + On refresh save scroll position
  *      + Option to only compile currently viewed class (true by default)
  *      + CLI Headless needs to be supported
  *      + Add stackmapframes to bytecode decompiler
- *      + Add JEB decompiler optionally, requires them to add jeb library jar
  *      + Add https://github.com/exbin/bined as the replacement Hed Viewer/Editor
  *      + Make the decompilers launch in a separate process
  *      + Make it use that global last used file folder inside of export as jar
@@ -108,6 +106,7 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *
  *  TODO IDEAS:
  *      + App Bundle Support
+ *      + Add JEB decompiler optionally, requires them to add jeb library jar
  *      + Add the setting to force all non-class resources to be opened with the Hex Viewer
  *          ^ Optionally a right-click menu open-as would work inside of the resource list
  *      + Allow class files to be opened without needing the .class extension
@@ -177,6 +176,7 @@ public class BytecodeViewer
         {
             //precache settings file
             SettingsSerializer.preloadSettingsFile();
+            
             //setup look and feel
             Configuration.lafTheme.setLAF();
             
@@ -244,6 +244,7 @@ public class BytecodeViewer
         {
             for (Process proc : createdProcesses)
                 proc.destroy();
+            
             SettingsSerializer.saveSettings();
             cleanup();
         }, "Shutdown Hook"));
@@ -291,12 +292,9 @@ public class BytecodeViewer
         resourceContainers.add(container);
         SwingUtilities.invokeLater(() ->
         {
-            try
-            {
+            try {
                 viewer.resourcePane.addResourceContainer(container);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -359,6 +357,7 @@ public class BytecodeViewer
         for (ResourceContainer container : resourceContainers)
         {
             ClassNode node = container.getClassNode(name);
+            
             if (node != null)
                 return node;
         }
@@ -414,10 +413,10 @@ public class BytecodeViewer
     
     /**
      * Gets all of the loaded classes as an array list
-     * <p>
+     *
      * TODO: remove this and replace it with:
      * BytecodeViewer.getResourceContainers().forEach(container -> {
-     * execute(new ArrayList<>(container.resourceClasses.values()));
+     *      execute(new ArrayList<>(container.resourceClasses.values()));
      * });
      *
      * @return the loaded classes as an array list
@@ -562,7 +561,7 @@ public class BytecodeViewer
      */
     public static void showMessage(String message)
     {
-        BetterJOptionPane.showMessageDialog(viewer, message);
+        ExtendedJOptionPane.showMessageDialog(viewer, message);
     }
     
     /**
@@ -572,7 +571,7 @@ public class BytecodeViewer
      */
     public static String showInput(String message)
     {
-        return BetterJOptionPane.showInputDialog(viewer, message);
+        return ExtendedJOptionPane.showInputDialog(viewer, message);
     }
     
     /**
@@ -681,9 +680,8 @@ public class BytecodeViewer
     {
         if (ask)
         {
-            MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - Reset Workspace",
-                    "Are you sure you want to reset the workspace?" +
-                            "\n\rIt will also reset your file navigator and search.",
+            MultipleChoiceDialog dialog = new MultipleChoiceDialog(TranslatedStrings.RESET_TITLE.toString(),
+                    TranslatedStrings.RESET_CONFIRM.toString(),
                     new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
         
             if (dialog.promptChoice() != 0)

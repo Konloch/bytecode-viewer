@@ -77,7 +77,7 @@ public class SettingsDialog extends JScrollPane
 	
 	public void showDialog()
 	{
-		BetterJOptionPane.showJPanelDialog(null, this, 460, dialogs::add);
+		ExtendedJOptionPane.showJPanelDialog(null, this, 460, dialogs::add);
 	}
 	
 	private void buildPanel()

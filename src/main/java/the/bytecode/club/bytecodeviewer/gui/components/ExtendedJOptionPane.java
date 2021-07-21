@@ -16,7 +16,7 @@ import static javax.swing.JOptionPane.*;
  * @since 7/4/2021
  */
 
-public class BetterJOptionPane
+public class ExtendedJOptionPane
 {
 	public static void showMessageDialog(Component parentComponent,
 	                                     Object message) throws HeadlessException
