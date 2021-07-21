@@ -175,13 +175,13 @@ public class BetterJOptionPane
 			}
 		}
 
+		onCreate.onCreate(dialog);
+		
 		//check if the dialogue is in a poor location, attempt to correct
 		if (dialog.getLocation().getY() == 0 || dialog.getLocation().getY() == 1)
 			dialog.setLocationRelativeTo(null); //TODO check if BytecodeViewer.viewer is better on multi monitor for this edgecase
 		else
 			dialog.setLocationRelativeTo(BytecodeViewer.viewer);
-
-		onCreate.onCreate(dialog);
 		
 		dialog.show();
 		dialog.dispose();
