@@ -73,7 +73,8 @@ public class VersionChecker implements Runnable
 					if (Desktop.isDesktopSupported())
 						Desktop.getDesktop().browse(new URI("https://github.com/Konloch/bytecode-viewer/releases"));
 					else
-						BytecodeViewer.showMessage("Cannot open the page, please manually type it." + nl + "https://github.com/Konloch/bytecode-viewer/releases");
+						BytecodeViewer.showMessage("Cannot open the page, please manually type it."
+								+ nl + "https://github.com/Konloch/bytecode-viewer/releases");
 				}
 				else if (result == 1)
 				{
