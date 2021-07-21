@@ -8,13 +8,13 @@ import javax.swing.*;
  * @author Konloch
  * @since 6/26/2021
  */
-public class MultipleChoiceDialogue
+public class MultipleChoiceDialog
 {
 	private final String title;
 	private final String description;
 	private final String[] options;
 	
-	public MultipleChoiceDialogue(String title, String description, String[] options)
+	public MultipleChoiceDialog(String title, String description, String[] options)
 	{
 		this.title = title;
 		this.description = description;

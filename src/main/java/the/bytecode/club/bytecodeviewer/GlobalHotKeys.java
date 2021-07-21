@@ -2,7 +2,7 @@ package the.bytecode.club.bytecodeviewer;
 
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
-import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
+import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 import javax.swing.*;
@@ -31,7 +31,7 @@ public class GlobalHotKeys
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			
-			final File file = DialogueUtils.fileChooser("Select File or Folder to open in BCV",
+			final File file = DialogUtils.fileChooser("Select File or Folder to open in BCV",
 					"APKs, DEX, Class Files or Zip/Jar/War Archives",
 					Constants.SUPPORTED_FILE_EXTENSIONS);
 			
@@ -101,7 +101,7 @@ public class GlobalHotKeys
 					if (!file.getAbsolutePath().endsWith(".zip"))
 						file = new File(file.getAbsolutePath() + ".zip");
 					
-					if (!DialogueUtils.canOverwriteFile(file))
+					if (!DialogUtils.canOverwriteFile(file))
 						return;
 					
 					final File file2 = file;

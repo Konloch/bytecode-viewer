@@ -8,7 +8,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
+import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -51,7 +51,7 @@ public class ResourceDecompiling
 				if (!file.getAbsolutePath().endsWith(".zip"))
 					file = new File(file.getAbsolutePath() + ".zip");
 				
-				if (!DialogueUtils.canOverwriteFile(file))
+				if (!DialogUtils.canOverwriteFile(file))
 					return;
 				
 				final File javaSucks = file;
@@ -210,7 +210,7 @@ public class ResourceDecompiling
 				BytecodeViewer.updateBusyStatus(true);
 				final String path = MiscUtils.append(file, ".java");
 				
-				if (!DialogueUtils.canOverwriteFile(path))
+				if (!DialogUtils.canOverwriteFile(path))
 					return;
 				
 				JOptionPane pane = new JOptionPane(

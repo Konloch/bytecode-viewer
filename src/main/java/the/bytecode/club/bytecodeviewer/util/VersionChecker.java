@@ -1,11 +1,10 @@
 package the.bytecode.club.bytecodeviewer.util;
 
-import java.util.Objects;
 import me.konloch.kontainer.io.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
-import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
+import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
@@ -61,12 +60,12 @@ public class VersionChecker implements Runnable
 			
 			if (VERSION != null && !VERSION.equals(version))
 			{
-				MultipleChoiceDialogue outdatedDialogue = new MultipleChoiceDialogue("Bytecode Viewer - Outdated Version",
+				MultipleChoiceDialog outdatedDialog = new MultipleChoiceDialog("Bytecode Viewer - Outdated Version",
 						"Your version: " + VERSION + ", latest version: "
 						+ version + nl + "What would you like to do?",
 						new String[]{"Open The Download Page", "Download The Updated Jar", "Do Nothing"});
 				
-				int result = outdatedDialogue.promptChoice();
+				int result = outdatedDialog.promptChoice();
 				
 				if (result == 0)
 				{
@@ -100,11 +99,11 @@ public class VersionChecker implements Runnable
 						
 						if (file.exists())
 						{
-							MultipleChoiceDialogue overwriteDialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
+							MultipleChoiceDialog overwriteDialog = new MultipleChoiceDialog("Bytecode Viewer - Overwrite File",
 									"The file " + file + " exists, would you like to overwrite it?",
 									new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
 							
-							if (overwriteDialogue.promptChoice() != 0)
+							if (overwriteDialog.promptChoice() != 0)
 								return;
 							
 							file.delete();

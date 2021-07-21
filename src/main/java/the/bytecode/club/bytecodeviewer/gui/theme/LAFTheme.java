@@ -4,7 +4,7 @@ import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.theme.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.gui.components.SettingsDialogue;
+import the.bytecode.club.bytecodeviewer.gui.components.SettingsDialog;
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 
@@ -118,13 +118,14 @@ public enum LAFTheme
 		if(BytecodeViewer.viewer != null)
 		{
 			BytecodeViewer.viewer.uiComponents.forEach(VisibleComponent::setDefaultIcon);
-			//update all of the setting dialogue components
-			SettingsDialogue.components.forEach(SwingUtilities::updateComponentTreeUI);
 			
-			//TODO instead of hiding this should update/rebuild the dialogue
+			//update all of the setting dialog components
+			SettingsDialog.components.forEach(SwingUtilities::updateComponentTreeUI);
 			
-			//hide any existing jDialogues
-			SettingsDialogue.dialogues.forEach(Dialog::dispose);
+			//TODO instead of hiding the currently opened dialogs it should update/rebuild the dialogs
+			
+			//hide any existing jDialogs
+			SettingsDialog.dialogs.forEach(Dialog::dispose);
 		}
 	}
 	

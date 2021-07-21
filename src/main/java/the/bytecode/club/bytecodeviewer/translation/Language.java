@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.translation;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.collections4.map.LinkedMap;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import java.io.IOException;
@@ -114,7 +115,7 @@ public enum Language
 			//skip translating if the language config is missing the translation key
 			if(!translationMap.containsKey(text.key))
 			{
-				System.err.println("MISSING TRANSLATION KEY: " + text.key);
+				BCV.logE(true, "MISSING TRANSLATION KEY: " + text.key);
 				continue;
 			}
 			
@@ -132,7 +133,7 @@ public enum Language
 			if(translatedComponents.getTranslatedComponentReference().runOnUpdate.isEmpty())
 					//&& TranslatedStrings.nameSet.contains(translation.name()))
 			{
-				System.err.println("Translation Reference " + translatedComponents.name() + " is missing component attachment, skipping...");
+				BCV.logE(true, "Translation Reference " + translatedComponents.name() + " is missing component attachment, skipping...");
 				continue;
 			}
 			
@@ -175,7 +176,7 @@ public enum Language
 		
 		for(String key : translationMap.keySet())
 			if(!existingKeys.contains(key))
-				System.err.println(key + ",");
+				BCV.logE(true, key + ",");
 	}
 	
 	public String getResourcePath()

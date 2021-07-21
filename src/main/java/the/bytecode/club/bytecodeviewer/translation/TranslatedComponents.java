@@ -22,7 +22,7 @@ package the.bytecode.club.bytecodeviewer.translation;
  * Translation keys for components (updates the component text on language change).
  *
  * You only need to add a translation key if it is going to be used by a component.
- * If your translation is not tied to a component (Console, Dialogue) use TranslatedStrings
+ * If your translation is not tied to a component (Console, Dialogs) use TranslatedStrings
  *
  * @author Konloch
  * @since 6/28/2021

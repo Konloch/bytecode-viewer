@@ -5,7 +5,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Exporter;
 import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
-import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
+import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -51,7 +51,7 @@ public class DexExport implements Exporter
 					output = output + ".dex";
 				
 				File outputPath = new File(output);
-				if (!DialogueUtils.canOverwriteFile(outputPath))
+				if (!DialogUtils.canOverwriteFile(outputPath))
 					return;
 				
 				Thread saveAsJar = new Thread(() ->

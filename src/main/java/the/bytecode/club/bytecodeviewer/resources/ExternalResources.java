@@ -5,7 +5,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
+import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.JRTExtractor;
 
 import java.io.BufferedReader;
@@ -222,7 +222,7 @@ public class ExternalResources
 	
 	public void selectPython2()
 	{
-		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_PYTHON_2.toString(),
+		final File file = DialogUtils.fileChooser(TranslatedStrings.SELECT_PYTHON_2.toString(),
 				TranslatedStrings.PYTHON_2_EXECUTABLE.toString(),
 				FileChooser.EVERYTHING);
 		
@@ -236,7 +236,7 @@ public class ExternalResources
 	
 	public void selectPython3()
 	{
-		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_PYTHON_3.toString(),
+		final File file = DialogUtils.fileChooser(TranslatedStrings.SELECT_PYTHON_3.toString(),
 				TranslatedStrings.PYTHON_3_EXECUTABLE.toString(),
 				FileChooser.EVERYTHING);
 		
@@ -250,7 +250,7 @@ public class ExternalResources
 	
 	public void selectJava()
 	{
-		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_JAVA.toString(),
+		final File file = DialogUtils.fileChooser(TranslatedStrings.SELECT_JAVA.toString(),
 				TranslatedStrings.JAVA_EXECUTABLE.toString(),
 				FileChooser.EVERYTHING);
 		
@@ -263,7 +263,7 @@ public class ExternalResources
 	
 	public void selectJavac()
 	{
-		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_JAVAC.toString(),
+		final File file = DialogUtils.fileChooser(TranslatedStrings.SELECT_JAVAC.toString(),
 				TranslatedStrings.JAVAC_EXECUTABLE.toString(),
 				FileChooser.EVERYTHING);
 		
@@ -276,7 +276,7 @@ public class ExternalResources
 	
 	public void selectJRERTLibrary()
 	{
-		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_JAVA_RT.toString(),
+		final File file = DialogUtils.fileChooser(TranslatedStrings.SELECT_JAVA_RT.toString(),
 				TranslatedStrings.JAVA_RT_JAR.toString(),
 				FileChooser.EVERYTHING);
 		
@@ -289,7 +289,7 @@ public class ExternalResources
 	
 	public void selectJavaTools()
 	{
-		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_JAVA_TOOLS.toString(),
+		final File file = DialogUtils.fileChooser(TranslatedStrings.SELECT_JAVA_TOOLS.toString(),
 				TranslatedStrings.JAVA_TOOLS_JAR.toString(),
 				FileChooser.EVERYTHING);
 		
@@ -302,7 +302,7 @@ public class ExternalResources
 	
 	public void selectOptionalLibraryFolder()
 	{
-		final File file = DialogueUtils.fileChooser(TranslatedStrings.SELECT_LIBRARY_FOLDER.toString(),
+		final File file = DialogUtils.fileChooser(TranslatedStrings.SELECT_LIBRARY_FOLDER.toString(),
 				TranslatedStrings.OPTIONAL_LIBRARY_FOLDER.toString(),
 				FileChooser.EVERYTHING);
 		

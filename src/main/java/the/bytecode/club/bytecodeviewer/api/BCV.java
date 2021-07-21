@@ -14,7 +14,7 @@ import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
-import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
+import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -229,7 +229,7 @@ public class BCV
      * Asks if the user would like to overwrite the file
      */
     public static boolean canOverwriteFile(File file) {
-        return DialogueUtils.canOverwriteFile(file);
+        return DialogUtils.canOverwriteFile(file);
     }
     
     public static void hideFrame(JFrame frame, long milliseconds)
@@ -245,6 +245,40 @@ public class BCV
     
             frame.setVisible(false);
         }, "Timed Swing Hide").start();
+    }
+    
+    /**
+     * Log to System.out
+     */
+    public static void log(String s)
+    {
+        log(false, s);
+    }
+    
+    /**
+     * Log to System.out
+     */
+    public static void log(boolean devModeOnly, String s)
+    {
+        if(!devModeOnly || DEV_MODE)
+            System.out.println(s);
+    }
+    
+    /**
+     * Log to System.err
+     */
+    public static void logE(String s)
+    {
+        logE(false, s);
+    }
+    
+    /**
+     * Log to System.err
+     */
+    public static void logE(boolean devModeOnly, String s)
+    {
+        if(!devModeOnly || DEV_MODE)
+            System.err.println(s);
     }
 
     /**

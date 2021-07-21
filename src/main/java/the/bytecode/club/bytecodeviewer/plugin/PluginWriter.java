@@ -11,7 +11,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenu;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenuItem;
-import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
+import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
@@ -101,7 +101,7 @@ public class PluginWriter extends JFrame
 	
 	public void openPlugin()
 	{
-		final File file = DialogueUtils.fileChooser("Select External Plugin",
+		final File file = DialogUtils.fileChooser("Select External Plugin",
 				"External Plugin",
 				Configuration.getLastPluginDirectory(),
 				PluginManager.fileFilter(),
@@ -177,7 +177,7 @@ public class PluginWriter extends JFrame
 					if (!path.endsWith("." + ext))
 						path = path + "." + ext;
 					
-					if (!DialogueUtils.canOverwriteFile(path))
+					if (!DialogUtils.canOverwriteFile(path))
 						return;
 					
 					//swap from save-as to having a defined path each save

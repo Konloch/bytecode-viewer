@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.translation;
 
+import the.bytecode.club.bytecodeviewer.api.BCV;
+
 import java.io.IOException;
 import java.util.HashSet;
 
@@ -24,7 +26,7 @@ import java.util.HashSet;
 /**
  * Translation keys for constant strings (does not change the component text on language change).
  *
- * You need to add your translation key here if it is not tied to any specific component (Console, Dialogue)
+ * You need to add your translation key here if it is not tied to any specific component (Console, Dialogs)
  *
  * @author Konloch
  * @since 7/6/2021
@@ -32,10 +34,12 @@ import java.util.HashSet;
 
 public enum TranslatedStrings
 {
-	BCV("BytecodeViewer"),
-	BYTECODEVIEWER("BytecodeViewer"),
-	BYTECODE_VIEWER("Bytecode Viewer"),
-	BYTECODE_H_VIEWER("Bytecode-Viewer"),
+	PRODUCT("BCV"),
+	PRODUCTNAME("BytecodeViewer"),
+	PRODUCT_NAME("Bytecode Viewer"),
+	PRODUCT_H_NAME("Bytecode-Viewer"),
+	WEBSITE("https://bytecodeviewer.com"),
+	TBC("https://the.bytecode.club"),
 	
 	EDITABLE,
 	JAVA,
@@ -124,14 +128,18 @@ public enum TranslatedStrings
 	{
 		if(text == null)
 		{
-			System.err.println("TranslatedStrings:"+name() + " - Missing Translation");
+			BCV.logE(true, "TranslatedStrings:"+name() + " - Missing Translation");
 			text = TEXT_ERROR;
 		}
 		
-		text = text.replace("%PRODUCTNAME%", BYTECODEVIEWER.toString())
-				.replace("%PRODUCT_NAME%", BYTECODE_VIEWER.toString())
-				.replace("%PRODUCT-NAME%", BYTECODE_H_VIEWER.toString())
-				.replace("%BCV%", BCV.toString());
+		//TODO this should be tokenized against the TranslatedStrings enum
+		text = text.replace("{PRODUCTNAME}", PRODUCTNAME.toString())
+				.replace("{PRODUCT_NAME}", PRODUCT_NAME.toString())
+				.replace("{PRODUCT-NAME}", PRODUCT_H_NAME.toString())
+				.replace("{PRODUCT}", PRODUCT.toString())
+				.replace("{TBV}", TBC.toString())
+				.replace("{WEBSITE}", WEBSITE.toString())
+		;
 		
 		this.text = text;
 	}

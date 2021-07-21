@@ -127,7 +127,7 @@ public class XposedGenerator extends Plugin
         if (template != null && !template.equals("Empty"))
         {
             try {
-                //TODO: Prompt save dialogue
+                //TODO: Prompt save dialog
                 File file = new File("./XposedClassTest.java");
 
                 // if file doesn't exists, then create it

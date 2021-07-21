@@ -4,7 +4,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Exporter;
-import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
+import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 import javax.swing.*;
@@ -43,7 +43,7 @@ public class ZipExport implements Exporter
 				if (!file.getAbsolutePath().endsWith(".zip"))
 					file = new File(file.getAbsolutePath() + ".zip");
 				
-				if (!DialogueUtils.canOverwriteFile(file))
+				if (!DialogUtils.canOverwriteFile(file))
 					return;
 				
 				final File file2 = file;

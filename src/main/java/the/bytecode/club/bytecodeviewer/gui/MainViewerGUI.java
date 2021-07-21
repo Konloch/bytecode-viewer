@@ -40,7 +40,7 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenu;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenuItem;
 
-import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialogue;
+import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialog;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /***************************************************************************
@@ -127,13 +127,13 @@ public class MainViewerGUI extends JFrame
     //all of the settings main menu components
     public final JMenu rstaTheme = new TranslatedJMenu("Text Area Theme", TranslatedComponents.TEXT_AREA_THEME);
     public final JMenuItem rstaThemeSettings = new TranslatedJMenuItem("Text Area Theme", TranslatedComponents.TEXT_AREA_THEME);
-    public SettingsDialogue rstaThemeSettingsDialogue;
+    public SettingsDialog rstaThemeSettingsDialog;
     public final JMenu lafTheme = new TranslatedJMenu("Window Theme", TranslatedComponents.WINDOW_THEME);
     public final JMenuItem lafThemeSettings = new TranslatedJMenuItem("Window Theme", TranslatedComponents.WINDOW_THEME);
-    public SettingsDialogue lafThemeSettingsDialogue;
+    public SettingsDialog lafThemeSettingsDialog;
     public final JMenu language = new TranslatedJMenu("Language", TranslatedComponents.LANGUAGE);
     public final JMenuItem languageSettings = new TranslatedJMenuItem("Language", TranslatedComponents.LANGUAGE);
-    public SettingsDialogue languageSettingsDialogue;
+    public SettingsDialog languageSettingsDialog;
     public final JMenu fontSize = new TranslatedJMenu("Font Size", TranslatedComponents.FONT_SIZE);
     public final JSpinner fontSpinner = new JSpinner();
     public final Map<RSTATheme, JRadioButtonMenuItem> rstaThemes = new HashMap<>();
@@ -163,7 +163,7 @@ public class MainViewerGUI extends JFrame
     //apk conversion settings
     public final JMenu apkConversionSecondaryMenu = new TranslatedJMenu("APK Conversion/Decoding", TranslatedComponents.APK_CONVERSION_DECODING);
     public final JMenuItem apkConversionSettings = new TranslatedJMenuItem("APK Conversion/Decoding", TranslatedComponents.APK_CONVERSION_DECODING);
-    public SettingsDialogue apkConversionSettingsDialogue;
+    public SettingsDialog apkConversionSettingsDialog;
     public final ButtonGroup apkConversionGroup = new ButtonGroup();
     public final JRadioButtonMenuItem apkConversionDex = new JRadioButtonMenuItem("Dex2Jar");
     public final JRadioButtonMenuItem apkConversionEnjarify = new JRadioButtonMenuItem("Enjarify");
@@ -171,14 +171,14 @@ public class MainViewerGUI extends JFrame
     //CFIDE settings
     public final JMenu bytecodeDecompilerSettingsSecondaryMenu = new TranslatedJMenu("Bytecode Decompiler", TranslatedComponents.BYTECODE_DECOMPILER);
     public final JMenuItem bytecodeDecompilerSettings = new TranslatedJMenuItem("Bytecode Decompiler", TranslatedComponents.BYTECODE_DECOMPILER);
-    public SettingsDialogue bytecodeDecompilerSettingsDialogue;
+    public SettingsDialog bytecodeDecompilerSettingsDialog;
     public final JCheckBoxMenuItem appendBracketsToLabels = new TranslatedJCheckBoxMenuItem("Append Brackets To Labels", TranslatedComponents.APPEND_BRACKETS_TO_LABEL);
     public JCheckBoxMenuItem debugHelpers = new TranslatedJCheckBoxMenuItem("Debug Helpers", TranslatedComponents.DEBUG_HELPERS);
     
     //FernFlower settings
     public final JMenu fernFlowerSettingsSecondaryMenu = new TranslatedJMenu("FernFlower Settings", TranslatedComponents.FERNFLOWER_SETTINGS);
     public final JMenuItem fernFlowerSettings = new TranslatedJMenuItem("FernFlower Settings", TranslatedComponents.FERNFLOWER_SETTINGS);
-    public SettingsDialogue fernFlowerSettingsDialogue;
+    public SettingsDialog fernFlowerSettingsDialog;
     public TranslatedJCheckBoxMenuItem rbr = new TranslatedJCheckBoxMenuItem("Hide bridge methods", TranslatedComponents.HIDE_BRIDGE_METHODS);
     public TranslatedJCheckBoxMenuItem rsy = new TranslatedJCheckBoxMenuItem("Hide synthetic class members", TranslatedComponents.HIDE_SYNTHETIC_CLASS_MEMBERS);
     public TranslatedJCheckBoxMenuItem din = new TranslatedJCheckBoxMenuItem("Decompile inner classes", TranslatedComponents.DECOMPILE_INNER_CLASSES);
@@ -202,7 +202,7 @@ public class MainViewerGUI extends JFrame
     //Procyon
     public final JMenu procyonSettingsSecondaryMenu = new TranslatedJMenu("Procyon Settings", TranslatedComponents.PROCYON_SETTINGS);
     public final JMenuItem procyonSettings = new TranslatedJMenuItem("Procyon Settings", TranslatedComponents.PROCYON_SETTINGS);
-    public SettingsDialogue procyonSettingsDialogue;
+    public SettingsDialog procyonSettingsDialog;
     public final JCheckBoxMenuItem alwaysGenerateExceptionVars = new TranslatedJCheckBoxMenuItem("Always Generate Exception Variable For Catch Blocks", TranslatedComponents.ALWAYS_GENERATE_EXCEPTION_VARIABLE_FOR_CATCH_BLOCKS);
     public final JCheckBoxMenuItem excludeNestedTypes = new TranslatedJCheckBoxMenuItem("Exclude Nested Types", TranslatedComponents.EXCLUDE_NESTED_TYPES);
     public final JCheckBoxMenuItem showDebugLineNumbers = new TranslatedJCheckBoxMenuItem("Show Debug Line Numbers", TranslatedComponents.SHOW_DEBUG_LINE_NUMBERS);
@@ -221,7 +221,7 @@ public class MainViewerGUI extends JFrame
     //CFR
     public final JMenu cfrSettingsSecondaryMenu = new TranslatedJMenu("CFR Settings", TranslatedComponents.CFR_SETTINGS);
     public final JMenuItem cfrSettings = new TranslatedJMenuItem("CFR Settings", TranslatedComponents.CFR_SETTINGS);
-    public SettingsDialogue cfrSettingsDialogue;
+    public SettingsDialog cfrSettingsDialog;
     public final JCheckBoxMenuItem decodeEnumSwitch = new TranslatedJCheckBoxMenuItem("Decode Enum Switch", TranslatedComponents.DECODE_ENUM_SWITCH);
     public final JCheckBoxMenuItem sugarEnums = new TranslatedJCheckBoxMenuItem("SugarEnums", TranslatedComponents.SUGARENUMS);
     public final JCheckBoxMenuItem decodeStringSwitch = new TranslatedJCheckBoxMenuItem("Decode String Switch", TranslatedComponents.DECODE_STRING_SWITCH);
@@ -402,10 +402,10 @@ public class MainViewerGUI extends JFrame
         settingsMainMenu.add(setJavac);
         settingsMainMenu.add(new JSeparator());
         
-        //TODO the dialogue below works but for 3 options,
+        //TODO the dialog below works but for 3 options,
         // it might be better to leave it as a secondary menu
         settingsMainMenu.add(apkConversionSecondaryMenu);
-        //settingsMainMenu.add(useNewSettingsDialogue ? apkConversionSettings : apkConversionMenu);
+        //settingsMainMenu.add(useNewSettingsDialog ? apkConversionSettings : apkConversionMenu);
         
         settingsMainMenu.add(new JSeparator());
         
@@ -420,8 +420,8 @@ public class MainViewerGUI extends JFrame
         apkConversionGroup.add(apkConversionDex);
         apkConversionGroup.add(apkConversionEnjarify);
         apkConversionGroup.setSelected(apkConversionDex.getModel(), true);
-        //apkConversionSettingsDialogue = new SettingsDialogue(apkConversionSecondaryMenu, new JPanel());
-        apkConversionSettings.addActionListener((e)-> apkConversionSettingsDialogue.showDialogue());
+        //apkConversionSettingsDialog = new SettingsDialogue(apkConversionSecondaryMenu, new JPanel());
+        apkConversionSettings.addActionListener((e)-> apkConversionSettingsDialog.showDialog());
         
         ButtonGroup rstaGroup = new ButtonGroup();
         for (RSTATheme t : RSTATheme.values())
@@ -444,8 +444,8 @@ public class MainViewerGUI extends JFrame
             rstaTheme.add(item);
         }
         
-        rstaThemeSettingsDialogue = new SettingsDialogue(rstaTheme, new JPanel());
-        rstaThemeSettings.addActionListener((e)-> rstaThemeSettingsDialogue.showDialogue());
+        rstaThemeSettingsDialog = new SettingsDialog(rstaTheme, new JPanel());
+        rstaThemeSettings.addActionListener((e)-> rstaThemeSettingsDialog.showDialog());
     
         ButtonGroup lafGroup = new ButtonGroup();
         for (LAFTheme theme : LAFTheme.values())
@@ -479,8 +479,8 @@ public class MainViewerGUI extends JFrame
             lafTheme.add(item);
         }
         
-        lafThemeSettingsDialogue = new SettingsDialogue(lafTheme, new JPanel());
-        lafThemeSettings.addActionListener((e)-> lafThemeSettingsDialogue.showDialogue());
+        lafThemeSettingsDialog = new SettingsDialog(lafTheme, new JPanel());
+        lafThemeSettings.addActionListener((e)-> lafThemeSettingsDialog.showDialog());
     
         ButtonGroup languageGroup = new ButtonGroup();
         for (Language l : Language.values())
@@ -501,12 +501,12 @@ public class MainViewerGUI extends JFrame
             language.add(item);
         }
         
-        languageSettingsDialogue = new SettingsDialogue(language, new JPanel());
-        languageSettings.addActionListener((e)-> languageSettingsDialogue.showDialogue());
+        languageSettingsDialog = new SettingsDialog(language, new JPanel());
+        languageSettings.addActionListener((e)-> languageSettingsDialog.showDialog());
         
-        visualSettings.add(useNewSettingsDialogue ? lafThemeSettings : lafTheme);
-        visualSettings.add(useNewSettingsDialogue ? rstaThemeSettings : rstaTheme);
-        visualSettings.add(useNewSettingsDialogue ? languageSettings : language);
+        visualSettings.add(useNewSettingsDialog ? lafThemeSettings : lafTheme);
+        visualSettings.add(useNewSettingsDialog ? rstaThemeSettings : rstaTheme);
+        visualSettings.add(useNewSettingsDialog ? languageSettings : language);
         visualSettings.add(fontSize);
         visualSettings.add(showFileInTabTitle);
         visualSettings.add(simplifyNameInTabTitle);
@@ -514,7 +514,7 @@ public class MainViewerGUI extends JFrame
         visualSettings.add(showClassMethods);
         
         //PROCYON SETTINGS
-        settingsMainMenu.add(useNewSettingsDialogue ? procyonSettings : procyonSettingsSecondaryMenu);
+        settingsMainMenu.add(useNewSettingsDialog ? procyonSettings : procyonSettingsSecondaryMenu);
         procyonSettingsSecondaryMenu.add(alwaysGenerateExceptionVars);
         procyonSettingsSecondaryMenu.add(excludeNestedTypes);
         procyonSettingsSecondaryMenu.add(showDebugLineNumbers);
@@ -529,11 +529,11 @@ public class MainViewerGUI extends JFrame
         procyonSettingsSecondaryMenu.add(retainPointlessSwitches);
         procyonSettingsSecondaryMenu.add(retainRedunantCasts);
         procyonSettingsSecondaryMenu.add(unicodeOutputEnabled);
-        procyonSettingsDialogue = new SettingsDialogue(procyonSettingsSecondaryMenu, new JPanel());
-        procyonSettings.addActionListener((e)-> procyonSettingsDialogue.showDialogue());
+        procyonSettingsDialog = new SettingsDialog(procyonSettingsSecondaryMenu, new JPanel());
+        procyonSettings.addActionListener((e)-> procyonSettingsDialog.showDialog());
         
         //CFR SETTINGS
-        settingsMainMenu.add(useNewSettingsDialogue ? cfrSettings : cfrSettingsSecondaryMenu);
+        settingsMainMenu.add(useNewSettingsDialog ? cfrSettings : cfrSettingsSecondaryMenu);
         cfrSettingsSecondaryMenu.add(decodeEnumSwitch);
         cfrSettingsSecondaryMenu.add(sugarEnums);
         cfrSettingsSecondaryMenu.add(decodeStringSwitch);
@@ -578,11 +578,11 @@ public class MainViewerGUI extends JFrame
         cfrSettingsSecondaryMenu.add(recoveryTypehInts);
         cfrSettingsSecondaryMenu.add(forceTurningIFs);
         cfrSettingsSecondaryMenu.add(forLoopAGGCapture);
-        cfrSettingsDialogue = new SettingsDialogue(cfrSettingsSecondaryMenu, new JPanel());
-        cfrSettings.addActionListener((e)-> cfrSettingsDialogue.showDialogue());
+        cfrSettingsDialog = new SettingsDialog(cfrSettingsSecondaryMenu, new JPanel());
+        cfrSettings.addActionListener((e)-> cfrSettingsDialog.showDialog());
         
         //FERNFLOWER SETTINGS
-        settingsMainMenu.add(useNewSettingsDialogue ? fernFlowerSettings : fernFlowerSettingsSecondaryMenu);
+        settingsMainMenu.add(useNewSettingsDialog ? fernFlowerSettings : fernFlowerSettingsSecondaryMenu);
         fernFlowerSettingsSecondaryMenu.add(ren);
         fernFlowerSettingsSecondaryMenu.add(dc4);
         fernFlowerSettingsSecondaryMenu.add(nns);
@@ -602,15 +602,15 @@ public class MainViewerGUI extends JFrame
         fernFlowerSettingsSecondaryMenu.add(udv);
         fernFlowerSettingsSecondaryMenu.add(fdi);
         fernFlowerSettingsSecondaryMenu.add(asc);
-        fernFlowerSettingsDialogue = new SettingsDialogue(fernFlowerSettingsSecondaryMenu, new JPanel());
-        fernFlowerSettings.addActionListener((e)-> fernFlowerSettingsDialogue.showDialogue());
+        fernFlowerSettingsDialog = new SettingsDialog(fernFlowerSettingsSecondaryMenu, new JPanel());
+        fernFlowerSettings.addActionListener((e)-> fernFlowerSettingsDialog.showDialog());
         
         //CFIDE SETTINGS
-        settingsMainMenu.add(useNewSettingsDialogue ? bytecodeDecompilerSettings : bytecodeDecompilerSettingsSecondaryMenu);
+        settingsMainMenu.add(useNewSettingsDialog ? bytecodeDecompilerSettings : bytecodeDecompilerSettingsSecondaryMenu);
         bytecodeDecompilerSettingsSecondaryMenu.add(debugHelpers);
         bytecodeDecompilerSettingsSecondaryMenu.add(appendBracketsToLabels);
-        bytecodeDecompilerSettingsDialogue = new SettingsDialogue(bytecodeDecompilerSettingsSecondaryMenu, new JPanel());
-        bytecodeDecompilerSettings.addActionListener((e)-> bytecodeDecompilerSettingsDialogue.showDialogue());
+        bytecodeDecompilerSettingsDialog = new SettingsDialog(bytecodeDecompilerSettingsSecondaryMenu, new JPanel());
+        bytecodeDecompilerSettings.addActionListener((e)-> bytecodeDecompilerSettingsDialog.showDialog());
         
         deleteForeignOutdatedLibs.addActionListener(arg0 -> showForeignLibraryWarning());
         forcePureAsciiAsText.addActionListener(arg0 -> SettingsSerializer.saveSettingsAsync());
@@ -853,11 +853,11 @@ public class MainViewerGUI extends JFrame
     
     public void reloadResources()
     {
-        MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Reload Resources",
+        MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - Reload Resources",
                 "Are you sure you wish to reload the resources?",
                 new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
     
-        if (dialogue.promptChoice() == 0)
+        if (dialog.promptChoice() == 0)
         {
             LazyNameUtil.reset();
             ArrayList<File> reopen = new ArrayList<>();
@@ -885,7 +885,7 @@ public class MainViewerGUI extends JFrame
     
     public void selectFile()
     {
-        final File file = DialogueUtils.fileChooser("Select File or Folder to open in BCV",
+        final File file = DialogUtils.fileChooser("Select File or Folder to open in BCV",
                 "APKs, DEX, Class Files or Zip/Jar/War Archives",
                 Constants.SUPPORTED_FILE_EXTENSIONS);
     
@@ -899,7 +899,7 @@ public class MainViewerGUI extends JFrame
     
     public void openExternalPlugin()
     {
-        final File file = DialogueUtils.fileChooser("Select External Plugin",
+        final File file = DialogUtils.fileChooser("Select External Plugin",
                 "External Plugin",
                 Configuration.getLastPluginDirectory(),
                 PluginManager.fileFilter(),
@@ -917,11 +917,11 @@ public class MainViewerGUI extends JFrame
     
     public void askBeforeExiting()
     {
-        MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Exit",
+        MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - Exit",
                 "Are you sure you want to exit?",
                 new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
     
-        if (dialogue.promptChoice() == 0)
+        if (dialog.promptChoice() == 0)
         {
             Configuration.canExit = true;
             System.exit(0);

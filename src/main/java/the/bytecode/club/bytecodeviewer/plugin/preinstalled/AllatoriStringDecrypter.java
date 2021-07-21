@@ -10,7 +10,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.api.*;
-import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
+import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
 import javax.swing.*;
@@ -55,12 +55,12 @@ public class AllatoriStringDecrypter extends Plugin
 	{
 		PluginConsole frame = new PluginConsole(activeContainer.name + " - Allatori String Decrypter");
 		
-		MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - WARNING",
+		MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING",
 				"WARNING: This will load the classes into the JVM and execute the allatori decrypter function"
 						+ nl + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
 				new String[]{"Continue", "Cancel"});
 		
-		if (dialogue.promptChoice() == 0)
+		if (dialog.promptChoice() == 0)
 		{
 			try
 			{

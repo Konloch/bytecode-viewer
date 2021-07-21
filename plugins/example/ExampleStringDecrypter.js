@@ -3,10 +3,10 @@
  */
 
 var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsole");
-var MultipleChoiceDialogue = Java.type("the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue")
+var MultipleChoiceDialog = Java.type("the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog")
 var BytecodeViewer = Java.type("the.bytecode.club.bytecodeviewer.api.BCV")
 
-var dialogue = new MultipleChoiceDialogue("Bytecode Viewer - WARNING",
+var dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING",
                 "WARNING: This will load the classes into the JVM and execute the initialize function"
                         + "\nfor each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
                 ["Continue", "Cancel"]);
@@ -16,7 +16,7 @@ function execute(classNodeList)
 {
     gui = new PluginConsole("Skeleton");
 
-    if(dialogue.promptChoice() == 0)
+    if(dialog.promptChoice() == 0)
     {
         var needsWarning = false;
 

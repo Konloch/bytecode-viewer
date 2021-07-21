@@ -1,5 +1,5 @@
 import the.bytecode.club.bytecodeviewer.api.*
-import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
+import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
 
 import java.util.ArrayList;
 import java.lang.reflect.Field;
@@ -17,12 +17,12 @@ public class ExampleStringDecrypter extends Plugin {
     public void execute(ArrayList<ClassNode> classNodesList) {
         PluginConsole gui = new PluginConsole(activeContainer.name + "Example String Decrypter");
 
-        MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - WARNING",
+        MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING",
                 "WARNING: This will load the classes into the JVM and execute the initialize function"
                         + nl + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
                 new String[]{"Continue", "Cancel"});
 
-        if(dialogue.promptChoice() == 0)
+        if(dialog.promptChoice() == 0)
         {
             for(ClassNode cn : classNodesList)
             {

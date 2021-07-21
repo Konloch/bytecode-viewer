@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialogue;
+import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialog;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -30,22 +30,22 @@ import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialo
  * @since 7/19/2021
  */
 
-public class SettingsDialogue extends JScrollPane
+public class SettingsDialog extends JScrollPane
 {
 	public static final List<JComponent> components = new ArrayList<>();
-	public static final List<JDialog> dialogues = new ArrayList<>();
+	public static final List<JDialog> dialogs = new ArrayList<>();
 	private final List<JMenuItem> options = new ArrayList<>();
 	private final JMenu menu;
 	private final JPanel display;
 	
-	public SettingsDialogue(JMenu menu, JPanel display)
+	public SettingsDialog(JMenu menu, JPanel display)
 	{
 		super(display);
 		
 		this.menu = menu;
 		this.display = display;
 		
-		if(!useNewSettingsDialogue)
+		if(!useNewSettingsDialog)
 			return;
 		
 		List<JMenuItem> options = new ArrayList<>();
@@ -75,9 +75,9 @@ public class SettingsDialogue extends JScrollPane
 		options.forEach(jMenuItem -> jMenuItem.setArmed(false));
 	}
 	
-	public void showDialogue()
+	public void showDialog()
 	{
-		BetterJOptionPane.showJPanelDialogue(null, this, 460, dialogues::add);
+		BetterJOptionPane.showJPanelDialog(null, this, 460, dialogs::add);
 	}
 	
 	private void buildPanel()

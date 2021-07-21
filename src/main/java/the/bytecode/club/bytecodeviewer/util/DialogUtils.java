@@ -3,7 +3,7 @@ package the.bytecode.club.bytecodeviewer.util;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
-import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialogue;
+import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
@@ -32,7 +32,7 @@ import java.io.File;
  * @author Konloch
  * @since 7/1/2021
  */
-public class DialogueUtils
+public class DialogUtils
 {
 	/**
 	 * Asks if the user would like to overwrite the file
@@ -48,11 +48,11 @@ public class DialogueUtils
 	public static boolean canOverwriteFile(File file) {
 		if (file.exists())
 		{
-			MultipleChoiceDialogue dialogue = new MultipleChoiceDialogue("Bytecode Viewer - Overwrite File",
+			MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - Overwrite File",
 					"Are you sure you wish to overwrite this existing file?",
 					new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
 			
-			if (dialogue.promptChoice() == 0) {
+			if (dialog.promptChoice() == 0) {
 				file.delete();
 				
 				return true;

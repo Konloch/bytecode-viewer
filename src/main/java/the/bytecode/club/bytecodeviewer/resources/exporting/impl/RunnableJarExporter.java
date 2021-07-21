@@ -5,7 +5,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.ExportJar;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Exporter;
-import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
+import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 
 import javax.swing.*;
 import java.io.File;
@@ -44,7 +44,7 @@ public class RunnableJarExporter implements Exporter
 				if (!path.endsWith(".jar"))
 					path = path + ".jar";
 				
-				if (!DialogueUtils.canOverwriteFile(path))
+				if (!DialogUtils.canOverwriteFile(path))
 					return;
 				
 				new ExportJar(path).setVisible(true);
