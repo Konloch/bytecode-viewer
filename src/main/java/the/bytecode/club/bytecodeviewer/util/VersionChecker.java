@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import de.skuzzle.semantic.Version;
 import me.konloch.kontainer.io.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -47,91 +48,118 @@ public class VersionChecker implements Runnable
 	{
 		try {
 			HTTPRequest r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION"));
-			final String version = r.readSingle();
-			final String localVersion = VERSION + 0;
+			final Version version = Version.parseVersion(r.readSingle());
+			final Version localVersion = Version.parseVersion(VERSION);
+			
 			try {
-				int simplemaths = Integer.parseInt(version.replace(".", ""));
-				int simplemaths2 = Integer.parseInt(localVersion.replace(".", ""));
-				if (simplemaths2 > simplemaths)
-					return; //developer version
-			} catch (Exception ignored) {
+				//developer version
+				if (!localVersion.isGreaterThan(version))
+					return;
+			} catch (Exception ignored) { }
 			
-			}
+			MultipleChoiceDialog outdatedDialog = new MultipleChoiceDialog("Bytecode Viewer - Outdated Version",
+					"Your version: " + VERSION + ", latest version: "
+					+ version + nl + "What would you like to do?",
+					new String[]{"Open The Download Page", "Download The Updated Jar", "Do Nothing (And Don't Ask Again)"});
 			
-			if (VERSION != null && !VERSION.equals(version))
+			int result = outdatedDialog.promptChoice();
+			
+			if (result == 0)
 			{
-				MultipleChoiceDialog outdatedDialog = new MultipleChoiceDialog("Bytecode Viewer - Outdated Version",
-						"Your version: " + VERSION + ", latest version: "
-						+ version + nl + "What would you like to do?",
-						new String[]{"Open The Download Page", "Download The Updated Jar", "Do Nothing"});
+				if (Desktop.isDesktopSupported())
+					Desktop.getDesktop().browse(new URI("https://github.com/Konloch/bytecode-viewer/releases"));
+				else
+					BytecodeViewer.showMessage("Cannot open the page, please manually type it."
+							+ nl + "https://github.com/Konloch/bytecode-viewer/releases");
+			}
+			else if (result == 1)
+			{
+				JFileChooser fc = new FileChooser(new File("./").getCanonicalFile(),
+						"Select Save File",
+						"Zip Archives",
+						"zip");
 				
-				int result = outdatedDialog.promptChoice();
-				
-				if (result == 0)
+				int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
+				if (returnVal == JFileChooser.APPROVE_OPTION)
 				{
-					if (Desktop.isDesktopSupported())
-						Desktop.getDesktop().browse(new URI("https://github.com/Konloch/bytecode-viewer/releases"));
-					else
-						BytecodeViewer.showMessage("Cannot open the page, please manually type it."
-								+ nl + "https://github.com/Konloch/bytecode-viewer/releases");
-				}
-				else if (result == 1)
-				{
-					JFileChooser fc = new FileChooser(Configuration.getLastOpenDirectory(),
-							"Select Save File",
-							"Zip Archives",
-							"zip");
+					Configuration.setLastOpenDirectory(fc.getSelectedFile());
 					
-					try {
-						fc.setCurrentDirectory(new File(".").getAbsoluteFile()); //set the current working directory
-					} catch (Exception e) {
-						BytecodeViewer.handleException(e);
+					File file = fc.getSelectedFile();
+					if (!file.getAbsolutePath().endsWith(".zip"))
+						file = new File(file.getAbsolutePath() + ".zip");
+					
+					if (file.exists())
+					{
+						MultipleChoiceDialog overwriteDialog = new MultipleChoiceDialog("Bytecode Viewer - Overwrite File",
+								"The file " + file + " exists, would you like to overwrite it?",
+								new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
+						
+						if (overwriteDialog.promptChoice() != 0)
+							return;
+						
+						file.delete();
 					}
 					
-					int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-					if (returnVal == JFileChooser.APPROVE_OPTION)
-					{
-						Configuration.setLastOpenDirectory(fc.getSelectedFile());
-						
-						File file = fc.getSelectedFile();
-						if (!file.getAbsolutePath().endsWith(".zip"))
-							file = new File(file.getAbsolutePath() + ".zip");
-						
-						if (file.exists())
-						{
-							MultipleChoiceDialog overwriteDialog = new MultipleChoiceDialog("Bytecode Viewer - Overwrite File",
-									"The file " + file + " exists, would you like to overwrite it?",
-									new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
-							
-							if (overwriteDialog.promptChoice() != 0)
-								return;
-							
-							file.delete();
-						}
-						
-						final File finalFile = file;
-						Thread downloadThread = new Thread(() -> {
+					final File finalFile = file;
+					Thread downloadThread = new Thread(() -> {
+						try {
+							InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/releases/download/v" + version + "/BytecodeViewer." + version + ".zip").openConnection().getInputStream();
+							FileOutputStream fos = new FileOutputStream(finalFile);
 							try {
-								InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/releases/download/v" + version + "/BytecodeViewer." + version + ".zip").openConnection().getInputStream();
+								System.out.println("Downloading from https://github.com/Konloch/bytecode-viewer/releases/download/v" + version + "/BytecodeViewer." + version + ".zip");
+								byte[] buffer = new byte[8192];
+								int len;
+								int downloaded = 0;
+								boolean flag = false;
+								BytecodeViewer.showMessage("Downloading the jar in the background, when it's finished "
+										+ "you will be alerted with another message box." + nl + nl +
+										"Expect this to take several minutes.");
+								
+								while ((len = is.read(buffer)) > 0)
+								{
+									fos.write(buffer, 0, len);
+									fos.flush();
+									downloaded += 8192;
+									int mbs = downloaded / 1048576;
+									if (mbs % 5 == 0 && mbs != 0)
+									{
+										if (!flag)
+											System.out.println("Downloaded " + mbs + "MBs so far");
+										flag = true;
+									} else
+										flag = false;
+								}
+							} finally {
+								try {
+									if (is != null) {
+										is.close();
+									}
+								} finally {
+									fos.flush();
+									fos.close();
+								}
+							}
+							System.out.println("Download finished!");
+							BytecodeViewer.showMessage("Download successful! You can find the updated program at " + finalFile.getAbsolutePath());
+						} catch (FileNotFoundException e) {
+							try {
+								InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/releases/download/v" + version + "/BytecodeViewer." + version + ".jar"
+								).openConnection().getInputStream();
 								FileOutputStream fos = new FileOutputStream(finalFile);
 								try {
-									System.out.println("Downloading from https://github.com/Konloch/bytecode-viewer/releases/download/v" + version + "/BytecodeViewer." + version + ".zip");
+									System.out.println("Downloading from https://github.com/Konloch/bytecode-viewer/releases/download/v" + version + "/BytecodeViewer." + version + ".jar");
 									byte[] buffer = new byte[8192];
 									int len;
 									int downloaded = 0;
 									boolean flag = false;
-									BytecodeViewer.showMessage("Downloading the jar in the background, when it's finished "
-											+ "you will be alerted with another message box." + nl + nl +
-											"Expect this to take several minutes.");
-									
-									while ((len = is.read(buffer)) > 0)
-									{
+									BytecodeViewer.showMessage("Downloading the jar in the background, when it's "
+											+ "finished you will be alerted with another message box." + nl + nl + "Expect this to take several minutes.");
+									while ((len = is.read(buffer)) > 0) {
 										fos.write(buffer, 0, len);
 										fos.flush();
 										downloaded += 8192;
 										int mbs = downloaded / 1048576;
-										if (mbs % 5 == 0 && mbs != 0)
-										{
+										if (mbs % 5 == 0 && mbs != 0) {
 											if (!flag)
 												System.out.println("Downloaded " + mbs + "MBs so far");
 											flag = true;
@@ -150,57 +178,19 @@ public class VersionChecker implements Runnable
 								}
 								System.out.println("Download finished!");
 								BytecodeViewer.showMessage("Download successful! You can find the updated program at " + finalFile.getAbsolutePath());
-							} catch (FileNotFoundException e) {
-								try {
-									InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/releases/download/v" + version + "/BytecodeViewer." + version + ".jar"
-									).openConnection().getInputStream();
-									FileOutputStream fos = new FileOutputStream(finalFile);
-									try {
-										System.out.println("Downloading from https://github.com/Konloch/bytecode-viewer/releases/download/v" + version + "/BytecodeViewer." + version + ".jar");
-										byte[] buffer = new byte[8192];
-										int len;
-										int downloaded = 0;
-										boolean flag = false;
-										BytecodeViewer.showMessage("Downloading the jar in the background, when it's "
-												+ "finished you will be alerted with another message box." + nl + nl + "Expect this to take several minutes.");
-										while ((len = is.read(buffer)) > 0) {
-											fos.write(buffer, 0, len);
-											fos.flush();
-											downloaded += 8192;
-											int mbs = downloaded / 1048576;
-											if (mbs % 5 == 0 && mbs != 0) {
-												if (!flag)
-													System.out.println("Downloaded " + mbs + "MBs so far");
-												flag = true;
-											} else
-												flag = false;
-										}
-									} finally {
-										try {
-											if (is != null) {
-												is.close();
-											}
-										} finally {
-											fos.flush();
-											fos.close();
-										}
-									}
-									System.out.println("Download finished!");
-									BytecodeViewer.showMessage("Download successful! You can find the updated program at " + finalFile.getAbsolutePath());
-								} catch (FileNotFoundException ex) {
-									BytecodeViewer.showMessage("Unable to download, the zip file has not been uploaded yet, "
-											+ "please try again in about 10 minutes.");
-								} catch (Exception ex) {
-									BytecodeViewer.handleException(ex);
-								}
-								
-							} catch (Exception e) {
-								BytecodeViewer.handleException(e);
+							} catch (FileNotFoundException ex) {
+								BytecodeViewer.showMessage("Unable to download, the zip file has not been uploaded yet, "
+										+ "please try again in about 10 minutes.");
+							} catch (Exception ex) {
+								BytecodeViewer.handleException(ex);
 							}
 							
-						}, "Downloader");
-						downloadThread.start();
-					}
+						} catch (Exception e) {
+							BytecodeViewer.handleException(e);
+						}
+						
+					}, "Downloader");
+					downloadThread.start();
 				}
 			}
 		} catch (Exception e) {
