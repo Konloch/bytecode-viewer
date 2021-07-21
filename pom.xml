@@ -243,6 +243,16 @@
             <artifactId>webp-imageio</artifactId>
             <version>0.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.graalvm.js</groupId>
+            <artifactId>js</artifactId>
+            <version>21.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.js</groupId>
+            <artifactId>js-scriptengine</artifactId>
+            <version>21.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
