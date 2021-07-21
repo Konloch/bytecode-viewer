@@ -44,7 +44,7 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
         super();
     
         this.buff = buff;
-        this.font = new Font("Monospaced", Font.PLAIN,  BytecodeViewer.viewer.getFontSize());
+        this.font = new Font(Font.MONOSPACED, Font.PLAIN,  BytecodeViewer.viewer.getFontSize());
         
         checkSize();
 

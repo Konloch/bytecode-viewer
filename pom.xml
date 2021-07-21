@@ -238,6 +238,11 @@
             <artifactId>darklaf-extensions-rsyntaxarea</artifactId>
             <version>0.3.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.gotson</groupId>
+            <artifactId>webp-imageio</artifactId>
+            <version>0.2.1</version>
+        </dependency>
     </dependencies>
 
     <build>
