@@ -1,4 +1,10 @@
-package the.bytecode.club.bytecodeviewer.bootloader.util.nullpermablehashmap;
+package the.bytecode.club.bytecodeviewer.bootloader.classtree;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import org.objectweb.asm.tree.ClassNode;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -20,9 +26,27 @@ package the.bytecode.club.bytecodeviewer.bootloader.util.nullpermablehashmap;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created ages ago
+ * @created 25 May 2015 (actually before this)
  */
-public interface ValueCreator<V> {
+public class ClassHelper {
 
-    V create();
+    public static Map<String, ClassNode> convertToMap(Collection<ClassNode> classes) {
+        Map<String, ClassNode> map = new HashMap<>();
+        for (ClassNode cn : classes) {
+            map.put(cn.name, cn);
+        }
+        return map;
+    }
+
+    public static <T, K> Map<T, K> copyOf(Map<T, K> src) {
+        Map<T, K> dst = new HashMap<>();
+        copy(src, dst);
+        return dst;
+    }
+
+    public static <T, K> void copy(Map<T, K> src, Map<T, K> dst) {
+        for (Entry<T, K> e : src.entrySet()) {
+            dst.put(e.getKey(), e.getValue());
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.bootloader.util.nullpermablehashmap;
+package the.bytecode.club.bytecodeviewer.bootloader.classtree.nullpermablehashmap;
 
 import java.util.HashMap;
 
