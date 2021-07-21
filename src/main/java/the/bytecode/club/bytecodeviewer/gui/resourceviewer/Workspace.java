@@ -7,10 +7,12 @@ import java.util.HashSet;
 import javax.swing.*;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
@@ -168,6 +170,16 @@ public class Workspace extends TranslatedVisibleComponent
     
     private void addResource(final ResourceContainer container, final String name, final ResourceViewer resourceView)
     {
+        // Warn user and prevent 'nothing' from opening if no Decompiler is selected
+        if(BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.NONE &&
+            BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE &&
+            BytecodeViewer.viewer.viewPane3.getSelectedDecompiler() == Decompiler.NONE)
+        {
+            BytecodeViewer.showMessage(TranslatedStrings.SUGGESTED_FIX_NO_DECOMPILER_WARNING.toString());
+            return;
+        }
+        
+        
         final String workingName = container.getWorkingName(name);
         
         //create a new tab if the resource isn't opened currently
