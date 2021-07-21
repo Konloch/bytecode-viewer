@@ -48,4 +48,9 @@ public class JFrameConsoleTabbed extends JFrame
 	{
 		tabbedPane.add(console, containerName);
 	}
+	
+	public JTabbedPane getTabbedPane()
+	{
+		return tabbedPane;
+	}
 }

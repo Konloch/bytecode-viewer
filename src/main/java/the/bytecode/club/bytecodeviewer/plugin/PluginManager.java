@@ -133,7 +133,7 @@ public final class PluginManager
         console.setConsoleID(id);
         
         final String name = (activePlugin == null || activePlugin.activeContainer == null)
-                ? console.getTitle() : activePlugin.activeContainer.name;
+                ? ("#" + (activeTabbedConsole.getTabbedPane().getTabCount() + 1)) : activePlugin.activeContainer.name;
         
         activeTabbedConsole.addConsole(console.getComponent(0), name);
     }
