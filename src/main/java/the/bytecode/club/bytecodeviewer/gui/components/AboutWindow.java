@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 
 import the.bytecode.club.bytecodeviewer.bootloader.InitialBootScreen;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.*;
 
@@ -29,7 +30,7 @@ import static the.bytecode.club.bytecodeviewer.Configuration.*;
  ***************************************************************************/
 
 /**
- * The about frame
+ * The about window - used to explain what BCV is, how to use it, etc.
  *
  * @author Konloch
  */
@@ -40,7 +41,7 @@ public class AboutWindow extends JFrame
     {
         this.setIconImages(IconResources.iconList);
         setSize(InitialBootScreen.getSafeSize());
-        setTitle("Bytecode Viewer - About - https://bytecodeviewer.com | https://the.bytecode.club");
+        setTitle(TranslatedStrings.ABOUT_TITLE.toString());
         getContentPane().setLayout(new CardLayout(0, 0));
         
         JScrollPane scrollPane = new JScrollPane();

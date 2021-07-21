@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer.api;
 
 import the.bytecode.club.bytecodeviewer.gui.components.SystemConsole;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -29,11 +30,12 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 
 public class PluginConsole extends SystemConsole
 {
+    //window showing is disabled to allow this frame to be added as a tab
     private boolean showWindow;
     
     public PluginConsole(String pluginName)
     {
-        super("Bytecode Viewer - Plugin Console - " + pluginName);
+        super(TranslatedStrings.PLUGIN_CONSOLE_TITLE + " - " + pluginName);
         
         PluginManager.addConsole(this);
     }

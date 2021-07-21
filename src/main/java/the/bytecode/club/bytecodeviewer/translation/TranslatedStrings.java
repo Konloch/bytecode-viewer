@@ -59,6 +59,20 @@ public enum TranslatedStrings
 	RESULTS,
 	SEARCH,
 	
+	
+	RELOAD_RESOURCES_TITLE,
+	RELOAD_RESOURCES_CONFIRM,
+	SELECT_FILE_TITLE,
+	SELECT_FILE_DESCRIPTION,
+	SELECT_EXTERNAL_PLUGIN_TITLE,
+	SELECT_EXTERNAL_PLUGIN_DESCRIPTION,
+	FOREIGN_LIBRARY_WARNING,
+	EXIT_TITLE,
+	EXIT_CONFIRM,
+	ABOUT_TITLE,
+	PLUGIN_CONSOLE_TITLE,
+	
+	
 	YES,
 	NO,
 	ERROR2,
@@ -137,7 +151,7 @@ public enum TranslatedStrings
 				.replace("{PRODUCT_NAME}", PRODUCT_NAME.toString())
 				.replace("{PRODUCT-NAME}", PRODUCT_H_NAME.toString())
 				.replace("{PRODUCT}", PRODUCT.toString())
-				.replace("{TBV}", TBC.toString())
+				.replace("{TBC}", TBC.toString())
 				.replace("{WEBSITE}", WEBSITE.toString())
 		;
 		

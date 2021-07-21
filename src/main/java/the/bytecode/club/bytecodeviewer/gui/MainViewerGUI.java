@@ -809,7 +809,8 @@ public class MainViewerGUI extends JFrame
         });
     }
     
-    public synchronized void updateBusyStatus(final boolean busy) {
+    public synchronized void updateBusyStatus(final boolean busy)
+    {
         SwingUtilities.invokeLater(() ->
         {
             if (busy)
@@ -853,8 +854,8 @@ public class MainViewerGUI extends JFrame
     
     public void reloadResources()
     {
-        MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - Reload Resources",
-                "Are you sure you wish to reload the resources?",
+        MultipleChoiceDialog dialog = new MultipleChoiceDialog(TranslatedStrings.RELOAD_RESOURCES_TITLE.toString(),
+                TranslatedStrings.RELOAD_RESOURCES_CONFIRM.toString(),
                 new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
     
         if (dialog.promptChoice() == 0)
@@ -862,7 +863,8 @@ public class MainViewerGUI extends JFrame
             LazyNameUtil.reset();
             ArrayList<File> reopen = new ArrayList<>();
         
-            for (ResourceContainer container : BytecodeViewer.resourceContainers) {
+            for (ResourceContainer container : BytecodeViewer.resourceContainers)
+            {
                 File newFile = new File(container.file.getParent() + fs + container.name);
                 if (!container.file.getAbsolutePath().equals(newFile.getAbsolutePath()) &&
                         (container.file.getAbsolutePath().endsWith(".apk") || container.file.getAbsolutePath().endsWith(".dex"))) //APKs & dex get renamed
@@ -875,7 +877,8 @@ public class MainViewerGUI extends JFrame
         
             BytecodeViewer.resourceContainers.clear();
         
-            for (File f : reopen) {
+            for (File f : reopen)
+            {
                 BytecodeViewer.openFiles(new File[]{f}, false);
             }
         
@@ -885,8 +888,8 @@ public class MainViewerGUI extends JFrame
     
     public void selectFile()
     {
-        final File file = DialogUtils.fileChooser("Select File or Folder to open in BCV",
-                "APKs, DEX, Class Files or Zip/Jar/War Archives",
+        final File file = DialogUtils.fileChooser(TranslatedStrings.SELECT_FILE_TITLE.toString(),
+                TranslatedStrings.SELECT_FILE_DESCRIPTION.toString(),
                 Constants.SUPPORTED_FILE_EXTENSIONS);
     
         if(file == null)
@@ -899,8 +902,8 @@ public class MainViewerGUI extends JFrame
     
     public void openExternalPlugin()
     {
-        final File file = DialogUtils.fileChooser("Select External Plugin",
-                "External Plugin",
+        final File file = DialogUtils.fileChooser(TranslatedStrings.SELECT_EXTERNAL_PLUGIN_TITLE.toString(),
+                TranslatedStrings.SELECT_EXTERNAL_PLUGIN_DESCRIPTION.toString(),
                 Configuration.getLastPluginDirectory(),
                 PluginManager.fileFilter(),
                 Configuration::setLastPluginDirectory,
@@ -917,8 +920,8 @@ public class MainViewerGUI extends JFrame
     
     public void askBeforeExiting()
     {
-        MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - Exit",
-                "Are you sure you want to exit?",
+        MultipleChoiceDialog dialog = new MultipleChoiceDialog(TranslatedStrings.EXIT_TITLE.toString(),
+                TranslatedStrings.EXIT_CONFIRM.toString(),
                 new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
     
         if (dialog.promptChoice() == 0)
@@ -931,10 +934,7 @@ public class MainViewerGUI extends JFrame
     public void showForeignLibraryWarning()
     {
         if (!deleteForeignOutdatedLibs.isSelected())
-        {
-            BytecodeViewer.showMessage("WARNING: With this being toggled off outdated libraries will NOT be "
-                    + "removed. It's also a security issue. ONLY TURN IT OFF IF YOU KNOW WHAT YOU'RE DOING.");
-        }
+            BytecodeViewer.showMessage(TranslatedStrings.FOREIGN_LIBRARY_WARNING.toString());
         
         Configuration.deleteForeignLibraries = deleteForeignOutdatedLibs.isSelected();
     }
@@ -957,6 +957,7 @@ public class MainViewerGUI extends JFrame
                 Configuration.rstaTheme.apply(viewerClass.bytecodeViewPanel2.textArea);
                 Configuration.rstaTheme.apply(viewerClass.bytecodeViewPanel3.textArea);
             }
+            
             SwingUtilities.updateComponentTreeUI(BytecodeViewer.viewer);
         }
         catch (Exception ex)

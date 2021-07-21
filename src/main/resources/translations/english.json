@@ -238,6 +238,20 @@
   "RETAIN_REDUNDANT_CASTS": "Retain Redundant Casts",
   "UNICODE_OUTPUT_ENABLED": "Unicode Output Enabled",
 
+
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Reload Resources",
+  "RELOAD_RESOURCES_CONFIRM": "Are you sure you wish to reload the resources?",
+  "SELECT_FILE_TITLE": "Select File or Folder to open in {BCV}",
+  "SELECT_FILE_DESCRIPTION": "APKs, DEX, Class Files or Zip/Jar/War Archives",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Select External Plugin",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV External Plugin in js, java, python, ruby or groovy",
+  "FOREIGN_LIBRARY_WARNING": "WARNING: With this being toggled off outdated libraries will NOT be removed.\nIt's also a security issue.\nONLY TURN IT OFF IF YOU KNOW WHAT YOU'RE DOING.",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Exit",
+  "EXIT_CONFIRM": "Are you sure you want to exit?",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - About - {WEBSITE} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Plugin Console",
+
+
   "FILES": "Files",
   "QUICK_FILE_SEARCH_NO_FILE_EXTENSION": "Quick file search (no file extension)",
   "WORK_SPACE": "Work Space",
