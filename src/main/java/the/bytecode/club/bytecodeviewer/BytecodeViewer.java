@@ -16,6 +16,7 @@ import me.konloch.kontainer.io.DiskReader;
 import the.bytecode.club.bytecodeviewer.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
+import the.bytecode.club.bytecodeviewer.bootloader.InstallFatJar;
 import the.bytecode.club.bytecodeviewer.bootloader.UpdateCheck;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.components.*;

@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.util;
+package the.bytecode.club.bytecodeviewer.bootloader;
 
 import the.bytecode.club.bytecodeviewer.bootloader.Boot;
 
