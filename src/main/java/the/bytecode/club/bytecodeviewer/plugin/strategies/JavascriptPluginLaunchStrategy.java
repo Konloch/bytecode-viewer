@@ -51,6 +51,10 @@ public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
         if (engine == null)
         {
             engine = manager.getEngineByName(fallBackEngine);
+            
+            if (engine == null)
+                throw new Exception("Cannot find Javascript script engine! Please contact Konloch.");
+            
             Bindings bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
             bindings.put("polyglot.js.allowHostAccess", true);
             bindings.put("polyglot.js.allowAllAccess", true);
