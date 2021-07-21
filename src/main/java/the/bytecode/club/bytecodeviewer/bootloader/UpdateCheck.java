@@ -129,7 +129,7 @@ public class UpdateCheck implements Runnable
 			
 			try {
 				//developer version
-				if (!localVersion.isGreaterThan(version))
+				if (Version.compare(localVersion, version) > 0)
 					return;
 			} catch (Exception ignored) { }
 			
