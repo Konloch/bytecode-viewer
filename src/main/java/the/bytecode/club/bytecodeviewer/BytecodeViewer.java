@@ -69,7 +69,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * http://the.bytecode.club
  *
  * TODO BUGS:
- *      + Viewing a new resource should unlock the refresh button
  *      + Resource List creates swing lag with large projects
  *      + View>Visual Settings>Show Class Methods
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)

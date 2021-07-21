@@ -179,6 +179,8 @@ public class Workspace extends TranslatedVisibleComponent
             return;
         }
         
+        //unlock the refresh button
+        BytecodeViewer.viewer.workPane.refreshClass.setEnabled(true);
         
         final String workingName = container.getWorkingName(name);
         
