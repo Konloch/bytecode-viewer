@@ -16,13 +16,18 @@ import java.io.PrintStream;
 public class Constants
 {
 	/*per version*/
-	public static final String VERSION = BytecodeViewer.class.getPackage().getImplementationVersion();
 	public static String krakatauVersion = "12";
 	public static String enjarifyVersion = "4";
+	
 	public static final boolean BLOCK_TAB_MENU = true;
 	public static final boolean LAUNCH_DECOMPILERS_IN_NEW_PROCESS = false; //TODO
 	public static final boolean FAT_JAR = true; //could be automatic by checking if it's loaded a class named whatever for a library
 	public static final boolean OFFLINE_MODE = true; //disables the automatic updater
+	
+	//version is set via maven
+	public static final String VERSION = getVersion(BytecodeViewer.class.getPackage().getImplementationVersion());
+	//dev mode is just a check for running via IDE
+	public static boolean DEV_MODE;
 	
 	public static final String fs = System.getProperty("file.separator");
 	public static final String nl = System.getProperty("line.separator");
@@ -83,5 +88,16 @@ public class Constants
 	private static boolean isWindows()
 	{
 		return System.getProperty("os.name").toLowerCase().contains("win");
+	}
+	
+	public static String getVersion(String mavenVersion)
+	{
+		if(mavenVersion == null)
+		{
+			DEV_MODE = true;
+			return "Developer Mode";
+		}
+		
+		return mavenVersion;
 	}
 }

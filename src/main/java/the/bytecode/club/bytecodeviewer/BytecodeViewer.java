@@ -262,7 +262,7 @@ public class BytecodeViewer
         }
         
         //version checking
-        if (viewer.updateCheck.isSelected())
+        if (viewer.updateCheck.isSelected() && !DEV_MODE)
             versionChecker.start();
 
         //show the main UI
