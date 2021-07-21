@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -125,6 +126,7 @@ public class FileViewer extends ResourceViewer
         textArea.setCodeFoldingEnabled(true);
         textArea.setSyntaxEditingStyle(SyntaxLanguage.detectLanguage(nameLowerCase, contentsAsString).getSyntaxConstant());
         textArea.setText(contentsAsString);
+        textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
         textArea.setCaretPosition(0);
         
         mainPanel.add(textArea.getScrollPane());
