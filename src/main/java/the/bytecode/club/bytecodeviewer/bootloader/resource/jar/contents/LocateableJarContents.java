@@ -1,4 +1,9 @@
-package the.bytecode.club.bytecodeviewer.bootloader.util;
+package the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents;
+
+import java.net.URL;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.DataContainer;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.JarResource;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -22,10 +27,22 @@ package the.bytecode.club.bytecodeviewer.bootloader.util;
  * @author Bibl (don't ban me pls)
  * @created ages ago
  */
-public class NullCreator<V> implements ValueCreator<V> {
+public class LocateableJarContents<C extends ClassNode> extends JarContents<C> {
 
-    @Override
-    public V create() {
-        return null;
+    private final URL[] jarUrls;
+
+    public LocateableJarContents(URL... jarUrls) {
+        super();
+        this.jarUrls = jarUrls;
+    }
+
+    public LocateableJarContents(DataContainer<C> classContents, DataContainer<JarResource> resourceContents,
+                                 URL... jarUrls) {
+        super(classContents, resourceContents);
+        this.jarUrls = jarUrls;
+    }
+
+    public URL[] getJarUrls() {
+        return jarUrls;
     }
 }

@@ -1,6 +1,4 @@
-package the.bytecode.club.bytecodeviewer.bootloader;
-
-import the.bytecode.club.bytecodeviewer.bootloader.resource.ExternalResource;
+package the.bytecode.club.bytecodeviewer.bootloader.util.nullpermablehashmap;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -22,13 +20,12 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.ExternalResource;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 19 Jul 2015 02:29:43
+ * @created ages ago
  */
-public interface ILoader<T> {
+public class NullCreator<V> implements ValueCreator<V> {
 
-    void bind(ExternalResource<T> resource);
-
-    Class<?> findClass(String name) throws ClassNotFoundException, NoClassDefFoundError;
-
-    Class<?> loadClass(String name) throws ClassNotFoundException, NoClassDefFoundError;
+    @Override
+    public V create() {
+        return null;
+    }
 }

@@ -1,4 +1,7 @@
-package the.bytecode.club.bytecodeviewer.bootloader.util;
+package the.bytecode.club.bytecodeviewer.bootloader.resource.external;
+
+import java.io.IOException;
+import java.net.URL;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -20,9 +23,46 @@ package the.bytecode.club.bytecodeviewer.bootloader.util;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created ages ago
+ * @created 19 Jul 2015 02:30:30
  */
-public interface ValueCreator<V> {
+public abstract class ExternalResource<T> {
 
-    V create();
+    private final URL location;
+
+    public ExternalResource(URL location) {
+        if (location == null)
+            throw new IllegalArgumentException();
+        this.location = location;
+    }
+
+    public URL getLocation() {
+        return location;
+    }
+
+    public abstract T load() throws IOException;
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + location.hashCode();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ExternalResource<?> other = (ExternalResource<?>) obj;
+        return location.equals(other.location);
+    }
+
+    @Override
+    public String toString() {
+        return "Library @" + location.toExternalForm();
+    }
 }

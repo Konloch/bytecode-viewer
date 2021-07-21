@@ -1,7 +1,6 @@
-package the.bytecode.club.bytecodeviewer.bootloader.resource;
+package the.bytecode.club.bytecodeviewer.bootloader.loader;
 
-import java.io.IOException;
-import java.net.URL;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -23,22 +22,13 @@ import java.net.URL;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 21 Jul 2015 00:29:11
+ * @created 19 Jul 2015 02:29:43
  */
-public class EmptyExternalResource<T> extends ExternalResource<T> {
+public interface ILoader<T> {
 
-    /**
-     * @param location
-     */
-    public EmptyExternalResource(URL location) {
-        super(location);
-    }
+    void bind(ExternalResource<T> resource);
 
-    /* (non-Javadoc)
-     * @see the.bytecode.club.bootloader.resource.ExternalResource#load()
-     */
-    @Override
-    public T load() throws IOException {
-        throw new UnsupportedOperationException();
-    }
+    Class<?> findClass(String name) throws ClassNotFoundException, NoClassDefFoundError;
+
+    Class<?> loadClass(String name) throws ClassNotFoundException, NoClassDefFoundError;
 }

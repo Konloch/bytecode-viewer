@@ -1,6 +1,4 @@
-package the.bytecode.club.bytecodeviewer.bootloader.util;
-
-import java.util.HashMap;
+package the.bytecode.club.bytecodeviewer.bootloader.resource.jar;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -21,29 +19,32 @@ import java.util.HashMap;
  ***************************************************************************/
 
 /**
- * @author Bibl (don't ban me pls)
+ * Type of Jar Stored.
+ *
+ * @author Bibl
  * @created ages ago
  */
-public class NullPermeableHashMap<K, V> extends HashMap<K, V> {
+public enum JarType {
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * Local file
+     **/
+    FILE("file:"),
+    /**
+     * External URL
+     **/
+    WEB("");
 
-    private final ValueCreator<V> creator;
+    private final String prefix;
 
-    public NullPermeableHashMap(ValueCreator<V> creator) {
-        this.creator = creator;
+    JarType(String prefix) {
+        this.prefix = prefix;
     }
 
-    public NullPermeableHashMap() {
-        this(new NullCreator<>());
-    }
-
-    public V getNonNull(K k) {
-        V val = get(k);
-        if (val == null) {
-            val = creator.create();
-            put(k, val);
-        }
-        return val;
+    /**
+     * Gets the prefix for the JarURLConnection.
+     **/
+    public String prefix() {
+        return prefix;
     }
 }

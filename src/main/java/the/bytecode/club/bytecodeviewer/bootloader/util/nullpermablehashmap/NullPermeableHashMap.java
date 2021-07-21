@@ -1,7 +1,6 @@
-package the.bytecode.club.bytecodeviewer.bootloader.resource;
+package the.bytecode.club.bytecodeviewer.bootloader.util.nullpermablehashmap;
 
-import java.net.URL;
-import org.objectweb.asm.tree.ClassNode;
+import java.util.HashMap;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -25,22 +24,26 @@ import org.objectweb.asm.tree.ClassNode;
  * @author Bibl (don't ban me pls)
  * @created ages ago
  */
-public class LocateableJarContents<C extends ClassNode> extends JarContents<C> {
+public class NullPermeableHashMap<K, V> extends HashMap<K, V> {
 
-    private final URL[] jarUrls;
+    private static final long serialVersionUID = 1L;
 
-    public LocateableJarContents(URL... jarUrls) {
-        super();
-        this.jarUrls = jarUrls;
+    private final ValueCreator<V> creator;
+
+    public NullPermeableHashMap(ValueCreator<V> creator) {
+        this.creator = creator;
     }
 
-    public LocateableJarContents(DataContainer<C> classContents, DataContainer<JarResource> resourceContents,
-                                 URL... jarUrls) {
-        super(classContents, resourceContents);
-        this.jarUrls = jarUrls;
+    public NullPermeableHashMap() {
+        this(new NullCreator<>());
     }
 
-    public URL[] getJarUrls() {
-        return jarUrls;
+    public V getNonNull(K k) {
+        V val = get(k);
+        if (val == null) {
+            val = creator.create();
+            put(k, val);
+        }
+        return val;
     }
 }

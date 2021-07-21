@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.bootloader;
+package the.bytecode.club.bytecodeviewer.bootloader.loader;
 
 import java.io.IOException;
 import java.lang.reflect.Modifier;
@@ -9,8 +9,8 @@ import java.util.Set;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.bootloader.resource.ExternalResource;
-import the.bytecode.club.bytecodeviewer.bootloader.resource.JarContents;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents.JarContents;
 import the.bytecode.club.bytecodeviewer.bootloader.util.ClassTree;
 
 /***************************************************************************

@@ -1,8 +1,8 @@
-package the.bytecode.club.bytecodeviewer.bootloader;
+package the.bytecode.club.bytecodeviewer.bootloader.loader;
 
 import java.util.HashMap;
 import java.util.Map;
-import the.bytecode.club.bytecodeviewer.bootloader.resource.ExternalResource;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

@@ -1,4 +1,7 @@
-package the.bytecode.club.bytecodeviewer.bootloader.resource;
+package the.bytecode.club.bytecodeviewer.bootloader.util.nullpermablehashmap;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -19,32 +22,13 @@ package the.bytecode.club.bytecodeviewer.bootloader.resource;
  ***************************************************************************/
 
 /**
- * Type of Jar Stored.
- *
- * @author Bibl
- * @created ages ago
+ * @author Bibl (don't ban me pls)
+ * @created 25 May 2015 (actually before this)
  */
-public enum JarType {
+public class SetCreator<T> implements ValueCreator<Set<T>> {
 
-    /**
-     * Local file
-     **/
-    FILE("file:"),
-    /**
-     * External URL
-     **/
-    WEB("");
-
-    private final String prefix;
-
-    JarType(String prefix) {
-        this.prefix = prefix;
-    }
-
-    /**
-     * Gets the prefix for the JarURLConnection.
-     **/
-    public String prefix() {
-        return prefix;
+    @Override
+    public Set<T> create() {
+        return new HashSet<>();
     }
 }

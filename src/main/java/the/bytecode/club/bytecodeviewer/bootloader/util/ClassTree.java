@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.bootloader.util.nullpermablehashmap.NullPermeableHashMap;
+import the.bytecode.club.bytecodeviewer.bootloader.util.nullpermablehashmap.SetCreator;
 
 import static the.bytecode.club.bytecodeviewer.bootloader.util.ClassHelper.convertToMap;
 import static the.bytecode.club.bytecodeviewer.bootloader.util.ClassHelper.copyOf;

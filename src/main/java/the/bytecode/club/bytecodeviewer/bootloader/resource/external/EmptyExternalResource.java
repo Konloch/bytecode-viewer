@@ -1,7 +1,7 @@
-package the.bytecode.club.bytecodeviewer.bootloader.util;
+package the.bytecode.club.bytecodeviewer.bootloader.resource.external;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.IOException;
+import java.net.URL;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -23,12 +23,22 @@ import java.util.Set;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 25 May 2015 (actually before this)
+ * @created 21 Jul 2015 00:29:11
  */
-public class SetCreator<T> implements ValueCreator<Set<T>> {
+public class EmptyExternalResource<T> extends ExternalResource<T> {
 
+    /**
+     * @param location
+     */
+    public EmptyExternalResource(URL location) {
+        super(location);
+    }
+
+    /* (non-Javadoc)
+     * @see the.bytecode.club.bootloader.resource.ExternalResource#load()
+     */
     @Override
-    public Set<T> create() {
-        return new HashSet<>();
+    public T load() throws IOException {
+        throw new UnsupportedOperationException();
     }
 }

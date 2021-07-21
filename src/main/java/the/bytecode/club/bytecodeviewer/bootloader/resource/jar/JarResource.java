@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.bootloader.resource;
+package the.bytecode.club.bytecodeviewer.bootloader.resource.jar;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.bootloader;
+package the.bytecode.club.bytecodeviewer.bootloader.util.nullpermablehashmap;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -20,9 +20,9 @@ package the.bytecode.club.bytecodeviewer.bootloader;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 21 Jul 2015 00:14:53
+ * @created ages ago
  */
-public interface LoaderFactory<T> {
+public interface ValueCreator<V> {
 
-    ILoader<T> spawnLoader();
+    V create();
 }
