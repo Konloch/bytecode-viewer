@@ -73,7 +73,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *      + View>Visual Settings>Show Class Methods
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
- *      + Versioning and updating need to be fixed
  *      + Fix classfile searcher
  *
  * TODO API BUGS:
