@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
+import the.bytecode.club.bytecodeviewer.Configuration;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -39,10 +41,18 @@ public class JHexEditorHEX extends JComponent implements MouseListener, KeyListe
     {
         debug("paint(" + g + ")");
         debug("cursor=" + he.cursor + " buff.length=" + he.buff.length);
-        Dimension d = getMinimumSize();
-        g.setColor(Color.white);
-        g.fillRect(0, 0, d.width, d.height);
-        g.setColor(Color.black);
+        
+        if(!Configuration.lafTheme.isDark())
+        {
+            //TODO if you want a background for the hex-text uncomment this
+            //g.setColor(Color.white);
+            //g.fillRect(0, 0, getWidth(), getHeight());
+            g.setColor(Color.black);
+        }
+        else
+        {
+            g.setColor(Color.white);
+        }
 
         g.setFont(JHexEditor.font);
 
@@ -70,9 +80,9 @@ public class JHexEditorHEX extends JComponent implements MouseListener, KeyListe
                 if (hasFocus())
                     g.setColor(Color.white);
                 else
-                    g.setColor(Color.black);
+                    g.setColor(Configuration.lafTheme.isDark() ? Color.white : Color.black);
             } else {
-                g.setColor(Color.black);
+                g.setColor(Configuration.lafTheme.isDark() ? Color.white : Color.black);
             }
 
             String s = ("0" + Integer.toHexString(he.buff[n]));

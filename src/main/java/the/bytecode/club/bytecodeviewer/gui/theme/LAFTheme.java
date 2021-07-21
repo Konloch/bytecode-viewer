@@ -54,6 +54,20 @@ public enum LAFTheme
 		return translation;
 	}
 	
+	public boolean isDark()
+	{
+		switch(this)
+		{
+			case DARK:
+			case ONE_DARK:
+			case SOLARIZED_DARK:
+			case HIGH_CONTRAST_DARK:
+				return true;
+		}
+		
+		return false;
+	}
+	
 	public void setLAF() throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException
 	{
 		boolean darkLAF = true;
