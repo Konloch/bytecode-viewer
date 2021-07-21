@@ -55,7 +55,6 @@ public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
             bindings.put("polyglot.js.allowHostAccess", true);
             bindings.put("polyglot.js.allowAllAccess", true);
             bindings.put("polyglot.js.allowHostClassLookup", true);
-            bindings.put("activeContainer", activeContainer);
         }
 
         Reader reader = new FileReader(file);
@@ -63,13 +62,16 @@ public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
     
         ScriptEngine finalEngine = engine;
         
-        Plugin plugin = new Plugin()
+        return new Plugin()
         {
             @Override
             public void execute(ArrayList<ClassNode> classNodeList)
             {
                 try
                 {
+                    //add the active container as a global variable to the JS script
+                    finalEngine.put("activeContainer", activeContainer);
+                    
                     //invoke the JS function
                     ((Invocable) finalEngine).invokeFunction("execute", classNodeList);
                 }
@@ -79,7 +81,5 @@ public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
                 }
             }
         };
-        
-        plugin.setupJSContainer(finalEngine);
     }
 }
