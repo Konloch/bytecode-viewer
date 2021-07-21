@@ -131,7 +131,11 @@ public final class PluginManager
         }
     
         console.setConsoleID(id);
-        activeTabbedConsole.addConsole(console.getComponent(0), activePlugin.activeContainer.name);
+        
+        final String name = (activePlugin == null || activePlugin.activeContainer == null)
+                ? console.getTitle() : activePlugin.activeContainer.name;
+        
+        activeTabbedConsole.addConsole(console.getComponent(0), name);
     }
 
     public static void register(String name, PluginLaunchStrategy strat) {
