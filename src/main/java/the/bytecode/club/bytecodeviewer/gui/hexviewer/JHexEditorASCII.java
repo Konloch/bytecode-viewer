@@ -38,7 +38,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
         debug("getMinimumSize()");
 
         Dimension d = new Dimension();
-        FontMetrics fn = getFontMetrics(JHexEditor.font);
+        FontMetrics fn = getFontMetrics(he.font);
         int w = fn.stringWidth(" ");
         int h = fn.getHeight();
         int nl = he.getLineas();
@@ -69,7 +69,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
         g.fillRect(0, 0, d.width, d.height);
         g.setColor(Color.black);
 
-        g.setFont(JHexEditor.font);
+        g.setFont(he.font);
 
         // datos ascii
         int ini = he.getInicio() * he.textLength;
@@ -113,7 +113,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
 
     // calcular la posicion del raton
     public int calcularPosicionRaton(int x, int y) {
-        FontMetrics fn = getFontMetrics(JHexEditor.font);
+        FontMetrics fn = getFontMetrics(he.font);
         x = x / (fn.stringWidth(" ") + 1);
         y = y / fn.getHeight();
         debug("x=" + x + " ,y=" + y);

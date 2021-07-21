@@ -54,7 +54,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener, KeyListe
             g.setColor(Color.white);
         }
 
-        g.setFont(JHexEditor.font);
+        g.setFont(he.font);
 
         int ini = he.getInicio() * he.textLength;
         int fin = ini + (he.getLineas() * he.textLength);
@@ -102,7 +102,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener, KeyListe
 
     // calcular la posicion del raton
     public int calcularPosicionRaton(int x, int y) {
-        FontMetrics fn = getFontMetrics(JHexEditor.font);
+        FontMetrics fn = getFontMetrics(he.font);
         x = x / ((fn.stringWidth(" ") + 1) * 3);
         y = y / fn.getHeight();
         debug("x=" + x + " ,y=" + y);

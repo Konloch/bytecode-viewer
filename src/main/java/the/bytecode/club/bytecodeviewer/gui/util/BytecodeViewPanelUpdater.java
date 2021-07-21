@@ -96,7 +96,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                     SwingUtilities.invokeLater(() ->
                     {
                         final JHexEditor hex = new JHexEditor(cw.toByteArray());
-                        hex.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
+                        hex.setFont(new Font(Font.MONOSPACED, Font.PLAIN, BytecodeViewer.viewer.getFontSize()));
                     
                         bytecodeViewPanel.add(hex);
                     });
@@ -374,6 +374,6 @@ public class BytecodeViewPanelUpdater implements Runnable
         
         String editable = isPanelEditable ? " - " + EDITABLE : "";
         bytecodeViewPanel.textArea.getTitleHeader().setText(decompiler.getDecompilerName() + editable);
-        bytecodeViewPanel.textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
+        bytecodeViewPanel.textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, BytecodeViewer.viewer.getFontSize()));
     }
 }

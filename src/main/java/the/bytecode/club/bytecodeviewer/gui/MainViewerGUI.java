@@ -794,6 +794,11 @@ public class MainViewerGUI extends JFrame
         deleteForeignOutdatedLibs.setSelected(Configuration.deleteForeignLibraries);
     }
     
+    public int getFontSize()
+    {
+        return (int) fontSpinner.getValue();
+    }
+    
     public synchronized void clearBusyStatus()
     {
         SwingUtilities.invokeLater(()->

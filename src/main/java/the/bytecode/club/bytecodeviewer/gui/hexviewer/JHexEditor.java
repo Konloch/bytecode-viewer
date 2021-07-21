@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,7 +30,7 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
     
     byte[] buff;
     public int cursor;
-    protected static Font font = new Font("Monospaced", Font.PLAIN, 12);
+    public Font font;
     protected int border = 2;
     public boolean DEBUG = false;
     private final JScrollBar sb;
@@ -40,7 +42,10 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
     public JHexEditor(byte[] buff)
     {
         super();
+    
         this.buff = buff;
+        this.font = new Font("Monospaced", Font.PLAIN,  BytecodeViewer.viewer.getFontSize());
+        
         checkSize();
 
         this.addMouseWheelListener(this);
@@ -85,6 +90,7 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
         checkSize();
         
         FontMetrics fn = getFontMetrics(font);
+        
         Rectangle rec = this.getBounds();
         lineas = (rec.height / fn.getHeight()) - 1;
         int n = (buff.length / textLength) - 1;
