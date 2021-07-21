@@ -10,10 +10,12 @@ var dialogue = new MultipleChoiceDialogue("Bytecode Viewer - WARNING",
                 "WARNING: This will load the classes into the JVM and execute the initialize function"
                         + "\nfor each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
                 ["Continue", "Cancel"]);
-var gui = new PluginConsole("Skeleton");
+var gui;
 
 function execute(classNodeList)
 {
+    gui = new PluginConsole("Skeleton");
+
     if(dialogue.promptChoice() == 0)
     {
         var needsWarning = false;
