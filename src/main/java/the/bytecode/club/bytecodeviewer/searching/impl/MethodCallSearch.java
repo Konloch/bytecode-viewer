@@ -15,7 +15,7 @@ import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJLabel;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
@@ -68,11 +68,11 @@ public class MethodCallSearch implements SearchTypeDetails
         if (myPanel == null)
         {
             myPanel = new JPanel(new GridLayout(3, 2));
-            myPanel.add(new TranslatedJLabel("Owner: ", Translation.OWNER));
+            myPanel.add(new TranslatedJLabel("Owner: ", TranslatedComponents.OWNER));
             myPanel.add(mOwner);
-            myPanel.add(new TranslatedJLabel("Name: ", Translation.NAME));
+            myPanel.add(new TranslatedJLabel("Name: ", TranslatedComponents.NAME));
             myPanel.add(mName);
-            myPanel.add(new TranslatedJLabel("Desc: ", Translation.DESC));
+            myPanel.add(new TranslatedJLabel("Desc: ", TranslatedComponents.DESC));
             myPanel.add(mDesc);
         }
 

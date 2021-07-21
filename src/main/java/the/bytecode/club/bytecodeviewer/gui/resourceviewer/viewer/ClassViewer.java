@@ -20,14 +20,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
 import the.bytecode.club.bytecodeviewer.resources.Resource;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
 import static the.bytecode.club.bytecodeviewer.util.MethodParser.Method;

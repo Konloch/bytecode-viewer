@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.translation.components;
 
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -14,13 +14,13 @@ public class TranslatedDefaultMutableTreeNode extends DefaultMutableTreeNode
 {
 	private DefaultTreeModel tree;
 	
-	public TranslatedDefaultMutableTreeNode(String text, Translation translation)
+	public TranslatedDefaultMutableTreeNode(String text, TranslatedComponents translatedComponents)
 	{
 		super(text);
 		
-		if(translation != null)
+		if(translatedComponents != null)
 		{
-			TranslatedComponentReference componentReference = translation.getTranslatedComponentReference();
+			TranslatedComponentReference componentReference = translatedComponents.getTranslatedComponentReference();
 			componentReference.runOnUpdate.add(()->
 			{
 				if(componentReference.value != null && !componentReference.value.isEmpty())

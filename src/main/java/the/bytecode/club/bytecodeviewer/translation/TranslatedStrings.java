@@ -22,7 +22,9 @@ import java.util.HashSet;
  ***************************************************************************/
 
 /**
- * Constant-like strings not associated with any specific JComponent
+ * Translation keys for constant strings (does not change the component text on language change).
+ *
+ * You need to add your translation key here if it is not tied to any specific component (Console, Dialogue)
  *
  * @author Konloch
  * @since 7/6/2021
@@ -30,9 +32,10 @@ import java.util.HashSet;
 
 public enum TranslatedStrings
 {
-	PRODUCTNAME("BytecodeViewer"),
-	PRODUCT_NAME("Bytecode Viewer"),
-	PRODUCT_H_NAME("Bytecode-Viewer"),
+	BCV("BytecodeViewer"),
+	BYTECODEVIEWER("BytecodeViewer"),
+	BYTECODE_VIEWER("Bytecode Viewer"),
+	BYTECODE_H_VIEWER("Bytecode-Viewer"),
 	
 	EDITABLE,
 	JAVA,
@@ -125,9 +128,10 @@ public enum TranslatedStrings
 			text = TEXT_ERROR;
 		}
 		
-		text = text.replace("%PRODUCTNAME%", PRODUCTNAME.toString())
-				.replace("%PRODUCT_NAME%", PRODUCT_NAME.toString())
-				.replace("%PRODUCT-NAME%", PRODUCT_H_NAME.toString());
+		text = text.replace("%PRODUCTNAME%", BYTECODEVIEWER.toString())
+				.replace("%PRODUCT_NAME%", BYTECODE_VIEWER.toString())
+				.replace("%PRODUCT-NAME%", BYTECODE_H_VIEWER.toString())
+				.replace("%BCV%", BCV.toString());
 		
 		this.text = text;
 	}

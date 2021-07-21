@@ -5,7 +5,7 @@ import the.bytecode.club.bytecodeviewer.GlobalHotKeys;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.PressKeyListener;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.ReleaseKeyListener;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
 import the.bytecode.club.bytecodeviewer.util.JTextAreaUtils;
 
@@ -44,7 +44,7 @@ public class SearchableJTextArea extends JTextArea
 	private final JScrollPane scrollPane = new JScrollPane();
 	private final JPanel searchPanel = new JPanel(new BorderLayout());
 	private final JTextField searchInput = new JTextField();
-	private final JCheckBox caseSensitiveSearch = new TranslatedJCheckBox("Exact", Translation.EXACT);
+	private final JCheckBox caseSensitiveSearch = new TranslatedJCheckBox("Exact", TranslatedComponents.EXACT);
 	
 	public SearchableJTextArea()
 	{

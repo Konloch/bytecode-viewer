@@ -5,7 +5,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -33,38 +33,38 @@ import the.bytecode.club.bytecodeviewer.translation.Translation;
 public enum RSTATheme
 {
 	//uses the darklaf RSyntaxTextArea extension
-	THEME_MATCH("Theme Match (Recommended)", null, Translation.THEME_MATCH),
+	THEME_MATCH("Theme Match (Recommended)", null, TranslatedComponents.THEME_MATCH),
 	//uses the default theme from RSyntaxTextArea
-	DEFAULT("Default (Recommended Light)", "/org/fife/ui/rsyntaxtextarea/themes/default.xml", Translation.DEFAULT_RECOMMENDED_LIGHT),
+	DEFAULT("Default (Recommended Light)", "/org/fife/ui/rsyntaxtextarea/themes/default.xml", TranslatedComponents.DEFAULT_RECOMMENDED_LIGHT),
 	//uses the default dark theme from RSyntaxTextArea
-	DARK("Dark (Recommended Dark)", "/org/fife/ui/rsyntaxtextarea/themes/dark.xml", Translation.DARK),
+	DARK("Dark (Recommended Dark)", "/org/fife/ui/rsyntaxtextarea/themes/dark.xml", TranslatedComponents.DARK),
 	
-	DEFAULT_ALT( "Default-Alt", "/org/fife/ui/rsyntaxtextarea/themes/default-alt.xml", Translation.DEFAULT_ALT),
-	ECLIPSE("Eclipse", "/org/fife/ui/rsyntaxtextarea/themes/eclipse.xml", Translation.ECLIPSE),
-	IDEA("IntelliJ", "/org/fife/ui/rsyntaxtextarea/themes/idea.xml", Translation.INTELLIJ),
-	VS("Visual Studio", "/org/fife/ui/rsyntaxtextarea/themes/vs.xml", Translation.VISUAL_STUDIO),
-	DRUID( "Druid (Dark)", "/org/fife/ui/rsyntaxtextarea/themes/druid.xml", Translation.DRUID_DARK),
-	MONOKAI( "Monokai (Dark)", "/org/fife/ui/rsyntaxtextarea/themes/monokai.xml", Translation.MONOKAI_DARK),
+	DEFAULT_ALT( "Default-Alt", "/org/fife/ui/rsyntaxtextarea/themes/default-alt.xml", TranslatedComponents.DEFAULT_ALT),
+	ECLIPSE("Eclipse", "/org/fife/ui/rsyntaxtextarea/themes/eclipse.xml", TranslatedComponents.ECLIPSE),
+	IDEA("IntelliJ", "/org/fife/ui/rsyntaxtextarea/themes/idea.xml", TranslatedComponents.INTELLIJ),
+	VS("Visual Studio", "/org/fife/ui/rsyntaxtextarea/themes/vs.xml", TranslatedComponents.VISUAL_STUDIO),
+	DRUID( "Druid (Dark)", "/org/fife/ui/rsyntaxtextarea/themes/druid.xml", TranslatedComponents.DRUID_DARK),
+	MONOKAI( "Monokai (Dark)", "/org/fife/ui/rsyntaxtextarea/themes/monokai.xml", TranslatedComponents.MONOKAI_DARK),
 	;
 	
 	private final String readableName;
 	private final String file;
-	private final Translation translation;
+	private final TranslatedComponents translatedComponents;
 	
-	RSTATheme(String readableName, String file, Translation translation)
+	RSTATheme(String readableName, String file, TranslatedComponents translatedComponents)
 	{
 		this.readableName = readableName;
 		this.file = file;
-		this.translation = translation;
+		this.translatedComponents = translatedComponents;
 	}
 	
 	public String getReadableName() {
 		return readableName;
 	}
 	
-	public Translation getTranslation()
+	public TranslatedComponents getTranslation()
 	{
-		return translation;
+		return translatedComponents;
 	}
 	
 	public RSyntaxTextArea apply(RSyntaxTextArea area) {

@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.translation.components;
 
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 
 import javax.swing.*;
 
@@ -11,13 +11,13 @@ import javax.swing.*;
  */
 public class TranslatedJLabel extends JLabel
 {
-	public TranslatedJLabel(String text, Translation translation)
+	public TranslatedJLabel(String text, TranslatedComponents translatedComponents)
 	{
 		super(text);
 		
-		if(translation != null)
+		if(translatedComponents != null)
 		{
-			TranslatedComponentReference componentReference = translation.getTranslatedComponentReference();
+			TranslatedComponentReference componentReference = translatedComponents.getTranslatedComponentReference();
 			componentReference.runOnUpdate.add(()->
 			{
 				if(componentReference.value != null && !componentReference.value.isEmpty())

@@ -8,7 +8,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenu;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenuItem;
 import the.bytecode.club.bytecodeviewer.util.DialogueUtils;
@@ -67,11 +67,11 @@ public class PluginWriter extends JFrame
 		JButton run = new JButton("Run");
 		
 		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new TranslatedJMenu("File", Translation.FILE);
-		JMenuItem menuOpen = new TranslatedJMenuItem("Open...", Translation.OPEN);
-		JMenuItem menuRun = new TranslatedJMenuItem("Run", Translation.RUN);
-		menuSaveAs = new TranslatedJMenuItem("Save As...", Translation.SAVE_AS);
-		menuSave = new TranslatedJMenuItem("Save...", Translation.SAVE);
+		JMenu menu = new TranslatedJMenu("File", TranslatedComponents.FILE);
+		JMenuItem menuOpen = new TranslatedJMenuItem("Open...", TranslatedComponents.OPEN);
+		JMenuItem menuRun = new TranslatedJMenuItem("Run", TranslatedComponents.RUN);
+		menuSaveAs = new TranslatedJMenuItem("Save As...", TranslatedComponents.SAVE_AS);
+		menuSave = new TranslatedJMenuItem("Save...", TranslatedComponents.SAVE);
 		menuSave.setVisible(false);
 		
 		menuBar.add(menu);

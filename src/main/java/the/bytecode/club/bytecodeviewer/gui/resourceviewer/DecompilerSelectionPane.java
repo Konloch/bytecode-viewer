@@ -4,7 +4,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenu;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
 
@@ -26,8 +26,8 @@ public class DecompilerSelectionPane
 	private final int paneID;
 	private final JMenu menu;
 	private final ButtonGroup group = new ButtonGroup();
-	private final JRadioButtonMenuItem none = new TranslatedJRadioButtonMenuItem("None", Translation.NONE);
-	private final JRadioButtonMenuItem hexcode = new TranslatedJRadioButtonMenuItem("Hexcode", Translation.HEXCODE);
+	private final JRadioButtonMenuItem none = new TranslatedJRadioButtonMenuItem("None", TranslatedComponents.NONE);
+	private final JRadioButtonMenuItem hexcode = new TranslatedJRadioButtonMenuItem("Hexcode", TranslatedComponents.HEXCODE);
 	private final DecompilerViewComponent procyon = new DecompilerViewComponent("Procyon", JAVA, Decompiler.PROCYON_DECOMPILER);
 	private final DecompilerViewComponent CFR = new DecompilerViewComponent("CFR", JAVA, Decompiler.CFR_DECOMPILER);
 	private final DecompilerViewComponent JADX = new DecompilerViewComponent("JADX", JAVA, Decompiler.JADX_DECOMPILER);
@@ -48,11 +48,11 @@ public class DecompilerSelectionPane
 	{
 		this.paneID = paneID;
 		if(paneID == 1)
-			this.menu = new TranslatedJMenu("Pane " + paneID, Translation.PANE_1);
+			this.menu = new TranslatedJMenu("Pane " + paneID, TranslatedComponents.PANE_1);
 		else if(paneID == 2)
-			this.menu = new TranslatedJMenu("Pane " + paneID, Translation.PANE_2);
+			this.menu = new TranslatedJMenu("Pane " + paneID, TranslatedComponents.PANE_2);
 		else
-			this.menu = new TranslatedJMenu("Pane " + paneID, Translation.PANE_3);
+			this.menu = new TranslatedJMenu("Pane " + paneID, TranslatedComponents.PANE_3);
 		
 		buildMenu();
 	}

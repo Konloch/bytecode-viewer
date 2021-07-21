@@ -14,7 +14,7 @@ import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJLabel;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
@@ -61,7 +61,7 @@ public class LDCSearch implements SearchTypeDetails
         if (myPanel == null)
         {
             myPanel = new JPanel(new GridLayout(1, 2));
-            myPanel.add(new TranslatedJLabel("Search String: ", Translation.SEARCH_STRING));
+            myPanel.add(new TranslatedJLabel("Search String: ", TranslatedComponents.SEARCH_STRING));
             myPanel.add(searchText);
         }
 

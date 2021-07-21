@@ -2,7 +2,7 @@ package the.bytecode.club.bytecodeviewer.translation.components;
 
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 
 /**
  * @author Konloch
@@ -10,13 +10,13 @@ import the.bytecode.club.bytecodeviewer.translation.Translation;
  */
 public class TranslatedVisibleComponent extends VisibleComponent
 {
-	public TranslatedVisibleComponent(String title, Translation translation)
+	public TranslatedVisibleComponent(String title, TranslatedComponents translatedComponents)
 	{
 		super(title);
 		
-		if(translation != null)
+		if(translatedComponents != null)
 		{
-			TranslatedComponentReference componentReference = translation.getTranslatedComponentReference();
+			TranslatedComponentReference componentReference = translatedComponents.getTranslatedComponentReference();
 			componentReference.runOnUpdate.add(()->
 			{
 				if(componentReference.value != null && !componentReference.value.isEmpty())

@@ -20,7 +20,7 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
 import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.*;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
@@ -56,27 +56,27 @@ public class SearchBoxPane extends TranslatedVisibleComponent
     public static final SearchRadius[] SEARCH_RADII = SearchRadius.values();
     public static final SearchType[] SEARCH_TYPES = SearchType.values();
 
-    public final JCheckBox exact = new TranslatedJCheckBox("Exact", Translation.EXACT);
-    public final TranslatedDefaultMutableTreeNode treeRoot = new TranslatedDefaultMutableTreeNode("Results", Translation.RESULTS);
+    public final JCheckBox exact = new TranslatedJCheckBox("Exact", TranslatedComponents.EXACT);
+    public final TranslatedDefaultMutableTreeNode treeRoot = new TranslatedDefaultMutableTreeNode("Results", TranslatedComponents.RESULTS);
     public final JTree tree;
     public final JComboBox typeBox;
     
     public SearchType searchType = null;
     public final JComboBox searchRadiusBox;
 
-    public JButton search = new TranslatedJButton("Search", Translation.SEARCH);
+    public JButton search = new TranslatedJButton("Search", TranslatedComponents.SEARCH);
     public BackgroundSearchThread performSearchThread;
 
     @SuppressWarnings("unchecked")
     public SearchBoxPane()
     {
-        super("Search", Translation.SEARCH);
+        super("Search", TranslatedComponents.SEARCH);
 
         final JPanel optionPanel = new JPanel(new BorderLayout());
         final JPanel searchRadiusOpt = new JPanel(new BorderLayout());
         final JPanel searchOpts = new JPanel(new GridLayout(2, 1));
 
-        searchRadiusOpt.add(new TranslatedJLabel("Search from ", Translation.SEARCH_FROM), BorderLayout.WEST);
+        searchRadiusOpt.add(new TranslatedJLabel("Search from ", TranslatedComponents.SEARCH_FROM), BorderLayout.WEST);
 
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         

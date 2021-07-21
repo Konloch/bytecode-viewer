@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBoxMenuItem;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkspaceRefreshEvent;
@@ -48,9 +48,9 @@ public class DecompilerViewComponent
 		this.menu = new JMenu(name);
 		this.type = type;
 		this.decompilers = decompilers;
-		this.java = new TranslatedJRadioButtonMenuItem("Java", Translation.JAVA);
-		this.bytecode = new TranslatedJRadioButtonMenuItem("Bytecode", Translation.BYTECODE);
-		this.editable = new TranslatedJCheckBoxMenuItem( "Editable", Translation.EDITABLE);
+		this.java = new TranslatedJRadioButtonMenuItem("Java", TranslatedComponents.JAVA);
+		this.bytecode = new TranslatedJRadioButtonMenuItem("Bytecode", TranslatedComponents.BYTECODE);
+		this.editable = new TranslatedJCheckBoxMenuItem( "Editable", TranslatedComponents.EDITABLE);
 		
 		createMenu();
 	}

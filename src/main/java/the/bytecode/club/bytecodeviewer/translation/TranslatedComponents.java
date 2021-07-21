@@ -19,12 +19,16 @@ package the.bytecode.club.bytecodeviewer.translation;
  ***************************************************************************/
 
 /**
- * All of the specific translations strings needed for BCV
+ * Translation keys for components (updates the component text on language change).
+ *
+ * You only need to add a translation key if it is going to be used by a component.
+ * If your translation is not tied to a component (Console, Dialogue) use TranslatedStrings
  *
  * @author Konloch
  * @since 6/28/2021
  */
-public enum Translation
+
+public enum TranslatedComponents
 {
 	FILE,
 	ADD,
@@ -226,7 +230,6 @@ public enum Translation
 	ERROR,
 	SUGGESTED_FIX_DECOMPILER_ERROR,
 	SUGGESTED_FIX_COMPILER_ERROR,
-	SUGGESTED_FIX_NO_DECOMPILER_WARNING,
 	PROCYON_DECOMPILER,
 	CFR_DECOMPILER,
 	FERNFLOWER_DECOMPILER,
@@ -252,7 +255,7 @@ public enum Translation
 	
 	private final TranslatedComponentReference componentReference;
 	
-	Translation()
+	TranslatedComponents()
 	{
 		this.componentReference = new TranslatedComponentReference();
 		this.componentReference.key = name();

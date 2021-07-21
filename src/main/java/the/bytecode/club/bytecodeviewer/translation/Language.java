@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.translation;
 
 import com.google.gson.reflect.TypeToken;
-import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.collections4.map.LinkedMap;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
@@ -108,9 +107,9 @@ public enum Language
 		
 		HashMap<String, String> translationMap = getTranslation();
 		
-		for(Translation translation : Translation.values())
+		for(TranslatedComponents translatedComponents : TranslatedComponents.values())
 		{
-			TranslatedComponentReference text = translation.getTranslatedComponentReference();
+			TranslatedComponentReference text = translatedComponents.getTranslatedComponentReference();
 			
 			//skip translating if the language config is missing the translation key
 			if(!translationMap.containsKey(text.key))
@@ -130,15 +129,15 @@ public enum Language
 			
 			//check if translation key has been assigned to a component,
 			//on fail print an error alerting the devs
-			if(translation.getTranslatedComponentReference().runOnUpdate.isEmpty())
+			if(translatedComponents.getTranslatedComponentReference().runOnUpdate.isEmpty())
 					//&& TranslatedStrings.nameSet.contains(translation.name()))
 			{
-				System.err.println("Translation Reference " + translation.name() + " is missing component attachment, skipping...");
+				System.err.println("Translation Reference " + translatedComponents.name() + " is missing component attachment, skipping...");
 				continue;
 			}
 			
 			//trigger translation event
-			translation.getTranslatedComponentReference().translate();
+			translatedComponents.getTranslatedComponentReference().translate();
 		}
 	}
 	
@@ -171,7 +170,7 @@ public enum Language
 				new TypeToken<LinkedMap<String, String>>(){}.getType());
 		
 		HashSet<String> existingKeys = new HashSet<>();
-		for(Translation t : Translation.values())
+		for(TranslatedComponents t : TranslatedComponents.values())
 			existingKeys.add(t.name());
 		
 		for(String key : translationMap.keySet())

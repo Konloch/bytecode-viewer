@@ -23,11 +23,10 @@ import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.translation.Translation;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJTextField;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
@@ -68,12 +67,12 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 public class ResourceListPane extends TranslatedVisibleComponent implements FileDrop.Listener
 {
     public final JPopupMenu rightClickMenu = new JPopupMenu();
-    public final JCheckBox exact = new TranslatedJCheckBox("Exact", Translation.EXACT);
+    public final JCheckBox exact = new TranslatedJCheckBox("Exact", TranslatedComponents.EXACT);
     public final JButton open = new JButton("+");
     public final JButton close = new JButton("-");
     public final ResourceTreeNode treeRoot = new ResourceTreeNode("Loaded Files:");
     public final ResourceTree tree = new ResourceTree(treeRoot);
-    public final JTextField quickSearch = new TranslatedJTextField("Quick file search (no file extension)", Translation.QUICK_FILE_SEARCH_NO_FILE_EXTENSION);
+    public final JTextField quickSearch = new TranslatedJTextField("Quick file search (no file extension)", TranslatedComponents.QUICK_FILE_SEARCH_NO_FILE_EXTENSION);
     public final FileDrop fileDrop;
     public boolean cancel = false;
     
@@ -119,7 +118,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     
     public ResourceListPane()
     {
-        super("Files", Translation.FILES);
+        super("Files", TranslatedComponents.FILES);
         tree.setRootVisible(false);
         tree.setShowsRootHandles(true);
         quickSearch.setForeground(Color.gray);
