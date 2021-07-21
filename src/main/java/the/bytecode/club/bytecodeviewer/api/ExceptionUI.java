@@ -9,7 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsole;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
@@ -38,7 +40,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class ExceptionUI extends JFrame
+public class ExceptionUI extends JFrameConsole
 {
     public static final String KONLOCH = "https://github.com/Konloch/bytecode-viewer/issues or Konloch at https://the.bytcode.club or konloch@gmail.com";
     public static final String SEND_STACKTRACE_TO = buildErrorLogHeader(KONLOCH);
@@ -106,15 +108,11 @@ public class ExceptionUI extends JFrame
         setSize(new Dimension(600, 400));
         setTitle("Bytecode Viewer " + VERSION + " - Error Log - Send this to " + author);
         getContentPane().setLayout(new CardLayout(0, 0));
-
-        JTextArea textArea = new JTextArea();
-        textArea.setDisabledTextColor(Color.BLACK);
-        textArea.setWrapStyleWord(true);
-        getContentPane().add(new JScrollPane(textArea));
-
-        textArea.setText(buildErrorLogHeader(author) + nl + nl + error);
         
-        this.setLocationRelativeTo(null);
+        getTextArea().setText(buildErrorLogHeader(author) + nl + nl + error);
+        getTextArea().setCaretPosition(0);
+        
+        this.setLocationRelativeTo(BytecodeViewer.viewer);
         this.setVisible(true);
     }
     

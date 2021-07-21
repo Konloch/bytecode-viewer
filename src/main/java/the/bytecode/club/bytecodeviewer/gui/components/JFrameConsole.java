@@ -39,6 +39,11 @@ public class JFrameConsole extends JFrame
 	private int consoleID;
 	private final SearchableJTextArea textArea;
 	
+	public JFrameConsole()
+	{
+		this("");
+	}
+	
 	public JFrameConsole(String title)
 	{
 		setIconImages(IconResources.iconList);
