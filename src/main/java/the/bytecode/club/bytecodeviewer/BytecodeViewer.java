@@ -16,6 +16,7 @@ import me.konloch.kontainer.io.DiskReader;
 import the.bytecode.club.bytecodeviewer.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
+import the.bytecode.club.bytecodeviewer.bootloader.UpdateCheck;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
@@ -68,12 +69,10 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * http://the.bytecode.club
  *
  * TODO BUGS:
- *      + Viewing a new resource should unlock the refresh button
  *      + Resource List creates swing lag with large projects
  *      + View>Visual Settings>Show Class Methods
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
- *      + Versioning and updating need to be fixed
  *      + Fix classfile searcher
  *
  * TODO API BUGS:
@@ -147,7 +146,7 @@ public class BytecodeViewer
     public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     
     //Threads
-    private static final Thread versionChecker = new Thread(new VersionChecker(), "Version Checker");
+    private static final Thread versionChecker = new Thread(new UpdateCheck(), "Version Checker");
     private static final Thread pingBack = new Thread(new PingBack(), "Pingback");
     private static final Thread installFatJar = new Thread(new InstallFatJar(), "Install Fat-Jar");
     private static final Thread bootCheck = new Thread(new BootCheck(), "Boot Check");

@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.translation;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.collections4.map.LinkedMap;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
@@ -39,7 +40,7 @@ import java.util.*;
 public enum Language
 {
 	ARABIC("/translations/arabic.json", "عربى", "English", "ar"),
-	ENGLISH("/translations/english.json", "English", "English", "en"),
+	ENGLISH("/translations/english.json", "English", (Constants.DEV_MODE ? "english.draft" : "english"), "en"),
 	ESTONIAN("/translations/estonian.json", "Eesti", "English", "et"),
 	FARSI("/translations/farsi.json", "فارسی ", "English", "fa"),
 	FINNISH("/translations/finnish.json", "Suomen Kieli", "English", "fi"),

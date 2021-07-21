@@ -1,4 +1,7 @@
-package the.bytecode.club.bytecodeviewer.bootloader.util.nullpermablehashmap;
+package the.bytecode.club.bytecodeviewer.bootloader.classtree.nullpermablehashmap;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -20,12 +23,12 @@ package the.bytecode.club.bytecodeviewer.bootloader.util.nullpermablehashmap;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created ages ago
+ * @created 25 May 2015 (actually before this)
  */
-public class NullCreator<V> implements ValueCreator<V> {
+public class SetCreator<T> implements ValueCreator<Set<T>> {
 
     @Override
-    public V create() {
-        return null;
+    public Set<T> create() {
+        return new HashSet<>();
     }
 }

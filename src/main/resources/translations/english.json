@@ -252,6 +252,8 @@
   "EXIT_CONFIRM": "Are you sure you want to exit?",
   "ABOUT_TITLE": "{PRODUCT_NAME} - About - {WEBSITE} | {TBC}",
   "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Plugin Console",
+  "CLOSE_ALL_BUT_THIS": "Close All But This",
+  "CLOSE_TAB": "Close Tab",
 
 
   "FILES": "Files",
