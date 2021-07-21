@@ -111,8 +111,8 @@ public class Workspace extends TranslatedVisibleComponent
                         if (c != null && bounds.intersects(c.getBounds()))
                         {
                             popUp.setVisible(true);
-                            closeAllTabs.setText("Close All But This: " + ((TabbedPane) c).tabName);
-                            closeTab.setText("Close Tab: " + ((TabbedPane) c).tabName);
+                            closeAllTabs.setText(TranslatedStrings.CLOSE_TAB.toString() + ": " + ((TabbedPane) c).tabName);
+                            closeTab.setText(TranslatedStrings.CLOSE_TAB.toString() + ": " + ((TabbedPane) c).tabName);
                         }
                         else
                         {

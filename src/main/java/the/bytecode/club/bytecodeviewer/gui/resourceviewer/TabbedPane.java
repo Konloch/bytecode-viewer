@@ -16,6 +16,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.MaxWidthJLabel;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.MouseClickedListener;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.gui.util.DelayTabbedPaneThread;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -84,8 +85,8 @@ public class TabbedPane extends JPanel
         
         //define the right click pop-up menu
         JPopupMenu rightClickMenu = new JPopupMenu();
-        JMenuItem closeAllTabs = new JMenuItem("Close All But This: " + name);
-        JMenuItem closeTab = new JMenuItem("Close Tab: " + name);
+        JMenuItem closeAllTabs = new JMenuItem(TranslatedStrings.CLOSE_ALL_BUT_THIS.toString() + ": " + name);
+        JMenuItem closeTab = new JMenuItem(TranslatedStrings.CLOSE_TAB.toString() + ": " + name);
     
         rightClickMenu.add(closeAllTabs);
         rightClickMenu.add(closeTab);

@@ -73,6 +73,8 @@ public enum TranslatedStrings
 	EXIT_CONFIRM,
 	ABOUT_TITLE,
 	PLUGIN_CONSOLE_TITLE,
+	CLOSE_ALL_BUT_THIS,
+	CLOSE_TAB,
 	
 	
 	YES,
