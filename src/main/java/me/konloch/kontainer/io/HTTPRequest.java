@@ -31,6 +31,7 @@ public class HTTPRequest {
     private DataOutputStream writer;
     private HttpURLConnection connection;
     private Set<Entry<String, List<String>>> lastConnectionHeaders;
+    private int statusCode;
 
     /**
      * Creates a new HTTPRequest object
@@ -89,7 +90,12 @@ public class HTTPRequest {
     public Set<Entry<String, List<String>>> getLastConnectionHeaders() {
         return lastConnectionHeaders;
     }
-
+    
+    public int getStatusCode()
+    {
+        return statusCode;
+    }
+    
     /**
      * By default follow redirects are enabled
      */
@@ -147,6 +153,7 @@ public class HTTPRequest {
                 st.add(s);
 
             lastConnectionHeaders = connection.getHeaderFields().entrySet();
+            statusCode = connection.getResponseCode();
         } catch (Exception e) {
             cleanup();
             throw e;
@@ -178,6 +185,7 @@ public class HTTPRequest {
             }
 
             lastConnectionHeaders = connection.getHeaderFields().entrySet();
+            statusCode = connection.getResponseCode();
         } catch (Exception e) {
             cleanup();
             throw e;
@@ -203,6 +211,7 @@ public class HTTPRequest {
             s = reader.readLine();
 
             lastConnectionHeaders = connection.getHeaderFields().entrySet();
+            statusCode = connection.getResponseCode();
         } catch (Exception e) {
             cleanup();
             throw e;
@@ -232,6 +241,7 @@ public class HTTPRequest {
             s = reader.readLine();
 
             lastConnectionHeaders = connection.getHeaderFields().entrySet();
+            statusCode = connection.getResponseCode();
         } catch (Exception e) {
             cleanup();
             throw e;
