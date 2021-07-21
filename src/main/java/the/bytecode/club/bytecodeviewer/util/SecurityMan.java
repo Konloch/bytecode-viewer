@@ -133,9 +133,17 @@ public class SecurityMan extends SecurityManager
         
         //filter class whitelist
         boolean validClassCall = false;
+        //JDK-8
         if(canClassExecute(Thread.currentThread().getStackTrace()[3].getClassName()))
             validClassCall = true;
+        //JDK-15
+        else if(canClassExecute(Thread.currentThread().getStackTrace()[4].getClassName()))
+            validClassCall = true;
+        //JDK-8
         else if(canClassExecute(Thread.currentThread().getStackTrace()[6].getClassName()))
+            validClassCall = true;
+        //JDK-15
+        else if(canClassExecute(Thread.currentThread().getStackTrace()[7].getClassName()))
             validClassCall = true;
         else
         {
