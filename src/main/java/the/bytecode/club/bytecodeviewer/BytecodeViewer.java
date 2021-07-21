@@ -75,6 +75,8 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
  *      + Versioning and updating need to be fixed
  *      + Fix classfile searcher
+ *      + JHexEditor in dark mode is nearly unreadable -> Theme support
+ *      + JHexEditor doesn't apply font size from settings
  *
  * TODO API BUGS:
  *      + All of the plugins that modify code need to include BytecodeViewer.updateAllClassNodeByteArrays();
@@ -110,6 +112,8 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *          ^ Easiest way to do this is to read the file header CAFEBABE on resource view
  *      + Add BCEL Support:
  *          ^ https://github.com/ptnkjke/Java-Bytecode-Editor visualizer as a plugin
+ *      + Add animated GIF support to image viewer
+ *      + Add drag support to images (allow not only to zoom, but also to drag the image)
  *
  * @author Konloch
  * @author The entire BCV community

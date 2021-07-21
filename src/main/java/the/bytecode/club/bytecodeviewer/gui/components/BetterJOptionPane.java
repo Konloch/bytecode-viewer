@@ -151,8 +151,8 @@ public class BetterJOptionPane
 		//create a new option pane with a empty text and just 'ok'
 		JOptionPane pane = new JOptionPane("");
 		pane.add(panel, 0);
-		
-		JDialog dialog = createNewJDialogue(parentComponent, pane, panel.getName(), 0, (d)->
+
+		JDialog dialog = createNewJDialogue(parentComponent, pane, panel.getName(), ERROR_MESSAGE, (d)->
 		{
 			int newHeight = Math.min(minimumHeight, d.getHeight());
 			d.setMinimumSize(new Dimension(d.getWidth(), newHeight));
@@ -165,28 +165,23 @@ public class BetterJOptionPane
 	
 	private static JDialog createNewJDialogue(Component parentComponent, JOptionPane pane, String title, int style, OnCreate onCreate)
 	{
-		JDialog dialog = null;
-		
-		//reflection to cheat our way around the
-		// private createDialog(Component parentComponent, String title, int style)
-		try
-		{
-			Method createDialog = pane.getClass().getDeclaredMethod("createDialog", Component.class, String.class, int.class);
-			createDialog.setAccessible(true);
-			dialog = (JDialog) createDialog.invoke(pane, parentComponent, title, style);
-			
-			//check if the dialogue is in a poor location, attempt to correct
-			if(dialog.getLocation().getY() == 0 || dialog.getLocation().getY() == 1)
-				dialog.setLocationRelativeTo(null); //TODO check if BytecodeViewer.viewer is better on multi monitor for this edgecase
-			else
-				dialog.setLocationRelativeTo(BytecodeViewer.viewer);
-			
-			onCreate.onCreate(dialog);
+		JDialog dialog = pane.createDialog(parentComponent, title);
+		if (JDialog.isDefaultLookAndFeelDecorated()) {
+			boolean supportsWindowDecorations =
+					UIManager.getLookAndFeel().getSupportsWindowDecorations();
+			if (supportsWindowDecorations) {
+				dialog.setUndecorated(true);
+				pane.getRootPane().setWindowDecorationStyle(style);
+			}
 		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+
+		//check if the dialogue is in a poor location, attempt to correct
+		if (dialog.getLocation().getY() == 0 || dialog.getLocation().getY() == 1)
+			dialog.setLocationRelativeTo(null); //TODO check if BytecodeViewer.viewer is better on multi monitor for this edgecase
+		else
+			dialog.setLocationRelativeTo(BytecodeViewer.viewer);
+
+		onCreate.onCreate(dialog);
 		
 		dialog.show();
 		dialog.dispose();

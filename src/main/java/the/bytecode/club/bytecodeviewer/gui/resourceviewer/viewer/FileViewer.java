@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -47,11 +48,14 @@ import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
 public class FileViewer extends ResourceViewer
 {
+    public static final float ZOOM_STEP_SIZE = 1.5f;
     public final SearchableRSyntaxTextArea textArea = (SearchableRSyntaxTextArea)
             Configuration.rstaTheme.apply(new SearchableRSyntaxTextArea());
     public final JPanel mainPanel = new JPanel(new BorderLayout());
+    public BufferedImage originalImage;
     public BufferedImage image;
     public boolean canRefresh;
+    public int zoomSteps = 0;
 
     public FileViewer(final ResourceContainer container, final String name)
     {
@@ -79,7 +83,6 @@ public class FileViewer extends ResourceViewer
         if (!MiscUtils.isPureAscii(contentsAsString) || hexViewerOnly)
         {
             //TODO:
-            //  + Webp?
             //  + Add file header checks
             //  + Check for CAFEBABE
             //  + ClassRead then quick-decompile using Pane1 Decompiler
@@ -92,24 +95,42 @@ public class FileViewer extends ResourceViewer
                     !hexViewerOnly)
             {
                 canRefresh = true;
-                
-                image = MiscUtils.loadImage(image, contents); //gifs fail because of this
-                
+
+                image = MiscUtils.loadImage(image, contents);
+                if (image == null) {
+                    JHexEditor hex = new JHexEditor(contents);
+                    mainPanel.add(hex);
+                    return;
+                }
+                originalImage = image;
+
                 mainPanel.add(new ImageJLabel(image), BorderLayout.CENTER);
-                mainPanel.addMouseWheelListener(e ->
-                {
+                mainPanel.addMouseWheelListener(e -> {
                     int notches = e.getWheelRotation();
-                    
-                    if (notches < 0) //zoom in
-                        image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() + 10,
-                                image.getHeight() + 10);
-                    else //zoom out
-                        image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() - 10,
-                                image.getHeight() - 10);
-                    
-                    mainPanel.removeAll();
-                    mainPanel.add(new ImageJLabel(image), BorderLayout.CENTER);
-                    mainPanel.updateUI();
+                    int width = originalImage.getWidth();
+                    int height = originalImage.getHeight();
+                    int oldZoomSteps = zoomSteps;
+
+                    if (notches < 0) {
+                        //zoom in
+                        zoomSteps++;
+                    } else {
+                        //zoom out
+                        zoomSteps--;
+                    }
+
+                    try {
+                        double factor = Math.pow(ZOOM_STEP_SIZE, zoomSteps);
+                        int newWidth = (int) (width * factor);
+                        int newHeight = (int) (height * factor);
+                        image = Scalr.resize(originalImage, Scalr.Method.SPEED, newWidth, newHeight);
+
+                        mainPanel.removeAll();
+                        mainPanel.add(new ImageJLabel(image), BorderLayout.CENTER);
+                        mainPanel.updateUI();
+                    } catch (Throwable ignored) {
+                        zoomSteps = oldZoomSteps;
+                    }
                 });
                 return;
             }
@@ -125,6 +146,7 @@ public class FileViewer extends ResourceViewer
         textArea.setCodeFoldingEnabled(true);
         textArea.setSyntaxEditingStyle(SyntaxLanguage.detectLanguage(nameLowerCase, contentsAsString).getSyntaxConstant());
         textArea.setText(contentsAsString);
+        textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
         textArea.setCaretPosition(0);
         
         mainPanel.add(textArea.getScrollPane());
