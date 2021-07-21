@@ -225,8 +225,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
-            <artifactId>darklaf-core-jawt-dll</artifactId>
-            <version>2.6.2-jawt-dll-SNAPSHOT</version> <!-- TODO Change to release when ready, see below -->
+            <artifactId>darklaf-core</artifactId>
+            <version>2.6.2-20210719.010320-83</version> <!-- TODO Change to release when ready, see below -->
         </dependency>
         <!-- RELEASE VERSION:
         <dependency>
@@ -234,6 +234,11 @@
             <artifactId>darklaf-core</artifactId>
             <version>2.6.2</version>
         </dependency>-->
+        <dependency>
+            <groupId>com.github.weisj</groupId>
+            <artifactId>darklaf-windows</artifactId>
+            <version>2.6.2-20210719.010320-83</version>
+        </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
             <artifactId>darklaf-extensions-rsyntaxarea</artifactId>
