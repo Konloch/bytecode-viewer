@@ -97,8 +97,14 @@ Just clone this repo and run ``mvn package``. It's that simple!
 
 Open the Maven project (e.g. in IntelliJ, open the ``pom.xml`` as a project file).
 
-## Java Heap Space Issues
+## Java Heap Space Issues (java.lang.OutOfMemoryError)
 Start BCV with more RAM, e.g. `java -Xmx3G -jar BCV.jar`
+
+## File Permission Issues (java.io.FileNotFoundException)
+Right click on the jar file, go to Properties, and select Unblock under Security at the bottom of the General tab.
+
+## APK File Permission Issues (java.io.FileNotFoundException)
+Run BCV as administrator.
 
 #### Are you a Java Reverse Engineer? Do you want to learn?
 Join The Bytecode Club Today! - https://the.bytecode.club
