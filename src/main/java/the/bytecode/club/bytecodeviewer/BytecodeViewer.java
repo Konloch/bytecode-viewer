@@ -75,6 +75,8 @@ import static the.bytecode.club.bytecodeviewer.util.MiscUtils.guessLanguage;
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
  *      + Versioning and updating need to be fixed
  *      + Fix classfile searcher
+ *      + JHexEditor in dark mode is nearly unreadable -> Theme support
+ *      + JHexEditor doesn't apply font size from settings
  *
  * TODO API BUGS:
  *      + All of the plugins that modify code need to include BytecodeViewer.updateAllClassNodeByteArrays();
