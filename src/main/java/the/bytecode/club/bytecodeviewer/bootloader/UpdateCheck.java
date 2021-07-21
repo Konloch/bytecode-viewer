@@ -59,6 +59,8 @@ public class UpdateCheck implements Runnable
 			"https://github.com/Konloch/bytecode-viewer/releases/download/b.{VERSION}/BytecodeViewer.Beta.{VERSION}.jar",
 			//for v1.0
 			"https://github.com/Konloch/bytecode-viewer/releases/download/B{VERSION}/BytecodeViewer.jar",
+			//zip variant of current url scheme since v2.9.12 (not currently used but incase it ever does)
+			"https://github.com/Konloch/bytecode-viewer/releases/download/v{VERSION}/Bytecode-Viewer-{VERSION}.zip",
 	};
 	
 	//a list of all of the released versions of BCV
