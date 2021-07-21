@@ -46,7 +46,7 @@ public class Constants
 	public static boolean DEV_MODE;
 	
 	//if true the version checker will prompt and ask how you would like to proceed
-	public static final boolean FORCE_VERSION_CHECKER_PROMPT = true;
+	public static final boolean FORCE_VERSION_CHECKER_PROMPT = false;
 	
 	public static final String fs = System.getProperty("file.separator");
 	public static final String nl = System.getProperty("line.separator");
