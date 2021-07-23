@@ -90,6 +90,9 @@ public class SettingsDialog extends JScrollPane
 	@Override
 	public String getName()
 	{
+		if(menu == null)
+			return "ERROR: Dialog missing menu";
+		
 		return menu.getText();
 	}
 }
