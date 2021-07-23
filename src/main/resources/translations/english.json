@@ -254,6 +254,8 @@
   "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Plugin Console",
   "CLOSE_ALL_BUT_THIS": "Close All But This",
   "CLOSE_TAB": "Close Tab",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Please send this error log to",
+  "PLEASE_SEND_RESOURCES": "If you hold appropriate legal rights to the relevant class/jar/apk file please include that as well.",
 
 
   "FILES": "Files",

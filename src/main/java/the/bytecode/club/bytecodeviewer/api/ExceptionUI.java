@@ -13,6 +13,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsole;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
@@ -123,8 +124,8 @@ public class ExceptionUI extends JFrameConsole
     {
         String fatJar = FAT_JAR ? " [Fat Jar]" : "";
         
-        return "Please send this error log to " + author +
-                "\nIf you hold appropriate legal rights to the relevant class/jar/apk file please include that as well." +
+        return TranslatedStrings.PLEASE_SEND_THIS_ERROR_LOG_TO.toString() + " " + author +
+                "\n" + TranslatedStrings.PLEASE_SEND_RESOURCES.toString() +
                 "\nBytecode Viewer Version: " + VERSION + fatJar +
                 ", OS: " + System.getProperty("os.name") +
                 ", Java: " + System.getProperty("java.version");
