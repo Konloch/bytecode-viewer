@@ -78,9 +78,17 @@ public class BCV
      */
     public static Class<?> loadClassIntoClassLoader(ClassNode cn)
     {
+        if(cn == null)
+            return null;
+        
         getClassNodeLoader().addClass(cn);
     
-        try {
+        try
+        {
+            //TODO this should be rebuilding the class loader each time a new resource has been added or removed
+            if(cl == null)
+                loadClassesIntoClassLoader();
+            
             return cl.loadClass(cn.name);
         } catch (Exception classLoadException) {
             the.bytecode.club.bytecodeviewer.BytecodeViewer.handleException(classLoadException);
