@@ -44,7 +44,7 @@ public class ZStringArrayDecrypter extends Plugin
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
-        PluginConsole gui = new PluginConsole(activeContainer.name + " - ZStringArray Decrypter");
+        PluginConsole gui = new PluginConsole("ZStringArray Decrypter");
         StringBuilder out = new StringBuilder();
     
         MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING",

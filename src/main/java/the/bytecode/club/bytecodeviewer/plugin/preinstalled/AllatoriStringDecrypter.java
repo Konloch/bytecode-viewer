@@ -53,7 +53,7 @@ public class AllatoriStringDecrypter extends Plugin
 	@Override
 	public void execute(ArrayList<ClassNode> classNodeList)
 	{
-		PluginConsole frame = new PluginConsole(activeContainer.name + " - Allatori String Decrypter");
+		PluginConsole frame = new PluginConsole("Allatori String Decrypter");
 		
 		MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING",
 				"WARNING: This will load the classes into the JVM and execute the allatori decrypter function"

@@ -140,7 +140,7 @@ public class EZInjection extends Plugin
     public void execute(ArrayList<ClassNode> classNodeList)
     {
         if(console)
-            new PluginConsole(activeContainer.name + " - EZ Injection v" + version);
+            new PluginConsole("EZ Injection v" + version);
 
         if (accessModifiers)
             print("Setting all of the access modifiers to public/public static.");

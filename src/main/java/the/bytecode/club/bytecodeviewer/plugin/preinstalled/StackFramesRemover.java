@@ -15,7 +15,7 @@ public class StackFramesRemover extends Plugin
     public void execute(ArrayList<ClassNode> classNodeList)
     {
         AtomicInteger counter = new AtomicInteger();
-        PluginConsole frame = new PluginConsole(activeContainer.name + " - StackFrames Remover");
+        PluginConsole frame = new PluginConsole("StackFrames Remover");
         for (ClassNode cn : classNodeList)
         {
             for (MethodNode mn : cn.methods)

@@ -17,7 +17,7 @@ public class ViewManifest extends Plugin
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
-        PluginConsole frame = new PluginConsole(activeContainer.name + " - View Manifest");
+        PluginConsole frame = new PluginConsole("View Manifest");
         frame.setVisible(true);
         
         //TODO android APKs may have AndroidManifests that can be viewed normally, this should be checked

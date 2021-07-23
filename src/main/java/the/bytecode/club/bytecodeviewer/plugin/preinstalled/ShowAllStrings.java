@@ -44,7 +44,7 @@ public class ShowAllStrings extends Plugin
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
-        PluginConsole frame = new PluginConsole(activeContainer.name + " - Show All Strings");
+        PluginConsole frame = new PluginConsole("Show All Strings");
         StringBuilder sb = new StringBuilder();
         
         for (ClassNode classNode : classNodeList)

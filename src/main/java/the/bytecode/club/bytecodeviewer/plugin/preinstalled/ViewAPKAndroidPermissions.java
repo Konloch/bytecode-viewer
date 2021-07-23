@@ -17,7 +17,7 @@ public class ViewAPKAndroidPermissions extends Plugin
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
-        PluginConsole frame = new PluginConsole(activeContainer.name + " - Android Permissions");
+        PluginConsole frame = new PluginConsole("Android Permissions");
         frame.setVisible(true);
         
         byte[] encodedAndroidManifest = activeContainer.getFileContents("AndroidManifest.xml");
