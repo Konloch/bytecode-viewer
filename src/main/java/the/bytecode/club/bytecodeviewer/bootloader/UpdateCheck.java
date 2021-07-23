@@ -66,7 +66,8 @@ public class UpdateCheck implements Runnable
 	//a list of all of the released versions of BCV
 	public static final String[] versions = new String[]
 	{
-			"2.11.0",
+			//"2.11.0",
+			//"2.10.15",
 			"2.10.14",
 			"2.10.13",
 			"2.10.12",
