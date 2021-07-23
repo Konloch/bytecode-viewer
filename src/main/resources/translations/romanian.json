@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "Conversia APK",
   "CFR_SETTINGS": "Setări CFR",
   "FERNFLOWER_SETTINGS": "FernFlower Setări",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "AVERTISMENT: În prezent nu este selectat niciun descompilator. Încercați View>Pane și alegeți un decompiler."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "AVERTISMENT: În prezent nu este selectat niciun descompilator. Încercați View>Pane și alegeți un decompiler.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Reîncărcați resursele",
+  "RESET_TITLE": "{PRODUCT_NAME} - Resetare spațiu de lucru",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Selectați Plugin extern",
+  "EXIT_CONFIRM": "Ești sigur că vrei să ieși?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Vă rugăm să trimiteți acest jurnal de erori la",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Consola Plugin",
+  "RESET_CONFIRM": "Sunteți sigur că doriți să resetați spațiul de lucru?\n\rDe asemenea, se va reseta navigatorul de fișiere și căutarea.",
+  "PLEASE_SEND_RESOURCES": "În cazul în care dețineți drepturi legale corespunzătoare pentru clasa respectivă",
+  "SELECT_FILE_TITLE": "Selectați File sau Folder pentru a deschide în {BCV}.",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "Plugin extern BCV în js, java, python, ruby sau groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Ieșire",
+  "CLOSE_ALL_BUT_THIS": "Închideți totul în afară de asta",
+  "FOREIGN_LIBRARY_WARNING": "AVERTISMENT: Dacă această opțiune este dezactivată, bibliotecile învechite NU vor fi eliminate.\n\rEste, de asemenea, o problemă de securitate.\n\rDEZACTIVAȚI-O DOAR DACĂ ȘTIȚI CE FACEȚI.",
+  "RELOAD_RESOURCES_CONFIRM": "Sunteți sigur că doriți să reîncărcați resursele?",
+  "SELECT_FILE_DESCRIPTION": "APKs, DEX, Fișiere de clasă sau Zip",
+  "CLOSE_TAB": "Închideți fila",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Despre - {WEBSITE} | {TBC}"
 }

@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "Конвертация APK",
   "CFR_SETTINGS": "Настройки CFR",
   "FERNFLOWER_SETTINGS": "Параметры цветка папоротника",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ВНИМАНИЕ: В настоящее время не выбран ни один декомпилятор. Попробуйте Вид>Панель и выберите декомпилятор."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ВНИМАНИЕ: В настоящее время не выбран ни один декомпилятор. Попробуйте Вид>Панель и выберите декомпилятор.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Перезагрузка ресурсов",
+  "RESET_TITLE": "{PRODUCT_NAME} - Сброс рабочего пространства",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Выберите внешний плагин",
+  "EXIT_CONFIRM": "Вы уверены, что хотите выйти?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Пожалуйста, отправьте этот журнал ошибок по адресу",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Консоль плагинов",
+  "RESET_CONFIRM": "Вы уверены, что хотите сбросить рабочее пространство?\n\rЭто также приведет к сбросу навигатора файлов и поиска.",
+  "PLEASE_SEND_RESOURCES": "Если вы обладаете соответствующими юридическими правами на соответствующий класс",
+  "SELECT_FILE_TITLE": "Выберите файл или папку для открытия в {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV External Plugin на js, java, python, ruby или groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Выход",
+  "CLOSE_ALL_BUT_THIS": "Закрыть все, кроме этого",
+  "FOREIGN_LIBRARY_WARNING": "ПРЕДУПРЕЖДЕНИЕ: При отключении этого параметра устаревшие библиотеки НЕ будут удалены.\n\rЭто также является проблемой безопасности.\n\rВЫКЛЮЧАЙТЕ ЕГО, ТОЛЬКО ЕСЛИ ВЫ ЗНАЕТЕ, ЧТО ДЕЛАЕТЕ.",
+  "RELOAD_RESOURCES_CONFIRM": "Вы уверены, что хотите перезагрузить ресурсы?",
+  "SELECT_FILE_DESCRIPTION": "APKs, DEX, файлы классов или Zip",
+  "CLOSE_TAB": "Закрыть вкладку",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - О компании - {WEBSITE} | {TBC}"
 }

@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "APK-muunnos",
   "CFR_SETTINGS": "CFR-asetukset",
   "FERNFLOWER_SETTINGS": "FernFlower asetukset",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "VAROITUS: Dekompileria ei ole valittu. Kokeile Näytä>Ruutu ja valitse dekompilaattori."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "VAROITUS: Dekompileria ei ole valittu. Kokeile Näytä>Ruutu ja valitse dekompilaattori.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Lataa resurssit uudelleen",
+  "RESET_TITLE": "{PRODUCT_NAME} - Nollaa työtila",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Valitse External Plugin",
+  "EXIT_CONFIRM": "Haluatko varmasti poistua?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Lähetä tämä virheloki osoitteeseen",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Liitännäisen konsoli",
+  "RESET_CONFIRM": "Haluatko varmasti nollata työtilan?\n\rSe nollaa myös tiedostonavigaattorin ja haun.",
+  "PLEASE_SEND_RESOURCES": "Jos sinulla on asianmukaiset lailliset oikeudet kyseiseen luokkaan.",
+  "SELECT_FILE_TITLE": "Valitse avattava tiedosto tai kansio {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV External Plugin in js, java, python, ruby tai groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Exit",
+  "CLOSE_ALL_BUT_THIS": "Sulje kaikki paitsi tämä",
+  "FOREIGN_LIBRARY_WARNING": "VAROITUS: Kun tämä on kytketty pois päältä, vanhentuneita kirjastoja EI poisteta.\n\rSe on myös tietoturvaongelma.\n\rKYTKE SE POIS PÄÄLTÄ VAIN, JOS TIEDÄT MITÄ OLET TEKEMÄSSÄ.",
+  "RELOAD_RESOURCES_CONFIRM": "Haluatko varmasti ladata resurssit uudelleen?",
+  "SELECT_FILE_DESCRIPTION": "APKs, DEX, Luokkatiedostot tai Zip-tiedostot",
+  "CLOSE_TAB": "Sulje välilehti",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Tietoja - {WEBSITE} | {TBC}"
 }

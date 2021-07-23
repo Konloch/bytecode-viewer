@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "Ubadilishaji / Kusimba kwa APK",
   "CFR_SETTINGS": "Mipangilio ya CFR",
   "FERNFLOWER_SETTINGS": "Mipangilio ya FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ONYO: Hakuna mtenganishaji aliyechaguliwa kwa sasa. Jaribu Tazama> Pane na uchague mtenganishaji."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ONYO: Hakuna mtenganishaji aliyechaguliwa kwa sasa. Jaribu Tazama> Pane na uchague mtenganishaji.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Pakia Rasilimali upya",
+  "RESET_TITLE": "{PRODUCT_NAME} - Weka upya nafasi ya kazi",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Chagua Programu-jalizi ya nje",
+  "EXIT_CONFIRM": "Je! Una uhakika unataka kutoka?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Tafadhali tuma kumbukumbu hii ya makosa kwa",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Kuhusu - {WEBSITE} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Dashibodi ya Programu-jalizi",
+  "RESET_CONFIRM": "Je! Una uhakika unataka kuweka upya nafasi ya kazi?\n\rPia itaweka upya navigator yako ya faili na utafute.",
+  "PLEASE_SEND_RESOURCES": "Ikiwa unashikilia haki sahihi za kisheria kwa faili ya darasa / jar / apk husika tafadhali ingiza hiyo pia.",
+  "SELECT_FILE_TITLE": "Chagua Faili au Folda ya kufungua kwenye {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "Programu-jalizi ya nje ya BCV katika js, java, chatu, ruby ​​au groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Toka",
+  "CLOSE_ALL_BUT_THIS": "Funga Yote Lakini Hii",
+  "FOREIGN_LIBRARY_WARNING": "ONYO: Kwa kugeuzwa kwa maktaba zilizopitwa na wakati hakutaondolewa.\n\rPia ni suala la usalama.\n\rZIMA TU ikiwa unajua unachofanya.",
+  "RELOAD_RESOURCES_CONFIRM": "Je! Una uhakika unataka kupakia tena rasilimali?",
+  "SELECT_FILE_DESCRIPTION": "APK, DEX, Faili za Darasa au Zip / Jar / Nyaraka za Vita",
+  "CLOSE_TAB": "Funga Tab"
 }

@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "APK-konvertering / dekoding",
   "CFR_SETTINGS": "CFR-innstillinger",
   "FERNFLOWER_SETTINGS": "FernFlower-innstillinger",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ADVARSEL: Ingen dekompilator er valgt for øyeblikket. Prøv Vis> Rute og velg en dekompilator."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ADVARSEL: Ingen dekompilator er valgt for øyeblikket. Prøv Vis> Rute og velg en dekompilator.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Last inn ressurser på nytt",
+  "RESET_TITLE": "{PRODUCT_NAME} - Tilbakestill arbeidsområdet",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Velg Eksternt plugin",
+  "EXIT_CONFIRM": "Er du sikker på at du vil avslutte?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Send denne feilloggen til",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Om - {WEBSITE} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Plugin-konsoll",
+  "RESET_CONFIRM": "Er du sikker på at du vil tilbakestille arbeidsområdet?\n\rDen tilbakestiller også filnavigatoren og søker.",
+  "PLEASE_SEND_RESOURCES": "Hvis du har passende juridiske rettigheter til den aktuelle klassen / jar / apk-filen, må du også inkludere det.",
+  "SELECT_FILE_TITLE": "Velg Fil eller mappe for å åpne i {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV eksternt plugin i js, java, python, ruby ​​eller groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Avslutt",
+  "CLOSE_ALL_BUT_THIS": "Lukk alt annet enn dette",
+  "FOREIGN_LIBRARY_WARNING": "ADVARSEL: Når dette er slått av, vil IKKE fjernede biblioteker fjernes.\n\rDet er også et sikkerhetsproblem.\n\rSLÅ KUN DET AV Hvis du vet hva du gjør.",
+  "RELOAD_RESOURCES_CONFIRM": "Er du sikker på at du vil laste inn ressursene på nytt?",
+  "SELECT_FILE_DESCRIPTION": "APK-filer, DEX, klassefiler eller zip / jar / krigsarkiv",
+  "CLOSE_TAB": "Lukk fanen"
 }

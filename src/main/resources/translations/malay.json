@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "Penukaran / Penyahkodan APK",
   "CFR_SETTINGS": "Tetapan CFR",
   "FERNFLOWER_SETTINGS": "Tetapan FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "AMARAN: Tidak ada penyahkompilasi yang dipilih. Cuba Lihat> Panel dan pilih penyahkompilasi."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "AMARAN: Tidak ada penyahkompilasi yang dipilih. Cuba Lihat> Panel dan pilih penyahkompilasi.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Muat semula Sumber",
+  "RESET_TITLE": "{PRODUCT_NAME} - Tetapkan semula Ruang Kerja",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Pilih Pemalam Luaran",
+  "EXIT_CONFIRM": "Anda pasti untuk keluar?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Hantarkan log ralat ini ke",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Tentang - {LAMAN WEB} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Konsol Pemalam",
+  "RESET_CONFIRM": "Adakah anda pasti mahu menetapkan semula ruang kerja?\n\rIni juga akan menetapkan semula navigator dan carian fail anda.",
+  "PLEASE_SEND_RESOURCES": "Sekiranya anda mempunyai hak undang-undang yang sesuai untuk fail kelas / balang / apk yang berkaitan, sila sertakan juga.",
+  "SELECT_FILE_TITLE": "Pilih Fail atau Folder untuk dibuka di {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV External Plugin dalam js, java, python, ruby ​​atau groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Keluar",
+  "CLOSE_ALL_BUT_THIS": "Tutup Semua Tetapi Ini",
+  "FOREIGN_LIBRARY_WARNING": "PERINGATAN: Dengan ini, perpustakaan yang sudah lapuk tidak akan dikeluarkan.\n\rIni juga masalah keselamatan.\n\rHANYA NONAKTIFKAN JIKA ANDA TAHU APA YANG ANDA LAKUKAN.",
+  "RELOAD_RESOURCES_CONFIRM": "Adakah anda pasti mahu memuatkan semula sumber?",
+  "SELECT_FILE_DESCRIPTION": "APK, DEX, Fail Kelas atau Arkib Zip / Jar / Perang",
+  "CLOSE_TAB": "Tutup Tab"
 }

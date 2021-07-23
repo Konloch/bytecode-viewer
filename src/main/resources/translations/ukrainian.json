@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "Перетворення / декодування APK",
   "CFR_SETTINGS": "Налаштування CFR",
   "FERNFLOWER_SETTINGS": "Налаштування FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ПОПЕРЕДЖЕННЯ: На даний момент не обрано жодного декомпілятора. Спробуйте Переглянути> Панель та виберіть декомпілятор."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ПОПЕРЕДЖЕННЯ: На даний момент не обрано жодного декомпілятора. Спробуйте Переглянути> Панель та виберіть декомпілятор.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - перезавантажте ресурси",
+  "RESET_TITLE": "{PRODUCT_NAME} - скинути робочу область",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Виберіть Зовнішній плагін",
+  "EXIT_CONFIRM": "Ви впевнені що хочете вийти?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Будь ласка, надішліть цей журнал помилок на",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Про нас - {ВЕБ-САЙТ} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - консоль плагіна",
+  "RESET_CONFIRM": "Справді скинути робочу область?\n\rВін також скине ваш навігатор файлів та пошук.",
+  "PLEASE_SEND_RESOURCES": "Якщо ви маєте відповідні юридичні права на відповідний файл класу / jar / apk, будь ласка, включіть це також.",
+  "SELECT_FILE_TITLE": "Виберіть файл або папку, яку потрібно відкрити в {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "Зовнішній плагін BCV у js, java, python, ruby ​​або groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - вихід",
+  "CLOSE_ALL_BUT_THIS": "Закрийте все, крім цього",
+  "FOREIGN_LIBRARY_WARNING": "ПОПЕРЕДЖЕННЯ. При цьому вимикання застарілих бібліотек НЕ буде видалено.\n\rЦе також проблема безпеки.\n\rТІЛЬКИ ВИМКНУЙТЕ ЦЕ, ЯКЩО ЗНАЄТЕ, ЩО РОБИТЕ.",
+  "RELOAD_RESOURCES_CONFIRM": "Ви впевнені, що хочете перезавантажити ресурси?",
+  "SELECT_FILE_DESCRIPTION": "APK-файли, файли DEX, файли класів або архіви Zip / Jar / War",
+  "CLOSE_TAB": "Закрити вкладку"
 }

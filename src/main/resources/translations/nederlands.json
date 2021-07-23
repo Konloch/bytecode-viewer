@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "APK conversie",
   "CFR_SETTINGS": "CFR-instellingen",
   "FERNFLOWER_SETTINGS": "FernFlower Instellingen",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "WAARSCHUWING: Er is momenteel geen decompiler geselecteerd. Probeer Beeld>Venster en kies een decompiler."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "WAARSCHUWING: Er is momenteel geen decompiler geselecteerd. Probeer Beeld>Venster en kies een decompiler.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAAM} - Herlaad bronnen",
+  "RESET_TITLE": "{PRODUCT_NAAM} - Reset Werkruimte",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Selecteer Externe Plugin",
+  "EXIT_CONFIRM": "Weet je zeker dat je wilt stoppen?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Stuur deze foutmelding naar",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAAM} - Plugin Console",
+  "RESET_CONFIRM": "Weet je zeker dat je de werkruimte wilt resetten? {NNEWLINE} Het zal ook uw bestandsnavigator en zoeken resetten.",
+  "PLEASE_SEND_RESOURCES": "Indien u over de nodige wettelijke rechten beschikt voor de betrokken klasse",
+  "SELECT_FILE_TITLE": "Selecteer Bestand of Map om te openen in {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV Externe Plugin in js, java, python, ruby of groovy",
+  "EXIT_TITLE": "{PRODUCT_NAAM} - Afsluiten",
+  "CLOSE_ALL_BUT_THIS": "Sluit alles behalve dit",
+  "FOREIGN_LIBRARY_WARNING": "WAARSCHUWING: Als deze optie uit staat, worden verouderde bibliotheken NIET verwijderd. {NNEWLINE} Het is ook een veiligheidsprobleem. {SCHAKEL HET} ZET HET ALLEEN UIT ALS JE WEET WAT JE DOET.",
+  "RELOAD_RESOURCES_CONFIRM": "Weet je zeker dat je de bronnen opnieuw wilt laden?",
+  "SELECT_FILE_DESCRIPTION": "APK's, DEX, Klasse Bestanden of Zip",
+  "CLOSE_TAB": "Tab sluiten",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Over - {WEBSITE} | {TBC}"
 }

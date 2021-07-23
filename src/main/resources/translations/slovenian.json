@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "Pretvorba APK",
   "CFR_SETTINGS": "Nastavitve CFR",
   "FERNFLOWER_SETTINGS": "Nastavitve FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "OPOZORILO: Trenutno ni izbran noben dekompilator. Poskusite View>Pane in izberite dekompilator."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "OPOZORILO: Trenutno ni izbran noben dekompilator. Poskusite View>Pane in izberite dekompilator.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Ponovno naložite vire",
+  "RESET_TITLE": "{PRODUCT_NAME} - Ponastavitev delovnega prostora",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Izberite Zunanji vtičnik",
+  "EXIT_CONFIRM": "Ste prepričani, da želite izstopiti?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Ta dnevnik napak pošljite na naslov",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Konzorcij vtičnikov",
+  "RESET_CONFIRM": "Ste prepričani, da želite ponastaviti delovni prostor?\n\rPonastavil se bo tudi navigator za datoteke in iskanje.",
+  "PLEASE_SEND_RESOURCES": "Če imate ustrezne zakonske pravice do zadevnega razreda.",
+  "SELECT_FILE_TITLE": "Izberite datoteko ali mapo, ki jo želite odpreti v {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "Zunanji vtičnik BCV v jeziku js, java, python, ruby ali groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Izhod",
+  "CLOSE_ALL_BUT_THIS": "Zapri vse razen tega",
+  "FOREIGN_LIBRARY_WARNING": "OPOZORILO: Če je ta možnost izklopljena, zastarele knjižnice NE bodo odstranjene.\n\rTo je tudi varnostno vprašanje.\n\rIZKLOPITE GA LE, ČE VESTE, KAJ POČNETE.",
+  "RELOAD_RESOURCES_CONFIRM": "Ali ste prepričani, da želite ponovno naložiti vire?",
+  "SELECT_FILE_DESCRIPTION": "Datoteke APK, DEX, datoteke razredov ali ZIP",
+  "CLOSE_TAB": "Zapri zavihek",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Vizitka - {WEBSITE} | {TBC}"
 }

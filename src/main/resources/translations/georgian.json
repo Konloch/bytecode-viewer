@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "APK კონვერტაცია / დეკოდირება",
   "CFR_SETTINGS": "CFR პარამეტრები",
   "FERNFLOWER_SETTINGS": "FernFlower პარამეტრები",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "გაფრთხილება: ამჟამად არ არის არჩეული დეკომპილერი. სცადეთ View> Pane და შეარჩიეთ decompiler."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "გაფრთხილება: ამჟამად არ არის არჩეული დეკომპილერი. სცადეთ View> Pane და შეარჩიეთ decompiler.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - რესურსების გადატვირთვა",
+  "RESET_TITLE": "{PRODUCT_NAME} - სამუშაო სივრცის გადაყენება",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "აირჩიეთ გარე მოდული",
+  "EXIT_CONFIRM": "დარწმუნებული ხართ, რომ გსურთ გასვლა?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "გთხოვთ, გააგზავნოთ ეს შეცდომის ჟურნალი",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - შესახებ - {WEBSITE} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - მოდულის კონსოლი",
+  "RESET_CONFIRM": "დარწმუნებული ხართ, რომ გსურთ სამუშაო ადგილის გადაყენება?\n\rის ასევე აღადგენს ფაილების ნავიგატორს და ძიებას.",
+  "PLEASE_SEND_RESOURCES": "თუ თქვენ ფლობთ შესაბამის იურიდიულ უფლებებს შესაბამის კლასში / jar / apk ფაილზე, გთხოვთ, მიუთითოთ ისიც.",
+  "SELECT_FILE_TITLE": "აირჩიეთ ფაილი ან საქაღალდე {BCV} - ში გასახსნელად",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV გარე მოდული js, java, python, ruby ​​ან groovy- ში",
+  "EXIT_TITLE": "{PRODUCT_NAME} - გასასვლელი",
+  "CLOSE_ALL_BUT_THIS": "ყველაფრის დახურვა",
+  "FOREIGN_LIBRARY_WARNING": "გაფრთხილება: ამ შემთხვევაში მოძველებული ბიბლიოთეკები აღარ წაიშლება.\n\rეს ასევე უსაფრთხოების პრობლემაა.\n\rმხოლოდ ის გამორთეთ, თუ იცით რას აკეთებთ.",
+  "RELOAD_RESOURCES_CONFIRM": "დარწმუნებული ხართ, რომ გსურთ რესურსების გადატვირთვა?",
+  "SELECT_FILE_DESCRIPTION": "APK, DEX, კლასის ფაილები ან Zip / Jar / War არქივები",
+  "CLOSE_TAB": "ჩანართის დახურვა"
 }

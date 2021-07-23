@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "APK konversija",
   "CFR_SETTINGS": "CFR nustatymai",
   "FERNFLOWER_SETTINGS": "FernFlower nustatymai",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ĮSPĖJIMAS: šiuo metu nėra pasirinktas joks dekompiliatorius. Pabandykite View>Pane ir pasirinkite dekompilatorių."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ĮSPĖJIMAS: šiuo metu nėra pasirinktas joks dekompiliatorius. Pabandykite View>Pane ir pasirinkite dekompilatorių.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Perkrauti išteklius",
+  "RESET_TITLE": "{PRODUCT_NAME} - Iš naujo nustatyti darbo vietą",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Pasirinkite Išorinis įskiepis",
+  "EXIT_CONFIRM": "Ar tikrai norite išeiti?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Atsiųskite šį klaidų žurnalą adresu",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Įskiepio konsolė",
+  "RESET_CONFIRM": "Ar tikrai norite iš naujo nustatyti darbo erdvę?\n\rTaip pat bus iš naujo nustatyta failų naršyklė ir paieška.",
+  "PLEASE_SEND_RESOURCES": "Jei turite atitinkamas teisines teises į atitinkamą klasę.",
+  "SELECT_FILE_TITLE": "Pasirinkite failą arba aplanką, kurį norite atidaryti {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV išorinis įskiepis js, java, python, ruby arba groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Išeiti",
+  "CLOSE_ALL_BUT_THIS": "Uždaryti viską, išskyrus šį",
+  "FOREIGN_LIBRARY_WARNING": "ĮSPĖJIMAS: Jei ši funkcija išjungta, pasenusios bibliotekos NEBUS pašalintos.\n\rTai taip pat yra saugumo problema.\n\rIŠJUNKITE JĄ TIK JEI ŽINOTE, KĄ DAROTE.",
+  "RELOAD_RESOURCES_CONFIRM": "Ar tikrai norite iš naujo įkelti išteklius?",
+  "SELECT_FILE_DESCRIPTION": "APK, DEX, klasės failai arba Zip",
+  "CLOSE_TAB": "Uždaryti skirtuką",
+  "ABOUT_TITLE": "„{PRODUCT_NAME}“ - apie - „{WEBSITE} | {TBC}"
 }

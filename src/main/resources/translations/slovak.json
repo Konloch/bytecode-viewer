@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "Konverzia APK",
   "CFR_SETTINGS": "Nastavenia CFR",
   "FERNFLOWER_SETTINGS": "Nastavenia FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "VAROVANIE: V súčasnosti nie je vybraný žiadny dekompilátor. Skúste View>Pane a vyberte dekompilátor."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "VAROVANIE: V súčasnosti nie je vybraný žiadny dekompilátor. Skúste View>Pane a vyberte dekompilátor.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Načítať zdroje",
+  "RESET_TITLE": "{PRODUCT_NAME} - Obnoviť pracovný priestor",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Vyberte externý zásuvný modul",
+  "EXIT_CONFIRM": "Ste si istí, že chcete odísť?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Prosím, pošlite tento protokol o chybe na adresu",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Konzola zásuvného modulu",
+  "RESET_CONFIRM": "Ste si istí, že chcete obnoviť pracovný priestor?\n\rResetuje sa aj navigátor súborov a vyhľadávanie.",
+  "PLEASE_SEND_RESOURCES": "Ak máte príslušné zákonné práva na príslušnú triedu",
+  "SELECT_FILE_TITLE": "Vyberte súbor alebo priečinok, ktorý chcete otvoriť v {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "Externý plugin BCV v js, jave, pythone, ruby alebo groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Exit",
+  "CLOSE_ALL_BUT_THIS": "Zatvoriť všetko okrem tohto",
+  "FOREIGN_LIBRARY_WARNING": "UPOZORNENIE: Ak je táto funkcia vypnutá, zastarané knižnice sa neodstránia.\n\rJe to aj bezpečnostný problém.\n\rVYPNITE JU LEN VTEDY, AK VIETE, ČO ROBÍTE.",
+  "RELOAD_RESOURCES_CONFIRM": "Ste si istí, že chcete znovu načítať zdroje?",
+  "SELECT_FILE_DESCRIPTION": "Súbory APK, DEX, Class Files alebo Zip",
+  "CLOSE_TAB": "Zatvoriť kartu",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Informácie - {WEBSITE} | {TBC}"
 }

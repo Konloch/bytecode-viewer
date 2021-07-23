@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "Konwersja APK",
   "CFR_SETTINGS": "Ustawienia CFR",
   "FERNFLOWER_SETTINGS": "Ustawienia kwiatu paproci",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "OSTRZEŻENIE: Żaden dekompilator nie jest obecnie wybrany. Spróbuj Widok>Panewka i wybierz dekompilator."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "OSTRZEŻENIE: Żaden dekompilator nie jest obecnie wybrany. Spróbuj Widok>Panewka i wybierz dekompilator.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Przeładuj zasoby",
+  "RESET_TITLE": "{PRODUCT_NAME} - Resetuj przestrzeń roboczą",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Wybierz zewnętrzną wtyczkę",
+  "EXIT_CONFIRM": "Czy na pewno chcesz wyjść?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Proszę wysłać ten dziennik błędów na adres",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Plugin Console",
+  "RESET_CONFIRM": "Czy na pewno chcesz zresetować przestrzeń roboczą?\n\rSpowoduje to również zresetowanie nawigatora plików i wyszukiwania.",
+  "PLEASE_SEND_RESOURCES": "Jeśli posiadają Państwo odpowiednie prawa do odpowiedniej klasy",
+  "SELECT_FILE_TITLE": "Wybierz plik lub folder do otwarcia w {BCV}.",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV Zewnętrzny plugin w js, java, python, ruby lub groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Wyjście",
+  "CLOSE_ALL_BUT_THIS": "Zamknij wszystko oprócz tego",
+  "FOREIGN_LIBRARY_WARNING": "OSTRZEŻENIE: Po wyłączeniu tej opcji przestarzałe biblioteki NIE zostaną usunięte.\n\rJest to również problem bezpieczeństwa.\n\rWYŁĄCZAJ TO TYLKO JEŚLI WIESZ CO ROBISZ.",
+  "RELOAD_RESOURCES_CONFIRM": "Czy na pewno chcesz ponownie załadować zasoby?",
+  "SELECT_FILE_DESCRIPTION": "APK, DEX, pliki klasowe lub Zip",
+  "CLOSE_TAB": "Zamknij kartę",
+  "ABOUT_TITLE": "{PRODUCT_NAME} – Informacje – {WITRYNA} | {TBC}"
 }

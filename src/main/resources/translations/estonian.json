@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "APK konverteerimine",
   "CFR_SETTINGS": "CFR seaded",
   "FERNFLOWER_SETTINGS": "FernFlower seaded",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "HOIATUS: Praegu ei ole dekompilaatorit valitud. Proovige View>Pane ja valige dekompilaator."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "HOIATUS: Praegu ei ole dekompilaatorit valitud. Proovige View>Pane ja valige dekompilaator.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Reload Resources",
+  "RESET_TITLE": "{PRODUCT_NAME} - Tööruumi lähtestamine",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Valige Väline pistikprogramm",
+  "EXIT_CONFIRM": "Kas olete kindel, et soovite väljuda?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Palun saatke see veaprotokoll aadressil",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Plugin Console",
+  "RESET_CONFIRM": "Kas olete kindel, et soovite tööruumi lähtestada?\n\rSee nullib ka teie failinavigatori ja otsingu.",
+  "PLEASE_SEND_RESOURCES": "Kui teil on asjakohased seaduslikud õigused asjaomasele klassile",
+  "SELECT_FILE_TITLE": "Valige Faili või kausta avamiseks {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV External Plugin in js, java, python, ruby või groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Exit",
+  "CLOSE_ALL_BUT_THIS": "Sulge kõik peale selle",
+  "FOREIGN_LIBRARY_WARNING": "HOIATUS: Kui see on välja lülitatud, ei eemaldata vananenud raamatukogusid.\n\rSee on ka turvaprobleem.\n\rLÜLITAGE SEE VÄLJA AINULT SIIS, KUI TEATE, MIDA TEETE.",
+  "RELOAD_RESOURCES_CONFIRM": "Kas olete kindel, et soovite ressursse uuesti laadida?",
+  "SELECT_FILE_DESCRIPTION": "APK-d, DEX, klassifailid või Zip-failid",
+  "CLOSE_TAB": "Sulge vahekaart",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Teave - {WEBSITE} | {TBC}"
 }

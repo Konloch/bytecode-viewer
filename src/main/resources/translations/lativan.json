@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "APK konvertēšana",
   "CFR_SETTINGS": "CFR iestatījumi",
   "FERNFLOWER_SETTINGS": "FernFlower iestatījumi",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "BRĪDINĀJUMS: Pašlaik nav izvēlēts neviens dekompilētājs. Izmēģiniet View>Pane un izvēlieties dekompilatoru."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "BRĪDINĀJUMS: Pašlaik nav izvēlēts neviens dekompilētājs. Izmēģiniet View>Pane un izvēlieties dekompilatoru.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Pārlādēt resursus",
+  "RESET_TITLE": "{PRODUCT_NAME} - Atiestatīt darbvietu",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Izvēlieties Ārējais spraudnis",
+  "EXIT_CONFIRM": "Vai esat pārliecināts, ka vēlaties iziet?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Lūdzu, nosūtiet šo kļūdu žurnālu uz",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Spraudņa konsole",
+  "RESET_CONFIRM": "Vai esat pārliecināts, ka vēlaties atiestatīt darbvietu?\n\rTas arī atiestatīs failu navigatoru un meklēšanu.",
+  "PLEASE_SEND_RESOURCES": "Ja jums ir attiecīgas likumīgas tiesības uz attiecīgo klasi.",
+  "SELECT_FILE_TITLE": "Izvēlieties failu vai mapi, lai atvērtu {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV ārējais spraudnis js, java, python, ruby vai groovy valodā",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Iziet",
+  "CLOSE_ALL_BUT_THIS": "Aizvērt visu, izņemot šo",
+  "FOREIGN_LIBRARY_WARNING": "Brīdinājums: Ja šī opcija ir izslēgta, novecojušās bibliotēkas netiks noņemtas.\n\rTas ir arī drošības jautājums.\n\rIZSLĒDZIET TO TIKAI TAD, JA ZINĀT, KO DARĀT.",
+  "RELOAD_RESOURCES_CONFIRM": "Vai esat pārliecināts, ka vēlaties atkārtoti ielādēt resursus?",
+  "SELECT_FILE_DESCRIPTION": "APK, DEX, klases faili vai Zip",
+  "CLOSE_TAB": "Aizvērt cilni",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Par - {WEBSITE} | {TBC}"
 }

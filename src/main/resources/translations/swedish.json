@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "Konvertering av APK",
   "CFR_SETTINGS": "Inställningar för CFR",
   "FERNFLOWER_SETTINGS": "Inställningar för FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "VARNING: Ingen dekompilator är för närvarande vald. Försök med Visa>Fönster och välj en dekompilator."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "VARNING: Ingen dekompilator är för närvarande vald. Försök med Visa>Fönster och välj en dekompilator.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Ladda om resurser",
+  "RESET_TITLE": "{PRODUCT_NAME} - Återställ arbetsutrymme",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Välj extern plugin",
+  "EXIT_CONFIRM": "Är du säker på att du vill avsluta?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Skicka denna fellogg till",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Plugin-konsol",
+  "RESET_CONFIRM": "Är du säker på att du vill återställa arbetsområdet?\n\rDet återställer också din filnavigator och sökning.",
+  "PLEASE_SEND_RESOURCES": "Om du har lämpliga lagliga rättigheter till den relevanta klassen.",
+  "SELECT_FILE_TITLE": "Välj fil eller mapp att öppna i {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV External Plugin i js, java, python, ruby eller groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Avsluta",
+  "CLOSE_ALL_BUT_THIS": "Stäng allt utom detta",
+  "FOREIGN_LIBRARY_WARNING": "VARNING: Om denna funktion är avstängd kommer föråldrade bibliotek INTE att tas bort.\n\rDet är också en säkerhetsfråga.\n\rSLÅ BARA AV DEN OM DU VET VAD DU GÖR.",
+  "RELOAD_RESOURCES_CONFIRM": "Är du säker på att du vill ladda om resurserna?",
+  "SELECT_FILE_DESCRIPTION": "APKs, DEX, klassfiler eller Zip",
+  "CLOSE_TAB": "Stäng fliken",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Om - {WEBSITE} | {TBC}"
 }

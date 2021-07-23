@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "Conversión APK",
   "CFR_SETTINGS": "Ajustes del CFR",
   "FERNFLOWER_SETTINGS": "Configuración de FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ADVERTENCIA: No hay ningún descompilador seleccionado actualmente. Pruebe con Ver>Panel y elija un descompilador."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ADVERTENCIA: No hay ningún descompilador seleccionado actualmente. Pruebe con Ver>Panel y elija un descompilador.",
+  "RELOAD_RESOURCES_TITLE": "{NOMBRE_DEL_PRODUCTO} - Recargar recursos",
+  "RESET_TITLE": "{NOMBRE_DEL_PRODUCTO} - Restablecer espacio de trabajo",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Seleccione el plugin externo",
+  "EXIT_CONFIRM": "¿Estás seguro de que quieres salir?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Por favor, envíe este registro de errores a",
+  "PLUGIN_CONSOLE_TITLE": "{NOMBRE_DEL_PRODUCTO} - Consola de plugins",
+  "RESET_CONFIRM": "¿Estás seguro de que quieres restablecer el espacio de trabajo?\n\rTambién restablecerá el navegador de archivos y la búsqueda.",
+  "PLEASE_SEND_RESOURCES": "Si usted es titular de los derechos legales correspondientes a la clase en cuestión",
+  "SELECT_FILE_TITLE": "Seleccione Archivo o Carpeta para abrir en {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "Plugin externo BCV en js, java, python, ruby o groovy",
+  "EXIT_TITLE": "{NOMBRE_DEL_PRODUCTO} - Salir",
+  "CLOSE_ALL_BUT_THIS": "Cerrar todo menos esto",
+  "FOREIGN_LIBRARY_WARNING": "ADVERTENCIA: Si se desactiva esta opción, las bibliotecas obsoletas NO se eliminarán.\n\rTambién es un problema de seguridad.\n\rSÓLO DESACTÍVELO SI SABE LO QUE ESTÁ HACIENDO.",
+  "RELOAD_RESOURCES_CONFIRM": "¿Está seguro de que desea recargar los recursos?",
+  "SELECT_FILE_DESCRIPTION": "APKs, DEX, Archivos de Clase o Zip",
+  "CLOSE_TAB": "Cerrar pestaña",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Acerca de - {WEBSITE} | {TBC}"
 }

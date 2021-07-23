@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "Chuyển đổi / Giải mã APK",
   "CFR_SETTINGS": "Cài đặt CFR",
   "FERNFLOWER_SETTINGS": "Cài đặt FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "CẢNH BÁO: Hiện không có trình dịch ngược nào được chọn. Hãy thử View> Pane và chọn một trình dịch ngược."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "CẢNH BÁO: Hiện không có trình dịch ngược nào được chọn. Hãy thử View> Pane và chọn một trình dịch ngược.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Tải lại tài nguyên",
+  "RESET_TITLE": "{PRODUCT_NAME} - Đặt lại Không gian làm việc",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Chọn Plugin bên ngoài",
+  "EXIT_CONFIRM": "Bạn có chắc bạn muốn thoát?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Vui lòng gửi nhật ký lỗi này tới",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Giới thiệu - {WEBSITE} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Bảng điều khiển plugin",
+  "RESET_CONFIRM": "Bạn có chắc chắn muốn đặt lại không gian làm việc không?\n\rNó cũng sẽ đặt lại trình điều hướng tệp và tìm kiếm của bạn.",
+  "PLEASE_SEND_RESOURCES": "Nếu bạn nắm giữ các quyền hợp pháp thích hợp đối với tệp class / jar / apk liên quan, vui lòng bao gồm cả quyền đó.",
+  "SELECT_FILE_TITLE": "Chọn Tệp hoặc Thư mục để mở trong {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV External Plugin trong js, java, python, ruby ​​hoặc groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Thoát",
+  "CLOSE_ALL_BUT_THIS": "Đóng tất cả trừ cái này",
+  "FOREIGN_LIBRARY_WARNING": "CẢNH BÁO: Với việc này, các thư viện lỗi thời sẽ KHÔNG bị xóa.\n\rĐây cũng là một vấn đề bảo mật.\n\rCHỈ TẮT NẾU BẠN BIẾT BẠN ĐANG LÀM GÌ.",
+  "RELOAD_RESOURCES_CONFIRM": "Bạn có chắc chắn muốn tải lại các tài nguyên không?",
+  "SELECT_FILE_DESCRIPTION": "APK, DEX, Tệp lớp hoặc Lưu trữ Zip / Jar / War",
+  "CLOSE_TAB": "Đóng tab"
 }

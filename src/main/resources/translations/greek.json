@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "Μετατροπή APK",
   "CFR_SETTINGS": "Ρυθμίσεις CFR",
   "FERNFLOWER_SETTINGS": "Ρυθμίσεις FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Δεν έχει επιλεγεί κανένας αποσυμπιεστής. Δοκιμάστε View>Pane και επιλέξτε έναν αποσυμπιεστή."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Δεν έχει επιλεγεί κανένας αποσυμπιεστής. Δοκιμάστε View>Pane και επιλέξτε έναν αποσυμπιεστή.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Επαναφόρτωση πόρων",
+  "RESET_TITLE": "{PRODUCT_NAME} - Επαναφορά χώρου εργασίας",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Επιλέξτε External Plugin",
+  "EXIT_CONFIRM": "Είστε σίγουρος ότι θέλετε να βγείτε;",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Παρακαλούμε στείλτε αυτό το αρχείο καταγραφής σφαλμάτων στη διεύθυνση",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Κονσόλα plugin",
+  "RESET_CONFIRM": "Είστε σίγουροι ότι θέλετε να επαναφέρετε τον χώρο εργασίας;\n\rΘα επαναφέρει επίσης τον πλοηγό και την αναζήτηση αρχείων.",
+  "PLEASE_SEND_RESOURCES": "Εάν έχετε τα κατάλληλα νομικά δικαιώματα στη σχετική κατηγορία",
+  "SELECT_FILE_TITLE": "Επιλέξτε αρχείο ή φάκελο για άνοιγμα σε {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV External Plugin σε js, java, python, ruby ή groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Έξοδος",
+  "CLOSE_ALL_BUT_THIS": "Κλείστε όλα εκτός από αυτό",
+  "FOREIGN_LIBRARY_WARNING": "ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Με την απενεργοποίηση αυτής της λειτουργίας οι ξεπερασμένες βιβλιοθήκες ΔΕΝ θα αφαιρεθούν.\n\rΕίναι επίσης ένα ζήτημα ασφάλειας.\n\rΑΠΕΝΕΡΓΟΠΟΙΉΣΤΕ ΤΟ ΜΌΝΟ ΑΝ ΞΈΡΕΤΕ ΤΙ ΚΆΝΕΤΕ.",
+  "RELOAD_RESOURCES_CONFIRM": "Είστε σίγουροι ότι θέλετε να επαναφορτώσετε τους πόρους;",
+  "SELECT_FILE_DESCRIPTION": "APKs, DEX, Class Files ή Zip",
+  "CLOSE_TAB": "Κλείσιμο καρτέλας",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Σχετικά - {ΙΣΤΟΣΕΛΙΔΑ} | {TBC}"
 }

@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "APK 转换/解码",
   "CFR_SETTINGS": "病死率设置",
   "FERNFLOWER_SETTINGS": "蕨花设置",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "警告：当前没有选择反编译器。尝试查看>窗格并选择一个反编译器。"
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "警告：当前没有选择反编译器。尝试查看>窗格并选择一个反编译器。",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - 重新加载资源",
+  "RESET_TITLE": "{PRODUCT_NAME} - 重置工作区",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "选择外部插件",
+  "EXIT_CONFIRM": "你确定要离开？",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "请将此错误日志发送至",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - 关于 - {WEBSITE} | {待定}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - 插件控制台",
+  "RESET_CONFIRM": "您确定要重置工作区吗？ {NEWLINE}它还会重置您的文件导航器和搜索。",
+  "PLEASE_SEND_RESOURCES": "如果您对相关类/jar/apk 文件拥有适当的合法权利，请也包括在内。",
+  "SELECT_FILE_TITLE": "选择要在 {BCV} 中打开的文件或文件夹",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "js、java、python、ruby 或 groovy 中的 BCV 外部插件",
+  "EXIT_TITLE": "{PRODUCT_NAME} - 退出",
+  "CLOSE_ALL_BUT_THIS": "关闭所有但此",
+  "FOREIGN_LIBRARY_WARNING": "警告：关闭此功能后，将不会删除过时的库。 {NEWLINE}这也是一个安全问题。\n\r仅当您知道自己在做什么时才将其关闭。",
+  "RELOAD_RESOURCES_CONFIRM": "您确定要重新加载资源吗？",
+  "SELECT_FILE_DESCRIPTION": "APK、DEX、类文件或 Zip/Jar/War 档案",
+  "CLOSE_TAB": "关闭标签"
 }

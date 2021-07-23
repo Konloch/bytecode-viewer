@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "APK変換",
   "CFR_SETTINGS": "CFR設定",
   "FERNFLOWER_SETTINGS": "ファーンフラワーの設定",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "警告：現在、デコンパイラが選択されていません。表示」→「ペイン」を選択し、デコンパイラを選択してください。"
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "警告：現在、デコンパイラが選択されていません。表示」→「ペイン」を選択し、デコンパイラを選択してください。",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - リソースの再読み込み",
+  "RESET_TITLE": "{PRODUCT_NAME} - ワークスペースのリセット",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "外部プラグインの選択",
+  "EXIT_CONFIRM": "本当に終了してもいいのか？",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "このエラーログを下記にお送りください。",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - プラグインコンソール",
+  "RESET_CONFIRM": "ワークスペースをリセットしてもいいのか？{NEWLINE}。また、ファイルナビゲーターや検索もリセットされます。",
+  "PLEASE_SEND_RESOURCES": "お客様が該当するクラスの適切な法的権利を持っている場合",
+  "SELECT_FILE_TITLE": "ファイルやフォルダを選択して{BCV}で開きます。",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "js、java、python、ruby、groovyによるBCV External Plugin",
+  "EXIT_TITLE": "{PRODUCT_NAME} - 終了",
+  "CLOSE_ALL_BUT_THIS": "これ以外はすべて閉じる",
+  "FOREIGN_LIBRARY_WARNING": "警告：この設定をオフにすると、古いライブラリは削除されません。{NEWLINE}。これはセキュリティ上の問題でもあります。NEWLINE} {NEWLINE 自分が何をしているか分かっている場合のみ、この機能をオフにしてください。",
+  "RELOAD_RESOURCES_CONFIRM": "リソースを再読み込みしてもよろしいですか？",
+  "SELECT_FILE_DESCRIPTION": "APK、DEX、クラスファイルまたはZip",
+  "CLOSE_TAB": "タブを閉じる",
+  "ABOUT_TITLE": "{PRODUCT_NAME}-概要-{WEBSITE} | {TBC}"
 }

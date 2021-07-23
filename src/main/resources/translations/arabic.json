@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "APK التحويل / فك",
   "CFR_SETTINGS": "إعدادات CFR",
   "FERNFLOWER_SETTINGS": "إعدادات FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "تحذير: لم يتم تحديد برنامج فك تشفير حاليا. جرب View> Pane واختر برنامج فك التحويل البرمجي."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "تحذير: لم يتم تحديد برنامج فك تشفير حاليا. جرب View> Pane واختر برنامج فك التحويل البرمجي.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - إعادة تحميل الموارد",
+  "RESET_TITLE": "{PRODUCT_NAME} - إعادة تعيين مساحة العمل",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "حدد البرنامج المساعد الخارجي",
+  "EXIT_CONFIRM": "هل أنت متأكد من انك تريد الخروج؟",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "الرجاء إرسال سجل الخطأ هذا إلى",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - حول - {WEBSITE} | {يحدد لاحقًا}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - وحدة تحكم المكونات الإضافية",
+  "RESET_CONFIRM": "هل أنت متأكد أنك تريد إعادة تعيين مساحة العمل؟\n\rسيتم أيضًا إعادة تعيين متصفح الملفات والبحث.",
+  "PLEASE_SEND_RESOURCES": "إذا كنت تمتلك حقوقًا قانونية مناسبة لملف class / jar / apk ذي الصلة ، فيرجى تضمين ذلك أيضًا.",
+  "SELECT_FILE_TITLE": "حدد ملفًا أو مجلدًا لفتحه في {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "المكون الإضافي الخارجي BCV في js أو java أو python أو ruby ​​أو groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - خروج",
+  "CLOSE_ALL_BUT_THIS": "أغلق الكل ما عدا هذا",
+  "FOREIGN_LIBRARY_WARNING": "تحذير: مع هذا التبديل من المكتبات القديمة لن تتم إزالتها.\n\rإنها أيضًا مشكلة أمنية.\n\rلا توقف تشغيله إلا إذا كنت تعرف ما تفعله.",
+  "RELOAD_RESOURCES_CONFIRM": "هل أنت متأكد أنك ترغب في إعادة تحميل الموارد؟",
+  "SELECT_FILE_DESCRIPTION": "ملفات APK أو DEX أو ملفات الفصل الدراسي أو أرشيفات Zip / Jar / War",
+  "CLOSE_TAB": "إغلاق علامة التبويب"
 }

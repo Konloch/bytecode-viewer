@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "המרה / פענוח של APK",
   "CFR_SETTINGS": "הגדרות CFR",
   "FERNFLOWER_SETTINGS": "הגדרות FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "אזהרה: לא נבחר כרגע פורץ decompiler. נסה View> Pane ובחר decompiler."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "אזהרה: לא נבחר כרגע פורץ decompiler. נסה View> Pane ובחר decompiler.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - טען משאבים מחדש",
+  "RESET_TITLE": "{PRODUCT_NAME} - אפס את סביבת העבודה",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "בחר תוסף חיצוני",
+  "EXIT_CONFIRM": "אתה בטוח שאתה רוצה לצאת?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "אנא שלח את יומן השגיאות אל",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - מידע על - {WEBSITE} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - מסוף התוספים",
+  "RESET_CONFIRM": "האם אתה בטוח שברצונך לאפס את שטח העבודה?\n\rזה יאפס גם את נווט הקבצים שלך ואת החיפוש שלך.",
+  "PLEASE_SEND_RESOURCES": "אם אתה מחזיק בזכויות חוקיות מתאימות לקובץ class / jar / apk הרלוונטי, אנא כלול גם את זה.",
+  "SELECT_FILE_TITLE": "בחר קובץ או תיקיה לפתיחה ב- {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "תוסף BCV חיצוני ב- js, java, python, ruby ​​או groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - יציאה",
+  "CLOSE_ALL_BUT_THIS": "סגור הכל חוץ מזה",
+  "FOREIGN_LIBRARY_WARNING": "אזהרה: עם ביטול זה הספריות המיושנות לא יוסרו.\n\rזו גם בעיית אבטחה.\n\rכבה את זה רק אם אתה יודע מה אתה עושה.",
+  "RELOAD_RESOURCES_CONFIRM": "האם אתה בטוח שברצונך לטעון מחדש את המשאבים?",
+  "SELECT_FILE_DESCRIPTION": "חבילות APK, DEX, קבצי כיתה או ארכיון מיקוד / צנצנת / מלחמה",
+  "CLOSE_TAB": "סגור את הכרטיסייה"
 }

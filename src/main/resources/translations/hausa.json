@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "Apc Juyawa / Mahimmanci",
   "CFR_SETTINGS": "Saitunan CFR",
   "FERNFLOWER_SETTINGS": "Saitunan FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "GARGADI: A halin yanzu ba'a zabi mai hada kayan kwalliya ba. Gwada Duba> Pane kuma zaɓi mai ba da labari."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "GARGADI: A halin yanzu ba'a zabi mai hada kayan kwalliya ba. Gwada Duba> Pane kuma zaɓi mai ba da labari.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Sake shigar da kayan aiki",
+  "RESET_TITLE": "{PRODUCT_NAME} - Sake saita Wurin Aiki",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Zaɓi Plara na waje",
+  "EXIT_CONFIRM": "Ka tabbata kana son fita?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Da fatan za a aika da wannan kuskuren shiga zuwa",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Game da - {WEBSITE} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Toshin na'ura mai kwakwalwa",
+  "RESET_CONFIRM": "Shin kun tabbata kuna son sake saita filin aiki?\n\rHakanan zata sake saita mai binciken fayil dinta da bincike.",
+  "PLEASE_SEND_RESOURCES": "Idan kun riƙe haƙƙin haƙƙin doka na dacewa da fayil ɗin da ya dace / jar / apk don Allah a haɗa hakan shima.",
+  "SELECT_FILE_TITLE": "Zaɓi Fayil ko Jaka don buɗewa a cikin {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "Abinda ke ciki na BCV a cikin js, java, python, ruby ​​ko groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Fita",
+  "CLOSE_ALL_BUT_THIS": "Rufe Duk Amma Wannan",
+  "FOREIGN_LIBRARY_WARNING": "GARGADI: Da wannan za'a canza dakunan karatun dakunan karatu na da ba za'a cire ba.\n\rShima batun tsaro ne. {LABARAI} KAWAI KA KASHE SHI IDAN KA SAN ABINDA KAKE AIKATAWA.",
+  "RELOAD_RESOURCES_CONFIRM": "Shin kun tabbata kuna son sake loda albarkatun?",
+  "SELECT_FILE_DESCRIPTION": "APKs, DEX, Fayilolin Aji ko Zip / Jar / Gidan Tarihi",
+  "CLOSE_TAB": "Rufe Tab"
 }

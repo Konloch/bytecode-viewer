@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "تبدیل / رمزگشایی APK",
   "CFR_SETTINGS": "تنظیمات CFR",
   "FERNFLOWER_SETTINGS": "تنظیمات FernFlower",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "هشدار: در حال حاضر هیچ کامپایلری انتخاب نشده است. View> Pane را امتحان کنید و یک decompiler را انتخاب کنید."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "هشدار: در حال حاضر هیچ کامپایلری انتخاب نشده است. View> Pane را امتحان کنید و یک decompiler را انتخاب کنید.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - بارگیری مجدد منابع",
+  "RESET_TITLE": "{PRODUCT_NAME} - بازنشانی فضای کاری",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "پلاگین خارجی را انتخاب کنید",
+  "EXIT_CONFIRM": "آیا مطمئن هستید که میخواهید خارج شوید؟",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "لطفا این گزارش خطا را به",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - درباره - {WEBSITE} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - کنسول پلاگین",
+  "RESET_CONFIRM": "آیا مطمئن هستید که می خواهید فضای کاری را دوباره تنظیم کنید؟\n\rهمچنین مرورگر پرونده شما را بازنشانی و جستجو می کند.",
+  "PLEASE_SEND_RESOURCES": "اگر از حقوق قانونی مناسبی برای پرونده مربوط به کلاس / jar / apk برخوردار هستید ، آن را نیز وارد کنید.",
+  "SELECT_FILE_TITLE": "پرونده یا پوشه را انتخاب کنید تا در {BCV} باز شود",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "پلاگین خارجی BCV در js ، java ، python ، ruby ​​یا groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - خروج",
+  "CLOSE_ALL_BUT_THIS": "همه را ببند اما",
+  "FOREIGN_LIBRARY_WARNING": "هشدار: با تغییر این کار ، کتابخانه های قدیمی حذف نمی شوند.\n\rاین نیز یک مسئله امنیتی است.\n\rاگر می دانید چه کاری انجام می دهید فقط آن را خاموش کنید.",
+  "RELOAD_RESOURCES_CONFIRM": "آیا مطمئن هستید که می خواهید منابع را دوباره بارگیری کنید؟",
+  "SELECT_FILE_DESCRIPTION": "APK ، DEX ، فایلهای کلاس یا بایگانی های ZIP / Jar / War",
+  "CLOSE_TAB": "بستن برگه"
 }

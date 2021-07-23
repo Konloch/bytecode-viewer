@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "Konversi/Dekode APK",
   "CFR_SETTINGS": "Pengaturan CFR",
   "FERNFLOWER_SETTINGS": "Pengaturan Bunga Pakis",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "PERINGATAN: Saat ini tidak ada dekompiler yang dipilih. Coba View>Pane dan pilih decompiler."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "PERINGATAN: Saat ini tidak ada dekompiler yang dipilih. Coba View>Pane dan pilih decompiler.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Muat Ulang Sumber Daya",
+  "RESET_TITLE": "{PRODUCT_NAME} - Setel Ulang Ruang Kerja",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Pilih Plugin Eksternal",
+  "EXIT_CONFIRM": "Anda yakin ingin keluar?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Silakan kirim log kesalahan ini ke",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Tentang - {WEBSITE} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Konsol Plugin",
+  "RESET_CONFIRM": "Anda yakin ingin menyetel ulang ruang kerja?\n\rIni juga akan mengatur ulang navigator dan pencarian file Anda.",
+  "PLEASE_SEND_RESOURCES": "Jika Anda memegang hak hukum yang sesuai untuk file class/jar/apk yang relevan, harap sertakan juga.",
+  "SELECT_FILE_TITLE": "Pilih File atau Folder untuk dibuka di {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "Plugin Eksternal BCV di js, java, python, ruby ​​atau groovy",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Keluar",
+  "CLOSE_ALL_BUT_THIS": "Tutup Semua Tapi Ini",
+  "FOREIGN_LIBRARY_WARNING": "PERINGATAN: Dengan ini dimatikan, perpustakaan usang TIDAK akan dihapus.\n\rIni juga masalah keamanan.\n\rHANYA MATIKAN JIKA ANDA TAHU APA YANG ANDA LAKUKAN.",
+  "RELOAD_RESOURCES_CONFIRM": "Apakah Anda yakin ingin memuat ulang sumber daya?",
+  "SELECT_FILE_DESCRIPTION": "APK, DEX, File Kelas, atau Arsip Zip/Jar/Perang",
+  "CLOSE_TAB": "Tutup Tab"
 }

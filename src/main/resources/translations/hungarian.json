@@ -236,5 +236,22 @@
   "APK_CONVERSION_DECODING": "APK átalakítás",
   "CFR_SETTINGS": "CFR beállítások",
   "FERNFLOWER_SETTINGS": "FernFlower beállítások",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "FIGYELMEZTETÉS: Jelenleg nincs dekompilátor kiválasztva. Próbálja meg a Nézet>Rács, és válasszon ki egy dekompilátort."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "FIGYELMEZTETÉS: Jelenleg nincs dekompilátor kiválasztva. Próbálja meg a Nézet>Rács, és válasszon ki egy dekompilátort.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Erőforrások újratöltése",
+  "RESET_TITLE": "{PRODUCT_NAME} - Munkatér visszaállítása",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Külső bővítmény kiválasztása",
+  "EXIT_CONFIRM": "Biztos, hogy ki akarsz lépni?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Kérjük, küldje el ezt a hibanaplót a következő címre",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Plugin konzol",
+  "RESET_CONFIRM": "Biztos, hogy vissza akarja állítani a munkaterületet?\n\rEz a fájlnavigátort és a keresést is visszaállítja.",
+  "PLEASE_SEND_RESOURCES": "Ha az adott osztályra vonatkozóan megfelelő jogi jogosultsággal rendelkezik",
+  "SELECT_FILE_TITLE": "Válassza ki a Fájl vagy mappa megnyitását {BCV}",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "BCV külső plugin js, java, python, ruby vagy groovy nyelven",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Kilépés",
+  "CLOSE_ALL_BUT_THIS": "Mindent bezárni, kivéve ezt",
+  "FOREIGN_LIBRARY_WARNING": "FIGYELMEZTETÉS: Ha ez ki van kapcsolva, az elavult könyvtárak NEM lesznek eltávolítva.\n\rEz egyúttal biztonsági kérdés is.\n\rCSAK AKKOR KAPCSOLJA KI, HA TUDJA, MIT CSINÁL.",
+  "RELOAD_RESOURCES_CONFIRM": "Biztos, hogy újra kívánja tölteni az erőforrásokat?",
+  "SELECT_FILE_DESCRIPTION": "APK, DEX, Class Files vagy Zip",
+  "CLOSE_TAB": "Bezárja a lapot",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Névjegy - {WEBSITE} | {TBC}"
 }

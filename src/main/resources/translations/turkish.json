@@ -237,5 +237,22 @@
   "APK_CONVERSION_DECODING": "APK Dönüştürme/Kod Çözme",
   "CFR_SETTINGS": "CFR Ayarları",
   "FERNFLOWER_SETTINGS": "FernFlower Ayarları",
-  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "UYARI: Şu anda hiçbir kod çözücü seçili değil. Görünüm> Bölmeyi deneyin ve bir kod çözücü seçin."
+  "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "UYARI: Şu anda hiçbir kod çözücü seçili değil. Görünüm> Bölmeyi deneyin ve bir kod çözücü seçin.",
+  "RELOAD_RESOURCES_TITLE": "{PRODUCT_NAME} - Kaynakları Yeniden Yükle",
+  "RESET_TITLE": "{PRODUCT_NAME} - Çalışma Alanını Sıfırla",
+  "SELECT_EXTERNAL_PLUGIN_TITLE": "Harici Eklenti Seçin",
+  "EXIT_CONFIRM": "Çıkmak istediğine emin misin?",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Lütfen bu hata günlüğünü şu adrese gönderin:",
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Hakkında - {WEBSITE} | {TBC}",
+  "PLUGIN_CONSOLE_TITLE": "{PRODUCT_NAME} - Eklenti Konsolu",
+  "RESET_CONFIRM": "Çalışma alanını sıfırlamak istediğinizden emin misiniz?\n\rAyrıca dosya gezgininizi ve aramanızı sıfırlar.",
+  "PLEASE_SEND_RESOURCES": "İlgili class/jar/apk dosyası için uygun yasal haklara sahipseniz lütfen bunu da ekleyin.",
+  "SELECT_FILE_TITLE": "{BCV} içinde açılacak Dosya veya Klasörü seçin",
+  "SELECT_EXTERNAL_PLUGIN_DESCRIPTION": "js, java, python, ruby ​​veya groovy'de BCV Harici Eklentisi",
+  "EXIT_TITLE": "{PRODUCT_NAME} - Çıkış",
+  "CLOSE_ALL_BUT_THIS": "Bu hariç hepsini kapat",
+  "FOREIGN_LIBRARY_WARNING": "UYARI: Bu kapatıldığında, eski kitaplıklar KALDIRILMAYACAKTIR.\n\rAynı zamanda bir güvenlik sorunudur.\n\rYALNIZCA NE YAPTIĞINIZI BİLİYORSANIZ KAPATIN.",
+  "RELOAD_RESOURCES_CONFIRM": "Kaynakları yeniden yüklemek istediğinizden emin misiniz?",
+  "SELECT_FILE_DESCRIPTION": "APK'lar, DEX, Sınıf Dosyaları veya Zip/Jar/War Arşivleri",
+  "CLOSE_TAB": "Sekmeyi Kapat"
 }

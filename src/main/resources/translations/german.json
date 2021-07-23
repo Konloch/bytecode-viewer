@@ -252,5 +252,7 @@
   "RESET_TITLE": "{PRODUCT_NAME} - Arbeitsbereich zurücksetzen",
   "RESET_CONFIRM": "Sind Sie sicher, dass Sie den Arbeitsbereich zurücksetzen wollen?\n\rDadurch werden auch der Datei-Navigator und die Suche zurückgesetzt.",
   "CLOSE_ALL_BUT_THIS": "Alle außer diesen schließen",
-  "CLOSE_TAB": "Tab schließen"
+  "CLOSE_TAB": "Tab schließen",
+  "PLEASE_SEND_THIS_ERROR_LOG_TO": "Bitte senden Sie dieses Fehlerprotokoll an",
+  "PLEASE_SEND_RESOURCES": "Wenn Sie entsprechende gesetzliche Rechte an der jeweiligen Klasse besitzen"
 }
