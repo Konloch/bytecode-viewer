@@ -70,17 +70,21 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * http://the.bytecode.club
  *
  * TODO BUGS:
- *      + Resource List creates swing lag with large projects
  *      + View>Visual Settings>Show Class Methods
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
  *      + Fix classfile searcher
+ *      + BCV's classLoader should be destroyed each time a resource is added or removed
  *
  * TODO API BUGS:
  *      + All of the plugins that modify code need to include BytecodeViewer.updateAllClassNodeByteArrays();
  *      + All of the plugins that do any code changes should also include BytecodeViewer.refreshAllTabs();
  *      + Anything using getLoadedClasses() needs to be replaced with the new API
  *      + Anything using blindlySearchForClassNode() should instead search through the resource container search function
+ *
+ * TODO DarkLAF Specific Bugs:
+ *      + Resource List creates swing lag with large project
+ *      + JMenuBar can only be displayed on a JFrame, a work around is needed for this
  *
  * TODO IN-PROGRESS:
  *      + Resource Exporter/Save/Decompile As Zip needs to be rewritten
@@ -89,7 +93,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *      + Fix hook inject for EZ-Injection
  *
  * TODO FEATURES:
- *      + System Consoles and Error Dialogs should create a new tab rather than a new window
+ *      + Multiple error logs from the same plugin should be displayed in a single error window
  *      + On refresh save scroll position
  *      + Option to only compile currently viewed class (true by default)
  *      + CLI Headless needs to be supported
