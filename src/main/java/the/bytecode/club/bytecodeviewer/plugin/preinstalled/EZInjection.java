@@ -139,12 +139,8 @@ public class EZInjection extends Plugin
     @Override
     public void execute(ArrayList<ClassNode> classNodeList)
     {
-        PluginConsole gui = new PluginConsole(activeContainer.name + " - EZ Injection v" + version);
-        
-        gui.setText("");
-
-        if (console)
-            gui.setVisible(true);
+        if(console)
+            new PluginConsole(activeContainer.name + " - EZ Injection v" + version);
 
         if (accessModifiers)
             print("Setting all of the access modifiers to public/public static.");

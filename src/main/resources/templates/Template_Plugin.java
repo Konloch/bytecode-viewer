@@ -13,7 +13,7 @@ public class Template extends Plugin
 	public void execute(ArrayList<ClassNode> classNodeList)
 	{
 		//create console
-		gui = new PluginConsole(activeContainer.name + "Java Template");
+		gui = new PluginConsole(activeContainer.name + " - Java Template");
 		gui.setVisible(true); //show the console
 		
 		//debug text
