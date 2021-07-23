@@ -41,7 +41,7 @@ import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
  ***************************************************************************/
 
 /**
- * Represents any open non-class file.
+ * Represents any open non-class file inside of a tab.
  *
  * @author Konloch
  */

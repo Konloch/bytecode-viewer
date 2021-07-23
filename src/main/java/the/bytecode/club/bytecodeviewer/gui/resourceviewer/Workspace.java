@@ -187,32 +187,7 @@ public class Workspace extends TranslatedVisibleComponent
         //create a new tab if the resource isn't opened currently
         if (!openedTabs.contains(workingName))
         {
-            //start processing the resource to be viewed
-            if(resourceView instanceof ClassViewer)
-                resourceView.refresh(null);
-            
-            //add the resource view to the tabs
-            tabs.add(resourceView);
-            
-            //get the resource view index
-            final int tabIndex = tabs.indexOfComponent(resourceView);
-            
-            //create a new tabbed pane
-            TabbedPane tabbedPane = new TabbedPane(tabIndex, workingName, container.name, name, tabs, resourceView);
-            resourceView.tabbedPane = tabbedPane;
-            resourceView.resource.workingName = workingName;
-            
-            //set the tabs index
-            tabs.setTabComponentAt(tabIndex, tabbedPane);
-            
-            //open the tab that was just added
-            tabs.setSelectedIndex(tabIndex);
-            
-            //set resource as opened in a tab
-            openedTabs.add(workingName);
-            
-            //refresh the tab title
-            resourceView.refreshTitle();
+            addResourceToTab(resourceView, workingName, container.name, name);
         }
         else //if the resource is already opened select this tab as the active one
         {
@@ -230,6 +205,36 @@ public class Workspace extends TranslatedVisibleComponent
                 }
             }
         }
+    }
+    
+    public void addResourceToTab(ResourceViewer resourceView, String workingName, String containerName, String name)
+    {
+        //start processing the resource to be viewed
+        if(resourceView instanceof ClassViewer)
+            resourceView.refresh(null);
+    
+        //add the resource view to the tabs
+        tabs.add(resourceView);
+    
+        //get the resource view index
+        final int tabIndex = tabs.indexOfComponent(resourceView);
+    
+        //create a new tabbed pane
+        TabbedPane tabbedPane = new TabbedPane(tabIndex, workingName, containerName, name, tabs, resourceView);
+        resourceView.tabbedPane = tabbedPane;
+        resourceView.resource.workingName = workingName;
+    
+        //set the tabs index
+        tabs.setTabComponentAt(tabIndex, tabbedPane);
+    
+        //open the tab that was just added
+        tabs.setSelectedIndex(tabIndex);
+    
+        //set resource as opened in a tab
+        openedTabs.add(workingName);
+    
+        //refresh the tab title
+        resourceView.refreshTitle();
     }
 
     public ResourceViewer getActiveResource() {

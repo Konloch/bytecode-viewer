@@ -1,12 +1,16 @@
 package the.bytecode.club.bytecodeviewer.plugin;
 
+import java.awt.*;
 import java.io.File;
 import java.util.*;
+import java.util.List;
 import javax.swing.filechooser.FileFilter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsoleTabbed;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ComponentViewer;
 import the.bytecode.club.bytecodeviewer.plugin.strategies.*;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -128,7 +132,11 @@ public final class PluginManager
         if(activeTabbedConsole == null)
         {
             activeTabbedConsole = new JFrameConsoleTabbed(console.getTitle());
-            activeTabbedConsole.setVisible(true);
+            
+            if(Configuration.pluginConsoleAsNewTab)
+                ComponentViewer.addComponentAsTab(console.getTitle(), activeTabbedConsole.getComponent(0));
+            else
+                activeTabbedConsole.setVisible(true);
         }
     
         console.setConsoleID(id);

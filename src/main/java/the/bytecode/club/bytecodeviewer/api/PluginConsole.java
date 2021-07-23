@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.api;
 
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.SystemConsole;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
@@ -35,7 +36,7 @@ public class PluginConsole extends SystemConsole
     
     public PluginConsole(String pluginName)
     {
-        super(TranslatedStrings.PLUGIN_CONSOLE_TITLE + " - " + pluginName);
+        super(Configuration.pluginConsoleAsNewTab ? (pluginName + " Output") : (TranslatedStrings.PLUGIN_CONSOLE_TITLE + " - " + pluginName));
         
         PluginManager.addConsole(this);
     }

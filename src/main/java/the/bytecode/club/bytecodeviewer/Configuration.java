@@ -33,6 +33,13 @@ public class Configuration
 	//if true it will show a settings dialog on click instead of more menu items
 	public static boolean useNewSettingsDialog = true; //TODO add to GUI
 	
+	//if true it will put force error UIs and console UIs to be added as a tab
+	public static boolean pluginConsoleAsNewTab = true; //TODO add to GUI
+	//if true it will put force error UIs and console UIs to be added as a tab
+	public static boolean errorLogsAsNewTab = true; //TODO add to GUI
+	//if true the plugin writer will open inside of a tab
+	public static boolean pluginWriterAsNewTab = true; //TODO add to GUI
+	
 	public static boolean forceResourceUpdateFromClassNode = false; //TODO add to GUI
 	public static boolean showDarkLAFComponentIcons = false;
 	public static boolean currentlyDumping = false;

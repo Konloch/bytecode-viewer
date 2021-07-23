@@ -1,8 +1,6 @@
 package the.bytecode.club.bytecodeviewer.api;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import javax.swing.JFrame;
@@ -12,6 +10,7 @@ import javax.swing.JTextArea;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsole;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ComponentViewer;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
@@ -46,6 +45,7 @@ public class ExceptionUI extends JFrameConsole
     public static final String KONLOCH = "https://github.com/Konloch/bytecode-viewer/issues or Konloch at https://the.bytecode.club or konloch@gmail.com";
     public static final String SEND_STACKTRACE_TO = buildErrorLogHeader(KONLOCH);
     public static final String SEND_STACKTRACE_TO_NL = SEND_STACKTRACE_TO + nl + nl;
+    public static int errorCounter = 1;
     
     /**
      * @param e The exception to be shown
@@ -105,7 +105,7 @@ public class ExceptionUI extends JFrameConsole
      */
     private void setupFrame(String error, String author)
     {
-        this.setIconImages(IconResources.iconList);
+        setIconImages(IconResources.iconList);
         setSize(new Dimension(600, 400));
         setTitle("Bytecode Viewer " + VERSION + " - Error Log - Send this to " + author);
         getContentPane().setLayout(new CardLayout(0, 0));
@@ -113,8 +113,17 @@ public class ExceptionUI extends JFrameConsole
         getTextArea().setText(buildErrorLogHeader(author) + nl + nl + error);
         getTextArea().setCaretPosition(0);
         
-        this.setLocationRelativeTo(BytecodeViewer.viewer);
-        this.setVisible(true);
+        //embed error log as a new tab
+        if(Configuration.errorLogsAsNewTab)
+        {
+            ComponentViewer.addComponentAsTab("Error #" + errorCounter++, getComponent(0));
+        }
+        //pop open a new window frame
+        else
+        {
+            setLocationRelativeTo(BytecodeViewer.viewer);
+            setVisible(true);
+        }
     }
     
     /**
