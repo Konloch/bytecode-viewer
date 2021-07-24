@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
+import the.bytecode.club.bytecodeviewer.bootloader.BootState;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
@@ -110,7 +111,7 @@ public class DecompilerSelectionPane
 			AbstractButton button = it.nextElement();
 			button.addActionListener((event)->
 			{
-				if(Configuration.bootState != Configuration.BootState.GUI_SHOWING)
+				if(Configuration.bootState != BootState.GUI_SHOWING)
 					return;
 				
 				SettingsSerializer.saveSettingsAsync();

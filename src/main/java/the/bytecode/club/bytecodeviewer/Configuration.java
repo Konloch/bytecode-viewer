@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer;
 
+import the.bytecode.club.bytecodeviewer.bootloader.BootState;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
 import the.bytecode.club.bytecodeviewer.translation.Language;
@@ -12,6 +13,7 @@ import java.io.File;
  * @author Konloch
  * @since 6/21/2021
  */
+
 public class Configuration
 {
 	public static String python2 = "";
@@ -108,10 +110,4 @@ public class Configuration
 		return new File(".");
 	}
 	
-	public enum BootState
-	{
-		START_UP,
-		SETTINGS_LOADED,
-		GUI_SHOWING,
-	}
 }

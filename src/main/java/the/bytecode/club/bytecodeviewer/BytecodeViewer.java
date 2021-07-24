@@ -16,6 +16,7 @@ import me.konloch.kontainer.io.DiskReader;
 import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.bootloader.Boot;
+import the.bytecode.club.bytecodeviewer.bootloader.BootState;
 import the.bytecode.club.bytecodeviewer.bootloader.InstallFatJar;
 import the.bytecode.club.bytecodeviewer.bootloader.UpdateCheck;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
@@ -193,7 +194,7 @@ public class BytecodeViewer
             
             //load settings and set swing components state
             SettingsSerializer.loadSettings();
-            Configuration.bootState = Configuration.BootState.SETTINGS_LOADED;
+            Configuration.bootState = BootState.SETTINGS_LOADED;
             
             //set translation language
             if (!Settings.hasSetLanguageAsSystemLanguage)
@@ -219,7 +220,7 @@ public class BytecodeViewer
             if (CLI == CommandLineInput.GUI)
             {
                 BytecodeViewer.boot(false);
-                Configuration.bootState = Configuration.BootState.GUI_SHOWING;
+                Configuration.bootState = BootState.GUI_SHOWING;
             }
             else //CLI arguments say keep it CLI
             {
