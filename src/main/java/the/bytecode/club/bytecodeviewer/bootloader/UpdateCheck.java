@@ -35,7 +35,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 /**
  * @author Konloch
  */
