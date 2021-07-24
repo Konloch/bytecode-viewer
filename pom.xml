@@ -225,20 +225,9 @@
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
-            <artifactId>darklaf-core</artifactId>
-            <version>2.6.2-20210719.010320-83</version> <!-- TODO Change to release when ready, see below -->
+            <artifactId>darklaf-bcv</artifactId>
+            <version>2.6.2bcv</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.weisj</groupId>
-            <artifactId>darklaf-windows</artifactId>
-            <version>2.6.2-20210719.010320-83</version>
-        </dependency>
-        <!-- RELEASE VERSION:
-        <dependency>
-            <groupId>com.github.weisj</groupId>
-            <artifactId>darklaf-core</artifactId>
-            <version>2.6.2</version>
-        </dependency>-->
         <dependency>
             <groupId>com.github.weisj</groupId>
             <artifactId>darklaf-extensions-rsyntaxarea</artifactId>
