@@ -143,7 +143,9 @@ public class JFrameConsole extends JFrame
 			//trim
 			int skipped = len - max;
 			String trimmed = s.substring(0, max);
-			trimmed = ("WARNING: Skipping " + skipped + " chars, allowing " + max + "\n\r")
+			
+			if(!trimmed.startsWith("WARNING: Skipping"))
+				trimmed = ("WARNING: Skipping " + skipped + " chars, allowing " + max + "\n\r")
 					+ "Full log saved to: " + tempFile.getAbsolutePath() + "\n\r\n\r"
 					+ trimmed;
 			
