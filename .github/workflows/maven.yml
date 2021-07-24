@@ -1,13 +1,12 @@
-# This workflow will build a Java project with Maven
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+# This will build the BCV repo and upload the package as an artifact
 
-name: Java CI with Maven
+name: Build BCV
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -23,3 +22,12 @@ jobs:
         distribution: 'adopt'
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: Extract Maven project version
+      run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+      id: project
+    - name: 'Upload Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        name: Bytecode-Viewer-${{ steps.project.outputs.version }}-SNAPSHOT
+        path: target/Bytecode-Viewer-${{ steps.project.outputs.version }}.jar
+        retention-days: 90
