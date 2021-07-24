@@ -134,6 +134,8 @@ public class JFrameConsole extends JFrame
 			//TODO if two consoles are ran at the same time and exceed the maximum this file will be overwritten
 			
 			final File tempFile = new File(tempDirectory, "console_" + consoleID + ".log");
+			
+			//TODO this needs to be rewritten, it doesn't work for a plugin that causes multiple exception UIs
 			new Thread(()->
 			{
 				//save to disk

@@ -46,7 +46,6 @@ public class ExceptionUI extends JFrameConsole
     public static final String KONLOCH = "https://github.com/Konloch/bytecode-viewer/issues or Konloch at https://the.bytecode.club or konloch@gmail.com";
     public static final String SEND_STACKTRACE_TO = buildErrorLogHeader(KONLOCH);
     public static final String SEND_STACKTRACE_TO_NL = SEND_STACKTRACE_TO + nl + nl;
-    public static int errorCounter = 1;
     
     /**
      * @param e The exception to be shown
@@ -116,9 +115,8 @@ public class ExceptionUI extends JFrameConsole
         
         //embed error log as a new tab
         if(Configuration.errorLogsAsNewTab)
-        {
-            PluginManager.addExceptionUI(this, "Error #" + errorCounter++);
-        }
+            PluginManager.addExceptionUI(this);
+        
         //pop open a new window frame
         else
         {

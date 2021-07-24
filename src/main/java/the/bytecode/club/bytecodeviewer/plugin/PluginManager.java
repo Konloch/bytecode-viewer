@@ -1,6 +1,5 @@
 package the.bytecode.club.bytecodeviewer.plugin;
 
-import java.awt.*;
 import java.io.File;
 import java.util.*;
 import java.util.List;
@@ -60,6 +59,7 @@ public final class PluginManager
     private static HashMap<String, ExceptionUI> exceptionTabs = new HashMap<>();
     private static int consoleCount = 0;
     private static int exceptionCount = 0;
+    private static int errorCounter = 1;
 
     static
     {
@@ -132,7 +132,7 @@ public final class PluginManager
     /**
      * Add an active console from a plugin being ran
      */
-    public static void addExceptionUI(ExceptionUI ui, String title)
+    public static void addExceptionUI(ExceptionUI ui)
     {
         if(activePlugin == null)
         {
@@ -149,6 +149,7 @@ public final class PluginManager
         int id = exceptionCount++;
         if(activeTabbedException == null)
         {
+            String title = "Error #" + errorCounter++;
             activeTabbedException = new JFrameConsoleTabbed(title);
             
             if(Configuration.pluginConsoleAsNewTab)
