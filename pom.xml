@@ -3,7 +3,7 @@
 
     <groupId>the.bytecode.club</groupId>
     <artifactId>Bytecode-Viewer</artifactId>
-    <version>2.10.15</version>
+    <version>2.10.16</version>
 
     <properties>
         <java.version>1.8</java.version>
