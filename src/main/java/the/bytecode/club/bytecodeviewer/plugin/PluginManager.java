@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.filechooser.FileFilter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsoleTabbed;
@@ -55,7 +56,10 @@ public final class PluginManager
     
     private static Plugin activePlugin;
     private static JFrameConsoleTabbed activeTabbedConsole;
+    private static JFrameConsoleTabbed activeTabbedException;
+    private static HashMap<String, ExceptionUI> exceptionTabs = new HashMap<>();
     private static int consoleCount = 0;
+    private static int exceptionCount = 0;
 
     static
     {
@@ -85,9 +89,12 @@ public final class PluginManager
     {
         //reset the console count
         consoleCount = 0;
+        exceptionCount = 0;
         
         //reset the active tabbed console
         activeTabbedConsole = null;
+        activeTabbedException = null;
+        exceptionTabs.clear();
     
         //reset the active plugin
         activePlugin = newPluginInstance;
@@ -120,6 +127,43 @@ public final class PluginManager
 
         if (p != null)
             runPlugin(p);
+    }
+    
+    /**
+     * Add an active console from a plugin being ran
+     */
+    public static void addExceptionUI(ExceptionUI ui, String title)
+    {
+        if(activePlugin == null)
+        {
+            ui.setLocationRelativeTo(BytecodeViewer.viewer);
+            ui.setVisible(true);
+            return;
+        }
+        
+        final String name = (activePlugin == null || activePlugin.activeContainer == null)
+                ? ("#" + (activeTabbedException.getTabbedPane().getTabCount() + 1)) : activePlugin.activeContainer.name;
+        
+        ExceptionUI existingUI = exceptionTabs.get(name);
+        
+        int id = exceptionCount++;
+        if(activeTabbedException == null)
+        {
+            activeTabbedException = new JFrameConsoleTabbed(title);
+            
+            if(Configuration.pluginConsoleAsNewTab)
+                ComponentViewer.addComponentAsTab(title, activeTabbedException.getComponent(0));
+            else
+                activeTabbedException.setVisible(true);
+        }
+    
+        if(existingUI == null)
+        {
+            activeTabbedException.addConsole(ui.getComponent(0), name);
+            exceptionTabs.put(name, ui);
+        }
+        else
+            existingUI.appendText("\n\r" + ui.getTextArea().getText());
     }
     
     /**

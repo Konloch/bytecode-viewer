@@ -11,6 +11,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsole;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ComponentViewer;
+import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
@@ -116,7 +117,7 @@ public class ExceptionUI extends JFrameConsole
         //embed error log as a new tab
         if(Configuration.errorLogsAsNewTab)
         {
-            ComponentViewer.addComponentAsTab("Error #" + errorCounter++, getComponent(0));
+            PluginManager.addExceptionUI(this, "Error #" + errorCounter++);
         }
         //pop open a new window frame
         else
