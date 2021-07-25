@@ -84,28 +84,25 @@ public class KrakatauAssembler extends InternalCompiler
             BytecodeViewer.createdProcesses.add(process);
 
             //Read out dir output
-            InputStream is = process.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-            String line;
-            
-            while ((line = br.readLine()) != null)
-                log.append(nl).append(line);
-            
-            br.close();
+            try (InputStream is = process.getInputStream();
+                 InputStreamReader isr = new InputStreamReader(is);
+                 BufferedReader br = new BufferedReader(isr)) {
+                String line;
+                while ((line = br.readLine()) != null)
+                    log.append(nl).append(line);
+            }
 
             log.append(nl).append(nl).append(TranslatedStrings.ERROR2).append(nl).append(nl);
-            is = process.getErrorStream();
-            isr = new InputStreamReader(is);
-            br = new BufferedReader(isr);
-            
-            while ((line = br.readLine()) != null)
-                log.append(nl).append(line);
-            
-            br.close();
+            try (InputStream is = process.getErrorStream();
+                 InputStreamReader isr = new InputStreamReader(is);
+                 BufferedReader br = new BufferedReader(isr)) {
+                String line;
+                while ((line = br.readLine()) != null)
+                    log.append(nl).append(line);
+            }
 
             int exitValue = process.waitFor();
-            log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS + " ").append(exitValue);
+            log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
             System.err.println(log);
 
             byte[] b = FileUtils.readFileToByteArray(Objects.requireNonNull(

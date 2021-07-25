@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Objects;
 import java.util.Random;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
@@ -45,8 +44,7 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
  */
 public class JADXDecompiler extends InternalDecompiler
 {
-    private Random r = new Random();
-    private File f;
+    private final Random r = new Random();
     
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
@@ -55,10 +53,8 @@ public class JADXDecompiler extends InternalDecompiler
         String exception = "";
         final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
-        try {
-            final FileOutputStream fos = new FileOutputStream(tempClass);
+        try (FileOutputStream fos = new FileOutputStream(tempClass)) {
             fos.write(b);
-            fos.close();
         } catch (final IOException e) {
             BytecodeViewer.handleException(e);
         }
@@ -75,7 +71,6 @@ public class JADXDecompiler extends InternalDecompiler
             JadxDecompiler jadx = new JadxDecompiler(args);
             jadx.load();
             jadx.saveSources();
-            //jadx.close();
         } catch (StackOverflowError | Exception e) {
             StringWriter exceptionWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(exceptionWriter));
@@ -102,7 +97,7 @@ public class JADXDecompiler extends InternalDecompiler
         int failSafe = 0;
         while (failSafe++ <= 42069)
         {
-            f = new File(start + r.nextInt(Integer.MAX_VALUE));
+            File f = new File(start + r.nextInt(Integer.MAX_VALUE));
             if (!f.exists())
                 return f.toString();
         }

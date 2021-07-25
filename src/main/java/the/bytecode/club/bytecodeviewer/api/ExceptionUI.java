@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.api;
 
 import java.awt.*;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import javax.swing.JFrame;
@@ -93,11 +94,14 @@ public class ExceptionUI extends JFrameConsole
             return;
         }
         
-        StringWriter sw = new StringWriter();
-        error.printStackTrace(new PrintWriter(sw));
-        error.printStackTrace();
-        
-        setupFrame(sw.toString(), author);
+        try (StringWriter sw = new StringWriter();
+             PrintWriter pw = new PrintWriter(sw)) {
+            error.printStackTrace(pw);
+            error.printStackTrace();
+
+            setupFrame(sw.toString(), author);
+        } catch (IOException ignored) {
+        }
     }
     
     /**

@@ -57,12 +57,8 @@ public class SmaliDisassembler extends InternalDecompiler
         final File tempDex = new File(start + ".dex");
         final File tempSmali = new File(start + "-smali"); //output directory
 
-        try {
-            final FileOutputStream fos = new FileOutputStream(tempClass);
-
+        try (FileOutputStream fos = new FileOutputStream(tempClass)) {
             fos.write(b);
-
-            fos.close();
         } catch (final IOException e) {
             BytecodeViewer.handleException(e);
         }

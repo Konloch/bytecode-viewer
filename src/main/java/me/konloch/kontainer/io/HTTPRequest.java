@@ -97,7 +97,7 @@ public class HTTPRequest {
     }
     
     /**
-     * By default follow redirects are enabled
+     * By default, follow redirects are enabled
      */
     public void setFollowRedirects(boolean setFollowRedirects) {
         this.setFollowRedirects = setFollowRedirects;

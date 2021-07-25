@@ -96,12 +96,8 @@ public class ProcyonDecompiler extends InternalDecompiler
 
             final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
-            try {
-                final FileOutputStream fos = new FileOutputStream(tempClass);
-
+            try (FileOutputStream fos = new FileOutputStream(tempClass)) {
                 fos.write(b);
-
-                fos.close();
             } catch (final IOException e) {
                 BytecodeViewer.handleException(e);
             }
@@ -185,11 +181,12 @@ public class ProcyonDecompiler extends InternalDecompiler
                                     || ((resolvedType = type.resolve()) == null)) {
                                 throw new Exception("Unable to resolve type.");
                             }
-                            Writer writer = new OutputStreamWriter(out);
-                            settings.getLanguage().decompileType(resolvedType,
-                                    new PlainTextOutput(writer),
-                                    decompilationOptions);
-                            writer.flush();
+                            try (Writer writer = new OutputStreamWriter(out)) {
+                                settings.getLanguage().decompileType(resolvedType,
+                                        new PlainTextOutput(writer),
+                                        decompilationOptions);
+                                writer.flush();
+                            }
                         } finally {
                             out.closeEntry();
                         }
@@ -201,16 +198,11 @@ public class ProcyonDecompiler extends InternalDecompiler
                             continue;
                         history.add(etn);
                         out.putNextEntry(etn);
-                        try {
-                            InputStream in = jfile.getInputStream(entry);
+                        try (InputStream in = jfile.getInputStream(entry)) {
                             if (in != null) {
-                                try {
-                                    int count;
-                                    while ((count = in.read(data, 0, 1024)) != -1) {
-                                        out.write(data, 0, count);
-                                    }
-                                } finally {
-                                    in.close();
+                                int count;
+                                while ((count = in.read(data, 0, 1024)) != -1) {
+                                    out.write(data, 0, count);
                                 }
                             }
                         } finally {
@@ -239,7 +231,7 @@ public class ProcyonDecompiler extends InternalDecompiler
             _typeLoaders.add(new InputTypeLoader());
         }
 
-        public final List<ITypeLoader> getTypeLoaders() {
+        public List<ITypeLoader> getTypeLoaders() {
             return _typeLoaders;
         }
 

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommonPreferences {
-    private Map<String, Object> preferences;
+    private final Map<String, Object> preferences;
     protected boolean showDefaultConstructor;
     protected boolean realignmentLineNumber;
     protected boolean showPrefixThis;

@@ -6,10 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import me.konloch.kontainer.io.DiskReader;
-import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
@@ -72,10 +70,8 @@ public class FernFlowerDecompiler extends InternalDecompiler
         final File tempClass = new File(start + ".class");
         
         String exception = "";
-        try {
-            final FileOutputStream fos = new FileOutputStream(tempClass);
+        try (FileOutputStream fos = new FileOutputStream(tempClass)) {
             fos.write(b);
-            fos.close();
         } catch (final IOException e) {
             StringWriter exceptionWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(exceptionWriter));

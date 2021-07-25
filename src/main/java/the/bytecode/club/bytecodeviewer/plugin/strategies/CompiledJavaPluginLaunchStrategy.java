@@ -74,43 +74,40 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 
     private static Set<LoadedNodeData> loadData(File jarFile) throws Throwable
     {
-        ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
-        ZipEntry entry;
+        try (FileInputStream fis = new FileInputStream(jarFile);
+             ZipInputStream jis = new ZipInputStream(fis)) {
+            ZipEntry entry;
 
-        Set<LoadedNodeData> set = new HashSet<>();
+            Set<LoadedNodeData> set = new HashSet<>();
 
-        while ((entry = jis.getNextEntry()) != null)
-        {
-            try
-            {
-                String name = entry.getName();
-                if (name.endsWith(".class"))
-                {
-                    byte[] bytes = MiscUtils.getBytes(jis);
-                    if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
-                    {
-                        try {
-                            ClassReader cr = new ClassReader(bytes);
-                            ClassNode cn = new ClassNode();
-                            cr.accept(cn, 0);
-                            LoadedNodeData data = new LoadedNodeData(bytes, cn);
-                            set.add(data);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+            while ((entry = jis.getNextEntry()) != null) {
+                try {
+                    String name = entry.getName();
+                    if (name.endsWith(".class")) {
+                        byte[] bytes = MiscUtils.getBytes(jis);
+                        if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe")) {
+                            try {
+                                ClassReader cr = new ClassReader(bytes);
+                                ClassNode cn = new ClassNode();
+                                cr.accept(cn, 0);
+                                LoadedNodeData data = new LoadedNodeData(bytes, cn);
+                                set.add(data);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            System.out.println(jarFile + ">" + name + ": Header does not start with CAFEBABE, ignoring.");
                         }
-                    } else {
-                        System.out.println(jarFile + ">" + name + ": Header does not start with CAFEBABE, ignoring.");
                     }
+                } catch (Exception e) {
+                    BytecodeViewer.handleException(e);
+                } finally {
+                    jis.closeEntry();
                 }
-            } catch (Exception e) {
-                BytecodeViewer.handleException(e);
-            } finally {
-                jis.closeEntry();
             }
-        }
-        jis.close();
 
-        return set;
+            return set;
+        }
     }
 
     public static class LoadedNodeData {

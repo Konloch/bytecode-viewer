@@ -28,16 +28,17 @@ public class DiskReader {
         if (!map.containsKey(fileName)) {
             try {
                 File file = new File(fileName);
-                if (!file.exists()) // doesnt exist, return empty
+                if (!file.exists()) // doesn't exist, return empty
                     return array;
 
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                String add;
+                try (FileReader fr = new FileReader(file);
+                     BufferedReader reader = new BufferedReader(fr)) {
+                    String add;
 
-                while ((add = reader.readLine()) != null)
-                    array.add(add);
+                    while ((add = reader.readLine()) != null)
+                        array.add(add);
 
-                reader.close();
+                }
 
                 if (cache)
                     map.put(fileName, array);
@@ -58,13 +59,12 @@ public class DiskReader {
     public synchronized static String loadAsString(String fileName) throws Exception {
         StringBuilder s = new StringBuilder();
 
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-
-        for (String add = reader.readLine(); add != null; add = reader.readLine()) {
-            s.append(EncodeUtils.unicodeToString(add)).append(System.getProperty("line.separator"));
+        try (FileReader fr = new FileReader(fileName);
+             BufferedReader reader = new BufferedReader(fr)) {
+            for (String add = reader.readLine(); add != null; add = reader.readLine()) {
+                s.append(EncodeUtils.unicodeToString(add)).append(System.getProperty("line.separator"));
+            }
         }
-
-        reader.close();
 
         return s.toString();
     }
@@ -80,13 +80,13 @@ public class DiskReader {
             array = new ArrayList<>();
             File file = new File(fileName);
 
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String add;
+            try (FileReader fr = new FileReader(file);
+                 BufferedReader reader = new BufferedReader(fr)) {
+                String add;
 
-            while ((add = reader.readLine()) != null)
-                array.add(add);
-
-            reader.close();
+                while ((add = reader.readLine()) != null)
+                    array.add(add);
+            }
 
             if (cache)
                 map.put(fileName, array);

@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
+import java.io.InputStream;
+import java.util.Scanner;
 import the.bytecode.club.bytecodeviewer.bootloader.InitialBootScreen;
 import the.bytecode.club.bytecodeviewer.Configuration;
 
@@ -41,11 +43,15 @@ public class HTMLPane extends JEditorPane
 	
 	public static HTMLPane fromResource(String resourcePath) throws IOException
 	{
-		return fromString(convertStreamToString(InitialBootScreen.class.getClassLoader().getResourceAsStream(resourcePath)));
+		try (InputStream is = InitialBootScreen.class.getClassLoader().getResourceAsStream(resourcePath)) {
+			return fromString(convertStreamToString(is));
+		}
 	}
 	
 	public static HTMLPane fromString(String text)
 	{
+		if (text == null)
+			return null;
 		HTMLPane pane = new HTMLPane();
 		
 		text = text.replace("{fatJar}", String.valueOf(FAT_JAR));
@@ -67,12 +73,13 @@ public class HTMLPane extends JEditorPane
 		return pane;
 	}
 	
-	public static String convertStreamToString(java.io.InputStream is) throws IOException
+	public static String convertStreamToString(InputStream is) throws IOException
 	{
-		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-		String string = s.hasNext() ? s.next() : "";
-		is.close();
-		s.close();
-		return string;
+		if (is == null)
+			return null;
+		try (InputStream stream = is;
+			 Scanner s = new Scanner(stream).useDelimiter("\\A")) {
+			return s.hasNext() ? s.next() : "";
+		}
 	}
 }

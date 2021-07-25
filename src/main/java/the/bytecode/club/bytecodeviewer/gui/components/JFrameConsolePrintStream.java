@@ -70,7 +70,7 @@ public class JFrameConsolePrintStream extends JFrameConsole
 					
 					try {
 						Thread.sleep(10);
-					} catch (InterruptedException e) { }
+					} catch (InterruptedException ignored) { }
 				}
 				
 				lastUpdate = 0;

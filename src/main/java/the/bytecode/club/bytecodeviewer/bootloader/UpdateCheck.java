@@ -260,12 +260,9 @@ public class UpdateCheck implements Runnable
 		BCV.log("Downloading from: " + url);
 		BytecodeViewer.showMessage("Downloading the jar in the background, when it's finished you will be alerted with another message box."
 				+ nl + nl + "Expect this to take several minutes.");
-		
-		InputStream is = new URL(url).openConnection().getInputStream();
-		FileOutputStream fos = new FileOutputStream(saveTo);
-		
-		try
-		{
+
+		try (InputStream is = new URL(url).openConnection().getInputStream();
+			 FileOutputStream fos = new FileOutputStream(saveTo)) {
 			byte[] buffer = new byte[8192];
 			int len;
 			int downloaded = 0;
@@ -285,14 +282,6 @@ public class UpdateCheck implements Runnable
 					flag = true;
 				} else
 					flag = false;
-			}
-		} finally {
-			try {
-				if (is != null)
-					is.close();
-			} finally {
-				fos.flush();
-				fos.close();
 			}
 		}
 		

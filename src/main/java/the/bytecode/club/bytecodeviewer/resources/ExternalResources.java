@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.resources;
 
+import java.io.InputStream;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
@@ -368,7 +369,7 @@ public class ExternalResources
 			//check for matching text
 			if(readProcess(p).toLowerCase().contains(matchingText))
 				onMatch.run();
-		} catch (Exception e) { } //ignore
+		} catch (Exception ignored) { } //ignore
 	}
 	
 	/**
@@ -376,16 +377,18 @@ public class ExternalResources
 	 */
 	public String readProcess(Process process) throws IOException
 	{
-		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		StringBuilder builder = new StringBuilder();
-		String line;
-		
-		while ((line = reader.readLine()) != null)
-		{
-			builder.append(line);
-			builder.append(System.getProperty("line.separator"));
+		try (InputStream is = process.getInputStream();
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader reader = new BufferedReader(isr)) {
+			StringBuilder builder = new StringBuilder();
+			String line;
+
+			while ((line = reader.readLine()) != null) {
+				builder.append(line);
+				builder.append(System.getProperty("line.separator"));
+			}
+
+			return builder.toString();
 		}
-		
-		return builder.toString();
 	}
 }
