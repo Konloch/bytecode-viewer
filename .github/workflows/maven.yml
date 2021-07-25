@@ -30,6 +30,7 @@ jobs:
       id: project
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v2
+      if: ${{ matrix.java == '8' }}
       with:
         name: Bytecode-Viewer-${{ steps.project.outputs.version }}-SNAPSHOT
         path: target/Bytecode-Viewer-${{ steps.project.outputs.version }}.jar
