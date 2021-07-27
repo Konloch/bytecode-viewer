@@ -1,7 +1,10 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.impl;
 
 import org.apache.commons.io.FilenameUtils;
+import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuItem;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuType;
@@ -43,8 +46,16 @@ public class New extends ContextMenuItem
 		{
 			JMenu quickOpen = new JMenu(TranslatedStrings.NEW.toString());
 			quickOpen.add(createMenu("Class", FileType.CLASS, selPath));
-			quickOpen.add(createMenu("File", FileType.FILE, selPath));
-			//quickOpen.add(createMenu("Directory", FileType.DIRECTORY, selPath));
+			
+			//TODO
+			// + directory isn't finished
+			// + file has no purpose until the plugin writer code is added for newly created resources
+			//   ^ this will allow users to edit the files they have created
+			if(Constants.DEV_MODE)
+			{
+				quickOpen.add(createMenu("File", FileType.FILE, selPath));
+				quickOpen.add(createMenu("Directory", FileType.DIRECTORY, selPath));
+			}
 			menu.add(quickOpen);
 		}));
 	}
@@ -53,28 +64,47 @@ public class New extends ContextMenuItem
 	{
 		JMenuItem menu = new JMenuItem(name);
 		
-		String separator = "/"; //fileType == FileType.CLASS ? "." : "/";
-		String firstPath = buildPath(0, 2, selPath, separator);
+		String separator = fileType == FileType.CLASS ? "." : "/";
+		String firstPath = buildPath(0, 2, selPath, "/");
 		String path = buildPath(2, selPath.getPathCount(), selPath, separator);
 		String containerName = selPath.getPathComponent(1).toString();
 		
 		menu.addActionListener((e)->{
-			String newPath = BytecodeViewer.showInput("Name", "Enter the file name", path);
+			String newPath = BytecodeViewer.showInput("Name",
+					fileType == FileType.CLASS ? "Enter the class name" : "Enter the file name",
+					FilenameUtils.removeExtension(path));
 			
 			if(newPath == null || newPath.isEmpty())
 				return;
 			
+			byte[] contents = new byte[0];
+			String resourcePath = newPath;
+			
 			switch(fileType)
 			{
-				case FILE:
-					BytecodeViewer.resourceContainers.get(containerName).resourceFiles.put(newPath, new byte[0]);
-					searchAndInsert(firstPath+"/"+newPath, BytecodeViewer.resourceContainers.get(containerName).treeNode);
-					break;
-					
 				case CLASS:
-					//TODO needs to be an empty class file, asm can help with this
+					ClassNode cn = new ClassNode();
+					
+					//TODO this should be a dialog
+					cn.version = 52;
+					
+					//TODO santize newPath and remove extension if added
+					cn.name = newPath;
+					resourcePath = resourcePath.replace(".", "/") + ".class";
+					
+					contents = ASMUtil.nodeToBytes(cn);
+					
+					BytecodeViewer.resourceContainers.get(containerName).resourceFiles.put(resourcePath, contents);
+					searchAndInsert(firstPath + "/" + resourcePath, BytecodeViewer.resourceContainers.get(containerName).treeNode, "/");
+					
+					break;
+				case FILE:
+					BytecodeViewer.resourceContainers.get(containerName).resourceFiles.put(resourcePath, contents);
+					searchAndInsert(firstPath + separator +newPath, BytecodeViewer.resourceContainers.get(containerName).treeNode, separator);
 					break;
 			}
+			
+			BytecodeViewer.viewer.resourcePane.tree.updateUI();
 		});
 		
 		return menu;
@@ -109,12 +139,12 @@ public class New extends ContextMenuItem
 	}
 	
 	//TODO this needs to be rewritten to support creating parent nodes that don't exist
-	public static boolean searchAndInsert(String path, DefaultMutableTreeNode treeNode)
+	public static boolean searchAndInsert(String path, DefaultMutableTreeNode treeNode, String separator)
 	{
 		Enumeration<DefaultMutableTreeNode> children = treeNode.children();
 		
 		String findPath = FilenameUtils.getPath(path);
-		String currentPath = buildPath(0, treeNode.getPath().length, treeNode, "/");
+		String currentPath = buildPath(0, treeNode.getPath().length, treeNode, separator);
 		String directory = FilenameUtils.getPath(currentPath);
 		
 		if(currentPath.startsWith(findPath))
@@ -127,7 +157,7 @@ public class New extends ContextMenuItem
 		while(children.hasMoreElements())
 		{
 			DefaultMutableTreeNode child = children.nextElement();
-			if(searchAndInsert(path, child))
+			if(searchAndInsert(path, child, separator))
 				return true;
 		}
 		
@@ -138,5 +168,6 @@ public class New extends ContextMenuItem
 	{
 		CLASS,
 		FILE,
+		DIRECTORY,
 	}
 }
