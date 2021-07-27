@@ -320,7 +320,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
         
         //view classes
-        if (MiscUtils.getFileHeaderMagicNumber(content).equalsIgnoreCase("cafebabe")
+        if (content != null && MiscUtils.getFileHeaderMagicNumber(content).equalsIgnoreCase("cafebabe")
                 || name.endsWith(".class"))
         {
             try
