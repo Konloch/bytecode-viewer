@@ -1,14 +1,8 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.event.ActionEvent;
-import java.util.Enumeration;
-import java.util.Objects;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -30,18 +24,18 @@ import java.util.Objects;
 
 /**
  * @author Konloch
- * @since 6/22/2021
+ * @since 7/26/2021
  */
-public class ResourceListRightClickRemove extends AbstractAction
+public class ResourceListRightClickOpen extends AbstractAction
 {
 	private final ResourceListPane resourceListPane;
 	private final int x;
 	private final int y;
 	private final ResourceTree tree;
 	
-	public ResourceListRightClickRemove(ResourceListPane resourceListPane, int x, int y, ResourceTree tree)
+	public ResourceListRightClickOpen(ResourceListPane resourceListPane, int x, int y, ResourceTree tree)
 	{
-		super("Remove");
+		super("Open");
 		this.resourceListPane = resourceListPane;
 		this.x = x;
 		this.y = y;
@@ -52,28 +46,6 @@ public class ResourceListRightClickRemove extends AbstractAction
 	public void actionPerformed(ActionEvent e)
 	{
 		TreePath selPath = resourceListPane.tree.getClosestPathForLocation(x, y);
-		DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode) Objects.requireNonNull(selPath).getLastPathComponent();
-		Enumeration<?> enumeration = resourceListPane.treeRoot.children();
-		while (enumeration.hasMoreElements())
-		{
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumeration.nextElement();
-			if (node.isNodeAncestor(selectNode))
-			{
-				DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
-				root.remove(node);
-				
-				for (ResourceContainer resourceContainer : BytecodeViewer.resourceContainers)
-				{
-					if (resourceContainer.name.equals(selectNode.toString()))
-					{
-						resourceListPane.removeResource(resourceContainer);
-						resourceListPane.removeFile(resourceContainer);
-						break;
-					}
-				}
-				
-				return;
-			}
-		}
+		resourceListPane.openPath(selPath);
 	}
 }

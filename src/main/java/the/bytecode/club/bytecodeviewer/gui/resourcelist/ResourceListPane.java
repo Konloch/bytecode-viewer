@@ -78,33 +78,48 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     
     public final KeyAdapter search = new SearchKeyAdapter(this);
     
-    private void showPopMenu(ResourceTree tree, TreePath selPath, int x, int y)
+    private void showContextMenu(ResourceTree tree, TreePath selPath, int x, int y)
     {
         if (selPath == null)
             return;
         
+        boolean isContainerSelected = selPath.getParentPath() != null && selPath.getParentPath().getParentPath() == null;
+        
+        //TODO this is hacky - there is probably a better way to do this
+        tree.setSelectionPath(selPath);
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+        boolean isResourceSelected = !node.children().hasMoreElements();
+        
         rightClickMenu.removeAll();
         
-        rightClickMenu.add(new ResourceListRightClickRemove(this, x, y, tree));
+        //container selected
+        if(isContainerSelected)
+            rightClickMenu.add(new ResourceListRightClickRemove(this, x, y, tree));
+        else if(isResourceSelected) //container resource selected
+            rightClickMenu.add(new ResourceListRightClickOpen(this, x, y, tree));
         
-        rightClickMenu.add(new AbstractAction("Expand", IconResources.CollapsedIcon.createCollapsedIcon())
+        if(isContainerSelected || !isResourceSelected)
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
+            rightClickMenu.add(new AbstractAction("Expand", IconResources.CollapsedIcon.createCollapsedIcon())
             {
-                TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
-                expandAll(tree, Objects.requireNonNull(selPath), true);
-            }
-        });
-        rightClickMenu.add(new AbstractAction("Collapse", IconResources.ExpandedIcon.createExpandedIcon())
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
+                    expandAll(tree, Objects.requireNonNull(selPath), true);
+                }
+            });
+            
+            rightClickMenu.add(new AbstractAction("Collapse", IconResources.ExpandedIcon.createExpandedIcon())
             {
-                TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
-                expandAll(tree, Objects.requireNonNull(selPath), false);
-            }
-        });
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
+                    expandAll(tree, Objects.requireNonNull(selPath), false);
+                }
+            });
+        }
         
         rightClickMenu.show(this.tree, x, y);
     }
@@ -119,6 +134,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     public ResourceListPane()
     {
         super("Files", TranslatedComponents.FILES);
+        
         tree.setRootVisible(false);
         tree.setShowsRootHandles(true);
         quickSearch.setForeground(Color.gray);
@@ -371,22 +387,12 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 if (e.isMetaDown())
                 {
                     ResourceTree tree = (ResourceTree) e.getSource();
-                    TreePath selPath = ResourceListPane.this.tree.getPathForLocation(e.getX(), e.getY());
+                    TreePath selPath = ResourceListPane.this.tree.getClosestPathForLocation(e.getX(), e.getY());
+                    
                     if (selPath == null)
                         return;
-                
-                    DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode) selPath.getLastPathComponent();
-                    Enumeration<?> enumeration = treeRoot.children();
-                    while (enumeration.hasMoreElements())
-                    {
-                        DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumeration.nextElement();
-                        if (node.isNodeAncestor(selectNode))
-                        {
-                            //rightClickMenu.show(tree, e.getX(), e.getY());
-                            showPopMenu(tree, selPath, e.getX(), e.getY());
-                            break;
-                        }
-                    }
+                    
+                    showContextMenu(tree, selPath, e.getX(), e.getY());
                 }
             }
         });
@@ -406,7 +412,8 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         this.tree.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                openPath(tree.getPathForLocation(e.getX(), e.getY()));
+                if(e.getButton() == MouseEvent.BUTTON1) //right-click
+                    openPath(tree.getPathForLocation(e.getX(), e.getY()));
             }
         });
     
@@ -428,22 +435,31 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             public void keyTyped(KeyEvent e) { }
         
             @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (e.getSource() instanceof ResourceTree) {
+            public void keyPressed(KeyEvent e)
+            {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                {
+                    if (e.getSource() instanceof ResourceTree)
+                    {
                         ResourceTree tree = (ResourceTree) e.getSource();
                         openPath(tree.getSelectionPath());
                     }
-                } else if ((int) e.getKeyChar() != 0 && (int) e.getKeyChar() != 8 && (int) e.getKeyChar() != 127 && (int) e.getKeyChar() != 65535 && !e.isControlDown() && !e.isAltDown()) {
+                }
+                else if ((int) e.getKeyChar() != 0 &&
+                        (int) e.getKeyChar() != 8 &&
+                        (int) e.getKeyChar() != 127 &&
+                        (int) e.getKeyChar() != 65535 &&
+                        !e.isControlDown() &&
+                        !e.isAltDown())
+                {
                     quickSearch.grabFocus();
                     quickSearch.setText("" + e.getKeyChar());
                     cancel = true;
-                } else if (e.isControlDown() && (int) e.getKeyChar() == 6) //ctrl + f
-                {
-                    quickSearch.grabFocus();
-                } else {
-                    cancel = true;
                 }
+                else if (e.isControlDown() && (int) e.getKeyChar() == 6) //ctrl + f
+                    quickSearch.grabFocus();
+                else
+                    cancel = true;
             }
         });
     }
@@ -451,18 +467,23 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     public void attachQuickSearchListeners()
     {
         quickSearch.addKeyListener(search);
-        quickSearch.addFocusListener(new FocusListener() {
+        quickSearch.addFocusListener(new FocusListener()
+        {
             @Override
-            public void focusGained(final FocusEvent arg0) {
-                if (quickSearch.getText().equals(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString())) {
+            public void focusGained(final FocusEvent arg0)
+            {
+                if (quickSearch.getText().equals(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString()))
+                {
                     quickSearch.setText("");
                     quickSearch.setForeground(Color.black);
                 }
             }
         
             @Override
-            public void focusLost(final FocusEvent arg0) {
-                if (quickSearch.getText().isEmpty()) {
+            public void focusLost(final FocusEvent arg0)
+            {
+                if (quickSearch.getText().isEmpty())
+                {
                     quickSearch.setText(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString());
                     quickSearch.setForeground(Color.gray);
                 }
