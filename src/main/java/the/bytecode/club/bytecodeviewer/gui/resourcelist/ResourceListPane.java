@@ -358,7 +358,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 File tempFile = new File(tempDirectory + fs + hash + fs + name + "." + extension);
                 if(!tempFile.exists())
                 {
-                    DiskWriter.replaceFileBytes(tempFile.getAbsolutePath(), container.resourceFiles.get(name), false);
+                    DiskWriter.replaceFileBytes(tempFile.getAbsolutePath(), content, false);
     
                     try
                     {
