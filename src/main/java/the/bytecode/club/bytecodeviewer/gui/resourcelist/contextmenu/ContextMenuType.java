@@ -1,8 +1,4 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcelist;
-
-import javax.swing.*;
-import javax.swing.tree.TreePath;
-import java.awt.event.ActionEvent;
+package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -26,26 +22,10 @@ import java.awt.event.ActionEvent;
  * @author Konloch
  * @since 7/26/2021
  */
-public class ResourceListRightClickOpen extends AbstractAction
+public enum ContextMenuType
 {
-	private final ResourceListPane resourceListPane;
-	private final int x;
-	private final int y;
-	private final ResourceTree tree;
-	
-	public ResourceListRightClickOpen(ResourceListPane resourceListPane, int x, int y, ResourceTree tree)
-	{
-		super("Open");
-		this.resourceListPane = resourceListPane;
-		this.x = x;
-		this.y = y;
-		this.tree = tree;
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		TreePath selPath = resourceListPane.tree.getClosestPathForLocation(x, y);
-		resourceListPane.openPath(selPath);
-	}
+	ALL,
+	RESOURCE,
+	DIRECTORY,
+	CONTAINER,
 }

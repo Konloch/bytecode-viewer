@@ -23,7 +23,8 @@ import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.IconResources;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenu;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
@@ -82,45 +83,8 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     {
         if (selPath == null)
             return;
-        
-        boolean isContainerSelected = selPath.getParentPath() != null && selPath.getParentPath().getParentPath() == null;
-        
-        //TODO this is hacky - there is probably a better way to do this
-        tree.setSelectionPath(selPath);
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-        boolean isResourceSelected = !node.children().hasMoreElements();
-        
-        rightClickMenu.removeAll();
-        
-        //container selected
-        if(isContainerSelected)
-            rightClickMenu.add(new ResourceListRightClickRemove(this, x, y, tree));
-        else if(isResourceSelected) //container resource selected
-            rightClickMenu.add(new ResourceListRightClickOpen(this, x, y, tree));
-        
-        if(isContainerSelected || !isResourceSelected)
-        {
-            rightClickMenu.add(new AbstractAction("Expand", IconResources.CollapsedIcon.createCollapsedIcon())
-            {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
-                    expandAll(tree, Objects.requireNonNull(selPath), true);
-                }
-            });
-            
-            rightClickMenu.add(new AbstractAction("Collapse", IconResources.ExpandedIcon.createExpandedIcon())
-            {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    TreePath selPath = ResourceListPane.this.tree.getPathForLocation(x, y);
-                    expandAll(tree, Objects.requireNonNull(selPath), false);
-                }
-            });
-        }
-        
+    
+        ContextMenu.buildMenu(tree, selPath, rightClickMenu);
         rightClickMenu.show(this.tree, x, y);
     }
     
@@ -186,7 +150,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         tree.expandPath(new TreePath(tree.getModel().getRoot()));
         tree.updateUI();
     
-        //TODO add a setting for this
+        //TODO add a setting to expand on resource import
         // expandAll(tree, true);
     }
     
@@ -276,7 +240,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     }
 
     @SuppressWarnings("rawtypes")
-    private void expandAll(final JTree tree, final TreePath parent,
+    public void expandAll(final JTree tree, final TreePath parent,
                            final boolean expand) {
         // Traverse children
         final TreeNode node = (TreeNode) parent.getLastPathComponent();
@@ -301,6 +265,23 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         treeRoot.removeAllChildren();
         tree.repaint();
         tree.updateUI();
+    }
+    
+    public void quickDecompile(Decompiler decompiler, TreePath selPath)
+    {
+        Decompiler tempDecompiler1 = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler();
+        Decompiler tempDecompiler2 = BytecodeViewer.viewer.viewPane2.getSelectedDecompiler();
+        Decompiler tempDecompiler3 = BytecodeViewer.viewer.viewPane3.getSelectedDecompiler();
+    
+        BytecodeViewer.viewer.viewPane1.setSelectedDecompiler(decompiler);
+        BytecodeViewer.viewer.viewPane2.setSelectedDecompiler(Decompiler.NONE);
+        BytecodeViewer.viewer.viewPane3.setSelectedDecompiler(Decompiler.NONE);
+        
+        openPath(selPath);
+    
+        BytecodeViewer.viewer.viewPane1.setSelectedDecompiler(tempDecompiler1);
+        BytecodeViewer.viewer.viewPane2.setSelectedDecompiler(tempDecompiler2);
+        BytecodeViewer.viewer.viewPane3.setSelectedDecompiler(tempDecompiler3);
     }
 
     public void openPath(TreePath path)
