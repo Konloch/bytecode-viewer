@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.impl.*;
 
@@ -38,6 +39,7 @@ public class ContextMenu
 	
 	static
 	{
+		addContext(new New());
 		addContext(new Remove());
 		addContext(new Open());
 		addContext(new QuickOpen());
