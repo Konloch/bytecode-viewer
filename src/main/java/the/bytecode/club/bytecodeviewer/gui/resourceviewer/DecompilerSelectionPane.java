@@ -141,11 +141,14 @@ public class DecompilerSelectionPane
 		menu.add(new JSeparator());
 		menu.add(procyon.getMenu());
 		menu.add(CFR.getMenu());
-		menu.add(JADX.getMenu());
+		if(!Configuration.jadxGroupedWithSmali)
+			menu.add(JADX.getMenu());
 		menu.add(JD.getMenu());
 		menu.add(fern.getMenu());
 		menu.add(krakatau.getMenu());
 		menu.add(new JSeparator());
+		if(Configuration.jadxGroupedWithSmali)
+			menu.add(JADX.getMenu());
 		menu.add(smali.getMenu());
 		menu.add(new JSeparator());
 		menu.add(bytecode.getMenu());

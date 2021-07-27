@@ -60,6 +60,9 @@ public class Configuration
 	//if true the plugin writer will open inside of a tab
 	public static boolean pluginWriterAsNewTab = true; //TODO add to GUI
 	
+	//if true jadx will be above smali in an android grouping
+	public static boolean jadxGroupedWithSmali = true; //TODO add to GUI
+	
 	public static boolean forceResourceUpdateFromClassNode = false; //TODO add to GUI
 	public static boolean showDarkLAFComponentIcons = false;
 	public static boolean currentlyDumping = false;
