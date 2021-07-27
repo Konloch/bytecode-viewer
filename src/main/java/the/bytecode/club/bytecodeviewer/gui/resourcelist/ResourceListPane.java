@@ -403,21 +403,21 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             tree.expandPath(path);
         });
     
-        /*this.tree.addMouseListener(new MouseAdapter() {
+        this.tree.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 openPath(tree.getPathForLocation(e.getX(), e.getY()));
             }
-        });*/
+        });
     
-        this.tree.addTreeSelectionListener(arg0 -> {
+        /*this.tree.addTreeSelectionListener(arg0 -> {
             if (cancel) {
                 cancel = false;
                 return;
             }
             
             openPath(arg0.getPath());
-        });
+        });*/
     
         this.tree.addKeyListener(new KeyListener()
         {
