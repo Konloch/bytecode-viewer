@@ -112,28 +112,31 @@ public class KrakatauDecompiler extends InternalDecompiler
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
 
-            //Read out dir output
-            InputStream is = process.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
             StringBuilder log = new StringBuilder(TranslatedStrings.PROCESS2 + nl + nl);
-            String line;
-            while ((line = br.readLine()) != null) {
-                log.append(nl).append(line);
+
+            //Read out dir output
+            try (InputStream is = process.getInputStream();
+                 InputStreamReader isr = new InputStreamReader(is);
+                 BufferedReader br = new BufferedReader(isr)) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    log.append(nl).append(line);
+                }
             }
-            br.close();
 
             log.append(nl).append(nl).append(TranslatedStrings.ERROR2).append(nl).append(nl);
-            is = process.getErrorStream();
-            isr = new InputStreamReader(is);
-            br = new BufferedReader(isr);
-            while ((line = br.readLine()) != null) {
-                log.append(nl).append(line);
+
+            try (InputStream is = process.getErrorStream();
+                 InputStreamReader isr = new InputStreamReader(is);
+                 BufferedReader br = new BufferedReader(isr)) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    log.append(nl).append(line);
+                }
             }
-            br.close();
 
             int exitValue = process.waitFor();
-            log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS + " ").append(exitValue);
+            log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
             s = log.toString();
 
             //if the motherfucker failed this'll fail, aka wont set.
@@ -196,26 +199,28 @@ public class KrakatauDecompiler extends InternalDecompiler
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
 
-            //Read out dir output
-            InputStream is = process.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
             StringBuilder log = new StringBuilder(TranslatedStrings.PROCESS2 + nl + nl);
-            String line;
-            while ((line = br.readLine()) != null) {
-                log.append(nl).append(line);
-            }
-            br.close();
 
-            log.append(nl).append(nl).append(TranslatedStrings.ERROR2).append(nl)
-                    .append(nl);
-            is = process.getErrorStream();
-            isr = new InputStreamReader(is);
-            br = new BufferedReader(isr);
-            while ((line = br.readLine()) != null) {
-                log.append(nl).append(line);
+            //Read out dir output
+            try (InputStream is = process.getInputStream();
+                 InputStreamReader isr = new InputStreamReader(is);
+                 BufferedReader br = new BufferedReader(isr)) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    log.append(nl).append(line);
+                }
             }
-            br.close();
+
+            log.append(nl).append(nl).append(TranslatedStrings.ERROR2).append(nl).append(nl);
+
+            try (InputStream is = process.getErrorStream();
+                 InputStreamReader isr = new InputStreamReader(is);
+                 BufferedReader br = new BufferedReader(isr)) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    log.append(nl).append(line);
+                }
+            }
 
             int exitValue = process.waitFor();
             log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS + " ").append(exitValue);

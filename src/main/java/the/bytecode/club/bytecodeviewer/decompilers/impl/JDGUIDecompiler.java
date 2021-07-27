@@ -72,10 +72,8 @@ public class JDGUIDecompiler extends InternalDecompiler
                 }
             }
 
-            try {
-                final FileOutputStream fos = new FileOutputStream(tempClass);
+            try (FileOutputStream fos = new FileOutputStream(tempClass)) {
                 fos.write(b);
-                fos.close();
             } catch (final IOException e) {
                 BytecodeViewer.handleException(e);
             }
@@ -101,16 +99,14 @@ public class JDGUIDecompiler extends InternalDecompiler
 
             //PrintStream ps = new PrintStream("test.html");
             //HtmlPrinter printer = new HtmlPrinter(ps);
-            PrintStream ps = new PrintStream(tempJava.getAbsolutePath());
-            PlainTextPrinter printer = new PlainTextPrinter(preferences, ps);
-
             org.jd.core.v1.api.Decompiler decompiler = new ClassFileToJavaSourceDecompiler();
-            decompiler.decompile(loader, printer, internalPath, preferences.getPreferences());
 
-            String decompiledSource;
-            decompiledSource = DiskReader.loadAsString(tempJava.getAbsolutePath());
+            try (PrintStream ps = new PrintStream(tempJava.getAbsolutePath());
+                 PlainTextPrinter printer = new PlainTextPrinter(preferences, ps)) {
+                decompiler.decompile(loader, printer, internalPath, preferences.getPreferences());
+            }
 
-            return decompiledSource;
+            return DiskReader.loadAsString(tempJava.getAbsolutePath());
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));

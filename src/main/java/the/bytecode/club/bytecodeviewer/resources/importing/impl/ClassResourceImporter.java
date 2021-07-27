@@ -39,23 +39,25 @@ public class ClassResourceImporter implements Importer
 	public void open(File file) throws Exception
 	{
 		final String name = file.getName();
-		byte[] bytes = MiscUtils.getBytes(new FileInputStream(file));
-		ResourceContainer container = new ResourceContainer(file);
-		
-		if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
-		{
-			final ClassNode cn = JarUtils.getNode(bytes);
-			
-			container.resourceClasses.put(FilenameUtils.removeExtension(name), cn);
-			container.resourceClassBytes.put(name, bytes);
+		try (FileInputStream fis = new FileInputStream(file)) {
+			byte[] bytes = MiscUtils.getBytes(fis);
+			ResourceContainer container = new ResourceContainer(file);
+
+			if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
+			{
+				final ClassNode cn = JarUtils.getNode(bytes);
+
+				container.resourceClasses.put(FilenameUtils.removeExtension(name), cn);
+				container.resourceClassBytes.put(name, bytes);
+			}
+			else
+			{
+				BytecodeViewer.showMessage(name + "\nHeader does not start with CAFEBABE\nimporting as resource instead.");
+
+				//TODO double check this
+				container.resourceFiles.put(name, bytes);
+			}
+			BytecodeViewer.addResourceContainer(container);
 		}
-		else
-		{
-			BytecodeViewer.showMessage(name + "\nHeader does not start with CAFEBABE\nimporting as resource instead.");
-			
-			//TODO double check this
-			container.resourceFiles.put(name, bytes);
-		}
-		BytecodeViewer.addResourceContainer(container);
 	}
 }

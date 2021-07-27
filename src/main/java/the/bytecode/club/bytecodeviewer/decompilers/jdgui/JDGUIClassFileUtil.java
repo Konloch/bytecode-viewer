@@ -23,14 +23,11 @@ public class JDGUIClassFileUtil
      * repoertoire de base.
      */
     public static String ExtractDirectoryPath(String pathToClass) {
-        DataInputStream dis = null;
         String directoryPath;
 
-        try {
-            dis = new DataInputStream(
-                    new BufferedInputStream(
-                            new FileInputStream(pathToClass)));
-
+        try (FileInputStream fis = new FileInputStream(pathToClass);
+             BufferedInputStream bis = new BufferedInputStream(fis);
+             DataInputStream dis = new DataInputStream(bis)) {
             int magic = dis.readInt();
             if (magic != ClassFileReader.JAVA_MAGIC_NUMBER)
                 throw new ClassFileFormatException("Invalid Java .class file");
@@ -71,12 +68,6 @@ public class JDGUIClassFileUtil
         } catch (IOException e) {
             directoryPath = null;
             e.printStackTrace();
-        } finally {
-            if (dis != null)
-                try {
-                    dis.close();
-                } catch (IOException ignored) {
-                }
         }
 
         return directoryPath;

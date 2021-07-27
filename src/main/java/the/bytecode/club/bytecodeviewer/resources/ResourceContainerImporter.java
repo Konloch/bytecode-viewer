@@ -56,7 +56,9 @@ public class ResourceContainerImporter
 	 */
 	public ResourceContainerImporter importAsFile() throws IOException
 	{
-		return addUnknownFile(container.file.getName(), new FileInputStream(container.file), false);
+		try (FileInputStream fis = new FileInputStream(container.file)) {
+			return addUnknownFile(container.file.getName(), fis, false);
+		}
 	}
 	
 	/**
@@ -148,21 +150,21 @@ public class ResourceContainerImporter
 	 */
 	private ResourceContainerImporter importZipInputStream(boolean classesOnly) throws IOException
 	{
-		ZipInputStream jis = new ZipInputStream(new FileInputStream(container.file));
-		ZipEntry entry;
-		while ((entry = jis.getNextEntry()) != null)
-		{
-			final String name = entry.getName();
-			
-			//skip directories
-			if(entry.isDirectory())
-				continue;
-			
-			addUnknownFile(name, jis, classesOnly);
-			jis.closeEntry();
+		try (ZipInputStream jis = new ZipInputStream(new FileInputStream(container.file))) {
+			ZipEntry entry;
+			while ((entry = jis.getNextEntry()) != null) {
+				final String name = entry.getName();
+
+				//skip directories
+				if (entry.isDirectory())
+					continue;
+
+				addUnknownFile(name, jis, classesOnly);
+				jis.closeEntry();
+			}
+
+			return this;
 		}
-		jis.close();
-		return this;
 	}
 	
 	/**

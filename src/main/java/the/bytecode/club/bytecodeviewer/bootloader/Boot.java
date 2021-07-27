@@ -121,11 +121,9 @@ public class Boot {
                     setState("Bytecode Viewer Boot Screen - Downloading " + fileName + "...");
                     System.out.println("Downloading " + fileName);
 
-                    InputStream is = null;
-                    FileOutputStream fos = null;
-                    try {
-                        is = new URL("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName).openConnection().getInputStream();
-                        fos = new FileOutputStream(file);
+                    try (InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName)
+                            .openConnection().getInputStream();
+                        FileOutputStream fos = new FileOutputStream(file)) {
                         System.out.println("Downloading from " + s);
                         byte[] buffer = new byte[8192];
                         int len;
@@ -142,19 +140,6 @@ public class Boot {
                                 flag = true;
                             } else
                                 flag = false;
-                        }
-                    } finally {
-                        try {
-                            if (is != null) {
-                                is.close();
-                            }
-                        } finally {
-                            if (fos != null) {
-                                fos.flush();
-                            }
-                            if (fos != null) {
-                                fos.close();
-                            }
                         }
                     }
 
@@ -233,7 +218,7 @@ public class Boot {
                     try {
                         ExternalResource res = new EmptyExternalResource<>(f.toURI().toURL());
                         loader.bind(res);
-                        System.out.println("Succesfully loaded " + f.getName());
+                        System.out.println("Successfully loaded " + f.getName());
                     } catch (Exception e) {
                         e.printStackTrace();
                         f.delete();
@@ -314,24 +299,22 @@ public class Boot {
 
             setState("Bytecode Viewer Boot Screen - Extracting Krakatau");
             System.out.println("Extracting Krakatau");
-            try {
 
-                while (temp.exists())
-                    temp.delete();
+            while (temp.exists())
+                temp.delete();
 
-                InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("Krakatau-" + Constants.krakatauVersion + ".zip");
-                FileOutputStream baos = new FileOutputStream(temp);
-
+            try (InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("Krakatau-"
+                    + Constants.krakatauVersion + ".zip");
+                 FileOutputStream baos = new FileOutputStream(temp)) {
                 int r;
                 byte[] buffer = new byte[8192];
                 while ((r = Objects.requireNonNull(is).read(buffer)) >= 0) {
                     baos.write(buffer, 0, r);
                 }
 
-                baos.close();
                 ZipUtils.unzipFilesToPath(temp.getAbsolutePath(), krakatauDirectory.getAbsolutePath());
                 temp.delete();
-                System.out.println("Succesfully extracted Krakatau");
+                System.out.println("Successfully extracted Krakatau");
             } catch (Exception e) {
                 setState("Bytecode Viewer Boot Screen - ERROR, please contact @Konloch with your stacktrace.");
                 BytecodeViewer.handleException(e);
@@ -349,25 +332,22 @@ public class Boot {
             
             setState("Bytecode Viewer Boot Screen - Extracting Enjarify");
             System.out.println("Extracting Enjarify");
-            
-            try {
-                while (temp.exists())
-                    temp.delete();
 
-                InputStream is =
-                        BytecodeViewer.class.getClassLoader().getResourceAsStream("enjarify-" + Constants.enjarifyVersion + ".zip");
-                FileOutputStream baos = new FileOutputStream(temp);
+            while (temp.exists())
+                temp.delete();
 
+            try (InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("enjarify-" +
+                    Constants.enjarifyVersion + ".zip");
+                 FileOutputStream baos = new FileOutputStream(temp)) {
                 int r;
                 byte[] buffer = new byte[8192];
                 while ((r = Objects.requireNonNull(is).read(buffer)) >= 0) {
                     baos.write(buffer, 0, r);
                 }
 
-                baos.close();
                 ZipUtils.unzipFilesToPath(temp.getAbsolutePath(), enjarifyDirectory.getAbsolutePath());
                 temp.delete();
-                System.out.println("Succesfully extracted Enjarify");
+                System.out.println("Successfully extracted Enjarify");
             } catch (Exception e) {
                 setState("Bytecode Viewer Boot Screen - ERROR, please contact @Konloch with your stacktrace.");
                 BytecodeViewer.handleException(e);
@@ -388,11 +368,9 @@ public class Boot {
                     setState("Bytecode Viewer Boot Screen - Downloading " + fileName + "...");
                     System.out.println("Downloading " + fileName);
 
-                    InputStream is = null;
-                    FileOutputStream fos = null;
-                    try {
-                        is = new URL("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName).openConnection().getInputStream();
-                        fos = new FileOutputStream(file);
+                    try (InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName)
+                            .openConnection().getInputStream();
+                         FileOutputStream fos = new FileOutputStream(file)) {
                         System.out.println("Downloading from " + s);
                         byte[] buffer = new byte[8192];
                         int len;
@@ -412,19 +390,6 @@ public class Boot {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                    } finally {
-                        try {
-                            if (is != null) {
-                                is.close();
-                            }
-                        } finally {
-                            if (fos != null) {
-                                fos.flush();
-                            }
-                            if (fos != null) {
-                                fos.close();
-                            }
-                        }
                     }
 
                     try {

@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
+import java.io.Closeable;
+import java.io.IOException;
 import javax.swing.*;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -26,7 +28,7 @@ import java.io.PrintStream;
  * @author Konloch
  * @since 6/21/2021
  */
-public class JTextAreaOutputStream extends OutputStream
+public class JTextAreaOutputStream extends OutputStream implements Closeable
 {
 	private StringBuilder sb = new StringBuilder();
 	private final JTextArea textArea;
@@ -60,5 +62,11 @@ public class JTextAreaOutputStream extends OutputStream
 	public StringBuilder getBuffer()
 	{
 		return sb;
+	}
+
+	@Override
+	public void close() throws IOException {
+		if (og != null)
+			og.close();
 	}
 }

@@ -102,34 +102,32 @@ public class BCV
         try
         {
             File f = new File(tempDirectory + fs + MiscUtils.randomString(12) + "loaded_temp.jar");
+            List<Class<?>> ret = new ArrayList<>();
             
             JarUtils.saveAsJar(BCV.getLoadedClasses(), f.getAbsolutePath());
-            JarFile jarFile = new JarFile("" + f.getAbsolutePath());
-            
-            Enumeration<JarEntry> e = jarFile.entries();
-            URL[] urls = {new URL("jar:file:" + "" + f.getAbsolutePath() + "!/")};
-            
-            cl = URLClassLoader.newInstance(urls);
-            List<Class<?>> ret = new ArrayList<>();
+            try (JarFile jarFile = new JarFile("" + f.getAbsolutePath())) {
 
-            while (e.hasMoreElements())
-            {
-                JarEntry je = e.nextElement();
-                
-                if (je.isDirectory() || !je.getName().endsWith(".class"))
-                    continue;
-                
-                String className = je.getName().replace("/", ".").replace(".class", "");
-                className = className.replace('/', '.');
-                
-                try {
-                    ret.add(cl.loadClass(className));
-                } catch (Exception classLoadException) {
-                    the.bytecode.club.bytecodeviewer.BytecodeViewer.handleException(classLoadException);
+                Enumeration<JarEntry> e = jarFile.entries();
+                URL[] urls = {new URL("jar:file:" + "" + f.getAbsolutePath() + "!/")};
+
+                cl = URLClassLoader.newInstance(urls);
+
+                while (e.hasMoreElements()) {
+                    JarEntry je = e.nextElement();
+
+                    if (je.isDirectory() || !je.getName().endsWith(".class"))
+                        continue;
+
+                    String className = je.getName().replace("/", ".").replace(".class", "");
+                    className = className.replace('/', '.');
+
+                    try {
+                        ret.add(cl.loadClass(className));
+                    } catch (Exception classLoadException) {
+                        the.bytecode.club.bytecodeviewer.BytecodeViewer.handleException(classLoadException);
+                    }
                 }
             }
-            
-            jarFile.close();
 
             return ret;
         } catch (Exception e) {

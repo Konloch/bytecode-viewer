@@ -29,9 +29,9 @@ public class DirectoryLoader implements Loader
             throws LoaderException {
         File file = new File(this.codebase, internalPath);
 
-        try {
-            return IOUtils.toByteArray(
-                    new BufferedInputStream(new FileInputStream(file)));
+        try (FileInputStream fis = new FileInputStream(file);
+             BufferedInputStream bis = new BufferedInputStream(fis)) {
+            return IOUtils.toByteArray(bis);
         } catch (IOException e) {
             throw new LoaderException(
                     "'" + file.getAbsolutePath() + "'  not found.");

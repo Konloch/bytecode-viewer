@@ -70,7 +70,7 @@ public class InstructionPrinter {
     protected List<AbstractInsnNode> matchedInsns;
     protected Map<LabelNode, Integer> labels;
     private boolean firstLabel = false;
-    private ArrayList<String> info = new ArrayList<>();
+    private final ArrayList<String> info = new ArrayList<>();
 
     public InstructionPrinter(MethodNode m, TypeAndName[] args) {
         this.args = args;
@@ -103,15 +103,13 @@ public class InstructionPrinter {
     public ArrayList<String> createPrint() {
         firstLabel = false;
         info.clear();
-        ListIterator<?> it = mNode.instructions.iterator();
-        while (it.hasNext()) {
-            AbstractInsnNode ain = (AbstractInsnNode) it.next();
+        for (AbstractInsnNode ain : mNode.instructions) {
             String line = printInstruction(ain);
             if (!line.isEmpty()) {
                 if (match)
                     if (matchedInsns.contains(ain))
                         line = "   -> " + line;
-        
+
                 info.add(line);
             }
         }
@@ -382,13 +380,12 @@ public class InstructionPrinter {
     }
 
     public static void saveTo(File file, InstructionPrinter printer) {
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+        try (FileWriter fw = new FileWriter(file);
+             BufferedWriter bw = new BufferedWriter(fw)) {
             for (String s : printer.createPrint()) {
                 bw.write(s);
                 bw.newLine();
             }
-            bw.close();
         } catch (IOException e) {
             BytecodeViewer.handleException(e);
         }

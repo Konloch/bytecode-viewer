@@ -85,22 +85,23 @@ public class MiscUtils
 
     public static void printProcess(Process process) throws Exception {
         //Read out dir output
-        InputStream is = process.getInputStream();
+        try (InputStream is = process.getInputStream();
         InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(isr);
-        String line;
-        while ((line = br.readLine()) != null) {
-            System.out.println(line);
+        BufferedReader br = new BufferedReader(isr)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
         }
-        br.close();
 
-        is = process.getErrorStream();
-        isr = new InputStreamReader(is);
-        br = new BufferedReader(isr);
-        while ((line = br.readLine()) != null) {
-            System.out.println(line);
+        try (InputStream is = process.getErrorStream();
+             InputStreamReader isr = new InputStreamReader(is);
+             BufferedReader br = new BufferedReader(isr)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
         }
-        br.close();
     }
 
     /**
@@ -212,8 +213,8 @@ public class MiscUtils
     
     public static BufferedImage loadImage(BufferedImage defaultImage, byte[] contents)
     {
-        try {
-            return ImageIO.read(new ByteArrayInputStream(contents));
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(contents)) {
+            return ImageIO.read(bais);
         } catch (IOException e) {
             BytecodeViewer.handleException(e);
         }
@@ -285,15 +286,15 @@ public class MiscUtils
      */
     public static byte[] getBytes(final InputStream is) throws IOException
     {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        
-        byte[] buffer = new byte[1024];
-        int a;
-        while ((a = is.read(buffer)) != -1)
-            baos.write(buffer, 0, a);
-        
-        baos.close();
-        return baos.toByteArray();
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+
+            byte[] buffer = new byte[1024];
+            int a;
+            while ((a = is.read(buffer)) != -1)
+                baos.write(buffer, 0, a);
+
+            return baos.toByteArray();
+        }
     }
 
     public static File[] listFiles(File file) {

@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.theme;
 
 import com.github.weisj.darklaf.extensions.rsyntaxarea.DarklafRSyntaxTheme;
+import java.io.InputStream;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -72,14 +73,19 @@ public enum RSTATheme
 			switch(this)
 			{
 				case THEME_MATCH:
-					if(Configuration.lafTheme == LAFTheme.SYSTEM) //on system theme force default theme
-						Theme.load(Constants.class.getResourceAsStream(DEFAULT.file)).apply(area);
-					else
+					if (Configuration.lafTheme == LAFTheme.SYSTEM) {
+						//on system theme force default theme
+						try (InputStream is = Constants.class.getResourceAsStream(DEFAULT.file)) {
+							Theme.load(is).apply(area);
+						}
+					} else
 						new DarklafRSyntaxTheme().apply(area);
 					break;
 					
 				default:
-					Theme.load(Constants.class.getResourceAsStream(file)).apply(area);
+					try (InputStream is = Constants.class.getResourceAsStream(file)) {
+						Theme.load(is).apply(area);
+					}
 					break;
 			}
 		} catch (Throwable ignored) {

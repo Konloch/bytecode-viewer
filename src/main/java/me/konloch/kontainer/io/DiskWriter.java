@@ -48,7 +48,6 @@ public class DiskWriter {
     public static synchronized void writeNewLine(String filename,
                                                  byte[] fileContents, boolean debug) {
         new File(filename).getParentFile().mkdirs();
-        PrintWriter writer = null;
         String original = filename;
         int counter = 0;
 
@@ -56,9 +55,9 @@ public class DiskWriter {
         int failSafe = 0;
         while (!saved && failSafe++ <= 42069)
         {
-            try {
-                writer = new PrintWriter(new BufferedWriter(new FileWriter(
-                        filename, true)));
+            try (FileWriter fr = new FileWriter(filename, true);
+                 BufferedWriter bw = new BufferedWriter(fr);
+                 PrintWriter writer = new PrintWriter(bw)) {
                 writer.println(Arrays.toString(fileContents));
                 if (debug)
                     System.out.println("Saved " + filename + " to disk");
@@ -74,7 +73,6 @@ public class DiskWriter {
                 counter++;
             }
         }
-        writer.close();
     }
     
     /**
@@ -91,7 +89,6 @@ public class DiskWriter {
     public static synchronized void writeNewLine(String filename,
                                                  String lineToWrite, boolean debug) {
         new File(filename).getParentFile().mkdirs();
-        PrintWriter writer = null;
         String original = filename;
         int counter = 0;
 
@@ -99,9 +96,9 @@ public class DiskWriter {
         int failSafe = 0;
         while (!saved && failSafe++ <= 42069)
         {
-            try {
-                writer = new PrintWriter(new BufferedWriter(new FileWriter(
-                        filename, true)));
+            try (FileWriter fr = new FileWriter(filename, true);
+                 BufferedWriter bw = new BufferedWriter(fr);
+                 PrintWriter writer = new PrintWriter(bw)) {
                 writer.println(lineToWrite);
                 if (debug)
                     System.out.println("Saved " + filename + ">" + lineToWrite
@@ -118,7 +115,6 @@ public class DiskWriter {
                 counter++;
             }
         }
-        writer.close();
     }
 
     /**
@@ -143,7 +139,7 @@ public class DiskWriter {
         int failSafe = 0;
         while (!saved && failSafe++ <= 42069)
         {
-            try(FileOutputStream stream = new FileOutputStream(new File(filename)))
+            try (FileOutputStream stream = new FileOutputStream(filename))
             {
                 stream.write(fileContents);
                 stream.flush();
@@ -177,7 +173,6 @@ public class DiskWriter {
         File f = new File(filename);
         if (f.exists())
             f.delete();
-        PrintWriter writer = null;
         String original = filename;
         int counter = 0;
 
@@ -185,9 +180,9 @@ public class DiskWriter {
         int failSafe = 0;
         while (!saved && failSafe++ <= 42069)
         {
-            try {
-                writer = new PrintWriter(new BufferedWriter(new FileWriter(
-                        filename, true)));
+            try (FileWriter fr = new FileWriter(filename, true);
+                 BufferedWriter bw = new BufferedWriter(fr);
+                 PrintWriter writer = new PrintWriter(bw)) {
                 writer.println(lineToWrite);
                 if (debug)
                     System.out.println("Saved " + filename + ">" + lineToWrite
@@ -204,7 +199,6 @@ public class DiskWriter {
                 counter++;
             }
         }
-        writer.close();
     }
 
 }

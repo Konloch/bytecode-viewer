@@ -63,13 +63,13 @@ public class ExternalLibrary extends ExternalResource<JarContents<ClassNode>> {
     }
 
     public static byte[] read(InputStream in) throws IOException {
-        ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = in.read(buffer)) != -1)
-            byteArrayOut.write(buffer, 0, bytesRead);
-        byteArrayOut.close();
-        return byteArrayOut.toByteArray();
+        try (ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1)
+                byteArrayOut.write(buffer, 0, bytesRead);
+            return byteArrayOut.toByteArray();
+        }
     }
 
     protected ClassNode create(byte[] b) {
@@ -92,13 +92,15 @@ public class ExternalLibrary extends ExternalResource<JarContents<ClassNode>> {
         Enumeration<JarEntry> entries = jar.entries();
         while (entries.hasMoreElements()) {
             JarEntry entry = entries.nextElement();
-            byte[] bytes = read(jar.getInputStream(entry));
-            if (entry.getName().endsWith(".class")) {
-                ClassNode cn = create(bytes);
-                contents.getClassContents().add(cn);
-            } else {
-                JarResource resource = new JarResource(entry.getName(), bytes);
-                contents.getResourceContents().add(resource);
+            try (InputStream is = jar.getInputStream(entry)) {
+                byte[] bytes = read(is);
+                if (entry.getName().endsWith(".class")) {
+                    ClassNode cn = create(bytes);
+                    contents.getClassContents().add(cn);
+                } else {
+                    JarResource resource = new JarResource(entry.getName(), bytes);
+                    contents.getResourceContents().add(resource);
+                }
             }
         }
 

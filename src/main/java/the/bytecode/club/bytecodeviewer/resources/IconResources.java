@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -111,7 +112,11 @@ public class IconResources
     
     public static String loadResourceAsString(String resourcePath) throws IOException
     {
-        return IOUtils.toString(IconResources.class.getResourceAsStream(resourcePath), StandardCharsets.UTF_8);
+        try (InputStream is = IconResources.class.getResourceAsStream(resourcePath)) {
+            if (is == null)
+                return null;
+            return IOUtils.toString(is, StandardCharsets.UTF_8);
+        }
     }
 
     public static BufferedImage resize(BufferedImage image, int width, int height) {
@@ -127,9 +132,9 @@ public class IconResources
 
         try {
             imageByte = Base64.decodeBase64(imageString);
-            ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-            image = ImageIO.read(bis);
-            bis.close();
+            try (ByteArrayInputStream bis = new ByteArrayInputStream(imageByte)) {
+                image = ImageIO.read(bis);
+            }
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
         }

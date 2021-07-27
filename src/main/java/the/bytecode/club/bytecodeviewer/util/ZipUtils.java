@@ -44,101 +44,80 @@ public final class ZipUtils {
      */
     public static void unzipFilesToPath(String jarPath, String destinationDir) throws IOException {
         File file = new File(jarPath);
-        JarFile jar = new JarFile(file);
+        try (JarFile jar = new JarFile(file)) {
 
-        // fist get all directories,
-        // then make those directory on the destination Path
-        /*for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements(); ) {
-            JarEntry entry = (JarEntry) enums.nextElement();
+            // fist get all directories,
+            // then make those directory on the destination Path
+            /*for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements(); ) {
+                JarEntry entry = (JarEntry) enums.nextElement();
 
-            String fileName = destinationDir + File.separator + entry.getName();
-            File f = new File(fileName);
+                String fileName = destinationDir + File.separator + entry.getName();
+                File f = new File(fileName);
 
-            if (fileName.endsWith("/")) {
-                f.mkdirs();
-            }
-
-        }*/
-
-        //now create all files
-        for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements(); ) {
-            JarEntry entry = enums.nextElement();
-
-            String fileName = destinationDir + File.separator + entry.getName();
-            File f = new File(fileName);
-
-            File parent = f.getParentFile();
-            if (!parent.exists()) {
-                parent.mkdirs();
-            }
-
-            if (!fileName.endsWith("/")) {
-                InputStream is = jar.getInputStream(entry);
-                FileOutputStream fos = new FileOutputStream(f);
-
-                // write contents of 'is' to 'fos'
-                while (is.available() > 0) {
-                    fos.write(is.read());
+                if (fileName.endsWith("/")) {
+                    f.mkdirs();
                 }
 
-                fos.close();
-                is.close();
+            }*/
+
+            //now create all files
+            for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements(); ) {
+                JarEntry entry = enums.nextElement();
+
+                String fileName = destinationDir + File.separator + entry.getName();
+                File f = new File(fileName);
+
+                File parent = f.getParentFile();
+                if (!parent.exists()) {
+                    parent.mkdirs();
+                }
+
+                if (!fileName.endsWith("/")) {
+                    try (InputStream is = jar.getInputStream(entry);
+                         FileOutputStream fos = new FileOutputStream(f)) {
+                        // write contents of 'is' to 'fos'
+                        while (is.available() > 0) {
+                            fos.write(is.read());
+                        }
+                    }
+                }
             }
-        }
-
-        try {
-            jar.close();
-        } catch (Exception ignored) {
-
         }
     }
 
     public static void zipFile(File inputFile, File outputZip) {
         byte[] buffer = new byte[1024];
 
-        try {
-            FileOutputStream fos = new FileOutputStream(outputZip);
-            ZipOutputStream zos = new ZipOutputStream(fos);
+        try (FileOutputStream fos = new FileOutputStream(outputZip);
+             ZipOutputStream zos = new ZipOutputStream(fos)) {
             ZipEntry ze = new ZipEntry(inputFile.getName());
             zos.putNextEntry(ze);
-            FileInputStream in = new FileInputStream(inputFile);
-
-            int len;
-            while ((len = in.read(buffer)) > 0) {
-                zos.write(buffer, 0, len);
+            try (FileInputStream in = new FileInputStream(inputFile)) {
+                int len;
+                while ((len = in.read(buffer)) > 0) {
+                    zos.write(buffer, 0, len);
+                }
             }
-
-            in.close();
             zos.closeEntry();
-
-            zos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void zipFolder(String srcFolder, String destZipFile, String ignore) throws Exception {
-        ZipOutputStream zip;
-        FileOutputStream fileWriter;
-
-        fileWriter = new FileOutputStream(destZipFile);
-        zip = new ZipOutputStream(fileWriter);
-
-        addFolderToZip("", srcFolder, zip, ignore);
-        zip.flush();
-        zip.close();
+        try (FileOutputStream fileWriter = new FileOutputStream(destZipFile);
+             ZipOutputStream zip = new ZipOutputStream(fileWriter)){
+            addFolderToZip("", srcFolder, zip, ignore);
+            zip.flush();
+        }
     }
 
     public static void zipFolderAPKTool(String srcFolder, String destZipFile) throws Exception {
-        ZipOutputStream zip;
-        FileOutputStream fileWriter;
-
-        fileWriter = new FileOutputStream(destZipFile);
-        zip = new ZipOutputStream(fileWriter);
-
-        addFolderToZipAPKTool("", srcFolder, zip);
-        zip.flush();
-        zip.close();
+        try (FileOutputStream fileWriter = new FileOutputStream(destZipFile);
+             ZipOutputStream zip = new ZipOutputStream(fileWriter)){
+            addFolderToZipAPKTool("", srcFolder, zip);
+            zip.flush();
+        }
     }
 
     public static void addFileToZip(String path, String srcFile, ZipOutputStream zip, String ignore)
@@ -150,17 +129,17 @@ public final class ZipUtils {
         } else {
             byte[] buf = new byte[1024];
             int len;
-            FileInputStream in = new FileInputStream(srcFile);
-            ZipEntry entry;
-            if (ignore == null)
-                entry = new ZipEntry(path + "/" + folder.getName());
-            else
-                entry = new ZipEntry(path.replace(ignore, "BCV_Krakatau") + "/" + folder.getName());
-            zip.putNextEntry(entry);
-            while ((len = in.read(buf)) > 0) {
-                zip.write(buf, 0, len);
+            try (FileInputStream in = new FileInputStream(srcFile)) {
+                ZipEntry entry;
+                if (ignore == null)
+                    entry = new ZipEntry(path + "/" + folder.getName());
+                else
+                    entry = new ZipEntry(path.replace(ignore, "BCV_Krakatau") + "/" + folder.getName());
+                zip.putNextEntry(entry);
+                while ((len = in.read(buf)) > 0) {
+                    zip.write(buf, 0, len);
+                }
             }
-            in.close();
         }
     }
 
@@ -183,16 +162,16 @@ public final class ZipUtils {
         } else {
             byte[] buf = new byte[1024];
             int len;
-            FileInputStream in = new FileInputStream(srcFile);
-            ZipEntry entry;
+            try (FileInputStream in = new FileInputStream(srcFile)) {
+                ZipEntry entry;
 
-            entry = new ZipEntry(path + "/" + folder.getName());
-            zip.putNextEntry(entry);
+                entry = new ZipEntry(path + "/" + folder.getName());
+                zip.putNextEntry(entry);
 
-            while ((len = in.read(buf)) > 0) {
-                zip.write(buf, 0, len);
+                while ((len = in.read(buf)) > 0) {
+                    zip.write(buf, 0, len);
+                }
             }
-            in.close();
         }
     }
 

@@ -1,6 +1,5 @@
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -96,12 +95,8 @@ public class CFRDecompiler extends InternalDecompiler
         //final File tempClass = new File(windowsFun(MiscUtils.getUniqueName(fileStart, ".class") + ".class"));
         final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
-        try {
-            final FileOutputStream fos = new FileOutputStream(tempClass);
-
+        try (FileOutputStream fos = new FileOutputStream(tempClass)) {
             fos.write(b);
-
-            fos.close();
         } catch (final IOException e) {
             BytecodeViewer.handleException(e);
         }
@@ -319,15 +314,12 @@ public class CFRDecompiler extends InternalDecompiler
     }
 
     @SuppressWarnings("resource")
-    public void zip(File directory, File zipfile) throws IOException {
+    public void zip(File directory, File zipFile) throws IOException {
         java.net.URI base = directory.toURI();
         Deque<File> queue = new LinkedList<>();
         queue.push(directory);
-        OutputStream out = new FileOutputStream(zipfile);
-        Closeable res = out;
-        try {
-            ZipOutputStream zout = new ZipOutputStream(out);
-            res = zout;
+        try (OutputStream out = new FileOutputStream(zipFile);
+             ZipOutputStream zout = new ZipOutputStream(out)) {
             while (!queue.isEmpty()) {
                 directory = queue.pop();
                 for (File kid : MiscUtils.listFiles(directory)) {
@@ -343,9 +335,6 @@ public class CFRDecompiler extends InternalDecompiler
                     }
                 }
             }
-        } finally {
-            res.close();
-            out.close();
         }
     }
 
