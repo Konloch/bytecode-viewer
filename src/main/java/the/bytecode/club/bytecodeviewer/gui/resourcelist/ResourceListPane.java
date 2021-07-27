@@ -23,6 +23,7 @@ import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenu;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
@@ -34,6 +35,7 @@ import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisible
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
@@ -308,17 +310,37 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         
         String name = nameBuffer.toString();
         
-        //TODO add file header check
-        if (name.endsWith(".class"))
+        boolean resourceMode = false;
+        byte[] content = container.resourceClassBytes.get(name);
+        
+        if(content == null)
         {
-            final ClassNode cn = container.getClassNode(
-                    name.substring(0, name.length() - ".class".length()));
-            
-            if (cn != null)
-                BytecodeViewer.viewer.workPane.addClassResource(container, name);
-            else
-                BytecodeViewer.viewer.workPane.addFileResource(container, name);
+            content = container.resourceFiles.get(name);
+            resourceMode = true;
         }
+        
+        //view classes
+        if (MiscUtils.getFileHeaderMagicNumber(content).equalsIgnoreCase("cafebabe")
+                || name.endsWith(".class"))
+        {
+            try
+            {
+                if(resourceMode)
+                {
+                    //TODO load this cn into the resource viewer
+                    //final ClassNode cn = ASMUtil.bytesToNode(content);
+                }
+                
+                //display via name
+                BytecodeViewer.viewer.workPane.addClassResource(container, name);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                BytecodeViewer.viewer.workPane.addFileResource(container, name);
+            }
+        }
+        //view non-classfile resources
         else if(container.resourceFiles.containsKey(name))
         {
             final String fn = name.toLowerCase();
