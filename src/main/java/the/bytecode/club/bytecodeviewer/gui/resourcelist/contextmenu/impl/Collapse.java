@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.impl;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuItem;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuType;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,7 +36,7 @@ public class Collapse extends ContextMenuItem
 	{
 		super(ContextMenuType.DIRECTORY, ((tree, selPath, menu) ->
 		{
-			menu.add(new AbstractAction("Collapse")
+			menu.add(new AbstractAction(TranslatedStrings.COLLAPSE.toString())
 			{
 				@Override
 				public void actionPerformed(ActionEvent e)

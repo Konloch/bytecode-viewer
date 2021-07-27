@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.impl;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuItem;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuType;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,7 +36,7 @@ public class Open extends ContextMenuItem
 	{
 		super(ContextMenuType.RESOURCE, ((tree, selPath, menu) ->
 		{
-			menu.add(new AbstractAction("Open")
+			menu.add(new AbstractAction(TranslatedStrings.OPEN_UNSTYLED.toString())
 			{
 				@Override
 				public void actionPerformed(ActionEvent e)
