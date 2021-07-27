@@ -87,6 +87,12 @@ public final class PluginManager
      */
     public static void runPlugin(Plugin newPluginInstance)
     {
+        if (activePlugin != null && !activePlugin.isFinished())
+        {
+            BytecodeViewer.showMessage(TranslatedStrings.ONE_PLUGIN_AT_A_TIME.toString());
+            return;
+        }
+        
         //reset the console count
         consoleCount = 0;
         exceptionCount = 0;

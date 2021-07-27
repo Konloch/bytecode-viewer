@@ -77,6 +77,7 @@ public enum TranslatedStrings
 	CLOSE_TAB,
 	PLEASE_SEND_THIS_ERROR_LOG_TO,
 	PLEASE_SEND_RESOURCES,
+	ONE_PLUGIN_AT_A_TIME,
 	
 	
 	YES,
