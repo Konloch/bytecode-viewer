@@ -2,8 +2,7 @@ package the.bytecode.club.bytecodeviewer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import javax.swing.*;
 
 import com.google.gson.Gson;
@@ -31,6 +30,7 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
 import the.bytecode.club.bytecodeviewer.util.*;
 
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /***************************************************************************
@@ -137,7 +137,7 @@ public class BytecodeViewer
     public static MainViewerGUI viewer;
     
     //All of the opened resources (Files/Classes/Etc)
-    public static List<ResourceContainer> resourceContainers = new ArrayList<>();
+    public static LinkedHashMap<String,ResourceContainer> resourceContainers = new LinkedHashMap<>();
     
     //All of the created processes (Decompilers/etc)
     public static List<Process> createdProcesses = new ArrayList<>();
@@ -294,7 +294,7 @@ public class BytecodeViewer
      */
     public static void addResourceContainer(ResourceContainer container)
     {
-        resourceContainers.add(container);
+        resourceContainers.put(container.name, container);
         SwingUtilities.invokeLater(() ->
         {
             try {
@@ -359,7 +359,7 @@ public class BytecodeViewer
     @Deprecated
     public static ClassNode blindlySearchForClassNode(String name)
     {
-        for (ResourceContainer container : resourceContainers)
+        for (ResourceContainer container : resourceContainers.values())
         {
             ClassNode node = container.getClassNode(name);
             
@@ -375,7 +375,7 @@ public class BytecodeViewer
      */
     public static ResourceContainer getFileContainer(String name)
     {
-        for (ResourceContainer container : resourceContainers)
+        for (ResourceContainer container : resourceContainers.values())
             if (container.name.equals(name))
                 return container;
     
@@ -385,9 +385,9 @@ public class BytecodeViewer
     /**
      * Returns all of the loaded resource containers
      */
-    public static List<ResourceContainer> getResourceContainers()
+    public static Collection<ResourceContainer> getResourceContainers()
     {
-        return resourceContainers;
+        return resourceContainers.values();
     }
     
     /**
@@ -401,7 +401,7 @@ public class BytecodeViewer
     @Deprecated
     public static byte[] getFileContents(String name)
     {
-        for (ResourceContainer container : resourceContainers)
+        for (ResourceContainer container : resourceContainers.values())
             if (container.resourceFiles.containsKey(name))
                 return container.resourceFiles.get(name);
     
@@ -431,7 +431,7 @@ public class BytecodeViewer
     {
         ArrayList<ClassNode> a = new ArrayList<>();
     
-        for (ResourceContainer container : resourceContainers)
+        for (ResourceContainer container : resourceContainers.values())
             for (ClassNode c : container.resourceClasses.values())
                 if (!a.contains(c))
                     a.add(c);
@@ -571,12 +571,19 @@ public class BytecodeViewer
     
     /**
      * Send a message to alert the user
-     *
-     * @param message the message you need to send
      */
     public static String showInput(String message)
     {
         return ExtendedJOptionPane.showInputDialog(viewer, message);
+    }
+    
+    /**
+     * Send a message to alert the user
+     */
+    public static String showInput(String message, String title, String initialMessage)
+    {
+        return (String) ExtendedJOptionPane.showInputDialog(viewer, message, title,
+                QUESTION_MESSAGE, null, null, initialMessage);
     }
     
     /**
@@ -644,7 +651,7 @@ public class BytecodeViewer
      */
     public static void updateAllClassNodeByteArrays()
     {
-        resourceContainers.forEach(ResourceContainer::updateClassNodeBytes);
+        resourceContainers.values().forEach(ResourceContainer::updateClassNodeBytes);
     }
     
     /**

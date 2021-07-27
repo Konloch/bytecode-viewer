@@ -302,7 +302,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         String cheapHax = path.getPathComponent(1).toString();
         ResourceContainer container = null;
 
-        for (ResourceContainer c : BytecodeViewer.resourceContainers)
+        for (ResourceContainer c : BytecodeViewer.resourceContainers.values())
         {
             if (c.name.equals(cheapHax))
                 container = c;

@@ -11,6 +11,7 @@ import the.bytecode.club.bytecodeviewer.util.*;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
@@ -47,7 +48,7 @@ public class APKExport implements Exporter
 		if (BytecodeViewer.promptIfNoLoadedResources())
 			return;
 		
-		List<ResourceContainer> containers = BytecodeViewer.getResourceContainers();
+		Collection<ResourceContainer> containers = BytecodeViewer.getResourceContainers();
 		List<ResourceContainer> validContainers = new ArrayList<>();
 		List<String> validContainersNames = new ArrayList<>();
 		ResourceContainer container;
@@ -72,7 +73,8 @@ public class APKExport implements Exporter
 						"Which file would you like to export as an APK?",
 						validContainersNames.toArray(new String[0]));
 				
-				container = containers.get(dialog.promptChoice());
+				//TODO may be off by one
+				container = (ResourceContainer) containers.stream().skip(dialog.promptChoice());
 			}
 		} else {
 			BytecodeViewer.showMessage("You can only export as APK from a valid APK file. Make sure Settings>Decode Resources is ticked on." +

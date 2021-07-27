@@ -863,7 +863,7 @@ public class MainViewerGUI extends JFrame
             LazyNameUtil.reset();
             ArrayList<File> reopen = new ArrayList<>();
         
-            for (ResourceContainer container : BytecodeViewer.resourceContainers)
+            for (ResourceContainer container : BytecodeViewer.resourceContainers.values())
             {
                 File newFile = new File(container.file.getParent() + fs + container.name);
                 if (!container.file.getAbsolutePath().equals(newFile.getAbsolutePath()) &&

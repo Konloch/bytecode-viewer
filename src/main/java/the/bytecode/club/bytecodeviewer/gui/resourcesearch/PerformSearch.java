@@ -58,7 +58,7 @@ class PerformSearch extends BackgroundSearchThread
 			BytecodeViewer.showMessage("You have an error in your regex syntax.");
 		}
 		
-		for (ResourceContainer container : BytecodeViewer.resourceContainers)
+		for (ResourceContainer container : BytecodeViewer.resourceContainers.values())
 			for (ClassNode c : container.resourceClasses.values())
 				searchBoxPane.searchType.details.search(container, c, srn, searchBoxPane.exact.isSelected());
 		

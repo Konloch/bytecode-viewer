@@ -262,7 +262,7 @@ public class JarUtils
             out.write((manifest.trim() + "\r\n\r\n").getBytes());
             out.closeEntry();
 
-            for (ResourceContainer container : BytecodeViewer.resourceContainers) {
+            for (ResourceContainer container : BytecodeViewer.resourceContainers.values()) {
                 for (Entry<String, byte[]> entry : container.resourceFiles.entrySet()) {
                     String filename = entry.getKey();
                     if (!filename.startsWith("META-INF")) {
@@ -363,7 +363,7 @@ public class JarUtils
                 }
             }
 
-            for (ResourceContainer container : BytecodeViewer.resourceContainers) {
+            for (ResourceContainer container : BytecodeViewer.resourceContainers.values()) {
                 for (Entry<String, byte[]> entry : container.resourceFiles.entrySet()) {
                     String filename = entry.getKey();
                     if (!filename.startsWith("META-INF")) {
