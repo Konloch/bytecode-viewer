@@ -269,11 +269,9 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         tree.updateUI();
     }
     
-    public void quickDecompile(Decompiler decompiler, TreePath selPath)
-    {
-        quickDecompile(decompiler, selPath, false);
-    }
-    
+    /**
+     * Opens and decompiles the TreePath in a new tab
+     */
     public void quickDecompile(Decompiler decompiler, TreePath selPath, boolean quickEdit)
     {
         Decompiler tempDecompiler1 = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler();
