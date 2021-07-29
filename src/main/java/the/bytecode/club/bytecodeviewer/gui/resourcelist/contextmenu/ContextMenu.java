@@ -39,8 +39,8 @@ public class ContextMenu
 	
 	static
 	{
-		addContext(new New());
 		addContext(new Remove()); //TODO rename to delete and add support for resources & whole parent nodes (directories)
+		addContext(new New());
 		addContext(new Open());
 		addContext(new QuickOpen());
 		addContext(new QuickEdit());
