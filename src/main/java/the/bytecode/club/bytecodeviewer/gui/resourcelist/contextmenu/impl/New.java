@@ -13,6 +13,7 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.util.Enumeration;
 
@@ -143,7 +144,7 @@ public class New extends ContextMenuItem
 	//TODO this needs to be rewritten to support creating parent nodes that don't exist
 	public static boolean searchAndInsert(String path, DefaultMutableTreeNode treeNode, String separator)
 	{
-		Enumeration<DefaultMutableTreeNode> children = treeNode.children();
+		Enumeration<TreeNode> children = treeNode.children();
 		
 		String findPath = FilenameUtils.getPath(path);
 		String currentPath = buildPath(0, treeNode.getPath().length, treeNode, separator);
@@ -158,7 +159,7 @@ public class New extends ContextMenuItem
 		
 		while(children.hasMoreElements())
 		{
-			DefaultMutableTreeNode child = children.nextElement();
+			DefaultMutableTreeNode child = (DefaultMutableTreeNode) children.nextElement();
 			if(searchAndInsert(path, child, separator))
 				return true;
 		}
