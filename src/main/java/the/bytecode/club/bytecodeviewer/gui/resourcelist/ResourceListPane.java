@@ -271,19 +271,33 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     
     public void quickDecompile(Decompiler decompiler, TreePath selPath)
     {
+        quickDecompile(decompiler, selPath, false);
+    }
+    
+    public void quickDecompile(Decompiler decompiler, TreePath selPath, boolean quickEdit)
+    {
         Decompiler tempDecompiler1 = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler();
+        boolean editable1 = BytecodeViewer.viewer.viewPane1.isPaneEditable();
         Decompiler tempDecompiler2 = BytecodeViewer.viewer.viewPane2.getSelectedDecompiler();
+        boolean editable2 = BytecodeViewer.viewer.viewPane2.isPaneEditable();
         Decompiler tempDecompiler3 = BytecodeViewer.viewer.viewPane3.getSelectedDecompiler();
+        boolean editable3 = BytecodeViewer.viewer.viewPane3.isPaneEditable();
     
         BytecodeViewer.viewer.viewPane1.setSelectedDecompiler(decompiler);
+        BytecodeViewer.viewer.viewPane1.setPaneEditable(quickEdit);
         BytecodeViewer.viewer.viewPane2.setSelectedDecompiler(Decompiler.NONE);
+        BytecodeViewer.viewer.viewPane2.setPaneEditable(false);
         BytecodeViewer.viewer.viewPane3.setSelectedDecompiler(Decompiler.NONE);
+        BytecodeViewer.viewer.viewPane3.setPaneEditable(false);
         
         openPath(selPath);
     
         BytecodeViewer.viewer.viewPane1.setSelectedDecompiler(tempDecompiler1);
+        BytecodeViewer.viewer.viewPane1.setPaneEditable(editable1);
         BytecodeViewer.viewer.viewPane2.setSelectedDecompiler(tempDecompiler2);
+        BytecodeViewer.viewer.viewPane2.setPaneEditable(editable2);
         BytecodeViewer.viewer.viewPane3.setSelectedDecompiler(tempDecompiler3);
+        BytecodeViewer.viewer.viewPane3.setPaneEditable(editable3);
     }
 
     public void openPath(TreePath path)

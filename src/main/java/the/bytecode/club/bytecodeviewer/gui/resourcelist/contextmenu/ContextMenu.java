@@ -40,9 +40,10 @@ public class ContextMenu
 	static
 	{
 		addContext(new New());
-		addContext(new Remove());
+		addContext(new Remove()); //TODO rename to delete and add support for resources & whole parent nodes (directories)
 		addContext(new Open());
 		addContext(new QuickOpen());
+		addContext(new QuickEdit());
 		addContext(new Expand());
 		addContext(new Collapse());
 	}
