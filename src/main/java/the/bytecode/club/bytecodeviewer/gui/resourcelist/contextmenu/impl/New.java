@@ -90,12 +90,14 @@ public class New extends ContextMenuItem
 					
 					//TODO santize newPath and remove extension if added
 					cn.name = newPath;
-					resourcePath = resourcePath.replace(".", "/") + ".class";
+					String oldResourcePath = resourcePath.replace(".", "/");
+					String newResourcePath = oldResourcePath + ".class";
 					
 					contents = ASMUtil.nodeToBytes(cn);
 					
-					BytecodeViewer.resourceContainers.get(containerName).resourceFiles.put(resourcePath, contents);
-					searchAndInsert(firstPath + "/" + resourcePath, BytecodeViewer.resourceContainers.get(containerName).treeNode, "/");
+					BytecodeViewer.resourceContainers.get(containerName).resourceClasses.put(oldResourcePath, cn);
+					BytecodeViewer.resourceContainers.get(containerName).resourceClassBytes.put(newResourcePath, contents);
+					searchAndInsert(firstPath + "/" + newResourcePath, BytecodeViewer.resourceContainers.get(containerName).treeNode, "/");
 					
 					break;
 				case FILE:
