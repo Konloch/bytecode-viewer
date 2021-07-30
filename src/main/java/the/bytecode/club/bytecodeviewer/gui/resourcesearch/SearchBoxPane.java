@@ -3,6 +3,8 @@ package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Objects;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -128,23 +130,27 @@ public class SearchBoxPane extends TranslatedVisibleComponent
 
         getContentPane().add(optionPanel, BorderLayout.NORTH);
         getContentPane().add(new JScrollPane(tree), BorderLayout.CENTER);
-
-        this.tree.addTreeSelectionListener(selectionEvent ->
+        
+        tree.addMouseListener(new MouseAdapter()
         {
-            try
+            @Override
+            public void mouseReleased(MouseEvent e)
             {
-                if (selectionEvent.getPath().getPathComponent(0).equals(TranslatedStrings.RESULTS))
-                    return;
+                //TODO right-click context menu
+                if (e.isMetaDown())
+                {
+                }
+                else if (e.getButton() == MouseEvent.BUTTON1)
+                {
+                    if(!(tree.getLastSelectedPathComponent() instanceof  LDCSearchTreeNodeResult))
+                        return;
+                    
+                    LDCSearchTreeNodeResult result = (LDCSearchTreeNodeResult) tree.getLastSelectedPathComponent();
     
-                LDCSearchTreeNodeResult result = (LDCSearchTreeNodeResult) tree.getLastSelectedPathComponent();
+                    final String name = result.resourceWorkingName;
     
-                final String name = result.resourceWorkingName;
-                
-                BytecodeViewer.viewer.workPane.addClassResource(result.container, name);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
+                    BytecodeViewer.viewer.workPane.addClassResource(result.container, name);
+                }
             }
         });
 
