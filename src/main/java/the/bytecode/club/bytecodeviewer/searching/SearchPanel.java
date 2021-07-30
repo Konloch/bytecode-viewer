@@ -1,5 +1,10 @@
 package the.bytecode.club.bytecodeviewer.searching;
 
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+
+import javax.swing.*;
+
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
@@ -19,13 +24,13 @@ package the.bytecode.club.bytecodeviewer.searching;
  ***************************************************************************/
 
 /**
- * Used to update the search pane that there's been a result found.
- *
  * @author Konloch
  * @author WaterWolf
  * @since 09/26/2011
  */
-
-public interface SearchResultNotifier {
-    void notifyOfResult(String debug);
+public interface SearchPanel
+{
+	JPanel getPanel();
+	
+	void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean exact);
 }

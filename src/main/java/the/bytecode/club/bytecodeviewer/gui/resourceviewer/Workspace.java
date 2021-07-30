@@ -69,6 +69,7 @@ public class Workspace extends TranslatedVisibleComponent
             if (index != -1)
                 tabs.remove(index);
         });
+        
         closeAllTabs.addActionListener(e ->
         {
             TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();

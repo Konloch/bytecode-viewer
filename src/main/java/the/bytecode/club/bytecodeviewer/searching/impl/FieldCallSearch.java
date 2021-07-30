@@ -7,7 +7,6 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodNode;
-import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 /***************************************************************************
@@ -38,8 +37,7 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 public class FieldCallSearch extends MethodCallSearch
 {
     @Override
-    public void search(final ResourceContainer container, final ClassNode node, final SearchResultNotifier srn,
-                       boolean exact)
+    public void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean exact)
     {
         final Iterator<MethodNode> methods = node.methods.iterator();
         
@@ -88,7 +86,7 @@ public class FieldCallSearch extends MethodCallSearch
                             continue;
                     }
     
-                    found(container, node, method, insnNode, srn);
+                    found(container, resourceWorkingName, node, method, insnNode);
                 }
             }
         }

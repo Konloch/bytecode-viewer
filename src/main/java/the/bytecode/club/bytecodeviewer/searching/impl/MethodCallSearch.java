@@ -12,9 +12,10 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
-import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
-import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
+import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
+import the.bytecode.club.bytecodeviewer.searching.SearchPanel;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJLabel;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
@@ -45,7 +46,7 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
  * @since 09/29/2011
  */
 
-public class MethodCallSearch implements SearchTypeDetails
+public class MethodCallSearch implements SearchPanel
 {
     JTextField mOwner;
     JTextField mName;
@@ -62,7 +63,6 @@ public class MethodCallSearch implements SearchTypeDetails
         mDesc.addKeyListener(EnterKeyEvent.SINGLETON);
     }
 
-    @Override
     public JPanel getPanel()
     {
         if (myPanel == null)
@@ -78,10 +78,9 @@ public class MethodCallSearch implements SearchTypeDetails
 
         return myPanel;
     }
-
+    
     @Override
-    public void search(final ResourceContainer container, final ClassNode node, final SearchResultNotifier srn,
-                       boolean exact)
+    public void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean exact)
     {
         final Iterator<MethodNode> methods = node.methods.iterator();
         
@@ -130,29 +129,22 @@ public class MethodCallSearch implements SearchTypeDetails
                             continue;
                     }
                     
-                    found(container, node, method, insnNode, srn);
+                    found(container, resourceWorkingName, node, method, insnNode);
                 }
             }
         }
     }
     
-    public void found(final ResourceContainer container, final ClassNode node, final MethodNode method, final AbstractInsnNode insnNode, final SearchResultNotifier srn)
+    public void found(final ResourceContainer container, final String resourceWorkingName, final ClassNode node, final MethodNode method, final AbstractInsnNode insnNode)
     {
-        String desc = method.desc;
-        try
-        {
-            desc = Type.getType(method.desc).toString();
-        
-            if (desc.equals("null"))
-                desc = method.desc;
-        } catch (ArrayIndexOutOfBoundsException ignored) { }
-        
-        srn.notifyOfResult(container.name + ">" + node.name
-                + "."
-                + method.name
-                + desc
-                + " > "
-                + OpcodeInfo.OPCODES.get(insnNode.getOpcode())
-                .toLowerCase());
+        BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(
+                container,
+                resourceWorkingName,
+                node,
+                method,
+                null,
+                OpcodeInfo.OPCODES.get(insnNode.getOpcode()).toLowerCase(),
+                ""
+        ));
     }
 }

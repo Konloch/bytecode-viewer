@@ -18,7 +18,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
-import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
+import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.*;
@@ -49,8 +49,6 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
  * @author WaterWolf
  * @since 09/29/2011
  */
-
-@SuppressWarnings("rawtypes")
 public class SearchBoxPane extends TranslatedVisibleComponent
 {
     public static final SearchRadius[] SEARCH_RADII = SearchRadius.values();
@@ -59,7 +57,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
     public final JCheckBox exact = new TranslatedJCheckBox("Exact", TranslatedComponents.EXACT);
     public final TranslatedDefaultMutableTreeNode treeRoot = new TranslatedDefaultMutableTreeNode("Results", TranslatedComponents.RESULTS);
     public final JTree tree;
-    public final JComboBox typeBox;
+    public final JComboBox<SearchType> typeBox;
     
     public SearchType searchType = null;
     public final JComboBox searchRadiusBox;
@@ -91,13 +89,13 @@ public class SearchBoxPane extends TranslatedVisibleComponent
         for (final SearchType st : SEARCH_TYPES)
             model.addElement(st);
 
-        typeBox = new JComboBox(model);
+        typeBox = new JComboBox<SearchType>(model);
         final JPanel searchOptPanel = new JPanel();
 
         final ItemListener il = arg0 -> {
             searchOptPanel.removeAll();
             searchType = (SearchType) typeBox.getSelectedItem();
-            searchOptPanel.add(Objects.requireNonNull(searchType).details.getPanel());
+            searchOptPanel.add(Objects.requireNonNull(searchType).panel.getPanel());
 
             searchOptPanel.revalidate();
             searchOptPanel.repaint();
@@ -138,18 +136,11 @@ public class SearchBoxPane extends TranslatedVisibleComponent
                 if (selectionEvent.getPath().getPathComponent(0).equals(TranslatedStrings.RESULTS))
                     return;
     
-                selectionEvent.getPath().getPathComponent(1);
+                LDCSearchTreeNodeResult result = (LDCSearchTreeNodeResult) tree.getLastSelectedPathComponent();
     
-                String path = selectionEvent.getPath().getPathComponent(1).toString();
-    
-                String containerName = path.split(">", 2)[0];
-                String className = path.split(">", 2)[1].split("\\.")[0];
-                ResourceContainer container = BytecodeViewer.getFileContainer(containerName);
-    
-                final ClassNode fN = Objects.requireNonNull(container).getClassNode(className);
-    
-                if (fN != null)
-                    BytecodeViewer.viewer.workPane.addClassResource(container, className + ".class");
+                final String name = result.resourceWorkingName;
+                
+                BytecodeViewer.viewer.workPane.addClassResource(result.container, name);
             }
             catch (Exception e)
             {
@@ -166,7 +157,6 @@ public class SearchBoxPane extends TranslatedVisibleComponent
         treeRoot.removeAllChildren();
         searchType = (SearchType) typeBox.getSelectedItem();
         final SearchRadius radius = (SearchRadius) searchRadiusBox.getSelectedItem();
-        final SearchResultNotifier srn = debug -> treeRoot.add(new DefaultMutableTreeNode(debug));
         
         if (radius == SearchRadius.All_Classes)
         {
@@ -175,7 +165,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
                 BytecodeViewer.viewer.searchBoxPane.search.setEnabled(false);
                 BytecodeViewer.viewer.searchBoxPane.search.setText("Searching, please wait..");
                 
-                performSearchThread = new PerformSearch(this, srn);
+                performSearchThread = new PerformSearch(this);
                 performSearchThread.start();
             }
             else
@@ -188,7 +178,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
             final ResourceViewer cv = BytecodeViewer.getActiveResource();
             
             if (cv != null)
-                searchType.details.search(cv.resource.container, cv.resource.getResourceClassNode(), srn, exact.isSelected());
+                searchType.panel.search(cv.resource.container, cv.resource.workingName, cv.resource.getResourceClassNode(), exact.isSelected());
         }
     }
     

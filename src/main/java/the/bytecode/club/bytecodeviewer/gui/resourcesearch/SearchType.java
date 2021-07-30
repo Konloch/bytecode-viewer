@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
 
-import the.bytecode.club.bytecodeviewer.searching.*;
+import the.bytecode.club.bytecodeviewer.searching.SearchPanel;
 import the.bytecode.club.bytecodeviewer.searching.impl.FieldCallSearch;
 import the.bytecode.club.bytecodeviewer.searching.impl.LDCSearch;
 import the.bytecode.club.bytecodeviewer.searching.impl.MethodCallSearch;
@@ -33,12 +33,13 @@ public enum SearchType
 	Strings(new LDCSearch()),
 	Regex(new RegexSearch()),
 	MethodCall(new MethodCallSearch()),
-	FieldCall(new FieldCallSearch());
+	FieldCall(new FieldCallSearch()),
+	;
 	
-	public final SearchTypeDetails details;
+	public final SearchPanel panel;
 	
-	SearchType(final SearchTypeDetails details)
+	SearchType(final SearchPanel panel)
 	{
-		this.details = details;
+		this.panel = panel;
 	}
 }

@@ -5,13 +5,16 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import eu.bibl.banalysis.asm.desc.OpcodeInfo;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
+import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
 import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
-import the.bytecode.club.bytecodeviewer.searching.SearchResultNotifier;
-import the.bytecode.club.bytecodeviewer.searching.SearchTypeDetails;
+import the.bytecode.club.bytecodeviewer.searching.SearchPanel;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJLabel;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
@@ -44,7 +47,7 @@ import static the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder.process
  * @since 09/29/2011
  */
 
-public class RegexSearch implements SearchTypeDetails
+public class RegexSearch implements SearchPanel
 {
     public static JTextField searchText;
     JPanel myPanel = null;
@@ -69,8 +72,7 @@ public class RegexSearch implements SearchTypeDetails
     }
 
     @Override
-    public void search(final ResourceContainer container, final ClassNode node, final SearchResultNotifier srn,
-                       boolean exact)
+    public void search(final ResourceContainer container, final String resourceWorkingName, final ClassNode node, boolean exact)
     {
         final Iterator<MethodNode> methods = node.methods.iterator();
         final String srchText = searchText.getText();
@@ -93,8 +95,16 @@ public class RegexSearch implements SearchTypeDetails
                     if (desc2.equals("null"))
                         desc2 = method.desc;
                 } catch (java.lang.ArrayIndexOutOfBoundsException ignored) {}
-
-                srn.notifyOfResult(container.name + ">" + node.name + "." + method.name + desc2);
+    
+                BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(
+                        container,
+                        resourceWorkingName,
+                        node,
+                        method,
+                        null,
+                        node.name + "." + method.name + desc2,
+                        ""
+                ));
             }
         }
     }

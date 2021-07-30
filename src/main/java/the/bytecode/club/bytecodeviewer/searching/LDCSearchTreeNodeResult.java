@@ -1,8 +1,11 @@
 package the.bytecode.club.bytecodeviewer.searching;
 
-import javax.swing.JPanel;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldNode;
+import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -23,16 +26,24 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
  ***************************************************************************/
 
 /**
- * Search type details
- *
  * @author Konloch
- * @author WaterWolf
- * @since 09/26/2011
+ * @since 7/29/2021
  */
-
-public interface SearchTypeDetails
+public class LDCSearchTreeNodeResult extends DefaultMutableTreeNode
 {
-    JPanel getPanel();
-    
-    void search(ResourceContainer container, ClassNode node, SearchResultNotifier srn, boolean exact);
+	public final ResourceContainer container;
+	public final String resourceWorkingName;
+	public final String ldc;
+	public final String ldcType;
+	
+	public LDCSearchTreeNodeResult(ResourceContainer container, String resourceWorkingName,
+	                               ClassNode cn, MethodNode method, FieldNode field,
+	                               String ldc, String ldcType)
+	{
+		super("'"+ldc+"' -> " + cn.name);
+		this.container = container;
+		this.resourceWorkingName = resourceWorkingName;
+		this.ldc = ldc;
+		this.ldcType = ldcType;
+	}
 }
