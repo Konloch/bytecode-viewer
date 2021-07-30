@@ -6,6 +6,7 @@ import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
 import the.bytecode.club.bytecodeviewer.translation.Language;
 
 import java.io.File;
+import java.io.IOException;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -118,7 +119,14 @@ public class Configuration
 		if(lastDir.getParentFile() != null && lastDir.getParentFile().exists())
 			return lastDir;
 		
-		return new File(".");
+		try
+		{
+			return new File(".").getCanonicalFile();
+		}
+		catch (IOException e)
+		{
+			return new File(".");
+		}
 	}
 	
 	public static File getLastPluginDirectory()

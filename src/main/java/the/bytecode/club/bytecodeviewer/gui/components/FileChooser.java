@@ -44,7 +44,10 @@ public class FileChooser extends JFileChooser
 		HashSet<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
 		
 		try {
-			setSelectedFile(file);
+			if(file.isDirectory())
+				setCurrentDirectory(file);
+			else
+				setSelectedFile(file);
 		} catch (Exception ignored) { }
 		
 		setDialogTitle(title);

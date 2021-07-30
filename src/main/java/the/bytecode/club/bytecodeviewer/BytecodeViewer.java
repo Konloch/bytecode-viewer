@@ -100,7 +100,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *      + Add stackmapframes to bytecode decompiler
  *      + Add https://github.com/exbin/bined as the replacement Hed Viewer/Editor
  *      + Make the decompilers launch in a separate process
- *      + Make it use that global last used file folder inside of export as jar
  *      + Make zipfile not include the decode shit
  *      + Add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
  *      + Add decompile all as zip for CLI
