@@ -8,7 +8,8 @@ Bytecode Viewer - a lightweight user-friendly Java/Android Bytecode Viewer, Deco
 * Plugin Writer - create and edit external plugins from within BCV
 * Fixed Java & Bytecode editing/compiling
 * Tabbed plugin console
-* Javap support
+* Right-click menus on the resource and search panels
+* Javap disassembler
 * XAPK support
 * Updated nearly all dependencies (incl. decompilers like CFR, JD-GUI etc.)
 * Updated ASM library to version 9.1
