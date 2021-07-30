@@ -70,10 +70,11 @@ public class LDCSearch implements SearchTypeDetails
 
     @Override
     public void search(final ResourceContainer container, final ClassNode node, final SearchResultNotifier srn,
-                       boolean exact)
+                       boolean caseSensitive)
     {
         final Iterator<MethodNode> methods = node.methods.iterator();
         final String srchText = searchText.getText();
+        final String srchTextLowerCase = searchText.getText().toLowerCase();
         
         if (srchText.isEmpty())
             return;
@@ -97,7 +98,14 @@ public class LDCSearch implements SearchTypeDetails
                             desc2 = method.desc;
                     } catch (ArrayIndexOutOfBoundsException ignored) { }
 
-                    if ((exact && ldcString.equals(srchText)) || (!exact && ldcString.contains(srchText)))
+                    //TODO re-add this at some point when the search pane is redone
+                    boolean exact = false;
+                    final boolean exactMatch = exact && ldcString.equals(srchText);
+                    final boolean caseInsensitiveMatch = !exact && caseSensitive && ldcString.contains(srchText);
+                    final boolean caseSensitiveMatch = !exact && !caseSensitive && ldcString.toLowerCase().contains(srchTextLowerCase);
+                    final boolean anyMatch = exactMatch || caseInsensitiveMatch || caseSensitiveMatch;
+                    
+                    if (anyMatch)
                     {
                         srn.notifyOfResult(container.name + ">" + node.name + "." + method.name
                                 + desc2
