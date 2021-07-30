@@ -74,14 +74,13 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *      + View>Visual Settings>Show Class Methods
  *      + Spam-clicking the refresh button will cause the swing thread to deadlock (Quickly opening resources used to also do this)
  *          This is caused by the ctrlMouseWheelZoom code, a temporary patch is just removing it worst case
- *      + Fix classfile searcher
- *      + BCV's classLoader should be destroyed each time a resource is added or removed
  *
  * TODO API BUGS:
  *      + All of the plugins that modify code need to include BytecodeViewer.updateAllClassNodeByteArrays();
  *      + All of the plugins that do any code changes should also include BytecodeViewer.refreshAllTabs();
  *      + Anything using getLoadedClasses() needs to be replaced with the new API
  *      + Anything using blindlySearchForClassNode() should instead search through the resource container search function
+ *      + BCV's classLoader should be destroyed each time a resource is added or removed
  *
  * TODO DarkLAF Specific Bugs:
  *      + Resource List creates swing lag with large project
@@ -98,13 +97,11 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *      + Option to only compile currently viewed class (true by default)
  *      + CLI Headless needs to be supported
  *      + Add stackmapframes to bytecode decompiler
- *      + Add https://github.com/exbin/bined as the replacement Hed Viewer/Editor
+ *      + Add https://github.com/exbin/bined as the replacement Hex Viewer/Editor
  *      + Make the decompilers launch in a separate process
- *      + Make zipfile not include the decode shit
  *      + Add decompile as zip for krakatau-bytecode, jd-gui and smali for CLI
  *      + Add decompile all as zip for CLI
  *      + Console on the Main Viewer UI
- *      + Plugin Console/System/ETC needs ctrl + mouse wheel
  *      + Font settings
  *
  *  TODO IDEAS:
