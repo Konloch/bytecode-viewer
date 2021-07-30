@@ -52,6 +52,7 @@ public class HTMLPane extends JEditorPane
 	{
 		if (text == null)
 			return null;
+		
 		HTMLPane pane = new HTMLPane();
 		
 		text = text.replace("{fatJar}", String.valueOf(FAT_JAR));
