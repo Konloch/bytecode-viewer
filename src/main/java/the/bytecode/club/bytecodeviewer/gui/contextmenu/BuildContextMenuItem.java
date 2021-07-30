@@ -1,4 +1,10 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu;
+package the.bytecode.club.bytecodeviewer.gui.contextmenu;
+
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
+import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
+
+import javax.swing.*;
+import javax.swing.tree.TreePath;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -22,10 +28,7 @@ package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu;
  * @author Konloch
  * @since 7/26/2021
  */
-public enum ContextMenuType
+public interface BuildContextMenuItem
 {
-	ALL,
-	RESOURCE,
-	DIRECTORY,
-	CONTAINER,
+	void buildMenu(ResourceTree tree, TreePath selPath, LDCSearchTreeNodeResult result, JPopupMenu menu);
 }

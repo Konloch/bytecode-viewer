@@ -1,9 +1,12 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu;
+package the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist;
 
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
-import javax.swing.tree.TreePath;
+import java.awt.event.ActionEvent;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -27,7 +30,20 @@ import javax.swing.tree.TreePath;
  * @author Konloch
  * @since 7/26/2021
  */
-public interface BuildContextMenuItem
+public class Remove extends ContextMenuItem
 {
-	void buildMenu(ResourceTree tree, TreePath selPath, JPopupMenu menu);
+	public Remove()
+	{
+		super(ContextMenuType.CONTAINER, ((tree, selPath, result, menu) ->
+		{
+			menu.add(new AbstractAction(TranslatedStrings.REMOVE.toString())
+			{
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+					BytecodeViewer.viewer.resourcePane.expandAll(tree, selPath, false);
+				}
+			});
+		}));
+	}
 }

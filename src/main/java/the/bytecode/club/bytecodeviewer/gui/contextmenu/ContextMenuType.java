@@ -1,12 +1,4 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.impl;
-
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuItem;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuType;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
+package the.bytecode.club.bytecodeviewer.gui.contextmenu;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -30,20 +22,11 @@ import java.awt.event.ActionEvent;
  * @author Konloch
  * @since 7/26/2021
  */
-public class Expand extends ContextMenuItem
+public enum ContextMenuType
 {
-	public Expand()
-	{
-		super(ContextMenuType.DIRECTORY, ((tree, selPath, menu) ->
-		{
-			menu.add(new AbstractAction(TranslatedStrings.EXPAND.toString())
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					BytecodeViewer.viewer.resourcePane.expandAll(tree, selPath, true);
-				}
-			});
-		}));
-	}
+	RESOURCE_LIST,
+	RESOURCE,
+	DIRECTORY,
+	CONTAINER,
+	SEARCH_BOX_RESULT,
 }

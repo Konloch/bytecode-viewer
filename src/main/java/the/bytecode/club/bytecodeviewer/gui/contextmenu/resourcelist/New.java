@@ -1,18 +1,16 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.impl;
+package the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist;
 
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
-import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuItem;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuType;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.util.Enumeration;
@@ -43,7 +41,7 @@ public class New extends ContextMenuItem
 {
 	public New()
 	{
-		super(ContextMenuType.ALL, ((tree, selPath, menu) ->
+		super(ContextMenuType.RESOURCE_LIST, ((tree, selPath, result, menu) ->
 		{
 			JMenu quickOpen = new JMenu(TranslatedStrings.NEW.toString());
 			quickOpen.add(createMenu("Class", FileType.CLASS, selPath));

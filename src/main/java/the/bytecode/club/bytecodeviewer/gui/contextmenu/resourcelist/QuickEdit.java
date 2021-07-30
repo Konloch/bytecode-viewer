@@ -1,9 +1,9 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.impl;
+package the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuItem;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuType;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
@@ -28,20 +28,17 @@ import javax.swing.*;
 
 /**
  * @author Konloch
- * @since 7/26/2021
+ * @since 7/27/2021
  */
-public class QuickOpen extends ContextMenuItem
+public class QuickEdit extends ContextMenuItem
 {
-	public QuickOpen()
+	public QuickEdit()
 	{
-		super(ContextMenuType.RESOURCE, ((tree, selPath, menu) ->
+		super(ContextMenuType.RESOURCE, ((tree, selPath, result, menu) ->
 		{
-			JMenu quickOpen = new JMenu(TranslatedStrings.QUICK_OPEN.toString());
-			quickOpen.add(createMenu(TranslatedStrings.PROCYON.toString(), ()->BytecodeViewer.viewer.resourcePane.quickDecompile(Decompiler.PROCYON_DECOMPILER, selPath, false)));
-			quickOpen.add(createMenu(TranslatedStrings.CFR.toString(), ()->BytecodeViewer.viewer.resourcePane.quickDecompile(Decompiler.CFR_DECOMPILER, selPath, false)));
-			quickOpen.add(createMenu(TranslatedStrings.FERNFLOWER.toString(), ()->BytecodeViewer.viewer.resourcePane.quickDecompile(Decompiler.FERNFLOWER_DECOMPILER, selPath, false)));
-			quickOpen.add(createMenu(TranslatedStrings.KRAKATAU.toString(), ()->BytecodeViewer.viewer.resourcePane.quickDecompile(Decompiler.KRAKATAU_DECOMPILER, selPath, false)));
-			quickOpen.add(createMenu(TranslatedStrings.BYTECODE.toString(), ()->BytecodeViewer.viewer.resourcePane.quickDecompile(Decompiler.BYTECODE_DISASSEMBLER, selPath, false)));
+			JMenu quickOpen = new JMenu("Quick Edit");
+			quickOpen.add(createMenu(TranslatedStrings.KRAKATAU.toString(), ()->
+					BytecodeViewer.viewer.resourcePane.quickDecompile(Decompiler.KRAKATAU_DISASSEMBLER, selPath, true)));
 			menu.add(quickOpen);
 		}));
 	}

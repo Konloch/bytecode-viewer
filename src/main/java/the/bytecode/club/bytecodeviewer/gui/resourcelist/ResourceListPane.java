@@ -2,7 +2,6 @@ package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -13,19 +12,15 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.Map.Entry;
-import java.util.Objects;
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FilenameUtils;
-import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenu;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenu;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
@@ -86,7 +81,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         if (selPath == null)
             return;
     
-        ContextMenu.buildMenu(tree, selPath, rightClickMenu);
+        ContextMenu.buildMenu(tree, selPath, null, rightClickMenu);
         rightClickMenu.show(this.tree, x, y);
     }
     

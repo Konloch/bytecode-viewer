@@ -1,13 +1,15 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu;
+package the.bytecode.club.bytecodeviewer.gui.contextmenu;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.impl.*;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.*;
+import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 /***************************************************************************
@@ -39,6 +41,7 @@ public class ContextMenu
 	
 	static
 	{
+		//resource list
 		addContext(new Remove()); //TODO rename to delete and add support for resources & whole parent nodes (directories)
 		addContext(new New());
 		addContext(new Open());
@@ -46,6 +49,11 @@ public class ContextMenu
 		addContext(new QuickEdit());
 		addContext(new Expand());
 		addContext(new Collapse());
+		
+		//search box
+		addContext(new the.bytecode.club.bytecodeviewer.gui.contextmenu.searchbox.Open());
+		addContext(new the.bytecode.club.bytecodeviewer.gui.contextmenu.searchbox.QuickOpen());
+		addContext(new the.bytecode.club.bytecodeviewer.gui.contextmenu.searchbox.QuickEdit());
 	}
 	
 	public static void addContext(ContextMenuItem menuItem)
@@ -53,36 +61,49 @@ public class ContextMenu
 		SINGLETON.contextMenuItems.add(menuItem);
 	}
 	
-	public static void buildMenu(ResourceTree tree, TreePath selPath, JPopupMenu menu)
+	public static void buildMenu(ResourceTree tree, TreePath selPath, LDCSearchTreeNodeResult selectedNode, JPopupMenu menu)
 	{
 		menu.removeAll();
 		
-		boolean isContainerSelected = selPath.getParentPath() != null && selPath.getParentPath().getParentPath() == null;
+		boolean searchBoxPane = selectedNode != null;
+		boolean isContainerSelected = !searchBoxPane && selPath.getParentPath() != null && selPath.getParentPath().getParentPath() == null;
+		boolean isResourceSelected = false;
 		
 		//TODO this is hacky - there is probably a better way to do this
-		tree.setSelectionPath(selPath);
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-		boolean isResourceSelected = !node.children().hasMoreElements();
+		if(!searchBoxPane)
+		{
+			tree.setSelectionPath(selPath);
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+			isResourceSelected = !node.children().hasMoreElements();
+		}
 		
 		for(ContextMenuItem item : SINGLETON.contextMenuItems)
 		{
 			switch(item.getMenuType())
 			{
 				case CONTAINER:
-					if(!isContainerSelected)
+					if(!isContainerSelected || searchBoxPane)
 						continue;
 					break;
 				case RESOURCE:
-					if(!isResourceSelected || isContainerSelected)
+					if(!isResourceSelected || isContainerSelected || searchBoxPane)
 						continue;
 					break;
 				case DIRECTORY:
-					if(isResourceSelected)
+					if(isResourceSelected || searchBoxPane)
+						continue;
+					break;
+				case RESOURCE_LIST:
+					if(searchBoxPane)
+						continue;
+					break;
+				case SEARCH_BOX_RESULT:
+					if(!searchBoxPane)
 						continue;
 					break;
 			}
 			
-			item.getBuildContextMenuItem().buildMenu(tree, selPath, menu);
+			item.getBuildContextMenuItem().buildMenu(tree, selPath, selectedNode, menu);
 		}
 	}
 }

@@ -1,8 +1,8 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.impl;
+package the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuItem;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuType;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
@@ -30,18 +30,18 @@ import java.awt.event.ActionEvent;
  * @author Konloch
  * @since 7/26/2021
  */
-public class Remove extends ContextMenuItem
+public class Expand extends ContextMenuItem
 {
-	public Remove()
+	public Expand()
 	{
-		super(ContextMenuType.CONTAINER, ((tree, selPath, menu) ->
+		super(ContextMenuType.DIRECTORY, ((tree, selPath, result, menu) ->
 		{
-			menu.add(new AbstractAction(TranslatedStrings.REMOVE.toString())
+			menu.add(new AbstractAction(TranslatedStrings.EXPAND.toString())
 			{
 				@Override
 				public void actionPerformed(ActionEvent e)
 				{
-					BytecodeViewer.viewer.resourcePane.expandAll(tree, selPath, false);
+					BytecodeViewer.viewer.resourcePane.expandAll(tree, selPath, true);
 				}
 			});
 		}));

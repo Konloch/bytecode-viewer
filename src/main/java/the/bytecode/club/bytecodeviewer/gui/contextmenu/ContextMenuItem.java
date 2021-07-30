@@ -1,12 +1,4 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.impl;
-
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuItem;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.contextmenu.ContextMenuType;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-
-import javax.swing.*;
+package the.bytecode.club.bytecodeviewer.gui.contextmenu;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -28,25 +20,25 @@ import javax.swing.*;
 
 /**
  * @author Konloch
- * @since 7/27/2021
+ * @since 7/26/2021
  */
-public class QuickEdit extends ContextMenuItem
+public class ContextMenuItem
 {
-	public QuickEdit()
-	{
-		super(ContextMenuType.RESOURCE, ((tree, selPath, menu) ->
-		{
-			JMenu quickOpen = new JMenu("Quick Edit");
-			quickOpen.add(createMenu(TranslatedStrings.KRAKATAU.toString(), ()->
-					BytecodeViewer.viewer.resourcePane.quickDecompile(Decompiler.KRAKATAU_DISASSEMBLER, selPath, true)));
-			menu.add(quickOpen);
-		}));
+	private final ContextMenuType menuType;
+	private final BuildContextMenuItem buildContextMenuItem;
+	
+	public ContextMenuItem(ContextMenuType menuType, BuildContextMenuItem buildContextMenuItem) {
+		this.menuType = menuType;
+		this.buildContextMenuItem = buildContextMenuItem;
 	}
 	
-	private static JMenuItem createMenu(String name, Runnable onClick)
+	public ContextMenuType getMenuType()
 	{
-		JMenuItem menu = new JMenuItem(name);
-		menu.addActionListener((e)->onClick.run());
-		return menu;
+		return menuType;
+	}
+	
+	public BuildContextMenuItem getBuildContextMenuItem()
+	{
+		return buildContextMenuItem;
 	}
 }
