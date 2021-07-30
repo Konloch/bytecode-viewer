@@ -94,7 +94,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *      + Fix hook inject for EZ-Injection
  *
  * TODO FEATURES:
- *      + Multiple error logs from the same plugin should be displayed in a single error window
  *      + On refresh save scroll position
  *      + Option to only compile currently viewed class (true by default)
  *      + CLI Headless needs to be supported
