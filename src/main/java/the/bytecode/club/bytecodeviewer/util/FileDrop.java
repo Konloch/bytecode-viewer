@@ -444,10 +444,10 @@ public class FileDrop {
             boolean support;
             try {
                 final Class arbitraryDndClass = Class
-                        .forName("DnDConstants");
+                        .forName("java.awt.dnd.DnDConstants");
                 support = true;
             } // end try
-            catch (final Exception e) {
+            catch (final Throwable t) {
                 support = false;
             } // end catch
             supportsDnD = support;
