@@ -222,7 +222,7 @@
         <dependency>
             <groupId>com.github.weisj</groupId>
             <artifactId>darklaf-core</artifactId>
-            <version>2.7.1</version>
+            <version>2.7.2</version>
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
