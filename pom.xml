@@ -86,7 +86,7 @@
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>commons-compiler</artifactId>
-            <version>3.1.4</version>
+            <version>3.1.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -131,7 +131,7 @@
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>janino</artifactId>
-            <version>3.1.4</version>
+            <version>3.1.6</version>
         </dependency>
         <dependency>
             <groupId>com.jd</groupId>
