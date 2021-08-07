@@ -43,17 +43,20 @@ public class ResourceTree extends JTree
 	StringMetricsUtil m = null;
 	
 	@Override
-    public void paint(final Graphics g)
+    public void paint(final Graphics graphics)
 	{
         try
         {
+            Graphics2D g = (Graphics2D) graphics;
             super.paint(g);
             if (m == null)
             {
-                m = new StringMetricsUtil((Graphics2D) g);
+                m = new StringMetricsUtil(g);
             }
             if (treeRoot.getChildCount() < 1)
             {
+                g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                 g.setColor(new Color(0, 0, 0, 100));
                 g.fillRect(0, 0, getWidth(), getHeight());
                 g.setColor(Color.white);
@@ -63,7 +66,7 @@ public class ResourceTree extends JTree
                         getHeight() / 2);
             }
         }
-        catch (InternalError | NullPointerException ignored)
+        catch (InternalError | NullPointerException | ClassCastException ignored)
         {
         }
     }

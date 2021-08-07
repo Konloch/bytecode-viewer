@@ -6,7 +6,6 @@ import org.apache.commons.compress.utils.FileNameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ComponentViewer;
-import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
@@ -18,6 +17,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -123,16 +123,18 @@ public class PluginWriter extends JFrame
 			
 			JPanel p = new JPanel(new BorderLayout());
 			JPanel p2 = new JPanel(new BorderLayout());
-			
 			p.add(p2, BorderLayout.NORTH);
 			p.add(component, BorderLayout.CENTER);
-			
-			if(Configuration.lafTheme == LAFTheme.SYSTEM)
-				p2.add(getJMenuBar(), BorderLayout.CENTER);
-			else //TODO DarkLAF wont display the jMenuBar due to how it handles them, instead display the menu
-				//TODO make the menu interactable and display the menu manually
-				p2.add(getJMenuBar().getMenu(0), BorderLayout.CENTER);
-			
+
+			JMenuBar menuBar = getJMenuBar();
+			// As the Darklaf windows decorations steal the menu bar from the frame
+			// it sets the preferred size to (0,0). Because we want to steal the menu bar ourselves.
+			// we have to revert this change.
+			// Remove when https://github.com/weisJ/darklaf/issues/258 is fixed and available in a
+			// release.
+			menuBar.setPreferredSize(null);
+			p2.add(menuBar, BorderLayout.CENTER);
+
 			ComponentViewer.addComponentAsTab(pluginName, p);
 		}
 		else
