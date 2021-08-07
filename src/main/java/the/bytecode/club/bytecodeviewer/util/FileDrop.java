@@ -768,7 +768,7 @@ public class FileDrop {
          *
          * @since 1.1
          */
-        public final static String MIME_TYPE = "application/x-net.iharder.TransferableObject";
+        public final static String MIME_TYPE = "application/x-net.iharder.dnd.TransferableObject";
 
         /**
          * The default {@link DataFlavor} for
