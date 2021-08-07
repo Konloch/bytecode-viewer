@@ -84,7 +84,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *
  * TODO DarkLAF Specific Bugs:
  *      + Resource List creates swing lag with large project
- *      + JMenuBar can only be displayed on a JFrame, a work around is needed for this
+ *      + JMenuBar can only be displayed on a JFrame, a work around is needed for this (Partially solved)
  *
  * TODO IN-PROGRESS:
  *      + Resource Exporter/Save/Decompile As Zip needs to be rewritten

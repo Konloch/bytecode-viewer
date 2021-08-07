@@ -44,4 +44,10 @@ public class TranslatedJMenu extends JMenu
 			componentReference.translate();
 		}
 	}
+
+	@Override
+	public boolean isEnabled()
+	{
+		return super.isEnabled() && getMenuComponentCount() > 0;
+	}
 }

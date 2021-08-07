@@ -3,8 +3,10 @@ package the.bytecode.club.bytecodeviewer.gui.components;
 import com.github.weisj.darklaf.icons.ThemedSVGIcon;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.Workspace;
+import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
+import javax.swing.BorderFactory;
 import javax.swing.JInternalFrame;
 
 /***************************************************************************
@@ -40,7 +42,16 @@ public abstract class VisibleComponent extends JInternalFrame
         super(title, false, false, false, false);
         this.setDefaultIcon();
     }
-    
+
+    @Override
+    public void updateUI() {
+        if (Configuration.lafTheme != LAFTheme.SYSTEM)
+            setBorder(BorderFactory.createEmptyBorder());
+        else
+            setBorder(null);
+        super.updateUI();
+    }
+
     public void setDefaultIcon()
     {
         try {
