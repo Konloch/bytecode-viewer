@@ -18,10 +18,6 @@
             <url>file:///${project.basedir}/libs</url>
         </repository>
         <repository>
-            <id>sonatype-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </repository> <!-- TODO Remove when DarkLaf is properly updated -->
-        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
@@ -86,7 +82,7 @@
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>commons-compiler</artifactId>
-            <version>3.1.4</version>
+            <version>3.1.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -131,7 +127,7 @@
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>janino</artifactId>
-            <version>3.1.4</version>
+            <version>3.1.6</version>
         </dependency>
         <dependency>
             <groupId>com.jd</groupId>
@@ -225,8 +221,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
-            <artifactId>darklaf-bcv</artifactId>
-            <version>2.6.2bcv</version>
+            <artifactId>darklaf-core</artifactId>
+            <version>2.7.2</version>
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>

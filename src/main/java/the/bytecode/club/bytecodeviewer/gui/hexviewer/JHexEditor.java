@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 import java.awt.BorderLayout;
@@ -160,8 +162,11 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
                 fn.getHeight() + 1);
     }
 
-    protected void printString(Graphics g, String s, int x, int y) {
+    protected void printString(Graphics graphics, String s, int x, int y) {
+        Graphics2D g = (Graphics2D) graphics;
         FontMetrics fn = getFontMetrics(font);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g.drawString(s, ((fn.stringWidth(" ") + 1) * x) + border,
                 ((fn.getHeight() * (y + 1)) - fn.getMaxDescent()) + border);
     }

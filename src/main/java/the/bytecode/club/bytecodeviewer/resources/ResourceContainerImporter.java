@@ -73,16 +73,18 @@ public class ResourceContainerImporter
 		try
 		{
 			//attempt to import using Java ZipInputStream
-			importZipInputStream(false);
+			return importZipInputStream(false);
 		}
-		catch (IOException e)
+		catch (Throwable t)
 		{
-			e.printStackTrace();
-			
-			//fallback to apache commons ZipFile
-			importApacheZipFile(false);
+			try {
+				//fallback to apache commons ZipFile
+				return importApacheZipFile(false);
+			} catch (Throwable t1) {
+				t1.addSuppressed(t);
+				throw t1;
+			}
 		}
-		return this;
 	}
 	
 	/**
@@ -93,10 +95,10 @@ public class ResourceContainerImporter
 	{
 		//TODO remove this .class check and just look for cafebabe
 		if (name.endsWith(".class"))
-			addClassResource(name, stream);
-		else if(!classesOnly)
-			addResource(name, stream);
-		
+			return addClassResource(name, stream);
+		else if (!classesOnly)
+			return addResource(name, stream);
+
 		return this;
 	}
 	
