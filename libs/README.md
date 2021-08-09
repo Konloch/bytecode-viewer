@@ -21,4 +21,5 @@ Some dependencies may have been modified or could be released by their author in
 
  - `JD-GUI`: Removed ASM and RSyntaxTextArea
  - `APKTool`: Recompiled with the newest dependency versions, removed prebuilt folder
- - `DarkLAF`: Merged core & windows libraries for 2.6.2-20210719.010320-83
+ - `DX`: Just taken from build-tools without modifications
+ - `D2Jar`: Compiled from scratch
