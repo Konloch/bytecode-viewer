@@ -256,8 +256,7 @@ public class SecurityMan extends SecurityManager
     @SuppressWarnings("deprecation")
     public void checkMulticast(InetAddress maddr, byte ttl) {
     }
-    
-    @SuppressWarnings("deprecation")
+
     public void checkPackageAccess(String pkg) {
         if(printingPackage)
             System.out.println("Accessing: " + pkg);
@@ -335,9 +334,7 @@ public class SecurityMan extends SecurityManager
         {
             throw new SecurityException(e);
         }
-    
-        //TODO temporarily removed to fix #339
-        // a proper fix is to edit the smali disassembler
-        //throw new SecurityException("BCV is awesome, blocking write(" + file + ");");
+
+        throw new SecurityException("BCV is awesome, blocking write(" + file + ");");
     }
 }

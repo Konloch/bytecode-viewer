@@ -61,10 +61,8 @@ public class SmaliAssembler extends InternalCompiler
         }
 
         try {
-            com.googlecode.d2j.smali.SmaliCmd.main(new String[]{
-                    tempSmaliFolder.getAbsolutePath(),
-                    //"-o", tempDex.getAbsolutePath()
-            });
+            com.googlecode.d2j.smali.SmaliCmd.main(tempSmaliFolder.getAbsolutePath(),
+                    "-o", tempDex.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             //BytecodeViewer.handleException(e);
