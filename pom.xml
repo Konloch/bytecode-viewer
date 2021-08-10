@@ -217,7 +217,7 @@
         <dependency>
             <groupId>com.googlecode</groupId>
             <artifactId>D2Jar-obf</artifactId>
-            <version>2.1bcv</version>
+            <version>2.1v7</version>
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
