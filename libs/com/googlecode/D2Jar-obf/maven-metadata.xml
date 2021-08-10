@@ -3,10 +3,10 @@
   <groupId>com.googlecode</groupId>
   <artifactId>D2Jar-obf</artifactId>
   <versioning>
-    <release>1.0bcv</release>
+    <release>2.1bcv</release>
     <versions>
-      <version>1.0bcv</version>
+      <version>2.1bcv</version>
     </versions>
-    <lastUpdated>20210809231039</lastUpdated>
+    <lastUpdated>20210810101916</lastUpdated>
   </versioning>
 </metadata>
