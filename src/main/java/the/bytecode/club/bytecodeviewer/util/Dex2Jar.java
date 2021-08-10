@@ -4,8 +4,6 @@ import com.googlecode.d2j.dex.Dex2jar;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -50,16 +48,6 @@ public class Dex2Jar {
         }
     }
 
-    // TODO fix this properly
-    private static void applyErrorFix(com.googlecode.dex2jar.tools.Dex2jarCmd cmd) {
-        try {
-            Field f = com.googlecode.dex2jar.tools.Dex2jarCmd.class.getDeclaredField("notHandleException");
-            f.setAccessible(true);
-            f.set(cmd, true);
-        } catch (Throwable ignored) {
-        }
-    }
-
     /**
      * Converts a .jar to .dex
      *
@@ -72,28 +60,7 @@ public class Dex2Jar {
 
     public static synchronized void saveAsDex(File input, File output, boolean delete) {
         try {
-            com.googlecode.dex2jar.tools.Jar2Dex.main(input.getAbsolutePath());
-            File currentDexLocation = new File("./" + input.getName());
-
-            if (currentDexLocation.getAbsolutePath().toLowerCase().endsWith(".jar")) {
-                currentDexLocation = new File(currentDexLocation.getAbsolutePath().replaceFirst("\\.jar", "-jar2dex"
-                        + ".dex"));
-            } else if (currentDexLocation.getAbsolutePath().toLowerCase().endsWith(".apk")) {
-                currentDexLocation = new File(currentDexLocation.getAbsolutePath().replaceFirst("\\.apk", "-jar2dex"
-                        + ".dex"));
-            } else if (currentDexLocation.getAbsolutePath().toLowerCase().endsWith(".dex")) {
-                currentDexLocation = new File(currentDexLocation.getAbsolutePath().replaceFirst("\\.dex", "-jar2dex"
-                        + ".dex"));
-            } else if (currentDexLocation.getAbsolutePath().toLowerCase().endsWith(".zip")) {
-                currentDexLocation = new File(currentDexLocation.getAbsolutePath().replaceFirst("\\.zip", "-jar2dex"
-                        + ".dex"));
-            } else if (currentDexLocation.getAbsolutePath().toLowerCase().endsWith(".class")) {
-                currentDexLocation = new File(currentDexLocation.getAbsolutePath().replaceFirst("\\.class", "-jar2dex"
-                        + ".dex"));
-            }
-
-            currentDexLocation.renameTo(output);
-
+            com.googlecode.dex2jar.tools.Jar2Dex.main(input.getAbsolutePath(), "-o", output.getAbsolutePath());
             if (delete)
                 input.delete();
         } catch (Exception e) {

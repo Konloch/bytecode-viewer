@@ -3,6 +3,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.android</groupId>
-  <artifactId>D2Jar-obf</artifactId>
-  <version>1.0bcv</version>
+  <artifactId>dx</artifactId>
+  <version>30.0.3</version>
 </project>

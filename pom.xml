@@ -211,11 +211,11 @@
         </dependency>
         <dependency>
             <groupId>com.android</groupId>
-            <artifactId>DX</artifactId>
-            <version>1.16bcv</version>
+            <artifactId>dx</artifactId>
+            <version>30.0.3</version>
         </dependency>
         <dependency>
-            <groupId>com.android</groupId>
+            <groupId>com.googlecode</groupId>
             <artifactId>D2Jar-obf</artifactId>
             <version>1.0bcv</version>
         </dependency>
@@ -232,7 +232,7 @@
         <dependency>
             <groupId>com.github.gotson</groupId>
             <artifactId>webp-imageio</artifactId>
-            <version>0.2.1</version>
+            <version>0.2.2</version>
         </dependency>
         <dependency>
             <groupId>de.skuzzle</groupId>

@@ -10,6 +10,7 @@ import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
@@ -55,6 +56,7 @@ public class SmaliDisassembler extends InternalDecompiler
 
         final File tempClass = new File(start + ".class");
         final File tempDex = new File(start + ".dex");
+        final File tempDexOut = new File(start + "-out");
         final File tempSmali = new File(start + "-smali"); //output directory
 
         try (FileOutputStream fos = new FileOutputStream(tempClass)) {
@@ -68,7 +70,8 @@ public class SmaliDisassembler extends InternalDecompiler
         Dex2Jar.saveAsDex(tempClass, tempDex, true);
 
         try {
-            com.googlecode.d2j.smali.BaksmaliCmd.main(new String[]{tempDex.getAbsolutePath()});
+            com.googlecode.d2j.smali.BaksmaliCmd.main(tempDex.getAbsolutePath(),
+                    "-o", tempDexOut.getAbsolutePath());
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
@@ -77,10 +80,8 @@ public class SmaliDisassembler extends InternalDecompiler
             exception += ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
 
-        File rename = new File(tempDex.getName().replaceFirst("\\.dex", "-out"));
-
         try {
-            FileUtils.moveDirectory(rename, tempSmali);
+            FileUtils.moveDirectory(tempDexOut, tempSmali);
         } catch (IOException e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
