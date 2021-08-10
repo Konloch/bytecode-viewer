@@ -9,6 +9,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author http://stackoverflow.com/questions/14968005
@@ -17,6 +18,9 @@ import java.util.ArrayList;
 
 public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 {
+	//TODO the icon cache needs to be cleared on treenode removal
+	public static HashMap<ResourceTreeNode, ImageIcon> iconCache = new HashMap<>();
+	
 	//called every time there is a pane update
 	@Override
 	public Component getTreeCellRendererComponent(
@@ -28,7 +32,14 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 		
 		if (value instanceof ResourceTreeNode)
 		{
+			if (iconCache.containsKey(value))
+			{
+				setIcon(iconCache.get(value));
+				return ret;
+			}
+			
 			ResourceTreeNode node = (ResourceTreeNode) value;
+			
 			String nameOG = node.toString();
 			String name = nameOG.toLowerCase();
 			String onlyName = FilenameUtils.getName(name);
@@ -44,13 +55,13 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 					&& (node.getParent() == node.getRoot()
 					|| node.getChildCount() == 0))
 			{
-				setIcon(knownResourceType.getIcon());
+				cacheNodeIcon(node, knownResourceType.getIcon());
 				iconSet = true;
 			}
 			//hardcoded resource icons go here
 			else if (nameOG.equals("Decoded Resources") && node.getChildCount() > 0)
 			{
-				setIcon(IconResources.decodedIcon);
+				cacheNodeIcon(node, IconResources.decodedIcon);
 				iconSet = true;
 			}
 			else if (node.getChildCount() == 0
@@ -58,7 +69,7 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 					|| nameOG.equals("LICENSE")
 					|| nameOG.equals("NOTICE")))
 			{
-				setIcon(IconResources.textIcon);
+				cacheNodeIcon(node, IconResources.textIcon);
 				iconSet = true;
 			}
 			
@@ -107,17 +118,23 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 				{
 					//java packages
 					if (isJava)
-						setIcon(IconResources.packagesIcon);
+						cacheNodeIcon(node, IconResources.packagesIcon);
 					else //regular folders
-						setIcon(IconResources.folderIcon);
+						cacheNodeIcon(node, IconResources.folderIcon);
 				}
 			}
 			
 			//unknown files
 			else if (knownResourceType == null && !iconSet)
-				setIcon(IconResources.unknownFileIcon);
+				cacheNodeIcon(node, IconResources.unknownFileIcon);
 		}
 		
 		return ret;
+	}
+	
+	public void cacheNodeIcon(ResourceTreeNode node, ImageIcon icon)
+	{
+		iconCache.put(node, icon);
+		setIcon(icon);
 	}
 }

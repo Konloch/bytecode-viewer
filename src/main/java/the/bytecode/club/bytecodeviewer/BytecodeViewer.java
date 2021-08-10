@@ -20,6 +20,7 @@ import the.bytecode.club.bytecodeviewer.bootloader.InstallFatJar;
 import the.bytecode.club.bytecodeviewer.bootloader.UpdateCheck;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.components.*;
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListIconRenderer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
@@ -83,7 +84,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  *      + BCV's classLoader should be destroyed each time a resource is added or removed
  *
  * TODO DarkLAF Specific Bugs:
- *      + Resource List creates swing lag with large project
  *      + JMenuBar can only be displayed on a JFrame, a work around is needed for this (Partially solved)
  *
  * TODO IN-PROGRESS:
@@ -709,6 +709,7 @@ public class BytecodeViewer
         BytecodeViewer.viewer.workPane.resetWorkspace();
         BytecodeViewer.viewer.searchBoxPane.resetWorkspace();
         BCV.getClassNodeLoader().clear();
+        ResourceListIconRenderer.iconCache.clear();
     }
     
     /**
