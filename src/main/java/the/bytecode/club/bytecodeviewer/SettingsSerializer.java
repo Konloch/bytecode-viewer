@@ -163,7 +163,7 @@ public class SettingsSerializer
             save("deprecated");
             save("deprecated");
             save("deprecated");
-            save(BytecodeViewer.viewer.fontSpinner.getValue());
+            save(BytecodeViewer.viewer.getFontSize());
             save(Configuration.deleteForeignLibraries);
     
             if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
@@ -200,6 +200,7 @@ public class SettingsSerializer
             save(Configuration.lastPluginDirectory);
             save(Configuration.python2Extra);
             save(Configuration.python3Extra);
+            save(BytecodeViewer.viewer.getMinSdkVersion());
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
         }
@@ -396,6 +397,7 @@ public class SettingsSerializer
             Configuration.lastPluginDirectory = asString(138);
             Configuration.python2Extra = asBoolean(139);
             Configuration.python3Extra = asBoolean(140);
+            BytecodeViewer.viewer.minSdkVersionSpinner.setValue(asInt(141));
         }
         catch (IndexOutOfBoundsException e)
         {

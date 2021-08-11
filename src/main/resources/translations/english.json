@@ -279,5 +279,6 @@
   "SAVE": "Save...",
   "SAVE_AS": "Save As...",
   "RESULTS": "Results",
-  "REFRESH": "Refresh"
+  "REFRESH": "Refresh",
+  "MIN_SDK_VERSION": "Minimum SDK version"
 }

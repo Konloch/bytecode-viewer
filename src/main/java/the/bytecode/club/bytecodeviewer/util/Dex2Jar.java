@@ -1,9 +1,8 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import com.googlecode.d2j.dex.Dex2jar;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
 import java.io.File;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -60,7 +59,9 @@ public class Dex2Jar {
 
     public static synchronized void saveAsDex(File input, File output, boolean delete) {
         try {
-            com.googlecode.dex2jar.tools.Jar2Dex.main(input.getAbsolutePath(), "-o", output.getAbsolutePath());
+            com.googlecode.dex2jar.tools.Jar2Dex.main(input.getAbsolutePath(),
+                    "-o", output.getAbsolutePath(),
+                    "-s", BytecodeViewer.viewer.getMinSdkVersion() + "");
             if (delete)
                 input.delete();
         } catch (Exception e) {
