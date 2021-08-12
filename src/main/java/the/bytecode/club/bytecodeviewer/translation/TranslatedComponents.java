@@ -250,6 +250,7 @@ public enum TranslatedComponents
 	DESC,
 	RESULTS,
 	REFRESH,
+	MIN_SDK_VERSION,
 	
 	;
 	

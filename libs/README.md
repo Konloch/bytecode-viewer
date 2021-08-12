@@ -19,7 +19,7 @@ Some dependencies may have been modified or could be released by their author in
 
 #### Modifications
 
- - `JD-GUI`: Removed ASM and RSyntaxTextArea
+ - `JD-GUI`: Removed ASM, RSyntaxTextArea, ANTLR, and TreeLayout
  - `APKTool`: Recompiled with the newest dependency versions, removed prebuilt folder
- - `DX`: Just taken from build-tools without modifications
- - `D2Jar`: Compiled from scratch
+ - `dx`: Just taken from build-tools without modifications
+ - `Dex2Jar`: Compiled from scratch ([This fork](https://github.com/ThexXTURBOXx/dex2jar)); download the `all` artifact from [GitHub actions](https://github.com/ThexXTURBOXx/dex2jar/actions)

@@ -266,7 +266,11 @@ public class MainViewerGUI extends JFrame
     public final JCheckBoxMenuItem recoveryTypehInts = new TranslatedJCheckBoxMenuItem("Recover Type  Hints", TranslatedComponents.RECOVER_TYPE__HINTS);
     public final JCheckBoxMenuItem forceTurningIFs = new TranslatedJCheckBoxMenuItem("Force Returning IFs", TranslatedComponents.FORCE_RETURNING_IFS);
     public final JCheckBoxMenuItem forLoopAGGCapture = new TranslatedJCheckBoxMenuItem("For Loop AGG Capture", TranslatedComponents.FOR_LOOP_AGG_CAPTURE);
-    
+
+    //Smali/D2Jar
+    public final JMenu minSdkVersionMenu = new TranslatedJMenu("Minimum SDK version", TranslatedComponents.MIN_SDK_VERSION);
+    public final JSpinner minSdkVersionSpinner = new JSpinner();
+
     //obfuscation
     public final JMenu obfuscate = new JMenu("Obfuscate");
     public final JMenuItem renameFields = new JMenuItem("Rename Fields");
@@ -611,6 +615,13 @@ public class MainViewerGUI extends JFrame
         bytecodeDecompilerSettingsSecondaryMenu.add(appendBracketsToLabels);
         bytecodeDecompilerSettingsDialog = new SettingsDialog(bytecodeDecompilerSettingsSecondaryMenu, new JPanel());
         bytecodeDecompilerSettings.addActionListener((e)-> bytecodeDecompilerSettingsDialog.showDialog());
+
+        //Smali minSdkVersion
+        minSdkVersionSpinner.setPreferredSize(new Dimension(60, 24));
+        minSdkVersionSpinner.setMinimumSize(new Dimension(60, 24));
+        minSdkVersionSpinner.setModel(new SpinnerNumberModel(26, 1, null, 1));
+        minSdkVersionMenu.add(minSdkVersionSpinner);
+        settingsMainMenu.add(minSdkVersionMenu);
         
         deleteForeignOutdatedLibs.addActionListener(arg0 -> showForeignLibraryWarning());
         forcePureAsciiAsText.addActionListener(arg0 -> SettingsSerializer.saveSettingsAsync());
@@ -797,6 +808,11 @@ public class MainViewerGUI extends JFrame
     public int getFontSize()
     {
         return (int) fontSpinner.getValue();
+    }
+
+    public int getMinSdkVersion()
+    {
+        return (int) minSdkVersionSpinner.getValue();
     }
     
     public synchronized void clearBusyStatus()

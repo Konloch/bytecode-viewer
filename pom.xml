@@ -107,7 +107,7 @@
         <dependency>
             <groupId>org.jboss.windup.decompiler</groupId>
             <artifactId>decompiler-fernflower</artifactId>
-            <version>5.1.4.Final</version>
+            <version>5.2.0.Final</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -130,7 +130,7 @@
             <version>3.1.6</version>
         </dependency>
         <dependency>
-            <groupId>com.jd</groupId>
+            <groupId>org.jd</groupId>
             <artifactId>jd-gui</artifactId>
             <version>1.6.6bcv</version>
         </dependency>
@@ -210,14 +210,9 @@
             <version>5.1bcv</version>
         </dependency>
         <dependency>
-            <groupId>com.android</groupId>
-            <artifactId>dx</artifactId>
-            <version>30.0.3</version>
-        </dependency>
-        <dependency>
             <groupId>com.googlecode</groupId>
             <artifactId>D2Jar-obf</artifactId>
-            <version>1.0bcv</version>
+            <version>2.1v19</version>
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
@@ -238,6 +233,22 @@
             <groupId>de.skuzzle</groupId>
             <artifactId>semantic-version</artifactId>
             <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.abego.treelayout</groupId>
+            <artifactId>org.abego.treelayout.core</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4</artifactId>
+            <version>4.9.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.ibm.icu</groupId>
+                    <artifactId>icu4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- TODO Re-add for Graal.JS support -->
