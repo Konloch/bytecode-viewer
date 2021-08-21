@@ -60,10 +60,11 @@ public class JADXDecompiler extends InternalDecompiler
         }
 
         File fuckery = new File(fuckery(fileStart));
+        fuckery.mkdirs();
         
         try {
             JadxArgs args = new JadxArgs();
-            args.getInputFiles().add(tempClass);
+            args.setInputFile(tempClass);
             args.setOutDir(fuckery);
             args.setOutDirSrc(fuckery);
             args.setOutDirRes(fuckery);
