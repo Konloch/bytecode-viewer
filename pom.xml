@@ -112,6 +112,17 @@
             <groupId>org.jboss.windup.decompiler</groupId>
             <artifactId>decompiler-fernflower</artifactId>
             <version>5.2.0.Final</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.windup.decompiler.fernflower</groupId>
+                    <artifactId>windup-fernflower</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ThexXTURBOXx</groupId>
+            <artifactId>fernflower</artifactId>
+            <version>47afd82034</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
