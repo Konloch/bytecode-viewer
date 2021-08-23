@@ -14,6 +14,10 @@
 
     <repositories>
         <repository>
+            <id>google</id>
+            <url>https://maven.google.com/</url>
+        </repository>
+        <repository>
             <id>local-maven-repo</id>
             <url>file:///${project.basedir}/libs</url>
         </repository>
@@ -108,6 +112,17 @@
             <groupId>org.jboss.windup.decompiler</groupId>
             <artifactId>decompiler-fernflower</artifactId>
             <version>5.2.0.Final</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.windup.decompiler.fernflower</groupId>
+                    <artifactId>windup-fernflower</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ThexXTURBOXx</groupId>
+            <artifactId>fernflower</artifactId>
+            <version>47afd82034</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -200,19 +215,29 @@
             <version>1.1.4c</version>
         </dependency>
         <dependency>
-            <groupId>com.github.skylot</groupId>
-            <artifactId>JADX-Core</artifactId>
-            <version>1.0bcv</version>
+            <groupId>com.github.skylot.jadx</groupId>
+            <artifactId>jadx-core</artifactId>
+            <version>c28e8142f4</version>
         </dependency>
         <dependency>
-            <groupId>com.github.skylot</groupId>
-            <artifactId>JADX-Android</artifactId>
-            <version>5.1bcv</version>
+            <groupId>com.github.skylot.jadx</groupId>
+            <artifactId>jadx-java-convert</artifactId>
+            <version>c28e8142f4</version>
         </dependency>
         <dependency>
-            <groupId>com.googlecode</groupId>
-            <artifactId>D2Jar-obf</artifactId>
-            <version>2.1v19</version>
+            <groupId>com.github.skylot.jadx</groupId>
+            <artifactId>jadx-dex-input</artifactId>
+            <version>c28e8142f4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.skylot.jadx</groupId>
+            <artifactId>jadx-smali-input</artifactId>
+            <version>c28e8142f4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ThexXTURBOXx</groupId>
+            <artifactId>dex2jar</artifactId>
+            <version>v23</version>
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
