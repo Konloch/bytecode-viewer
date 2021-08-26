@@ -201,7 +201,7 @@ public class JarUtils
      */
     public static Map<String, byte[]> loadResources(final File zipFile) throws IOException {
         if (!zipFile.exists())
-            return null; //just ignore
+            return new LinkedHashMap<>(); // just ignore (don't return null for null-safety!)
     
         Map<String, byte[]> files = new LinkedHashMap<>();
 

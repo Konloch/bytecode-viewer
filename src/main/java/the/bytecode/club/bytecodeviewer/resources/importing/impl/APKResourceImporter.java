@@ -56,7 +56,7 @@ public class APKResourceImporter implements Importer
 			container.resourceFiles = JarUtils.loadResources(decodedResources);
 		}
 		
-		Objects.requireNonNull(container.resourceFiles).putAll(JarUtils.loadResources(tempCopy)); //copy and rename
+		container.resourceFiles.putAll(JarUtils.loadResources(tempCopy)); // copy and rename
 		// to prevent unicode filenames
 		
 		String name = MiscUtils.getRandomizedName() + ".jar";
