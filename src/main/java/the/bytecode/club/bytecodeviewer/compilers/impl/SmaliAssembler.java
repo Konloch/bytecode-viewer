@@ -52,6 +52,16 @@ public class SmaliAssembler extends InternalCompiler
         File tempDex = new File("./out.dex");
         File tempJar = new File(fileStart + fileNumber + ".jar");
         File tempJarFolder = new File(fileStart + fileNumber + "-jar" + fs);
+        
+        String SmaliSmaliFolder = tempSmaliFolder.getAbsolutePath();
+        String SmaliArg = "-o";
+        String SmaliDexFolder = tempDex.getAbsolutePath();
+        String[] SmaliList = 
+        {
+        	SmaliSmaliFolder,
+        	SmaliArg,
+        	SmaliDexFolder,
+        };
 
         try {
             DiskWriter.replaceFile(tempSmali.getAbsolutePath(), contents, false);
@@ -61,8 +71,7 @@ public class SmaliAssembler extends InternalCompiler
         }
 
         try {
-            com.googlecode.d2j.smali.SmaliCmd.main(tempSmaliFolder.getAbsolutePath(),
-                    "-o", tempDex.getAbsolutePath());
+            com.googlecode.d2j.smali.SmaliCmd.main(SmaliList);
         } catch (Exception e) {
             e.printStackTrace();
             //BytecodeViewer.handleException(e);

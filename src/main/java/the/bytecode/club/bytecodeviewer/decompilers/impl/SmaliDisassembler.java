@@ -58,6 +58,16 @@ public class SmaliDisassembler extends InternalDecompiler
         final File tempDex = new File(start + ".dex");
         final File tempDexOut = new File(start + "-out");
         final File tempSmali = new File(start + "-smali"); //output directory
+        
+        String BaksmaliDexFolder = tempDex.getAbsolutePath();
+        String BaksmaliArg = "-o";
+        String BaksmaliDexOutFolder = tempDexOut.getAbsolutePath();
+        String[] BaksmaliList = 
+        {
+        	BaksmaliDexFolder,
+        	BaksmaliArg,
+        	BaksmaliDexOutFolder,
+        };
 
         try (FileOutputStream fos = new FileOutputStream(tempClass)) {
             fos.write(b);
@@ -70,8 +80,7 @@ public class SmaliDisassembler extends InternalDecompiler
         Dex2Jar.saveAsDex(tempClass, tempDex, true);
 
         try {
-            com.googlecode.d2j.smali.BaksmaliCmd.main(tempDex.getAbsolutePath(),
-                    "-o", tempDexOut.getAbsolutePath());
+            com.googlecode.d2j.smali.BaksmaliCmd.main(BaksmaliList);
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
