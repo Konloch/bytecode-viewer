@@ -1,15 +1,19 @@
 package the.bytecode.club.bytecodeviewer.plugin.strategies;
 
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
-
-import javax.script.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import javax.script.Bindings;
+import javax.script.Invocable;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

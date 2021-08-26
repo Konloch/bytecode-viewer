@@ -11,18 +11,22 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import me.konloch.kontainer.io.HTTPRequest;
 import org.apache.commons.io.FileUtils;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.bootloader.loader.AbstractLoaderFactory;
 import the.bytecode.club.bytecodeviewer.bootloader.loader.ClassPathLoader;
 import the.bytecode.club.bytecodeviewer.bootloader.loader.ILoader;
 import the.bytecode.club.bytecodeviewer.bootloader.resource.external.EmptyExternalResource;
 import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
-import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.getBCVDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.krakatauVersion;
+import static the.bytecode.club.bytecodeviewer.Constants.krakatauWorkingDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

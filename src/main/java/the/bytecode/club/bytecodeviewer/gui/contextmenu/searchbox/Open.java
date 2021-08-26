@@ -1,12 +1,11 @@
 package the.bytecode.club.bytecodeviewer.gui.contextmenu.searchbox;
 
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

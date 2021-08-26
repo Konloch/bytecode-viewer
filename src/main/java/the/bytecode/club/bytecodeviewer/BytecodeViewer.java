@@ -1,17 +1,18 @@
 package the.bytecode.club.bytecodeviewer;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import javax.swing.*;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.SwingUtilities;
+import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
-
-import me.konloch.kontainer.io.DiskReader;
-
 import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.bootloader.Boot;
@@ -19,20 +20,29 @@ import the.bytecode.club.bytecodeviewer.bootloader.BootState;
 import the.bytecode.club.bytecodeviewer.bootloader.InstallFatJar;
 import the.bytecode.club.bytecodeviewer.bootloader.UpdateCheck;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
-import the.bytecode.club.bytecodeviewer.gui.components.*;
+import the.bytecode.club.bytecodeviewer.gui.components.ExtendedJOptionPane;
+import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListIconRenderer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
-import the.bytecode.club.bytecodeviewer.plugin.PluginWriter;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+import the.bytecode.club.bytecodeviewer.plugin.PluginWriter;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
-import the.bytecode.club.bytecodeviewer.util.*;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+import the.bytecode.club.bytecodeviewer.util.BootCheck;
+import the.bytecode.club.bytecodeviewer.util.ClassFileUtils;
+import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.PingBack;
+import the.bytecode.club.bytecodeviewer.util.SecurityMan;
 
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
-import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.Constants.DEV_MODE;
+import static the.bytecode.club.bytecodeviewer.Constants.FAT_JAR;
+import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
+import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -132,7 +142,7 @@ public class BytecodeViewer
     public static MainViewerGUI viewer;
     
     //All of the opened resources (Files/Classes/Etc)
-    public static LinkedHashMap<String,ResourceContainer> resourceContainers = new LinkedHashMap<>();
+    public static Map<String,ResourceContainer> resourceContainers = new LinkedHashMap<>();
     
     //All of the created processes (Decompilers/etc)
     public static List<Process> createdProcesses = new ArrayList<>();

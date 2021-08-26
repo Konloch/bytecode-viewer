@@ -1,9 +1,15 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialog;
 

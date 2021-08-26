@@ -1,13 +1,12 @@
 package the.bytecode.club.bytecodeviewer;
 
+import java.awt.event.KeyEvent;
+import java.io.File;
+import javax.swing.JFileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
 import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
-
-import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.io.File;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

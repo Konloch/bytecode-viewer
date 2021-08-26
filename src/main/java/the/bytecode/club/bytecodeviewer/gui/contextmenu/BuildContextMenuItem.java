@@ -1,10 +1,9 @@
 package the.bytecode.club.bytecodeviewer.gui.contextmenu;
 
+import javax.swing.JPopupMenu;
+import javax.swing.tree.TreePath;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
-
-import javax.swing.*;
-import javax.swing.tree.TreePath;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

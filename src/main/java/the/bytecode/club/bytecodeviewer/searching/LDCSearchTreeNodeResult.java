@@ -1,11 +1,10 @@
 package the.bytecode.club.bytecodeviewer.searching;
 
+import javax.swing.tree.DefaultMutableTreeNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-
-import javax.swing.tree.DefaultMutableTreeNode;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

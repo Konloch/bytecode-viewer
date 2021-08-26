@@ -1,9 +1,8 @@
 package the.bytecode.club.bytecodeviewer.translation;
 
-import the.bytecode.club.bytecodeviewer.api.BCV;
-
 import java.io.IOException;
 import java.util.HashSet;
+import the.bytecode.club.bytecodeviewer.api.BCV;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

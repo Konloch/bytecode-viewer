@@ -1,8 +1,11 @@
 package the.bytecode.club.bytecodeviewer.plugin;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.swing.filechooser.FileFilter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -11,7 +14,12 @@ import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsoleTabbed;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ComponentViewer;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.*;
+import the.bytecode.club.bytecodeviewer.plugin.strategies.CompiledJavaPluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.plugin.strategies.GroovyPluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.plugin.strategies.JavaPluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.plugin.strategies.JavascriptPluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.plugin.strategies.PythonPluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.plugin.strategies.RubyPluginLaunchStrategy;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -56,7 +64,7 @@ public final class PluginManager
     private static Plugin activePlugin;
     private static JFrameConsoleTabbed activeTabbedConsole;
     private static JFrameConsoleTabbed activeTabbedException;
-    private static HashMap<String, ExceptionUI> exceptionTabs = new HashMap<>();
+    private static final Map<String, ExceptionUI> exceptionTabs = new HashMap<>();
     private static int consoleCount = 0;
     private static int exceptionCount = 0;
     private static int errorCounter = 1;

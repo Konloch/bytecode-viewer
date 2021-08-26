@@ -11,7 +11,8 @@ import the.bytecode.club.bytecodeviewer.util.Enjarify;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
-import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -61,8 +62,8 @@ public class SmaliAssembler extends InternalCompiler
         }
 
         try {
-            com.googlecode.d2j.smali.SmaliCmd.main(tempSmaliFolder.getAbsolutePath(),
-                    "-o", tempDex.getAbsolutePath());
+            com.googlecode.d2j.smali.SmaliCmd.main(new String[]{tempSmaliFolder.getAbsolutePath(),
+                    "-o", tempDex.getAbsolutePath()});
         } catch (Exception e) {
             e.printStackTrace();
             //BytecodeViewer.handleException(e);
@@ -73,9 +74,9 @@ public class SmaliAssembler extends InternalCompiler
             Dex2Jar.dex2Jar(tempDex, tempJar);
         else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
             Enjarify.apk2Jar(tempDex, tempJar);
-    
+
         System.out.println("Temporary dex: " + tempDex.getAbsolutePath());
-        
+
         try {
             System.out.println("Unzipping to " + tempJarFolder.getAbsolutePath());
             ZipUtils.unzipFilesToPath(tempJar.getAbsolutePath(), tempJarFolder.getAbsolutePath());
@@ -95,7 +96,7 @@ public class SmaliAssembler extends InternalCompiler
                         found = true;
                     }
                 }
-                
+
                 System.out.println("Saved as: " + outputClass.getAbsolutePath());
 
                 return FileUtils.readFileToByteArray(outputClass);

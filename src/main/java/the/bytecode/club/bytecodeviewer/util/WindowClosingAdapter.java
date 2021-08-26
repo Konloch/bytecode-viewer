@@ -1,9 +1,8 @@
 package the.bytecode.club.bytecodeviewer.util;
 
-import the.bytecode.club.bytecodeviewer.Configuration;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import the.bytecode.club.bytecodeviewer.Configuration;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

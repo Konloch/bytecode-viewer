@@ -1,7 +1,8 @@
 package the.bytecode.club.bytecodeviewer.resources;
 
-import javax.swing.*;
 import java.util.HashMap;
+import java.util.Map;
+import javax.swing.ImageIcon;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -47,9 +48,9 @@ public enum ResourceType
 	SH_FILE(IconResources.shIcon, "sh", "bash"),
 	;
 	
-	public static final HashMap<String, ResourceType> extensionMap = new HashMap<>();
-	public static final HashMap<String, ResourceType> imageExtensionMap = new HashMap<>();
-	public static final HashMap<String, ResourceType> supportedBCVExtensionMap = new HashMap<>();
+	public static final Map<String, ResourceType> extensionMap = new HashMap<>();
+	public static final Map<String, ResourceType> imageExtensionMap = new HashMap<>();
+	public static final Map<String, ResourceType> supportedBCVExtensionMap = new HashMap<>();
 	
 	private final ImageIcon icon;
 	private final String[] extensions;

@@ -3,7 +3,6 @@ package the.bytecode.club.bytecodeviewer.decompilers.jdgui;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.PrintStream;
-
 import org.jd.core.v1.api.printer.Printer;
 
 public class PlainTextPrinter implements Printer, Closeable {

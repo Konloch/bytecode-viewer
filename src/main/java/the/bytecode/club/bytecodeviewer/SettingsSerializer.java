@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer;
 
+import java.io.File;
 import javax.swing.JFrame;
-
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
@@ -9,9 +9,8 @@ import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
 import the.bytecode.club.bytecodeviewer.translation.Language;
 
-import java.io.File;
-
-import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
+import static the.bytecode.club.bytecodeviewer.Constants.settingsName;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

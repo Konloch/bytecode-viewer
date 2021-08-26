@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 
@@ -17,7 +18,7 @@ import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 public class DiskReader {
 
     public static Random random = new Random();
-    public static HashMap<String, ArrayList<String>> map = new HashMap<>();
+    public static Map<String, ArrayList<String>> map = new HashMap<>();
 
     /**
      * Used to load from file, allows caching

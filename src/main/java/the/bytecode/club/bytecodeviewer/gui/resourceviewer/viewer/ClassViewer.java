@@ -1,9 +1,5 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
-import the.bytecode.club.bytecodeviewer.api.ASMUtil;
-import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
-
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Point;
@@ -18,14 +14,15 @@ import javax.swing.JSplitPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
-
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
+import the.bytecode.club.bytecodeviewer.api.ASMUtil;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 import the.bytecode.club.bytecodeviewer.resources.Resource;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
 import static the.bytecode.club.bytecodeviewer.util.MethodParser.Method;

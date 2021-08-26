@@ -6,10 +6,16 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
-
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenu;
@@ -17,7 +23,11 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer
 import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
-import the.bytecode.club.bytecodeviewer.translation.components.*;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedDefaultMutableTreeNode;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBox;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJLabel;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

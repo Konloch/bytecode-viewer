@@ -1,19 +1,22 @@
 package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.IOUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-
-import java.io.*;
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
@@ -48,7 +51,7 @@ public class XAPKResourceImporter implements Importer
 	public void open(File file) throws Exception
 	{
 		ResourceContainer container = new ResourceContainer(file);
-		LinkedHashMap<String, byte[]> allDirectoryFiles = new LinkedHashMap<>();
+		Map<String, byte[]> allDirectoryFiles = new LinkedHashMap<>();
 		
 		Configuration.silenceExceptionGUI++; //turn exceptions off
 		try (ZipFile zipFile = new ZipFile(file))

@@ -6,23 +6,24 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.jdgui.DirectoryLoader;
-import the.bytecode.club.bytecodeviewer.decompilers.jdgui.CommonPreferences;
-import the.bytecode.club.bytecodeviewer.decompilers.jdgui.PlainTextPrinter;
-import the.bytecode.club.bytecodeviewer.decompilers.jdgui.JDGUIClassFileUtil;
 import me.konloch.kontainer.io.DiskReader;
 import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
+import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.jdgui.CommonPreferences;
+import the.bytecode.club.bytecodeviewer.decompilers.jdgui.DirectoryLoader;
+import the.bytecode.club.bytecodeviewer.decompilers.jdgui.JDGUIClassFileUtil;
+import the.bytecode.club.bytecodeviewer.decompilers.jdgui.PlainTextPrinter;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
-import static the.bytecode.club.bytecodeviewer.Constants.*;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
+import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.JDGUI;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

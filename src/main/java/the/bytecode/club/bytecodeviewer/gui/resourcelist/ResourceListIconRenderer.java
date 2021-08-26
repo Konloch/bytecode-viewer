@@ -1,15 +1,16 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.ImageIcon;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeNode;
 import org.apache.commons.io.FilenameUtils;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.resources.ResourceType;
-
-import javax.swing.*;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeNode;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * @author http://stackoverflow.com/questions/14968005
@@ -19,7 +20,7 @@ import java.util.HashMap;
 public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 {
 	//TODO the icon cache needs to be cleared on treenode removal
-	public static HashMap<ResourceTreeNode, ImageIcon> iconCache = new HashMap<>();
+	public static Map<ResourceTreeNode, ImageIcon> iconCache = new HashMap<>();
 	
 	//called every time there is a pane update
 	@Override

@@ -1,12 +1,9 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
+import javax.swing.JButton;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

@@ -1,9 +1,8 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import java.net.URL;
 import me.konloch.kontainer.io.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.Configuration;
-
-import java.net.URL;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

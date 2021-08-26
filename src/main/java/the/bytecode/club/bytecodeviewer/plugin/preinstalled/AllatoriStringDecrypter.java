@@ -1,19 +1,29 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
-import org.objectweb.asm.tree.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.InvokeDynamicInsnNode;
+import org.objectweb.asm.tree.LdcInsnNode;
+import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
-import the.bytecode.club.bytecodeviewer.resources.IconResources;
-import the.bytecode.club.bytecodeviewer.api.*;
+import the.bytecode.club.bytecodeviewer.api.ASMUtil;
+import the.bytecode.club.bytecodeviewer.api.BCV;
+import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
-
-import javax.swing.*;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
 

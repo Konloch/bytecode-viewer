@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
-import javax.swing.*;
-
+import javax.swing.JButton;
+import javax.swing.JPanel;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.resources.Resource;

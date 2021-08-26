@@ -1,19 +1,19 @@
 package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
-import org.apache.commons.io.FilenameUtils;
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
-import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-import the.bytecode.club.bytecodeviewer.util.JarUtils;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import org.apache.commons.io.FilenameUtils;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
+import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -43,8 +43,8 @@ public class DirectoryResourceImporter implements Importer
 	public void open(File file) throws Exception
 	{
 		ResourceContainer container = new ResourceContainer(file);
-		LinkedHashMap<String, byte[]> allDirectoryFiles = new LinkedHashMap<>();
-		LinkedHashMap<String, ClassNode> allDirectoryClasses = new LinkedHashMap<>();
+		Map<String, byte[]> allDirectoryFiles = new LinkedHashMap<>();
+		Map<String, ClassNode> allDirectoryClasses = new LinkedHashMap<>();
 		
 		boolean finished = false;
 		ArrayList<File> totalFiles = new ArrayList<>();

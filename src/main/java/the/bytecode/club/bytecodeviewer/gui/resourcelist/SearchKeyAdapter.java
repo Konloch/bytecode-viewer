@@ -1,12 +1,11 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Enumeration;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

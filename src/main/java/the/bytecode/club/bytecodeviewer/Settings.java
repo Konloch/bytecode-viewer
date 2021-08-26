@@ -1,18 +1,20 @@
 package the.bytecode.club.bytecodeviewer;
 
 import com.google.gson.reflect.TypeToken;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JMenuItem;
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
-import javax.swing.*;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import static the.bytecode.club.bytecodeviewer.BytecodeViewer.gson;
 import static the.bytecode.club.bytecodeviewer.Configuration.maxRecentFiles;
-import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.Constants.filesName;
+import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.getBCVDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.pluginsName;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

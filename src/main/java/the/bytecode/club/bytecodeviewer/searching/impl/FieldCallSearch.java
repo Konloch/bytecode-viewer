@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.searching.impl;
 
 import java.util.Iterator;
-
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;

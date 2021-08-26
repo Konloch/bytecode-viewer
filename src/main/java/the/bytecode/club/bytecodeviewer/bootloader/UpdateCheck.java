@@ -1,6 +1,15 @@
 package the.bytecode.club.bytecodeviewer.bootloader;
 
 import de.skuzzle.semantic.Version;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import javax.swing.JFileChooser;
 import me.konloch.kontainer.io.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -9,13 +18,8 @@ import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
-import java.net.URI;
-import java.net.URL;
-
-import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

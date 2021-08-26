@@ -1,16 +1,15 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
 
 import static the.bytecode.club.bytecodeviewer.gui.components.FileChooser.EVERYTHING;
 

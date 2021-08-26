@@ -11,10 +11,9 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.gui.components.HTMLPane;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.language;
 

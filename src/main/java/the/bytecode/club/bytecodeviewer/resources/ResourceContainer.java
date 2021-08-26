@@ -2,8 +2,7 @@ package the.bytecode.club.bytecodeviewer.resources;
 
 import java.io.File;
 import java.util.LinkedHashMap;
-
-import org.apache.commons.compress.compressors.FileNameUtil;
+import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
@@ -42,9 +41,9 @@ public class ResourceContainer
     public File APKToolContents;
     public ResourceTreeNode treeNode;
     
-    public LinkedHashMap<String, byte[]> resourceFiles = new LinkedHashMap<>();
-    public LinkedHashMap<String, byte[]> resourceClassBytes = new LinkedHashMap<>();
-    public LinkedHashMap<String, ClassNode> resourceClasses = new LinkedHashMap<>();
+    public Map<String, byte[]> resourceFiles = new LinkedHashMap<>();
+    public Map<String, byte[]> resourceClassBytes = new LinkedHashMap<>();
+    public Map<String, ClassNode> resourceClasses = new LinkedHashMap<>();
     
     public ResourceContainer(File f)
     {
