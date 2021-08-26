@@ -237,7 +237,7 @@
         <dependency>
             <groupId>com.github.ThexXTURBOXx</groupId>
             <artifactId>dex2jar</artifactId>
-            <version>v23</version>
+            <version>v24</version>
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>

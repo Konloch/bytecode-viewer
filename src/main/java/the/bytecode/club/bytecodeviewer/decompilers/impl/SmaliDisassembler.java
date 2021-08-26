@@ -73,8 +73,8 @@ public class SmaliDisassembler extends InternalDecompiler
         Dex2Jar.saveAsDex(tempClass, tempDex, true);
 
         try {
-            com.googlecode.d2j.smali.BaksmaliCmd.main(new String[]{tempDex.getAbsolutePath(),
-                    "-o", tempDexOut.getAbsolutePath()});
+            com.googlecode.d2j.smali.BaksmaliCmd.main(tempDex.getAbsolutePath(),
+                    "-o", tempDexOut.getAbsolutePath());
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
