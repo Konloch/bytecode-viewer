@@ -381,6 +381,8 @@
                             <mainClass>the.bytecode.club.bytecodeviewer.BytecodeViewer</mainClass>
                             <manifestEntries>
                                 <Implementation-Version>${project.version}</Implementation-Version>
+                                <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+                                <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
                             </manifestEntries>
                         </transformer>
                         <transformer
