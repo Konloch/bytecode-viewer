@@ -3,7 +3,7 @@ package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -61,7 +61,7 @@ public class AllatoriStringDecrypter extends Plugin
 	public AllatoriStringDecrypter(String className) {this.className = className;}
 	
 	@Override
-	public void execute(ArrayList<ClassNode> classNodeList)
+	public void execute(List<ClassNode> classNodeList)
 	{
 		PluginConsole frame = new PluginConsole("Allatori String Decrypter");
 		
@@ -284,7 +284,7 @@ public class AllatoriStringDecrypter extends Plugin
 	public static class AllatoriStringDecrypterOptions extends Plugin
 	{
 		@Override
-		public void execute(ArrayList<ClassNode> classNodeList)
+		public void execute(List<ClassNode> classNodeList)
 		{
 			new AllatoriStringDecrypterOptionsFrame().setVisible(true);
 		}

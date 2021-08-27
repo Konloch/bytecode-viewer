@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer.translation;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Set;
 import the.bytecode.club.bytecodeviewer.api.BCV;
 
 /***************************************************************************
@@ -121,7 +122,7 @@ public enum TranslatedStrings
 	DRAG_CLASS_JAR,
 	;
 	
-	public static final HashSet<String> nameSet = new HashSet<>();
+	public static final Set<String> nameSet = new HashSet<>();
 	
 	static
 	{

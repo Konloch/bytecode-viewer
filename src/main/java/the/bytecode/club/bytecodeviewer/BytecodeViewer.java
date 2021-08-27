@@ -432,9 +432,9 @@ public class BytecodeViewer
      * @return the loaded classes as an array list
      */
     @Deprecated
-    public static ArrayList<ClassNode> getLoadedClasses()
+    public static List<ClassNode> getLoadedClasses()
     {
-        ArrayList<ClassNode> a = new ArrayList<>();
+        List<ClassNode> a = new ArrayList<>();
     
         for (ResourceContainer container : resourceContainers.values())
             for (ClassNode c : container.resourceClasses.values())

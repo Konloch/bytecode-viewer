@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.jar.JarOutputStream;
@@ -159,9 +160,9 @@ public class JarUtils
         BytecodeViewer.addResourceContainer(container);
     }
     
-    public static ArrayList<ClassNode> loadClasses(final File jarFile) throws IOException
+    public static List<ClassNode> loadClasses(final File jarFile) throws IOException
     {
-        ArrayList<ClassNode> classes = new ArrayList<>();
+        List<ClassNode> classes = new ArrayList<>();
         try (FileInputStream fis = new FileInputStream(jarFile);
              ZipInputStream jis = new ZipInputStream(fis)) {
             ZipEntry entry;
@@ -249,7 +250,7 @@ public class JarUtils
      * @param path     the exact path of the output jar file
      * @param manifest the manifest contents
      */
-    public static void saveAsJar(ArrayList<ClassNode> nodeList, String path,
+    public static void saveAsJar(List<ClassNode> nodeList, String path,
                                  String manifest) {
         try (FileOutputStream fos = new FileOutputStream(path);
              JarOutputStream out = new JarOutputStream(fos)) {
@@ -295,7 +296,7 @@ public class JarUtils
             try (FileOutputStream fos = new FileOutputStream(path);
                  JarOutputStream out = new JarOutputStream(fos))
             {
-                ArrayList<String> noDupe = new ArrayList<>();
+                List<String> noDupe = new ArrayList<>();
                 for (ClassNode cn : nodeList)
                 {
                     ClassWriter cw = new ClassWriter(0);
@@ -326,7 +327,7 @@ public class JarUtils
      * @param nodeList The loaded ClassNodes
      * @param dir      the exact jar output path
      */
-    public static void saveAsJarClassesOnlyToDir(ArrayList<ClassNode> nodeList, String dir) {
+    public static void saveAsJarClassesOnlyToDir(List<ClassNode> nodeList, String dir) {
         try {
             for (ClassNode cn : nodeList) {
                 ClassWriter cw = new ClassWriter(0);
@@ -349,10 +350,10 @@ public class JarUtils
      * @param nodeList The loaded ClassNodes
      * @param path     the exact jar output path
      */
-    public static void saveAsJar(ArrayList<ClassNode> nodeList, String path) {
+    public static void saveAsJar(List<ClassNode> nodeList, String path) {
         try (FileOutputStream fos = new FileOutputStream(path);
              JarOutputStream out = new JarOutputStream(fos)) {
-            ArrayList<String> noDupe = new ArrayList<>();
+            List<String> noDupe = new ArrayList<>();
             for (ClassNode cn : nodeList) {
                 ClassWriter cw = new ClassWriter(0);
                 cn.accept(cw);

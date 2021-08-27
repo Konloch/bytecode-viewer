@@ -69,7 +69,7 @@ public class InstructionPrinter {
     protected List<AbstractInsnNode> matchedInsns;
     protected Map<LabelNode, Integer> labels;
     private boolean firstLabel = false;
-    private final ArrayList<String> info = new ArrayList<>();
+    private final List<String> info = new ArrayList<>();
 
     public InstructionPrinter(MethodNode m, TypeAndName[] args) {
         this.args = args;
@@ -99,7 +99,7 @@ public class InstructionPrinter {
      *
      * @return The print as an ArrayList
      */
-    public ArrayList<String> createPrint() {
+    public List<String> createPrint() {
         firstLabel = false;
         info.clear();
         for (AbstractInsnNode ain : mNode.instructions) {

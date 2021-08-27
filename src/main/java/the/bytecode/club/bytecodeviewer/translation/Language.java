@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 import org.apache.commons.collections4.map.LinkedMap;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
@@ -96,7 +97,7 @@ public enum Language
 	private final String resourcePath;
 	private final String readableName;
 	private final String htmlIdentifier;
-	private final LinkedHashSet<String> languageCode;
+	private final Set<String> languageCode;
 	private Map<String, String> translationMap;
 	
 	Language(String resourcePath, String readableName, String htmlIdentifier, String... languageCodes)
@@ -175,7 +176,7 @@ public enum Language
 				IconResources.loadResourceAsString(resourcePath),
 				new TypeToken<LinkedMap<String, String>>(){}.getType());
 		
-		HashSet<String> existingKeys = new HashSet<>();
+		Set<String> existingKeys = new HashSet<>();
 		for(TranslatedComponents t : TranslatedComponents.values())
 			existingKeys.add(t.name());
 		
@@ -189,7 +190,7 @@ public enum Language
 		return resourcePath;
 	}
 	
-	public HashSet<String> getLanguageCode()
+	public Set<String> getLanguageCode()
 	{
 		return languageCode;
 	}

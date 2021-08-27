@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.contextmenu;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
@@ -39,7 +40,7 @@ import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
 public class ContextMenu
 {
 	private static ContextMenu SINGLETON = new ContextMenu();
-	private final ArrayList<ContextMenuItem> contextMenuItems = new ArrayList<>();
+	private final List<ContextMenuItem> contextMenuItems = new ArrayList<>();
 	
 	static
 	{

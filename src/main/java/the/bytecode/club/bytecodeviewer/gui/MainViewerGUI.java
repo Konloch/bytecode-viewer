@@ -110,7 +110,7 @@ public class MainViewerGUI extends JFrame
     public final List<JMenuItem> waitIcons = new ArrayList<>();
     
     //main UI components
-    public final ArrayList<VisibleComponent> uiComponents = new ArrayList<>();
+    public final List<VisibleComponent> uiComponents = new ArrayList<>();
     public final Workspace workPane = new Workspace();
     public final ResourceListPane resourcePane = new ResourceListPane();
     public final SearchBoxPane searchBoxPane = new SearchBoxPane();
@@ -915,7 +915,7 @@ public class MainViewerGUI extends JFrame
         if (dialog.promptChoice() == 0)
         {
             LazyNameUtil.reset();
-            ArrayList<File> reopen = new ArrayList<>();
+            List<File> reopen = new ArrayList<>();
         
             for (ResourceContainer container : BytecodeViewer.resourceContainers.values())
             {

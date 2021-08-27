@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.util.ArrayList;
+import java.util.List;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
@@ -51,7 +51,7 @@ public class ReplaceStrings extends Plugin
     }
 
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         frame = new PluginConsole("Replace Strings");
         

@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer.gui.plugins;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -55,7 +56,7 @@ public class MaliciousCodeScannerOptions extends JFrame
         setResizable(false);
         setTitle("Malicious Code Scanner Options");
         getContentPane().setLayout(null);
-        ArrayList<MaliciousCodeOptions> checkBoxes = new ArrayList<>();
+        List<MaliciousCodeOptions> checkBoxes = new ArrayList<>();
         
         int y = 7;
         for(MalwareScanModule module : MalwareScanModule.values())

@@ -2,7 +2,7 @@ package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -41,7 +41,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
 public class ZStringArrayDecrypter extends Plugin
 {
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         PluginConsole gui = new PluginConsole("ZStringArray Decrypter");
         StringBuilder out = new StringBuilder();

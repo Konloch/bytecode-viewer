@@ -3,7 +3,7 @@ package the.bytecode.club.bytecodeviewer.plugin.strategies;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
-import java.util.ArrayList;
+import java.util.List;
 import javax.script.Bindings;
 import javax.script.Invocable;
 import javax.script.ScriptContext;
@@ -73,7 +73,7 @@ public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
         return new Plugin()
         {
             @Override
-            public void execute(ArrayList<ClassNode> classNodeList)
+            public void execute(List<ClassNode> classNodeList)
             {
                 try
                 {

@@ -8,6 +8,7 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
@@ -73,7 +74,7 @@ public final class ClassNodeLoader extends ClassLoader
      * @return All classes in this loader
      */
     public Collection<Class<?>> getAllClasses() {
-        ArrayList<Class<?>> classes = new ArrayList<>();
+        List<Class<?>> classes = new ArrayList<>();
         for (String s : this.classes.keySet()) {
             try {
                 classes.add(loadClass(s));

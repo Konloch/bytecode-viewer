@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.api;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
@@ -94,5 +95,5 @@ public abstract class Plugin extends Thread
      *
      * @param classNodeList all of the loaded classes for easy access.
      */
-    public abstract void execute(ArrayList<ClassNode> classNodeList);
+    public abstract void execute(List<ClassNode> classNodeList);
 }

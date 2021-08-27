@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
@@ -77,8 +78,8 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 			//folders
 			if (node.getChildCount() > 0)
 			{
-				ArrayList<TreeNode> nodes = new ArrayList<>();
-				ArrayList<TreeNode> totalNodes = new ArrayList<>();
+				List<TreeNode> nodes = new ArrayList<>();
+				List<TreeNode> totalNodes = new ArrayList<>();
 				
 				nodes.add(node);
 				totalNodes.add(node);

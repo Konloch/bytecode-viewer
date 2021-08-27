@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -56,7 +57,7 @@ public class Workspace extends TranslatedVisibleComponent
     public final JTabbedPane tabs;
     public final JPanel buttonPanel;
     public final JButton refreshClass;
-    public final HashSet<String> openedTabs = new HashSet<>();
+    public final Set<String> openedTabs = new HashSet<>();
 
     public Workspace()
     {

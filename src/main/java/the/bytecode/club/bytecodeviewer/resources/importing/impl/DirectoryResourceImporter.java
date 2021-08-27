@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
@@ -47,7 +48,7 @@ public class DirectoryResourceImporter implements Importer
 		Map<String, ClassNode> allDirectoryClasses = new LinkedHashMap<>();
 		
 		boolean finished = false;
-		ArrayList<File> totalFiles = new ArrayList<>();
+		List<File> totalFiles = new ArrayList<>();
 		totalFiles.add(file);
 		String dir = file.getAbsolutePath();
 		

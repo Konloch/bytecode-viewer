@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 import org.apache.commons.lang3.StringUtils;
@@ -57,7 +58,7 @@ public class MiscUtils
     private static final String AB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String AN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final Random rnd = new Random();
-    private static final HashSet<String> createdRandomizedNames = new HashSet<>();
+    private static final Set<String> createdRandomizedNames = new HashSet<>();
 
     /**
      * Returns a random string without numbers
@@ -189,7 +190,7 @@ public class MiscUtils
         return path;
     }
     
-    public static int fileContainersHash(ArrayList<ResourceContainer> resourceContainers) {
+    public static int fileContainersHash(List<ResourceContainer> resourceContainers) {
         StringBuilder block = new StringBuilder();
         for (ResourceContainer container : resourceContainers) {
             block.append(container.name);

@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.util.ArrayList;
+import java.util.List;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -37,7 +37,7 @@ public class ShowMainMethods extends Plugin
     private static final int PUBLIC_STATIC = Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC;
 
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         PluginConsole frame = new PluginConsole("Show Main Methods");
         StringBuilder sb = new StringBuilder();

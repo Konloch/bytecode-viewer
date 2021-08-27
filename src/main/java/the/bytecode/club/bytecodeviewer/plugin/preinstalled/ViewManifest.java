@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.List;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
@@ -13,7 +13,7 @@ import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 public class ViewManifest extends Plugin
 {
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         PluginConsole frame = new PluginConsole("View Manifest");
         frame.setVisible(true);

@@ -38,9 +38,9 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
 public class ClassNodeDecompiler
 {
     public static PrefixedStringBuilder decompile(
-            PrefixedStringBuilder sb, ArrayList<String> decompiledClasses,
+            PrefixedStringBuilder sb, List<String> decompiledClasses,
             ClassNode cn) {
-        ArrayList<String> unableToDecompile = new ArrayList<>();
+        List<String> unableToDecompile = new ArrayList<>();
         decompiledClasses.add(cn.name);
         sb.append(getAccessString(cn.access));
         sb.append(" ");

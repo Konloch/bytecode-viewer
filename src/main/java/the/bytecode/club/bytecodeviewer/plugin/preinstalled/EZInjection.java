@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
@@ -49,7 +50,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 public class EZInjection extends Plugin
 {
-    public static ArrayList<BytecodeHook> hookArray = new ArrayList<>();
+    public static List<BytecodeHook> hookArray = new ArrayList<>();
     private static final String version = "1.0";
     private final boolean accessModifiers;
     private final boolean injectHooks;
@@ -137,7 +138,7 @@ public class EZInjection extends Plugin
     }
 
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         if(console)
             new PluginConsole("EZ Injection v" + version);

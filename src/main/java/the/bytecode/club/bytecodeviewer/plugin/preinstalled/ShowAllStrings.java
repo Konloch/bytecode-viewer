@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.util.ArrayList;
+import java.util.List;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
@@ -39,7 +39,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
 public class ShowAllStrings extends Plugin
 {
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         PluginConsole frame = new PluginConsole("Show All Strings");
         StringBuilder sb = new StringBuilder();

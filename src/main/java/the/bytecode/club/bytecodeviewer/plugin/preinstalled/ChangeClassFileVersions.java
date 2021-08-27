@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.util.ArrayList;
+import java.util.List;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
@@ -18,7 +18,7 @@ import the.bytecode.club.bytecodeviewer.api.Plugin;
 public class ChangeClassFileVersions extends Plugin
 {
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         //prompt dialog for version number
         // TODO: include a little diagram of what JDK is which number

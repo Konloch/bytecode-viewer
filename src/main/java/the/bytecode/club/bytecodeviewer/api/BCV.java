@@ -189,7 +189,7 @@ public class BCV
      *
      * @return the loaded classes
      */
-    public static ArrayList<ClassNode> getLoadedClasses() {
+    public static List<ClassNode> getLoadedClasses() {
         return the.bytecode.club.bytecodeviewer.BytecodeViewer
                 .getLoadedClasses();
     }

@@ -142,7 +142,7 @@ public class HTTPRequest {
      * @throws Exception
      */
     public String[] read() throws Exception {
-        ArrayList<String> st;
+        List<String> st;
 
         try {
             setup();
@@ -172,7 +172,7 @@ public class HTTPRequest {
      * @throws Exception
      */
     public String[] read(int linesToRead) throws Exception {
-        ArrayList<String> st;
+        List<String> st;
 
         try {
             setup();
