@@ -41,7 +41,7 @@
         <smali.version>2.5.2</smali.version>
         <snakeyaml.version>1.29</snakeyaml.version>
         <xpp3.version>1.1.4c</xpp3.version>
-        <jadx.version>c2416a2</jadx.version>
+        <jadx.version>f681c89</jadx.version>
         <dex2jar.version>v24</dex2jar.version>
         <darklaf.version>2.7.2</darklaf.version>
         <darklaf-extensions-rsta.version>0.3.4</darklaf-extensions-rsta.version>
@@ -255,22 +255,22 @@
             <version>${xpp3.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.ThexXTURBOXx.jadx</groupId>
+            <groupId>com.github.skylot.jadx</groupId>
             <artifactId>jadx-core</artifactId>
             <version>${jadx.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.ThexXTURBOXx.jadx</groupId>
+            <groupId>com.github.skylot.jadx</groupId>
             <artifactId>jadx-java-convert</artifactId>
             <version>${jadx.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.ThexXTURBOXx.jadx</groupId>
+            <groupId>com.github.skylot.jadx</groupId>
             <artifactId>jadx-dex-input</artifactId>
             <version>${jadx.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.ThexXTURBOXx.jadx</groupId>
+            <groupId>com.github.skylot.jadx</groupId>
             <artifactId>jadx-smali-input</artifactId>
             <version>${jadx.version}</version>
         </dependency>
