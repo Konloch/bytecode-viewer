@@ -1,16 +1,15 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.CommandLineInput;
 import the.bytecode.club.bytecodeviewer.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.bootloader.loader.ILoader;
 import the.bytecode.club.bytecodeviewer.bootloader.resource.external.EmptyExternalResource;
 import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.CommandLineInput;
-
-import javax.swing.*;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
 

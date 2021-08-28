@@ -10,7 +10,7 @@ import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
-import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -38,9 +38,9 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 public class ClassNodeDecompiler
 {
     public static PrefixedStringBuilder decompile(
-            PrefixedStringBuilder sb, ArrayList<String> decompiledClasses,
+            PrefixedStringBuilder sb, List<String> decompiledClasses,
             ClassNode cn) {
-        ArrayList<String> unableToDecompile = new ArrayList<>();
+        List<String> unableToDecompile = new ArrayList<>();
         decompiledClasses.add(cn.name);
         sb.append(getAccessString(cn.access));
         sb.append(" ");

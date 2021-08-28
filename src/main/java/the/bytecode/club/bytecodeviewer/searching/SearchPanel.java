@@ -1,9 +1,8 @@
 package the.bytecode.club.bytecodeviewer.searching;
 
+import javax.swing.JPanel;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-
-import javax.swing.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

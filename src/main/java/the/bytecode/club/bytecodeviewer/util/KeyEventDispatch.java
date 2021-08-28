@@ -1,10 +1,9 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import java.awt.KeyEventDispatcher;
+import java.awt.event.KeyEvent;
 import the.bytecode.club.bytecodeviewer.GlobalHotKeys;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
-
-import java.awt.*;
-import java.awt.event.KeyEvent;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 
@@ -17,14 +19,14 @@ import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 public class DiskReader {
 
     public static Random random = new Random();
-    public static HashMap<String, ArrayList<String>> map = new HashMap<>();
+    public static Map<String, List<String>> map = new HashMap<>();
 
     /**
      * Used to load from file, allows caching
      */
-    public synchronized static ArrayList<String> loadArrayList(String fileName,
-                                                               boolean cache) {
-        ArrayList<String> array = new ArrayList<>();
+    public synchronized static List<String> loadArrayList(String fileName,
+                                                          boolean cache) {
+        List<String> array = new ArrayList<>();
         if (!map.containsKey(fileName)) {
             try {
                 File file = new File(fileName);
@@ -75,7 +77,7 @@ public class DiskReader {
     public static String loadString(String fileName, int lineNumber,
                                     boolean cache) throws Exception {
 
-        ArrayList<String> array;
+        List<String> array;
         if (!map.containsKey(fileName)) {
             array = new ArrayList<>();
             File file = new File(fileName);

@@ -1,16 +1,19 @@
 package the.bytecode.club.bytecodeviewer.gui.contextmenu;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
-import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.*;
-import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Collapse;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Expand;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.New;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Open;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.QuickEdit;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.QuickOpen;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Remove;
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
+import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -37,7 +40,7 @@ import java.util.ArrayList;
 public class ContextMenu
 {
 	private static ContextMenu SINGLETON = new ContextMenu();
-	private final ArrayList<ContextMenuItem> contextMenuItems = new ArrayList<>();
+	private final List<ContextMenuItem> contextMenuItems = new ArrayList<>();
 	
 	static
 	{

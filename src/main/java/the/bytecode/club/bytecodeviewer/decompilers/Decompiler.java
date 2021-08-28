@@ -1,6 +1,16 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
-import the.bytecode.club.bytecodeviewer.decompilers.impl.*;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.ASMTextifierDisassembler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.BytecodeDisassembler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.CFRDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.FernFlowerDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.JADXDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.JDGUIDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.JavapDisassembler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.KrakatauDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.KrakatauDisassembler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.ProcyonDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.SmaliDisassembler;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

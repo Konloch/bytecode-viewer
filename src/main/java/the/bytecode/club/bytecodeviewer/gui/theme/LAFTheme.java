@@ -1,15 +1,23 @@
 package the.bytecode.club.bytecodeviewer.gui.theme;
 
 import com.github.weisj.darklaf.LafManager;
-import com.github.weisj.darklaf.theme.*;
+import com.github.weisj.darklaf.theme.DarculaTheme;
+import com.github.weisj.darklaf.theme.HighContrastDarkTheme;
+import com.github.weisj.darklaf.theme.HighContrastLightTheme;
+import com.github.weisj.darklaf.theme.IntelliJTheme;
+import com.github.weisj.darklaf.theme.OneDarkTheme;
+import com.github.weisj.darklaf.theme.SolarizedDarkTheme;
+import com.github.weisj.darklaf.theme.SolarizedLightTheme;
+import java.awt.Dialog;
+import javax.swing.JInternalFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.SettingsDialog;
 import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
-
-import javax.swing.*;
-import java.awt.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

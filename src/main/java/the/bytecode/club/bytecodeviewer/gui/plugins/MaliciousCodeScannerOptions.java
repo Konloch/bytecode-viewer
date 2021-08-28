@@ -1,15 +1,17 @@
 package the.bytecode.club.bytecodeviewer.gui.plugins;
 
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScanModule;
 import the.bytecode.club.bytecodeviewer.malwarescanner.util.MaliciousCodeOptions;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.MaliciousCodeScanner;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -54,7 +56,7 @@ public class MaliciousCodeScannerOptions extends JFrame
         setResizable(false);
         setTitle("Malicious Code Scanner Options");
         getContentPane().setLayout(null);
-        ArrayList<MaliciousCodeOptions> checkBoxes = new ArrayList<>();
+        List<MaliciousCodeOptions> checkBoxes = new ArrayList<>();
         
         int y = 7;
         for(MalwareScanModule module : MalwareScanModule.values())

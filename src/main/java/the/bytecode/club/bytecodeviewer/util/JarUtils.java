@@ -5,7 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
@@ -21,7 +26,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
-import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.Constants.fs;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -65,7 +70,7 @@ public class JarUtils
     public static void importArchiveA(final File jarFile) throws IOException
     {
         ResourceContainer container = new ResourceContainer(jarFile);
-        LinkedHashMap<String, byte[]> files = new LinkedHashMap<>();
+        Map<String, byte[]> files = new LinkedHashMap<>();
 
         try (FileInputStream fis = new FileInputStream(jarFile);
              ZipInputStream jis = new ZipInputStream(fis)) {
@@ -119,7 +124,7 @@ public class JarUtils
         // should also rebuild the archive byte offsets
 
         ResourceContainer container = new ResourceContainer(jarFile);
-        LinkedHashMap<String, byte[]> files = new LinkedHashMap<>();
+        Map<String, byte[]> files = new LinkedHashMap<>();
 
         try (ZipFile zipFile = new ZipFile(jarFile)) {
             Enumeration<? extends ZipArchiveEntry> entries = zipFile.getEntries();
@@ -155,9 +160,9 @@ public class JarUtils
         BytecodeViewer.addResourceContainer(container);
     }
     
-    public static ArrayList<ClassNode> loadClasses(final File jarFile) throws IOException
+    public static List<ClassNode> loadClasses(final File jarFile) throws IOException
     {
-        ArrayList<ClassNode> classes = new ArrayList<>();
+        List<ClassNode> classes = new ArrayList<>();
         try (FileInputStream fis = new FileInputStream(jarFile);
              ZipInputStream jis = new ZipInputStream(fis)) {
             ZipEntry entry;
@@ -195,11 +200,11 @@ public class JarUtils
      * @param zipFile the input zip file
      * @throws IOException
      */
-    public static LinkedHashMap<String, byte[]> loadResources(final File zipFile) throws IOException {
+    public static Map<String, byte[]> loadResources(final File zipFile) throws IOException {
         if (!zipFile.exists())
-            return null; //just ignore
+            return new LinkedHashMap<>(); // just ignore (don't return null for null-safety!)
     
-        LinkedHashMap<String, byte[]> files = new LinkedHashMap<>();
+        Map<String, byte[]> files = new LinkedHashMap<>();
 
         try (ZipInputStream jis = new ZipInputStream(new FileInputStream(zipFile))) {
             ZipEntry entry;
@@ -245,7 +250,7 @@ public class JarUtils
      * @param path     the exact path of the output jar file
      * @param manifest the manifest contents
      */
-    public static void saveAsJar(ArrayList<ClassNode> nodeList, String path,
+    public static void saveAsJar(List<ClassNode> nodeList, String path,
                                  String manifest) {
         try (FileOutputStream fos = new FileOutputStream(path);
              JarOutputStream out = new JarOutputStream(fos)) {
@@ -291,7 +296,7 @@ public class JarUtils
             try (FileOutputStream fos = new FileOutputStream(path);
                  JarOutputStream out = new JarOutputStream(fos))
             {
-                ArrayList<String> noDupe = new ArrayList<>();
+                List<String> noDupe = new ArrayList<>();
                 for (ClassNode cn : nodeList)
                 {
                     ClassWriter cw = new ClassWriter(0);
@@ -322,7 +327,7 @@ public class JarUtils
      * @param nodeList The loaded ClassNodes
      * @param dir      the exact jar output path
      */
-    public static void saveAsJarClassesOnlyToDir(ArrayList<ClassNode> nodeList, String dir) {
+    public static void saveAsJarClassesOnlyToDir(List<ClassNode> nodeList, String dir) {
         try {
             for (ClassNode cn : nodeList) {
                 ClassWriter cw = new ClassWriter(0);
@@ -345,10 +350,10 @@ public class JarUtils
      * @param nodeList The loaded ClassNodes
      * @param path     the exact jar output path
      */
-    public static void saveAsJar(ArrayList<ClassNode> nodeList, String path) {
+    public static void saveAsJar(List<ClassNode> nodeList, String path) {
         try (FileOutputStream fos = new FileOutputStream(path);
              JarOutputStream out = new JarOutputStream(fos)) {
-            ArrayList<String> noDupe = new ArrayList<>();
+            List<String> noDupe = new ArrayList<>();
             for (ClassNode cn : nodeList) {
                 ClassWriter cw = new ClassWriter(0);
                 cn.accept(cw);

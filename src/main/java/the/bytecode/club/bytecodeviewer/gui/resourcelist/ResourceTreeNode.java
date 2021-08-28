@@ -1,8 +1,8 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
+import java.util.Comparator;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
-import java.util.Comparator;
 import javax.swing.tree.TreeNode;
 
 /***************************************************************************

@@ -1,21 +1,28 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashSet;
-import javax.swing.*;
-
+import java.util.Set;
+import javax.swing.JButton;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JTabbedPane;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
 
@@ -50,7 +57,7 @@ public class Workspace extends TranslatedVisibleComponent
     public final JTabbedPane tabs;
     public final JPanel buttonPanel;
     public final JButton refreshClass;
-    public final HashSet<String> openedTabs = new HashSet<>();
+    public final Set<String> openedTabs = new HashSet<>();
 
     public Workspace()
     {

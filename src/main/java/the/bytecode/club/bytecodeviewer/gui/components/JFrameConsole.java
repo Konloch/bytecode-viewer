@@ -1,11 +1,11 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.io.File;
+import javax.swing.JFrame;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
-
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
 
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 

@@ -1,9 +1,8 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
@@ -49,12 +48,12 @@ public class MaliciousCodeScanner extends Plugin
     }
 
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         PluginConsole frame = new PluginConsole("Malicious Code Scanner");
         StringBuilder sb = new StringBuilder();
         
-        HashSet<String> scanOptions = new HashSet<>();
+        Set<String> scanOptions = new HashSet<>();
         
         for(MaliciousCodeOptions option : options)
             if(option.getCheckBox().isSelected())

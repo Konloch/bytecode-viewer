@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.components.listeners;
 
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

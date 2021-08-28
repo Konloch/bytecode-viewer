@@ -9,9 +9,9 @@ import java.util.Set;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassTree;
 import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
 import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents.JarContents;
-import the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassTree;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

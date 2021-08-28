@@ -1,7 +1,5 @@
 package the.bytecode.club.bytecodeviewer.bootloader;
 
-import the.bytecode.club.bytecodeviewer.bootloader.Boot;
-
 import static the.bytecode.club.bytecodeviewer.Constants.AUTOMATIC_LIBRARY_UPDATING;
 
 /***************************************************************************

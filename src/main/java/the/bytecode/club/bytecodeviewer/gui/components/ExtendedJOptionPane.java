@@ -1,11 +1,26 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.HeadlessException;
+import javax.swing.Icon;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
-import javax.swing.*;
-import java.awt.*;
-
-import static javax.swing.JOptionPane.*;
+import static javax.swing.JOptionPane.CLOSED_OPTION;
+import static javax.swing.JOptionPane.DEFAULT_OPTION;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
+import static javax.swing.JOptionPane.PLAIN_MESSAGE;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
+import static javax.swing.JOptionPane.UNINITIALIZED_VALUE;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
+import static javax.swing.JOptionPane.getRootFrame;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

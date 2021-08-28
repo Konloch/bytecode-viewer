@@ -5,7 +5,7 @@ import com.mxgraph.view.mxGraph;
 import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -13,9 +13,9 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 /***************************************************************************
@@ -50,7 +50,7 @@ public class CodeSequenceDiagram extends Plugin
     }
     
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         if (!BytecodeViewer.isActiveResourceClass())
         {

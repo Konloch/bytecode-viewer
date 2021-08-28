@@ -1,5 +1,9 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
+import java.awt.BorderLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
@@ -9,9 +13,6 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.util.BytecodeViewPanelUpdater;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
-
-import javax.swing.*;
-import java.awt.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
 

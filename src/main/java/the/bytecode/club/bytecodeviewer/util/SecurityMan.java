@@ -1,19 +1,23 @@
 package the.bytecode.club.bytecodeviewer.util;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.Constants;
-import the.bytecode.club.bytecodeviewer.compilers.impl.JavaCompiler;
-import the.bytecode.club.bytecodeviewer.compilers.impl.KrakatauAssembler;
-import the.bytecode.club.bytecodeviewer.decompilers.impl.*;
-import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
-
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.security.Permission;
 import java.util.concurrent.atomic.AtomicInteger;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.compilers.impl.JavaCompiler;
+import the.bytecode.club.bytecodeviewer.compilers.impl.KrakatauAssembler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.CFRDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.FernFlowerDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.JDGUIDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.KrakatauDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.KrakatauDisassembler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.ProcyonDecompiler;
+import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

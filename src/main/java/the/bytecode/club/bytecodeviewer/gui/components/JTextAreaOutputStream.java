@@ -2,9 +2,9 @@ package the.bytecode.club.bytecodeviewer.gui.components;
 
 import java.io.Closeable;
 import java.io.IOException;
-import javax.swing.*;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import javax.swing.JTextArea;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

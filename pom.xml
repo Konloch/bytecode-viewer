@@ -6,10 +6,50 @@
     <version>2.10.16</version>
 
     <properties>
+        <!-- Project settings -->
         <java.version>1.8</java.version>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Dependency versions -->
+        <annotations.version>22.0.0</annotations.version>
+        <apktool.version>2.5.0bcv2</apktool.version>
+        <asm.version>9.2</asm.version>
+        <cfr.version>0.151</cfr.version>
+        <cloning.version>1.9.12</cloning.version>
+        <commons-cli.version>1.4</commons-cli.version>
+        <commons-codec.version>1.15</commons-codec.version>
+        <commons-compiler.version>3.1.6</commons-compiler.version>
+        <commons-compress.version>1.21</commons-compress.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-text.version>1.9</commons-text.version>
+        <decompiler-fernflower.version>5.2.0.Final</decompiler-fernflower.version>
+        <fernflower.version>47afd82034</fernflower.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <gson.version>2.8.8</gson.version>
+        <imgscalr-lib.version>4.2</imgscalr-lib.version>
+        <janino.version>3.1.6</janino.version>
+        <jd-gui.version>1.6.6bcv</jd-gui.version>
+        <byteanalysis.version>1.0bcv</byteanalysis.version>
+        <jgraphx.version>3.4.1.3</jgraphx.version>
+        <objenesis.version>3.2</objenesis.version>
+        <procyon.version>0.5.36</procyon.version>
+        <rsyntaxtextarea.version>3.1.3</rsyntaxtextarea.version>
+        <slf4j.version>1.7.32</slf4j.version>
+        <smali.version>2.5.2</smali.version>
+        <snakeyaml.version>1.29</snakeyaml.version>
+        <xpp3.version>1.1.4c</xpp3.version>
+        <jadx.version>f681c89</jadx.version>
+        <dex2jar.version>v24</dex2jar.version>
+        <darklaf.version>2.7.2</darklaf.version>
+        <darklaf-extensions-rsta.version>0.3.4</darklaf-extensions-rsta.version>
+        <webp-imageio.version>0.2.2</webp-imageio.version>
+        <semantic-version.version>2.1.0</semantic-version.version>
+        <treelayout.version>1.0.3</treelayout.version>
+        <antlr4.version>4.9.2</antlr4.version>
+        <js.version>21.2.0</js.version>
     </properties>
 
     <repositories>
@@ -31,87 +71,87 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>21.0.1</version>
+            <version>${annotations.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apktool</groupId>
             <artifactId>apktool</artifactId>
-            <version>2.5.0bcv2</version>
+            <version>${apktool.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
-            <version>9.2</version>
+            <version>${asm.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-analysis</artifactId>
-            <version>9.2</version>
+            <version>${asm.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-commons</artifactId>
-            <version>9.2</version>
+            <version>${asm.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-tree</artifactId>
-            <version>9.2</version>
+            <version>${asm.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-util</artifactId>
-            <version>9.2</version>
+            <version>${asm.version}</version>
         </dependency>
         <dependency>
             <groupId>org.benf</groupId>
             <artifactId>cfr</artifactId>
-            <version>0.151</version>
+            <version>${cfr.version}</version>
         </dependency>
         <dependency>
             <groupId>uk.com.robust-it</groupId>
             <artifactId>cloning</artifactId>
-            <version>1.9.12</version>
+            <version>${cloning.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>
-            <version>1.4</version>
+            <version>${commons-cli.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>1.15</version>
+            <version>${commons-codec.version}</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>commons-compiler</artifactId>
-            <version>3.1.6</version>
+            <version>${commons-compiler.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.21</version>
+            <version>${commons-compress.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
+            <version>${commons-io.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.9</version>
+            <version>${commons-text.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.windup.decompiler</groupId>
             <artifactId>decompiler-fernflower</artifactId>
-            <version>5.2.0.Final</version>
+            <version>${decompiler-fernflower.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.windup.decompiler.fernflower</groupId>
@@ -122,152 +162,152 @@
         <dependency>
             <groupId>com.github.ThexXTURBOXx</groupId>
             <artifactId>fernflower</artifactId>
-            <version>47afd82034</version>
+            <version>${fernflower.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>30.1.1-jre</version>
+            <version>${guava.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.7</version>
+            <version>${gson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.imgscalr</groupId>
             <artifactId>imgscalr-lib</artifactId>
-            <version>4.2</version>
+            <version>${imgscalr-lib.version}</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>janino</artifactId>
-            <version>3.1.6</version>
+            <version>${janino.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jd</groupId>
             <artifactId>jd-gui</artifactId>
-            <version>1.6.6bcv</version>
+            <version>${jd-gui.version}</version>
         </dependency>
         <dependency>
             <groupId>eu.bibl.banalysis</groupId>
             <artifactId>byteanalysis</artifactId>
-            <version>1.0bcv</version>
+            <version>${byteanalysis.version}</version>
         </dependency>
         <dependency>
             <groupId>org.tinyjee.jgraphx</groupId>
             <artifactId>jgraphx</artifactId>
-            <version>3.4.1.3</version>
+            <version>${jgraphx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
-            <version>3.2</version>
+            <version>${objenesis.version}</version>
         </dependency>
         <dependency>
             <groupId>org.bitbucket.mstrobel</groupId>
             <artifactId>procyon-core</artifactId>
-            <version>0.5.36</version>
+            <version>${procyon.version}</version>
         </dependency>
         <dependency>
             <groupId>org.bitbucket.mstrobel</groupId>
             <artifactId>procyon-expressions</artifactId>
-            <version>0.5.36</version>
+            <version>${procyon.version}</version>
         </dependency>
         <dependency>
             <groupId>org.bitbucket.mstrobel</groupId>
             <artifactId>procyon-reflection</artifactId>
-            <version>0.5.36</version>
+            <version>${procyon.version}</version>
         </dependency>
         <dependency>
             <groupId>org.bitbucket.mstrobel</groupId>
             <artifactId>procyon-compilertools</artifactId>
-            <version>0.5.36</version>
+            <version>${procyon.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fifesoft</groupId>
             <artifactId>rsyntaxtextarea</artifactId>
-            <version>3.1.3</version>
+            <version>${rsyntaxtextarea.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.32</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.smali</groupId>
             <artifactId>smali</artifactId>
-            <version>2.5.2</version>
+            <version>${smali.version}</version>
         </dependency>
         <dependency>
             <groupId>org.smali</groupId>
             <artifactId>baksmali</artifactId>
-            <version>2.5.2</version>
+            <version>${smali.version}</version>
         </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.29</version>
+            <version>${snakeyaml.version}</version>
         </dependency>
         <dependency>
             <groupId>xpp3</groupId>
             <artifactId>xpp3</artifactId>
-            <version>1.1.4c</version>
+            <version>${xpp3.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.skylot.jadx</groupId>
             <artifactId>jadx-core</artifactId>
-            <version>c28e8142f4</version>
+            <version>${jadx.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.skylot.jadx</groupId>
             <artifactId>jadx-java-convert</artifactId>
-            <version>c28e8142f4</version>
+            <version>${jadx.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.skylot.jadx</groupId>
             <artifactId>jadx-dex-input</artifactId>
-            <version>c28e8142f4</version>
+            <version>${jadx.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.skylot.jadx</groupId>
             <artifactId>jadx-smali-input</artifactId>
-            <version>c28e8142f4</version>
+            <version>${jadx.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.ThexXTURBOXx</groupId>
             <artifactId>dex2jar</artifactId>
-            <version>v23</version>
+            <version>${dex2jar.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
             <artifactId>darklaf-core</artifactId>
-            <version>2.7.2</version>
+            <version>${darklaf.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.weisj</groupId>
             <artifactId>darklaf-extensions-rsyntaxarea</artifactId>
-            <version>0.3.4</version>
+            <version>${darklaf-extensions-rsta.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.gotson</groupId>
             <artifactId>webp-imageio</artifactId>
-            <version>0.2.2</version>
+            <version>${webp-imageio.version}</version>
         </dependency>
         <dependency>
             <groupId>de.skuzzle</groupId>
             <artifactId>semantic-version</artifactId>
-            <version>2.1.0</version>
+            <version>${semantic-version.version}</version>
         </dependency>
         <dependency>
             <groupId>org.abego.treelayout</groupId>
             <artifactId>org.abego.treelayout.core</artifactId>
-            <version>1.0.3</version>
+            <version>${treelayout.version}</version>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4</artifactId>
-            <version>4.9.2</version>
+            <version>${antlr4.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.ibm.icu</groupId>
@@ -280,12 +320,12 @@
         <!--<dependency>
             <groupId>org.graalvm.js</groupId>
             <artifactId>js</artifactId>
-            <version>21.2.0</version>
+            <version>${js.version}</version>
         </dependency>
         <dependency>
             <groupId>org.graalvm.js</groupId>
             <artifactId>js-scriptengine</artifactId>
-            <version>21.2.0</version>
+            <version>${js.version}</version>
         </dependency>-->
     </dependencies>
 
@@ -325,6 +365,7 @@
                         <filter>
                             <artifact>*:*</artifact>
                             <excludes>
+                                <exclude>module-info.class</exclude>
                                 <exclude>META-INF/*.SF</exclude>
                                 <exclude>META-INF/*.DSA</exclude>
                                 <exclude>META-INF/*.RSA</exclude>
@@ -340,8 +381,12 @@
                             <mainClass>the.bytecode.club.bytecodeviewer.BytecodeViewer</mainClass>
                             <manifestEntries>
                                 <Implementation-Version>${project.version}</Implementation-Version>
+                                <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+                                <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
                             </manifestEntries>
                         </transformer>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                     </transformers>
                 </configuration>
             </plugin>

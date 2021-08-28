@@ -1,11 +1,13 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 import the.bytecode.club.bytecodeviewer.gui.util.StringMetricsUtil;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-
-import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

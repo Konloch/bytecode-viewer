@@ -21,8 +21,11 @@ import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
-import static the.bytecode.club.bytecodeviewer.Constants.*;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
+import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.CFR;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

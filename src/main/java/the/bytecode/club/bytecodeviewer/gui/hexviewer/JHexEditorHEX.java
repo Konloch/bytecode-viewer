@@ -1,7 +1,5 @@
 package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
-import the.bytecode.club.bytecodeviewer.Configuration;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -11,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JComponent;
+import the.bytecode.club.bytecodeviewer.Configuration;
 
 /**
  * @author laullon

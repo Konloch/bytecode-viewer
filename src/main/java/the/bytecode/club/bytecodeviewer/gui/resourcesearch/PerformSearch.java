@@ -1,17 +1,14 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
 
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
-import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
-import the.bytecode.club.bytecodeviewer.searching.impl.LDCSearch;
-import the.bytecode.club.bytecodeviewer.searching.impl.RegexSearch;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-
-import javax.swing.tree.TreePath;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import javax.swing.tree.TreePath;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.searching.BackgroundSearchThread;
+import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
+import the.bytecode.club.bytecodeviewer.searching.impl.RegexSearch;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

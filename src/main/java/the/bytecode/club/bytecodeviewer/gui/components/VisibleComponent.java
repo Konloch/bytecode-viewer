@@ -1,13 +1,12 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
 import com.github.weisj.darklaf.icons.ThemedSVGIcon;
+import javax.swing.BorderFactory;
+import javax.swing.JInternalFrame;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.Workspace;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
-
-import javax.swing.BorderFactory;
-import javax.swing.JInternalFrame;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

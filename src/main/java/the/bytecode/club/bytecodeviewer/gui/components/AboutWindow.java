@@ -1,15 +1,14 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import java.awt.*;
+import java.awt.CardLayout;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-
 import the.bytecode.club.bytecodeviewer.bootloader.InitialBootScreen;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
-import static the.bytecode.club.bytecodeviewer.Configuration.*;
+import static the.bytecode.club.bytecodeviewer.Configuration.language;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

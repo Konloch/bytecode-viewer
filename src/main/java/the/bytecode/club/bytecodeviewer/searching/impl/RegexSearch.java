@@ -5,19 +5,17 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import eu.bibl.banalysis.asm.desc.OpcodeInfo;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
 import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
 import the.bytecode.club.bytecodeviewer.searching.SearchPanel;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJLabel;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 import static the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder.processRegex;
 

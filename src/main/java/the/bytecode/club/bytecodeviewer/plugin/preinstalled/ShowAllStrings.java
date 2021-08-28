@@ -1,19 +1,16 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.util.ArrayList;
+import java.util.List;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 
-import javax.swing.*;
-
-import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -42,7 +39,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 public class ShowAllStrings extends Plugin
 {
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         PluginConsole frame = new PluginConsole("Show All Strings");
         StringBuilder sb = new StringBuilder();

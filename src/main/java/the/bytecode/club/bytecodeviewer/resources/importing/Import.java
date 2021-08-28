@@ -1,8 +1,13 @@
 package the.bytecode.club.bytecodeviewer.resources.importing;
 
-import the.bytecode.club.bytecodeviewer.resources.importing.impl.*;
-
 import java.util.HashMap;
+import the.bytecode.club.bytecodeviewer.resources.importing.impl.APKResourceImporter;
+import the.bytecode.club.bytecodeviewer.resources.importing.impl.ClassResourceImporter;
+import the.bytecode.club.bytecodeviewer.resources.importing.impl.DEXResourceImporter;
+import the.bytecode.club.bytecodeviewer.resources.importing.impl.DirectoryResourceImporter;
+import the.bytecode.club.bytecodeviewer.resources.importing.impl.FileResourceImporter;
+import the.bytecode.club.bytecodeviewer.resources.importing.impl.XAPKResourceImporter;
+import the.bytecode.club.bytecodeviewer.resources.importing.impl.ZipResourceImporter;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

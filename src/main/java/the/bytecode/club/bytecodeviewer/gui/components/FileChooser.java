@@ -1,12 +1,12 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -41,7 +41,7 @@ public class FileChooser extends JFileChooser
 	
 	public FileChooser(boolean skipFileFilter, File file, String title, String description, String... extensions)
 	{
-		HashSet<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
+		Set<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
 		
 		try {
 			if(file.isDirectory())

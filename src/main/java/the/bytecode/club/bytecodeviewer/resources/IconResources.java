@@ -1,6 +1,8 @@
 package the.bytecode.club.bytecodeviewer.resources;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -11,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.imageio.ImageIO;
-import javax.swing.*;
-
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.imgscalr.Scalr;

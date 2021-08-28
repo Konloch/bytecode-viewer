@@ -1,10 +1,9 @@
 package the.bytecode.club.bytecodeviewer.plugin;
 
+import java.io.IOException;
 import org.apache.commons.io.FilenameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
-
-import java.io.IOException;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

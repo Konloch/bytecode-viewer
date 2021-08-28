@@ -7,7 +7,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;

@@ -1,7 +1,10 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import javax.swing.Icon;
+import javax.swing.JMenuItem;
+import javax.swing.UIManager;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

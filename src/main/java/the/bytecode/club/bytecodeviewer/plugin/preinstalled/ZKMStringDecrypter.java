@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.util.ArrayList;
+import java.util.List;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
@@ -32,7 +32,7 @@ import the.bytecode.club.bytecodeviewer.api.Plugin;
 public class ZKMStringDecrypter extends Plugin
 {
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         BytecodeViewer.showMessage("This is a planned feature.");
     }

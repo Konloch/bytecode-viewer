@@ -1,5 +1,11 @@
 package the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist;
 
+import java.util.Enumeration;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -8,12 +14,6 @@ import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-
-import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-import java.util.Enumeration;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

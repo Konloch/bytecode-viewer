@@ -1,12 +1,9 @@
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
+import java.util.List;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.api.PluginConsole;
-
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
 /**
  * As long as there are no new opcodes or API changes you can use this plugin to downgrade compiled code
@@ -21,7 +18,7 @@ import java.util.ArrayList;
 public class ChangeClassFileVersions extends Plugin
 {
     @Override
-    public void execute(ArrayList<ClassNode> classNodeList)
+    public void execute(List<ClassNode> classNodeList)
     {
         //prompt dialog for version number
         // TODO: include a little diagram of what JDK is which number

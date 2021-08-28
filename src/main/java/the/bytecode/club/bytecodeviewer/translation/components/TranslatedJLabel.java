@@ -1,9 +1,8 @@
 package the.bytecode.club.bytecodeviewer.translation.components;
 
+import javax.swing.JLabel;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
-
-import javax.swing.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

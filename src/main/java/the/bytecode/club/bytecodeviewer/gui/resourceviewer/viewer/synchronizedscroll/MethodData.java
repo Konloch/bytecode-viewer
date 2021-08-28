@@ -1,8 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.synchronizedscroll;
 
-import org.objectweb.asm.Type;
-
 import java.util.Arrays;
+import org.objectweb.asm.Type;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
