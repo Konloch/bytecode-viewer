@@ -42,7 +42,7 @@
         <snakeyaml.version>1.29</snakeyaml.version>
         <xpp3.version>1.1.4c</xpp3.version>
         <jadx.version>8e89a2e</jadx.version>
-        <dex2jar.version>v25</dex2jar.version>
+        <dex2jar.version>v26</dex2jar.version>
         <darklaf.version>2.7.2</darklaf.version>
         <darklaf-extensions-rsta.version>0.3.4</darklaf-extensions-rsta.version>
         <webp-imageio.version>0.2.2</webp-imageio.version>
