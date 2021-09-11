@@ -29,18 +29,18 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
  * @author Konloch
  * @since 7/26/2021
  */
-public class Remove extends ContextMenuItem
+public class Delete extends ContextMenuItem
 {
-	public Remove()
+	public Delete()
 	{
 		super(ContextMenuType.CONTAINER, ((tree, selPath, result, menu) ->
 		{
-			menu.add(new AbstractAction(TranslatedStrings.REMOVE.toString())
+			menu.add(new AbstractAction(TranslatedStrings.DELETE.toString())
 			{
 				@Override
 				public void actionPerformed(ActionEvent e)
 				{
-					BytecodeViewer.viewer.resourcePane.expandAll(tree, selPath, false);
+					BytecodeViewer.viewer.resourcePane.removeNode(tree, selPath);
 				}
 			});
 		}));

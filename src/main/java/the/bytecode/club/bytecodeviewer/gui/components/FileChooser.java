@@ -43,20 +43,17 @@ public class FileChooser extends JFileChooser
 	{
 		Set<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
 		
+		setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		try {
-			if(file.isDirectory())
-				setCurrentDirectory(file);
-			else
-				setSelectedFile(file);
+			setSelectedFile(file);
 		} catch (Exception ignored) { }
 		
 		setDialogTitle(title);
-		setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		setFileHidingEnabled(false);
 		setAcceptAllFileFilterUsed(false);
 		if(!skipFileFilter)
 		{
-			setFileFilter(new FileFilter()
+            addChoosableFileFilter(new FileFilter()
 			{
 				@Override
 				public boolean accept(File f)

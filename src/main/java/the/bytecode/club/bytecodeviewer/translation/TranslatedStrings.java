@@ -62,7 +62,7 @@ public enum TranslatedStrings
 	
 	OPEN_UNSTYLED,
 	QUICK_OPEN,
-	REMOVE,
+	DELETE,
 	NEW,
 	EXPAND,
 	COLLAPSE,

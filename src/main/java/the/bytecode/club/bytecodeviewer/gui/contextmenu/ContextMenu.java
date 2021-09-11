@@ -11,7 +11,7 @@ import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.New;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Open;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.QuickEdit;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.QuickOpen;
-import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Remove;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Delete;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
 
@@ -45,7 +45,7 @@ public class ContextMenu
 	static
 	{
 		//resource list
-		addContext(new Remove()); //TODO rename to delete and add support for resources & whole parent nodes (directories)
+		addContext(new Delete());
 		addContext(new New());
 		addContext(new Open());
 		addContext(new QuickOpen());
