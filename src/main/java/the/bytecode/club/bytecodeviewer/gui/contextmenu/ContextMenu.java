@@ -45,7 +45,7 @@ public class ContextMenu
 	static
 	{
 		//resource list
-		addContext(new Delete());
+		addContext(new Delete()); //TODO add support for resources & whole parent nodes (directories)
 		addContext(new New());
 		addContext(new Open());
 		addContext(new QuickOpen());
