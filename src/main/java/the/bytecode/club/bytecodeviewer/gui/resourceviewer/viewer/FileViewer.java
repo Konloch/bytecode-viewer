@@ -14,7 +14,7 @@ import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.ImageJLabel;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
-import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
+import the.bytecode.club.bytecodeviewer.gui.hexviewer.HexViewer;
 import the.bytecode.club.bytecodeviewer.resources.Resource;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceType;
@@ -97,7 +97,7 @@ public class FileViewer extends ResourceViewer
 
                 image = MiscUtils.loadImage(image, contents);
                 if (image == null) {
-                    JHexEditor hex = new JHexEditor(contents);
+                    HexViewer hex = new HexViewer(contents);
                     mainPanel.add(hex);
                     return;
                 }
@@ -136,7 +136,7 @@ public class FileViewer extends ResourceViewer
             //hex viewer
             else if (BytecodeViewer.viewer.forcePureAsciiAsText.isSelected() || hexViewerOnly)
             {
-                JHexEditor hex = new JHexEditor(contents);
+                HexViewer hex = new HexViewer(contents);
                 mainPanel.add(hex);
                 return;
             }

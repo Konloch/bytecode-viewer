@@ -21,7 +21,7 @@ import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.MethodsRenderer;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
-import the.bytecode.club.bytecodeviewer.gui.hexviewer.JHexEditor;
+import the.bytecode.club.bytecodeviewer.gui.hexviewer.HexViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
@@ -96,7 +96,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                 
                     SwingUtilities.invokeLater(() ->
                     {
-                        final JHexEditor hex = new JHexEditor(cw.toByteArray());
+                        final HexViewer hex = new HexViewer(cw.toByteArray());
                         bytecodeViewPanel.add(hex);
                     });
                 }
