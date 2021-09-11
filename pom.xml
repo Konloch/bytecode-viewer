@@ -43,12 +43,12 @@
         <smali.version>2.5.2</smali.version>
         <snakeyaml.version>1.29</snakeyaml.version>
         <xpp3.version>1.1.4c</xpp3.version>
-        <jadx.version>f681c89</jadx.version>
-        <dex2jar.version>v24</dex2jar.version>
+        <jadx.version>8e89a2e</jadx.version>
+        <dex2jar.version>v26</dex2jar.version>
         <darklaf.version>2.7.2</darklaf.version>
         <darklaf-extensions-rsta.version>0.3.4</darklaf-extensions-rsta.version>
         <webp-imageio.version>0.2.2</webp-imageio.version>
-        <semantic-version.version>2.1.0</semantic-version.version>
+        <semantic-version.version>2.1.1</semantic-version.version>
         <treelayout.version>1.0.3</treelayout.version>
         <antlr4.version>4.9.2</antlr4.version>
         <js.version>21.2.0</js.version>
