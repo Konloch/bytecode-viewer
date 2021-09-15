@@ -99,9 +99,9 @@ public class DialogUtils
 				extensions);
 		
 		if(filter != null)
-			fc.setFileFilter(filter);
+			fc.addChoosableFileFilter(filter);
 		else
-			fc.setFileFilter(new FileFilter()
+			fc.addChoosableFileFilter(new FileFilter()
 			{
 				@Override
 				public boolean accept(File f)

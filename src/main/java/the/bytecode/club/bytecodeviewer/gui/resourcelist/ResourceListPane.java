@@ -19,6 +19,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import me.konloch.kontainer.io.DiskWriter;
@@ -260,6 +261,36 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         } else {
             tree.collapsePath(parent);
         }
+    }
+
+    @SuppressWarnings("rawtypes")
+    public void removeNode(final JTree tree, final TreePath nodePath) {
+        MutableTreeNode node = findNodeByPath(nodePath);
+        if (node == null)
+            return;
+        
+        node.removeFromParent();
+        tree.repaint();
+        tree.updateUI();
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private MutableTreeNode findNodeByPath(TreePath path) {
+        MutableTreeNode node = treeRoot;
+        for (int pathStep = 1; pathStep < path.getPathCount(); pathStep++) {
+            TreeNode pathNode = (TreeNode) path.getPathComponent(pathStep);
+            int childIndex = node.getIndex(pathNode);
+            if (childIndex < 0) {
+                return null;
+            }
+            node = (MutableTreeNode) node.getChildAt(childIndex);
+            
+            if (node == null) {
+                return null;
+            }
+        }
+        
+        return node;
     }
     
     public void resetWorkspace()
