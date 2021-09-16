@@ -44,7 +44,7 @@ public class GlobalHotKeys
 		
 		//CTRL + O
 		//open resource
-		if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			
@@ -62,7 +62,7 @@ public class GlobalHotKeys
 		
 		//CTRL + N
 		//new workspace
-		else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		else if ((e.getKeyCode() == KeyEvent.VK_N) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			BytecodeViewer.resetWorkspace(true);
@@ -70,7 +70,7 @@ public class GlobalHotKeys
 		
 		//CTRL + T
 		//compile
-		else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			Thread t = new Thread(() -> BytecodeViewer.compile(true, false), "Compile");
@@ -79,7 +79,7 @@ public class GlobalHotKeys
 		
 		//CTRL + R
 		//Run remote code
-		else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			
@@ -91,7 +91,7 @@ public class GlobalHotKeys
 		
 		//CTRL + S
 		//Export resources
-		else if ((e.getKeyCode() == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		else if ((e.getKeyCode() == KeyEvent.VK_S) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			
@@ -137,7 +137,7 @@ public class GlobalHotKeys
 		
 		//CTRL + W
 		//close active resource (currently opened tab)
-		else if ((e.getKeyCode() == KeyEvent.VK_W) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		else if ((e.getKeyCode() == KeyEvent.VK_W) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			
@@ -147,7 +147,7 @@ public class GlobalHotKeys
 		
 		//CTRL + L
 		//open last opened resource
-		else if ((e.getKeyCode() == KeyEvent.VK_L) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+		else if ((e.getKeyCode() == KeyEvent.VK_L) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
 		{
 			Configuration.lastHotKeyExecuted = System.currentTimeMillis();
 			

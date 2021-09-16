@@ -108,10 +108,10 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 		
 		addKeyListener(new PressKeyListener(keyEvent ->
 		{
-			if ((keyEvent.getKeyCode() == KeyEvent.VK_F) && ((keyEvent.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+			if ((keyEvent.getKeyCode() == KeyEvent.VK_F) && ((keyEvent.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
 				searchInput.requestFocus();
 			
-			if (onCtrlS != null && (keyEvent.getKeyCode() == KeyEvent.VK_S) && ((keyEvent.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+			if (onCtrlS != null && (keyEvent.getKeyCode() == KeyEvent.VK_S) && ((keyEvent.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
 			{
 				onCtrlS.run();
 				return;

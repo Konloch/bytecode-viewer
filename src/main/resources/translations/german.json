@@ -255,5 +255,6 @@
   "CLOSE_TAB": "Tab schließen",
   "PLEASE_SEND_THIS_ERROR_LOG_TO": "Bitte senden Sie dieses Fehlerprotokoll an",
   "PLEASE_SEND_RESOURCES": "Wenn Sie entsprechende gesetzliche Rechte an der jeweiligen Klasse besitzen",
-  "MIN_SDK_VERSION": "Minimale SDK-Version"
+  "MIN_SDK_VERSION": "Minimale SDK-Version",
+  "ILLEGAL_ACCESS_ERROR": "Bitte benutzen Sie Java 15 oder älter, um dies zu tun."
 }

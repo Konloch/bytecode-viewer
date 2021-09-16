@@ -101,7 +101,7 @@ public class TabbedPane extends JPanel
         exitButton.setComponentPopupMenu(rightClickMenu);
         exitButton.addMouseListener(new MouseClickedListener(e ->
         {
-            if (e.getModifiers() != InputEvent.ALT_MASK || System.currentTimeMillis() - lastMouseClick < 100)
+            if (e.getModifiersEx() != InputEvent.ALT_DOWN_MASK || System.currentTimeMillis() - lastMouseClick < 100)
                 return;
     
             lastMouseClick = System.currentTimeMillis();

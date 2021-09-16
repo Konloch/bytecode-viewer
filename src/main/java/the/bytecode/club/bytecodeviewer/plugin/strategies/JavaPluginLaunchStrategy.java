@@ -51,6 +51,6 @@ public class JavaPluginLaunchStrategy implements PluginLaunchStrategy
         );
 
         //create a new instance of the class
-        return (Plugin) clazz.newInstance();
+        return (Plugin) clazz.getDeclaredConstructor().newInstance();
     }
 }

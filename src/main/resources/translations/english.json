@@ -263,6 +263,7 @@
   "PLEASE_SEND_THIS_ERROR_LOG_TO": "Please send this error log to",
   "PLEASE_SEND_RESOURCES": "If you hold appropriate legal rights to the relevant class/jar/apk file please include that as well.",
   "ONE_PLUGIN_AT_A_TIME": "There is currently another plugin running right now, please wait for that to finish executing.",
+  "ILLEGAL_ACCESS_ERROR": "Please use Java 15 or older to do this.",
 
 
   "FILES": "Files",
