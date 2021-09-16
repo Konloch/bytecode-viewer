@@ -5,6 +5,7 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.security.Permission;
+import java.util.concurrent.atomic.AtomicInteger;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
@@ -44,12 +45,12 @@ import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 
 public class SecurityMan extends SecurityManager
 {
-    private volatile boolean silentExec = true;
+    private final AtomicInteger silentExec = new AtomicInteger(1);
     private boolean printing = false;
     private boolean printingPackage = false;
     
     public void silenceExec(boolean b) {
-        silentExec = b;
+        silentExec.addAndGet(b ? 1 : -1);
     }
     
     public void setPrinting(boolean printing)
@@ -160,7 +161,7 @@ public class SecurityMan extends SecurityManager
         //log exec if allowed
         if (allow && validClassCall && !blocked)
         {
-            if(silentExec)
+            if(silentExec.get() >= 1)
                 System.err.println("Allowing exec: " + cmd);
         } //throw exception stopping execution
         else throw new SecurityException("BCV is awesome! Blocking exec: " + cmd);
