@@ -84,6 +84,12 @@
             <groupId>org.apktool</groupId>
             <artifactId>apktool-lib</artifactId>
             <version>${apktool.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
