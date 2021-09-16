@@ -134,8 +134,8 @@ public class ExceptionUI extends JFrameConsole
     {
         String fatJar = FAT_JAR ? " [Fat Jar]" : "";
         
-        return TranslatedStrings.PLEASE_SEND_THIS_ERROR_LOG_TO.toString() + " " + author +
-                "\n" + TranslatedStrings.PLEASE_SEND_RESOURCES.toString() +
+        return TranslatedStrings.PLEASE_SEND_THIS_ERROR_LOG_TO + " " + author +
+                "\n" + TranslatedStrings.PLEASE_SEND_RESOURCES +
                 "\nBytecode Viewer Version: " + VERSION + fatJar +
                 ", OS: " + System.getProperty("os.name") +
                 ", Java: " + System.getProperty("java.version");
