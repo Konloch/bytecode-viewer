@@ -12,6 +12,7 @@ import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsolePrintStream;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
@@ -75,7 +76,6 @@ public class JavapDisassembler extends InternalDecompiler
             //setup reflection
             Class<?> javap = child.loadClass("com.sun.tools.javap.Main");
             Method main = javap.getMethod("main", String[].class);
-            Object cl = javap.newInstance();
         
             //pipe sys out
             sysOutBuffer = new JFrameConsolePrintStream("", false);
@@ -84,12 +84,16 @@ public class JavapDisassembler extends InternalDecompiler
             BytecodeViewer.sm.silenceExec(true);
         
             //invoke Javap
-            main.invoke(cl, (Object) new String[]{
+            main.invoke(null, (Object) new String[]{
                     "-p", //Shows all classes and members
                     "-c", //Prints out disassembled code
                     //"-l", //Prints out line and local variable tables
                     "-constants", //Shows static final constants
                     tempClass.getAbsolutePath()});
+        }
+        catch (IllegalAccessException e)
+        {
+            return TranslatedStrings.ILLEGAL_ACCESS_ERROR.toString();
         }
         catch (Exception e)
         {
