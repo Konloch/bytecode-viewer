@@ -5,7 +5,6 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Objects;
 import org.jd.core.v1.model.classfile.constant.Constant;
 import org.jd.core.v1.model.classfile.constant.ConstantClass;
 import org.jd.core.v1.model.classfile.constant.ConstantUtf8;
@@ -29,8 +28,9 @@ public class JDGUIClassFileUtil
              BufferedInputStream bis = new BufferedInputStream(fis);
              DataInputStream dis = new DataInputStream(bis)) {
             int magic = dis.readInt();
-            if (magic != ClassFileReader.JAVA_MAGIC_NUMBER)
+            if (magic != ClassFileReader.JAVA_MAGIC_NUMBER) {
                 throw new ClassFileFormatException("Invalid Java .class file");
+            }
 
             /* int minor_version = */
             dis.readUnsignedShort();
@@ -43,16 +43,18 @@ public class JDGUIClassFileUtil
             dis.readUnsignedShort();
             int this_class = dis.readUnsignedShort();
 
-            if (this_class > Objects.requireNonNull(constants).length) {
+            if (this_class > constants.length) {
                 throw new ClassFileFormatException("Unknown Java structure");
             }
             Constant c = constants[this_class];
-            if ((c == null) || (c.getTag() != Constant.CONSTANT_Class))
+            if ((c == null) || (c.getTag() != Constant.CONSTANT_Class)) {
                 throw new ClassFileFormatException("Invalid constant pool");
+            }
 
             c = constants[((ConstantClass) c).getNameIndex()];
-            if ((c == null) || (c.getTag() != Constant.CONSTANT_Utf8))
+            if ((c == null) || (c.getTag() != Constant.CONSTANT_Utf8)) {
                 throw new ClassFileFormatException("Invalid constant pool");
+            }
 
             String internalClassName = ((ConstantUtf8) c).getValue();
             String pathSuffix = internalClassName.replace(
@@ -61,8 +63,9 @@ public class JDGUIClassFileUtil
 
             int index = pathToClass.indexOf(pathSuffix);
 
-            if (index < 0)
+            if (index < 0) {
                 throw new ClassFileFormatException("Invalid internal class name");
+            }
 
             directoryPath = pathToClass.substring(0, index);
         } catch (IOException e) {
@@ -87,9 +90,6 @@ public class JDGUIClassFileUtil
     private static Constant[] DeserializeConstants(DataInputStream dis)
             throws IOException {
         int count = dis.readUnsignedShort();
-        if (count == 0)
-            return null;
-
         Constant[] constants = new Constant[count];
 
         for (int i = 1; i < count; i++) {
@@ -112,12 +112,15 @@ public class JDGUIClassFileUtil
             case Constant.CONSTANT_FieldRef:
             case Constant.CONSTANT_MethodRef:
             case Constant.CONSTANT_InterfaceMethodRef:
+            case Constant.CONSTANT_InvokeDynamic:
             case Constant.CONSTANT_NameAndType:
             case Constant.CONSTANT_Integer:
             case Constant.CONSTANT_Float:
                 dis.read();
+            case Constant.CONSTANT_MethodHandle:
                 dis.read();
             case Constant.CONSTANT_String:
+            case Constant.CONSTANT_MethodType:
                 dis.read();
                 dis.read();
                 break;
