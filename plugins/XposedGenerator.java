@@ -311,7 +311,7 @@ public class XposedGenerator extends Plugin
             try
             //
             {
-                if (foundpckg.isEmpty() || foundpckg == null)
+                if (foundpckg == null || foundpckg.isEmpty())
                     foundpckg  = "No Package Found";
 
             }
