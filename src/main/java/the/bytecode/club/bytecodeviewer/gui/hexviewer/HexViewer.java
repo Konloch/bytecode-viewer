@@ -16,7 +16,7 @@ import java.awt.event.KeyEvent;
 
 /**
  * Binary/hexadecimal viewer based on BinEd library.
- * 
+ *
  * @author hajdam
  */
 public class HexViewer extends JPanel {
@@ -33,13 +33,19 @@ public class HexViewer extends JPanel {
     private javax.swing.JToggleButton lineWrappingToggleButton;
     private JButton cycleCodeTypeButton;
     private BinaryStatusApi binaryStatus;
+    private final AbstractAction goToAction;
 
     public HexViewer(byte[] contentData) {
         super(new BorderLayout());
         codeArea = new CodeArea();
         codeArea.setPainter(new HighlightNonAsciiCodeAreaPainter(codeArea));
         toolBar = new JToolBar();
-        statusPanel = new BinaryStatusPanel();
+        statusPanel = new BinaryStatusPanel() {
+            @Override
+            public Dimension getMinimumSize() {
+                return new Dimension(0, super.getMinimumSize().height);
+            }
+        };
         valuesPanel = new ValuesPanel();
         codeArea.setContentData(new ByteArrayData(contentData));
         codeArea.setEditMode(EditMode.READ_ONLY);
@@ -52,6 +58,49 @@ public class HexViewer extends JPanel {
                 CodeType next = codeTypePos + 1 >= values.length ? values[0] : values[codeTypePos + 1];
                 codeArea.setCodeType(next);
                 updateCycleButtonState();
+            }
+        };
+
+        goToAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final GoToBinaryPanel goToPanel = new GoToBinaryPanel();
+                goToPanel.setCursorPosition(codeArea.getCaret().getCaretPosition().getDataPosition());
+                goToPanel.setMaxPosition(codeArea.getDataSize());
+                final JDialog dialog = new JDialog((JFrame) SwingUtilities.getRoot(HexViewer.this), Dialog.ModalityType.APPLICATION_MODAL);
+                OkCancelPanel okCancelPanel = new OkCancelPanel() {
+                    @Override
+                    protected void okAction() {
+                        goToPanel.acceptInput();
+                        codeArea.setCaretPosition(goToPanel.getTargetPosition());
+                        codeArea.revealCursor();
+                        dialog.setVisible(false);
+                        dialog.dispose();
+                        codeArea.requestFocus();
+                    }
+
+                    @Override
+                    protected void cancelAction() {
+                        dialog.setVisible(false);
+                        dialog.dispose();
+                    }
+                };
+
+                final String ESC_CANCEL = "esc-cancel";
+                dialog.getRootPane().getActionMap().put(ESC_CANCEL, new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        okCancelPanel.cancelAction();
+                    }
+                });
+                dialog.getRootPane().getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), ESC_CANCEL);
+                okCancelPanel.setOkButtonText("Go To");
+                dialog.setTitle("Go To Position");
+                dialog.add(goToPanel, BorderLayout.CENTER);
+                dialog.add(okCancelPanel, BorderLayout.SOUTH);
+                dialog.pack();
+                dialog.setLocationByPlatform(true);
+                dialog.setVisible(true);
             }
         };
 
@@ -111,6 +160,10 @@ public class HexViewer extends JPanel {
 
         registerBinaryStatus(statusPanel);
         add(statusPanel, BorderLayout.SOUTH);
+
+        final String GO_TO_ACTION = "goToAction";
+        codeArea.getActionMap().put(GO_TO_ACTION, goToAction);
+        codeArea.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_G, HexViewer.getMetaMask()), GO_TO_ACTION);
         invalidate();
     }
 
@@ -269,6 +322,13 @@ public class HexViewer extends JPanel {
             codeArea.selectAll();
         });
         menu.add(selectAllMenuItem);
+        menu.addSeparator();
+
+        final JMenuItem goToMenuItem = new JMenuItem("Go To...");
+        goToMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, HexViewer.getMetaMask()));
+        goToMenuItem.addActionListener(goToAction::actionPerformed);
+        menu.add(goToMenuItem);
+
         return menu;
     }
 
