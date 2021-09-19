@@ -299,7 +299,7 @@ public class EZInjection extends Plugin
                                     if(kit != null)
                                         kit.setVisible(true);
                                     
-                                    m2.invoke(classNode.getClass().newInstance(), (Object[]) new String[1]);
+                                    m2.invoke(classNode.getClass().getDeclaredConstructor().newInstance(), (Object[]) new String[1]);
                                     
                                     print("Finished running " + invokeMethodInformation);
                                 }

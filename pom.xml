@@ -14,7 +14,7 @@
 
         <!-- Dependency versions -->
         <annotations.version>22.0.0</annotations.version>
-        <apktool.version>2.5.0bcv2</apktool.version>
+        <apktool.version>2.6.0</apktool.version>
         <asm.version>9.2</asm.version>
         <bined.version>0.2.0</bined.version>
         <cfr.version>0.151</cfr.version>
@@ -77,8 +77,19 @@
         </dependency>
         <dependency>
             <groupId>org.apktool</groupId>
-            <artifactId>apktool</artifactId>
+            <artifactId>apktool-cli</artifactId>
             <version>${apktool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apktool</groupId>
+            <artifactId>apktool-lib</artifactId>
+            <version>${apktool.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
@@ -360,6 +371,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
             <plugin>

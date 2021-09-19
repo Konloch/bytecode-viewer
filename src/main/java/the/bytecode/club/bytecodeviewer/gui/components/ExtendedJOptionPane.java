@@ -215,7 +215,7 @@ public class ExtendedJOptionPane
 		else
 			dialog.setLocationRelativeTo(BytecodeViewer.viewer);
 		
-		dialog.show();
+		dialog.setVisible(true);
 		dialog.dispose();
 		
 		return dialog;

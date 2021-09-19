@@ -61,7 +61,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
         }
 
         LoadingClassLoader cl = new LoadingClassLoader(pdata, set);
-        Plugin p = cl.pluginKlass.newInstance();
+        Plugin p = cl.pluginKlass.getDeclaredConstructor().newInstance();
         LoadedPluginData npdata = new LoadedPluginData(pdata, cl, p);
         loaded.add(npdata);
 
