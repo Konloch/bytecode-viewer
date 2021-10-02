@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ '8', '11', '17-ea' ] # LTS versions
+        java: [ 8, 8.0.192, 11, 11.0.3, 17, 17.0.0+35 ] # Latest and fixed versions
 
     steps:
     - uses: actions/checkout@v2
