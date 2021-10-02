@@ -22,7 +22,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: ${{ matrix.java }}
-        distribution: 'temurin'
+        distribution: 'zulu'
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Extract Maven project version
