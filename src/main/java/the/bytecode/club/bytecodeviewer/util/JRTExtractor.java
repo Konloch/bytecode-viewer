@@ -18,9 +18,11 @@ import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -28,8 +30,9 @@ public class JRTExtractor {
     public static void extractRT(String path) throws Throwable {
         FileSystem fs = FileSystems.getFileSystem(URI.create("jrt:/"));
 
-        try (ZipOutputStream zipStream = new ZipOutputStream(Files.newOutputStream(Paths.get(path)))) {
-            Files.walk(fs.getPath("/")).forEach(p -> {
+        try (ZipOutputStream zipStream = new ZipOutputStream(Files.newOutputStream(Paths.get(path)));
+			Stream<Path> stream =  Files.walk(fs.getPath("/"))) {
+            stream.forEach(p -> {
                 if (!Files.isRegularFile(p)) {
                     return;
                 }
