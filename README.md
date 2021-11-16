@@ -9,7 +9,7 @@ Bytecode Viewer - a lightweight user-friendly Java/Android Bytecode Viewer, Deco
 * Fixed Java & Bytecode editing/compiling
 * Tabbed plugin console
 * Right-click menus on the resource and search panels
-* Javap disassembler
+* Java disassembler
 * XAPK support
 * Updated nearly all dependencies (incl. decompilers like CFR, JD-GUI etc.)
 * Updated ASM library to version 9.1
