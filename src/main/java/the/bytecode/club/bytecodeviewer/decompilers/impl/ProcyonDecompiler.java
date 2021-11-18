@@ -68,10 +68,9 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.PRO
  * @author Konloch
  * @author DeathMarine
  */
-public class ProcyonDecompiler extends InternalDecompiler
-{
-    public DecompilerSettings getDecompilerSettings()
-    {
+public class ProcyonDecompiler extends InternalDecompiler {
+
+    public DecompilerSettings getDecompilerSettings() {
         DecompilerSettings settings = new DecompilerSettings();
         settings.setAlwaysGenerateExceptionVariableForCatchBlocks(BytecodeViewer.viewer.alwaysGenerateExceptionVars.isSelected());
         settings.setExcludeNestedTypes(BytecodeViewer.viewer.excludeNestedTypes.isSelected());
@@ -118,7 +117,7 @@ public class ProcyonDecompiler extends InternalDecompiler
             TypeDefinition resolvedType;
             if (type == null || ((resolvedType = type.resolve()) == null))
                 throw new Exception("Unable to resolve type.");
-            
+
             StringWriter stringwriter = new StringWriter();
             settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(stringwriter), decompilationOptions);
 
@@ -130,7 +129,7 @@ public class ProcyonDecompiler extends InternalDecompiler
 
             exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
-        
+
         return PROCYON + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
                 nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
                 nl + nl + exception;
@@ -184,12 +183,11 @@ public class ProcyonDecompiler extends InternalDecompiler
                                     || ((resolvedType = type.resolve()) == null)) {
                                 throw new Exception("Unable to resolve type.");
                             }
-                            try (Writer writer = new OutputStreamWriter(out)) {
-                                settings.getLanguage().decompileType(resolvedType,
-                                        new PlainTextOutput(writer),
-                                        decompilationOptions);
-                                writer.flush();
-                            }
+                            Writer writer = new OutputStreamWriter(out);
+                            settings.getLanguage().decompileType(resolvedType,
+                                    new PlainTextOutput(writer),
+                                    decompilationOptions);
+                            writer.flush();
                         } finally {
                             out.closeEntry();
                         }
@@ -212,8 +210,7 @@ public class ProcyonDecompiler extends InternalDecompiler
                             out.closeEntry();
                         }
                     } catch (ZipException ze) {
-                        // some jar-s contain duplicate pom.xml entries: ignore
-                        // it
+                        // some jars contain duplicate pom.xml entries: ignore it
                         if (!ze.getMessage().contains("duplicate")) {
                             throw ze;
                         }
@@ -227,6 +224,7 @@ public class ProcyonDecompiler extends InternalDecompiler
      * @author DeathMarine
      */
     public static final class LuytenTypeLoader implements ITypeLoader {
+
         private final List<ITypeLoader> _typeLoaders;
 
         public LuytenTypeLoader() {
@@ -251,5 +249,7 @@ public class ProcyonDecompiler extends InternalDecompiler
 
             return false;
         }
+
     }
+
 }
