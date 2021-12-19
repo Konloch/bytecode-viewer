@@ -55,7 +55,7 @@ public final class PluginManager
 {
     private static final Map<String, PluginLaunchStrategy> launchStrategies = new HashMap<>();
     private static final PluginFileFilter filter = new PluginFileFilter();
-    private static List<Plugin> pluginInstances = new ArrayList<>();
+    private static final List<Plugin> pluginInstances = new ArrayList<>();
     
     //TODO this system needs to be redone, currently it will conflict if more than one plugin is ran at the same time
     // the solution is to tie the plugin object into the plugin console,
@@ -155,8 +155,8 @@ public final class PluginManager
             return;
         }
         
-        final String name = (activePlugin == null || activePlugin.activeContainer == null)
-                ? ("#" + (activeTabbedException.getTabbedPane().getTabCount() + 1)) : activePlugin.activeContainer.name;
+        final String name = activePlugin.activeContainer == null
+                ? "#" + (activeTabbedException.getTabbedPane().getTabCount() + 1) : activePlugin.activeContainer.name;
         
         ExceptionUI existingUI = exceptionTabs.get(name);
         

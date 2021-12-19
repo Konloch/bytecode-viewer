@@ -91,8 +91,8 @@ public class TabbedPane extends JPanel
         
         //define the right click pop-up menu
         JPopupMenu rightClickMenu = new JPopupMenu();
-        JMenuItem closeAllTabs = new JMenuItem(TranslatedStrings.CLOSE_ALL_BUT_THIS.toString() + ": " + name);
-        JMenuItem closeTab = new JMenuItem(TranslatedStrings.CLOSE_TAB.toString() + ": " + name);
+        JMenuItem closeAllTabs = new JMenuItem(TranslatedStrings.CLOSE_ALL_BUT_THIS + ": " + name);
+        JMenuItem closeTab = new JMenuItem(TranslatedStrings.CLOSE_TAB + ": " + name);
     
         rightClickMenu.add(closeAllTabs);
         rightClickMenu.add(closeTab);

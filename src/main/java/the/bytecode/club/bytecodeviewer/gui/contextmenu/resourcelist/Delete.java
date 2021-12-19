@@ -34,15 +34,13 @@ public class Delete extends ContextMenuItem
 	public Delete()
 	{
 		super(ContextMenuType.CONTAINER, ((tree, selPath, result, menu) ->
-		{
-			menu.add(new AbstractAction(TranslatedStrings.DELETE.toString())
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					BytecodeViewer.viewer.resourcePane.removeNode(tree, selPath);
-				}
-			});
-		}));
+                menu.add(new AbstractAction(TranslatedStrings.DELETE.toString())
+                {
+                    @Override
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        BytecodeViewer.viewer.resourcePane.removeNode(tree, selPath);
+                    }
+                })));
 	}
 }

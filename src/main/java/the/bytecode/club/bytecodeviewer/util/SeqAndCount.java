@@ -37,26 +37,26 @@ class SeqAndCount
 	
 	public SeqAndCount incrSeq()
 	{
-		seq = seq + 1;
+		seq++;
 		return this;
 	}
 	
 	public SeqAndCount incrCount()
 	{
-		count = count + 1;
+		count++;
 		return this;
 	}
 	
 	public SeqAndCount decrCount()
 	{
-		count = count - 1;
+		count--;
 		return this;
 	}
 	
 	public SeqAndCount incrSeqAndCount()
 	{
-		seq = seq + 1;
-		count = count + 1;
+		seq++;
+		count++;
 		return this;
 	}
 	

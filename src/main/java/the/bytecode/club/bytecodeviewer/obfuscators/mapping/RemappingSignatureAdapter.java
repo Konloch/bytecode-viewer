@@ -68,7 +68,7 @@ public class RemappingSignatureAdapter extends SignatureVisitor {
     @Override
     public void visitInnerClassType(String name) {
         String remappedOuter = remapper.mapType(className) + '$';
-        className = className + '$' + name;
+        className += '$' + name;
         String remappedName = remapper.mapType(className);
         int index = remappedName.startsWith(remappedOuter) ? remappedOuter
                 .length() : remappedName.lastIndexOf('$') + 1;

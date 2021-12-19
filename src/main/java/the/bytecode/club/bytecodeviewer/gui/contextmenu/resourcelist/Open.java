@@ -34,15 +34,13 @@ public class Open extends ContextMenuItem
 	public Open()
 	{
 		super(ContextMenuType.RESOURCE, ((tree, selPath, result, menu) ->
-		{
-			menu.add(new AbstractAction(TranslatedStrings.OPEN_UNSTYLED.toString())
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					BytecodeViewer.viewer.resourcePane.openPath(selPath);
-				}
-			});
-		}));
+                menu.add(new AbstractAction(TranslatedStrings.OPEN_UNSTYLED.toString())
+                {
+                    @Override
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        BytecodeViewer.viewer.resourcePane.openPath(selPath);
+                    }
+                })));
 	}
 }

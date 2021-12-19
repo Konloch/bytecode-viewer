@@ -226,7 +226,7 @@ public class KrakatauDecompiler extends InternalDecompiler
             }
 
             int exitValue = process.waitFor();
-            log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS + " ").append(exitValue);
+            log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
             s = log.toString();
 
             //if the motherfucker failed this'll fail, aka wont set.

@@ -14,34 +14,34 @@
   <lib>w32api/libshell32.a</lib>
   <jar>H:\Repo\BCV\bytecode-viewer\BytecodeViewer 2.9.8.jar</jar>
   <outfile>H:\Repo\BCV\bytecode-viewer\BytecodeViewer.exe</outfile>
-  <errTitle></errTitle>
-  <cmdLine></cmdLine>
+  <errTitle/>
+  <cmdLine/>
   <chdir>.</chdir>
   <priority>normal</priority>
-  <downloadUrl>http://java.com/download</downloadUrl>
-  <supportUrl></supportUrl>
+  <downloadUrl>https://java.com/de/download/</downloadUrl>
+  <supportUrl/>
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
-  <manifest></manifest>
+  <manifest/>
   <icon>H:\Repo\BCV\bytecode-viewer\BCV Icon.ico</icon>
   <jre>
-    <path></path>
+    <path/>
     <bundledJre64Bit>false</bundledJre64Bit>
     <bundledJreAsFallback>false</bundledJreAsFallback>
     <minVersion>1.7.0_00</minVersion>
-    <maxVersion></maxVersion>
+    <maxVersion/>
     <jdkPreference>preferJre</jdkPreference>
     <runtimeBits>64/32</runtimeBits>
   </jre>
   <versionInfo>
     <fileVersion>0.2.9.7</fileVersion>
-    <txtFileVersion>http://the.bytecode.club</txtFileVersion>
+    <txtFileVersion>https://the.bytecode.club/</txtFileVersion>
     <fileDescription>Bytecode Viewer</fileDescription>
-    <copyright>http://bytecodeviewer.com</copyright>
+    <copyright>https://bytecodeviewer.com/</copyright>
     <productVersion>0.2.9.6</productVersion>
-    <txtProductVersion>http://the.bytecode.club</txtProductVersion>
+    <txtProductVersion>https://the.bytecode.club/</txtProductVersion>
     <productName>Bytecode Viewer</productName>
-    <companyName></companyName>
+    <companyName/>
     <internalName>BCV</internalName>
     <originalFilename>Bytecode_Viewer.exe</originalFilename>
   </versionInfo>

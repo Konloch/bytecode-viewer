@@ -30,7 +30,6 @@ public class HexViewer extends JPanel {
     private boolean valuesPanelVisible = false;
 
     private final AbstractAction cycleCodeTypesAction;
-    private javax.swing.JToggleButton lineWrappingToggleButton;
     private JButton cycleCodeTypeButton;
     private BinaryStatusApi binaryStatus;
     private final AbstractAction goToAction;
@@ -114,18 +113,16 @@ public class HexViewer extends JPanel {
         cycleCodeTypeButton.setAction(cycleCodeTypesAction);
         updateCycleButtonState();
         toolBar.add(cycleCodeTypeButton);
-        lineWrappingToggleButton = new javax.swing.JToggleButton();
+        JToggleButton lineWrappingToggleButton = new JToggleButton();
         lineWrappingToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/the/bytecode/club/bytecodeviewer/gui/hexviewer/resources/bined-linewrap.png")));
         lineWrappingToggleButton.setToolTipText("Toggle line wrapping");
-        lineWrappingToggleButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if (codeArea.getRowWrapping() == RowWrappingMode.WRAPPING) {
-                    codeArea.setMaxBytesPerRow(16);
-                    codeArea.setRowWrapping(RowWrappingMode.NO_WRAPPING);
-                } else {
-                    codeArea.setMaxBytesPerRow(0);
-                    codeArea.setRowWrapping(RowWrappingMode.WRAPPING);
-                }
+        lineWrappingToggleButton.addActionListener(evt -> {
+            if (codeArea.getRowWrapping() == RowWrappingMode.WRAPPING) {
+                codeArea.setMaxBytesPerRow(16);
+                codeArea.setRowWrapping(RowWrappingMode.NO_WRAPPING);
+            } else {
+                codeArea.setMaxBytesPerRow(0);
+                codeArea.setRowWrapping(RowWrappingMode.WRAPPING);
             }
         });
         toolBar.add(lineWrappingToggleButton);
@@ -137,15 +134,8 @@ public class HexViewer extends JPanel {
         codeArea.setComponentPopupMenu(new JPopupMenu() {
             @Override
             public void show(Component invoker, int x, int y) {
-                int clickedX = x;
-                int clickedY = y;
-                if (invoker instanceof JViewport) {
-                    clickedX += ((JViewport) invoker).getParent().getX();
-                    clickedY += ((JViewport) invoker).getParent().getY();
-                }
-
                 removeAll();
-                final JPopupMenu menu = createPopupMenu(clickedX, clickedY);
+                final JPopupMenu menu = createPopupMenu();
                 menu.show(invoker, x, y);
             }
         });
@@ -187,15 +177,9 @@ public class HexViewer extends JPanel {
 
     public void registerBinaryStatus(BinaryStatusApi binaryStatusApi) {
         this.binaryStatus = binaryStatusApi;
-        codeArea.addCaretMovedListener((CodeAreaCaretPosition caretPosition) -> {
-            binaryStatus.setCursorPosition(caretPosition);
-        });
-        codeArea.addSelectionChangedListener(() -> {
-            binaryStatus.setSelectionRange(codeArea.getSelection());
-        });
-        codeArea.addDataChangedListener(() -> {
-            binaryStatus.setCurrentDocumentSize(codeArea.getDataSize(), codeArea.getDataSize());
-        });
+        codeArea.addCaretMovedListener((CodeAreaCaretPosition caretPosition) -> binaryStatus.setCursorPosition(caretPosition));
+        codeArea.addSelectionChangedListener(() -> binaryStatus.setSelectionRange(codeArea.getSelection()));
+        codeArea.addDataChangedListener(() -> binaryStatus.setCurrentDocumentSize(codeArea.getDataSize(), codeArea.getDataSize()));
         binaryStatus.setCurrentDocumentSize(codeArea.getDataSize(), codeArea.getDataSize());
 
         codeArea.addEditModeChangedListener(binaryStatus::setEditMode);
@@ -207,7 +191,6 @@ public class HexViewer extends JPanel {
      *
      * @return down mask for meta keys
      */
-    @SuppressWarnings("deprecation")
     public static int getMetaMask() {
         try {
             switch (java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) {
@@ -226,7 +209,7 @@ public class HexViewer extends JPanel {
     }
 
     @Nonnull
-    private JPopupMenu createPopupMenu(int x, int y) {
+    private JPopupMenu createPopupMenu() {
         JPopupMenu menu = new JPopupMenu();
 
         JMenu viewMenu = new JMenu("View");
@@ -311,22 +294,18 @@ public class HexViewer extends JPanel {
         final JMenuItem copyMenuItem = new JMenuItem("Copy");
         copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, HexViewer.getMetaMask()));
         copyMenuItem.setEnabled(codeArea.hasSelection());
-        copyMenuItem.addActionListener((ActionEvent e) -> {
-            codeArea.copy();
-        });
+        copyMenuItem.addActionListener((ActionEvent e) -> codeArea.copy());
         menu.add(copyMenuItem);
 
         final JMenuItem selectAllMenuItem = new JMenuItem("Select All");
         selectAllMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, HexViewer.getMetaMask()));
-        selectAllMenuItem.addActionListener((ActionEvent e) -> {
-            codeArea.selectAll();
-        });
+        selectAllMenuItem.addActionListener((ActionEvent e) -> codeArea.selectAll());
         menu.add(selectAllMenuItem);
         menu.addSeparator();
 
         final JMenuItem goToMenuItem = new JMenuItem("Go To...");
         goToMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, HexViewer.getMetaMask()));
-        goToMenuItem.addActionListener(goToAction::actionPerformed);
+        goToMenuItem.addActionListener(goToAction);
         menu.add(goToMenuItem);
 
         return menu;

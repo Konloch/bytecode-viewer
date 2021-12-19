@@ -1,6 +1,5 @@
 package the.bytecode.club.bytecodeviewer.bootloader.resource.external;
 
-import java.io.IOException;
 import java.net.URL;
 
 /***************************************************************************
@@ -38,7 +37,7 @@ public class EmptyExternalResource<T> extends ExternalResource<T> {
      * @see the.bytecode.club.bootloader.resource.ExternalResource#load()
      */
     @Override
-    public T load() throws IOException {
+    public T load() {
         throw new UnsupportedOperationException();
     }
 }

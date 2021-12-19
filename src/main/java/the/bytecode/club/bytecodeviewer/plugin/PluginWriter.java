@@ -231,7 +231,7 @@ public class PluginWriter extends JFrame
 					
 					//auto append extension
 					if (!path.endsWith("." + ext))
-						path = path + "." + ext;
+						path += "." + ext;
 					
 					if (!DialogUtils.canOverwriteFile(path))
 						return;

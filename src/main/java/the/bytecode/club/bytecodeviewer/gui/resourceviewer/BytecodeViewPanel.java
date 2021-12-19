@@ -80,8 +80,8 @@ public class BytecodeViewPanel extends JPanel
 			return true;
 		
 		SystemConsole errConsole = new SystemConsole(TranslatedStrings.JAVA_COMPILE_FAILED.toString());
-		errConsole.setText(TranslatedStrings.ERROR_COMPILING_CLASS.toString() + " " + viewer.resource.getResourceClassNode().name +
-				nl + TranslatedStrings.COMPILER_TIP.toString() +
+		errConsole.setText(TranslatedStrings.ERROR_COMPILING_CLASS + " " + viewer.resource.getResourceClassNode().name +
+				nl + TranslatedStrings.COMPILER_TIP +
 				nl + nl + TranslatedStrings.SUGGESTED_FIX_COMPILER_ERROR +
 				nl + nl);
 		

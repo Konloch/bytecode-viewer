@@ -72,9 +72,9 @@ public class DecompilerSelectionPane
 	{
 		this.paneID = paneID;
 		if(paneID == 1)
-			this.menu = new TranslatedJMenu("Pane " + paneID, TranslatedComponents.PANE_1);
+			this.menu = new TranslatedJMenu("Pane " + 1, TranslatedComponents.PANE_1);
 		else if(paneID == 2)
-			this.menu = new TranslatedJMenu("Pane " + paneID, TranslatedComponents.PANE_2);
+			this.menu = new TranslatedJMenu("Pane " + 2, TranslatedComponents.PANE_2);
 		else
 			this.menu = new TranslatedJMenu("Pane " + paneID, TranslatedComponents.PANE_3);
 		

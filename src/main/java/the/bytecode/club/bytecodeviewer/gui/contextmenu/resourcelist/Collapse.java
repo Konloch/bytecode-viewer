@@ -34,15 +34,13 @@ public class Collapse extends ContextMenuItem
 	public Collapse()
 	{
 		super(ContextMenuType.DIRECTORY, ((tree, selPath, result, menu) ->
-		{
-			menu.add(new AbstractAction(TranslatedStrings.COLLAPSE.toString())
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					BytecodeViewer.viewer.resourcePane.expandAll(tree, selPath, false);
-				}
-			});
-		}));
+                menu.add(new AbstractAction(TranslatedStrings.COLLAPSE.toString())
+                {
+                    @Override
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        BytecodeViewer.viewer.resourcePane.expandAll(tree, selPath, false);
+                    }
+                })));
 	}
 }

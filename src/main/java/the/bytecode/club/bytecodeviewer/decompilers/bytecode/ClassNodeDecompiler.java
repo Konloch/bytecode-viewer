@@ -162,8 +162,6 @@ public class ClassNodeDecompiler
         if (!tokens.contains("interface") && !tokens.contains("enum")
                 && !tokens.contains("annotation"))
             tokens.add("class");
-        if (tokens.size() == 0)
-            return "[Error parsing]";
 
         // hackery delimeters
         StringBuilder sb = new StringBuilder(tokens.get(0));

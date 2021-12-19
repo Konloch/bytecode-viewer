@@ -247,7 +247,7 @@ public class BCV
             {
                 try {
                     Thread.sleep(100);
-                } catch (InterruptedException e) { }
+                } catch (InterruptedException ignored) { }
             }
     
             frame.setVisible(false);
