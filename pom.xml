@@ -296,6 +296,16 @@
             <groupId>io.github.skylot</groupId>
             <artifactId>jadx-java-convert</artifactId>
             <version>${jadx.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.android.tools</groupId>
+                    <artifactId>r8</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.jakewharton.android.repackaged</groupId>
+                    <artifactId>dalvik-dx</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.github.skylot</groupId>
