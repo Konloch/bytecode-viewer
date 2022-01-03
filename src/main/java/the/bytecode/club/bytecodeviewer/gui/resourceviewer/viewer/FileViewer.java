@@ -3,13 +3,11 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.apache.commons.io.FilenameUtils;
-import org.fife.ui.rsyntaxtextarea.FileTypeUtil;
 import org.imgscalr.Scalr;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -21,6 +19,7 @@ import the.bytecode.club.bytecodeviewer.resources.Resource;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceType;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -144,7 +143,7 @@ public class FileViewer extends ResourceViewer
         }
         
         textArea.setCodeFoldingEnabled(true);
-        textArea.setSyntaxEditingStyle(FileTypeUtil.get().guessContentType(new File(nameLowerCase)));
+        SyntaxLanguage.setLanguage(textArea, nameLowerCase);
         textArea.setText(contentsAsString);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
         textArea.setCaretPosition(0);

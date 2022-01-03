@@ -1,6 +1,9 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import java.io.File;
 import java.util.function.BiFunction;
+import org.fife.ui.rsyntaxtextarea.FileTypeUtil;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 /***************************************************************************
@@ -23,11 +26,8 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 /**
  * @author ThexXTURBOXx
- * @deprecated See {@link org.fife.ui.rsyntaxtextarea.FileTypeUtil#guessContentType(java.io.File)}
  */
-@Deprecated
-public enum SyntaxLanguage
-{
+public enum SyntaxLanguage {
     XML(SyntaxConstants.SYNTAX_STYLE_XML,
             (n, c) -> n.endsWith(".xml") || c.startsWith("<?xml") || c.startsWith("<xml")),
     PYTHON(SyntaxConstants.SYNTAX_STYLE_PYTHON, (n, c) -> n.endsWith(".py") || n.endsWith(".python")),
@@ -69,6 +69,8 @@ public enum SyntaxLanguage
 
     public static final SyntaxLanguage[] VALUES = values();
 
+    private static final FileTypeUtil FILE_TYPE_UTIL = FileTypeUtil.get();
+
     private final BiFunction<String, String, Boolean> criteria;
 
     private final String syntaxConstant;
@@ -86,6 +88,10 @@ public enum SyntaxLanguage
         return syntaxConstant;
     }
 
+    /**
+     * @deprecated See {@link #setLanguage(String, RSyntaxTextArea)}.
+     */
+    @Deprecated
     public static SyntaxLanguage detectLanguage(String fileName, String content) {
         for (SyntaxLanguage lang : VALUES) {
             if (lang.isLanguage(fileName, content)) {
@@ -93,5 +99,13 @@ public enum SyntaxLanguage
             }
         }
         return NONE;
+    }
+
+    public static void setLanguage(RSyntaxTextArea area, String fileName) {
+        String type = FILE_TYPE_UTIL.guessContentType(new File(fileName));
+        if (type == null || type.equals(SyntaxConstants.SYNTAX_STYLE_NONE)) {
+            type = FILE_TYPE_UTIL.guessContentType(area);
+        }
+        area.setSyntaxEditingStyle(type);
     }
 }

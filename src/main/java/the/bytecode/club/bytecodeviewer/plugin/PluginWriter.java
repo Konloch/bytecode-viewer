@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.compress.utils.FileNameUtils;
-import org.fife.ui.rsyntaxtextarea.FileTypeUtil;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
@@ -27,6 +26,7 @@ import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenu;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenuItem;
 import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
@@ -88,7 +88,7 @@ public class PluginWriter extends JFrame
 		area.setOnCtrlS(this::save);
 		area.setText(content);
 		area.setCaretPosition(0);
-		area.setSyntaxEditingStyle(FileTypeUtil.get().guessContentType(new File(pluginName)));
+		SyntaxLanguage.setLanguage(area, pluginName);
 		content = null;
 		
 		JButton run = new JButton("Run");
