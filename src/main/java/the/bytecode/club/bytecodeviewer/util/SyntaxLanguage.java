@@ -89,7 +89,7 @@ public enum SyntaxLanguage {
     }
 
     /**
-     * @deprecated See {@link #setLanguage(String, RSyntaxTextArea)}.
+     * @deprecated See {@link #setLanguage(RSyntaxTextArea, String)}.
      */
     @Deprecated
     public static SyntaxLanguage detectLanguage(String fileName, String content) {
