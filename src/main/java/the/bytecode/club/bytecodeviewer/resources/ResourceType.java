@@ -29,9 +29,10 @@ import javax.swing.ImageIcon;
 
 public enum ResourceType
 {
-	//TODO tar/gzip?
-	//TODO add the files icons for the missing files from the.bytecode.club.bytecodeviewer.util.SyntaxLanguage
-	
+	// TODO tar/gzip?
+	// TODO add the files icons for the missing files from the.bytecode.club.bytecodeviewer.util.SyntaxLanguage
+	//      or from org.fife.ui.rsyntaxtextarea.FileTypeUtil or from org.fife.ui.rsyntaxtextarea.SyntaxConstants
+
 	CLASS_FILE(IconResources.classIcon, "class"),
 	JAVA_ARCHIVE(IconResources.jarIcon, "jar", "war", "ear"),
 	ZIP_ARCHIVE(IconResources.zipIcon, "zip"),

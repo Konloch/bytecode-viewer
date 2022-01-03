@@ -23,7 +23,9 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 /**
  * @author ThexXTURBOXx
+ * @deprecated See {@link org.fife.ui.rsyntaxtextarea.FileTypeUtil#guessContentType(java.io.File)}
  */
+@Deprecated
 public enum SyntaxLanguage
 {
     XML(SyntaxConstants.SYNTAX_STYLE_XML,
