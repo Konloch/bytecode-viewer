@@ -296,7 +296,7 @@ public class Boot {
     public static void dropKrakatau() {
         File temp = new File(getBCVDirectory() + fs + "krakatau_" + krakatauVersion + ".zip");
         File krakatauDirectory = new File(krakatauWorkingDirectory);
-        Constants.krakatauWorkingDirectory = krakatauWorkingDirectory + fs + "Krakatau-master";
+        krakatauWorkingDirectory += fs + "Krakatau-master";
         if (!krakatauDirectory.exists() || temp.exists()) {
             if (temp.exists())
                 temp.delete();
@@ -308,7 +308,7 @@ public class Boot {
                 temp.delete();
 
             try (InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("Krakatau-"
-                    + Constants.krakatauVersion + ".zip");
+                    + krakatauVersion + ".zip");
                  FileOutputStream baos = new FileOutputStream(temp)) {
                 int r;
                 byte[] buffer = new byte[8192];
@@ -329,7 +329,7 @@ public class Boot {
     public static void dropEnjarify() {
         File temp = new File(getBCVDirectory() + fs + "enjarify" + Constants.enjarifyVersion + ".zip");
         File enjarifyDirectory = new File(Constants.enjarifyWorkingDirectory);
-        Constants.enjarifyWorkingDirectory = Constants.enjarifyWorkingDirectory + fs + "enjarify-master";
+        Constants.enjarifyWorkingDirectory += fs + "enjarify-master";
         if (!enjarifyDirectory.exists() || temp.exists()) {
             if (temp.exists())
                 temp.delete();
@@ -359,7 +359,7 @@ public class Boot {
         }
     }
 
-    public static void downloadZipsOnly() throws Exception {
+    public static void downloadZipsOnly() {
         for (String s : urlList) {
             String fileName = s.substring("https://github.com/Konloch/bytecode-viewer/blob/master/libs/".length()
             );

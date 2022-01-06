@@ -143,7 +143,7 @@ public class FileViewer extends ResourceViewer
         }
         
         textArea.setCodeFoldingEnabled(true);
-        textArea.setSyntaxEditingStyle(SyntaxLanguage.detectLanguage(nameLowerCase, contentsAsString).getSyntaxConstant());
+        SyntaxLanguage.setLanguage(textArea, nameLowerCase);
         textArea.setText(contentsAsString);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
         textArea.setCaretPosition(0);

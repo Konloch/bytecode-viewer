@@ -65,13 +65,12 @@ public class SearchBoxPane extends TranslatedVisibleComponent
     public final JComboBox<SearchType> typeBox;
     
     public SearchType searchType = null;
-    public final JComboBox searchRadiusBox;
+    public final JComboBox<SearchRadius> searchRadiusBox;
     public final JPopupMenu rightClickMenu = new JPopupMenu();
 
     public JButton search = new TranslatedJButton("Search", TranslatedComponents.SEARCH);
     public BackgroundSearchThread performSearchThread;
 
-    @SuppressWarnings("unchecked")
     public SearchBoxPane()
     {
         super("Search", TranslatedComponents.SEARCH);
@@ -82,20 +81,20 @@ public class SearchBoxPane extends TranslatedVisibleComponent
 
         searchRadiusOpt.add(new TranslatedJLabel("Search from ", TranslatedComponents.SEARCH_FROM), BorderLayout.WEST);
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        DefaultComboBoxModel<SearchRadius> radiusModel = new DefaultComboBoxModel<>();
         
         for (final SearchRadius st : SEARCH_RADII)
-            model.addElement(st);
+            radiusModel.addElement(st);
 
-        searchRadiusBox = new JComboBox(model);
+        searchRadiusBox = new JComboBox<>(radiusModel);
         searchRadiusOpt.add(searchRadiusBox, BorderLayout.CENTER);
         searchOpts.add(searchRadiusOpt);
 
-        model = new DefaultComboBoxModel();
+        DefaultComboBoxModel<SearchType> typeModel = new DefaultComboBoxModel<>();
         for (final SearchType st : SEARCH_TYPES)
-            model.addElement(st);
+            typeModel.addElement(st);
 
-        typeBox = new JComboBox<SearchType>(model);
+        typeBox = new JComboBox<>(typeModel);
         final JPanel searchOptPanel = new JPanel();
 
         final ItemListener il = arg0 -> {

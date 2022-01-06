@@ -132,7 +132,7 @@ public enum Language
 			try {
 				TranslatedStrings str = TranslatedStrings.valueOf(text.key);
 				str.setText(text.value);
-			} catch (IllegalArgumentException e) { }
+			} catch (IllegalArgumentException ignored) { }
 			
 			//check if translation key has been assigned to a component,
 			//on fail print an error alerting the devs

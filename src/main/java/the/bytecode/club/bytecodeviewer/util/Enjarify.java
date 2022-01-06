@@ -82,7 +82,7 @@ public class Enjarify {
                     
                     try {
                         Thread.sleep(500);
-                    } catch (InterruptedException e) { }
+                    } catch (InterruptedException ignored) { }
                 }
             }, "Enjarify Fail Safe Thread").start();
             

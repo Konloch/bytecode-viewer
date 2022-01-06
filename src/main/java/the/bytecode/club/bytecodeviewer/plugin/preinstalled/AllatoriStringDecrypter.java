@@ -226,7 +226,7 @@ public class AllatoriStringDecrypter extends Plugin
 	{
 		InsnList iList = decryptermethodnode.instructions;
 		
-		AbstractInsnNode insn = null, removeInsn = null;
+		AbstractInsnNode insn = null, removeInsn;
 		for (AbstractInsnNode i : iList.toArray())
 		{
 			if (i instanceof MethodInsnNode)
@@ -292,7 +292,7 @@ public class AllatoriStringDecrypter extends Plugin
 	
 	public static class AllatoriStringDecrypterOptionsFrame extends JFrame
 	{
-		private JTextField textField;
+		private final JTextField textField;
 		
 		public AllatoriStringDecrypterOptionsFrame()
 		{

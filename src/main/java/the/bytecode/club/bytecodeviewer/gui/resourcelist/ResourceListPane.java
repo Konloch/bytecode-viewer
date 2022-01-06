@@ -94,7 +94,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     //used to remove resources from the resource list
     public void removeFile(ResourceContainer resourceContainer)
     {
-        BytecodeViewer.resourceContainers.remove(resourceContainer);
+        while (BytecodeViewer.resourceContainers.values().remove(resourceContainer));
         LazyNameUtil.removeName(resourceContainer.name);
     }
     
@@ -263,7 +263,6 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
     }
 
-    @SuppressWarnings("rawtypes")
     public void removeNode(final JTree tree, final TreePath nodePath) {
         MutableTreeNode node = findNodeByPath(nodePath);
         if (node == null)
@@ -274,7 +273,6 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         tree.updateUI();
     }
     
-    @SuppressWarnings("rawtypes")
     private MutableTreeNode findNodeByPath(TreePath path) {
         MutableTreeNode node = treeRoot;
         for (int pathStep = 1; pathStep < path.getPathCount(); pathStep++) {

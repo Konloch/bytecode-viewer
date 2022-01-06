@@ -55,9 +55,7 @@ class PerformSearch extends BackgroundSearchThread
 		}
 		
 		for (ResourceContainer container : BytecodeViewer.resourceContainers.values())
-			container.resourceClasses.forEach((key,cn)->{
-				searchBoxPane.searchType.panel.search(container, key, cn, searchBoxPane.exact.isSelected());
-			});
+			container.resourceClasses.forEach((key,cn)-> searchBoxPane.searchType.panel.search(container, key, cn, searchBoxPane.exact.isSelected()));
 		
 		BytecodeViewer.viewer.searchBoxPane.search.setEnabled(true);
 		BytecodeViewer.viewer.searchBoxPane.search.setText(TranslatedStrings.SEARCH.toString());

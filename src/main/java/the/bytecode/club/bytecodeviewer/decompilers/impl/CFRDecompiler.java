@@ -316,7 +316,6 @@ public class CFRDecompiler extends InternalDecompiler
         fuck.delete();
     }
 
-    @SuppressWarnings("resource")
     public void zip(File directory, File zipFile) throws IOException {
         java.net.URI base = directory.toURI();
         Deque<File> queue = new LinkedList<>();

@@ -119,7 +119,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                     {
                         try {
                             Thread.sleep(1);
-                        } catch (Exception e) {}
+                        } catch (Exception ignored) {}
                     }
                 }
             }

@@ -88,7 +88,7 @@ public class PluginWriter extends JFrame
 		area.setOnCtrlS(this::save);
 		area.setText(content);
 		area.setCaretPosition(0);
-		area.setSyntaxEditingStyle(SyntaxLanguage.detectLanguage(pluginName, content).getSyntaxConstant());
+		SyntaxLanguage.setLanguage(area, pluginName);
 		content = null;
 		
 		JButton run = new JButton("Run");
@@ -231,7 +231,7 @@ public class PluginWriter extends JFrame
 					
 					//auto append extension
 					if (!path.endsWith("." + ext))
-						path = path + "." + ext;
+						path += "." + ext;
 					
 					if (!DialogUtils.canOverwriteFile(path))
 						return;

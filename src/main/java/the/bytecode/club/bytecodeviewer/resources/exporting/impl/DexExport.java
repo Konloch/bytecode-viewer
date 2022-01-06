@@ -65,7 +65,7 @@ public class DexExport implements Exporter
 				
 				//auto append .dex
 				if (!output.endsWith(".dex"))
-					output = output + ".dex";
+					output += ".dex";
 				
 				File outputPath = new File(output);
 				if (!DialogUtils.canOverwriteFile(outputPath))

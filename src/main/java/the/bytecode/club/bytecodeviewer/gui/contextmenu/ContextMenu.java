@@ -39,7 +39,7 @@ import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
  */
 public class ContextMenu
 {
-	private static ContextMenu SINGLETON = new ContextMenu();
+	private static final ContextMenu SINGLETON = new ContextMenu();
 	private final List<ContextMenuItem> contextMenuItems = new ArrayList<>();
 	
 	static
@@ -85,11 +85,11 @@ public class ContextMenu
 			switch(item.getMenuType())
 			{
 				case CONTAINER:
-					if(!isContainerSelected || searchBoxPane)
+					if(!isContainerSelected)
 						continue;
 					break;
 				case RESOURCE:
-					if(!isResourceSelected || isContainerSelected || searchBoxPane)
+					if(!isResourceSelected || isContainerSelected)
 						continue;
 					break;
 				case DIRECTORY:

@@ -34,15 +34,13 @@ public class Expand extends ContextMenuItem
 	public Expand()
 	{
 		super(ContextMenuType.DIRECTORY, ((tree, selPath, result, menu) ->
-		{
-			menu.add(new AbstractAction(TranslatedStrings.EXPAND.toString())
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					BytecodeViewer.viewer.resourcePane.expandAll(tree, selPath, true);
-				}
-			});
-		}));
+                menu.add(new AbstractAction(TranslatedStrings.EXPAND.toString())
+                {
+                    @Override
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        BytecodeViewer.viewer.resourcePane.expandAll(tree, selPath, true);
+                    }
+                })));
 	}
 }

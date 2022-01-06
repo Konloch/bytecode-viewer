@@ -119,9 +119,7 @@ public class ExtendedJOptionPane
 		
 		int style = styleFromMessageType(messageType);
 		JDialog dialog = createNewJDialog(parentComponent, pane, title, style, (d)->
-		{
-			pane.selectInitialValue();
-		});
+                pane.selectInitialValue());
 		
 		pane.selectInitialValue();
 		
@@ -163,9 +161,7 @@ public class ExtendedJOptionPane
 		
 		int style = styleFromMessageType(messageType);
 		JDialog dialog = createNewJDialog(parentComponent, pane, title, style, (d)->
-		{
-			pane.selectInitialValue();
-		});
+                pane.selectInitialValue());
 		
 		pane.selectInitialValue();
 		

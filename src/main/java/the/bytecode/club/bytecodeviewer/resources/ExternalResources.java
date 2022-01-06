@@ -62,9 +62,7 @@ public class ExternalResources
 			return Configuration.java;
 		
 		//check CLI for java
-		testCommand(new String[]{"java", "-version"}, "java version", ()->{
-			Configuration.java = "java";
-		});
+		testCommand(new String[]{"java", "-version"}, "java version", ()-> Configuration.java = "java");
 		if(!Configuration.java.isEmpty())
 			return Configuration.java;
 		
@@ -137,9 +135,7 @@ public class ExternalResources
 			return Configuration.python2;
 		
 		//check if 'python' command is bound as python 2.X
-		testCommand(new String[]{"python", "--version"}, "python 2", ()->{
-			Configuration.python2 = "python";
-		});
+		testCommand(new String[]{"python", "--version"}, "python 2", ()-> Configuration.python2 = "python");
 		if(!Configuration.python2.isEmpty())
 			return Configuration.python2;
 		
@@ -178,17 +174,13 @@ public class ExternalResources
 		
 		
 		//check if 'python3' command is bound as python 3.X
-		testCommand(new String[]{"python3", "--version"}, "python 3", ()->{
-			Configuration.python3 = "python3";
-		});
+		testCommand(new String[]{"python3", "--version"}, "python 3", ()-> Configuration.python3 = "python3");
 		if(!Configuration.python3.isEmpty())
 			return Configuration.python3;
 		
 		
 		//check if 'python' command is bound as python 3.X
-		testCommand(new String[]{"python", "--version"}, "python 3", ()->{
-			Configuration.python3 = "python";
-		});
+		testCommand(new String[]{"python", "--version"}, "python 3", ()-> Configuration.python3 = "python");
 		if(!Configuration.python3.isEmpty())
 			return Configuration.python3;
 		

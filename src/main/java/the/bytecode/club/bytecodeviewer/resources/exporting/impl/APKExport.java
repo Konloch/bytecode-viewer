@@ -104,9 +104,9 @@ public class APKExport implements Exporter
 				final File file = fc.getSelectedFile();
 				String output = file.getAbsolutePath();
 				
-				//auto appened .apk
+				//auto append .apk
 				if (!output.endsWith(".apk"))
-					output = output + ".apk";
+					output += ".apk";
 				
 				final File file2 = new File(output);
 				if (!DialogUtils.canOverwriteFile(file2))

@@ -54,7 +54,6 @@ public class ImportResource implements Runnable
 				if (file.isDirectory())
 				{
 					Import.DIRECTORY.getImporter().open(file);
-					continue;
 				}
 				//everything else import as a resource
 				else if(!importKnownFile(file))

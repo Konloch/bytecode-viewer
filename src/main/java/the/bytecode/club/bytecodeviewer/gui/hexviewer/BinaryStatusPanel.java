@@ -35,11 +35,11 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
     public static final String DECIMAL_CODE_TYPE_LABEL = "DEC";
     public static final String HEXADECIMAL_CODE_TYPE_LABEL = "HEX";
 
-    private StatusCursorPositionFormat cursorPositionFormat = new StatusCursorPositionFormat();
-    private StatusDocumentSizeFormat documentSizeFormat = new StatusDocumentSizeFormat();
-    private int octalSpaceGroupSize = DEFAULT_OCTAL_SPACE_GROUP_SIZE;
-    private int decimalSpaceGroupSize = DEFAULT_DECIMAL_SPACE_GROUP_SIZE;
-    private int hexadecimalSpaceGroupSize = DEFAULT_HEXADECIMAL_SPACE_GROUP_SIZE;
+    private final StatusCursorPositionFormat cursorPositionFormat = new StatusCursorPositionFormat();
+    private final StatusDocumentSizeFormat documentSizeFormat = new StatusDocumentSizeFormat();
+    private final int octalSpaceGroupSize = DEFAULT_OCTAL_SPACE_GROUP_SIZE;
+    private final int decimalSpaceGroupSize = DEFAULT_DECIMAL_SPACE_GROUP_SIZE;
+    private final int hexadecimalSpaceGroupSize = DEFAULT_HEXADECIMAL_SPACE_GROUP_SIZE;
 
     private EditOperation editOperation;
     private CodeAreaCaretPosition caretPosition;
@@ -164,32 +164,20 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         cursorPositionModeButtonGroup.add(octalCursorPositionModeRadioButtonMenuItem);
         octalCursorPositionModeRadioButtonMenuItem.setText("Show as octal");
         octalCursorPositionModeRadioButtonMenuItem.setName("octalCursorPositionModeRadioButtonMenuItem");
-        octalCursorPositionModeRadioButtonMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                octalCursorPositionModeRadioButtonMenuItemActionPerformed(evt);
-            }
-        });
+        octalCursorPositionModeRadioButtonMenuItem.addActionListener(this::octalCursorPositionModeRadioButtonMenuItemActionPerformed);
         cursorPositionCodeTypeMenu.add(octalCursorPositionModeRadioButtonMenuItem);
 
         cursorPositionModeButtonGroup.add(decimalCursorPositionModeRadioButtonMenuItem);
         decimalCursorPositionModeRadioButtonMenuItem.setSelected(true);
         decimalCursorPositionModeRadioButtonMenuItem.setText("Show as decimal");
         decimalCursorPositionModeRadioButtonMenuItem.setName("decimalCursorPositionModeRadioButtonMenuItem");
-        decimalCursorPositionModeRadioButtonMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                decimalCursorPositionModeRadioButtonMenuItemActionPerformed(evt);
-            }
-        });
+        decimalCursorPositionModeRadioButtonMenuItem.addActionListener(this::decimalCursorPositionModeRadioButtonMenuItemActionPerformed);
         cursorPositionCodeTypeMenu.add(decimalCursorPositionModeRadioButtonMenuItem);
 
         cursorPositionModeButtonGroup.add(hexadecimalCursorPositionModeRadioButtonMenuItem);
         hexadecimalCursorPositionModeRadioButtonMenuItem.setText("Show as hexadecimal");
         hexadecimalCursorPositionModeRadioButtonMenuItem.setName("hexadecimalCursorPositionModeRadioButtonMenuItem");
-        hexadecimalCursorPositionModeRadioButtonMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hexadecimalCursorPositionModeRadioButtonMenuItemActionPerformed(evt);
-            }
-        });
+        hexadecimalCursorPositionModeRadioButtonMenuItem.addActionListener(this::hexadecimalCursorPositionModeRadioButtonMenuItemActionPerformed);
         cursorPositionCodeTypeMenu.add(hexadecimalCursorPositionModeRadioButtonMenuItem);
 
         positionPopupMenu.add(cursorPositionCodeTypeMenu);
@@ -197,11 +185,7 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         cursorPositionShowOffsetCheckBoxMenuItem.setSelected(true);
         cursorPositionShowOffsetCheckBoxMenuItem.setText("Show offset");
         cursorPositionShowOffsetCheckBoxMenuItem.setName("cursorPositionShowOffsetCheckBoxMenuItem");
-        cursorPositionShowOffsetCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cursorPositionShowOffsetCheckBoxMenuItemActionPerformed(evt);
-            }
-        });
+        cursorPositionShowOffsetCheckBoxMenuItem.addActionListener(this::cursorPositionShowOffsetCheckBoxMenuItemActionPerformed);
         positionPopupMenu.add(cursorPositionShowOffsetCheckBoxMenuItem);
 
         jSeparator2.setName("jSeparator2");
@@ -209,21 +193,13 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
 
         positionCopyMenuItem.setText("Copy");
         positionCopyMenuItem.setName("positionCopyMenuItem");
-        positionCopyMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                positionCopyMenuItemActionPerformed(evt);
-            }
-        });
+        positionCopyMenuItem.addActionListener(this::positionCopyMenuItemActionPerformed);
         positionPopupMenu.add(positionCopyMenuItem);
 
         positionGoToMenuItem.setText("Go To...");
         positionGoToMenuItem.setEnabled(false);
         positionGoToMenuItem.setName("positionGoToMenuItem");
-        positionGoToMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                positionGoToMenuItemActionPerformed(evt);
-            }
-        });
+        positionGoToMenuItem.addActionListener(this::positionGoToMenuItemActionPerformed);
         positionPopupMenu.add(positionGoToMenuItem);
 
         documentSizePopupMenu.setName("documentSizePopupMenu");
@@ -234,31 +210,19 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         documentSizeModeButtonGroup.add(octalDocumentSizeModeRadioButtonMenuItem);
         octalDocumentSizeModeRadioButtonMenuItem.setText("Show as octal");
         octalDocumentSizeModeRadioButtonMenuItem.setName("octalDocumentSizeModeRadioButtonMenuItem");
-        octalDocumentSizeModeRadioButtonMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                octalDocumentSizeModeRadioButtonMenuItemActionPerformed(evt);
-            }
-        });
+        octalDocumentSizeModeRadioButtonMenuItem.addActionListener(this::octalDocumentSizeModeRadioButtonMenuItemActionPerformed);
         documentSizeCodeTypeMenu.add(octalDocumentSizeModeRadioButtonMenuItem);
 
         documentSizeModeButtonGroup.add(decimalDocumentSizeModeRadioButtonMenuItem);
         decimalDocumentSizeModeRadioButtonMenuItem.setText("Show as decimal");
         decimalDocumentSizeModeRadioButtonMenuItem.setName("decimalDocumentSizeModeRadioButtonMenuItem");
-        decimalDocumentSizeModeRadioButtonMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                decimalDocumentSizeModeRadioButtonMenuItemActionPerformed(evt);
-            }
-        });
+        decimalDocumentSizeModeRadioButtonMenuItem.addActionListener(this::decimalDocumentSizeModeRadioButtonMenuItemActionPerformed);
         documentSizeCodeTypeMenu.add(decimalDocumentSizeModeRadioButtonMenuItem);
 
         documentSizeModeButtonGroup.add(hexadecimalDocumentSizeModeRadioButtonMenuItem);
         hexadecimalDocumentSizeModeRadioButtonMenuItem.setText("Show as hexadecimal");
         hexadecimalDocumentSizeModeRadioButtonMenuItem.setName("hexadecimalDocumentSizeModeRadioButtonMenuItem");
-        hexadecimalDocumentSizeModeRadioButtonMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hexadecimalDocumentSizeModeRadioButtonMenuItemActionPerformed(evt);
-            }
-        });
+        hexadecimalDocumentSizeModeRadioButtonMenuItem.addActionListener(this::hexadecimalDocumentSizeModeRadioButtonMenuItemActionPerformed);
         documentSizeCodeTypeMenu.add(hexadecimalDocumentSizeModeRadioButtonMenuItem);
 
         documentSizePopupMenu.add(documentSizeCodeTypeMenu);
@@ -266,11 +230,7 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         documentSizeShowRelativeCheckBoxMenuItem.setSelected(true);
         documentSizeShowRelativeCheckBoxMenuItem.setText("Show relative size");
         documentSizeShowRelativeCheckBoxMenuItem.setName("documentSizeShowRelativeCheckBoxMenuItem");
-        documentSizeShowRelativeCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                documentSizeShowRelativeCheckBoxMenuItemActionPerformed(evt);
-            }
-        });
+        documentSizeShowRelativeCheckBoxMenuItem.addActionListener(this::documentSizeShowRelativeCheckBoxMenuItemActionPerformed);
         documentSizePopupMenu.add(documentSizeShowRelativeCheckBoxMenuItem);
 
         jSeparator1.setName("jSeparator1");
@@ -278,11 +238,7 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
 
         documentSizeCopyMenuItem.setText("Copy");
         documentSizeCopyMenuItem.setName("documentSizeCopyMenuItem");
-        documentSizeCopyMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                documentSizeCopyMenuItemActionPerformed(evt);
-            }
-        });
+        documentSizeCopyMenuItem.addActionListener(this::documentSizeCopyMenuItemActionPerformed);
         documentSizePopupMenu.add(documentSizeCopyMenuItem);
 
         setName("Form");
@@ -627,7 +583,7 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
             return "0";
         }
 
-        int spaceGroupSize = 0;
+        int spaceGroupSize;
         switch (codeType) {
             case OCTAL: {
                 spaceGroupSize = octalSpaceGroupSize;
@@ -660,7 +616,7 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
             }
 
             int digit = (int) (remainder % base);
-            remainder = remainder / base;
+            remainder /= base;
             builder.insert(0, CodeAreaUtils.UPPER_HEX_CODES[digit]);
         }
 

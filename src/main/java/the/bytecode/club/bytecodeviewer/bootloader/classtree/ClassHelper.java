@@ -3,7 +3,6 @@ package the.bytecode.club.bytecodeviewer.bootloader.classtree;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.objectweb.asm.tree.ClassNode;
 
 /***************************************************************************
@@ -45,8 +44,6 @@ public class ClassHelper {
     }
 
     public static <T, K> void copy(Map<T, K> src, Map<T, K> dst) {
-        for (Entry<T, K> e : src.entrySet()) {
-            dst.put(e.getKey(), e.getValue());
-        }
+        dst.putAll(src);
     }
 }

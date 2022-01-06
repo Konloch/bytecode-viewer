@@ -54,7 +54,7 @@ import static the.bytecode.club.bytecodeviewer.BytecodeViewer.gson;
 
 public class MiscUtils
 {
-    private static CharsetEncoder asciiEncoder = StandardCharsets.US_ASCII.newEncoder(); // or "ISO-8859-1" for ISO Latin 1
+    private static final CharsetEncoder asciiEncoder = StandardCharsets.US_ASCII.newEncoder(); // or "ISO-8859-1" for ISO Latin 1
     private static final String AB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String AN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final Random rnd = new Random();
@@ -186,7 +186,7 @@ public class MiscUtils
     public static String append(File file, String extension) {
         String path = file.getAbsolutePath();
         if (!path.endsWith(extension))
-            path = path + extension;
+            path += extension;
         return path;
     }
     

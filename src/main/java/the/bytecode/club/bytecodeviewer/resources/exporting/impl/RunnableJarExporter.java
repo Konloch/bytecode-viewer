@@ -59,7 +59,7 @@ public class RunnableJarExporter implements Exporter
 				
 				//auto append .jar
 				if (!path.endsWith(".jar"))
-					path = path + ".jar";
+					path += ".jar";
 				
 				if (!DialogUtils.canOverwriteFile(path))
 					return;

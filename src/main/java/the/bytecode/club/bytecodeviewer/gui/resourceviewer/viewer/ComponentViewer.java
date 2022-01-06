@@ -33,7 +33,7 @@ import the.bytecode.club.bytecodeviewer.resources.Resource;
 
 public class ComponentViewer extends ResourceViewer
 {
-	private Component component;
+	private final Component component;
 	private static final String containerName = "internalComponent.";
 	
 	public ComponentViewer(String title, Component component)

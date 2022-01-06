@@ -77,8 +77,7 @@ public class New extends ContextMenuItem
 				return;
 			
 			byte[] contents = new byte[0];
-			String resourcePath = newPath;
-			
+
 			switch(fileType)
 			{
 				case CLASS:
@@ -89,7 +88,7 @@ public class New extends ContextMenuItem
 					
 					//TODO santize newPath and remove extension if added
 					cn.name = newPath;
-					String oldResourcePath = resourcePath.replace(".", "/");
+					String oldResourcePath = newPath.replace(".", "/");
 					String newResourcePath = oldResourcePath + ".class";
 					
 					contents = ASMUtil.nodeToBytes(cn);
@@ -100,7 +99,7 @@ public class New extends ContextMenuItem
 					
 					break;
 				case FILE:
-					BytecodeViewer.resourceContainers.get(containerName).resourceFiles.put(resourcePath, contents);
+					BytecodeViewer.resourceContainers.get(containerName).resourceFiles.put(newPath, contents);
 					searchAndInsert(firstPath + separator +newPath, BytecodeViewer.resourceContainers.get(containerName).treeNode, separator);
 					break;
 			}
@@ -115,7 +114,7 @@ public class New extends ContextMenuItem
 	{
 		StringBuilder tempSpot = new StringBuilder();
 		
-		for(int counter = startsAt, maxCounter = max;counter < maxCounter; counter++)
+		for(int counter = startsAt; counter < max; counter++)
 		{
 			if(counter > startsAt)
 				tempSpot.append(separator);
@@ -129,7 +128,7 @@ public class New extends ContextMenuItem
 	{
 		StringBuilder tempSpot = new StringBuilder();
 		
-		for(int counter = startsAt, maxCounter = max;counter < maxCounter; counter++)
+		for(int counter = startsAt; counter < max; counter++)
 		{
 			if(counter > startsAt)
 				tempSpot.append(separator);
@@ -140,6 +139,7 @@ public class New extends ContextMenuItem
 	}
 	
 	//TODO this needs to be rewritten to support creating parent nodes that don't exist
+	@SuppressWarnings("unchecked")
 	public static boolean searchAndInsert(String path, DefaultMutableTreeNode treeNode, String separator)
 	{
 		Enumeration<TreeNode> children = treeNode.children();

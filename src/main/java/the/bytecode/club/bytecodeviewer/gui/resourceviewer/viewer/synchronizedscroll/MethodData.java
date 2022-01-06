@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.synchronizedscroll;
 
 import java.util.Arrays;
+import java.util.Objects;
 import org.objectweb.asm.Type;
 
 /***************************************************************************
@@ -28,18 +29,20 @@ import org.objectweb.asm.Type;
 public class MethodData
 {
 	public String name, desc;
-	
+
 	@Override
-	public boolean equals(final Object o)
-	{
-		return equals((MethodData) o);
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MethodData)) return false;
+		MethodData that = (MethodData) o;
+		return Objects.equals(name, that.name) && Objects.equals(desc, that.desc);
 	}
-	
-	public boolean equals(final MethodData md)
-	{
-		return this.name.equals(md.name) && this.desc.equals(md.desc);
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(name, desc);
 	}
-	
+
 	public String constructPattern()
 	{
 		final StringBuilder pattern = new StringBuilder();
