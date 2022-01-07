@@ -379,8 +379,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
@@ -389,7 +389,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.3.1</version>
                 <configuration>
-                    <source>${java.version}</source>
+                    <source>${maven.compiler.source}</source>
                 </configuration>
             </plugin>
             <plugin>
