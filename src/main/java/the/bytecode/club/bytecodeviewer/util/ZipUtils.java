@@ -44,6 +44,11 @@ public final class ZipUtils {
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public static void unzipFilesToPath(String jarPath, String destinationDir) throws IOException {
+        String canonicalDestDir = new File(destinationDir).getCanonicalPath();
+        if (!canonicalDestDir.endsWith(File.separator)) {
+            canonicalDestDir += File.separator;
+        }
+
         File file = new File(jarPath);
         try (JarFile jar = new JarFile(file)) {
 
@@ -68,7 +73,7 @@ public final class ZipUtils {
                 String fileName = destinationDir + File.separator + entry.getName();
                 File f = new File(fileName);
 
-                if (!f.getCanonicalPath().startsWith(destinationDir)) {
+                if (!f.getCanonicalPath().startsWith(canonicalDestDir)) {
                     System.out.println("Zip Slip exploit detected. Skipping entry " + entry.getName());
                     continue;
                 }
