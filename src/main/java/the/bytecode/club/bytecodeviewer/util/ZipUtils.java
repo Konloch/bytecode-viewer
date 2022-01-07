@@ -35,6 +35,7 @@ import java.util.zip.ZipOutputStream;
  */
 public final class ZipUtils {
 
+    // TODO: Maybe migrate to org.apache.commons.compress.archivers.examples.Expander?
     /**
      * Unzip files to path.
      *
@@ -66,6 +67,11 @@ public final class ZipUtils {
 
                 String fileName = destinationDir + File.separator + entry.getName();
                 File f = new File(fileName);
+
+                if (!f.getCanonicalPath().startsWith(destinationDir)) {
+                    System.out.println("Zip Slip exploit detected. Skipping entry " + entry.getName());
+                    continue;
+                }
 
                 File parent = f.getParentFile();
                 if (!parent.exists()) {
@@ -106,7 +112,7 @@ public final class ZipUtils {
 
     public static void zipFolder(String srcFolder, String destZipFile, String ignore) throws Exception {
         try (FileOutputStream fileWriter = new FileOutputStream(destZipFile);
-             ZipOutputStream zip = new ZipOutputStream(fileWriter)){
+             ZipOutputStream zip = new ZipOutputStream(fileWriter)) {
             addFolderToZip("", srcFolder, zip, ignore);
             zip.flush();
         }
@@ -114,7 +120,7 @@ public final class ZipUtils {
 
     public static void zipFolderAPKTool(String srcFolder, String destZipFile) throws Exception {
         try (FileOutputStream fileWriter = new FileOutputStream(destZipFile);
-             ZipOutputStream zip = new ZipOutputStream(fileWriter)){
+             ZipOutputStream zip = new ZipOutputStream(fileWriter)) {
             addFolderToZipAPKTool("", srcFolder, zip);
             zip.flush();
         }
