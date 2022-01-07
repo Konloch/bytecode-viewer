@@ -93,7 +93,7 @@ public abstract class Plugin extends Thread
      * On plugin start each resource container is iterated through,
      * then this is called with the resource container classes
      *
-     * @param classNodeList all of the loaded classes for easy access.
+     * @param classNodeList all the loaded classes for easy access.
      */
     public abstract void execute(List<ClassNode> classNodeList);
 }
