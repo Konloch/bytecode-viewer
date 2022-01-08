@@ -1,10 +1,9 @@
-import the.bytecode.club.bytecodeviewer.api.*
-import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
-
-import java.util.ArrayList;
 import java.lang.reflect.Field;
+import java.util.List;
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldNode
+import org.objectweb.asm.tree.FieldNode;
+import the.bytecode.club.bytecodeviewer.api.*;
+import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
@@ -14,7 +13,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
 public class ExampleStringDecrypter extends Plugin {
 
     @Override
-    public void execute(ArrayList<ClassNode> classNodesList) {
+    public void execute(List<ClassNode> classNodesList) {
         PluginConsole gui = new PluginConsole("Example String Decrypter");
 
         MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING",
@@ -22,25 +21,21 @@ public class ExampleStringDecrypter extends Plugin {
                         + nl + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
                 new String[]{"Continue", "Cancel"});
 
-        if(dialog.promptChoice() == 0)
-        {
-            for(ClassNode cn : classNodesList)
-            {
-                the.bytecode.club.bytecodeviewer.api.BCV.getClassNodeLoader().addClass(cn);
+        if (dialog.promptChoice() == 0) {
+            for (ClassNode cn : classNodesList) {
+                BCV.getClassNodeLoader().addClass(cn);
 
-                for(Object o : cn.fields.toArray())
-                {
+                for (Object o : cn.fields.toArray()) {
                     FieldNode f = (FieldNode) o;
-                    if(f.name.equals("z")) {// && f.desc.equals("([Ljava/lang/String;)V")) {
-                        try
-                        {
-                            for(Field f2 : the.bytecode.club.bytecodeviewer.api.BCV.getClassNodeLoader().nodeToClass(cn).getFields())
-                            {
-                                String s = f2.get(null);
-                                if(s != null && !s.empty())
-                                    gui.appendText(cn+":"+s);
+                    if (f.name.equals("z")) {// && f.desc.equals("([Ljava/lang/String;)V")) {
+                        try {
+                            for (Field f2 : BCV.getClassNodeLoader().nodeToClass(cn).getFields()) {
+                                String s = (String) f2.get(null);
+                                if (s != null && !s.isEmpty())
+                                    gui.appendText(cn + ":" + s);
                             }
-                        } catch(Exception | StackOverflowError e) {}
+                        } catch (Exception ignored) {
+                        }
                     }
                 }
 
@@ -49,4 +44,5 @@ public class ExampleStringDecrypter extends Plugin {
             gui.setVisible(true);
         }
     }
+
 }

@@ -6,10 +6,8 @@ var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsol
 
 var gui = new PluginConsole("Example Plugin Print Loaded Classes");
 
-function execute(classNodeList)
-{
-    for (index = 0; index < classNodeList.length; index++)
-    {
+function execute(classNodeList) {
+    for (index = 0; index < classNodeList.length; index++) {
         var cn = classNodeList[index];
         gui.appendText("Resource: " + cn.name + ".class");
     }
