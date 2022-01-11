@@ -7,67 +7,58 @@ var MultipleChoiceDialog = Java.type("the.bytecode.club.bytecodeviewer.gui.compo
 var BytecodeViewer = Java.type("the.bytecode.club.bytecodeviewer.api.BCV")
 
 var dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING",
-                "WARNING: This will load the classes into the JVM and execute the initialize function"
-                        + "\nfor each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
-                ["Continue", "Cancel"]);
+    "WARNING: This will load the classes into the JVM and execute the initialize function"
+    + "\nfor each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
+    ["Continue", "Cancel"]);
 var gui;
 
-function execute(classNodeList)
-{
+function execute(classNodeList) {
     gui = new PluginConsole("Skeleton");
 
-    if(dialog.promptChoice() == 0)
-    {
+    if (dialog.promptChoice() == 0) {
         var needsWarning = false;
 
-        for (cnIndex = 0; cnIndex < classNodeList.length; cnIndex++)
-        {
-            try
-            {
+        for (cnIndex = 0; cnIndex < classNodeList.length; cnIndex++) {
+            try {
                 var cn = classNodeList[cnIndex];
-                var fields = cn.fields.toArray();
 
                 //load the class node into the classloader
-                BytecodeViewer.loadClassIntoClassLoader(cn);
+                BytecodeViewer.getClassNodeLoader().addClass(cn);
 
-                for (fieldIndex = 0; fieldIndex < fields.length; fieldIndex++)
-                {
+                var fields = cn.fields.toArray();
+                for (fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
                     var field = fields[fieldIndex];
 
                     //if the class contains the field z, get the class object from the class node
                     //then print out the value of the fields inside the class
                     //if the strings get decrypted on init, this allows you to dump the current values
 
-                    if(field.name.equals("z")) {// && f.desc.equals("([Ljava/lang/String;)V")) {
-                        try
-                        {
+                    if (field.name.equals("z")) {// && f.desc.equals("([Ljava/lang/String;)V")) {
+                        try {
                             var loadedClass = BytecodeViewer.getClassNodeLoader().nodeToClass(cn);
                             var reflectedFields = loadedClass.getFields();
 
-                            for (reflectedFieldIndex = 0; reflectedFieldIndex < reflectedFields.length; reflectedFieldIndex++)
-                            {
+                            for (reflectedFieldIndex = 0; reflectedFieldIndex < reflectedFields.length; reflectedFieldIndex++) {
                                 var reflectedField = reflectedFields[fieldIndex];
                                 var s = reflectedField.get(null);
 
-                                if(s != null && !s.empty())
+                                if (s != null && !s.empty())
                                     gui.appendText(cn + "->" + s);
                             }
-                        } catch(e) {}
+                        } catch (e) {
+                        }
                     }
                 }
-            }
-            catch(e)
-            {
-                gui.appendText("Failed loading class " + cn.getName());
+            } catch (e) {
+                gui.appendText("Failed loading class " + cn.name);
                 e.printStackTrace();
                 needsWarning = true;
             }
         }
 
-        if (needsWarning)
-        {
-            BytecodeViewer.showMessage("Some classes failed to decrypt, if you'd like to decrypt all of them"
-                    + nl + "makes sure you include ALL the libraries it requires.");
+        if (needsWarning) {
+            BytecodeViewer.showMessage("Some classes failed to decrypt, if you'd like to decrypt all of them\n"
+                + "makes sure you include ALL the libraries it requires.");
         }
 
         gui.setVisible(true);

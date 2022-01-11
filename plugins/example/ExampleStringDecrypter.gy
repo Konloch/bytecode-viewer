@@ -23,30 +23,25 @@ class ExampleStringDecrypter extends Plugin {
                         + nl + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
                 new String[]{"Continue", "Cancel"})
 
-        if(dialog.promptChoice() == 0)
-        {
-            for(ClassNode cn : classNodesList)
-            {
+        if (dialog.promptChoice() == 0) {
+            for (ClassNode cn : classNodesList) {
                 BCV.getClassNodeLoader().addClass(cn)
 
-                for(Object o : cn.fields.toArray())
-                {
+                for (Object o : cn.fields.toArray()) {
                     FieldNode f = (FieldNode) o
-                    if(f.name == "z") {// && f.desc.equals("([Ljava/lang/String;)V")) {
-                        try
-                        {
-                            for(Field f2 : BCV.getClassNodeLoader().nodeToClass(cn).getFields())
-                            {
+                    if (f.name == "z") {// && f.desc.equals("([Ljava/lang/String;)V")) {
+                        try {
+                            for (Field f2 : BCV.getClassNodeLoader().nodeToClass(cn).getFields()) {
                                 String s = f2.get(null)
-                                if(s != null && !s.empty)
+                                if (s != null && !s.empty)
                                     gui.appendText(cn + ":" + s)
                             }
-                        } catch(Exception | StackOverflowError ignored) {}
+                        } catch (Exception | StackOverflowError ignored) {
+                        }
                     }
                 }
 
             }
-
             gui.setVisible(true)
         }
     }

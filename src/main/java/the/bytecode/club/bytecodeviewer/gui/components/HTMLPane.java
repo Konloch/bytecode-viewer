@@ -83,7 +83,7 @@ public class HTMLPane extends JEditorPane
 		if (is == null)
 			return null;
 		try (InputStream stream = is;
-			 Scanner s = new Scanner(stream).useDelimiter("\\A")) {
+			 Scanner s = new Scanner(stream, "UTF-8").useDelimiter("\\A")) {
 			return s.hasNext() ? s.next() : "";
 		}
 	}
