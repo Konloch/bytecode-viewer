@@ -73,13 +73,12 @@ public class FileViewer extends ResourceViewer
         final byte[] contents = resource.getResourceBytes();
         final String nameLowerCase = this.resource.name.toLowerCase();
         final String onlyName = FilenameUtils.getName(nameLowerCase);
-        final String contentsAsString = new String(contents);
         final boolean hexViewerOnly = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.HEXCODE_VIEWER &&
                 BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE &&
                 BytecodeViewer.viewer.viewPane3.getSelectedDecompiler() == Decompiler.NONE;
         
         //image viewer
-        if (!MiscUtils.isPureAscii(contentsAsString) || hexViewerOnly)
+        if (MiscUtils.guessIfBinary(contents) || hexViewerOnly)
         {
             //TODO:
             //  + Add file header checks
@@ -144,7 +143,7 @@ public class FileViewer extends ResourceViewer
         
         textArea.setCodeFoldingEnabled(true);
         SyntaxLanguage.setLanguage(textArea, nameLowerCase);
-        textArea.setText(contentsAsString);
+        textArea.setText(new String(contents));
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
         textArea.setCaretPosition(0);
         

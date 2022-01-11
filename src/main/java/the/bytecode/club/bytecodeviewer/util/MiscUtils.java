@@ -54,7 +54,6 @@ import static the.bytecode.club.bytecodeviewer.BytecodeViewer.gson;
 
 public class MiscUtils
 {
-    private static final CharsetEncoder asciiEncoder = StandardCharsets.US_ASCII.newEncoder(); // or "ISO-8859-1" for ISO Latin 1
     private static final String AB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String AN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final Random rnd = new Random();
@@ -247,9 +246,19 @@ public class MiscUtils
         while(list.size() > maxLength)
             list.remove(list.size() - 1);
     }
-    
-    public static boolean isPureAscii(String v) {
-        return asciiEncoder.canEncode(v);
+
+    /**
+     * Returns whether the bytes most likely represent binary data.
+     * Based on https://stackoverflow.com/a/13533390/5894824
+     */
+    public static boolean guessIfBinary(byte[] data) {
+        double ascii = 0;
+        double other = 0;
+        for (byte b : data) {
+            if (b == 0x09 || b == 0x0A || b == 0x0C || b == 0x0D || (b >= 0x20 && b <= 0x7E)) ascii++;
+            else other++;
+        }
+        return other != 0 && other / (ascii + other) > 0.25;
     }
     
     public static Language guessLanguage()
