@@ -14,7 +14,7 @@ public class ExampleStringDecrypter extends Plugin {
 
     @Override
     public void execute(List<ClassNode> classNodesList) {
-        PluginConsole gui = new PluginConsole("Example String Decrypter");
+        PluginConsole gui = new PluginConsole("Example String Decrypter Java Edition");
 
         MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING",
                 "WARNING: This will load the classes into the JVM and execute the initialize function"
