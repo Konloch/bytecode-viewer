@@ -13,7 +13,7 @@ var dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING",
 var gui;
 
 function execute(classNodeList) {
-    gui = new PluginConsole("Skeleton");
+    gui = new PluginConsole("Example String Decrypter Javascript Edition");
 
     if (dialog.promptChoice() == 0) {
         var needsWarning = false;
