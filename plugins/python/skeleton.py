@@ -7,7 +7,7 @@ from org.objectweb.asm.tree import ClassNode
 
 class skeleton(Plugin):
 
-	def execute(classNodeList, poop): #for some reason it requires a second arg
+	def execute(classNodeList, notUsed): #for some reason it requires a second arg
 		gui = PluginConsole("Skeleton")
 		gui.setVisible(Boolean.TRUE)
 		gui.appendText("exceuted skeleton")
