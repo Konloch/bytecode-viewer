@@ -8,8 +8,8 @@ java_import 'org.objectweb.asm.tree.ClassNode'
 
 class Skeleton < Plugin
   def execute(classNodeList)
-    gui = PluginConsole.new "Skeleton"
+    gui = PluginConsole.new "Skeleton Title"
     gui.setVisible(true)
-    gui.appendText("executed skeleton")
+    gui.appendText("executed skeleton example")
   end
 end
