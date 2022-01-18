@@ -6,9 +6,8 @@ public class Skeleton extends Plugin {
 
     @Override
     public void execute(List<ClassNode> classNodesList) {
-        PluginConsole gui = new PluginConsole("Skeleton");
+        PluginConsole gui = new PluginConsole("Skeleton Title");
         gui.setVisible(true);
-        gui.appendText("executed skeleton");
+        gui.appendText("executed skeleton example");
     }
-
 }
