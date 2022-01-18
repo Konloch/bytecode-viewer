@@ -10,4 +10,4 @@ class skeleton(Plugin):
 	def execute(classNodeList, notUsed): #for some reason it requires a second arg
 		gui = PluginConsole("Skeleton")
 		gui.setVisible(Boolean.TRUE)
-		gui.appendText("exceuted skeleton")
+		gui.appendText("executed skeleton")
