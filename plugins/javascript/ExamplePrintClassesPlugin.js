@@ -4,7 +4,7 @@
 
 var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsole");
 
-var gui = new PluginConsole("Example Plugin Print Loaded Classes");
+var gui = new PluginConsole("Example Plugin Print Loaded Classes Javascript Edition");
 
 function execute(classNodeList) {
     for (index = 0; index < classNodeList.length; index++) {
