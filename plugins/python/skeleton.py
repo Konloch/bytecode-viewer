@@ -8,6 +8,6 @@ from org.objectweb.asm.tree import ClassNode
 class skeleton(Plugin):
 
 	def execute(classNodeList, notUsed): #for some reason it requires a second arg
-		gui = PluginConsole("Skeleton")
+		gui = PluginConsole("Skeleton Title")
 		gui.setVisible(Boolean.TRUE)
-		gui.appendText("executed skeleton")
+		gui.appendText("executed skeleton example")
