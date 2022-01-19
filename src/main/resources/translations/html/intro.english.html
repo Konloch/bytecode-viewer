@@ -1,25 +1,54 @@
 <html lang="en">
 <h2>About</h2>
 
-Bytecode Viewer (BCV) was designed to be extremely user and beginner friendly, because of this almost everything
-is accessible through an interface, settings, tools, etc.
+Bytecode Viewer (BCV) is an easy to use Java & Android Reverse Engineering Suite!<br>
+BCV is designed to be extremely user and beginner friendly, because of this almost everything is accessible through an interface, settings, tools, etc.
 
 <br><br>To start drag your Jar/APK/Class file into the resource list.
+
+<h2>How To - Java Importing</h2>
+<pre>
+Java resources have no special preprocessing before you open them.
+Import your Jar/Class/WAR/EAR file via the File>Open menu in Bytecode Viewer. (CTRL + O)
+</pre>
+
+<h2>How To - Android Importing</h2>
+<pre>
+Android resources have three options for preprocessing:
+    1). Decode Resources
+    2). Enjarify
+    3). Dex2Jar (d2j)
+1). Decode Resources will run APKTool to decode any packed android-specific resources
+2). Enjarify will convert the dalvik specific bytecode to java bytecode
+3). Dex2Jar will convert the dalvik specific bytecode to java bytecode
+
+Import your APK/WAPK/DEX file via the File>Open menu in Bytecode Viewer. (CTRL + O)
+</pre>
+
+<h2>How To - File Navigation</h2>
+
+<pre>
+Using the resource list (it should say "Files" on the title bar) you can select all of the resources added into BCV.
+Any archive will opened, to select a resource click + button for each folder.
+Using the search pane inside of the resource list you can search by file name and extension.
+For case-sensitivity enable the checkbox labeled "Exact".
+</pre>
 
 <h2>Settings</h2>
 <ul>
     <li>Fat Jar: {fatJar}</li>
     <li>Java: {java}</li>
     <li>Javac: {javac}</li>
-    <li>BCV Dir: {bcvDir}</li>
     <li>Python 2.7 (or PyPy): {python}</li>
     <li>Python 3.X (or PyPy): {python3}</li>
     <li>RT.jar: {rt}</li>
     <li>Optional Lib: {lib}</li>
-    <li>BCV Krakatau: v{krakatauVersion}</li>
+    <li>BCV Dir: {bcvDir}</li>
+    <li>Temp Dir: {tempDir}</li>
     <li>Krakatau Dir: {krakatauDir}</li>
-    <li>BCV Enjarify: v{enjarifyVersion}</li>
     <li>Enjarify Dir: {enjarifyDir}</li>
+    <li>BCV Krakatau version: v{krakatauVersion}</li>
+    <li>BCV Enjarify version: v{enjarifyVersion}</li>
 </ul>
 
 <h2>Command Line Interface (CLI)</h2>
