@@ -3,6 +3,7 @@
 Bytecode Viewer - a lightweight user-friendly Java/Android Bytecode Viewer, Decompiler & More.
 
 #### New Features
+* Patched [CVE-2022-21675](https://github.com/Konloch/bytecode-viewer/security/advisories/GHSA-3wq9-j4fc-4wmc) (Make sure to upgrade to v2.11.X)
 * Dark mode with multiple themes
 * Translated into over 30 languages including: Arabic, German, Japanese, Mandarin, Russian, Spanish
 * Plugin Writer - create and edit external plugins from within BCV
@@ -15,10 +16,6 @@ Bytecode Viewer - a lightweight user-friendly Java/Android Bytecode Viewer, Deco
 * Updated ASM library to version 9.1
 * Added support to Java files compiled using JDK > 13
 * Migrated to Maven
-
-#### v2.10.x Notes
-* The rewrite/refactoring process is currently ongoing so please report any bugs you find
-* If you're encountering any issues try using [v2.9.22](https://github.com/Konloch/bytecode-viewer/releases/tag/v2.9.22)
 
 #### Links
 * [BCV Discord](https://discord.gg/aexsYpfMEf)
