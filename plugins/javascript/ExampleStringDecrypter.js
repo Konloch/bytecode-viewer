@@ -2,7 +2,7 @@
 /**
  ** This is an example of a String Decrypter Javascript Plugin for BCV.
  **
- ** @author Righteous
+ ** @author [Your-Name-Goes-Here]
  **/
 
 var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsole");
