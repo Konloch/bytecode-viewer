@@ -18,10 +18,10 @@ import the.bytecode.club.bytecodeviewer.decompilers.impl.FernFlowerDecompiler;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 
 /**
- * This is an Xposed Generator Plugin, used to aid Reverse-Engineering.
- *
- * @author jowasp
- */
+ ** This is an Xposed Generator Plugin, used to aid Reverse-Engineering.
+ **
+ ** @author jowasp
+ **/
 public class XposedGenerator extends Plugin {
     
     private static final List<String> methodsNames = new ArrayList<>();
