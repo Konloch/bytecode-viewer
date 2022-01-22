@@ -33,7 +33,7 @@ function execute(classNodeList) {
                     //then print out the value of the fields inside the class
                     //if the strings get decrypted on init, this allows you to dump the current values
 
-                    if (field.name.equals("z")) {// && f.desc.equals("([Ljava/lang/String;)V")) {
+                    if (field.name.equals("z")) {
                         try {
                             var loadedClass = BytecodeViewer.getClassNodeLoader().nodeToClass(cn);
                             var reflectedFields = loadedClass.getFields();
