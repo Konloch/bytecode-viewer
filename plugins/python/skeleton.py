@@ -5,8 +5,13 @@ from java.lang import Boolean
 from java.util import ArrayList
 from org.objectweb.asm.tree import ClassNode
 
-class skeleton(Plugin):
+#
+# This is a skeleton template for BCV's Ruby Plugin System
+#
+# @author [Your Name Goes Here]
+#
 
+class skeleton(Plugin):
 	def execute(classNodeList, notUsed): #for some reason it requires a second arg
 		gui = PluginConsole("Skeleton Title")
 		gui.setVisible(Boolean.TRUE)
