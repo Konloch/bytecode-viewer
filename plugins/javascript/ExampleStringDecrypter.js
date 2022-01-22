@@ -45,7 +45,7 @@ function execute(classNodeList) {
                                 if (s != null && !s.empty())
                                     gui.appendText(cn + "->" + s);
                             }
-                        } catch (e) {
+                        } catch (ignored) {
                         }
                     }
                 }
