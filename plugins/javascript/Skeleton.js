@@ -1,9 +1,9 @@
 
 /**
-** This is a skeleton template for BCV's Javascript Plugin System
-**
-** @author [Your Name Goes Here]
-**/
+ ** This is a skeleton template for BCV's Javascript Plugin System
+ **
+ ** @author [Your Name Goes Here]
+ **/
 
 function execute(classNodeList) {
     var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsole");
