@@ -1,6 +1,8 @@
+
 /**
- * This is an example plugin
- */
+ ** An example BCV Javascript Plugin.
+ ** This is used to display all of loaded classnodes that have been imported into BCV.
+ **/
 
 var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsole");
 
