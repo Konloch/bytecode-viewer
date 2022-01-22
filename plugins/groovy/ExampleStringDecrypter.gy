@@ -10,8 +10,10 @@ import java.lang.reflect.Field
 import static the.bytecode.club.bytecodeviewer.Constants.nl
 
 /**
- * This is an example of a string decrypter plugin
- */
+ ** This is an example of a String Decrypter Groovy Plugin for BCV.
+ **
+ ** @author Righteous
+ **/
 class ExampleStringDecrypter extends Plugin {
 
     @Override
