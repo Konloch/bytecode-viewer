@@ -6,6 +6,12 @@ java_import 'java.lang.System'
 java_import 'java.util.ArrayList'
 java_import 'org.objectweb.asm.tree.ClassNode'
 
+#
+# This is a skeleton template for BCV's Ruby Plugin System
+#
+# @author [Your Name Goes Here]
+#
+
 class Skeleton < Plugin
   def execute(classNodeList)
     gui = PluginConsole.new "Skeleton Title"
