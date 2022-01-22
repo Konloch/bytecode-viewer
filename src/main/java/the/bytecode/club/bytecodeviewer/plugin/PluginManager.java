@@ -156,7 +156,8 @@ public final class PluginManager
         }
         
         final String name = activePlugin.activeContainer == null
-                ? "#" + (activeTabbedException.getTabbedPane().getTabCount() + 1) : activePlugin.activeContainer.name;
+                ? "#" + (activeTabbedException.getTabbedPane().getTabCount() + 1)
+                : activePlugin.activeContainer.name;
         
         ExceptionUI existingUI = exceptionTabs.get(name);
         
@@ -201,7 +202,8 @@ public final class PluginManager
         console.setConsoleID(id);
         
         final String name = (activePlugin == null || activePlugin.activeContainer == null)
-                ? ("#" + (activeTabbedConsole.getTabbedPane().getTabCount() + 1)) : activePlugin.activeContainer.name;
+                ? ("#" + (activeTabbedConsole.getTabbedPane().getTabCount() + 1))
+                : activePlugin.activeContainer.name;
         
         activeTabbedConsole.addConsole(console.getComponent(0), name);
     }
