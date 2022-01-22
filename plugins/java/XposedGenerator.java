@@ -22,6 +22,7 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer
  **
  ** @author jowasp
  **/
+
 public class XposedGenerator extends Plugin {
     
     private static final List<String> methodsNames = new ArrayList<>();
