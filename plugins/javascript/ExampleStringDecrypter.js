@@ -1,6 +1,9 @@
+
 /**
- * This is an example of a string decrypter plugin
- */
+ ** This is an example of a String Decrypter Javascript Plugin for BCV.
+ **
+ ** @author Righteous
+ **/
 
 var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsole");
 var MultipleChoiceDialog = Java.type("the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog")
