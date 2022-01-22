@@ -37,7 +37,8 @@ public class PluginConsole extends SystemConsole
     
     public PluginConsole(String pluginName)
     {
-        super(Configuration.pluginConsoleAsNewTab ? (pluginName + " Output") : (TranslatedStrings.PLUGIN_CONSOLE_TITLE + " - " + pluginName));
+        super(Configuration.pluginConsoleAsNewTab ? (pluginName + " Output")
+                : (TranslatedStrings.PLUGIN_CONSOLE_TITLE + " - " + pluginName));
     }
     
     @Override
