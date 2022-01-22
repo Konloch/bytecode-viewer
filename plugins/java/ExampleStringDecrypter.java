@@ -10,7 +10,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
 /**
  ** This is an example of a String Decrypter Java Plugin for BCV.
  **
- ** @author Righteous
+ ** @author [Your-Name-Goes-Here]
  **/
 
 public class ExampleStringDecrypter extends Plugin {
