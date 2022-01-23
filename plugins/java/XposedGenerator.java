@@ -18,10 +18,13 @@ import the.bytecode.club.bytecodeviewer.decompilers.impl.FernFlowerDecompiler;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 
 /**
- * @author jowasp
- */
+ ** This is an Xposed Generator Plugin, used to aid Reverse-Engineering.
+ **
+ ** @author jowasp
+ **/
+
 public class XposedGenerator extends Plugin {
-    //PRIVATE
+    
     private static final List<String> methodsNames = new ArrayList<>();
     private static final List<String> cleanMethodsNames = new ArrayList<>();
     private static String foundPckg;
@@ -40,7 +43,6 @@ public class XposedGenerator extends Plugin {
         }
 
         String className = viewer.getName();
-        //String containerName = viewer.getName();
         ClassNode classnode = BytecodeViewer.getCurrentlyOpenedClassNode();
 
         //Call XposedGenerator class
@@ -64,7 +66,6 @@ public class XposedGenerator extends Plugin {
             //Set results of parsed methods into a list
             List<String> methodsExtracted = ProcessContentExtractedClass(decomp);
             String packgExtracted = ProcessContentExtractedPackage(decomp);
-            System.out.println("PACKAGE NAME: " + packgExtracted);
 
             //Get a clean list
             List<String> cleanMethods;
@@ -114,16 +115,16 @@ public class XposedGenerator extends Plugin {
 
     public static void WriteXposedModule(String functionToHook, String packageName, String classToHook,
                                          String template) {
-        System.out.println("TEMPLATE: " + template);
         if (template != null && !template.equals("Empty")) {
             try {
+                
                 //TODO: Prompt save dialog
                 File file = new File("./XposedClassTest.java");
 
                 // if file doesn't exist, then create it
-                if (!file.exists()) {
+                if (!file.exists())
                     file.createNewFile();
-                }
+                
                 //Extract the package name only
                 String packageNameOnly = packageName.substring(8, packageName.length() - 2).trim();
                 String classToHookNameOnly = classToHook;
@@ -132,18 +133,14 @@ public class XposedGenerator extends Plugin {
 
                 String[] classClean = classToHookNameOnly.split("/");
                 String[] functionSplitValues = functionToHook.split("\\s+");
+                
                 //select
                 String onlyClass = classClean[classClean.length - 1];
-                //String onlyFunctionParateses = functionSplitValues[functionSplitValues.length-2];
 
                 String onlyFunction = CleanUpFunction(functionSplitValues);
-                //String functionToHookOnly = "dummy function";
-                System.out.println(onlyClass);
-                System.out.println(packageNameOnly);
 
                 //Write Xposed Class
-                String XposedClassText =
-                        "package androidpentesting.com.xposedmodule;" + "\r\n" +
+                String XposedClassText = "package androidpentesting.com.xposedmodule;" + "\r\n" +
                                 "import de.robv.android.xposed.IXposedHookLoadPackage;" + "\r\n" +
                                 "\r\n" +
                                 "import de.robv.android.xposed.XC_MethodHook;" + "\r\n" +
@@ -177,7 +174,6 @@ public class XposedGenerator extends Plugin {
                 bw.write("\r\n");
                 bw.close();
 
-                System.out.println("Done");
                 JOptionPane.showMessageDialog(null, "Xposed Module Generated");
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error" + e);
@@ -193,19 +189,16 @@ public class XposedGenerator extends Plugin {
         try {
             scanner = new Scanner(contentFile);
             //@TODO : Improve patterns to match other excepts 'public'
+            
             String regexclass = "public";
-            //String regexPkg = "package";
             Pattern pattern = Pattern.compile(regexclass, Pattern.CASE_INSENSITIVE);
-            //Pattern patternVoid = Pattern.compile(regexVoid , Pattern.CASE_INSENSITIVE);
-            // Pattern patternPkg = Pattern.compile(regexPkg , Pattern.CASE_INSENSITIVE);
-            //scanner.useDelimiter(";");
+            
             while (scanner.hasNextLine()) {
-
                 String line = scanner.nextLine();
+                
                 // process the line
                 Matcher matcher = pattern.matcher(line);
                 while (matcher.find()) {
-
                     if (matcher.group() != null) {
                         System.out.println("find() found the pattern \"" + quote(line.trim()));
                         System.out.println("Function: " + CleanUpFunction(line.trim().split("\\s+")));
@@ -213,9 +206,7 @@ public class XposedGenerator extends Plugin {
                     } else {
                         methodsNames.add("No methods found");
                     }
-
                 }
-
             }
 
             if (methodsNames.isEmpty()) {
@@ -237,11 +228,9 @@ public class XposedGenerator extends Plugin {
             if (!m.contains("extends") && (!m.contains("implements") && (m.contains("(")))) {
                 cleanMethodsNames.add(m);
             }
-
         }
+        
         return cleanMethodsNames;
-
-
     }
 
     private static String CleanUpFunction(String[] rawFunction) {
@@ -254,7 +243,6 @@ public class XposedGenerator extends Plugin {
         }
 
         return onlyFunc;
-
     }
 
     private static String ProcessContentExtractedPackage(String contentFile) {
@@ -264,20 +252,19 @@ public class XposedGenerator extends Plugin {
             String regexPkg = "package";
             Pattern patternPkg = Pattern.compile(regexPkg, Pattern.CASE_INSENSITIVE);
             String line = scanner.nextLine();
+            
             // process the line
             Matcher matcher = patternPkg.matcher(line);
             while (matcher.find()) {
-
                 if (matcher.group() != null) {
                     System.out.println("find() found the pattern \"" + quote(line.trim()));
                     foundPckg = quote(line.trim());
-
                 } else {
                     foundPckg = "";
                 }
             }
+            
             try
-            //
             {
                 if (foundPckg == null || foundPckg.isEmpty())
                     foundPckg = "No Package Found";
@@ -296,8 +283,8 @@ public class XposedGenerator extends Plugin {
             if (scanner != null)
                 scanner.close();
         }
+        
         return foundPckg;
-
     }
 
     private static String quote(String aText) {

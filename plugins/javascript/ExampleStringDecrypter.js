@@ -1,6 +1,9 @@
+
 /**
- * This is an example of a string decrypter plugin
- */
+ ** This is an example of a String Decrypter Javascript Plugin for BCV.
+ **
+ ** @author [Your-Name-Goes-Here]
+ **/
 
 var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsole");
 var MultipleChoiceDialog = Java.type("the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog")
@@ -13,7 +16,7 @@ var dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING",
 var gui;
 
 function execute(classNodeList) {
-    gui = new PluginConsole("Skeleton");
+    gui = new PluginConsole("Example String Decrypter Javascript Edition");
 
     if (dialog.promptChoice() == 0) {
         var needsWarning = false;
@@ -33,7 +36,7 @@ function execute(classNodeList) {
                     //then print out the value of the fields inside the class
                     //if the strings get decrypted on init, this allows you to dump the current values
 
-                    if (field.name.equals("z")) {// && f.desc.equals("([Ljava/lang/String;)V")) {
+                    if (field.name.equals("z")) {
                         try {
                             var loadedClass = BytecodeViewer.getClassNodeLoader().nodeToClass(cn);
                             var reflectedFields = loadedClass.getFields();
@@ -45,7 +48,7 @@ function execute(classNodeList) {
                                 if (s != null && !s.empty())
                                     gui.appendText(cn + "->" + s);
                             }
-                        } catch (e) {
+                        } catch (ignored) {
                         }
                     }
                 }
