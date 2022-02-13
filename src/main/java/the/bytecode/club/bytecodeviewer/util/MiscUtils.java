@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -293,10 +291,26 @@ public class MiscUtils
         }
     }
     
-    public static Thread startNewThread(String threadName, Runnable threadRunnable)
+    /**
+     * START's a new thread (Creates a new thread and runs that thread runnable on it)
+     */
+    public static Thread createNewThread(String threadName, Runnable threadRunnable)
+    {
+        return createNewThread(threadName, false, threadRunnable);
+    }
+    
+    /**
+     * START's a new thread (Creates a new thread and runs that thread runnable on it)
+     * RUN's a new thread (Just executes the thread runnable on the active thread)
+     */
+    public static Thread createNewThread(String threadName, boolean runDontStart, Runnable threadRunnable)
     {
         Thread temporaryThread = new Thread(threadRunnable, threadName);
-        temporaryThread.start();
+        
+        if(runDontStart)
+            temporaryThread.run();
+        else
+            temporaryThread.start();
         
         return temporaryThread;
     }
