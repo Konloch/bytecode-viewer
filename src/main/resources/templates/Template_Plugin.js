@@ -3,34 +3,45 @@ var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsol
 var gui;
 
 /**
- * Main function
+ ** [plugin description goes here]
+ **
+ ** @author [your name goes here]
+ **/
+
+/**
+ * execute function - this gets executed when the plugin is ran
  */
 function execute(classNodeList)
 {
+    //create & show the console
 	gui = new PluginConsole("Javascript Template");
-	gui.setVisible(true); //show the console
-	out("Class Nodes: " + classNodeList.size());
+	gui.setVisible(true);
+
+	//print to the console
+	print("Class Nodes: " + classNodeList.size());
 
 	//iterate through each class node
     for (index = 0; index < classNodeList.length; index++)
-        process(classNodeList[index]);
+        processClassNode(classNodeList[index]);
 
-	BCV.hideFrame(gui, 10000); //hides the console after 10 seconds
+    //hide the console after 10 seconds
+	BCV.hideFrame(gui, 10000);
 }
 
 /**
- * Process each class node
+ * process each class node
  */
-function process(cn)
+function processClassNode(cn)
 {
-	out("Node: " + cn.name + ".class");
+	print("Node: " + cn.name + ".class");
+
 	//TODO developer plugin code goes here
 }
 
 /**
- * Print to console
+ * print to console
  */
-function out(text)
+function print(text)
 {
 	gui.appendText(text);
 }
