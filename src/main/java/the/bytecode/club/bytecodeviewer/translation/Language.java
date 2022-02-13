@@ -45,7 +45,7 @@ import the.bytecode.club.bytecodeviewer.resources.IconResources;
 public enum Language
 {
 	ARABIC("/translations/arabic.json", "عربى", "English", "ar"),
-	ENGLISH("/translations/english.json", "English", (Constants.DEV_MODE ? "english.draft" : "english"), "en"),
+	ENGLISH("/translations/english.json", "English", "English", "en"),
 	ESTONIAN("/translations/estonian.json", "Eesti", "English", "et"),
 	FARSI("/translations/farsi.json", "فارسی ", "English", "fa"),
 	FINNISH("/translations/finnish.json", "Suomen Kieli", "English", "fi"),
