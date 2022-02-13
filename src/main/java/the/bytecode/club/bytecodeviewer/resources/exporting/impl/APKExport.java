@@ -101,15 +101,9 @@ public class APKExport implements Exporter
 			{
 				Configuration.setLastSaveDirectory(fc.getSelectedFile());
 				
-				final File file = fc.getSelectedFile();
-				String output = file.getAbsolutePath();
+				final File file = MiscUtils.autoAppendFileExtension(".apk", fc.getSelectedFile());
 				
-				//auto append .apk
-				if (!output.endsWith(".apk"))
-					output += ".apk";
-				
-				final File file2 = new File(output);
-				if (!DialogUtils.canOverwriteFile(file2))
+				if (!DialogUtils.canOverwriteFile(file))
 					return;
 				
 				Thread saveThread = new Thread(() ->
@@ -120,7 +114,7 @@ public class APKExport implements Exporter
 					
 					Thread buildAPKThread = new Thread(() ->
 					{
-						APKTool.buildAPK(new File(input), file2, finalContainer);
+						APKTool.buildAPK(new File(input), file, finalContainer);
 						BytecodeViewer.updateBusyStatus(false);
 					}, "Process APK");
 					buildAPKThread.start();

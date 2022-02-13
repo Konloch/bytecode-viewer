@@ -8,6 +8,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Exporter;
 import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -54,21 +55,15 @@ public class ZipExport implements Exporter
 			{
 				Configuration.setLastSaveDirectory(fc.getSelectedFile());
 				
-				File file = fc.getSelectedFile();
-				
-				//auto append .zip
-				if (!file.getAbsolutePath().endsWith(".zip"))
-					file = new File(file.getAbsolutePath() + ".zip");
+				final File file = MiscUtils.autoAppendFileExtension(".zip", fc.getSelectedFile()); //auto append .zip extension
 				
 				if (!DialogUtils.canOverwriteFile(file))
 					return;
 				
-				final File file2 = file;
-				
 				BytecodeViewer.updateBusyStatus(true);
 				Thread saveThread = new Thread(() ->
 				{
-					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file2.getAbsolutePath());
+					JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file.getAbsolutePath());
 					BytecodeViewer.updateBusyStatus(false);
 				}, "Jar Export");
 				saveThread.start();

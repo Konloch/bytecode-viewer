@@ -178,6 +178,14 @@ public class MiscUtils
                 fileContents[1], fileContents[2],fileContents[3]);
     }
     
+    public static File autoAppendFileExtension(String extension, File file)
+    {
+        if (!file.getName().endsWith(extension))
+            file = new File(file.getName() + extension);
+        
+        return file;
+    }
+    
     public static String extension(String name) {
         return name.substring(name.lastIndexOf('.') + 1);
     }

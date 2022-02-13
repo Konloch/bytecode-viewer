@@ -7,6 +7,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
 import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -113,20 +114,15 @@ public class GlobalHotKeys
 				{
 					Configuration.setLastSaveDirectory(fc.getSelectedFile());
 					
-					File file = fc.getSelectedFile();
-					
-					if (!file.getAbsolutePath().endsWith(".zip"))
-						file = new File(file.getAbsolutePath() + ".zip");
+					File file = MiscUtils.autoAppendFileExtension(".zip", fc.getSelectedFile());
 					
 					if (!DialogUtils.canOverwriteFile(file))
 						return;
 					
-					final File file2 = file;
-					
 					BytecodeViewer.updateBusyStatus(true);
 					Thread jarExport = new Thread(() -> {
 						JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(),
-								file2.getAbsolutePath());
+								file.getAbsolutePath());
 						BytecodeViewer.updateBusyStatus(false);
 					}, "Jar Export");
 					jarExport.start();
