@@ -42,9 +42,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
  ***************************************************************************/
 
 /**
- * The official API for BCV, this was designed for plugin authors and developers utilizing EZ-Injection.
- *
- * The BCV Class is meant to to help aid in dynamic analysis and plugin utility.
+ * An easier to use version of the BCV API, this is designed for anyone who wants to extend BCV, in any shape
+ * or form. One way of doing that is through the plugin system.
  *
  * @author Konloch
  */
@@ -98,6 +97,11 @@ public class BCV
         return null;
     }
     
+    /**
+     * This shotgun approach will class-load all the classes that have been imported into BCV.
+     *
+     * @return A list with the Class objects of the successfully loaded classes.
+     */
     public static List<Class<?>> loadClassesIntoClassLoader()
     {
         try
@@ -239,6 +243,12 @@ public class BCV
         return DialogUtils.canOverwriteFile(file);
     }
     
+    /**
+     * This function will hide a JFrame after a given amount of time.
+     *
+     * @param frame Any JFrame object
+     * @param milliseconds The amount of time until it will be hidden represented in milliseconds
+     */
     public static void hideFrame(JFrame frame, long milliseconds)
     {
         new Thread(()->{
