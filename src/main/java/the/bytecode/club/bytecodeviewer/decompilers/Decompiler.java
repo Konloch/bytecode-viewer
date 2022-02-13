@@ -39,33 +39,40 @@ public enum Decompiler
 {
     //TODO WARNING: do not change the decompiler order, when adding a new decompiler just add it to the end
     // enum ordinal is used for settings serialization instead of the enum name
-    NONE("None", null),
-    PROCYON_DECOMPILER("Procyon Decompiler", new ProcyonDecompiler()),
-    CFR_DECOMPILER("CFR Decompiler", new CFRDecompiler()),
-    FERNFLOWER_DECOMPILER("FernFlower Decompiler", new FernFlowerDecompiler()),
-    BYTECODE_DISASSEMBLER("Bytecode Disassembler", new BytecodeDisassembler()),
-    HEXCODE_VIEWER("Hexcode Viewer", null),
-    SMALI_DISASSEMBLER("Smali Disassembler", new SmaliDisassembler()),
-    KRAKATAU_DECOMPILER("Krakatau Decompiler", new KrakatauDecompiler()),
-    KRAKATAU_DISASSEMBLER("Krakatau Disassembler", new KrakatauDisassembler()),
-    JD_DECOMPILER("JD-GUI Decompiler", new JDGUIDecompiler()),
-    JADX_DECOMPILER("JADX Decompiler", new JADXDecompiler()),
-    ASM_TEXTIFY_DISASSEMBLER("ASM Disassembler", new ASMTextifierDisassembler()),
-    JAVAP_DISASSEMBLER("Javap Disassembler", new JavapDisassembler()),
+    NONE("None", "", null),
+    PROCYON_DECOMPILER("Procyon Decompiler", "proycon", new ProcyonDecompiler()),
+    CFR_DECOMPILER("CFR Decompiler", "cfr", new CFRDecompiler()),
+    FERNFLOWER_DECOMPILER("FernFlower Decompiler", "fernflower", new FernFlowerDecompiler()),
+    BYTECODE_DISASSEMBLER("Bytecode Disassembler", "bcvbd", new BytecodeDisassembler()),
+    HEXCODE_VIEWER("Hexcode Viewer", "bcvhex", null),
+    SMALI_DISASSEMBLER("Smali Disassembler", "smali", new SmaliDisassembler()),
+    KRAKATAU_DECOMPILER("Krakatau Decompiler", "krakatau", new KrakatauDecompiler()),
+    KRAKATAU_DISASSEMBLER("Krakatau Disassembler", "krakataud", new KrakatauDisassembler()),
+    JD_DECOMPILER("JD-GUI Decompiler", "jdgui", new JDGUIDecompiler()),
+    JADX_DECOMPILER("JADX Decompiler", "jadx", new JADXDecompiler()),
+    ASM_TEXTIFY_DISASSEMBLER("ASM Disassembler", "asm", new ASMTextifierDisassembler()),
+    JAVAP_DISASSEMBLER("Javap Disassembler", "javap", new JavapDisassembler()),
     ;
     
     private final String decompilerName;
+    private final String decompilerNameProgrammic;
     private final InternalDecompiler decompiler;
     
-    Decompiler(String decompilerName, InternalDecompiler decompiler)
+    Decompiler(String decompilerName, String decompilerNameProgrammic, InternalDecompiler decompiler)
     {
         this.decompilerName = decompilerName;
+        this.decompilerNameProgrammic = decompilerNameProgrammic;
         this.decompiler = decompiler;
     }
     
     public String getDecompilerName()
     {
         return decompilerName;
+    }
+    
+    public String getDecompilerNameProgrammic()
+    {
+        return decompilerNameProgrammic;
     }
     
     public InternalDecompiler getDecompiler()
