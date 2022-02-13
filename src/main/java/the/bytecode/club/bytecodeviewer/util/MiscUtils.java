@@ -293,6 +293,14 @@ public class MiscUtils
         }
     }
     
+    public static Thread startNewThread(String threadName, Runnable threadRunnable)
+    {
+        Thread temporaryThread = new Thread(threadRunnable, threadName);
+        temporaryThread.start();
+        
+        return temporaryThread;
+    }
+    
     public static String getChildFromPath(String path)
     {
         if (path != null && path.contains("/"))
@@ -303,8 +311,6 @@ public class MiscUtils
         
         return path;
     }
-    
-    
     
     /**
      * Reads an InputStream and returns the read byte[]
