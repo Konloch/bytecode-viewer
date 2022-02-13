@@ -335,4 +335,11 @@ public class MiscUtils
         return new File[0];
     }
 
+    public static File deleteExistingFile(File file)
+    {
+        if (file.exists())
+            file.delete();
+        
+        return file;
+    }
 }
