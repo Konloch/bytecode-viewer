@@ -31,9 +31,9 @@
         <darklaf.version>2.7.3</darklaf.version>
         <darklaf-extensions-rsta.version>0.3.4</darklaf-extensions-rsta.version>
         <decompiler-fernflower.version>5.2.1.Final</decompiler-fernflower.version>
-        <dex2jar.version>v42</dex2jar.version>
-        <fernflower.version>5f33b55</fernflower.version>
-        <gson.version>2.8.9</gson.version>
+        <dex2jar.version>v44</dex2jar.version>
+        <fernflower.version>b803ad9</fernflower.version>
+        <gson.version>2.9.0</gson.version>
         <guava.version>31.0.1-jre</guava.version>
         <imgscalr-lib.version>4.2</imgscalr-lib.version>
         <jadx.version>1.3.2</jadx.version>
@@ -45,10 +45,10 @@
         <paged-data.version>0.2.0</paged-data.version>
         <procyon.version>0.5.36</procyon.version>
         <!-- TODO: Remove snapshot version when 0.6 stable is released -->
-        <procyon-snapshot.version>10b32a4</procyon-snapshot.version>
+        <procyon-snapshot.version>bea9e8c</procyon-snapshot.version>
         <rsyntaxtextarea.version>3.1.6</rsyntaxtextarea.version>
         <semantic-version.version>2.1.1</semantic-version.version>
-        <slf4j.version>1.7.35</slf4j.version>
+        <slf4j.version>1.7.36</slf4j.version>
         <smali.version>2.5.2</smali.version>
         <snakeyaml.version>1.30</snakeyaml.version>
         <treelayout.version>1.0.3</treelayout.version>
