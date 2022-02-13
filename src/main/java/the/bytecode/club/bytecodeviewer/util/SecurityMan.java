@@ -45,6 +45,9 @@ import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 
 public class SecurityMan extends SecurityManager
 {
+    private static final boolean disableExecSandbox = true;
+    private static final boolean disableDiskWriteSandbox = true;
+    
     private final AtomicInteger silentExec = new AtomicInteger(1);
     private boolean printing = false;
     private boolean printingPackage = false;
@@ -76,6 +79,10 @@ public class SecurityMan extends SecurityManager
     @Override
     public void checkExec(String cmd)
     {
+        //This was disabled on 02-13-2022, at some point in the future I will fix the compatibility issues and re-enable it.
+        if(disableExecSandbox)
+            return;
+        
         //incoming command must contain the following or it will be automatically denied
         String[] execWhitelist =
         {
@@ -316,6 +323,10 @@ public class SecurityMan extends SecurityManager
     public void checkWrite(String file) {
         if(printing)
             System.out.println("Writing: " + file);
+    
+        //This was disabled on 02-13-2022, at some point in the future I will fix the compatibility issues and re-enable it.
+        if(disableDiskWriteSandbox)
+            return;
         
         try
         {
