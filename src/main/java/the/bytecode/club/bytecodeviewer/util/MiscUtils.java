@@ -179,7 +179,7 @@ public class MiscUtils
     public static File autoAppendFileExtension(String extension, File file)
     {
         if (!file.getName().endsWith(extension))
-            file = new File(file.getName() + extension);
+            file = new File(file.getAbsolutePath() + extension);
         
         return file;
     }
