@@ -68,7 +68,7 @@ public class ExternalResources
 		
 		//TODO auto-detect the JRE path
 		boolean block = true;
-		while (Configuration.java.isEmpty() && block)
+		//while (Configuration.java.isEmpty() && block)
 		{
 			BytecodeViewer.showMessage("You need to set your Java path, this requires the JRE to be downloaded." +
 					nl + "(C:/Program Files/Java/JDK_xx/bin/java.exe)");
@@ -99,7 +99,7 @@ public class ExternalResources
 		
 		//TODO auto-detect the JDK path
 		boolean block = true;
-		while (Configuration.javaTools.isEmpty() && block)
+		//while (Configuration.javaTools.isEmpty() && block)
 		{
 			BytecodeViewer.showMessage("You need to set your Java Tools path, this requires the JDK to be downloaded." +
 					nl + "(C:/Program Files/Java/JDK_xx/lib/tools.jar)");
@@ -141,7 +141,7 @@ public class ExternalResources
 		
 		//TODO auto-detect the Python path (C:/Program Files/Python)
 		boolean block = true;
-		while (Configuration.python2.isEmpty() && block)
+		//while (Configuration.python2.isEmpty() && block)
 		{
 			BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH.toString());
 			selectPython2();
@@ -187,7 +187,7 @@ public class ExternalResources
 		
 		//TODO auto-detect the Python path (C:/Program Files/Python)
 		boolean block = true;
-		while (Configuration.python3.isEmpty() && block)
+		//while (Configuration.python3.isEmpty() && block)
 		{
 			BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_3_PATH.toString());
 			selectPython3();
