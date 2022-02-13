@@ -409,7 +409,7 @@ public class MainViewerGUI extends JFrame
         saveAsDex.addActionListener(arg0 -> Export.DEX.getExporter().promptForExport());
         saveAsZip.addActionListener(arg0 -> Export.ZIP.getExporter().promptForExport());
         decompileSaveAll.addActionListener(arg0 -> ResourceDecompiling.decompileSaveAll());
-        decompileSaveOpened.addActionListener(arg0 -> ResourceDecompiling.decompileSaveOpenedOnly());
+        decompileSaveOpened.addActionListener(arg0 -> ResourceDecompiling.decompileSaveOpenedResource());
         about.addActionListener(arg0 -> new AboutWindow().setVisible(true));
         exit.addActionListener(arg0 -> askBeforeExiting());
     }
