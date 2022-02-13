@@ -6,10 +6,14 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import javax.swing.JFrame;
+
+import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
@@ -175,6 +179,41 @@ public class BCV
      */
     public static ClassNode getCurrentlyOpenedClassNode() {
         return the.bytecode.club.bytecodeviewer.BytecodeViewer.getCurrentlyOpenedClassNode();
+    }
+    
+    /**
+     * Returns the currently opened class nodes ClassFile bytes
+     *
+     * @return The ClassFile bytes for the actively opened resource
+     */
+    public static byte[] getCurrentlyOpenedClassNodeBytes()
+    {
+        final ClassNode cn = BytecodeViewer.getCurrentlyOpenedClassNode();
+        final ClassWriter cw = new ClassWriter(0);
+    
+        try {
+            Objects.requireNonNull(cn).accept(cw);
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                Thread.sleep(200);
+                Objects.requireNonNull(cn).accept(cw);
+            } catch (InterruptedException ignored) {
+            }
+        }
+        
+        return cw.toByteArray();
+    }
+    
+    /**
+     * This decompiles the actively opened ClassFile inside of BCV.
+     *
+     * @param decompiler The decompiler you would like to use
+     * @return The Ascii/text representation of the class node from the decompiler provided
+     */
+    public static String decompileCurrentlyOpenedClassNode(Decompiler decompiler)
+    {
+        return decompiler.getDecompiler().decompileClassNode(BCV.getCurrentlyOpenedClassNode(), BCV.getCurrentlyOpenedClassNodeBytes());
     }
 
     /**
