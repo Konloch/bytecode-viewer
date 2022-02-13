@@ -1,15 +1,14 @@
 package the.bytecode.club.bytecodeviewer.resources;
 
 import java.io.File;
-import java.util.Objects;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
 import me.konloch.kontainer.io.DiskWriter;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
@@ -44,366 +43,242 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
  */
 public class ResourceDecompiling
 {
+	private static final int DECOMPILE_SAVE_ALL = 10;
+	private static final int DECOMPILE_SAVE_ALL_PROCYON = 11;
+	private static final int DECOMPILE_SAVE_ALL_CFR = 12;
+	private static final int DECOMPILE_SAVE_ALL_FERNFLOWER = 13;
+	private static final int DECOMPILE_SAVE_ALL_KRAKATAU = 14;
+	//TODO JDGUI,JADX
+	
+	private static final int DECOMPILE_OPENED_ONLY_ALL = 20;
+	private static final int DECOMPILE_OPENED_ONLY_PROCYON = 21;
+	private static final int DECOMPILE_OPENED_ONLY_CFR = 22;
+	private static final int DECOMPILE_OPENED_ONLY_FERNFLOWER = 23;
+	private static final int DECOMPILE_OPENED_ONLY_KRAKATAU = 24;
+	//TODO JDGUI,JADX
+	
 	public static void decompileSaveAll()
 	{
+		//alert the user if no classes have been imported into BCV
 		if (BytecodeViewer.promptIfNoLoadedClasses())
 			return;
 		
-		Thread decompileThread = new Thread(() ->
+		MiscUtils.createNewThread("Decompile Save-All Thread", () ->
 		{
+			//signal to the user that BCV is performing an action in the background
+			BytecodeViewer.updateBusyStatus(true);
+			
+			//auto compile before decompilation
 			if (!BytecodeViewer.autoCompileSuccessful())
 				return;
 			
-			JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(),
-					"Select Zip Export",
-					"Zip Archives",
-					"zip");
+			final JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(), "Select Zip Export",
+					"Zip Archives", "zip");
 			
-			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-			if (returnVal == JFileChooser.APPROVE_OPTION)
+			//if the user doesn't select a file then we should stop while we're ahead
+			if (fc.showSaveDialog(BytecodeViewer.viewer) != JFileChooser.APPROVE_OPTION)
+				return;
+			
+			//set the last touched save directory for BCV
+			Configuration.setLastSaveDirectory(fc.getSelectedFile());
+			
+			//get the save file and auto append zip extension
+			final File outputZip = MiscUtils.autoAppendFileExtension(".zip", fc.getSelectedFile());
+			
+			//prompt the user for a dialogue override-this-file option if the file already exists
+			if (!DialogUtils.canOverwriteFile(outputZip))
+				return;
+			
+			//this temporary jar file will be used to store the classes while BCV performs decompilation
+			File temporaryTargetJar = MiscUtils.deleteExistingFile(new File(tempDirectory + fs + "temp_" + MiscUtils.getRandomizedName() + ".jar"));
+
+			//extract all the loaded classes imported into BCV to the temporary target jar
+			JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), temporaryTargetJar.getAbsolutePath());
+			
+			//signal to the user that BCV is finished performing that action
+			BytecodeViewer.updateBusyStatus(false);
+			
+			try
 			{
-				Configuration.setLastSaveDirectory(fc.getSelectedFile());
-				
-				File file = fc.getSelectedFile();
-				
-				//auto appened zip
-				if (!file.getAbsolutePath().endsWith(".zip"))
-					file = new File(file.getAbsolutePath() + ".zip");
-				
-				if (!DialogUtils.canOverwriteFile(file))
-					return;
-				
-				final File javaSucks = file;
-				final String path = MiscUtils.append(file, ".zip");    // cheap hax cause string is final
-				
-				JOptionPane pane = new JOptionPane("What decompiler will you use?");
-				Object[] options = new String[]{"All", "Procyon", "CFR",
-						"Fernflower", "Krakatau", "Cancel"};
-				pane.setOptions(options);
-				JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-						"Bytecode Viewer - Select Decompiler");
-				dialog.setVisible(true);
-				Object obj = pane.getValue();
-				int result = -1;
-				for (int k = 0; k < options.length; k++)
-					if (options[k].equals(obj))
-						result = k;
-				
-				BytecodeViewer.updateBusyStatus(true);
-				
-				File tempZip = new File(tempDirectory + fs + "temp_" + MiscUtils.getRandomizedName() + ".jar");
-				if (tempZip.exists())
-					tempZip.delete();
-				
-				JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempZip.getAbsolutePath());
-				
-				if (result == 0) {
-					Thread t12 = new Thread(() -> {
-						try {
-							Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
-									MiscUtils.append(javaSucks, "-procyon.zip"));
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.handleException(e);
-						}
-					});
-					t12.start();
-					Thread t2 = new Thread(() -> {
-						try {
-							BytecodeViewer.updateBusyStatus(true);
-							Decompiler.CFR_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
-									MiscUtils.append(javaSucks, "-CFR.zip"));
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.handleException(e);
-						}
-					});
-					t2.start();
-					Thread t3 = new Thread(() -> {
-						try {
-							BytecodeViewer.updateBusyStatus(true);
-							Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
-									MiscUtils.append(javaSucks, "-fernflower.zip"));
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.handleException(e);
-						}
-					});
-					t3.start();
-					Thread t4 = new Thread(() -> {
-						try {
-							BytecodeViewer.updateBusyStatus(true);
-							Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(),
-									MiscUtils.append(javaSucks, "-kraktau.zip"));
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.handleException(e);
-						}
-					});
-					t4.start();
-				}
-				if (result == 1) {
-					Thread t12 = new Thread(() -> {
-						try {
-							Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.handleException(e);
-						}
-					});
-					t12.start();
-				}
-				if (result == 2) {
-					Thread t12 = new Thread(() -> {
-						try {
-							Decompiler.CFR_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.handleException(e);
-						}
-					});
-					t12.start();
-				}
-				if (result == 3) {
-					Thread t12 = new Thread(() -> {
-						try {
-							Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.handleException(e);
-						}
-					});
-					t12.start();
-				}
-				
-				if (result == 4) {
-					Thread t12 = new Thread(() -> {
-						try {
-							Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), path);
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.handleException(e);
-						}
-					});
-					t12.start();
-				}
-				
-				if (result == 5) {
-					BytecodeViewer.updateBusyStatus(false);
+				//handle the result of the user selection
+				switch (promptDecompilerUserSelect() + DECOMPILE_SAVE_ALL)
+				{
+					case DECOMPILE_SAVE_ALL:
+						//decompile using procyon
+						decompileSaveAll(Decompiler.PROCYON_DECOMPILER, temporaryTargetJar, outputZip, true);
+						
+						//decompile using CFR
+						decompileSaveAll(Decompiler.CFR_DECOMPILER, temporaryTargetJar, outputZip, true);
+						
+						//decompile using fern
+						decompileSaveAll(Decompiler.FERNFLOWER_DECOMPILER, temporaryTargetJar, outputZip, true);
+						
+						//decompile using krakatau
+						decompileSaveAll(Decompiler.KRAKATAU_DECOMPILER, temporaryTargetJar, outputZip, true);
+						break;
+					
+					case DECOMPILE_SAVE_ALL_PROCYON:
+						//decompile using procyon
+						decompileSaveAll(Decompiler.PROCYON_DECOMPILER, temporaryTargetJar, outputZip, false);
+						break;
+					
+					case DECOMPILE_SAVE_ALL_CFR:
+						//decompile using CFR
+						decompileSaveAll(Decompiler.CFR_DECOMPILER, temporaryTargetJar, outputZip, false);
+						break;
+					
+					case DECOMPILE_SAVE_ALL_FERNFLOWER:
+						//decompile using fern
+						decompileSaveAll(Decompiler.FERNFLOWER_DECOMPILER, temporaryTargetJar, outputZip, false);
+						break;
+					
+					case DECOMPILE_SAVE_ALL_KRAKATAU:
+						//decompile using krakatau
+						decompileSaveAll(Decompiler.KRAKATAU_DECOMPILER, temporaryTargetJar, outputZip, false);
+						break;
 				}
 			}
-		}, "Decompile Thread");
-		decompileThread.start();
+			catch (Exception e)
+			{
+				BytecodeViewer.handleException(e);
+			}
+		});
 	}
 	
-	public static void decompileSaveOpenedOnly()
+	public static void decompileSaveOpenedResource()
 	{
+		//alert the user if no classes have been imported into BCV
 		if (BytecodeViewer.promptIfNoLoadedClasses())
 			return;
 		
+		//verify the active resource is a valid class file
 		if (!BytecodeViewer.isActiveResourceClass())
 		{
 			BytecodeViewer.showMessage(TranslatedStrings.FIRST_VIEW_A_CLASS.toString());
 			return;
 		}
 		
-		Thread decompileThread = new Thread(() ->
+		MiscUtils.createNewThread("Decompile Save Opened Resource", () ->
 		{
+			//signal to the user that BCV is performing an action in the background
+			BytecodeViewer.updateBusyStatus(true);
+			
+			//auto compile before decompilation
 			if (!BytecodeViewer.autoCompileSuccessful())
 				return;
 			
-			final ClassNode cn = BytecodeViewer.getCurrentlyOpenedClassNode();
+			JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(), "Select Java Files",
+					"Java Source Files", "java");
 			
-			JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(),
-					"Select Java Files",
-					"Java Source Files",
-					"java");
+			//if the user doesn't select a file then we should stop while we're ahead
+			if(fc.showSaveDialog(BytecodeViewer.viewer) != JFileChooser.APPROVE_OPTION)
+				return;
 			
-			int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-			if (returnVal == JFileChooser.APPROVE_OPTION)
+			//set the last touched save directory for BCV
+			Configuration.setLastSaveDirectory(fc.getSelectedFile());
+			
+			//get the save file and auto append java extension
+			File file = MiscUtils.autoAppendFileExtension(".java", fc.getSelectedFile());
+			
+			//prompt the user for a dialogue override-this-file option if the file already exists
+			if (!DialogUtils.canOverwriteFile(file))
+				return;
+			
+			//signal to the user that BCV is finished performing that action
+			BytecodeViewer.updateBusyStatus(false);
+			
+			try
 			{
-				Configuration.setLastSaveDirectory(fc.getSelectedFile());
-				
-				File file = fc.getSelectedFile();
-				
-				BytecodeViewer.updateBusyStatus(true);
-				final String path = MiscUtils.append(file, ".java");
-				
-				if (!DialogUtils.canOverwriteFile(path))
-					return;
-				
-				JOptionPane pane = new JOptionPane(
-						"What decompiler will you use?");
-				Object[] options = new String[]{"All", "Procyon", "CFR",
-						"Fernflower", "Krakatau", "Cancel"};
-				pane.setOptions(options);
-				JDialog dialog = pane.createDialog(BytecodeViewer.viewer,
-						"Bytecode Viewer - Select Decompiler");
-				dialog.setVisible(true);
-				Object obj = pane.getValue();
-				int result = -1;
-				for (int k = 0; k < options.length; k++)
-					if (options[k].equals(obj))
-						result = k;
-				
-				if (result == 0) {
-					Thread t1 = new Thread(() -> {
-						try {
-							final ClassWriter cw = new ClassWriter(0);
-							try {
-								Objects.requireNonNull(cn).accept(cw);
-							} catch (Exception e) {
-								e.printStackTrace();
-								try {
-									Thread.sleep(200);
-									Objects.requireNonNull(cn).accept(cw);
-								} catch (InterruptedException ignored) {
-								}
-							}
-							
-							try {
-								DiskWriter.replaceFile(MiscUtils.append(file, "-procyon.java"),
-										Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							
-							try {
-								DiskWriter.replaceFile(MiscUtils.append(file, "-CFR.java"),
-										Decompiler.CFR_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							
-							try {
-								DiskWriter.replaceFile(MiscUtils.append(file, "-fernflower.java"),
-										Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							
-							try {
-								DiskWriter.replaceFile(MiscUtils.append(file, "-kraktau.java"),
-										Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray()), false);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.updateBusyStatus(false);
-							BytecodeViewer.handleException(e);
-						}
-					});
-					t1.start();
-				}
-				if (result == 1) {
-					Thread t1 = new Thread(() -> {
-						try {
-							final ClassWriter cw = new ClassWriter(0);
-							try {
-								Objects.requireNonNull(cn).accept(cw);
-							} catch (Exception e) {
-								e.printStackTrace();
-								try {
-									Thread.sleep(200);
-									Objects.requireNonNull(cn).accept(cw);
-								} catch (InterruptedException ignored) {
-								}
-							}
-							String contents = Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
-							DiskWriter.replaceFile(path, contents, false);
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.updateBusyStatus(false);
-							BytecodeViewer.handleException(
-									e);
-						}
-					});
-					t1.start();
-				}
-				if (result == 2) {
-					Thread t1 = new Thread(() -> {
-						try {
-							final ClassWriter cw = new ClassWriter(0);
-							try {
-								Objects.requireNonNull(cn).accept(cw);
-							} catch (Exception e) {
-								e.printStackTrace();
-								try {
-									Thread.sleep(200);
-									Objects.requireNonNull(cn).accept(cw);
-								} catch (InterruptedException ignored) {
-								}
-							}
-							String contents = Decompiler.CFR_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
-							DiskWriter.replaceFile(path, contents, false);
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.updateBusyStatus(false);
-							BytecodeViewer.handleException(
-									e);
-						}
-					});
-					t1.start();
-				}
-				if (result == 3) {
-					Thread t1 = new Thread(() -> {
-						try {
-							final ClassWriter cw = new ClassWriter(0);
-							try {
-								Objects.requireNonNull(cn).accept(cw);
-							} catch (Exception e) {
-								e.printStackTrace();
-								try {
-									Thread.sleep(200);
-									if (cn != null)
-										cn.accept(cw);
-								} catch (InterruptedException ignored) {
-								}
-							}
-							String contents = Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileClassNode(cn,
-									cw.toByteArray());
-							DiskWriter.replaceFile(path, contents, false);
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.updateBusyStatus(false);
-							BytecodeViewer.handleException(
-									e);
-						}
-					});
-					t1.start();
-				}
-				if (result == 4) {
-					Thread t1 = new Thread(() -> {
-						try {
-							final ClassWriter cw = new ClassWriter(0);
-							try {
-								Objects.requireNonNull(cn).accept(cw);
-							} catch (Exception e) {
-								e.printStackTrace();
-								try {
-									Thread.sleep(200);
-									Objects.requireNonNull(cn).accept(cw);
-								} catch (InterruptedException ignored) { }
-							}
-							
-							String contents = Decompiler.KRAKATAU_DECOMPILER.getDecompiler().
-									decompileClassNode(cn, cw.toByteArray());
-							DiskWriter.replaceFile(path, contents, false);
-							BytecodeViewer.updateBusyStatus(false);
-						} catch (Exception e) {
-							BytecodeViewer.updateBusyStatus(false);
-							BytecodeViewer.handleException(e);
-						}
-					});
-					t1.start();
-				}
-				if (result == 5) {
-					BytecodeViewer.updateBusyStatus(false);
+				//handle the result of the user selection
+				switch(promptDecompilerUserSelect() + DECOMPILE_OPENED_ONLY_ALL)
+				{
+					case DECOMPILE_OPENED_ONLY_ALL:
+						//decompile using procyon
+						decompileCurrentlyOpenedResource(Decompiler.PROCYON_DECOMPILER, file, true);
+						
+						//decompile using cfr
+						decompileCurrentlyOpenedResource(Decompiler.CFR_DECOMPILER, file, true);
+						
+						//decompile using fernflower
+						decompileCurrentlyOpenedResource(Decompiler.FERNFLOWER_DECOMPILER, file, true);
+						
+						//decompile using krakatau
+						decompileCurrentlyOpenedResource(Decompiler.KRAKATAU_DECOMPILER, file, true);
+						break;
+						
+					case DECOMPILE_OPENED_ONLY_PROCYON:
+						//decompile using procyon
+						decompileCurrentlyOpenedResource(Decompiler.PROCYON_DECOMPILER, file, false);
+						break;
+						
+					case DECOMPILE_OPENED_ONLY_CFR:
+						//decompile using cfr
+						decompileCurrentlyOpenedResource(Decompiler.CFR_DECOMPILER, file, false);
+						break;
+						
+					case DECOMPILE_OPENED_ONLY_FERNFLOWER:
+						//decompile using fernflower
+						decompileCurrentlyOpenedResource(Decompiler.FERNFLOWER_DECOMPILER, file, false);
+						break;
+						
+					case DECOMPILE_OPENED_ONLY_KRAKATAU:
+						//decompile using krakatau
+						decompileCurrentlyOpenedResource(Decompiler.KRAKATAU_DECOMPILER, file, false);
+						break;
 				}
 			}
-		}, "Decompile Thread");
-		decompileThread.start();
+			catch (Exception e)
+			{
+				BytecodeViewer.handleException(e);
+			}
+		});
+	}
+	
+	public static int promptDecompilerUserSelect()
+	{
+		final JOptionPane pane = new JOptionPane("Which decompiler would you like to use?");
+		final Object[] options = new String[]{ "All", "Procyon", "CFR",
+				"Fernflower", "Krakatau", "Cancel"}; //TODO JDGUI,JADX
+		
+		pane.setOptions(options);
+		final JDialog dialog = pane.createDialog(BytecodeViewer.viewer, "Bytecode Viewer - Select Decompiler");
+		dialog.setVisible(true);
+		final Object obj = pane.getValue();
+		
+		int result = -1;
+		for (int k = 0; k < options.length; k++)
+			if (options[k].equals(obj))
+				result = k;
+		
+		return result;
+	}
+	
+	public static void decompileSaveAll(Decompiler decompiler, File targetJar, File outputZip, boolean saveAll)
+	{
+		//signal to the user that BCV is performing an action in the background
+		BytecodeViewer.updateBusyStatus(true);
+		
+		//decompile all opened classes to zip
+		decompiler.getDecompiler().decompileToZip(targetJar.getAbsolutePath(), saveAll
+				? MiscUtils.append(outputZip, "-" + decompiler.getDecompilerNameProgrammic() + ".zip")
+				: outputZip.getAbsolutePath());
+		
+		//signal to the user that BCV is finished performing that action
+		BytecodeViewer.updateBusyStatus(false);
+	}
+	
+	public static void decompileCurrentlyOpenedResource(Decompiler decompiler, File outputFile, boolean saveAll)
+	{
+		//signal to the user that BCV is performing an action in the background
+		BytecodeViewer.updateBusyStatus(true);
+		
+		//decompile the currently opened resource and save it to the specified file
+		DiskWriter.replaceFile(saveAll
+						? MiscUtils.append(outputFile, "-" + decompiler.getDecompilerNameProgrammic() + ".java")
+						: outputFile.getAbsolutePath(),
+				BCV.decompileCurrentlyOpenedClassNode(decompiler), false);
+		
+		//signal to the user that BCV is finished performing that action
+		BytecodeViewer.updateBusyStatus(false);
 	}
 }
