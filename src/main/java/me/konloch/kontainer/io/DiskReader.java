@@ -64,7 +64,7 @@ public class DiskReader {
         try (FileReader fr = new FileReader(fileName);
              BufferedReader reader = new BufferedReader(fr)) {
             for (String add = reader.readLine(); add != null; add = reader.readLine()) {
-                s.append(EncodeUtils.unicodeToString(add)).append(System.getProperty("line.separator"));
+                s.append(EncodeUtils.unicodeToString(add)).append(System.lineSeparator());
             }
         }
 

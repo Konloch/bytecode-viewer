@@ -79,7 +79,7 @@ public class RunOptions extends JFrame
         getContentPane().add(mainMethodFQN);
         mainMethodFQN.setColumns(10);
 
-        JLabel lblNewLabel = new JLabel("Debug Classes (Seperate with , ):");
+        JLabel lblNewLabel = new JLabel("Debug Classes (Separated with , ):");
         lblNewLabel.setBounds(10, 89, 228, 14);
         getContentPane().add(lblNewLabel);
 
