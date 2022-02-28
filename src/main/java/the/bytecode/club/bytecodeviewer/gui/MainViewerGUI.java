@@ -448,6 +448,13 @@ public class MainViewerGUI extends JFrame
         // it might be better to leave it as a secondary menu
         settingsMainMenu.add(apkConversionSecondaryMenu);
         //settingsMainMenu.add(useNewSettingsDialog ? apkConversionSettings : apkConversionMenu);
+    
+        //Smali minSdkVersion
+        minSdkVersionSpinner.setPreferredSize(new Dimension(60, 24));
+        minSdkVersionSpinner.setMinimumSize(new Dimension(60, 24));
+        minSdkVersionSpinner.setModel(new SpinnerNumberModel(26, 1, null, 1));
+        minSdkVersionMenu.add(minSdkVersionSpinner);
+        settingsMainMenu.add(minSdkVersionMenu);
         
         settingsMainMenu.add(new JSeparator());
         
@@ -653,13 +660,6 @@ public class MainViewerGUI extends JFrame
         bytecodeDecompilerSettingsSecondaryMenu.add(appendBracketsToLabels);
         bytecodeDecompilerSettingsDialog = new SettingsDialog(bytecodeDecompilerSettingsSecondaryMenu, new JPanel());
         bytecodeDecompilerSettings.addActionListener((e)-> bytecodeDecompilerSettingsDialog.showDialog());
-
-        //Smali minSdkVersion
-        minSdkVersionSpinner.setPreferredSize(new Dimension(60, 24));
-        minSdkVersionSpinner.setMinimumSize(new Dimension(60, 24));
-        minSdkVersionSpinner.setModel(new SpinnerNumberModel(26, 1, null, 1));
-        minSdkVersionMenu.add(minSdkVersionSpinner);
-        settingsMainMenu.add(minSdkVersionMenu);
         
         deleteForeignOutdatedLibs.addActionListener(arg0 -> showForeignLibraryWarning());
         forcePureAsciiAsText.addActionListener(arg0 -> SettingsSerializer.saveSettingsAsync());
