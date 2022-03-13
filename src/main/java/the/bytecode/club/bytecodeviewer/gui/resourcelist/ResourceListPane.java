@@ -104,7 +104,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         
         tree.setRootVisible(false);
         tree.setShowsRootHandles(true);
-        quickSearch.setForeground(Color.gray);
+        quickSearch.setForeground(quickSearch.getDisabledTextColor());
     
         attachTreeListeners();
         attachQuickSearchListeners();
@@ -524,7 +524,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 if (quickSearch.getText().equals(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString()))
                 {
                     quickSearch.setText("");
-                    quickSearch.setForeground(Color.black);
+                    quickSearch.setForeground(quickSearch.getSelectedTextColor());
                 }
             }
         
@@ -534,7 +534,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 if (quickSearch.getText().isEmpty())
                 {
                     quickSearch.setText(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString());
-                    quickSearch.setForeground(Color.gray);
+                    quickSearch.setForeground(quickSearch.getDisabledTextColor());
                 }
             }
         });
