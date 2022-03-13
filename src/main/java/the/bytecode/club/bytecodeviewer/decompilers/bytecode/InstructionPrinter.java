@@ -117,7 +117,7 @@ public class InstructionPrinter {
             info.add("}");
         return info;
     }
-    
+
     public String printInstruction(AbstractInsnNode ain)
     {
         String line = "";
@@ -136,15 +136,15 @@ public class InstructionPrinter {
         } else if (ain instanceof JumpInsnNode) {
             line = printJumpInsnNode((JumpInsnNode) ain);
         } else if (ain instanceof LineNumberNode) {
-            line = printLineNumberNode();
+            line = printLineNumberNode((LineNumberNode) ain);
         } else if (ain instanceof LabelNode) {
             if (firstLabel
                     && BytecodeViewer.viewer.appendBracketsToLabels
                     .isSelected())
                 info.add("}");
-        
+
             line = printLabelnode((LabelNode) ain);
-        
+
             if (BytecodeViewer.viewer.appendBracketsToLabels.isSelected()) {
                 if (!firstLabel)
                     firstLabel = true;
@@ -168,7 +168,7 @@ public class InstructionPrinter {
             line += "UNADDED OPCODE: " + nameOpcode(ain.getOpcode()) + " "
                     + ain;
         }
-        
+
         return line;
     }
 
@@ -245,8 +245,8 @@ public class InstructionPrinter {
                 + resolveLabel(jin.label);
     }
 
-    protected String printLineNumberNode() {
-        return "";
+    protected String printLineNumberNode(LineNumberNode lnn) {
+        return "// line " + lnn.line;
     }
 
     protected String printLabelnode(LabelNode label) {
