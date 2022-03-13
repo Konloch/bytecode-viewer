@@ -1,10 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
 
 import the.bytecode.club.bytecodeviewer.searching.SearchPanel;
-import the.bytecode.club.bytecodeviewer.searching.impl.FieldCallSearch;
-import the.bytecode.club.bytecodeviewer.searching.impl.LDCSearch;
-import the.bytecode.club.bytecodeviewer.searching.impl.MethodCallSearch;
-import the.bytecode.club.bytecodeviewer.searching.impl.RegexSearch;
+import the.bytecode.club.bytecodeviewer.searching.impl.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -34,6 +31,7 @@ public enum SearchType
 	Regex(new RegexSearch()),
 	MethodCall(new MethodCallSearch()),
 	FieldCall(new FieldCallSearch()),
+	MemberWithAnnotation(new MemberWithAnnotationSearch())
 	;
 	
 	public final SearchPanel panel;

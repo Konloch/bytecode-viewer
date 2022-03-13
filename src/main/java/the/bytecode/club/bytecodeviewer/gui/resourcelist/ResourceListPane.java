@@ -1,7 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -71,7 +70,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 public class ResourceListPane extends TranslatedVisibleComponent implements FileDrop.Listener
 {
     public final JPopupMenu rightClickMenu = new JPopupMenu();
-    public final JCheckBox exact = new TranslatedJCheckBox("Exact", TranslatedComponents.EXACT);
+    public final JCheckBox exact = new TranslatedJCheckBox("Exact path", TranslatedComponents.EXACT_PATH);
+    public final JCheckBox caseSensitive = new TranslatedJCheckBox("Match case", TranslatedComponents.MATCH_CASE);
     public final JButton open = new JButton("+");
     public final JButton close = new JButton("-");
     public final ResourceTreeNode treeRoot = new ResourceTreeNode("Loaded Files:");
@@ -118,7 +118,12 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         
         quickSearchPanel.setLayout(new BorderLayout());
         quickSearchPanel.add(quickSearch, BorderLayout.NORTH);
-        exactPanel.add(exact, BorderLayout.WEST);
+
+        JPanel btns = new JPanel(new FlowLayout());
+        btns.add(exact);
+        btns.add(caseSensitive);
+        exactPanel.add(btns, BorderLayout.WEST);
+
         buttonPanel.add(open, BorderLayout.EAST);
         buttonPanel.add(close, BorderLayout.WEST);
         exactPanel.add(buttonPanel, BorderLayout.EAST);
