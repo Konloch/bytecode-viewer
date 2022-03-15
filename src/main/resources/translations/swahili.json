@@ -254,5 +254,17 @@
   "FOREIGN_LIBRARY_WARNING": "ONYO: Kwa kugeuzwa kwa maktaba zilizopitwa na wakati hakutaondolewa.\n\rPia ni suala la usalama.\n\rZIMA TU ikiwa unajua unachofanya.",
   "RELOAD_RESOURCES_CONFIRM": "Je! Una uhakika unataka kupakia tena rasilimali?",
   "SELECT_FILE_DESCRIPTION": "APK, DEX, Faili za Darasa au Zip / Jar / Nyaraka za Vita",
-  "CLOSE_TAB": "Funga Tab"
+  "CLOSE_TAB": "Funga Tab",
+  "EXPAND": "Panua",
+  "DELETE": "Futa",
+  "MATCH_CASE": "Kesi ya Kulinganisha",
+  "ILLEGAL_ACCESS_ERROR": "Tafadhali tumia Java 15 au zaidi kufanya hivi.",
+  "OPEN_UNSTYLED": "Fungua",
+  "ONE_PLUGIN_AT_A_TIME": "Kwa sasa kuna programu-jalizi nyingine inayofanya kazi sasa hivi, tafadhali subiri hiyo ikamilishe kutekeleza.",
+  "MIN_SDK_VERSION": "Toleo la chini kabisa la SDK",
+  "COLLAPSE": "Kunja",
+  "ANNOTATION_NAME": "Jina la Ufafanuzi",
+  "NEW": "Mpya",
+  "QUICK_OPEN": "Fungua Haraka",
+  "EXACT_PATH": "Njia Hasa"
 }

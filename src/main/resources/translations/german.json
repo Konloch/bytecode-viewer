@@ -256,5 +256,15 @@
   "PLEASE_SEND_THIS_ERROR_LOG_TO": "Bitte senden Sie dieses Fehlerprotokoll an",
   "PLEASE_SEND_RESOURCES": "Wenn Sie entsprechende gesetzliche Rechte an der jeweiligen Klasse besitzen",
   "MIN_SDK_VERSION": "Minimale SDK-Version",
-  "ILLEGAL_ACCESS_ERROR": "Bitte benutzen Sie Java 15 oder älter, um dies zu tun."
+  "ILLEGAL_ACCESS_ERROR": "Bitte benutzen Sie Java 15 oder älter, um dies zu tun.",
+  "EXPAND": "Erweitern Sie",
+  "DELETE": "Löschen",
+  "MATCH_CASE": "Streichholzschachtel",
+  "OPEN_UNSTYLED": "Öffnen Sie",
+  "ONE_PLUGIN_AT_A_TIME": "Es wird gerade ein anderes Plugin ausgeführt, bitte warten Sie, bis dieses fertig ist.",
+  "COLLAPSE": "Kollabieren",
+  "ANNOTATION_NAME": "Anmerkung Name",
+  "NEW": "Neu",
+  "QUICK_OPEN": "Schnell öffnen",
+  "EXACT_PATH": "Genauer Pfad"
 }

@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Biztos, hogy újra kívánja tölteni az erőforrásokat?",
   "SELECT_FILE_DESCRIPTION": "APK, DEX, Class Files vagy Zip",
   "CLOSE_TAB": "Bezárja a lapot",
-  "ABOUT_TITLE": "{PRODUCT_NAME} - Névjegy - {WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Névjegy - {WEBSITE} | {TBC}",
+  "EXPAND": "Expand",
+  "DELETE": "Törlés",
+  "MATCH_CASE": "Gyufa eset",
+  "ILLEGAL_ACCESS_ERROR": "Ehhez kérjük, használja a Java 15-ös vagy annál régebbi változatát.",
+  "OPEN_UNSTYLED": "Nyissa meg a címet.",
+  "ONE_PLUGIN_AT_A_TIME": "Jelenleg egy másik plugin fut, kérjük, várd meg, amíg az befejezi a futtatást.",
+  "MIN_SDK_VERSION": "Minimális SDK verzió",
+  "COLLAPSE": "Összeomlás",
+  "ANNOTATION_NAME": "Megjegyzések neve",
+  "NEW": "Új",
+  "QUICK_OPEN": "Gyors nyitás",
+  "EXACT_PATH": "Pontos útvonal"
 }

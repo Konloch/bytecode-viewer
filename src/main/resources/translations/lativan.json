@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Vai esat pārliecināts, ka vēlaties atkārtoti ielādēt resursus?",
   "SELECT_FILE_DESCRIPTION": "APK, DEX, klases faili vai Zip",
   "CLOSE_TAB": "Aizvērt cilni",
-  "ABOUT_TITLE": "{PRODUCT_NAME} - Par - {WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Par - {WEBSITE} | {TBC}",
+  "EXPAND": "Izvērst",
+  "DELETE": "Dzēst",
+  "MATCH_CASE": "Match Case",
+  "ILLEGAL_ACCESS_ERROR": "Lai to izdarītu, izmantojiet Java 15 vai jaunāku versiju.",
+  "OPEN_UNSTYLED": "Atvērt",
+  "ONE_PLUGIN_AT_A_TIME": "Pašlaik darbojas cits spraudnis, lūdzu, pagaidiet, līdz tas tiks izpildīts.",
+  "MIN_SDK_VERSION": "Minimālā SDK versija",
+  "COLLAPSE": "Collapse",
+  "ANNOTATION_NAME": "Anotācijas nosaukums",
+  "NEW": "Jauns",
+  "QUICK_OPEN": "Ātrā atvēršana",
+  "EXACT_PATH": "Precīzs ceļš"
 }

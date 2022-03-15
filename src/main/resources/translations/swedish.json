@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Är du säker på att du vill ladda om resurserna?",
   "SELECT_FILE_DESCRIPTION": "APKs, DEX, klassfiler eller Zip",
   "CLOSE_TAB": "Stäng fliken",
-  "ABOUT_TITLE": "{PRODUCT_NAME} - Om - {WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Om - {WEBSITE} | {TBC}",
+  "EXPAND": "Expandera",
+  "DELETE": "Ta bort",
+  "MATCH_CASE": "Match Case",
+  "ILLEGAL_ACCESS_ERROR": "Använd Java 15 eller äldre för att göra detta.",
+  "OPEN_UNSTYLED": "Öppna",
+  "ONE_PLUGIN_AT_A_TIME": "Ett annat insticksprogram körs just nu, vänligen vänta tills det är klart.",
+  "MIN_SDK_VERSION": "Minsta version av SDK",
+  "COLLAPSE": "Kollaps",
+  "ANNOTATION_NAME": "Namn på anteckning",
+  "NEW": "Ny",
+  "QUICK_OPEN": "Snabböppning",
+  "EXACT_PATH": "Exakt väg"
 }

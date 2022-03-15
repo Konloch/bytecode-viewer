@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Czy na pewno chcesz ponownie załadować zasoby?",
   "SELECT_FILE_DESCRIPTION": "APK, DEX, pliki klasowe lub Zip",
   "CLOSE_TAB": "Zamknij kartę",
-  "ABOUT_TITLE": "{PRODUCT_NAME} – Informacje – {WITRYNA} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} – Informacje – {WITRYNA} | {TBC}",
+  "EXPAND": "Rozwiń stronę",
+  "DELETE": "Usuń",
+  "MATCH_CASE": "Sprawa meczu",
+  "ILLEGAL_ACCESS_ERROR": "W tym celu należy korzystać z oprogramowania Java 15 lub starszego.",
+  "OPEN_UNSTYLED": "Otwórz",
+  "ONE_PLUGIN_AT_A_TIME": "W tej chwili działa inny plugin, poczekaj, aż zakończy działanie.",
+  "MIN_SDK_VERSION": "Minimalna wersja SDK",
+  "COLLAPSE": "Zapadnij się",
+  "ANNOTATION_NAME": "Nazwa adnotacji",
+  "NEW": "Nowy",
+  "QUICK_OPEN": "Szybkie otwieranie",
+  "EXACT_PATH": "Dokładna ścieżka"
 }

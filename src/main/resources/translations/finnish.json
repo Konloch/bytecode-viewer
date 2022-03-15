@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Haluatko varmasti ladata resurssit uudelleen?",
   "SELECT_FILE_DESCRIPTION": "APKs, DEX, Luokkatiedostot tai Zip-tiedostot",
   "CLOSE_TAB": "Sulje välilehti",
-  "ABOUT_TITLE": "{PRODUCT_NAME} - Tietoja - {WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Tietoja - {WEBSITE} | {TBC}",
+  "EXPAND": "Laajenna",
+  "DELETE": "Poista",
+  "MATCH_CASE": "Match Case",
+  "ILLEGAL_ACCESS_ERROR": "Käytä tähän Java 15:tä tai vanhempaa Java-ohjelmaa.",
+  "OPEN_UNSTYLED": "Avaa",
+  "ONE_PLUGIN_AT_A_TIME": "Parhaillaan on käynnissä toinen lisäosa, odota, että sen suoritus päättyy.",
+  "MIN_SDK_VERSION": "SDK:n vähimmäisversio",
+  "COLLAPSE": "Romahdus",
+  "ANNOTATION_NAME": "Merkinnän nimi",
+  "NEW": "Uusi",
+  "QUICK_OPEN": "Nopea avaaminen",
+  "EXACT_PATH": "Tarkka polku"
 }

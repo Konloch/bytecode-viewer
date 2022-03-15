@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Ali ste prepričani, da želite ponovno naložiti vire?",
   "SELECT_FILE_DESCRIPTION": "Datoteke APK, DEX, datoteke razredov ali ZIP",
   "CLOSE_TAB": "Zapri zavihek",
-  "ABOUT_TITLE": "{PRODUCT_NAME} - Vizitka - {WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Vizitka - {WEBSITE} | {TBC}",
+  "EXPAND": "Razširite",
+  "DELETE": "Izbriši",
+  "MATCH_CASE": "Primer tekme",
+  "ILLEGAL_ACCESS_ERROR": "Pri tem uporabljajte program Java 15 ali starejši.",
+  "OPEN_UNSTYLED": "Odpri",
+  "ONE_PLUGIN_AT_A_TIME": "Trenutno se izvaja drug vtičnik, zato počakajte, da se zaključi.",
+  "MIN_SDK_VERSION": "Najmanjša različica SDK",
+  "COLLAPSE": "Zbijanje",
+  "ANNOTATION_NAME": "Ime anotacije",
+  "NEW": "Novo",
+  "QUICK_OPEN": "Hitro odprtje",
+  "EXACT_PATH": "Natančna pot"
 }

@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Ar tikrai norite iš naujo įkelti išteklius?",
   "SELECT_FILE_DESCRIPTION": "APK, DEX, klasės failai arba Zip",
   "CLOSE_TAB": "Uždaryti skirtuką",
-  "ABOUT_TITLE": "„{PRODUCT_NAME}“ - apie - „{WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "„{PRODUCT_NAME}“ - apie - „{WEBSITE} | {TBC}",
+  "EXPAND": "Išplėsti",
+  "DELETE": "Ištrinti",
+  "MATCH_CASE": "Rungtynių atvejis",
+  "ILLEGAL_ACCESS_ERROR": "Naudokite \"Java 15\" arba naujesnę versiją.",
+  "OPEN_UNSTYLED": "Atviras",
+  "ONE_PLUGIN_AT_A_TIME": "Šiuo metu veikia kitas įskiepis, palaukite, kol jis bus baigtas vykdyti.",
+  "MIN_SDK_VERSION": "Minimali SDK versija",
+  "COLLAPSE": "Žlugti",
+  "ANNOTATION_NAME": "Anotacijos pavadinimas",
+  "NEW": "Naujas",
+  "QUICK_OPEN": "Greitas atidarymas",
+  "EXACT_PATH": "Tikslus kelias"
 }

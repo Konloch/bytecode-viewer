@@ -254,5 +254,17 @@
   "FOREIGN_LIBRARY_WARNING": "PERINGATAN: Dengan ini, perpustakaan yang sudah lapuk tidak akan dikeluarkan.\n\rIni juga masalah keselamatan.\n\rHANYA NONAKTIFKAN JIKA ANDA TAHU APA YANG ANDA LAKUKAN.",
   "RELOAD_RESOURCES_CONFIRM": "Adakah anda pasti mahu memuatkan semula sumber?",
   "SELECT_FILE_DESCRIPTION": "APK, DEX, Fail Kelas atau Arkib Zip / Jar / Perang",
-  "CLOSE_TAB": "Tutup Tab"
+  "CLOSE_TAB": "Tutup Tab",
+  "EXPAND": "Kembangkan",
+  "DELETE": "Padam",
+  "MATCH_CASE": "Kes Perlawanan",
+  "ILLEGAL_ACCESS_ERROR": "Sila gunakan Java 15 atau lebih lama untuk melakukan ini.",
+  "OPEN_UNSTYLED": "Buka",
+  "ONE_PLUGIN_AT_A_TIME": "Pada masa ini terdapat satu lagi pemalam yang sedang berjalan sekarang, sila tunggu sehingga ia selesai dilaksanakan.",
+  "MIN_SDK_VERSION": "Versi SDK minimum",
+  "COLLAPSE": "Runtuh",
+  "ANNOTATION_NAME": "Nama Anotasi",
+  "NEW": "Baru",
+  "QUICK_OPEN": "Buka Cepat",
+  "EXACT_PATH": "Laluan Tepat"
 }

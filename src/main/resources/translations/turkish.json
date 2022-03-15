@@ -254,5 +254,17 @@
   "FOREIGN_LIBRARY_WARNING": "UYARI: Bu kapatıldığında, eski kitaplıklar KALDIRILMAYACAKTIR.\n\rAynı zamanda bir güvenlik sorunudur.\n\rYALNIZCA NE YAPTIĞINIZI BİLİYORSANIZ KAPATIN.",
   "RELOAD_RESOURCES_CONFIRM": "Kaynakları yeniden yüklemek istediğinizden emin misiniz?",
   "SELECT_FILE_DESCRIPTION": "APK'lar, DEX, Sınıf Dosyaları veya Zip/Jar/War Arşivleri",
-  "CLOSE_TAB": "Sekmeyi Kapat"
+  "CLOSE_TAB": "Sekmeyi Kapat",
+  "EXPAND": "Genişletmek",
+  "DELETE": "Silmek",
+  "MATCH_CASE": "Maç Kasası",
+  "ILLEGAL_ACCESS_ERROR": "Bunu yapmak için lütfen Java 15 veya daha eskisini kullanın.",
+  "OPEN_UNSTYLED": "Açık",
+  "ONE_PLUGIN_AT_A_TIME": "Şu anda çalışan başka bir eklenti var, lütfen yürütmenin bitmesini bekleyin.",
+  "MIN_SDK_VERSION": "Minimum SDK sürümü",
+  "COLLAPSE": "Çöküş",
+  "ANNOTATION_NAME": "Ek Açıklama Adı",
+  "NEW": "Yeni",
+  "QUICK_OPEN": "Hızlı Aç",
+  "EXACT_PATH": "Tam Yol"
 }

@@ -254,5 +254,17 @@
   "FOREIGN_LIBRARY_WARNING": "אזהרה: עם ביטול זה הספריות המיושנות לא יוסרו.\n\rזו גם בעיית אבטחה.\n\rכבה את זה רק אם אתה יודע מה אתה עושה.",
   "RELOAD_RESOURCES_CONFIRM": "האם אתה בטוח שברצונך לטעון מחדש את המשאבים?",
   "SELECT_FILE_DESCRIPTION": "חבילות APK, DEX, קבצי כיתה או ארכיון מיקוד / צנצנת / מלחמה",
-  "CLOSE_TAB": "סגור את הכרטיסייה"
+  "CLOSE_TAB": "סגור את הכרטיסייה",
+  "EXPAND": "לְהַרְחִיב",
+  "DELETE": "לִמְחוֹק",
+  "MATCH_CASE": "מארז התאמה",
+  "ILLEGAL_ACCESS_ERROR": "השתמש ב-Java 15 ומעלה כדי לעשות זאת.",
+  "OPEN_UNSTYLED": "לִפְתוֹחַ",
+  "ONE_PLUGIN_AT_A_TIME": "יש כרגע תוסף נוסף שפועל כעת, אנא המתן עד שיסיים להפעיל אותו.",
+  "MIN_SDK_VERSION": "גרסת SDK מינימלית",
+  "COLLAPSE": "הִתמוֹטְטוּת",
+  "ANNOTATION_NAME": "שם הערה",
+  "NEW": "חָדָשׁ",
+  "QUICK_OPEN": "פתיחה מהירה",
+  "EXACT_PATH": "נתיב מדויק"
 }

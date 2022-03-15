@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Sunteți sigur că doriți să reîncărcați resursele?",
   "SELECT_FILE_DESCRIPTION": "APKs, DEX, Fișiere de clasă sau Zip",
   "CLOSE_TAB": "Închideți fila",
-  "ABOUT_TITLE": "{PRODUCT_NAME} - Despre - {WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Despre - {WEBSITE} | {TBC}",
+  "EXPAND": "Extindeți",
+  "DELETE": "Ștergeți",
+  "MATCH_CASE": "Caz de meci",
+  "ILLEGAL_ACCESS_ERROR": "Vă rugăm să utilizați Java 15 sau o versiune mai veche pentru a face acest lucru.",
+  "OPEN_UNSTYLED": "Deschideți",
+  "ONE_PLUGIN_AT_A_TIME": "În prezent, un alt plugin rulează în acest moment, vă rugăm să așteptați ca acesta să se termine de executat.",
+  "MIN_SDK_VERSION": "Versiunea minimă a SDK",
+  "COLLAPSE": "Colaps",
+  "ANNOTATION_NAME": "Denumire adnotare",
+  "NEW": "Nou",
+  "QUICK_OPEN": "Deschidere rapidă",
+  "EXACT_PATH": "Calea exactă"
 }

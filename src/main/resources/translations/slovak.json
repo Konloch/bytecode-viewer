@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Ste si istí, že chcete znovu načítať zdroje?",
   "SELECT_FILE_DESCRIPTION": "Súbory APK, DEX, Class Files alebo Zip",
   "CLOSE_TAB": "Zatvoriť kartu",
-  "ABOUT_TITLE": "{PRODUCT_NAME} - Informácie - {WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Informácie - {WEBSITE} | {TBC}",
+  "EXPAND": "Rozšíriť",
+  "DELETE": "Odstrániť",
+  "MATCH_CASE": "Prípad zápasu",
+  "ILLEGAL_ACCESS_ERROR": "Na tento účel použite Javu 15 alebo staršiu.",
+  "OPEN_UNSTYLED": "Otvorte stránku",
+  "ONE_PLUGIN_AT_A_TIME": "V súčasnosti je spustený iný doplnok, počkajte, kým sa dokončí.",
+  "MIN_SDK_VERSION": "Minimálna verzia SDK",
+  "COLLAPSE": "Zrútenie",
+  "ANNOTATION_NAME": "Názov anotácie",
+  "NEW": "Nový",
+  "QUICK_OPEN": "Rýchle otvorenie",
+  "EXACT_PATH": "Presná cesta"
 }

@@ -281,5 +281,8 @@
   "SAVE_AS": "Save As...",
   "RESULTS": "Results",
   "REFRESH": "Refresh",
+  "ANNOTATION_NAME": "Annotation Name",
+  "MATCH_CASE": "Match Case",
+  "EXACT_PATH": "Exact Path",
   "MIN_SDK_VERSION": "Minimum SDK version"
 }

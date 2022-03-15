@@ -254,5 +254,17 @@
   "FOREIGN_LIBRARY_WARNING": "警告：关闭此功能后，将不会删除过时的库。 {NEWLINE}这也是一个安全问题。\n\r仅当您知道自己在做什么时才将其关闭。",
   "RELOAD_RESOURCES_CONFIRM": "您确定要重新加载资源吗？",
   "SELECT_FILE_DESCRIPTION": "APK、DEX、类文件或 Zip/Jar/War 档案",
-  "CLOSE_TAB": "关闭标签"
+  "CLOSE_TAB": "关闭标签",
+  "EXPAND": "扩张",
+  "DELETE": "删除",
+  "MATCH_CASE": "相符",
+  "ILLEGAL_ACCESS_ERROR": "请使用 Java 15 或更早版本来执行此操作。",
+  "OPEN_UNSTYLED": "打开",
+  "ONE_PLUGIN_AT_A_TIME": "目前正在运行另一个插件，请等待它完成执行。",
+  "MIN_SDK_VERSION": "最低 SDK 版本",
+  "COLLAPSE": "坍塌",
+  "ANNOTATION_NAME": "注释名称",
+  "NEW": "新的",
+  "QUICK_OPEN": "快速打开",
+  "EXACT_PATH": "确切路径"
 }

@@ -254,5 +254,17 @@
   "FOREIGN_LIBRARY_WARNING": "CẢNH BÁO: Với việc này, các thư viện lỗi thời sẽ KHÔNG bị xóa.\n\rĐây cũng là một vấn đề bảo mật.\n\rCHỈ TẮT NẾU BẠN BIẾT BẠN ĐANG LÀM GÌ.",
   "RELOAD_RESOURCES_CONFIRM": "Bạn có chắc chắn muốn tải lại các tài nguyên không?",
   "SELECT_FILE_DESCRIPTION": "APK, DEX, Tệp lớp hoặc Lưu trữ Zip / Jar / War",
-  "CLOSE_TAB": "Đóng tab"
+  "CLOSE_TAB": "Đóng tab",
+  "EXPAND": "Mở rộng",
+  "DELETE": "Xóa bỏ",
+  "MATCH_CASE": "Trường hợp phù hợp",
+  "ILLEGAL_ACCESS_ERROR": "Vui lòng sử dụng Java 15 trở lên để thực hiện việc này.",
+  "OPEN_UNSTYLED": "Mở",
+  "ONE_PLUGIN_AT_A_TIME": "Hiện tại có một plugin khác đang chạy ngay bây giờ, vui lòng đợi plugin đó hoàn tất quá trình thực thi.",
+  "MIN_SDK_VERSION": "Phiên bản SDK tối thiểu",
+  "COLLAPSE": "Sự sụp đổ",
+  "ANNOTATION_NAME": "Tên chú thích",
+  "NEW": "Mới mẻ",
+  "QUICK_OPEN": "Mở nhanh",
+  "EXACT_PATH": "Đường dẫn chính xác"
 }

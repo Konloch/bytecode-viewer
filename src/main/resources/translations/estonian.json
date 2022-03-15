@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Kas olete kindel, et soovite ressursse uuesti laadida?",
   "SELECT_FILE_DESCRIPTION": "APK-d, DEX, klassifailid või Zip-failid",
   "CLOSE_TAB": "Sulge vahekaart",
-  "ABOUT_TITLE": "{PRODUCT_NAME} - Teave - {WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Teave - {WEBSITE} | {TBC}",
+  "EXPAND": "Laiendage",
+  "DELETE": "Kustuta",
+  "MATCH_CASE": "Match Case",
+  "ILLEGAL_ACCESS_ERROR": "Palun kasutage selleks Java 15 või vanemat versiooni.",
+  "OPEN_UNSTYLED": "Avatud",
+  "ONE_PLUGIN_AT_A_TIME": "Hetkel töötab veel üks plugin, palun oodake, kuni see lõppeb.",
+  "MIN_SDK_VERSION": "Minimaalne SDK versioon",
+  "COLLAPSE": "Kokkuvarisemine",
+  "ANNOTATION_NAME": "Märge Nimi",
+  "NEW": "Uus",
+  "QUICK_OPEN": "Kiire avamine",
+  "EXACT_PATH": "Täpne tee"
 }

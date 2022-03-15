@@ -254,5 +254,17 @@
   "FOREIGN_LIBRARY_WARNING": "GARGADI: Da wannan za'a canza dakunan karatun dakunan karatu na da ba za'a cire ba.\n\rShima batun tsaro ne. {LABARAI} KAWAI KA KASHE SHI IDAN KA SAN ABINDA KAKE AIKATAWA.",
   "RELOAD_RESOURCES_CONFIRM": "Shin kun tabbata kuna son sake loda albarkatun?",
   "SELECT_FILE_DESCRIPTION": "APKs, DEX, Fayilolin Aji ko Zip / Jar / Gidan Tarihi",
-  "CLOSE_TAB": "Rufe Tab"
+  "CLOSE_TAB": "Rufe Tab",
+  "EXPAND": "Fadada",
+  "DELETE": "Share",
+  "MATCH_CASE": "Match Case",
+  "ILLEGAL_ACCESS_ERROR": "Da fatan za a yi amfani da Java 15 ko fiye don yin wannan.",
+  "OPEN_UNSTYLED": "Bude",
+  "ONE_PLUGIN_AT_A_TIME": "A halin yanzu akwai wani plugin da ke gudana a yanzu, da fatan za a jira hakan ya gama aiwatarwa.",
+  "MIN_SDK_VERSION": "Mafi ƙarancin sigar SDK",
+  "COLLAPSE": "Rushewa",
+  "ANNOTATION_NAME": "Sunan Bayani",
+  "NEW": "Sabo",
+  "QUICK_OPEN": "Saurin Buɗewa",
+  "EXACT_PATH": "Madaidaicin Hanya"
 }

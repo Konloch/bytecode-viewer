@@ -254,5 +254,17 @@
   "FOREIGN_LIBRARY_WARNING": "ADVARSEL: Når dette er slått av, vil IKKE fjernede biblioteker fjernes.\n\rDet er også et sikkerhetsproblem.\n\rSLÅ KUN DET AV Hvis du vet hva du gjør.",
   "RELOAD_RESOURCES_CONFIRM": "Er du sikker på at du vil laste inn ressursene på nytt?",
   "SELECT_FILE_DESCRIPTION": "APK-filer, DEX, klassefiler eller zip / jar / krigsarkiv",
-  "CLOSE_TAB": "Lukk fanen"
+  "CLOSE_TAB": "Lukk fanen",
+  "EXPAND": "Utvide",
+  "DELETE": "Slett",
+  "MATCH_CASE": "Match Case",
+  "ILLEGAL_ACCESS_ERROR": "Bruk Java 15 eller eldre for å gjøre dette.",
+  "OPEN_UNSTYLED": "Åpen",
+  "ONE_PLUGIN_AT_A_TIME": "Det er for øyeblikket en annen plugin som kjører akkurat nå, vennligst vent til den fullføres.",
+  "MIN_SDK_VERSION": "Minimum SDK-versjon",
+  "COLLAPSE": "Kollapse",
+  "ANNOTATION_NAME": "Annoteringsnavn",
+  "NEW": "Ny",
+  "QUICK_OPEN": "Rask åpning",
+  "EXACT_PATH": "Nøyaktig vei"
 }

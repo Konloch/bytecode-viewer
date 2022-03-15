@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "リソースを再読み込みしてもよろしいですか？",
   "SELECT_FILE_DESCRIPTION": "APK、DEX、クラスファイルまたはZip",
   "CLOSE_TAB": "タブを閉じる",
-  "ABOUT_TITLE": "{PRODUCT_NAME}-概要-{WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME}-概要-{WEBSITE} | {TBC}",
+  "EXPAND": "拡大する",
+  "DELETE": "削除",
+  "MATCH_CASE": "マッチケース",
+  "ILLEGAL_ACCESS_ERROR": "Java 15 以上で行ってください。",
+  "OPEN_UNSTYLED": "オープン",
+  "ONE_PLUGIN_AT_A_TIME": "現在、別のプラグインが起動していますので、そちらの実行が終了するのをお待ちください。",
+  "MIN_SDK_VERSION": "SDKの最小バージョン",
+  "COLLAPSE": "崩壊",
+  "ANNOTATION_NAME": "アノテーション名",
+  "NEW": "新規",
+  "QUICK_OPEN": "クイックオープン",
+  "EXACT_PATH": "正確なパス"
 }

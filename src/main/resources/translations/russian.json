@@ -254,5 +254,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Вы уверены, что хотите перезагрузить ресурсы?",
   "SELECT_FILE_DESCRIPTION": "APKs, DEX, файлы классов или Zip",
   "CLOSE_TAB": "Закрыть вкладку",
-  "ABOUT_TITLE": "{PRODUCT_NAME} - О компании - {WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} - О компании - {WEBSITE} | {TBC}",
+  "EXPAND": "Развернуть",
+  "DELETE": "Удалить",
+  "MATCH_CASE": "Спичечный коробок",
+  "ILLEGAL_ACCESS_ERROR": "Для этого используйте Java 15 или старше.",
+  "OPEN_UNSTYLED": "Открыть",
+  "ONE_PLUGIN_AT_A_TIME": "В данный момент работает другой плагин, пожалуйста, дождитесь его завершения.",
+  "MIN_SDK_VERSION": "Минимальная версия SDK",
+  "COLLAPSE": "Коллапс",
+  "ANNOTATION_NAME": "Имя аннотации",
+  "NEW": "Новый",
+  "QUICK_OPEN": "Быстрое открытие",
+  "EXACT_PATH": "Точный путь"
 }

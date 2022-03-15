@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Είστε σίγουροι ότι θέλετε να επαναφορτώσετε τους πόρους;",
   "SELECT_FILE_DESCRIPTION": "APKs, DEX, Class Files ή Zip",
   "CLOSE_TAB": "Κλείσιμο καρτέλας",
-  "ABOUT_TITLE": "{PRODUCT_NAME} - Σχετικά - {ΙΣΤΟΣΕΛΙΔΑ} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Σχετικά - {ΙΣΤΟΣΕΛΙΔΑ} | {TBC}",
+  "EXPAND": "Επεκτείνετε το",
+  "DELETE": "Διαγραφή",
+  "MATCH_CASE": "Περίπτωση αγώνα",
+  "ILLEGAL_ACCESS_ERROR": "Παρακαλούμε χρησιμοποιήστε Java 15 ή παλαιότερη έκδοση για να το κάνετε αυτό.",
+  "OPEN_UNSTYLED": "Ανοίξτε το",
+  "ONE_PLUGIN_AT_A_TIME": "Αυτή τη στιγμή εκτελείται ένα άλλο πρόσθετο, περιμένετε να τελειώσει η εκτέλεσή του.",
+  "MIN_SDK_VERSION": "Ελάχιστη έκδοση SDK",
+  "COLLAPSE": "Κατάρρευση",
+  "ANNOTATION_NAME": "Όνομα σχολιασμού",
+  "NEW": "Νέο",
+  "QUICK_OPEN": "Γρήγορο άνοιγμα",
+  "EXACT_PATH": "Ακριβής διαδρομή"
 }

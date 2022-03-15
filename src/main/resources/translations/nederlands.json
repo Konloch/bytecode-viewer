@@ -253,5 +253,17 @@
   "RELOAD_RESOURCES_CONFIRM": "Weet je zeker dat je de bronnen opnieuw wilt laden?",
   "SELECT_FILE_DESCRIPTION": "APK's, DEX, Klasse Bestanden of Zip",
   "CLOSE_TAB": "Tab sluiten",
-  "ABOUT_TITLE": "{PRODUCT_NAME} - Over - {WEBSITE} | {TBC}"
+  "ABOUT_TITLE": "{PRODUCT_NAME} - Over - {WEBSITE} | {TBC}",
+  "EXPAND": "Uitbreiden",
+  "DELETE": "Delete",
+  "MATCH_CASE": "Wedstrijd geval",
+  "ILLEGAL_ACCESS_ERROR": "Gebruik Java 15 of ouder om dit te doen.",
+  "OPEN_UNSTYLED": "Open",
+  "ONE_PLUGIN_AT_A_TIME": "Er is op dit moment een andere plugin bezig, wacht alstublieft tot die klaar is met uitvoeren.",
+  "MIN_SDK_VERSION": "Minimale SDK-versie",
+  "COLLAPSE": "Instorten",
+  "ANNOTATION_NAME": "Annotatie Naam",
+  "NEW": "Nieuw",
+  "QUICK_OPEN": "Snel Open",
+  "EXACT_PATH": "Exact pad"
 }
