@@ -55,7 +55,7 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	private final RTextScrollPane scrollPane = new RTextScrollPane(this);
 	private final JPanel searchPanel = new JPanel(new BorderLayout());
 	private final JTextField searchInput = new JTextField();
-	private final JCheckBox caseSensitiveSearch = new TranslatedJCheckBox("Exact", TranslatedComponents.EXACT);
+	private final JCheckBox caseSensitiveSearch = new TranslatedJCheckBox("Match case", TranslatedComponents.MATCH_CASE);
 	private final JLabel titleHeader = new JLabel("");
 	private final Color darkScrollBackground = new Color(0x3c3f41);
 	private final Color darkScrollForeground = new Color(0x575859);

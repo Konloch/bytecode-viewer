@@ -251,8 +251,9 @@ public enum TranslatedComponents
 	RESULTS,
 	REFRESH,
 	MIN_SDK_VERSION,
-	
-	;
+	ANNOTATION_NAME,
+	MATCH_CASE,
+	EXACT_PATH;
 	
 	private final TranslatedComponentReference componentReference;
 	

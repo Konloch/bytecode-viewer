@@ -50,7 +50,7 @@ public class SearchableJTextArea extends JTextArea
 	private final JScrollPane scrollPane = new JScrollPane();
 	private final JPanel searchPanel = new JPanel(new BorderLayout());
 	private final JTextField searchInput = new JTextField();
-	private final JCheckBox caseSensitiveSearch = new TranslatedJCheckBox("Exact", TranslatedComponents.EXACT);
+	private final JCheckBox caseSensitiveSearch = new TranslatedJCheckBox("Match case", TranslatedComponents.MATCH_CASE);
 	
 	public SearchableJTextArea()
 	{
