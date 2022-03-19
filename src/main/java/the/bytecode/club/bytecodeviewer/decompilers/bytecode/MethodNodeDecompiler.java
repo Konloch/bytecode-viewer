@@ -57,6 +57,9 @@ public class MethodNodeDecompiler {
         if (m.name.equals("<init>")) {
             sb.append(class_);
         } else if (!m.name.equals("<clinit>")) {
+            Type returnType = Type.getReturnType(m.desc);
+            sb.append(returnType.getClassName());
+            sb.append(" ");
             sb.append(m.name);
         }
 
