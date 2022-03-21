@@ -130,10 +130,10 @@ public class InstructionPrinter implements Opcodes {
         List<TryCatchBlockNode> tcbs = mNode.tryCatchBlocks;
         String starting = tcbs.stream().filter(tcb -> tcb.start == label).map(tcb -> "start TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
         String ending = tcbs.stream().filter(tcb -> tcb.end == label).map(tcb -> "end TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
-        String handlers = tcbs.stream().filter(tcb -> tcb.handler == label).map(tcb -> "handler TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
+        String handlers = tcbs.stream().filter(tcb -> tcb.handler == label).map(tcb -> "handle TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
         if (!ending.isEmpty()) info.add("// " + ending);
         if (!starting.isEmpty()) info.add("// " + starting);
-        if (!handlers.isEmpty()) info.add("// " + starting);
+        if (!handlers.isEmpty()) info.add("// " + handlers);
       }
       line = printLabelNode((LabelNode) ain);
 
@@ -344,7 +344,7 @@ public class InstructionPrinter implements Opcodes {
           return "unknown";
       }
     }
-    if (obj instanceof String) return "reference [" + obj + "]";
+    if (obj instanceof String) return obj.toString();
     return "unknown [" + obj.toString() + "]";
   }
 

@@ -51,9 +51,9 @@ public class MemberWithAnnotationSearch implements SearchPanel {
   @Override
   public JPanel getPanel() {
     if (myPanel == null) {
-      myPanel = new JPanel(new GridLayout(1, 2));
-      myPanel.add(new TranslatedJLabel("Annotation name: ", TranslatedComponents.ANNOTATION_NAME));
-      myPanel.add(annotation);
+      myPanel = new JPanel(new BorderLayout(16, 16));
+      myPanel.add(new TranslatedJLabel("Annotation name: ", TranslatedComponents.ANNOTATION_NAME), BorderLayout.WEST);
+      myPanel.add(annotation, BorderLayout.CENTER);
     }
 
     return myPanel;

@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.searching.impl;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.util.Iterator;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -60,9 +60,9 @@ public class LDCSearch implements SearchPanel
     {
         if (myPanel == null)
         {
-            myPanel = new JPanel(new GridLayout(1, 2));
-            myPanel.add(new TranslatedJLabel("Search String: ", TranslatedComponents.SEARCH_STRING));
-            myPanel.add(searchText);
+            myPanel = new JPanel(new BorderLayout(16, 16));
+            myPanel.add(new TranslatedJLabel("Search String: ", TranslatedComponents.SEARCH_STRING), BorderLayout.WEST);
+            myPanel.add(searchText, BorderLayout.CENTER);
         }
 
         return myPanel;
