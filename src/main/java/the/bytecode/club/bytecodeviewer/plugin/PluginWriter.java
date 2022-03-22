@@ -12,6 +12,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import com.google.common.io.Files;
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.compress.utils.FileNameUtils;
@@ -188,7 +189,7 @@ public class PluginWriter extends JFrame
 		try
 		{
 			//write to temporary file location
-			DiskWriter.replaceFile(tempFile.getAbsolutePath(), area.getText(), false);
+			Files.copy(savePath, tempFile);
 			//run plugin from that location
 			PluginManager.runPlugin(tempFile);
 		}
