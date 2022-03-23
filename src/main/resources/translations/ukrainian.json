@@ -266,5 +266,6 @@
   "ANNOTATION_NAME": "Назва анотації",
   "NEW": "Новий",
   "QUICK_OPEN": "Швидке відкриття",
-  "EXACT_PATH": "Точний шлях"
+  "EXACT_PATH": "Точний шлях",
+  "PRINT_LINE_NUMBERS": "Друк номерів рядків"
 }

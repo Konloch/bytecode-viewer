@@ -266,5 +266,6 @@
   "ANNOTATION_NAME": "Tên chú thích",
   "NEW": "Mới mẻ",
   "QUICK_OPEN": "Mở nhanh",
-  "EXACT_PATH": "Đường dẫn chính xác"
+  "EXACT_PATH": "Đường dẫn chính xác",
+  "PRINT_LINE_NUMBERS": "In số dòng"
 }

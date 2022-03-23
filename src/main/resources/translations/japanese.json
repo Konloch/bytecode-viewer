@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "アノテーション名",
   "NEW": "新規",
   "QUICK_OPEN": "クイックオープン",
-  "EXACT_PATH": "正確なパス"
+  "EXACT_PATH": "正確なパス",
+  "PRINT_LINE_NUMBERS": "行番号の印刷"
 }

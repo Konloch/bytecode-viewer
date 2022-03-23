@@ -266,5 +266,6 @@
   "ANNOTATION_NAME": "שם הערה",
   "NEW": "חָדָשׁ",
   "QUICK_OPEN": "פתיחה מהירה",
-  "EXACT_PATH": "נתיב מדויק"
+  "EXACT_PATH": "נתיב מדויק",
+  "PRINT_LINE_NUMBERS": "הדפס מספרי שורה"
 }

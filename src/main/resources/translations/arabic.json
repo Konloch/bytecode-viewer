@@ -266,5 +266,6 @@
   "ANNOTATION_NAME": "اسم التعليق التوضيحي",
   "NEW": "جديد",
   "QUICK_OPEN": "فتح سريع",
-  "EXACT_PATH": "المسار الدقيق"
+  "EXACT_PATH": "المسار الدقيق",
+  "PRINT_LINE_NUMBERS": "طباعة أرقام الخطوط"
 }

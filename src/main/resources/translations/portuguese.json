@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Nome da anotação",
   "NEW": "Novo",
   "QUICK_OPEN": "Abertura rápida",
-  "EXACT_PATH": "Caminho Exacto"
+  "EXACT_PATH": "Caminho Exacto",
+  "PRINT_LINE_NUMBERS": "Números de linha de impressão"
 }

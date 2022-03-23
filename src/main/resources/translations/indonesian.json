@@ -266,5 +266,6 @@
   "ANNOTATION_NAME": "Nama Anotasi",
   "NEW": "Baru",
   "QUICK_OPEN": "Buka Cepat",
-  "EXACT_PATH": "Jalur Tepat"
+  "EXACT_PATH": "Jalur Tepat",
+  "PRINT_LINE_NUMBERS": "Cetak Nomor Baris"
 }

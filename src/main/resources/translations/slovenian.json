@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Ime anotacije",
   "NEW": "Novo",
   "QUICK_OPEN": "Hitro odprtje",
-  "EXACT_PATH": "Natančna pot"
+  "EXACT_PATH": "Natančna pot",
+  "PRINT_LINE_NUMBERS": "Tiskanje številk vrstic"
 }

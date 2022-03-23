@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Názov anotácie",
   "NEW": "Nový",
   "QUICK_OPEN": "Rýchle otvorenie",
-  "EXACT_PATH": "Presná cesta"
+  "EXACT_PATH": "Presná cesta",
+  "PRINT_LINE_NUMBERS": "Tlač čísiel riadkov"
 }

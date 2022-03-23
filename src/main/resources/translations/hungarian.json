@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Megjegyzések neve",
   "NEW": "Új",
   "QUICK_OPEN": "Gyors nyitás",
-  "EXACT_PATH": "Pontos útvonal"
+  "EXACT_PATH": "Pontos útvonal",
+  "PRINT_LINE_NUMBERS": "Sorszámok nyomtatása"
 }

@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Denumire adnotare",
   "NEW": "Nou",
   "QUICK_OPEN": "Deschidere rapidă",
-  "EXACT_PATH": "Calea exactă"
+  "EXACT_PATH": "Calea exactă",
+  "PRINT_LINE_NUMBERS": "Imprimă numere de linie"
 }

@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Anotacijos pavadinimas",
   "NEW": "Naujas",
   "QUICK_OPEN": "Greitas atidarymas",
-  "EXACT_PATH": "Tikslus kelias"
+  "EXACT_PATH": "Tikslus kelias",
+  "PRINT_LINE_NUMBERS": "Spausdinti eilučių numerius"
 }

@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Anotācijas nosaukums",
   "NEW": "Jauns",
   "QUICK_OPEN": "Ātrā atvēršana",
-  "EXACT_PATH": "Precīzs ceļš"
+  "EXACT_PATH": "Precīzs ceļš",
+  "PRINT_LINE_NUMBERS": "Drukāt rindu numurus"
 }

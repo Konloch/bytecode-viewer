@@ -266,5 +266,6 @@
   "ANNOTATION_NAME": "注释名称",
   "NEW": "新的",
   "QUICK_OPEN": "快速打开",
-  "EXACT_PATH": "确切路径"
+  "EXACT_PATH": "确切路径",
+  "PRINT_LINE_NUMBERS": "打印行号"
 }

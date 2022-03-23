@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Merkinnän nimi",
   "NEW": "Uusi",
   "QUICK_OPEN": "Nopea avaaminen",
-  "EXACT_PATH": "Tarkka polku"
+  "EXACT_PATH": "Tarkka polku",
+  "PRINT_LINE_NUMBERS": "Tulosta rivinumerot"
 }

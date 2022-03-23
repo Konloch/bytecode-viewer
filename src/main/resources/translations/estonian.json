@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Märge Nimi",
   "NEW": "Uus",
   "QUICK_OPEN": "Kiire avamine",
-  "EXACT_PATH": "Täpne tee"
+  "EXACT_PATH": "Täpne tee",
+  "PRINT_LINE_NUMBERS": "Prindi rea numbrid"
 }

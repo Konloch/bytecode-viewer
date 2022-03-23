@@ -266,5 +266,6 @@
   "ANNOTATION_NAME": "Annoteringsnavn",
   "NEW": "Ny",
   "QUICK_OPEN": "Rask åpning",
-  "EXACT_PATH": "Nøyaktig vei"
+  "EXACT_PATH": "Nøyaktig vei",
+  "PRINT_LINE_NUMBERS": "Skriv ut linjenumre"
 }

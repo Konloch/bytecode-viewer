@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Annotatie Naam",
   "NEW": "Nieuw",
   "QUICK_OPEN": "Snel Open",
-  "EXACT_PATH": "Exact pad"
+  "EXACT_PATH": "Exact pad",
+  "PRINT_LINE_NUMBERS": "Regelnummers afdrukken"
 }

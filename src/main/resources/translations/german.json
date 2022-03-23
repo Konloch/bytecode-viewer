@@ -266,5 +266,6 @@
   "ANNOTATION_NAME": "Anmerkung Name",
   "NEW": "Neu",
   "QUICK_OPEN": "Schnell öffnen",
-  "EXACT_PATH": "Genauer Pfad"
+  "EXACT_PATH": "Genauer Pfad",
+  "PRINT_LINE_NUMBERS": "Zeilennummern drucken"
 }

@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Nazwa adnotacji",
   "NEW": "Nowy",
   "QUICK_OPEN": "Szybkie otwieranie",
-  "EXACT_PATH": "Dokładna ścieżka"
+  "EXACT_PATH": "Dokładna ścieżka",
+  "PRINT_LINE_NUMBERS": "Drukowanie numerów linii"
 }

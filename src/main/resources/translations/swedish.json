@@ -265,5 +265,6 @@
   "ANNOTATION_NAME": "Namn på anteckning",
   "NEW": "Ny",
   "QUICK_OPEN": "Snabböppning",
-  "EXACT_PATH": "Exakt väg"
+  "EXACT_PATH": "Exakt väg",
+  "PRINT_LINE_NUMBERS": "Utskrift av linjenummer"
 }

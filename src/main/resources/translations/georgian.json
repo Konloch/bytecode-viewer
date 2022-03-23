@@ -266,5 +266,6 @@
   "ANNOTATION_NAME": "ანოტაციის სახელი",
   "NEW": "ახალი",
   "QUICK_OPEN": "სწრაფი გახსნა",
-  "EXACT_PATH": "ზუსტი გზა"
+  "EXACT_PATH": "ზუსტი გზა",
+  "PRINT_LINE_NUMBERS": "ხაზის ნომრების დაბეჭდვა"
 }

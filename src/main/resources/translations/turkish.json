@@ -266,5 +266,6 @@
   "ANNOTATION_NAME": "Ek Açıklama Adı",
   "NEW": "Yeni",
   "QUICK_OPEN": "Hızlı Aç",
-  "EXACT_PATH": "Tam Yol"
+  "EXACT_PATH": "Tam Yol",
+  "PRINT_LINE_NUMBERS": "Satır Numaralarını Yazdır"
 }

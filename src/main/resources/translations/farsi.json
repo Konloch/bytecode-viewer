@@ -266,5 +266,6 @@
   "ANNOTATION_NAME": "نام حاشیه نویسی",
   "NEW": "جدید",
   "QUICK_OPEN": "باز کردن سریع",
-  "EXACT_PATH": "مسیر دقیق"
+  "EXACT_PATH": "مسیر دقیق",
+  "PRINT_LINE_NUMBERS": "چاپ شماره خطوط"
 }
