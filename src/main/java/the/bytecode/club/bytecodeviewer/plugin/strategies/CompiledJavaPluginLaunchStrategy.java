@@ -51,7 +51,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
         LoadedNodeData pdata = null;
         for (LoadedNodeData d : set) {
             ClassNode cn = d.node;
-            if (cn.superName.equals(PLUGIN_CLASS_NAME)) {
+            if (Objects.equals(cn.superName, PLUGIN_CLASS_NAME)) {
                 if (pdata == null) {
                     pdata = d;
                 } else {
