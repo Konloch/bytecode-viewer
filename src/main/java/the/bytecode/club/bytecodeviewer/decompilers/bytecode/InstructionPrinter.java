@@ -227,7 +227,10 @@ public class InstructionPrinter implements Opcodes {
   }
 
   protected String printLineNumberNode(LineNumberNode lnn) {
-    return "// line " + lnn.line;
+    if(BytecodeViewer.viewer.printLineNumbers.isSelected())
+      return "// line " + lnn.line;
+    
+    return "";
   }
 
   protected String printLabelNode(LabelNode label) {

@@ -212,6 +212,7 @@ public class MainViewerGUI extends JFrame
     public SettingsDialog bytecodeDecompilerSettingsDialog;
     public final JCheckBoxMenuItem appendBracketsToLabels = new TranslatedJCheckBoxMenuItem("Append Brackets To Labels", TranslatedComponents.APPEND_BRACKETS_TO_LABEL);
     public JCheckBoxMenuItem debugHelpers = new TranslatedJCheckBoxMenuItem("Debug Helpers", TranslatedComponents.DEBUG_HELPERS);
+    public final JCheckBoxMenuItem printLineNumbers = new TranslatedJCheckBoxMenuItem("Print Line Numbers", TranslatedComponents.PRINT_LINE_NUMBERS);
     
     //FernFlower settings
     public final JMenu fernFlowerSettingsSecondaryMenu = new TranslatedJMenu("FernFlower Settings", TranslatedComponents.FERNFLOWER_SETTINGS);
@@ -658,6 +659,7 @@ public class MainViewerGUI extends JFrame
         settingsMainMenu.add(useNewSettingsDialog ? bytecodeDecompilerSettings : bytecodeDecompilerSettingsSecondaryMenu);
         bytecodeDecompilerSettingsSecondaryMenu.add(debugHelpers);
         bytecodeDecompilerSettingsSecondaryMenu.add(appendBracketsToLabels);
+        bytecodeDecompilerSettingsSecondaryMenu.add(printLineNumbers);
         bytecodeDecompilerSettingsDialog = new SettingsDialog(bytecodeDecompilerSettingsSecondaryMenu, new JPanel());
         bytecodeDecompilerSettings.addActionListener((e)-> bytecodeDecompilerSettingsDialog.showDialog());
         
@@ -837,6 +839,7 @@ public class MainViewerGUI extends JFrame
         //CFIDE
         debugHelpers.setSelected(true);
         appendBracketsToLabels.setSelected(true);
+        printLineNumbers.setSelected(false);
     }
     
     public void calledAfterLoad() {
