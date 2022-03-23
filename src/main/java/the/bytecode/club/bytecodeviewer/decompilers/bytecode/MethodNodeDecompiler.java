@@ -148,7 +148,7 @@ public class MethodNodeDecompiler {
             for (int i = 0; i < tryCatchBlocks.size(); i++) {
                 TryCatchBlockNode o = tryCatchBlocks.get(i);
                 sb.append("         ");
-                sb.append("TCB").append(i).append(": L");
+                sb.append("TryCatch").append(i).append(": L");
                 sb.append(insnPrinter.resolveLabel(o.start));
                 sb.append(" to L");
                 sb.append(insnPrinter.resolveLabel(o.end));
