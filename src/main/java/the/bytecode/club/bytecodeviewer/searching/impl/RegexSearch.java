@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.searching.impl;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 import javax.swing.JPanel;
@@ -61,9 +61,9 @@ public class RegexSearch implements SearchPanel
     {
         if (myPanel == null)
         {
-            myPanel = new JPanel(new GridLayout(1, 2));
-            myPanel.add(new TranslatedJLabel("Search Regex: ", TranslatedComponents.SEARCH_REGEX));
-            myPanel.add(searchText);
+            myPanel = new JPanel(new BorderLayout(16, 16));
+            myPanel.add(new TranslatedJLabel("Search Regex: ", TranslatedComponents.SEARCH_REGEX), BorderLayout.WEST);
+            myPanel.add(searchText, BorderLayout.CENTER);
         }
 
         return myPanel;

@@ -1,7 +1,8 @@
 package the.bytecode.club.bytecodeviewer.searching.impl;
 
 import eu.bibl.banalysis.asm.desc.OpcodeInfo;
-import java.awt.GridLayout;
+
+import java.awt.*;
 import java.util.Iterator;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -65,13 +66,19 @@ public class MethodCallSearch implements SearchPanel
     {
         if (myPanel == null)
         {
-            myPanel = new JPanel(new GridLayout(3, 2));
-            myPanel.add(new TranslatedJLabel("Owner: ", TranslatedComponents.OWNER));
-            myPanel.add(mOwner);
-            myPanel.add(new TranslatedJLabel("Name: ", TranslatedComponents.NAME));
-            myPanel.add(mName);
-            myPanel.add(new TranslatedJLabel("Desc: ", TranslatedComponents.DESC));
-            myPanel.add(mDesc);
+            myPanel = new JPanel(new BorderLayout(16, 16));
+
+            JPanel left = new JPanel(new GridLayout(3,1));
+            JPanel right = new JPanel(new GridLayout(3,1));
+
+            left.add(new TranslatedJLabel("Owner: ", TranslatedComponents.OWNER));
+            right.add(mOwner);
+            left.add(new TranslatedJLabel("Name: ", TranslatedComponents.NAME));
+            right.add(mName);
+            left.add(new TranslatedJLabel("Desc: ", TranslatedComponents.DESC));
+            right.add(mDesc);
+            myPanel.add(left, BorderLayout.WEST);
+            myPanel.add(right, BorderLayout.CENTER);
         }
 
         return myPanel;

@@ -144,9 +144,11 @@ public class MethodNodeDecompiler {
             addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb,
                     insnPrinter);
 
-            for (TryCatchBlockNode o : m.tryCatchBlocks) {
+            List<TryCatchBlockNode> tryCatchBlocks = m.tryCatchBlocks;
+            for (int i = 0; i < tryCatchBlocks.size(); i++) {
+                TryCatchBlockNode o = tryCatchBlocks.get(i);
                 sb.append("         ");
-                sb.append("TryCatch: L");
+                sb.append("TCB").append(i).append(": L");
                 sb.append(insnPrinter.resolveLabel(o.start));
                 sb.append(" to L");
                 sb.append(insnPrinter.resolveLabel(o.end));

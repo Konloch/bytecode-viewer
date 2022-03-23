@@ -117,7 +117,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         JPanel buttonPanel = new JPanel(new BorderLayout());
         
         quickSearchPanel.setLayout(new BorderLayout());
-        quickSearchPanel.add(quickSearch, BorderLayout.NORTH);
+        quickSearchPanel.add(quickSearch, BorderLayout.CENTER);
 
         JPanel btns = new JPanel(new FlowLayout());
         btns.add(exact);
@@ -126,7 +126,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
 
         buttonPanel.add(open, BorderLayout.EAST);
         buttonPanel.add(close, BorderLayout.WEST);
-        exactPanel.add(buttonPanel, BorderLayout.EAST);
+        quickSearchPanel.add(buttonPanel, BorderLayout.EAST);
         quickSearchPanel.add(exactPanel, BorderLayout.SOUTH);
     
         getContentPane().add(quickSearchPanel, BorderLayout.SOUTH);
