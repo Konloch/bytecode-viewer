@@ -285,5 +285,5 @@
   "MATCH_CASE": "Trường hợp phù hợp",
   "EXACT_PATH": "Đường dẫn chính xác",
   "MIN_SDK_VERSION": "Phiên bản SDK tối thiểu",
-  "PRINT_LINE_NUMBERS": "In số dòng",
+  "PRINT_LINE_NUMBERS": "In số dòng"
 }

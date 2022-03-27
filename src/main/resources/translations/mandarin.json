@@ -285,5 +285,5 @@
   "MATCH_CASE": "相符",
   "EXACT_PATH": "确切路径",
   "MIN_SDK_VERSION": "最低 SDK 版本",
-  "PRINT_LINE_NUMBERS": "打印行号",
+  "PRINT_LINE_NUMBERS": "打印行号"
 }

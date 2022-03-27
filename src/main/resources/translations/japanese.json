@@ -285,5 +285,5 @@
   "MATCH_CASE": "マッチケース",
   "EXACT_PATH": "正確なパス",
   "MIN_SDK_VERSION": "SDKの最小バージョン",
-  "PRINT_LINE_NUMBERS": "行番号の印刷",
+  "PRINT_LINE_NUMBERS": "行番号の印刷"
 }

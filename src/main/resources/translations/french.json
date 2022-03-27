@@ -285,5 +285,5 @@
   "MATCH_CASE": "Cas d'allumage",
   "EXACT_PATH": "Chemin exact",
   "MIN_SDK_VERSION": "Version minimale du SDK",
-  "PRINT_LINE_NUMBERS": "Imprimer les numéros de ligne",
+  "PRINT_LINE_NUMBERS": "Imprimer les numéros de ligne"
 }

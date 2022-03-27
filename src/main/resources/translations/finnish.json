@@ -285,5 +285,5 @@
   "MATCH_CASE": "Match Case",
   "EXACT_PATH": "Tarkka polku",
   "MIN_SDK_VERSION": "SDK:n vähimmäisversio",
-  "PRINT_LINE_NUMBERS": "Tulosta rivinumerot",
+  "PRINT_LINE_NUMBERS": "Tulosta rivinumerot"
 }

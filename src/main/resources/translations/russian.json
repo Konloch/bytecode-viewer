@@ -285,5 +285,5 @@
   "MATCH_CASE": "Спичечный коробок",
   "EXACT_PATH": "Точный путь",
   "MIN_SDK_VERSION": "Минимальная версия SDK",
-  "PRINT_LINE_NUMBERS": "Печать номеров строк",
+  "PRINT_LINE_NUMBERS": "Печать номеров строк"
 }

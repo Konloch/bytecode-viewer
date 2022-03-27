@@ -285,5 +285,5 @@
   "MATCH_CASE": "Випадок матчів",
   "EXACT_PATH": "Точний шлях",
   "MIN_SDK_VERSION": "Мінімальна версія SDK",
-  "PRINT_LINE_NUMBERS": "Друк номерів рядків",
+  "PRINT_LINE_NUMBERS": "Друк номерів рядків"
 }

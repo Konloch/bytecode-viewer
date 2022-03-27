@@ -285,5 +285,5 @@
   "MATCH_CASE": "Match Case",
   "EXACT_PATH": "Exakt väg",
   "MIN_SDK_VERSION": "Minsta version av SDK",
-  "PRINT_LINE_NUMBERS": "Utskrift av linjenummer",
+  "PRINT_LINE_NUMBERS": "Utskrift av linjenummer"
 }
