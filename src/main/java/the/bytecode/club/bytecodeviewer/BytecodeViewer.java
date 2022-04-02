@@ -178,10 +178,16 @@ public class BytecodeViewer
         
         System.out.println(" - Created by @Konloch");
         System.out.println("https://bytecodeviewer.com - https://the.bytecode.club");
-        
-        //set the security manager
-        System.setSecurityManager(sm);
-        
+
+        // Set the security manager
+        try {
+            System.setSecurityManager(sm);
+        } catch (Throwable t) {
+            System.err.println("Cannot set security manager! Are you on Java 18+ and have not enabled support for it?");
+            System.err.println("Because of this, you may be susceptible to some exploits!");
+            System.err.println("Either deal with it or allow it using the -Djava.security.manager=allow parameter.");
+        }
+
         try
         {
             //precache settings file
