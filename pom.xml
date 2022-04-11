@@ -16,7 +16,7 @@
         <annotations.version>23.0.0</annotations.version>
         <antlr4.version>4.9.3</antlr4.version>
         <apktool.version>2.6.1</apktool.version>
-        <asm.version>9.2</asm.version>
+        <asm.version>9.3</asm.version>
         <bined.version>0.2.0</bined.version>
         <byteanalysis.version>1.0bcv</byteanalysis.version>
         <cfr.version>0.152</cfr.version>
@@ -409,7 +409,7 @@
                         <filter>
                             <artifact>*:*</artifact>
                             <excludes>
-                                <exclude>module-info.class</exclude>
+                                <exclude>**/module-info.class</exclude>
                                 <exclude>META-INF/*.SF</exclude>
                                 <exclude>META-INF/*.DSA</exclude>
                                 <exclude>META-INF/*.RSA</exclude>
