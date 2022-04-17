@@ -32,13 +32,15 @@ import javax.swing.plaf.basic.BasicButtonUI;
 /**
  * @author Konloch
  * @since 6/25/2021
+ * Using CloseButton of darklaf instead. 4/17/2022
  */
+@Deprecated
 public class TabExitButton extends JButton implements ActionListener
 {
 	private final TabbedPane tabbedPane;
 	private final int tabIndex;
 	private final String tabWorkingName;
-	
+
 	public TabExitButton(TabbedPane tabbedPane, int tabIndex, String tabWorkingName)
 	{
 		this.tabbedPane = tabbedPane;
@@ -62,12 +64,12 @@ public class TabExitButton extends JButton implements ActionListener
 		// Close the proper tab by clicking the button
 		addActionListener(this);
 	}
-	
+
 	public int getTabIndex()
 	{
 		return tabIndex;
 	}
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent e)
 	{
@@ -77,11 +79,11 @@ public class TabExitButton extends JButton implements ActionListener
 			tabbedPane.tabs.remove(i);
 		}
 	}
-	
+
 	// we don't want to update UI for this button
 	@Override
 	public void updateUI() { }
-	
+
 	// paint the cross
 	@Override
 	protected void paintComponent(final Graphics g)
@@ -91,33 +93,33 @@ public class TabExitButton extends JButton implements ActionListener
 		// shift the image for pressed buttons
 		if (getModel().isPressed())
 			g2.translate(1, 1);
-		
+
 		g2.setStroke(new BasicStroke(2));
 		g2.setColor(Color.BLACK);
-		
+
 		if (getModel().isRollover())
 			g2.setColor(Color.MAGENTA);
-		
+
 		final int delta = 6;
 		g2.drawLine(delta, delta, getWidth() - delta - 1, getHeight() - delta - 1);
 		g2.drawLine(getWidth() - delta - 1, delta, delta, getHeight() - delta - 1);
 		g2.dispose();
 	}
-	
+
 	public TabbedPane getTabbedPane()
 	{
 		return tabbedPane;
 	}
-	
+
 	public String getTabWorkingName()
 	{
 		return tabWorkingName;
 	}
-	
+
 	public static long getSerialVersionUID()
 	{
 		return serialVersionUID;
 	}
-	
+
 	private static final long serialVersionUID = -4492967978286454159L;
 }

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Rectangle;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+
+import com.github.weisj.darklaf.components.CloseButton;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.components.ButtonHoverAnimation;
 import the.bytecode.club.bytecodeviewer.gui.components.MaxWidthJLabel;
@@ -84,7 +85,7 @@ public class TabbedPane extends JPanel
         // add more space between the label and the button
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
         // tab button
-        JButton exitButton = new TabExitButton(this, tabIndex, tabWorkingName);
+        JButton exitButton = new CloseButton();
         this.add(exitButton);
         // add more space to the top of the component
         setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
@@ -101,34 +102,24 @@ public class TabbedPane extends JPanel
         exitButton.setComponentPopupMenu(rightClickMenu);
         exitButton.addMouseListener(new MouseClickedListener(e ->
         {
-            if (e.getModifiersEx() != InputEvent.ALT_DOWN_MASK || System.currentTimeMillis() - lastMouseClick < 100)
-                return;
-    
-            lastMouseClick = System.currentTimeMillis();
-            final int i = existingTabs.indexOfTabComponent(TabbedPane.this);
-            if (i != -1)
-                existingTabs.remove(i);
+            if (this.getTabIndex() != -1)
+                existingTabs.remove(this.getTabIndex());
         }));
         
         closeTab.addActionListener(e ->
         {
-            TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
-            final int index = tabExitButton.getTabIndex();
-    
-            if (index != -1)
-                existingTabs.remove(index);
+            if (this.getTabIndex() != -1)
+                existingTabs.remove(this.getTabIndex());
         });
         closeAllTabs.addActionListener(e ->
         {
-            TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
-            final int index = tabExitButton.getTabIndex();
-            
+
             while (true)
             {
                 if (existingTabs.getTabCount() <= 1)
                     return;
                 
-                if (index != 0)
+                if (this.getTabIndex() != 0)
                     existingTabs.remove(0);
                 else
                     existingTabs.remove(1);
@@ -257,5 +248,8 @@ public class TabbedPane extends JPanel
     }
     
     private static final long serialVersionUID = -4774885688297538774L;
-    
+
+    public int getTabIndex() {
+        return tabs.indexOfTabComponent(this);
+    }
 }
