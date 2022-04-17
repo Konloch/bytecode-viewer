@@ -6,14 +6,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -95,12 +88,12 @@ public class SearchBoxPane extends TranslatedVisibleComponent
             typeModel.addElement(st);
 
         typeBox = new JComboBox<>(typeModel);
-        final JPanel searchOptPanel = new JPanel();
-
+        final JPanel searchOptPanel = new JPanel(new BorderLayout());
+        searchOptPanel.setBorder(BorderFactory.createEmptyBorder(4,4,4,4));
         final ItemListener il = arg0 -> {
             searchOptPanel.removeAll();
             searchType = (SearchType) typeBox.getSelectedItem();
-            searchOptPanel.add(Objects.requireNonNull(searchType).panel.getPanel());
+            searchOptPanel.add(Objects.requireNonNull(searchType).panel.getPanel(), BorderLayout.CENTER);
 
             searchOptPanel.revalidate();
             searchOptPanel.repaint();

@@ -1,18 +1,17 @@
 package the.bytecode.club.bytecodeviewer.searching.impl;
 
-import com.github.weisj.darklaf.LafManager;
 import eu.bibl.banalysis.asm.desc.OpcodeInfo;
-import java.awt.GridLayout;
-import java.util.Iterator;
-import javax.swing.*;
 
+import java.awt.*;
+import java.util.Iterator;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
@@ -61,40 +60,43 @@ public class MethodCallSearch implements SearchPanel
         mName.addKeyListener(EnterKeyEvent.SINGLETON);
         mDesc = new JTextField("");
         mDesc.addKeyListener(EnterKeyEvent.SINGLETON);
-
-        LAFTheme.registerThemeUpdate(mOwner, mName, mDesc);
     }
 
     public JPanel getPanel()
     {
         if (myPanel == null)
         {
-            myPanel = new JPanel(new GridLayout(3, 2));
-            myPanel.add(new TranslatedJLabel("Owner: ", TranslatedComponents.OWNER));
-            myPanel.add(mOwner);
-            myPanel.add(new TranslatedJLabel("Name: ", TranslatedComponents.NAME));
-            myPanel.add(mName);
-            myPanel.add(new TranslatedJLabel("Desc: ", TranslatedComponents.DESC));
-            myPanel.add(mDesc);
-            LAFTheme.registerThemeUpdate(myPanel);
+            myPanel = new JPanel(new BorderLayout(16, 16));
+
+            JPanel left = new JPanel(new GridLayout(3,1));
+            JPanel right = new JPanel(new GridLayout(3,1));
+
+            left.add(new TranslatedJLabel("Owner: ", TranslatedComponents.OWNER));
+            right.add(mOwner);
+            left.add(new TranslatedJLabel("Name: ", TranslatedComponents.NAME));
+            right.add(mName);
+            left.add(new TranslatedJLabel("Desc: ", TranslatedComponents.DESC));
+            right.add(mDesc);
+            myPanel.add(left, BorderLayout.WEST);
+            myPanel.add(right, BorderLayout.CENTER);
         }
 
         return myPanel;
     }
-
+    
     @Override
     public void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean exact)
     {
         final Iterator<MethodNode> methods = node.methods.iterator();
-
+        
         String searchOwner = mOwner.getText();
         if (searchOwner.isEmpty())
             searchOwner = null;
-
+        
         String searchName = mName.getText();
         if (searchName.isEmpty())
             searchName = null;
-
+        
         String searchDesc = mDesc.getText();
         if (searchDesc.isEmpty())
             searchDesc = null;
@@ -109,10 +111,10 @@ public class MethodCallSearch implements SearchPanel
                 if (insnNode instanceof MethodInsnNode)
                 {
                     final MethodInsnNode min = (MethodInsnNode) insnNode;
-
+                    
                     if (searchName == null && searchOwner == null && searchDesc == null)
                         continue;
-
+                    
                     if (exact)
                     {
                         if (searchName != null && !searchName.equals(min.name))
@@ -131,13 +133,13 @@ public class MethodCallSearch implements SearchPanel
                         if (searchDesc != null && !min.desc.contains(searchDesc))
                             continue;
                     }
-
+                    
                     found(container, resourceWorkingName, node, method, insnNode);
                 }
             }
         }
     }
-
+    
     public void found(final ResourceContainer container, final String resourceWorkingName, final ClassNode node, final MethodNode method, final AbstractInsnNode insnNode)
     {
         BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(

@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.searching.impl;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.util.Iterator;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -11,7 +11,6 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
@@ -54,7 +53,6 @@ public class LDCSearch implements SearchPanel
     {
         searchText = new JTextField("");
         searchText.addKeyListener(EnterKeyEvent.SINGLETON);
-        LAFTheme.registerThemeUpdate(searchText);
     }
 
     @Override
@@ -62,10 +60,9 @@ public class LDCSearch implements SearchPanel
     {
         if (myPanel == null)
         {
-            myPanel = new JPanel(new GridLayout(1, 2));
-            myPanel.add(new TranslatedJLabel("Search String: ", TranslatedComponents.SEARCH_STRING));
-            myPanel.add(searchText);
-            LAFTheme.registerThemeUpdate(myPanel);
+            myPanel = new JPanel(new BorderLayout(16, 16));
+            myPanel.add(new TranslatedJLabel("Search String: ", TranslatedComponents.SEARCH_STRING), BorderLayout.WEST);
+            myPanel.add(searchText, BorderLayout.CENTER);
         }
 
         return myPanel;

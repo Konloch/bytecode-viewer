@@ -2,10 +2,7 @@ package the.bytecode.club.bytecodeviewer.plugin.strategies;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.objectweb.asm.ClassReader;
@@ -51,7 +48,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
         LoadedNodeData pdata = null;
         for (LoadedNodeData d : set) {
             ClassNode cn = d.node;
-            if (cn.superName.equals(PLUGIN_CLASS_NAME)) {
+            if (Objects.equals(cn.superName, PLUGIN_CLASS_NAME)) {
                 if (pdata == null) {
                     pdata = d;
                 } else {

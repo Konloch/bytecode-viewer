@@ -44,8 +44,12 @@ import the.bytecode.club.bytecodeviewer.resources.IconResources;
  */
 public enum Language
 {
-	ARABIC("/translations/arabic.json", "عربى", "English", "ar"),
 	ENGLISH("/translations/english.json", "English", "English", "en"),
+	ARABIC("/translations/arabic.json", "عربى", "English", "ar"),
+	CROATIAN("/translations/croatian.json", "hrvatski", "English", "hr"),
+	CZECH("/translations/czech.json", "čeština", "English", "cs"),
+	BULGARIAN("/translations/bulgarian.json", "български", "English", "bg"),
+	DANISH("/translations/danish.json", "dansk", "English", "da"),
 	ESTONIAN("/translations/estonian.json", "Eesti", "English", "et"),
 	FARSI("/translations/farsi.json", "فارسی ", "English", "fa"),
 	FINNISH("/translations/finnish.json", "Suomen Kieli", "English", "fi"),
@@ -61,7 +65,7 @@ public enum Language
 	INDONESIAN("/translations/indonesian.json", "bahasa Indonesia", "English", "id"),
 	ITALIAN("/translations/italian.json", "Italiano", "English", "it"),
 	JAPANESE("/translations/japanese.json", "日本語", "English", "ja"),
-	LATVIAN("/translations/latvian.json", "Latvietis", "English", "lv"),
+	LATIVAN("/translations/lativan.json", "Lativan", "English", "lv"),
 	LITHUANIAN("/translations/lithuanian.json", "Lietuvių", "English", "lt"),
 	//JAVANESE("/translations/javanese.json", "ꦧꦱꦗꦮ", "English", "jw", "jv"),
 	//KOREAN("/translations/korean.json", "Korean", "English", "ko"),
@@ -76,6 +80,7 @@ public enum Language
 	SLOVAK("/translations/slovak.json", "Slovensky", "English", "sk"),
 	SLOVENIAN("/translations/slovenian.json", "Slovenščina", "English", "sl"),
 	SPANISH("/translations/spanish.json", "Español", "English", "es"),
+	SERBIAN("/translations/serbian.json", "српски језик", "English", "sr"),
 	SWAHILI("/translations/swahili.json", "Kiswahili", "English", "sw"),
 	SWEDISH("/translations/swedish.json", "svenska", "English", "sv"),
 	//THAI("/translations/thai.json", "ภาษาไทย", "English", "th"),

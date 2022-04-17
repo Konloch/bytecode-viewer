@@ -4,7 +4,6 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
@@ -47,16 +46,14 @@ public class MemberWithAnnotationSearch implements SearchPanel {
   public MemberWithAnnotationSearch() {
     annotation = new JTextField("");
     annotation.addKeyListener(EnterKeyEvent.SINGLETON);
-    LAFTheme.registerThemeUpdate(annotation);
   }
 
   @Override
   public JPanel getPanel() {
     if (myPanel == null) {
-      myPanel = new JPanel(new GridLayout(1, 2));
-      myPanel.add(new TranslatedJLabel("Annotation name: ", TranslatedComponents.ANNOTATION_NAME));
-      myPanel.add(annotation);
-      LAFTheme.registerThemeUpdate(myPanel);
+      myPanel = new JPanel(new BorderLayout(16, 16));
+      myPanel.add(new TranslatedJLabel("Annotation name: ", TranslatedComponents.ANNOTATION_NAME), BorderLayout.WEST);
+      myPanel.add(annotation, BorderLayout.CENTER);
     }
 
     return myPanel;

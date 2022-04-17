@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.searching.impl;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 import javax.swing.JPanel;
@@ -9,7 +9,6 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
@@ -55,8 +54,6 @@ public class RegexSearch implements SearchPanel
     {
         searchText = new JTextField("");
         searchText.addKeyListener(EnterKeyEvent.SINGLETON);
-
-        LAFTheme.registerThemeUpdate(searchText);
     }
 
     @Override
@@ -64,10 +61,9 @@ public class RegexSearch implements SearchPanel
     {
         if (myPanel == null)
         {
-            myPanel = new JPanel(new GridLayout(1, 2));
-            myPanel.add(new TranslatedJLabel("Search Regex: ", TranslatedComponents.SEARCH_REGEX));
-            myPanel.add(searchText);
-            LAFTheme.registerThemeUpdate(myPanel);
+            myPanel = new JPanel(new BorderLayout(16, 16));
+            myPanel.add(new TranslatedJLabel("Search Regex: ", TranslatedComponents.SEARCH_REGEX), BorderLayout.WEST);
+            myPanel.add(searchText, BorderLayout.CENTER);
         }
 
         return myPanel;

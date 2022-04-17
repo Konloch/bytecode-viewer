@@ -5,6 +5,7 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 import java.util.Enumeration;
 
 /***************************************************************************
@@ -42,17 +43,15 @@ public class SearchKeyAdapter extends KeyAdapter {
     if (ke.getKeyCode() != KeyEvent.VK_ENTER)
       return;
 
-    final String qt = resourceListPane.quickSearch.getText();
+    String qt = resourceListPane.quickSearch.getText();
 
     if (qt.trim().isEmpty()) //NOPE
       return;
 
     String[] path;
-    if (qt.contains(".")) {
-      path = qt.split("\\.");
-    } else {
-      path = new String[]{qt};
-    }
+
+    path = qt.split("[\\./]+"); // split at dot or slash
+    qt = qt.replace('/', '.');
 
     ResourceTreeNode curNode = resourceListPane.treeRoot;
     boolean caseSensitive = resourceListPane.caseSensitive.isSelected();
@@ -67,7 +66,7 @@ public class SearchKeyAdapter extends KeyAdapter {
         for (int c = 0; c < curNode.getChildCount(); c++) {
           final ResourceTreeNode child = (ResourceTreeNode) curNode.getChildAt(c);
           Object userObject = child.getUserObject();
-          if (caseSensitive ? userObject.equals(pathName) : userObject.toString().equalsIgnoreCase(pathName)) {
+          if (caseSensitive ? userObject.toString().equals(pathName) : userObject.toString().equalsIgnoreCase(pathName)) {
             curNode = child;
             if (isLast) {
               final TreePath pathn = new TreePath(curNode.getPath());
@@ -81,7 +80,6 @@ public class SearchKeyAdapter extends KeyAdapter {
             continue pathLoop;
           }
         }
-
         System.out.println("Could not find " + pathName);
         break;
       }

@@ -253,7 +253,9 @@ public enum TranslatedComponents
 	MIN_SDK_VERSION,
 	ANNOTATION_NAME,
 	MATCH_CASE,
-	EXACT_PATH;
+	EXACT_PATH,
+	PRINT_LINE_NUMBERS,
+	;
 	
 	private final TranslatedComponentReference componentReference;
 	

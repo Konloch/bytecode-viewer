@@ -57,6 +57,9 @@ public class MethodNodeDecompiler {
         if (m.name.equals("<init>")) {
             sb.append(class_);
         } else if (!m.name.equals("<clinit>")) {
+            Type returnType = Type.getReturnType(m.desc);
+            sb.append(returnType.getClassName());
+            sb.append(" ");
             sb.append(m.name);
         }
 
@@ -141,9 +144,11 @@ public class MethodNodeDecompiler {
             addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb,
                     insnPrinter);
 
-            for (TryCatchBlockNode o : m.tryCatchBlocks) {
+            List<TryCatchBlockNode> tryCatchBlocks = m.tryCatchBlocks;
+            for (int i = 0; i < tryCatchBlocks.size(); i++) {
+                TryCatchBlockNode o = tryCatchBlocks.get(i);
                 sb.append("         ");
-                sb.append("TryCatch: L");
+                sb.append("TryCatch").append(i).append(": L");
                 sb.append(insnPrinter.resolveLabel(o.start));
                 sb.append(" to L");
                 sb.append(insnPrinter.resolveLabel(o.end));

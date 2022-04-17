@@ -284,5 +284,6 @@
   "ANNOTATION_NAME": "Annotation Name",
   "MATCH_CASE": "Match Case",
   "EXACT_PATH": "Exact Path",
-  "MIN_SDK_VERSION": "Minimum SDK version"
+  "MIN_SDK_VERSION": "Minimum SDK version",
+  "PRINT_LINE_NUMBERS": "Print Line Numbers"
 }
