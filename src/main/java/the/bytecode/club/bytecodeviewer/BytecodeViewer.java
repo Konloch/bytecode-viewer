@@ -93,9 +93,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
  *      + Anything using blindlySearchForClassNode() should instead search through the resource container search function
  *      + BCV's classLoader should be destroyed each time a resource is added or removed
  *
- * TODO DarkLAF Specific Bugs:
- *      + JMenuBar can only be displayed on a JFrame, a work around is needed for this (Partially solved)
- *
  * TODO IN-PROGRESS:
  *      + Resource Exporter/Save/Decompile As Zip needs to be rewritten
  *      + Finish dragging code
