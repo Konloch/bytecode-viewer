@@ -1,16 +1,18 @@
 package the.bytecode.club.bytecodeviewer.searching.impl;
 
+import com.github.weisj.darklaf.LafManager;
 import eu.bibl.banalysis.asm.desc.OpcodeInfo;
 import java.awt.GridLayout;
 import java.util.Iterator;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
@@ -59,6 +61,8 @@ public class MethodCallSearch implements SearchPanel
         mName.addKeyListener(EnterKeyEvent.SINGLETON);
         mDesc = new JTextField("");
         mDesc.addKeyListener(EnterKeyEvent.SINGLETON);
+
+        LAFTheme.registerThemeUpdate(mOwner, mName, mDesc);
     }
 
     public JPanel getPanel()
@@ -72,24 +76,25 @@ public class MethodCallSearch implements SearchPanel
             myPanel.add(mName);
             myPanel.add(new TranslatedJLabel("Desc: ", TranslatedComponents.DESC));
             myPanel.add(mDesc);
+            LAFTheme.registerThemeUpdate(myPanel);
         }
 
         return myPanel;
     }
-    
+
     @Override
     public void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean exact)
     {
         final Iterator<MethodNode> methods = node.methods.iterator();
-        
+
         String searchOwner = mOwner.getText();
         if (searchOwner.isEmpty())
             searchOwner = null;
-        
+
         String searchName = mName.getText();
         if (searchName.isEmpty())
             searchName = null;
-        
+
         String searchDesc = mDesc.getText();
         if (searchDesc.isEmpty())
             searchDesc = null;
@@ -104,10 +109,10 @@ public class MethodCallSearch implements SearchPanel
                 if (insnNode instanceof MethodInsnNode)
                 {
                     final MethodInsnNode min = (MethodInsnNode) insnNode;
-                    
+
                     if (searchName == null && searchOwner == null && searchDesc == null)
                         continue;
-                    
+
                     if (exact)
                     {
                         if (searchName != null && !searchName.equals(min.name))
@@ -126,13 +131,13 @@ public class MethodCallSearch implements SearchPanel
                         if (searchDesc != null && !min.desc.contains(searchDesc))
                             continue;
                     }
-                    
+
                     found(container, resourceWorkingName, node, method, insnNode);
                 }
             }
         }
     }
-    
+
     public void found(final ResourceContainer container, final String resourceWorkingName, final ClassNode node, final MethodNode method, final AbstractInsnNode insnNode)
     {
         BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(

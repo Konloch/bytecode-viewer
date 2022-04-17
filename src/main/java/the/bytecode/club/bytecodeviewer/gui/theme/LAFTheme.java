@@ -8,7 +8,8 @@ import com.github.weisj.darklaf.theme.IntelliJTheme;
 import com.github.weisj.darklaf.theme.OneDarkTheme;
 import com.github.weisj.darklaf.theme.SolarizedDarkTheme;
 import com.github.weisj.darklaf.theme.SolarizedLightTheme;
-import java.awt.Dialog;
+
+import java.awt.*;
 import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -174,5 +175,15 @@ public enum LAFTheme
 			e.printStackTrace();
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
+	}
+
+	/**
+	 * Make sure that theme changes also affect components that are not in the UI tree.
+	 */
+	public static void registerThemeUpdate(Component... components) {
+		LafManager.registerInitTask((t, p) -> SwingUtilities.invokeLater(() -> {
+			for (Component component : components)
+				SwingUtilities.updateComponentTreeUI(component);
+		}));
 	}
 }

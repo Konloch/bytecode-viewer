@@ -9,6 +9,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
@@ -54,6 +55,8 @@ public class RegexSearch implements SearchPanel
     {
         searchText = new JTextField("");
         searchText.addKeyListener(EnterKeyEvent.SINGLETON);
+
+        LAFTheme.registerThemeUpdate(searchText);
     }
 
     @Override
@@ -64,6 +67,7 @@ public class RegexSearch implements SearchPanel
             myPanel = new JPanel(new GridLayout(1, 2));
             myPanel.add(new TranslatedJLabel("Search Regex: ", TranslatedComponents.SEARCH_REGEX));
             myPanel.add(searchText);
+            LAFTheme.registerThemeUpdate(myPanel);
         }
 
         return myPanel;
