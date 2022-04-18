@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.gui.theme;
 
 import com.github.weisj.darklaf.LafManager;
+import com.github.weisj.darklaf.listener.UIUpdater;
 import com.github.weisj.darklaf.theme.DarculaTheme;
 import com.github.weisj.darklaf.theme.HighContrastDarkTheme;
 import com.github.weisj.darklaf.theme.HighContrastLightTheme;
@@ -10,10 +11,8 @@ import com.github.weisj.darklaf.theme.SolarizedDarkTheme;
 import com.github.weisj.darklaf.theme.SolarizedLightTheme;
 
 import java.awt.*;
-import javax.swing.JInternalFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
+
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.SettingsDialog;
@@ -180,10 +179,9 @@ public enum LAFTheme
 	/**
 	 * Make sure that theme changes also affect components that are not in the UI tree.
 	 */
-	public static void registerThemeUpdate(Component... components) {
-		LafManager.registerInitTask((t, p) -> SwingUtilities.invokeLater(() -> {
-			for (Component component : components)
-				SwingUtilities.updateComponentTreeUI(component);
-		}));
+	public static void registerThemeUpdate(JComponent... components) {
+		for (JComponent comp : components) {
+			UIUpdater.registerComponent(comp);
+		}
 	}
 }
