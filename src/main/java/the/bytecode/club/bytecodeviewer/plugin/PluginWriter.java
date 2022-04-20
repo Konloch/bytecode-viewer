@@ -133,14 +133,7 @@ public class PluginWriter extends JFrame
 			p.add(p2, BorderLayout.NORTH);
 			p.add(component, BorderLayout.CENTER);
 
-			JMenuBar menuBar = getJMenuBar();
-			// As the Darklaf windows decorations steal the menu bar from the frame
-			// it sets the preferred size to (0,0). Because we want to steal the menu bar ourselves.
-			// we have to revert this change.
-			// Remove when https://github.com/weisJ/darklaf/issues/258 is fixed and available in a
-			// release.
-			menuBar.setPreferredSize(null);
-			p2.add(menuBar, BorderLayout.CENTER);
+			p2.add(getJMenuBar(), BorderLayout.CENTER);
 
 			ComponentViewer.addComponentAsTab(pluginName, p);
 		}

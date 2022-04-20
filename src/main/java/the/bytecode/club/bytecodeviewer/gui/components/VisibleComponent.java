@@ -1,10 +1,9 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import com.github.weisj.darklaf.icons.ThemedSVGIcon;
+import com.github.weisj.darklaf.iconset.AllIcons;
 import javax.swing.BorderFactory;
 import javax.swing.JInternalFrame;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.Workspace;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
@@ -55,7 +54,7 @@ public abstract class VisibleComponent extends JInternalFrame
     {
         try {
             if(Configuration.showDarkLAFComponentIcons)
-                setFrameIcon(new ThemedSVGIcon(Workspace.class.getResource("/com/github/weisj/darklaf/icons/frame/frame.svg").toURI(), 16, 16));
+                setFrameIcon(AllIcons.Window.Frame.get(16, 16));
             else
                 setFrameIcon(IconResources.jarIcon);
         } catch (Exception e) {
