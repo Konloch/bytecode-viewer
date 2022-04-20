@@ -12,6 +12,7 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.searching.EnterKeyEvent;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
@@ -60,6 +61,7 @@ public class MethodCallSearch implements SearchPanel
         mName.addKeyListener(EnterKeyEvent.SINGLETON);
         mDesc = new JTextField("");
         mDesc.addKeyListener(EnterKeyEvent.SINGLETON);
+        LAFTheme.registerThemeUpdate(mOwner, mName, mDesc);
     }
 
     public JPanel getPanel()
@@ -79,6 +81,7 @@ public class MethodCallSearch implements SearchPanel
             right.add(mDesc);
             myPanel.add(left, BorderLayout.WEST);
             myPanel.add(right, BorderLayout.CENTER);
+            LAFTheme.registerThemeUpdate(myPanel);
         }
 
         return myPanel;
