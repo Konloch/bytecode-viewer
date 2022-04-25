@@ -2,17 +2,17 @@ package the.bytecode.club.bytecodeviewer.gui.theme;
 
 import com.github.weisj.darklaf.LafManager;
 import com.github.weisj.darklaf.listener.UIUpdater;
-import com.github.weisj.darklaf.theme.DarculaTheme;
-import com.github.weisj.darklaf.theme.HighContrastDarkTheme;
-import com.github.weisj.darklaf.theme.HighContrastLightTheme;
-import com.github.weisj.darklaf.theme.IntelliJTheme;
-import com.github.weisj.darklaf.theme.OneDarkTheme;
-import com.github.weisj.darklaf.theme.SolarizedDarkTheme;
-import com.github.weisj.darklaf.theme.SolarizedLightTheme;
+import com.github.weisj.darklaf.properties.icons.IconLoader;
+import com.github.weisj.darklaf.theme.*;
 
 import java.awt.*;
+import java.util.Properties;
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 
+import com.github.weisj.darklaf.theme.info.PresetIconRule;
+import com.github.weisj.darklaf.theme.spec.ColorToneRule;
+import org.checkerframework.checker.guieffect.qual.UI;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.SettingsDialog;
@@ -134,11 +134,18 @@ public enum LAFTheme
 				LafManager.install(new HighContrastLightTheme());
 				break;
 		}
-		
+
 		//test theme installed correctly
 		if(darkLAF)
 			failSafe();
-		
+
+		if (!LafManager.isInstalled())
+		{
+			setupIconColors();
+			// Invalidate themed icons
+			IconLoader.updateThemeStatus(new Object());
+		}
+
 		Configuration.showDarkLAFComponentIcons = darkLAF;
 		
 		if(BytecodeViewer.viewer != null)
@@ -157,7 +164,7 @@ public enum LAFTheme
 			SettingsDialog.dialogs.forEach(Dialog::dispose);
 		}
 	}
-	
+
 	/**
 	 * Attempts to failsafe by forcing an error before the mainviewer is called.
 	 * It then defaults to the system theme
@@ -182,6 +189,54 @@ public enum LAFTheme
 	public static void registerThemeUpdate(JComponent... components) {
 		for (JComponent comp : components) {
 			UIUpdater.registerComponent(comp);
+		}
+	}
+
+	private void setupIconColors()
+	{
+		Properties properties = new Properties();
+		JTextComponent colorTemplateComponent = new JTextField();
+		properties.put("textForeground", colorTemplateComponent.getForeground());
+		colorTemplateComponent.setEnabled(false);
+		properties.put("textForegroundInactive", colorTemplateComponent.getForeground());
+		properties.put("textSelectionForeground", colorTemplateComponent.getSelectedTextColor());
+
+		new LightIconThemeSupplier().loadIconTheme(properties, UIManager.getDefaults(), IconLoader.get());
+
+		UIManager.getLookAndFeelDefaults().putAll(properties);
+	}
+
+	private static class LightIconThemeSupplier extends Theme
+	{
+
+		@Override
+		protected PresetIconRule getPresetIconRule()
+		{
+			return PresetIconRule.LIGHT;
+		}
+
+		@Override
+		public String getPrefix()
+		{
+			return "DO NOT USE";
+		}
+
+		@Override
+		public String getName()
+		{
+			return getPrefix();
+		}
+
+		@Override
+		protected Class<? extends Theme> getLoaderClass()
+		{
+			return LightIconThemeSupplier.class;
+		}
+
+		@Override
+		public ColorToneRule getColorToneRule()
+		{
+			return ColorToneRule.LIGHT;
 		}
 	}
 }
