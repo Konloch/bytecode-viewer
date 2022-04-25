@@ -49,28 +49,28 @@ public class IconResources
     static protected final int HALF_SIZE = 4;
     static protected final int SIZE = 9;
     
-    public static List<BufferedImage> iconList;
-    public static BufferedImage icon;
-    public static ImageIcon nextIcon;
-    public static ImageIcon prevIcon;
-    public static ImageIcon busyIcon;
-    public static ImageIcon busyB64Icon;
-    public static ImageIcon batIcon;
-    public static ImageIcon shIcon;
-    public static ImageIcon csharpIcon;
-    public static ImageIcon cplusplusIcon;
-    public static ImageIcon configIcon;
-    public static ImageIcon jarIcon;
-    public static ImageIcon zipIcon;
-    public static ImageIcon packagesIcon;
-    public static ImageIcon folderIcon;
-    public static ImageIcon androidIcon;
-    public static ImageIcon unknownFileIcon;
-    public static ImageIcon textIcon;
-    public static ImageIcon classIcon;
-    public static ImageIcon imageIcon;
-    public static ImageIcon decodedIcon;
-    public static ImageIcon javaIcon;
+    public static final List<BufferedImage> iconList;
+    public static final BufferedImage icon;
+    public static final Icon nextIcon;
+    public static final Icon prevIcon;
+    public static final Icon busyIcon;
+    public static final Icon busyB64Icon;
+    public static final Icon batIcon;
+    public static final Icon shIcon;
+    public static final Icon csharpIcon;
+    public static final Icon cplusplusIcon;
+    public static final Icon configIcon;
+    public static final Icon jarIcon;
+    public static final Icon zipIcon;
+    public static final Icon packagesIcon;
+    public static final Icon folderIcon;
+    public static final Icon androidIcon;
+    public static final Icon unknownFileIcon;
+    public static final Icon textIcon;
+    public static final Icon classIcon;
+    public static final Icon imageIcon;
+    public static final Icon decodedIcon;
+    public static final Icon javaIcon;
     
     static
     {

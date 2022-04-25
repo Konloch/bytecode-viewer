@@ -2,7 +2,7 @@ package the.bytecode.club.bytecodeviewer.resources;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -53,7 +53,7 @@ public enum ResourceType
 	public static final Map<String, ResourceType> imageExtensionMap = new HashMap<>();
 	public static final Map<String, ResourceType> supportedBCVExtensionMap = new HashMap<>();
 	
-	private final ImageIcon icon;
+	private final Icon icon;
 	private final String[] extensions;
 	//private final byte[][] headerMagicNumber;
 	
@@ -79,13 +79,13 @@ public enum ResourceType
 			supportedBCVExtensionMap.put(extension, ANDROID_ARCHIVE);
 	}
 	
-	ResourceType(ImageIcon icon, String... extensions)
+	ResourceType(Icon icon, String... extensions)
 	{
 		this.icon = icon;
 		this.extensions = extensions;
 	}
 	
-	public ImageIcon getIcon()
+	public Icon getIcon()
 	{
 		return icon;
 	}

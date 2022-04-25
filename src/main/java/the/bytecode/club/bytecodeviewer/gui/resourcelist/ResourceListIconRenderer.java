@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.ImageIcon;
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import org.apache.commons.io.FilenameUtils;
@@ -21,7 +20,7 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceType;
 public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 {
 	//TODO the icon cache needs to be cleared on treenode removal
-	public static Map<ResourceTreeNode, ImageIcon> iconCache = new HashMap<>();
+	public static Map<ResourceTreeNode, Icon> iconCache = new HashMap<>();
 	
 	//called every time there is a pane update
 	@Override
@@ -134,7 +133,7 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
 		return ret;
 	}
 	
-	public void cacheNodeIcon(ResourceTreeNode node, ImageIcon icon)
+	public void cacheNodeIcon(ResourceTreeNode node, Icon icon)
 	{
 		iconCache.put(node, icon);
 		setIcon(icon);
