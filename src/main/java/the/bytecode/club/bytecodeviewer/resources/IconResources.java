@@ -46,7 +46,6 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 public class IconResources
 {
-    static protected final int HALF_SIZE = 4;
     static protected final int SIZE = 9;
     
     public static final List<BufferedImage> iconList;
