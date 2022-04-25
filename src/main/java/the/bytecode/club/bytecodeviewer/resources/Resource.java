@@ -1,6 +1,11 @@
 package the.bytecode.club.bytecodeviewer.resources;
 
+import org.apache.commons.io.IOUtils;
 import org.objectweb.asm.tree.ClassNode;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -35,6 +40,15 @@ public class Resource
 		this.name = name;
 		this.workingName = workingName;
 		this.container = container;
+	}
+
+	public static String loadResourceAsString(String resourcePath) throws IOException
+	{
+		try (InputStream is = IconResources.class.getResourceAsStream(resourcePath)) {
+			if (is == null)
+				return null;
+			return IOUtils.toString(is, StandardCharsets.UTF_8);
+		}
 	}
 	
 	/**

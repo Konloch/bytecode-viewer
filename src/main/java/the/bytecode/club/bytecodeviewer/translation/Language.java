@@ -14,6 +14,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
+import the.bytecode.club.bytecodeviewer.resources.Resource;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -158,7 +159,7 @@ public enum Language
 		if(translationMap == null)
 		{
 			translationMap = BytecodeViewer.gson.fromJson(
-					IconResources.loadResourceAsString(resourcePath),
+					Resource.loadResourceAsString(resourcePath),
 					new TypeToken<HashMap<String, String>>() {}.getType());
 		}
 		
@@ -178,7 +179,7 @@ public enum Language
 			return;
 		
 		LinkedMap<String, String> translationMap = BytecodeViewer.gson.fromJson(
-				IconResources.loadResourceAsString(resourcePath),
+				Resource.loadResourceAsString(resourcePath),
 				new TypeToken<LinkedMap<String, String>>(){}.getType());
 		
 		Set<String> existingKeys = new HashSet<>();

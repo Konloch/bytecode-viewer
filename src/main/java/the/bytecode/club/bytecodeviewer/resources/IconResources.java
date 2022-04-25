@@ -112,15 +112,6 @@ public class IconResources
         }
     }
     
-    public static String loadResourceAsString(String resourcePath) throws IOException
-    {
-        try (InputStream is = IconResources.class.getResourceAsStream(resourcePath)) {
-            if (is == null)
-                return null;
-            return IOUtils.toString(is, StandardCharsets.UTF_8);
-        }
-    }
-
     public static BufferedImage resize(BufferedImage image, int width, int height) {
         return Scalr.resize(image, Scalr.Method.ULTRA_QUALITY, width, height);
     }
