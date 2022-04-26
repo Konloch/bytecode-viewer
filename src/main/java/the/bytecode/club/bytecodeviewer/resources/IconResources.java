@@ -44,6 +44,8 @@ public class IconResources
     
     public static final List<BufferedImage> iconList;
     public static final BufferedImage icon;
+    public static final Icon add;
+    public static final Icon remove;
     public static final Icon nextIcon;
     public static final Icon prevIcon;
     public static final Icon busyIcon;
@@ -68,6 +70,8 @@ public class IconResources
     {
         IconResolver iconResolver = IconLoader.get();
         icon = loadImageFromResource("gui/bcv_icon.png");
+        add = AllIcons.Action.Add.get();
+        remove = AllIcons.Action.Remove.get();
         nextIcon = iconResolver.getIcon("gui/next.svg", true);
         prevIcon = iconResolver.getIcon("gui/previous.svg", true);
         busyIcon = AllIcons.Misc.Progress.get();
