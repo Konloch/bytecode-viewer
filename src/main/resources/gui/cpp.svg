@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+    <defs id="colors">
+        <linearGradient id="fileIconBackground"
+                        fallback="Label.foreground" opacity="fileIconOpacity"
+                        opacity-fallback="%100">
+            <stop offset="0" stop-color="#9AA7B0" stop-opacity=".8"/>
+            <stop offset="1" stop-color="#9AA7B0" stop-opacity=".8"/>
+        </linearGradient>
+        <linearGradient id="palette.purple"
+                        fallback="%#B99BF8">
+            <stop offset="0" stop-color="#B99BF8"/>
+            <stop offset="1" stop-color="#B99BF8"/>
+        </linearGradient>
+        <linearGradient id="fileIconForeground"
+                        fallback="Label.background" opacity="fileIconOpacity"
+                        opacity-fallback="%100">
+            <stop offset="0" stop-color="#231F20" stop-opacity=".8"/>
+            <stop offset="1" stop-color="#231F20" stop-opacity=".8"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <polygon fill="url(#palette.purple)" fill-opacity=".7" points="1 16 16 16 16 9 1 9"/>
+        <polygon fill="url(#fileIconBackground)" points="7 1 3 5 7 5"/>
+        <polygon fill="url(#fileIconBackground)" points="8 1 8 6 3 6 3 8 13 8 13 1"/>
+        <path fill="url(#fileIconForeground)"
+              d="M0,2.501 C0,1 0.931,2.02832126e-16 2.256,0 C3.20239258,0 3.55,0.311 3.969,0.753 L3.42669678,1.42712402 C3.07669678,1.06812402 2.75,1 2.25,1 C1.418,1 1,1.73791504 1,2.487 C1,3.23608496 1.412,4 2.25,4 C2.787,4 3.05169678,3.89340869 3.42669678,3.50640869 L4,4.144 C3.544,4.669 3.19732666,5 2.225,5 C0.949,5 7.35277938e-17,4.002 0,2.501 Z"
+              transform="translate(3 10)"/>
+        <path fill="url(#fileIconForeground)" d="M2,1 L3,1 L3,2 L2,2 L2,3 L1,3 L1,2 L0,2 L0,1 L1,1 L1,0 L2,0 L2,1 Z"
+              transform="translate(8 11)"/>
+        <path fill="url(#fileIconForeground)" d="M2,1 L3,1 L3,2 L2,2 L2,3 L1,3 L1,2 L0,2 L0,1 L1,1 L1,0 L2,0 L2,1 Z"
+              transform="translate(12 11)"/>
+    </g>
+</svg>

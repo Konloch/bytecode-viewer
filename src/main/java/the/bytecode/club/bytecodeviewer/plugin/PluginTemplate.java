@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.apache.commons.io.FilenameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
+import the.bytecode.club.bytecodeviewer.resources.Resource;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -46,7 +47,7 @@ public enum PluginTemplate
 	public String getContents() throws IOException
 	{
 		if(contents == null)
-			contents = IconResources.loadResourceAsString(resourcePath);
+			contents = Resource.loadResourceAsString(resourcePath);
 		
 		return contents;
 	}

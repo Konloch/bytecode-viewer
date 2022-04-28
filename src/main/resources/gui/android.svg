@@ -1,0 +1,20 @@
+<svg height="16" width="16" viewBox="0 0 48 48" version="1.1" id="svg30" xmlns="http://www.w3.org/2000/svg">
+    <g id="_14-Android" transform="translate(1.418 1.419) scale(.9409)">
+        <path fill="#2ebc70" d="M14 7a1 1 0 0 1-.707-.293l-4-4a1 1 0 0 1 1.414-1.414l4 4A1 1 0 0 1 14 7z" id="path8"/>
+        <path fill="#2ebc70" d="M34 7a1 1 0 0 1-.707-1.707l4-4a1 1 0 0 1 1.414 1.414l-4 4A1 1 0 0 1 34 7z" id="path10"/>
+        <g id="_Group_">
+            <circle fill="#f1f2f2" cx="28" cy="10" r="2" id="circle12"/>
+            <circle fill="#f1f2f2" cx="20" cy="10" r="2" id="circle14"/>
+            <path fill="#35dc86"
+                  d="M38 34v3a2.006 2.006 0 0 1-2 2h-3v6a2.006 2.006 0 0 1-2 2h-2a2.006 2.006 0 0 1-2-2v-6h-6v6a2.006 2.006 0 0 1-2 2h-2a2.006 2.006 0 0 1-2-2v-6h-3a2.006 2.006 0 0 1-2-2v-3H7a.979.979 0 0 1-1-1V23a1.959 1.959 0 0 1 2-2h32a1.959 1.959 0 0 1 2 2v10a.979.979 0 0 1-1 1z"
+                  id="path16"/>
+            <path fill="#35dc86"
+                  d="M38 16v2H10v-2a14 14 0 0 1 28 0zm-8-6a2 2 0 1 0-2 2 2.006 2.006 0 0 0 2-2zm-8 0a2 2 0 1 0-2 2 2.006 2.006 0 0 0 2-2z"
+                  id="path18"/>
+            <path fill="#2ebc70" d="M8 21a1.959 1.959 0 0 0-2 2v10a.979.979 0 0 0 1 1h3V21z" id="path20"/>
+            <path fill="#2ebc70" d="M40 21h-2v13h3a.979.979 0 0 0 1-1V23a1.959 1.959 0 0 0-2-2z" id="path22"/>
+            <path fill="#2ebc70" d="M20 13a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0-4a1 1 0 1 0 1 1 1 1 0 0 0-1-1z" id="path24"/>
+            <path fill="#2ebc70" d="M28 13a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0-4a1 1 0 1 0 1 1 1 1 0 0 0-1-1z" id="path26"/>
+        </g>
+    </g>
+</svg>

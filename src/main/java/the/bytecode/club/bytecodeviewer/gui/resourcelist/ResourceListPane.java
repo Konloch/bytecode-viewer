@@ -26,6 +26,7 @@ import org.apache.commons.io.FilenameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenu;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
@@ -72,8 +73,8 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     public final JPopupMenu rightClickMenu = new JPopupMenu();
     public final JCheckBox exact = new TranslatedJCheckBox("Exact path", TranslatedComponents.EXACT_PATH);
     public final JCheckBox caseSensitive = new TranslatedJCheckBox("Match case", TranslatedComponents.MATCH_CASE);
-    public final JButton open = new JButton("+");
-    public final JButton close = new JButton("-");
+    public final JButton open = new JButton(IconResources.add);
+    public final JButton close = new JButton(IconResources.remove);
     public final ResourceTreeNode treeRoot = new ResourceTreeNode("Loaded Files:");
     public final ResourceTree tree = new ResourceTree(treeRoot);
     public final JTextField quickSearch = new TranslatedJTextField("Quick file search (no file extension)", TranslatedComponents.QUICK_FILE_SEARCH_NO_FILE_EXTENSION);
