@@ -165,7 +165,7 @@ public class CommandLineInput {
                                 !decompiler.equalsIgnoreCase("jd-gui") &&
                                 !decompiler.equalsIgnoreCase("smali")
                 ) {
-                    System.out.println("Error, no decompiler called '" + decompiler + "' found. Type -decompiler-list"
+                    System.out.println("Error, no decompiler called '" + decompiler + "' found. Type -list"
                             + " for the list");
                 }
 
