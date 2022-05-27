@@ -43,6 +43,7 @@
         <objenesis.version>3.2</objenesis.version>
         <paged-data.version>0.2.0</paged-data.version>
         <procyon.version>0.6.0</procyon.version>
+        <quiltflower.version>1.8.1</quiltflower.version>
         <rsyntaxtextarea.version>3.2.0</rsyntaxtextarea.version>
         <semantic-version.version>2.1.1</semantic-version.version>
         <slf4j.version>1.7.36</slf4j.version>
@@ -69,6 +70,10 @@
         <repository>
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>quiltmc</id>
+            <url>https://maven.quiltmc.org/repository/release/</url>
         </repository>
     </repositories>
 
@@ -261,6 +266,11 @@
             <version>${procyon.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.quiltmc</groupId>
+            <artifactId>quiltflower</artifactId>
+            <version>${quiltflower.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.fifesoft</groupId>
             <artifactId>rsyntaxtextarea</artifactId>
             <version>${rsyntaxtextarea.version}</version>
@@ -401,43 +411,86 @@
                 <version>3.2.4</version>
                 <executions>
                     <execution>
+                        <id>shade-1</id>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.quiltmc:quiltflower</include>
+                                </includes>
+                            </artifactSet>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>**/module-info.class</exclude>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                        <exclude>META-INF/*LICENSE*</exclude>
+                                        <exclude>META-INF/*NOTICE*</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <!--<exclude>the/bytecode/club/bytecodeviewer/decompilers/impl/FernFlowerDecompiler.class</exclude>-->
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.jetbrains</pattern>
+                                    <shadedPattern>quiltflower.org.jetbrains</shadedPattern>
+                                    <!--<excludes>
+                                        <exclude>the.bytecode.club.bytecodeviewer.decompilers.impl.FernFlowerDecompiler</exclude>
+                                    </excludes>-->
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>shade-2</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>org.quiltmc:quiltflower</exclude>
+                                </excludes>
+                            </artifactSet>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>**/module-info.class</exclude>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                        <exclude>META-INF/*LICENSE*</exclude>
+                                        <exclude>META-INF/*NOTICE*</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>the.bytecode.club.bytecodeviewer.BytecodeViewer</mainClass>
+                                    <manifestEntries>
+                                        <Implementation-Version>${project.version}</Implementation-Version>
+                                        <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+                                        <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+                                    </manifestEntries>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <filters>
-                        <filter>
-                            <artifact>*:*</artifact>
-                            <excludes>
-                                <exclude>**/module-info.class</exclude>
-                                <exclude>META-INF/*.SF</exclude>
-                                <exclude>META-INF/*.DSA</exclude>
-                                <exclude>META-INF/*.RSA</exclude>
-                                <exclude>META-INF/*LICENSE*</exclude>
-                                <exclude>META-INF/*NOTICE*</exclude>
-                                <exclude>META-INF/MANIFEST.MF</exclude>
-                            </excludes>
-                        </filter>
-                    </filters>
-                    <transformers>
-                        <transformer
-                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>the.bytecode.club.bytecodeviewer.BytecodeViewer</mainClass>
-                            <manifestEntries>
-                                <Implementation-Version>${project.version}</Implementation-Version>
-                                <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
-                                <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
-                            </manifestEntries>
-                        </transformer>
-                        <transformer
-                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                    </transformers>
-                </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>

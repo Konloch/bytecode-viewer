@@ -57,6 +57,7 @@ public class DecompilerSelectionPane
 	private final DecompilerViewComponent JADX = new DecompilerViewComponent("JADX", JAVA, Decompiler.JADX_DECOMPILER);
 	private final DecompilerViewComponent JD = new DecompilerViewComponent("JD-GUI", JAVA, Decompiler.JD_DECOMPILER);
 	private final DecompilerViewComponent fern = new DecompilerViewComponent("FernFlower", JAVA, Decompiler.FERNFLOWER_DECOMPILER);
+	private final DecompilerViewComponent quiltflower = new DecompilerViewComponent("QuiltFlower", JAVA, Decompiler.QUILTFLOWER_DECOMPILER);
 	private final DecompilerViewComponent krakatau = new DecompilerViewComponent( "Krakatau", JAVA_AND_BYTECODE, Decompiler.KRAKATAU_DECOMPILER, Decompiler.KRAKATAU_DISASSEMBLER);
 	private final DecompilerViewComponent smali = new DecompilerViewComponent("Smali", BYTECODE, Decompiler.SMALI_DISASSEMBLER);
 	private final DecompilerViewComponent bytecode = new DecompilerViewComponent("Bytecode", BYTECODE_NON_EDITABLE, Decompiler.BYTECODE_DISASSEMBLER);
@@ -66,7 +67,7 @@ public class DecompilerSelectionPane
 	//TODO when adding new decompilers insert the DecompilerViewComponent object into here
 	// also in the group, then finally the build menu
 	public List<DecompilerViewComponent> components = new ArrayList<>(Arrays.asList(
-			procyon, CFR, JADX, JD, fern, krakatau, smali, bytecode, asmTextify, javap));
+			procyon, CFR, JADX, JD, fern, quiltflower, krakatau, smali, bytecode, asmTextify, javap));
 	
 	public DecompilerSelectionPane(int paneID)
 	{
@@ -150,6 +151,7 @@ public class DecompilerSelectionPane
 			menu.add(JADX.getMenu());
 		menu.add(JD.getMenu());
 		menu.add(fern.getMenu());
+		menu.add(quiltflower.getMenu());
 		menu.add(krakatau.getMenu());
 		menu.add(new JSeparator());
 		if(Configuration.jadxGroupedWithSmali)

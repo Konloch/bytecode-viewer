@@ -237,6 +237,30 @@ public class MainViewerGUI extends JFrame
     public TranslatedJCheckBoxMenuItem fdi = new TranslatedJCheckBoxMenuItem("Deinline finally structures", TranslatedComponents.DEINLINE_FINALLY_STRUCTURES);
     public TranslatedJCheckBoxMenuItem asc = new TranslatedJCheckBoxMenuItem("Allow only ASCII characters in strings", TranslatedComponents.ALLOW_ONLY_ASCII_CHARACTERS_IN_STRINGS);
     public TranslatedJCheckBoxMenuItem ren = new TranslatedJCheckBoxMenuItem("Rename ambiguous classes and class elements", TranslatedComponents.RENAME_AMBIGUOUS_CLASSES_AND_CLASS_ELEMENTS);
+
+    //Quiltflower settings
+    public final JMenu quiltflowerSettingsSecondaryMenu = new TranslatedJMenu("QuiltFlower Settings", TranslatedComponents.QUILTFLOWER_SETTINGS);
+    public final JMenuItem quiltflowerSettings = new TranslatedJMenuItem("QuiltFlower Settings", TranslatedComponents.QUILTFLOWER_SETTINGS);
+    public SettingsDialog quiltflowerSettingsDialog;
+    public TranslatedJCheckBoxMenuItem quilt_rbr = new TranslatedJCheckBoxMenuItem("Hide bridge methods", TranslatedComponents.HIDE_BRIDGE_METHODS);
+    public TranslatedJCheckBoxMenuItem quilt_rsy = new TranslatedJCheckBoxMenuItem("Hide synthetic class members", TranslatedComponents.HIDE_SYNTHETIC_CLASS_MEMBERS);
+    public TranslatedJCheckBoxMenuItem quilt_din = new TranslatedJCheckBoxMenuItem("Decompile inner classes", TranslatedComponents.DECOMPILE_INNER_CLASSES);
+    public TranslatedJCheckBoxMenuItem quilt_dc4 = new TranslatedJCheckBoxMenuItem("Collapse 1.4 class references", TranslatedComponents.COLLAPSE_14_CLASS_REFERENCES);
+    public TranslatedJCheckBoxMenuItem quilt_das = new TranslatedJCheckBoxMenuItem("Decompile assertions", TranslatedComponents.DECOMPILE_ASSERTIONS);
+    public TranslatedJCheckBoxMenuItem quilt_hes = new TranslatedJCheckBoxMenuItem("Hide empty super invocation", TranslatedComponents.HIDE_EMPTY_SUPER_INVOCATION);
+    public TranslatedJCheckBoxMenuItem quilt_hdc = new TranslatedJCheckBoxMenuItem("Hide empty default constructor", TranslatedComponents.HIDE_EMPTY_DEFAULT_CONSTRUCTOR);
+    public TranslatedJCheckBoxMenuItem quilt_dgs = new TranslatedJCheckBoxMenuItem("Decompile generic signatures", TranslatedComponents.DECOMPILE_GENERIC_SIGNATURES);
+    public TranslatedJCheckBoxMenuItem quilt_ner = new TranslatedJCheckBoxMenuItem("Assume return not throwing exceptions", TranslatedComponents.ASSUME_RETURN_NOT_THROWING_EXCEPTIONS);
+    public TranslatedJCheckBoxMenuItem quilt_den = new TranslatedJCheckBoxMenuItem("Decompile enumerations", TranslatedComponents.DECOMPILE_ENUMERATIONS);
+    public TranslatedJCheckBoxMenuItem quilt_rgn = new TranslatedJCheckBoxMenuItem("Remove getClass() invocation", TranslatedComponents.REMOVE_GETCLASS_INVOCATION);
+    public TranslatedJCheckBoxMenuItem quilt_bto = new TranslatedJCheckBoxMenuItem("Interpret int 1 as boolean true", TranslatedComponents.INTERPRET_INT_1_AS_BOOLEAN_TRUE);
+    public TranslatedJCheckBoxMenuItem quilt_nns = new TranslatedJCheckBoxMenuItem("Allow for not set synthetic attribute", TranslatedComponents.ALLOW_FOR_NOT_SET_SYNTHETIC_ATTRIBUTE);
+    public TranslatedJCheckBoxMenuItem quilt_uto = new TranslatedJCheckBoxMenuItem("Consider nameless types as java.lang.Object", TranslatedComponents.CONSIDER_NAMELESS_TYPES_AS_JAVALANGOBJECT);
+    public TranslatedJCheckBoxMenuItem quilt_udv = new TranslatedJCheckBoxMenuItem("Reconstruct variable names from debug info", TranslatedComponents.RECONSTRUCT_VARIABLE_NAMES_FROM_DEBUG_INFO);
+    public TranslatedJCheckBoxMenuItem quilt_rer = new TranslatedJCheckBoxMenuItem("Remove empty exception ranges", TranslatedComponents.REMOVE_EMPTY_EXCEPTION_RANGES);
+    public TranslatedJCheckBoxMenuItem quilt_fdi = new TranslatedJCheckBoxMenuItem("Deinline finally structures", TranslatedComponents.DEINLINE_FINALLY_STRUCTURES);
+    public TranslatedJCheckBoxMenuItem quilt_asc = new TranslatedJCheckBoxMenuItem("Allow only ASCII characters in strings", TranslatedComponents.ALLOW_ONLY_ASCII_CHARACTERS_IN_STRINGS);
+    public TranslatedJCheckBoxMenuItem quilt_ren = new TranslatedJCheckBoxMenuItem("Rename ambiguous classes and class elements", TranslatedComponents.RENAME_AMBIGUOUS_CLASSES_AND_CLASS_ELEMENTS);
     
     //Procyon
     public final JMenu procyonSettingsSecondaryMenu = new TranslatedJMenu("Procyon Settings", TranslatedComponents.PROCYON_SETTINGS);
@@ -654,6 +678,30 @@ public class MainViewerGUI extends JFrame
         fernFlowerSettingsSecondaryMenu.add(asc);
         fernFlowerSettingsDialog = new SettingsDialog(fernFlowerSettingsSecondaryMenu, new JPanel());
         fernFlowerSettings.addActionListener((e)-> fernFlowerSettingsDialog.showDialog());
+
+        //QUILTFLOWER SETTINGS
+        settingsMainMenu.add(useNewSettingsDialog ? quiltflowerSettings : quiltflowerSettingsSecondaryMenu);
+        quiltflowerSettingsSecondaryMenu.add(quilt_ren);
+        quiltflowerSettingsSecondaryMenu.add(quilt_dc4);
+        quiltflowerSettingsSecondaryMenu.add(quilt_nns);
+        quiltflowerSettingsSecondaryMenu.add(quilt_ner);
+        quiltflowerSettingsSecondaryMenu.add(quilt_bto);
+        quiltflowerSettingsSecondaryMenu.add(quilt_rgn);
+        quiltflowerSettingsSecondaryMenu.add(quilt_rer);
+        quiltflowerSettingsSecondaryMenu.add(quilt_rbr);
+        quiltflowerSettingsSecondaryMenu.add(quilt_rsy);
+        quiltflowerSettingsSecondaryMenu.add(quilt_hes);
+        quiltflowerSettingsSecondaryMenu.add(quilt_hdc);
+        quiltflowerSettingsSecondaryMenu.add(quilt_din);
+        quiltflowerSettingsSecondaryMenu.add(quilt_das);
+        quiltflowerSettingsSecondaryMenu.add(quilt_dgs);
+        quiltflowerSettingsSecondaryMenu.add(quilt_den);
+        quiltflowerSettingsSecondaryMenu.add(quilt_uto);
+        quiltflowerSettingsSecondaryMenu.add(quilt_udv);
+        quiltflowerSettingsSecondaryMenu.add(quilt_fdi);
+        quiltflowerSettingsSecondaryMenu.add(quilt_asc);
+        quiltflowerSettingsDialog = new SettingsDialog(quiltflowerSettingsSecondaryMenu, new JPanel());
+        quiltflowerSettings.addActionListener((e)-> quiltflowerSettingsDialog.showDialog());
         
         //CFIDE SETTINGS
         settingsMainMenu.add(useNewSettingsDialog ? bytecodeDecompilerSettings : bytecodeDecompilerSettingsSecondaryMenu);
@@ -835,6 +883,27 @@ public class MainViewerGUI extends JFrame
         rer.setSelected(true);
         hes.setSelected(true);
         hdc.setSelected(true);
+
+        // quiltflower
+        quilt_rbr.setSelected(true);
+        quilt_rsy.setSelected(false);
+        quilt_din.setSelected(true);
+        quilt_das.setSelected(true);
+        quilt_dgs.setSelected(false);
+        quilt_den.setSelected(true);
+        quilt_uto.setSelected(true);
+        quilt_udv.setSelected(true);
+        quilt_fdi.setSelected(true);
+        quilt_asc.setSelected(false);
+        quilt_ren.setSelected(false);
+        quilt_dc4.setSelected(true);
+        quilt_nns.setSelected(true);
+        quilt_ner.setSelected(true);
+        quilt_bto.setSelected(true);
+        quilt_rgn.setSelected(true);
+        quilt_rer.setSelected(true);
+        quilt_hes.setSelected(true);
+        quilt_hdc.setSelected(true);
         
         //CFIDE
         debugHelpers.setSelected(true);

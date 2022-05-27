@@ -1,16 +1,6 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
-import the.bytecode.club.bytecodeviewer.decompilers.impl.ASMTextifierDisassembler;
-import the.bytecode.club.bytecodeviewer.decompilers.impl.BytecodeDisassembler;
-import the.bytecode.club.bytecodeviewer.decompilers.impl.CFRDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.impl.FernFlowerDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.impl.JADXDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.impl.JDGUIDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.impl.JavapDisassembler;
-import the.bytecode.club.bytecodeviewer.decompilers.impl.KrakatauDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.impl.KrakatauDisassembler;
-import the.bytecode.club.bytecodeviewer.decompilers.impl.ProcyonDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.impl.SmaliDisassembler;
+import the.bytecode.club.bytecodeviewer.decompilers.impl.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -43,6 +33,7 @@ public enum Decompiler
     PROCYON_DECOMPILER("Procyon Decompiler", "proycon", new ProcyonDecompiler()),
     CFR_DECOMPILER("CFR Decompiler", "cfr", new CFRDecompiler()),
     FERNFLOWER_DECOMPILER("FernFlower Decompiler", "fernflower", new FernFlowerDecompiler()),
+    QUILTFLOWER_DECOMPILER("QuiltFlower Decompiler", "quiltflower", new QuiltFlowerDecompiler()),
     BYTECODE_DISASSEMBLER("Bytecode Disassembler", "bcvbd", new BytecodeDisassembler()),
     HEXCODE_VIEWER("Hexcode Viewer", "bcvhex", null),
     SMALI_DISASSEMBLER("Smali Disassembler", "smali", new SmaliDisassembler()),
