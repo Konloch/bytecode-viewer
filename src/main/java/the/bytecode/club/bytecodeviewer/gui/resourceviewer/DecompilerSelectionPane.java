@@ -164,9 +164,7 @@ public class DecompilerSelectionPane
 	
 	public Decompiler getSelectedDecompiler()
 	{
-		javax.swing.ButtonModel selection = group.getSelection();
-		String actionCommand = selection.getActionCommand();
-		return Decompiler.valueOf(actionCommand);
+		return Decompiler.valueOf(group.getSelection().getActionCommand());
 	}
 	
 	public void setSelectedDecompiler(Decompiler decompiler)
