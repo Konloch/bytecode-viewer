@@ -100,6 +100,7 @@ public class CommandLineInput {
                 System.out.println("Krakatau-Bytecode");
                 System.out.println("JD-GUI");
                 System.out.println("Smali");
+                System.out.println("ASMifier");
                 return STOP;
             } else if (cmd.hasOption("clean")) {
                 new File(Constants.getBCVDirectory()).delete();
@@ -163,9 +164,10 @@ public class CommandLineInput {
                                 !decompiler.equalsIgnoreCase("krakatau") &&
                                 !decompiler.equalsIgnoreCase("krakatau-bytecode") &&
                                 !decompiler.equalsIgnoreCase("jd-gui") &&
-                                !decompiler.equalsIgnoreCase("smali")
+                                !decompiler.equalsIgnoreCase("smali") &&
+                                !decompiler.equalsIgnoreCase("asmifier")
                 ) {
-                    System.out.println("Error, no decompiler called '" + decompiler + "' found. Type -decompiler-list"
+                    System.out.println("Error, no decompiler called '" + decompiler + "' found. Type -list"
                             + " for the list");
                 }
 
@@ -350,6 +352,26 @@ public class CommandLineInput {
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.JADX_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
+                        DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
+                    } catch (Exception e) {
+                        BytecodeViewer.handleException(e);
+                    }
+                }
+            }
+            else if (decompiler.equalsIgnoreCase("asmifier")) {
+                System.out.println("Generating ASM code for " + input.getAbsolutePath() + " with ASMifier");
+                BytecodeViewer.openFiles(new File[]{input}, false);
+
+                Thread.sleep(5 * 1000);
+
+                if (target.equalsIgnoreCase("all")) {
+                    System.out.println("Coming soon.");
+                    //Decompiler.smali.decompileToZip(output.getAbsolutePath());
+                } else {
+                    try {
+                        ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
+                        final ClassWriter cw = accept(cn);
+                        String contents = Decompiler.ASMIFIER_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     } catch (Exception e) {
                         BytecodeViewer.handleException(e);

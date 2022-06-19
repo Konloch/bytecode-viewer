@@ -18,10 +18,7 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJMenu;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
 
-import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentType.BYTECODE;
-import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentType.BYTECODE_NON_EDITABLE;
-import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentType.JAVA;
-import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentType.JAVA_AND_BYTECODE;
+import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentType.*;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -61,12 +58,13 @@ public class DecompilerSelectionPane
 	private final DecompilerViewComponent smali = new DecompilerViewComponent("Smali", BYTECODE, Decompiler.SMALI_DISASSEMBLER);
 	private final DecompilerViewComponent bytecode = new DecompilerViewComponent("Bytecode", BYTECODE_NON_EDITABLE, Decompiler.BYTECODE_DISASSEMBLER);
 	private final DecompilerViewComponent asmTextify = new DecompilerViewComponent("ASM Textify", BYTECODE_NON_EDITABLE, Decompiler.ASM_TEXTIFY_DISASSEMBLER);
+	private final DecompilerViewComponent asmifier = new DecompilerViewComponent("ASMifier", JAVA_NON_EDITABLE, Decompiler.ASMIFIER_DECOMPILER);
 	private final DecompilerViewComponent javap = new DecompilerViewComponent("Javap", BYTECODE_NON_EDITABLE, Decompiler.JAVAP_DISASSEMBLER);
 	
 	//TODO when adding new decompilers insert the DecompilerViewComponent object into here
 	// also in the group, then finally the build menu
 	public List<DecompilerViewComponent> components = new ArrayList<>(Arrays.asList(
-			procyon, CFR, JADX, JD, fern, krakatau, smali, bytecode, asmTextify, javap));
+			procyon, CFR, JADX, JD, fern, krakatau, smali, bytecode, asmTextify, asmifier, javap));
 	
 	public DecompilerSelectionPane(int paneID)
 	{
@@ -159,6 +157,7 @@ public class DecompilerSelectionPane
 		menu.add(bytecode.getMenu());
 		menu.add(javap.getMenu());
 		menu.add(asmTextify.getMenu());
+		menu.add(asmifier.getMenu());
 		menu.add(new JSeparator());
 		menu.add(hexcode);
 	}

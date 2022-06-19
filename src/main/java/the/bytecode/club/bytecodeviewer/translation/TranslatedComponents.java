@@ -94,7 +94,8 @@ public enum TranslatedComponents
 	BYTECODE,
 	HEXCODE,
 	ASM_TEXTIFY,
-	
+	ASMIFIER,
+
 	SETTINGS,
 	COMPILE_ON_SAVE,
 	COMPILE_ON_REFRESH,
