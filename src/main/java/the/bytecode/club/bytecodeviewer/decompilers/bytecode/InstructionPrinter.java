@@ -76,6 +76,9 @@ public class InstructionPrinter implements Opcodes {
   }
 
   private void precalculateLabelIndexes(MethodNode m) {
+    if(m == null)
+      return;
+    
     int lIdx = 0;
     for (AbstractInsnNode ain : m.instructions) {
       if (ain.getType() == AbstractInsnNode.LABEL) {
