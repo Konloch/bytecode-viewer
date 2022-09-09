@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.nio.file.Paths;
 import java.security.Permission;
 import java.util.concurrent.atomic.AtomicInteger;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -118,13 +119,13 @@ public class SecurityMan extends SecurityManager
             blocked = true;
         
         //block anything executing in system temp
-        else if(normalizedPath.startsWith(Constants.systemTempDirectory.toLowerCase()))
+        else if(Paths.get(normalizedPath).normalize().startsWith(Constants.systemTempDirectory.toLowerCase()))
             blocked = true;
         
         //can only write into BCV dir, so anything executing from here has probably been dropped
         try
         {
-            if(normalizedPath.startsWith(Constants.BCVDir.getCanonicalPath().toLowerCase()))
+            if(Paths.get(normalizedPath).normalize().startsWith(Constants.BCVDir.getCanonicalPath().toLowerCase()))
                 blocked = true;
         }
         catch (IOException e)

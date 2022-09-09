@@ -73,7 +73,7 @@ public final class ZipUtils {
                 String fileName = destinationDir + File.separator + entry.getName();
                 File f = new File(fileName);
 
-                if (!f.getCanonicalPath().startsWith(canonicalDestDir)) {
+                if (!f.getCanonicalFile().toPath().startsWith(canonicalDestDir)) {
                     System.out.println("Zip Slip exploit detected. Skipping entry " + entry.getName());
                     continue;
                 }
