@@ -176,29 +176,22 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             for (String name : container.resourceClasses.keySet())
             {
                 final String[] spl = name.split("/");
-                if (spl.length < 2)
+                int splLength = spl.length;
+                if (splLength < 2)
                 {
                     root.add(new ResourceTreeNode(name + ".class"));
                 }
                 else
                 {
                     ResourceTreeNode parent = root;
-                    for (int i1 = 0; i1 < spl.length; i1++)
+                    for (int i1 = 0; i1 < splLength; i1++)
                     {
                         String s = spl[i1];
                     
-                        if (i1 == spl.length - 1)
+                        if (i1 == splLength - 1)
                             s += ".class";
                     
-                        ResourceTreeNode child = null;
-                        for (int i = 0; i < parent.getChildCount(); i++)
-                        {
-                            if (((ResourceTreeNode) parent.getChildAt(i)).getUserObject().equals(s))
-                            {
-                                child = (ResourceTreeNode) parent.getChildAt(i);
-                                break;
-                            }
-                        }
+                        ResourceTreeNode child = parent.getChildByUserObject(s);
                     
                         if (child == null)
                         {
@@ -227,20 +220,14 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                     ResourceTreeNode parent = root;
                     for (final String s : spl)
                     {
-                        ResourceTreeNode child = null;
-                        for (int i = 0; i < parent.getChildCount(); i++)
-                        {
-                            if (((ResourceTreeNode) parent.getChildAt(i)).getUserObject().equals(s))
-                            {
-                                child = (ResourceTreeNode) parent.getChildAt(i);
-                                break;
-                            }
-                        }
+                        ResourceTreeNode child = parent.getChildByUserObject(s);
+
                         if (child == null)
                         {
                             child = new ResourceTreeNode(s);
                             parent.add(child);
                         }
+
                         parent = child;
                     }
                 }

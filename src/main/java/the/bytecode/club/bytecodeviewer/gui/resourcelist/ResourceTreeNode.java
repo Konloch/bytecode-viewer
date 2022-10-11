@@ -1,9 +1,10 @@
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
-import java.util.Comparator;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
+import java.util.Comparator;
+import java.util.HashMap;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -31,6 +32,9 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
 {
 	
 	private static final long serialVersionUID = -8817777566176729571L;
+
+	private static final int CHILD_MAP_BUILD_THRESHOLD = 3;
+	private HashMap<Object, ResourceTreeNode> userObjectToChildMap = null;
 	
 	public ResourceTreeNode(final Object o)
 	{
@@ -41,6 +45,7 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
 	public void insert(final MutableTreeNode newChild, final int childIndex)
 	{
 		super.insert(newChild, childIndex);
+		addToMap((ResourceTreeNode) newChild);
 	}
 	
 	public void sort()
@@ -60,7 +65,83 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
 			}
 		}
 	}
-	
+
+	@Override
+	public void add(MutableTreeNode newChild) {
+		super.add(newChild);
+		addToMap((ResourceTreeNode) newChild);
+	}
+
+	private void addToMap(ResourceTreeNode newChild) {
+		if (userObjectToChildMap != null)
+		{
+			userObjectToChildMap.put(newChild.getUserObject(), newChild);
+		}
+		else if (getChildCount() == CHILD_MAP_BUILD_THRESHOLD)
+		{
+			buildMap();
+		}
+	}
+
+	private void buildMap() {
+		userObjectToChildMap = new HashMap<>();
+
+		for (int i = 0, childCount = getChildCount(); i < childCount; i++)
+		{
+			ResourceTreeNode item = (ResourceTreeNode) getChildAt(i);
+			userObjectToChildMap.put(item.getUserObject(), item);
+		}
+	}
+
+	@Override
+	public void remove(int childIndex) {
+		if (userObjectToChildMap != null)
+		{
+			TreeNode childAt = getChildAt(childIndex);
+			userObjectToChildMap.remove(((ResourceTreeNode) childAt).getUserObject());
+		}
+
+		super.remove(childIndex);
+	}
+
+	@Override
+	public void remove(MutableTreeNode aChild) {
+		if (userObjectToChildMap != null && aChild != null)
+		{
+			userObjectToChildMap.remove(((ResourceTreeNode) aChild).getUserObject());
+		}
+
+		super.remove(aChild);
+	}
+
+	@Override
+	public void removeAllChildren() {
+		if (userObjectToChildMap != null)
+		{
+			userObjectToChildMap.clear();
+		}
+
+		super.removeAllChildren();
+	}
+
+	public ResourceTreeNode getChildByUserObject(Object userObject) {
+		if (userObjectToChildMap != null)
+		{
+			return userObjectToChildMap.get(userObject);
+		}
+
+		for (int i = 0, childCount = getChildCount(); i < childCount; i++)
+		{
+			ResourceTreeNode child = (ResourceTreeNode) getChildAt(i);
+			if (child.getUserObject().equals(userObject))
+			{
+				return child;
+			}
+		}
+
+		return null;
+	}
+
 	protected Comparator<TreeNode> nodeComparator = new Comparator<TreeNode>()
 	{
 		@Override
