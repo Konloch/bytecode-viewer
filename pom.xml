@@ -16,7 +16,7 @@
         <annotations.version>23.0.0</annotations.version>
         <antlr4.version>4.9.3</antlr4.version>
         <apktool.version>2.6.1</apktool.version>
-        <asm.version>9.3</asm.version>
+        <asm.version>9.4</asm.version>
         <bined.version>0.2.0</bined.version>
         <byteanalysis.version>1.0bcv</byteanalysis.version>
         <cfr.version>0.152</cfr.version>
@@ -27,11 +27,11 @@
         <commons-compress.version>1.21</commons-compress.version>
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
-        <commons-text.version>1.9</commons-text.version>
-        <darklaf.version>3.0.1</darklaf.version>
+        <commons-text.version>1.10.0</commons-text.version>
+        <darklaf.version>3.0.2</darklaf.version>
         <darklaf-extensions-rsta.version>0.4.1</darklaf-extensions-rsta.version>
         <decompiler-fernflower.version>6.0.0.Final</decompiler-fernflower.version>
-        <dex2jar.version>v52</dex2jar.version>
+        <dex2jar.version>v56</dex2jar.version>
         <fernflower.version>e0d44f4</fernflower.version>
         <gson.version>2.9.1</gson.version>
         <guava.version>31.1-jre</guava.version>
@@ -43,11 +43,11 @@
         <objenesis.version>3.3</objenesis.version>
         <paged-data.version>0.2.0</paged-data.version>
         <procyon.version>0.6.0</procyon.version>
-        <rsyntaxtextarea.version>3.2.0</rsyntaxtextarea.version>
+        <rsyntaxtextarea.version>3.3.0</rsyntaxtextarea.version>
         <semantic-version.version>2.1.1</semantic-version.version>
-        <slf4j.version>2.0.0</slf4j.version>
+        <slf4j.version>2.0.3</slf4j.version>
         <smali.version>2.5.2</smali.version>
-        <snakeyaml.version>1.32</snakeyaml.version>
+        <snakeyaml.version>1.33</snakeyaml.version>
         <treelayout.version>1.0.3</treelayout.version>
         <webp-imageio.version>0.2.2</webp-imageio.version>
         <xpp3.version>1.1.4c</xpp3.version>
@@ -419,6 +419,26 @@
                                 <exclude>META-INF/*LICENSE*</exclude>
                                 <exclude>META-INF/*NOTICE*</exclude>
                                 <exclude>META-INF/MANIFEST.MF</exclude>
+                            </excludes>
+                        </filter>
+                        <!-- Ignore all ASM-related files from d2j-external but MCTLE fix -->
+                        <filter>
+                            <artifact>com.github.ThexXTURBOXx.dex2jar:d2j-external</artifact>
+                            <excludeDefaults>true</excludeDefaults>
+                            <includes>
+                                <include>com/android/**</include>
+                                <include>api_database/**</include>
+                                <include>META-INF/services/**</include>
+                                <include>LICENSE</include>
+                                <include>r8-version.properties</include>
+                                <include>org/objectweb/asm/MethodWriter.class</include>
+                            </includes>
+                        </filter>
+                        <!-- Ignore original MethodWriter for MCTLE fix above -->
+                        <filter>
+                            <artifact>org.ow2.asm:asm</artifact>
+                            <excludes>
+                                <exclude>org/objectweb/asm/MethodWriter.class</exclude>
                             </excludes>
                         </filter>
                     </filters>
