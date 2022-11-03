@@ -118,7 +118,12 @@ public class FernFlowerDecompiler extends InternalDecompiler
 
         tempClass.delete();
 
-        final File outputJava = new File(start + ".java");
+        String javaDir = start;
+        if (BytecodeViewer.viewer.ren.isSelected()) {
+            javaDir = tempDirectory + "class_0";
+        }
+
+        final File outputJava = new File(javaDir + ".java");
         if (outputJava.exists()) {
             String s;
             try {
