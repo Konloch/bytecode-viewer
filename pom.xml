@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependency versions -->
-        <annotations.version>23.0.0</annotations.version>
+        <annotations.version>23.1.0</annotations.version>
         <antlr4.version>4.9.3</antlr4.version>
         <apktool.version>2.7.0</apktool.version>
         <asm.version>9.4</asm.version>
