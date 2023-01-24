@@ -35,14 +35,13 @@ import javax.swing.plaf.basic.BasicButtonUI;
  * Using CloseButton of darklaf instead. 4/17/2022
  */
 @Deprecated
-public class TabExitButton extends JButton implements ActionListener
-{
+public class TabExitButton extends JButton implements ActionListener {
+
 	private final TabbedPane tabbedPane;
 	private final int tabIndex;
 	private final String tabWorkingName;
 
-	public TabExitButton(TabbedPane tabbedPane, int tabIndex, String tabWorkingName)
-	{
+	public TabExitButton(TabbedPane tabbedPane, int tabIndex, String tabWorkingName) {
 		this.tabbedPane = tabbedPane;
 		this.tabIndex = tabIndex;
 		this.tabWorkingName = tabWorkingName;
@@ -65,29 +64,26 @@ public class TabExitButton extends JButton implements ActionListener
 		addActionListener(this);
 	}
 
-	public int getTabIndex()
-	{
+	public int getTabIndex() {
 		return tabIndex;
 	}
 
 	@Override
-	public void actionPerformed(final ActionEvent e)
-	{
+	public void actionPerformed(final ActionEvent e) {
 		final int i = tabbedPane.tabs.indexOfTabComponent(tabbedPane);
-		if (i != -1)
-		{
+		if (i != -1) {
 			tabbedPane.tabs.remove(i);
 		}
 	}
 
 	// we don't want to update UI for this button
 	@Override
-	public void updateUI() { }
+	public void updateUI() {
+	}
 
 	// paint the cross
 	@Override
-	protected void paintComponent(final Graphics g)
-	{
+	protected void paintComponent(final Graphics g) {
 		super.paintComponent(g);
 		final Graphics2D g2 = (Graphics2D) g.create();
 		// shift the image for pressed buttons
@@ -97,8 +93,9 @@ public class TabExitButton extends JButton implements ActionListener
 		g2.setStroke(new BasicStroke(2));
 		g2.setColor(Color.BLACK);
 
-		if (getModel().isRollover())
+		if (getModel().isRollover()) {
 			g2.setColor(Color.MAGENTA);
+		}
 
 		final int delta = 6;
 		g2.drawLine(delta, delta, getWidth() - delta - 1, getHeight() - delta - 1);
@@ -106,18 +103,15 @@ public class TabExitButton extends JButton implements ActionListener
 		g2.dispose();
 	}
 
-	public TabbedPane getTabbedPane()
-	{
+	public TabbedPane getTabbedPane() {
 		return tabbedPane;
 	}
 
-	public String getTabWorkingName()
-	{
+	public String getTabWorkingName() {
 		return tabWorkingName;
 	}
 
-	public static long getSerialVersionUID()
-	{
+	public static long getSerialVersionUID() {
 		return serialVersionUID;
 	}
 
