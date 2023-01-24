@@ -129,8 +129,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 
 public class BytecodeViewer
 {
-    //TODO fix this for tab dragging & better tab controls
-    public static boolean EXPERIMENTAL_TAB_CODE = true;
     
     //the launch args called on BCV
     public static String[] launchArgs;

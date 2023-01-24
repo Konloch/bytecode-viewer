@@ -230,7 +230,6 @@ public class Workspace extends TranslatedVisibleComponent
         resourceView.resource.workingName = workingName;
 
         //set the tabs index
-//        tabs.setTabComponentAt(tabIndex, tabbedPane);
         tabs.setTabComponentAt(tabIndex, new CloseButtonComponent(tabs));
 
         //open the tab that was just added

@@ -1,6 +1,5 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
-import com.github.weisj.darklaf.components.CloseButton;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 import javax.swing.*;
@@ -8,10 +7,6 @@ import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
