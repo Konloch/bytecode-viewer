@@ -7,14 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import com.github.weisj.darklaf.components.CloseButton;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -50,85 +43,82 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
  * @author WaterWolf
  * @since 09/26/2011
  */
-public class TabbedPane extends JPanel
-{
-    public final JTabbedPane tabs;
-    public final JLabel label;
-    private DelayTabbedPaneThread probablyABadIdea;
-    private long startedDragging = 0;
-    public final String tabName;
-    public final String fileContainerName;
-    public final ResourceViewer resource;
-    private static long lastMouseClick = System.currentTimeMillis();
-    public final static MouseListener buttonHoverAnimation = new ButtonHoverAnimation();
-    public static final Color BLANK_COLOR = new Color(0, 0, 0, 0);
-    
-    public TabbedPane(int tabIndex, String tabWorkingName, String fileContainerName, String name, final JTabbedPane existingTabs, ResourceViewer resource)
-    {
-        // unset default FlowLayout' gaps
-        super(new FlowLayout(FlowLayout.LEFT, 0, 0));
+public class TabbedPane extends JPanel {
 
-        this.tabName = name;
-        this.fileContainerName = fileContainerName;
-        this.resource = resource;
-    
-        if (existingTabs == null)
-            throw new NullPointerException("TabbedPane is null");
+	public final JTabbedPane tabs;
+	public final JLabel label;
+	private DelayTabbedPaneThread probablyABadIdea;
+	private long startedDragging = 0;
+	public final String tabName;
+	public final String fileContainerName;
+	public final ResourceViewer resource;
+	private static long lastMouseClick = System.currentTimeMillis();
+	public final static MouseListener buttonHoverAnimation = new ButtonHoverAnimation();
+	public static final Color BLANK_COLOR = new Color(0, 0, 0, 0);
 
-        this.tabs = existingTabs;
-        setOpaque(false);
+	public TabbedPane(int tabIndex, String tabWorkingName, String fileContainerName, String name, final DraggableTabbedPane existingTabs, ResourceViewer resource) {
+		// unset default FlowLayout' gaps
+		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-        // make JLabel read titles from JTabbedPane
-        label = new MaxWidthJLabel(tabName, 400, 20);
+		this.tabName = name;
+		this.fileContainerName = fileContainerName;
+		this.resource = resource;
 
-        this.add(label);
-        // add more space between the label and the button
-        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
-        // tab button
-        JButton exitButton = new CloseButton();
-        this.add(exitButton);
-        // add more space to the top of the component
-        setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
-        
-        //define the right click pop-up menu
-        JPopupMenu rightClickMenu = new JPopupMenu();
-        JMenuItem closeAllTabs = new JMenuItem(TranslatedStrings.CLOSE_ALL_BUT_THIS + ": " + name);
-        JMenuItem closeTab = new JMenuItem(TranslatedStrings.CLOSE_TAB + ": " + name);
-    
-        rightClickMenu.add(closeAllTabs);
-        rightClickMenu.add(closeTab);
-        //setComponentPopupMenu(rightClickMenu);
-        
-        exitButton.setComponentPopupMenu(rightClickMenu);
-        exitButton.addMouseListener(new MouseClickedListener(e ->
-        {
-            if (this.getTabIndex() != -1)
-                existingTabs.remove(this.getTabIndex());
-        }));
-        
-        closeTab.addActionListener(e ->
-        {
-            if (this.getTabIndex() != -1)
-                existingTabs.remove(this.getTabIndex());
-        });
-        closeAllTabs.addActionListener(e ->
-        {
+		if (existingTabs == null)
+			throw new NullPointerException("TabbedPane is null");
 
-            while (true)
-            {
-                if (existingTabs.getTabCount() <= 1)
-                    return;
-                
-                if (this.getTabIndex() != 0)
-                    existingTabs.remove(0);
-                else
-                    existingTabs.remove(1);
-            }
-        });
-        
-        //tab dragging
-        if(BytecodeViewer.EXPERIMENTAL_TAB_CODE)
-        {
+		this.tabs = existingTabs;
+		setOpaque(false);
+
+		// make JLabel read titles from JTabbedPane
+		label = new MaxWidthJLabel(tabName, 400, 20);
+
+		this.add(label);
+		// add more space between the label and the button
+		label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+		// tab button
+		JButton exitButton = new CloseButton();
+		// add more space to the top of the component
+		setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
+
+		//define the right click pop-up menu
+		JPopupMenu rightClickMenu = new JPopupMenu();
+		this.putClientProperty("index", this.getTabIndex());
+		JMenuItem closeAllTabs = new JMenuItem(TranslatedStrings.CLOSE_ALL_BUT_THIS + ": " + name);
+		JMenuItem closeTab = new JMenuItem(TranslatedStrings.CLOSE_TAB + ": " + name);
+
+		rightClickMenu.add(closeAllTabs);
+		rightClickMenu.add(closeTab);
+		//setComponentPopupMenu(rightClickMenu);
+
+		exitButton.setComponentPopupMenu(rightClickMenu);
+		exitButton.addMouseListener(new MouseClickedListener(e ->
+		{
+			if (this.getTabIndex() != -1)
+				existingTabs.remove(this.getTabIndex());
+		}));
+
+		closeTab.addActionListener(e ->
+		{
+			if (this.getTabIndex() != -1)
+				existingTabs.remove(this.getTabIndex());
+		});
+		closeAllTabs.addActionListener(e ->
+		{
+
+			while (true) {
+				if (existingTabs.getTabCount() <= 1)
+					return;
+
+				if (this.getTabIndex() != 0)
+					existingTabs.remove(0);
+				else
+					existingTabs.remove(1);
+			}
+		});
+
+		//tab dragging
+		if (BytecodeViewer.EXPERIMENTAL_TAB_CODE) {
             /*label.addMouseListener(new MouseListener() {
                 @Override public void mouseClicked(MouseEvent e) {}
                 @Override public void mouseEntered(MouseEvent arg0) {
@@ -142,82 +132,112 @@ public class TabbedPane extends JPanel
                     stopDragging(e.getX(), e.getY());
                 }
             });*/
-            
-            this.addMouseListener(new MouseListener() {
-                @Override public void mouseClicked(MouseEvent e) {}
-                @Override public void mouseEntered(MouseEvent arg0) {}
-                @Override public void mouseExited(MouseEvent arg0) {}
-                @Override public void mousePressed(MouseEvent e) {
-                    onMousePressed(e);
-                }
-                @Override public void mouseReleased(MouseEvent e) {
-                    stopDragging(e.getX(), e.getY());
-                }
-            });
-        }
-        
-        //middle click close
-        if(BytecodeViewer.EXPERIMENTAL_TAB_CODE)
-        {
-            this.addMouseListener(new MouseAdapter()
-            {
-                @Override
-                public void mouseReleased(MouseEvent e)
-                {
-                    if (e.getButton() != MouseEvent.BUTTON2)
-                        return;
-    
-                    final int i = existingTabs.indexOfTabComponent(TabbedPane.this);
-                    if (i != -1)
-                        existingTabs.remove(i);
-                }
-            });
-        }
-    }
 
-    private void stopDragging(int mouseX, int mouseY)
-    {
-        if (System.currentTimeMillis() - startedDragging >= 210)
-        {
-            Rectangle bounds = new Rectangle(1, 1, mouseX, mouseY);
-            System.out.println("debug-5: " + mouseX + ", " + mouseY);
-            
-            int totalTabs = BytecodeViewer.viewer.workPane.tabs.getTabCount();
-            int index = -1;
-            for (int i = 0; i < totalTabs; i++)
-            {
-                Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
-                
-                if (c != null && bounds.intersects(c.getBounds()))
-                    index = i; //replace this tabs position
-            }
+			this.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+				}
 
-            if (index == -1)
-            {
-                for (int i = 0; i < totalTabs; i++)
-                {
-                    Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
-                    //do some check to see if it's past the X or Y
-                    if (c != null) {
-                        System.out.println("debug-6: " + c.getBounds());
-                    }
-                }
-            }
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+				}
 
-            if (index != -1)
-            {
-                BytecodeViewer.viewer.workPane.tabs.remove(this);
-                BytecodeViewer.viewer.workPane.tabs.setTabComponentAt(index, this);
-            }
-        }
-        
-        SwingUtilities.invokeLater(() ->
-        {
-            label.setBackground(BLANK_COLOR);
-            label.updateUI();
-        });
-    }
-    
+				@Override
+				public void mouseExited(MouseEvent arg0) {
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					onMousePressed(e);
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+				}
+			});
+		}
+
+		//middle click close
+		if (BytecodeViewer.EXPERIMENTAL_TAB_CODE) {
+			this.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if (e.getButton() != MouseEvent.BUTTON2)
+						return;
+
+					final int i = existingTabs.indexOfTabComponent(TabbedPane.this);
+					if (i != -1)
+						existingTabs.remove(i);
+				}
+			});
+		}
+	}
+
+	private void stopDragging(int mouseX, int mouseY) {
+		if (System.currentTimeMillis() - startedDragging >= 210) {
+			if (mouseX < 0) {
+				mouseX = 0;
+			}
+			Rectangle bounds = new Rectangle(1, 1, mouseX, mouseY);
+			System.out.println("debug-5: " + mouseX + ", " + mouseY);
+
+			int totalTabs = BytecodeViewer.viewer.workPane.tabs.getTabCount();
+			int curIndex = getTabIndex();
+			int toIndex = -1;
+
+			//Set up the indexes of our tabs.
+			for (int i = 0; i < totalTabs; i++) {
+				Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
+				System.err.println("Our bounds: " + bounds + " component: " + c.getBounds() + " intersects: " + bounds.intersects(c.getBounds()));
+				if (bounds.intersects(c.getBounds()) && c != this) {
+					toIndex = i;
+				}
+			}
+
+			System.err.println(totalTabs + " " + curIndex + " " + toIndex);
+
+			if (toIndex == totalTabs) {
+				System.err.println("here");
+			} else if (curIndex > toIndex) {
+				if (toIndex == -1) {
+					toIndex = 0;
+				}
+				// [tab0=index0][tab1=index1]
+				//   ---> == remove(tab0)
+				// [tab1=index0]
+				// add(tab0)
+				// [tab1=index0][tab0=index1]
+
+				Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(toIndex + 1);
+				System.err.println("here1");
+//                BytecodeViewer.viewer.workPane.tabs.remove(curIndex - 1); // 0
+//                BytecodeViewer.viewer.workPane.tabs.add(BytecodeViewer.viewer.workPane.op);
+//                BytecodeViewer.viewer.workPane.tabs.setTabComponentAt(curIndex, BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(curIndex - 1));
+			} else {
+				BytecodeViewer.viewer.workPane.tabs.remove(curIndex); // 0
+				BytecodeViewer.viewer.workPane.tabs.add(resource);
+				BytecodeViewer.viewer.workPane.tabs.setTabComponentAt(toIndex, this);
+			}
+
+			if (toIndex == -1) {
+				for (int i = 0; i < totalTabs; i++) {
+					Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
+					//do some check to see if it's past the X or Y
+					if (c != null) {
+						System.out.println("debug-6: " + c.getBounds());
+					}
+				}
+			}
+
+		}
+
+		SwingUtilities.invokeLater(() ->
+		{
+			label.setBackground(BLANK_COLOR);
+			label.updateUI();
+		});
+	}
+
     public void onMousePressed(MouseEvent e)
     {
         BytecodeViewer.viewer.workPane.tabs.dispatchEvent(e);
@@ -232,8 +252,7 @@ public class TabbedPane extends JPanel
             probablyABadIdea = new DelayTabbedPaneThread(TabbedPane.this);
             probablyABadIdea.start();
             repaint();
-            System.out.println(e.getX()+", "+e.getY());
-            Rectangle bounds = new Rectangle(1, 1, e.getX(), e.getY());
+            Rectangle bounds = new Rectangle(e.getX(), e.getY(), e.getX() + this.getX(), e.getY());
             for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
             {
                 Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
@@ -246,10 +265,10 @@ public class TabbedPane extends JPanel
             stopDragging(e.getX(), e.getY());
         }
     }
-    
-    private static final long serialVersionUID = -4774885688297538774L;
 
-    public int getTabIndex() {
-        return tabs.indexOfTabComponent(this);
-    }
+	private static final long serialVersionUID = -4774885688297538774L;
+
+	public int getTabIndex() {
+		return tabs.indexOfTabComponent(this);
+	}
 }
