@@ -50,211 +50,198 @@ import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
  * @since 09/26/2011
  */
 
-public class Workspace extends TranslatedVisibleComponent
-{
-    public final DraggableTabbedPane tabs;
-    public final JPanel buttonPanel;
-    public final JButton refreshClass;
-    public final Set<String> openedTabs = new HashSet<>();
+public class Workspace extends TranslatedVisibleComponent {
 
-    public Workspace()
-    {
-        super("Workspace", TranslatedComponents.WORK_SPACE);
+	public final DraggableTabbedPane tabs;
+	public final JPanel buttonPanel;
+	public final JButton refreshClass;
+	public final Set<String> openedTabs = new HashSet<>();
 
-        this.tabs = new DraggableTabbedPane();
+	public Workspace() {
+		super("Workspace", TranslatedComponents.WORK_SPACE);
 
-        JPopupMenu popUp = new JPopupMenu();
-        JMenuItem closeAllTabs = new JMenuItem("Close All But This");
-        JMenuItem closeTab = new JMenuItem("Close Tab");
-        closeTab.addActionListener(e ->
-        {
-            TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
-            final int index = tabExitButton.getTabIndex();
+		this.tabs = new DraggableTabbedPane();
 
-            if (index != -1)
-                tabs.remove(index);
-        });
+		JPopupMenu popUp = new JPopupMenu();
+		JMenuItem closeAllTabs = new JMenuItem("Close All But This");
+		JMenuItem closeTab = new JMenuItem("Close Tab");
+		closeTab.addActionListener(e ->
+		{
+			TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu) ((JMenuItem) e.getSource()).getParent()).getInvoker();
+			final int index = tabExitButton.getTabIndex();
 
-        closeAllTabs.addActionListener(e ->
-        {
-            TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu)((JMenuItem) e.getSource()).getParent()).getInvoker();
-            final int index = tabExitButton.getTabIndex();
+			if (index != -1)
+				tabs.remove(index);
+		});
 
-            while (true)
-            {
-                if (tabs.getTabCount() <= 1)
-                    return;
+		closeAllTabs.addActionListener(e ->
+		{
+			TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu) ((JMenuItem) e.getSource()).getParent()).getInvoker();
+			final int index = tabExitButton.getTabIndex();
 
-                if (index != 0)
-                    tabs.remove(0);
-                else
-                    tabs.remove(1);
-            }
-        });
+			while (true) {
+				if (tabs.getTabCount() <= 1)
+					return;
 
-        tabs.addMouseListener(new MouseListener()
-        {
-            @Override
-            public void mouseClicked(MouseEvent e) { }
-            @Override
-            public void mouseEntered(MouseEvent arg0) { }
-            @Override
-            public void mouseExited(MouseEvent arg0) { }
+				if (index != 0)
+					tabs.remove(0);
+				else
+					tabs.remove(1);
+			}
+		});
 
-            @Override
-            public void mousePressed(MouseEvent e)
-            {
-                if (BLOCK_TAB_MENU)
-                    return;
+		tabs.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
 
-                if (e.getButton() == 3)
-                {
-                    Rectangle bounds = new Rectangle(1, 1, e.getX(), e.getY());
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			}
 
-                    for (int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
-                    {
-                        Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
-                        if (c != null && bounds.intersects(c.getBounds()))
-                        {
-                            popUp.setVisible(true);
-                            closeAllTabs.setText(TranslatedStrings.CLOSE_TAB + ": " + ((TabbedPane) c).tabName);
-                            closeTab.setText(TranslatedStrings.CLOSE_TAB + ": " + ((TabbedPane) c).tabName);
-                        }
-                        else
-                        {
-                            popUp.setVisible(false);
-                        }
-                    }
-                }
-            }
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+			}
 
-            @Override
-            public void mouseReleased(MouseEvent e) { }
-        });
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (BLOCK_TAB_MENU)
+					return;
 
-        popUp.add(closeAllTabs);
-        popUp.add(closeTab);
+				if (e.getButton() == 3) {
+					Rectangle bounds = new Rectangle(1, 1, e.getX(), e.getY());
 
-        if (!BLOCK_TAB_MENU)
-            tabs.setComponentPopupMenu(popUp);
+					for (int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++) {
+						Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
+						if (c != null && bounds.intersects(c.getBounds())) {
+							popUp.setVisible(true);
+							closeAllTabs.setText(TranslatedStrings.CLOSE_TAB + ": " + ((TabbedPane) c).tabName);
+							closeTab.setText(TranslatedStrings.CLOSE_TAB + ": " + ((TabbedPane) c).tabName);
+						} else {
+							popUp.setVisible(false);
+						}
+					}
+				}
+			}
 
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(tabs, BorderLayout.CENTER);
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+		});
 
-        buttonPanel = new JPanel(new FlowLayout());
+		popUp.add(closeAllTabs);
+		popUp.add(closeTab);
 
-        refreshClass = new TranslatedJButton("Refresh", TranslatedComponents.REFRESH);
-        refreshClass.addActionListener((event)->
-        {
-            refreshClass.setEnabled(false);
-            Thread t = new Thread(() -> new WorkspaceRefresh(event).run(), "Refresh");
-            t.start();
-        });
+		if (!BLOCK_TAB_MENU)
+			tabs.setComponentPopupMenu(popUp);
 
-        buttonPanel.add(refreshClass);
-        buttonPanel.setVisible(false);
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(tabs, BorderLayout.CENTER);
 
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+		buttonPanel = new JPanel(new FlowLayout());
 
-        tabs.addContainerListener(new TabRemovalEvent());
-        tabs.addChangeListener(arg0 -> buttonPanel.setVisible(tabs.getSelectedIndex() != -1));
+		refreshClass = new TranslatedJButton("Refresh", TranslatedComponents.REFRESH);
+		refreshClass.addActionListener((event) ->
+		{
+			refreshClass.setEnabled(false);
+			Thread t = new Thread(() -> new WorkspaceRefresh(event).run(), "Refresh");
+			t.start();
+		});
 
-        this.setVisible(true);
-    }
+		buttonPanel.add(refreshClass);
+		buttonPanel.setVisible(false);
 
-    //load class resources
-    public void addClassResource(final ResourceContainer container, final String name)
-    {
-        addResource(container, name, new ClassViewer(container, name));
-    }
+		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-    //Load file resources
-    public void addFileResource(final ResourceContainer container, final String name)
-    {
-        addResource(container, name, new FileViewer(container, name));
-    }
+		tabs.addContainerListener(new TabRemovalEvent());
+		tabs.addChangeListener(arg0 -> buttonPanel.setVisible(tabs.getSelectedIndex() != -1));
 
-    private void addResource(final ResourceContainer container, final String name, final ResourceViewer resourceView)
-    {
-        // Warn user and prevent 'nothing' from opening if no Decompiler is selected
-        if(BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.NONE &&
-            BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE &&
-            BytecodeViewer.viewer.viewPane3.getSelectedDecompiler() == Decompiler.NONE)
-        {
-            BytecodeViewer.showMessage(TranslatedStrings.SUGGESTED_FIX_NO_DECOMPILER_WARNING.toString());
-            return;
-        }
+		this.setVisible(true);
+	}
 
-        //unlock the refresh button
-        BytecodeViewer.viewer.workPane.refreshClass.setEnabled(true);
+	//load class resources
+	public void addClassResource(final ResourceContainer container, final String name) {
+		addResource(container, name, new ClassViewer(container, name));
+	}
 
-        final String workingName = container.getWorkingName(name);
+	//Load file resources
+	public void addFileResource(final ResourceContainer container, final String name) {
+		addResource(container, name, new FileViewer(container, name));
+	}
 
-        //create a new tab if the resource isn't opened currently
-        if (!openedTabs.contains(workingName))
-        {
-            addResourceToTab(resourceView, workingName, container.name, name);
-        }
-        else //if the resource is already opened select this tab as the active one
-        {
-            //TODO openedTabs could be changed to a HashMap<String, Integer> for faster lookups
+	private void addResource(final ResourceContainer container, final String name, final ResourceViewer resourceView) {
+		// Warn user and prevent 'nothing' from opening if no Decompiler is selected
+		if (BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.NONE &&
+				BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE &&
+				BytecodeViewer.viewer.viewPane3.getSelectedDecompiler() == Decompiler.NONE) {
+			BytecodeViewer.showMessage(TranslatedStrings.SUGGESTED_FIX_NO_DECOMPILER_WARNING.toString());
+			return;
+		}
 
-            //search through each tab
-            for(int i = 0; i < tabs.getTabCount(); i++)
-            {
-                //find the matching resource and open it
-                ResourceViewer tab = ((TabbedPane)tabs.getTabComponentAt(i)).resource;
-                if(tab.resource.workingName.equals(workingName))
-                {
-                    tabs.setSelectedIndex(i);
-                    break;
-                }
-            }
-        }
-    }
+		//unlock the refresh button
+		BytecodeViewer.viewer.workPane.refreshClass.setEnabled(true);
 
-    public void addResourceToTab(ResourceViewer resourceView, String workingName, String containerName, String name)
-    {
-        //start processing the resource to be viewed
-        if(resourceView instanceof ClassViewer)
-            resourceView.refresh(null);
+		final String workingName = container.getWorkingName(name);
 
-        //add the resource view to the tabs
-        tabs.add(resourceView);
+		//create a new tab if the resource isn't opened currently
+		if (!openedTabs.contains(workingName)) {
+			addResourceToTab(resourceView, workingName, container.name, name);
+		} else //if the resource is already opened select this tab as the active one
+		{
+			//TODO openedTabs could be changed to a HashMap<String, Integer> for faster lookups
 
-        //get the resource view index
-        final int tabIndex = tabs.indexOfComponent(resourceView);
+			//search through each tab
+			for (int i = 0; i < tabs.getTabCount(); i++) {
+				//find the matching resource and open it
+                ResourceViewer tab = (ResourceViewer) tabs.getComponentAt(i);
+				if (tab.resource.workingName.equals(workingName)) {
+					tabs.setSelectedIndex(i);
+					break;
+				}
+			}
+		}
+	}
 
-        //create a new tabbed pane
-        resourceView.tabbedPane = new TabbedPane(tabIndex, workingName, containerName, name, tabs, resourceView);
-        resourceView.resource.workingName = workingName;
+	public void addResourceToTab(ResourceViewer resourceView, String workingName, String containerName, String name) {
+		//start processing the resource to be viewed
+		if (resourceView instanceof ClassViewer)
+			resourceView.refresh(null);
 
-        //set the tabs index
-        tabs.setTabComponentAt(tabIndex, new CloseButtonComponent(tabs));
+		//add the resource view to the tabs
+		tabs.add(resourceView);
 
-        //open the tab that was just added
-        tabs.setSelectedIndex(tabIndex);
+		//get the resource view index
+		final int tabIndex = tabs.indexOfComponent(resourceView);
 
-        //set resource as opened in a tab
-        openedTabs.add(workingName);
+		//create a new tabbed pane
+		resourceView.tabbedPane = new TabbedPane(tabIndex, workingName, containerName, name, tabs, resourceView);
+		resourceView.resource.workingName = workingName;
 
-        //refresh the tab title
-        resourceView.refreshTitle();
-    }
+		//set the tabs index
+		tabs.setTabComponentAt(tabIndex, new CloseButtonComponent(tabs));
 
-    public ResourceViewer getActiveResource() {
-        return (ResourceViewer) tabs.getSelectedComponent();
-    }
+		//open the tab that was just added
+		tabs.setSelectedIndex(tabIndex);
 
-    public Component[] getLoadedViewers() {
-        return tabs.getComponents();
-    }
+		//set resource as opened in a tab
+		openedTabs.add(workingName);
 
-    public void resetWorkspace()
-    {
-        tabs.removeAll();
-        tabs.updateUI();
-    }
+		//refresh the tab title
+		resourceView.refreshTitle();
+	}
 
-    private static final long serialVersionUID = 6542337997679487946L;
+	public ResourceViewer getActiveResource() {
+		return (ResourceViewer) tabs.getSelectedComponent();
+	}
+
+	public Component[] getLoadedViewers() {
+		return tabs.getComponents();
+	}
+
+	public void resetWorkspace() {
+		tabs.removeAll();
+		tabs.updateUI();
+	}
+
+	private static final long serialVersionUID = 6542337997679487946L;
 }
