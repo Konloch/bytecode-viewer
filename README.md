@@ -89,7 +89,7 @@ Once a plugin is activated, it will execute the plugin with a ClassNode ArrayLis
 
 ## Instructions to compile
 
-Just clone this repo and run ``mvn package``. It's that simple!
+Just clone this repo and run ``./mvnw package``. It's that simple!
 
 ## Working on the source
 
