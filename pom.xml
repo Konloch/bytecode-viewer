@@ -31,7 +31,7 @@
         <darklaf.version>3.0.2</darklaf.version>
         <darklaf-extensions-rsta.version>0.4.1</darklaf-extensions-rsta.version>
         <decompiler-fernflower.version>6.1.0.Final</decompiler-fernflower.version>
-        <dex2jar.version>v57</dex2jar.version>
+        <dex2jar.version>v59</dex2jar.version>
         <fernflower.version>e0d44f4</fernflower.version>
         <gson.version>2.10</gson.version>
         <guava.version>31.1-jre</guava.version>
