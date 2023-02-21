@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import java.net.URL;
-import me.konloch.kontainer.io.HTTPRequest;
+import com.konloch.httprequest.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.Configuration;
 
 /***************************************************************************

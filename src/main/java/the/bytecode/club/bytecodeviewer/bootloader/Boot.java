@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import me.konloch.kontainer.io.HTTPRequest;
+import com.konloch.httprequest.HTTPRequest;
 import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -277,7 +277,6 @@ public class Boot {
 
     public static void populateUrlList() throws Exception {
         HTTPRequest req = new HTTPRequest(new URL("https://github.com/Konloch/bytecode-viewer/tree/master/libs"));
-        req.setTimeout(30000);
         for (String s : req.read())
             if (s.contains("href=\"/Konloch/bytecode-viewer/blob/master/libs/")) {
                 urlList.add("https://github.com" + s.split("href=")[1].split("\"")[1]);

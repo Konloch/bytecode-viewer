@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import javax.swing.JFileChooser;
-import me.konloch.kontainer.io.HTTPRequest;
+import com.konloch.httprequest.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.api.BCV;
@@ -256,7 +256,7 @@ public class UpdateCheck implements Runnable
 	{
 		HTTPRequest request = new HTTPRequest(new URL(url));
 		request.readSingle();
-		return request.getStatusCode() == 200;
+		return request.getLastStatusCode() == 200;
 	}
 	
 	private static void download(String url, File saveTo, Runnable onFinish) throws Exception
