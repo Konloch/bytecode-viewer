@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependency versions -->
-        <annotations.version>23.1.0</annotations.version>
+        <annotations.version>24.0.0</annotations.version>
         <antlr4.version>4.9.3</antlr4.version>
         <apktool.version>2.7.0</apktool.version>
         <asm.version>9.4</asm.version>
@@ -30,10 +30,10 @@
         <commons-text.version>1.10.0</commons-text.version>
         <darklaf.version>3.0.2</darklaf.version>
         <darklaf-extensions-rsta.version>0.4.1</darklaf-extensions-rsta.version>
-        <decompiler-fernflower.version>6.1.0.Final</decompiler-fernflower.version>
+        <decompiler-fernflower.version>6.1.2.Final</decompiler-fernflower.version>
         <dex2jar.version>v59</dex2jar.version>
         <fernflower.version>e0d44f4</fernflower.version>
-        <gson.version>2.10</gson.version>
+        <gson.version>2.10.1</gson.version>
         <guava.version>31.1-jre</guava.version>
         <httprequest.version>2.1.0</httprequest.version>
         <imgscalr-lib.version>4.2</imgscalr-lib.version>
@@ -44,10 +44,10 @@
         <objenesis.version>3.3</objenesis.version>
         <paged-data.version>0.2.0</paged-data.version>
         <procyon.version>0.6.0</procyon.version>
-        <rsyntaxtextarea.version>3.3.0</rsyntaxtextarea.version>
+        <rsyntaxtextarea.version>3.3.2</rsyntaxtextarea.version>
         <semantic-version.version>2.1.1</semantic-version.version>
-        <slf4j.version>2.0.5</slf4j.version>
-        <smali.version>2.5.2</smali.version>
+        <slf4j.version>2.0.6</slf4j.version>
+        <smali.version>403e90375e</smali.version>
         <safeyaml.version>1.33.0</safeyaml.version>
         <treelayout.version>1.0.3</treelayout.version>
         <webp-imageio.version>0.2.2</webp-imageio.version>
@@ -95,8 +95,8 @@
             <version>${apktool.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>com.konloch</groupId>
-                    <artifactId>safeyaml</artifactId>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -277,12 +277,12 @@
             <version>${slf4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.smali</groupId>
+            <groupId>com.github.iBotPeaches.smali</groupId>
             <artifactId>smali</artifactId>
             <version>${smali.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.smali</groupId>
+            <groupId>com.github.iBotPeaches.smali</groupId>
             <artifactId>baksmali</artifactId>
             <version>${smali.version}</version>
         </dependency>
@@ -320,11 +320,23 @@
             <groupId>io.github.skylot</groupId>
             <artifactId>jadx-dex-input</artifactId>
             <version>${jadx.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.smali</groupId>
+                    <artifactId>baksmali</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.github.skylot</groupId>
             <artifactId>jadx-smali-input</artifactId>
             <version>${jadx.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.smali</groupId>
+                    <artifactId>smali</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.ThexXTURBOXx</groupId>
