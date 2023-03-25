@@ -196,7 +196,7 @@ public class BytecodeViewer
             
             //setup swing components
             viewer = new MainViewerGUI();
-            SwingUtilities.updateComponentTreeUI(viewer);
+            //SwingUtilities.updateComponentTreeUI(viewer);
             
             //load settings and set swing components state
             SettingsSerializer.loadSettings();

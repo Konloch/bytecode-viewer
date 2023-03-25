@@ -127,8 +127,11 @@ public class DraggableTabbedPane extends JTabbedPane {
 	}
 
 	private TabTransferData getTabTransferData(DropTargetDropEvent a_event) {
+		Transferable t = a_event.getTransferable();
+		if (!t.isDataFlavorSupported(FLAVOR)) return null;
+
 		try {
-			return (TabTransferData) a_event.getTransferable().getTransferData(FLAVOR);
+			return (TabTransferData) t.getTransferData(FLAVOR);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -137,8 +140,11 @@ public class DraggableTabbedPane extends JTabbedPane {
 	}
 
 	private TabTransferData getTabTransferData(DropTargetDragEvent a_event) {
+		Transferable t = a_event.getTransferable();
+		if (!t.isDataFlavorSupported(FLAVOR)) return null;
+
 		try {
-			return (TabTransferData) a_event.getTransferable().getTransferData(FLAVOR);
+			return (TabTransferData) t.getTransferData(FLAVOR);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -147,8 +153,11 @@ public class DraggableTabbedPane extends JTabbedPane {
 	}
 
 	private TabTransferData getTabTransferData(DragSourceDragEvent a_event) {
+		Transferable t = a_event.getDragSourceContext().getTransferable();
+		if (!t.isDataFlavorSupported(FLAVOR)) return null;
+
 		try {
-			return (TabTransferData) a_event.getDragSourceContext().getTransferable().getTransferData(FLAVOR);
+			return (TabTransferData) t.getTransferData(FLAVOR);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -266,6 +275,7 @@ public class DraggableTabbedPane extends JTabbedPane {
 
 		public void dragOver(final DropTargetDragEvent e) {
 			TabTransferData data = getTabTransferData(e);
+			if (data == null) return;
 
 			if (getTabPlacement() == JTabbedPane.TOP
 					|| getTabPlacement() == JTabbedPane.BOTTOM) {
@@ -309,6 +319,7 @@ public class DraggableTabbedPane extends JTabbedPane {
 			} // if
 
 			TabTransferData data = getTabTransferData(e);
+			if (data == null) return false;
 
 			if (DraggableTabbedPane.this == data.getTabbedPane()
 					&& data.getTabIndex() >= 0) {
@@ -336,6 +347,7 @@ public class DraggableTabbedPane extends JTabbedPane {
 			} // if
 
 			TabTransferData data = getTabTransferData(e);
+			if (data == null) return false;
 
 			if (DraggableTabbedPane.this == data.getTabbedPane()
 					&& data.getTabIndex() >= 0) {
@@ -403,6 +415,7 @@ public class DraggableTabbedPane extends JTabbedPane {
 	}
 
 	private void convertTab(TabTransferData a_data, int a_targetIndex) {
+		if (a_data == null) return;
 		DraggableTabbedPane source = a_data.getTabbedPane();
 		int sourceIndex = a_data.getTabIndex();
 		if (sourceIndex < 0) {
@@ -459,6 +472,7 @@ public class DraggableTabbedPane extends JTabbedPane {
 			m_isDrawRect = false;
 			return;
 		} // if
+        if (a_data == null) return;
 
 		if ((a_data.getTabbedPane() == this)
 				&& (a_data.getTabIndex() == next
@@ -492,6 +506,7 @@ public class DraggableTabbedPane extends JTabbedPane {
 			m_isDrawRect = false;
 			return;
 		} // if
+		if (a_data == null) return;
 
 		if ((a_data.getTabbedPane() == this)
 				&& (a_data.getTabIndex() == next
