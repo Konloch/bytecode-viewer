@@ -1,16 +1,5 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.HashSet;
-import java.util.Set;
-import javax.swing.JButton;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-
-import com.github.weisj.darklaf.components.CloseButton;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
@@ -21,6 +10,13 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.HashSet;
+import java.util.Set;
 
 import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
 
@@ -52,7 +48,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
 
 public class Workspace extends TranslatedVisibleComponent {
 
-	public final DraggableTabbedPane tabs;
+	public JTabbedPane tabs;
 	public final JPanel buttonPanel;
 	public final JButton refreshClass;
 	public final Set<String> openedTabs = new HashSet<>();
@@ -193,7 +189,7 @@ public class Workspace extends TranslatedVisibleComponent {
 			//search through each tab
 			for (int i = 0; i < tabs.getTabCount(); i++) {
 				//find the matching resource and open it
-                ResourceViewer tab = (ResourceViewer) tabs.getComponentAt(i);
+				ResourceViewer tab = (ResourceViewer) tabs.getComponentAt(i);
 				if (tab.resource.workingName.equals(workingName)) {
 					tabs.setSelectedIndex(i);
 					break;
