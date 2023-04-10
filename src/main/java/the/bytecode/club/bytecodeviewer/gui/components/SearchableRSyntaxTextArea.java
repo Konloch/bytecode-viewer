@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
+
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -50,9 +52,9 @@ import the.bytecode.club.bytecodeviewer.util.JTextAreaUtils;
  * @author Konloch
  * @since 6/25/2021
  */
-public class SearchableRSyntaxTextArea extends RSyntaxTextArea
-{
-	private final RTextScrollPane scrollPane = new RTextScrollPane(this);
+public class SearchableRSyntaxTextArea extends RSyntaxTextArea {
+
+	private RTextScrollPane scrollPane = new RTextScrollPane(this);
 	private final JPanel searchPanel = new JPanel(new BorderLayout());
 	private final JTextField searchInput = new JTextField();
 	private final JCheckBox caseSensitiveSearch = new TranslatedJCheckBox("Match case", TranslatedComponents.MATCH_CASE);
@@ -62,30 +64,26 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 	private final Color blackScrollBackground = new Color(0x232323);
 	private final Color blackScrollForeground = new Color(0x575859);
 	private Runnable onCtrlS;
-	
-	public SearchableRSyntaxTextArea()
-	{
-		if(Configuration.lafTheme == LAFTheme.HIGH_CONTRAST_DARK)
-		{
+
+	public SearchableRSyntaxTextArea() {
+		if (Configuration.lafTheme == LAFTheme.HIGH_CONTRAST_DARK) {
 			//this fixes the white border on the jScrollBar panes
 			scrollPane.getHorizontalScrollBar().setBackground(blackScrollBackground);
 			scrollPane.getHorizontalScrollBar().setForeground(blackScrollForeground);
 			scrollPane.getVerticalScrollBar().setBackground(blackScrollBackground);
 			scrollPane.getVerticalScrollBar().setForeground(blackScrollForeground);
-		}
-		else if(Configuration.lafTheme.isDark())
-		{
+		} else if (Configuration.lafTheme.isDark()) {
 			//this fixes the white border on the jScrollBar panes
 			scrollPane.getHorizontalScrollBar().setBackground(darkScrollBackground);
 			scrollPane.getHorizontalScrollBar().setForeground(darkScrollForeground);
 			scrollPane.getVerticalScrollBar().setBackground(darkScrollBackground);
 			scrollPane.getVerticalScrollBar().setForeground(darkScrollForeground);
 		}
-		
+
 		setAntiAliasingEnabled(true);
-		
+
 		scrollPane.setColumnHeaderView(searchPanel);
-		
+
 		JButton searchNext = new JButton();
 		JButton searchPrev = new JButton();
 		JPanel buttonPane = new JPanel(new BorderLayout());
@@ -96,90 +94,84 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 		searchPanel.add(buttonPane, BorderLayout.WEST);
 		searchPanel.add(searchInput, BorderLayout.CENTER);
 		searchPanel.add(caseSensitiveSearch, BorderLayout.EAST);
-		
+
 		searchNext.addActionListener(arg0 -> search(searchInput.getText(), true, caseSensitiveSearch.isSelected()));
 		searchPrev.addActionListener(arg0 -> search(searchInput.getText(), false, caseSensitiveSearch.isSelected()));
-		
+
 		searchInput.addKeyListener(new ReleaseKeyListener(keyEvent ->
 		{
 			if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER)
 				search(searchInput.getText(), true, caseSensitiveSearch.isSelected());
 		}));
-		
+
 		addKeyListener(new PressKeyListener(keyEvent ->
 		{
 			if ((keyEvent.getKeyCode() == KeyEvent.VK_F) && ((keyEvent.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
 				searchInput.requestFocus();
-			
-			if (onCtrlS != null && (keyEvent.getKeyCode() == KeyEvent.VK_S) && ((keyEvent.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
-			{
+
+			if (onCtrlS != null && (keyEvent.getKeyCode() == KeyEvent.VK_S) && ((keyEvent.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
 				onCtrlS.run();
 				return;
 			}
-			
+
 			GlobalHotKeys.keyPressed(keyEvent);
 		}));
-		
+
 		final Font newFont = getFont().deriveFont((float) BytecodeViewer.viewer.getFontSize());
-		
+
 		//set number-bar font
 		setFont(newFont);
-		
-		SwingUtilities.invokeLater(()-> {
+
+		SwingUtilities.invokeLater(() -> {
 			//attach CTRL + Mouse Wheel Zoom
 			attachCtrlMouseWheelZoom();
-			
+
 			//set text font
 			setFont(newFont);
 		});
-		
+
 	}
-	
-	public void search(String search, boolean forwardSearchDirection, boolean caseSensitiveSearch)
-	{
+
+	public void search(String search, boolean forwardSearchDirection, boolean caseSensitiveSearch) {
 		JTextAreaUtils.search(this, search, forwardSearchDirection, caseSensitiveSearch);
 	}
-	
-	public void highlight(String pattern, boolean caseSensitiveSearch)
-	{
+
+	public void highlight(String pattern, boolean caseSensitiveSearch) {
 		JTextAreaUtils.highlight(this, pattern, caseSensitiveSearch);
 	}
-	
-	public void attachCtrlMouseWheelZoom()
-	{
-		//get the existing scroll event
-		MouseWheelListener ogListener = scrollPane.getMouseWheelListeners().length > 0 ?
-				scrollPane.getMouseWheelListeners()[0] : null;
-		
-		//remove the existing event
-		if(ogListener != null)
-			scrollPane.removeMouseWheelListener(ogListener);
-		
-		//add a new event
-		scrollPane.addMouseWheelListener(e ->
-		{
-			if (getText().isEmpty())
-				return;
-			
-			if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-			{
+
+	public void attachCtrlMouseWheelZoom() {
+		scrollPane.addMouseWheelListener(e -> {
+			if (getText().isEmpty()) return;
+			if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
 				Font font = getFont();
 				int size = font.getSize();
-				
-				if (e.getWheelRotation() > 0) //Up
+				if (e.getWheelRotation() > 0)
 					setFont(new Font(font.getName(), font.getStyle(), --size >= 2 ? --size : 2));
-				else //Down
+				else
 					setFont(new Font(font.getName(), font.getStyle(), ++size));
-				
+
 				e.consume();
 			}
-			else if(ogListener != null)
-			{
-				ogListener.mouseWheelMoved(e);
-			}
 		});
+
+		scrollPane = new RTextScrollPane() {
+			@Override
+			protected void processMouseWheelEvent(MouseWheelEvent event) {
+				if (!isWheelScrollingEnabled()) {
+					if (getParent() != null) {
+						getParent().dispatchEvent(SwingUtilities.convertMouseEvent(this, event, getParent()));
+						return;
+					}
+				}
+
+				super.processMouseWheelEvent(event);
+			}
+		};
+
+		scrollPane.setWheelScrollingEnabled(false);
 	}
-	
+
 	public String getLineText(int line) {
 		try {
 			if (line < getLineCount()) {
@@ -187,42 +179,36 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 				int end = getLineEndOffset(line);
 				return getText(start, end - start).trim();
 			}
-		} catch (BadLocationException ignored) { }
+		} catch (BadLocationException ignored) {
+		}
 		return "";
 	}
-	
-	public void setOnCtrlS(Runnable onCtrlS)
-	{
+
+	public void setOnCtrlS(Runnable onCtrlS) {
 		this.onCtrlS = onCtrlS;
 	}
-	
-	public RTextScrollPane getScrollPane()
-	{
+
+	public RTextScrollPane getScrollPane() {
 		return scrollPane;
 	}
-	
-	public JPanel getSearchPanel()
-	{
+
+	public JPanel getSearchPanel() {
 		return searchPanel;
 	}
-	
-	public JTextField getSearchInput()
-	{
+
+	public JTextField getSearchInput() {
 		return searchInput;
 	}
-	
-	public JCheckBox getCaseSensitiveSearch()
-	{
+
+	public JCheckBox getCaseSensitiveSearch() {
 		return caseSensitiveSearch;
 	}
-	
-	public JLabel getTitleHeader()
-	{
+
+	public JLabel getTitleHeader() {
 		return titleHeader;
 	}
-	
-	public Runnable getOnCtrlS()
-	{
+
+	public Runnable getOnCtrlS() {
 		return onCtrlS;
 	}
 }
