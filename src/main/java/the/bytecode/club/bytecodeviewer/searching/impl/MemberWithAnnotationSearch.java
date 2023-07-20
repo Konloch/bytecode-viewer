@@ -14,6 +14,7 @@ import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJLabel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
 
 /***************************************************************************
@@ -67,11 +68,13 @@ public class MemberWithAnnotationSearch implements SearchPanel {
 
     if (srchText.isEmpty()) return;
 
-    node.fields.stream().filter(fn -> hasAnnotation(srchText, fn.invisibleAnnotations, fn.visibleAnnotations)).forEach(fn -> BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(container, resourceWorkingName, node, null, fn, fn.name + " " + fn.desc, "")));
-    node.methods.stream().filter(mn -> hasAnnotation(srchText, mn.invisibleAnnotations, mn.visibleAnnotations)).forEach(mn -> BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(container, resourceWorkingName, node, mn, null, mn.name + mn.desc, "")));
+    node.fields.stream().filter(fn -> hasAnnotation(srchText, Arrays.asList(fn.invisibleAnnotations, fn.visibleAnnotations)))
+            .forEach(fn -> BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(container, resourceWorkingName, node, null, fn, fn.name + " " + fn.desc, "")));
+    node.methods.stream().filter(mn -> hasAnnotation(srchText, Arrays.asList(mn.invisibleAnnotations, mn.visibleAnnotations)))
+            .forEach(mn -> BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(container, resourceWorkingName, node, mn, null, mn.name + mn.desc, "")));
   }
 
-  public static boolean hasAnnotation(String annotation, List<AnnotationNode>... annoLists) {
+  public static boolean hasAnnotation(String annotation, List<List<AnnotationNode>> annoLists) {
     if (annoLists == null) return false;
     for (List<AnnotationNode> annos : annoLists) {
       if (annos == null) continue;
