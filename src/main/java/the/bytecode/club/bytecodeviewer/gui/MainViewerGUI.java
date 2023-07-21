@@ -116,7 +116,7 @@ public class MainViewerGUI extends JFrame
     public final SearchBoxPane searchBoxPane = new SearchBoxPane();
     public JSplitPane splitPane1;
     public JSplitPane splitPane2;
-    
+
     //the root menu bar
     public final JMenuBar rootMenu = new JMenuBar();
     
@@ -351,9 +351,12 @@ public class MainViewerGUI extends JFrame
         searchBoxPane.setPreferredSize(new Dimension(200, 50));
         searchBoxPane.setMinimumSize(new Dimension(200, 50));
         searchBoxPane.setMaximumSize(new Dimension(200, 2147483647));
-        
+
+        workPane.setPreferredSize(new Dimension(1500, 1000));
+
         splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, resourcePane, searchBoxPane);
         splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, workPane);
+
         getContentPane().add(splitPane2);
         splitPane2.setResizeWeight(0.05);
         splitPane1.setResizeWeight(0.5);
@@ -361,6 +364,7 @@ public class MainViewerGUI extends JFrame
         uiComponents.add(resourcePane);
         uiComponents.add(searchBoxPane);
         uiComponents.add(workPane);
+//        uiComponents.add(hierarchy);
 
         viewPane1.setDefault();
         viewPane2.setDefault();

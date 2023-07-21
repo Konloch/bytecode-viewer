@@ -1,23 +1,15 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
-import com.android.tools.r8.internal.Cl;
 import com.github.weisj.darklaf.components.CloseButton;
-import com.github.weisj.darklaf.listener.MouseClickListener;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.MouseClickedListener;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class CloseButtonComponent extends JPanel {
 
 	private final JTabbedPane pane;
-
-	String title = "";
 
 	public CloseButtonComponent(final JTabbedPane pane) {
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));

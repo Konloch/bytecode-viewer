@@ -1,22 +1,13 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.*;
-
-import com.github.weisj.darklaf.components.CloseButton;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.components.ButtonHoverAnimation;
 import the.bytecode.club.bytecodeviewer.gui.components.MaxWidthJLabel;
-import the.bytecode.club.bytecodeviewer.gui.components.listeners.MouseClickedListener;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.gui.util.DelayTabbedPaneThread;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseListener;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -56,7 +47,7 @@ public class TabbedPane extends JPanel {
 	public final static MouseListener buttonHoverAnimation = new ButtonHoverAnimation();
 	public static final Color BLANK_COLOR = new Color(0, 0, 0, 0);
 
-	public TabbedPane(int tabIndex, String tabWorkingName, String fileContainerName, String name, final DraggableTabbedPane existingTabs, ResourceViewer resource) {
+	public TabbedPane(int tabIndex, String tabWorkingName, String fileContainerName, String name, final JTabbedPane existingTabs, ResourceViewer resource) {
 		// unset default FlowLayout' gaps
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
@@ -80,33 +71,5 @@ public class TabbedPane extends JPanel {
 		setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
 	}
 
-    public void onMousePressed(MouseEvent e)
-    {
-        BytecodeViewer.viewer.workPane.tabs.dispatchEvent(e);
-    
-        if(e.getButton() == 1)
-        {
-            startedDragging = System.currentTimeMillis();
-            //dragging = true;
-            if (probablyABadIdea != null)
-                probablyABadIdea.stopped = true;
-            
-            probablyABadIdea = new DelayTabbedPaneThread(TabbedPane.this);
-            probablyABadIdea.start();
-            repaint();
-            Rectangle bounds = new Rectangle(e.getX(), e.getY(), e.getX() + this.getX(), e.getY());
-            for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
-            {
-                Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
-                if(c != null && bounds.intersects(c.getBounds()))
-                    BytecodeViewer.viewer.workPane.tabs.setSelectedIndex(i);
-            }
-        }
-    }
-
 	private static final long serialVersionUID = -4774885688297538774L;
-
-	/*public int getTabIndex() {
-		return tabs.indexOfTabComponent(this);
-	}*/
 }
