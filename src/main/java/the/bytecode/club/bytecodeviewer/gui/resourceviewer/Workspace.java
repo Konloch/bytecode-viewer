@@ -10,6 +10,8 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
+import the.bytecode.club.uikit.tabpopup.closer.JTabbedPanePopupMenuTabsCloser;
+import the.bytecode.club.uikit.tabpopup.closer.PopupMenuTabsCloseConfiguration;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,78 +60,10 @@ public class Workspace extends TranslatedVisibleComponent {
 
 		this.tabs = new DraggableTabbedPane();
 
-		JPopupMenu popUp = new JPopupMenu();
-		JMenuItem closeAllTabs = new JMenuItem("Close All But This");
-		JMenuItem closeTab = new JMenuItem("Close Tab");
-		closeTab.addActionListener(e ->
-		{
-			TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu) ((JMenuItem) e.getSource()).getParent()).getInvoker();
-			final int index = tabExitButton.getTabIndex();
-
-			if (index != -1)
-				tabs.remove(index);
-		});
-
-		closeAllTabs.addActionListener(e ->
-		{
-			TabExitButton tabExitButton = (TabExitButton) ((JPopupMenu) ((JMenuItem) e.getSource()).getParent()).getInvoker();
-			final int index = tabExitButton.getTabIndex();
-
-			while (true) {
-				if (tabs.getTabCount() <= 1)
-					return;
-
-				if (index != 0)
-					tabs.remove(0);
-				else
-					tabs.remove(1);
-			}
-		});
-
-		tabs.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				if (BLOCK_TAB_MENU)
-					return;
-
-				if (e.getButton() == 3) {
-					Rectangle bounds = new Rectangle(1, 1, e.getX(), e.getY());
-
-					for (int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++) {
-						Component c = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
-						if (c != null && bounds.intersects(c.getBounds())) {
-							popUp.setVisible(true);
-							closeAllTabs.setText(TranslatedStrings.CLOSE_TAB + ": " + ((TabbedPane) c).tabName);
-							closeTab.setText(TranslatedStrings.CLOSE_TAB + ": " + ((TabbedPane) c).tabName);
-						} else {
-							popUp.setVisible(false);
-						}
-					}
-				}
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-		});
-
-		popUp.add(closeAllTabs);
-		popUp.add(closeTab);
-
-		if (!BLOCK_TAB_MENU)
-			tabs.setComponentPopupMenu(popUp);
+		// configure popup menu of close tabs
+		JTabbedPanePopupMenuTabsCloser popupMenuTabsCloser = new JTabbedPanePopupMenuTabsCloser(this.tabs);
+		PopupMenuTabsCloseConfiguration.Builder builder = new PopupMenuTabsCloseConfiguration.Builder();
+		popupMenuTabsCloser.configureCloseItems(builder.buildFull());
 
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(tabs, BorderLayout.CENTER);
