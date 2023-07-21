@@ -4,7 +4,7 @@
 
 Run the following command (replacing the placeholders first of course!):
 ```console
-mvn deploy:deploy-file -DgroupId=[GROUP-ID] -DartifactId=[ARTIFACT-ID] -Dversion=[VERSION] -Durl=file:./libs -DrepositoryId=local-maven-repo -DupdateReleaseInfo=true -Dfile=[THE-JAR-FILE]
+./mvnw deploy:deploy-file -DgroupId=[GROUP-ID] -DartifactId=[ARTIFACT-ID] -Dversion=[VERSION] -Durl=file:./libs -DrepositoryId=local-maven-repo -DupdateReleaseInfo=true -Dfile=[THE-JAR-FILE]
 ```
 
 #### Updating dependencies
