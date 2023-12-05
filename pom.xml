@@ -13,28 +13,27 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependency versions -->
-        <annotations.version>24.0.1</annotations.version>
-        <antlr4.version>4.9.3</antlr4.version>
-        <apktool.version>2.8.0</apktool.version>
-        <asm.version>9.5</asm.version>
+        <annotations.version>24.1.0</annotations.version>
+        <apktool.version>2.9.0</apktool.version>
+        <asm.version>9.6</asm.version>
         <bined.version>0.2.0</bined.version>
         <byteanalysis.version>1.0bcv</byteanalysis.version>
         <cfr.version>0.152</cfr.version>
         <cloning.version>1.9.12</cloning.version>
-        <commons-cli.version>1.5.0</commons-cli.version>
+        <commons-cli.version>1.6.0</commons-cli.version>
         <commons-codec.version>1.16.0</commons-codec.version>
-        <commons-compiler.version>3.1.10</commons-compiler.version>
-        <commons-compress.version>1.23.0</commons-compress.version>
-        <commons-io.version>2.13.0</commons-io.version>
-        <commons-lang3.version>3.12.0</commons-lang3.version>
-        <commons-text.version>1.10.0</commons-text.version>
+        <commons-compiler.version>3.1.11</commons-compiler.version>
+        <commons-compress.version>1.25.0</commons-compress.version>
+        <commons-io.version>2.15.1</commons-io.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
+        <commons-text.version>1.11.0</commons-text.version>
         <darklaf.version>3.0.2</darklaf.version>
         <darklaf-extensions-rsta.version>0.4.1</darklaf-extensions-rsta.version>
-        <decompiler-fernflower.version>6.2.5.Final</decompiler-fernflower.version>
-        <dex2jar.version>v64</dex2jar.version>
+        <decompiler-fernflower.version>6.3.4.Final</decompiler-fernflower.version>
+        <dex2jar.version>2.4.6</dex2jar.version>
         <fernflower.version>e0d44f4</fernflower.version>
         <gson.version>2.10.1</gson.version>
-        <guava.version>32.1.1-jre</guava.version>
+        <guava.version>32.1.3-jre</guava.version>
         <httprequest.version>2.2.0</httprequest.version>
         <imgscalr-lib.version>4.2</imgscalr-lib.version>
         <jadx.version>1.4.7</jadx.version>
@@ -44,9 +43,9 @@
         <objenesis.version>3.3</objenesis.version>
         <paged-data.version>0.2.0</paged-data.version>
         <procyon.version>0.6.0</procyon.version>
-        <rsyntaxtextarea.version>3.3.3</rsyntaxtextarea.version>
+        <rsyntaxtextarea.version>3.3.4</rsyntaxtextarea.version>
         <semantic-version.version>2.1.1</semantic-version.version>
-        <slf4j.version>2.0.7</slf4j.version>
+        <slf4j.version>2.0.9</slf4j.version>
         <smali.version>3.0.3</smali.version>
         <safeyaml.version>1.34.1</safeyaml.version>
         <treelayout.version>1.0.3</treelayout.version>
@@ -339,7 +338,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.github.ThexXTURBOXx</groupId>
+            <groupId>de.femtopedia.dex2jar</groupId>
             <artifactId>dex2jar</artifactId>
             <version>${dex2jar.version}</version>
         </dependency>
@@ -367,17 +366,6 @@
             <groupId>org.abego.treelayout</groupId>
             <artifactId>org.abego.treelayout.core</artifactId>
             <version>${treelayout.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4</artifactId>
-            <version>${antlr4.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.ibm.icu</groupId>
-                    <artifactId>icu4j</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- TODO Re-add for Graal.JS support -->
@@ -442,7 +430,7 @@
                         </filter>
                         <!-- Ignore all ASM-related files from d2j-external but MCTLE fix -->
                         <filter>
-                            <artifact>com.github.ThexXTURBOXx.dex2jar:d2j-external</artifact>
+                            <artifact>de.femtopedia.dex2jar:d2j-external</artifact>
                             <excludeDefaults>true</excludeDefaults>
                             <includes>
                                 <include>com/android/**</include>
