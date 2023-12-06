@@ -96,6 +96,7 @@
   "HEXCODE": "Hexcode",
   "BYTECODE": "Bytecode",
   "ASM_TEXTIFY": "ASM Textify",
+  "ASMIFIER": "ASMifier",
 
   "BYTECODE_DECOMPILER": "Bytecode-Dekompilierer",
   "DEBUG_HELPERS": "Debug-Helfer",
