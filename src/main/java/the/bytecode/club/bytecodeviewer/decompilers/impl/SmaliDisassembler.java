@@ -1,5 +1,6 @@
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
+import com.googlecode.d2j.smali.BaksmaliCmd;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -73,7 +74,7 @@ public class SmaliDisassembler extends InternalDecompiler
         Dex2Jar.saveAsDex(tempClass, tempDex, true);
 
         try {
-            com.googlecode.d2j.smali.BaksmaliCmd.main(tempDex.getAbsolutePath(),
+            BaksmaliCmd.main(tempDex.getAbsolutePath(),
                     "-o", tempDexOut.getAbsolutePath());
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
@@ -116,7 +117,7 @@ public class SmaliDisassembler extends InternalDecompiler
 
             exception += ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
-        
+
         return SMALI + " " + DISASSEMBLER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
                 nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
                 nl + nl + exception;
