@@ -157,6 +157,13 @@ public class SearchKeyAdapter extends KeyAdapter
 				resourceListPane.tree.setSelectionPath(pathOpen);
 				resourceListPane.tree.makeVisible(pathOpen);
 				resourceListPane.tree.scrollPathToVisible(pathOpen);
+				
+				if(resourceListPane.autoOpen.isSelected())
+				{
+					resourceListPane.openPath(pathOpen);
+					resourceListPane.quickSearch.requestFocusInWindow();
+				}
+				
 				iteratePast++;
 				success = true;
 			}

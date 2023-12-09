@@ -73,6 +73,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 public class ResourceListPane extends TranslatedVisibleComponent implements FileDrop.Listener
 {
     public final JPopupMenu rightClickMenu = new JPopupMenu();
+    public final JCheckBox autoOpen = new TranslatedJCheckBox("Auto open", TranslatedComponents.EXACT_PATH);
     public final JCheckBox exact = new TranslatedJCheckBox("Exact path", TranslatedComponents.EXACT_PATH);
     public final JCheckBox caseSensitive = new TranslatedJCheckBox("Match case", TranslatedComponents.MATCH_CASE);
     public final JButton open = new JButton(IconResources.add);
@@ -125,6 +126,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         JPanel btns = new JPanel(new FlowLayout());
         btns.add(exact);
         btns.add(caseSensitive);
+        btns.add(autoOpen);
         exactPanel.add(btns, BorderLayout.WEST);
 
         buttonPanel.add(open, BorderLayout.EAST);
@@ -533,5 +535,4 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             }
         });
     }
-    
 }

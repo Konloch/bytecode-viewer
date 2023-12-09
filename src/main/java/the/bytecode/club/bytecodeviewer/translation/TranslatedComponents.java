@@ -256,6 +256,7 @@ public enum TranslatedComponents
 	MATCH_CASE,
 	EXACT_PATH,
 	PRINT_LINE_NUMBERS,
+	AUTO_OPEN,
 	;
 	
 	private final TranslatedComponentReference componentReference;
