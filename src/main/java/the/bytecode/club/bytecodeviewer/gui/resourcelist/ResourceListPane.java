@@ -24,8 +24,10 @@ import javax.swing.tree.TreePath;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FilenameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenu;
+import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.importing.Import;
@@ -512,7 +514,9 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 if (quickSearch.getText().equals(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString()))
                 {
                     quickSearch.setText("");
-                    quickSearch.setForeground(quickSearch.getSelectedTextColor());
+					
+					if(Configuration.lafTheme != LAFTheme.SYSTEM)
+                        quickSearch.setForeground(quickSearch.getSelectedTextColor());
                 }
             }
         
@@ -522,7 +526,9 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 if (quickSearch.getText().isEmpty())
                 {
                     quickSearch.setText(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString());
-                    quickSearch.setForeground(quickSearch.getDisabledTextColor());
+	
+	                if(Configuration.lafTheme != LAFTheme.SYSTEM)
+                        quickSearch.setForeground(quickSearch.getDisabledTextColor());
                 }
             }
         });
