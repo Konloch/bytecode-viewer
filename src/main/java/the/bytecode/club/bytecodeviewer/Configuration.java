@@ -84,7 +84,7 @@ public class Configuration
 	
 	public static BootState bootState = BootState.START_UP;
 	public static Language language = Language.ENGLISH;
-	public static LAFTheme lafTheme = LAFTheme.SYSTEM; //lightmode by default since it uses the system theme
+	public static LAFTheme lafTheme = LAFTheme.DARK;
 	public static RSTATheme rstaTheme = lafTheme.getRSTATheme();
 	public static long lastHotKeyExecuted = 0;
 	
