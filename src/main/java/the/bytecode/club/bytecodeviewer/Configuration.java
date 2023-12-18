@@ -142,10 +142,7 @@ public class Configuration
 	
 	public static Language guessBestLanguage()
 	{
-		Locale systemLocale = Locale.getDefault();
-		String systemLanguage = systemLocale.getLanguage();
-		
-		Language language = Language.getLanguageCodeLookup().get(systemLanguage);
+		Language language = Language.getLanguageCodeLookup().get(Locale.getDefault().getLanguage());
 		
 		if(language != null)
 			return language;
