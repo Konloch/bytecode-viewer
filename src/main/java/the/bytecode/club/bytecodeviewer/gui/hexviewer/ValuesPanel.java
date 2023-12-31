@@ -14,8 +14,7 @@ import org.exbin.bined.CaretMovedListener;
 import org.exbin.bined.CodeAreaCaretPosition;
 import org.exbin.bined.DataChangedListener;
 import org.exbin.bined.swing.basic.CodeArea;
-import org.exbin.auxiliary.paged_data.BinaryData;
-import org.exbin.bined.capability.EditModeCapable;
+import org.exbin.auxiliary.binary_data.BinaryData;
 
 /**
  * Values side panel.
@@ -711,7 +710,7 @@ public class ValuesPanel extends javax.swing.JPanel {
     }
 
     private boolean isEditable() {
-        return ((EditModeCapable) codeArea).isEditable();
+        return codeArea.isEditable();
     }
 
     private ByteOrder getByteOrder() {
