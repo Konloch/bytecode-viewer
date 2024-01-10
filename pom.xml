@@ -16,7 +16,7 @@
         <annotations.version>24.1.0</annotations.version>
         <apktool.version>2.9.1</apktool.version>
         <asm.version>9.6</asm.version>
-        <bined.version>0.2.0</bined.version>
+        <bined.version>0.2.1</bined.version>
         <byteanalysis.version>1.0bcv</byteanalysis.version>
         <cfr.version>0.152</cfr.version>
         <cloning.version>1.9.12</cloning.version>
@@ -41,7 +41,7 @@
         <jgraphx.version>3.4.1.3</jgraphx.version>
         <js.version>21.2.0</js.version>
         <objenesis.version>3.3</objenesis.version>
-        <paged-data.version>0.2.0</paged-data.version>
+        <binary-data.version>0.2.1</binary-data.version>
         <procyon.version>0.6.0</procyon.version>
         <rsyntaxtextarea.version>3.3.4</rsyntaxtextarea.version>
         <semantic-version.version>2.1.1</semantic-version.version>
@@ -242,8 +242,13 @@
         </dependency>
         <dependency>
             <groupId>org.exbin.auxiliary</groupId>
-            <artifactId>paged_data</artifactId>
-            <version>${paged-data.version}</version>
+            <artifactId>binary_data</artifactId>
+            <version>${binary-data.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.exbin.auxiliary</groupId>
+            <artifactId>binary_data-paged</artifactId>
+            <version>${binary-data.version}</version>
         </dependency>
         <dependency>
             <groupId>org.bitbucket.mstrobel</groupId>

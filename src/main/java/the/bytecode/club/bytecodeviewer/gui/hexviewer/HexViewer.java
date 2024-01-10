@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
-import org.exbin.auxiliary.paged_data.ByteArrayData;
+import org.exbin.auxiliary.binary_data.ByteArrayData;
 import org.exbin.bined.CodeAreaCaretPosition;
 import org.exbin.bined.CodeType;
 import org.exbin.bined.EditMode;
@@ -37,6 +37,7 @@ public class HexViewer extends JPanel {
     public HexViewer(byte[] contentData) {
         super(new BorderLayout());
         codeArea = new CodeArea();
+        codeArea.setFocusTraversalKeysEnabled(false);
         codeArea.setPainter(new HighlightNonAsciiCodeAreaPainter(codeArea));
         toolBar = new JToolBar();
         statusPanel = new BinaryStatusPanel() {
