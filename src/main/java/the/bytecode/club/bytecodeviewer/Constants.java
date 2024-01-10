@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer;
 
 import java.io.File;
 import java.io.PrintStream;
+
 import org.objectweb.asm.Opcodes;
 import the.bytecode.club.bytecodeviewer.resources.ResourceType;
 
@@ -68,8 +69,7 @@ public class Constants
 	public static final String fs = System.getProperty("file.separator");
 	public static final String nl = System.getProperty("line.separator");
 	
-	//TODO check if $HOME/.local/share exists, if so reference from there instead - #250
-	public static final File BCVDir = new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
+	public static final File BCVDir = resolveBCVRoot();
 	public static final File RT_JAR = new File(System.getProperty("java.home") + fs + "lib" + fs + "rt.jar");
 	public static final File JAVA_BINARY = new File(System.getProperty("java.home") + fs + "bin" + fs + "java.exe");
 	public static final File JAVA_BINARY_NIX = new File(System.getProperty("java.home") + fs + "bin" + fs + "java");
@@ -87,6 +87,30 @@ public class Constants
 	
 	public static final PrintStream ERR = System.err;
 	public static final PrintStream OUT = System.out;
+	
+	public static File resolveBCVRoot()
+	{
+		File defaultLocation =  new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
+		
+		//if BCV was previously installed using the default directory, continue to use that
+		if(defaultLocation.exists())
+			return defaultLocation;
+		
+		//handle XDG Base Directory - https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+		if(isLinux())
+		{
+			File homeLocal = new File(System.getProperty("user.home") + fs + ".local");
+			if(homeLocal.exists())
+				return new File(homeLocal, "share" + fs + ".Bytecode-Viewer");
+			
+			File homeConfig = new File(System.getProperty("user.home") + fs + ".config");
+			if(homeConfig.exists())
+				return new File(homeConfig, ".Bytecode-Viewer");
+		}
+		
+		//return BCV default location
+		return defaultLocation;
+	}
 	
 	/**
 	 * Returns the BCV directory
@@ -124,6 +148,16 @@ public class Constants
 	private static boolean isWindows()
 	{
 		return System.getProperty("os.name").toLowerCase().contains("win");
+	}
+	
+	/**
+	 * Checks if the OS contains 'linux'
+	 *
+	 * @return true if the os.name property contains 'linux'
+	 */
+	private static boolean isLinux()
+	{
+		return System.getProperty("os.name").toLowerCase().contains("linux");
 	}
 	
 	/**
