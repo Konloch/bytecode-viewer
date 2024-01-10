@@ -97,7 +97,7 @@ public class Constants
 			return defaultLocation;
 		
 		//handle XDG Base Directory - https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-		if(isLinux())
+		if(isNix())
 		{
 			File homeLocal = new File(System.getProperty("user.home") + fs + ".local");
 			if(homeLocal.exists())
@@ -151,13 +151,14 @@ public class Constants
 	}
 	
 	/**
-	 * Checks if the OS contains 'linux'
+	 * Checks if the OS contains 'nix', 'nux', or 'bsd'
 	 *
-	 * @return true if the os.name property contains 'linux'
+	 * @return true if the os.name property contains 'nix', 'nux', or 'bsd'
 	 */
-	private static boolean isLinux()
+	private static boolean isNix()
 	{
-		return System.getProperty("os.name").toLowerCase().contains("linux");
+		String os = System.getProperty("os.name").toLowerCase();
+		return os.contains("nix") || os.contains("nux") || os.contains("bsd");
 	}
 	
 	/**
