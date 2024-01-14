@@ -5,6 +5,7 @@ import javax.swing.AbstractAction;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTreeNode;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 /***************************************************************************
@@ -40,6 +41,10 @@ public class Delete extends ContextMenuItem
                     public void actionPerformed(ActionEvent e)
                     {
                         BytecodeViewer.viewer.resourcePane.removeNode(tree, selPath);
+						BytecodeViewer.resourceContainers.get(selPath.getLastPathComponent().toString()).resourceClassBytes.clear();
+						BytecodeViewer.resourceContainers.get(selPath.getLastPathComponent().toString()).resourceFiles.clear();
+						BytecodeViewer.resourceContainers.get(selPath.getLastPathComponent().toString()).resourceClasses.clear();
+						System.gc();
                     }
                 })));
 	}
