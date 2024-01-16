@@ -95,13 +95,6 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         rightClickMenu.show(this.tree, x, y);
     }
     
-    //used to remove resources from the resource list
-    public void removeFile(ResourceContainer resourceContainer)
-    {
-        while (BytecodeViewer.resourceContainers.values().remove(resourceContainer));
-        LazyNameUtil.removeName(resourceContainer.name);
-    }
-    
     public ResourceListPane()
     {
         super("Files", TranslatedComponents.FILES);
@@ -260,8 +253,10 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
     }
 
-    public void removeNode(final JTree tree, final TreePath nodePath) {
+    public void removeNode(final JTree tree, final TreePath nodePath)
+    {
         MutableTreeNode node = findNodeByPath(nodePath);
+		
         if (node == null)
             return;
         
@@ -326,6 +321,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
 
     public void openPath(TreePath path)
     {
+		//do not open null path, or gui root path
         if (path == null || path.getPathCount() == 1)
             return;
 
@@ -337,15 +333,8 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 nameBuffer.append("/");
         }
 
-        String cheapHax = path.getPathComponent(1).toString();
-        ResourceContainer container = null;
-
-        for (ResourceContainer c : BytecodeViewer.resourceContainers.values())
-        {
-            if (c.name.equals(cheapHax))
-                container = c;
-        }
-        
+        String pathName = path.getPathComponent(1).toString();
+	    ResourceContainer container = getContainerFromName(pathName);
         String name = nameBuffer.toString();
         
         boolean resourceMode = false;
@@ -417,6 +406,48 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             }
         }
     }
+	
+	//TODO support non-containers being removed
+	// this will require us finding all child nodes in the tree path provided,
+	// then removing each one by one from both memory and the GUI
+    public void deletePath(TreePath path)
+    {
+	    //do not open null path, or gui root path
+        if (path == null || path.getPathCount() == 1)
+            return;
+		
+		//verify the path is a container root
+		if(path.getPathCount() != 2)
+			return;
+
+        String pathName = path.getPathComponent(1).toString();
+        ResourceContainer container = getContainerFromName(pathName);
+		
+		if(container != null)
+		{
+			deleteContainer(container);
+		}
+    }
+	
+	public void deleteContainer(ResourceContainer container)
+	{
+		container.resourceFiles.clear();
+		container.resourceClasses.clear();
+		container.resourceClassBytes.clear();
+		BytecodeViewer.resourceContainers.values().remove(container);
+		LazyNameUtil.removeName(container.name);
+	}
+	
+	public ResourceContainer getContainerFromName(String name)
+	{
+		for (ResourceContainer c : BytecodeViewer.resourceContainers.values())
+		{
+			if (c.name.equals(name))
+				return c;
+		}
+		
+		return null;
+	}
     
     public void attachTreeListeners()
     {

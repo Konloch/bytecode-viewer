@@ -39,7 +39,11 @@ public class Delete extends ContextMenuItem
                     @Override
                     public void actionPerformed(ActionEvent e)
                     {
-                        BytecodeViewer.viewer.resourcePane.removeNode(tree, selPath);
+						//remove memory reference
+	                    BytecodeViewer.viewer.resourcePane.deletePath(selPath);
+	
+						//remove gui reference
+	                    BytecodeViewer.viewer.resourcePane.removeNode(tree, selPath);
                     }
                 })));
 	}
