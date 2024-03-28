@@ -6,6 +6,7 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class CloseButtonComponent extends JPanel {
 
@@ -45,6 +46,9 @@ public class CloseButtonComponent extends JPanel {
 
 		button.addMouseListener(new MouseClickedListener(e ->
 		{
+			if (e.getButton() != MouseEvent.BUTTON1) // left-click
+				return;
+
 			if (pane.indexOfTabComponent(CloseButtonComponent.this) != -1)
 				pane.remove(pane.indexOfTabComponent(CloseButtonComponent.this));
 		}));
