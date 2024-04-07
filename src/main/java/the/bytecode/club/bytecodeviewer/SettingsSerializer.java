@@ -201,6 +201,7 @@ public class SettingsSerializer
             save(Configuration.python3Extra);
             save(BytecodeViewer.viewer.getMinSdkVersion());
             save(BytecodeViewer.viewer.printLineNumbers.isSelected());
+            save(BytecodeViewer.viewer.wordWrap.isSelected());
         } catch (Exception e) {
             BytecodeViewer.handleException(e);
         }
@@ -374,6 +375,7 @@ public class SettingsSerializer
             BytecodeViewer.viewer.forcePureAsciiAsText.setSelected(asBoolean(122));
             BytecodeViewer.viewer.synchronizedViewing.setSelected(asBoolean(123));
             BytecodeViewer.viewer.showClassMethods.setSelected(asBoolean(124));
+            BytecodeViewer.viewer.showClassMethods.setSelected(asBoolean(124));
             BytecodeViewer.viewer.ren.setSelected(asBoolean(125));
             //line 126 is deprecated
             //line 127 is used for theme on preload
@@ -399,6 +401,7 @@ public class SettingsSerializer
             Configuration.python3Extra = asBoolean(140);
             BytecodeViewer.viewer.minSdkVersionSpinner.setValue(asInt(141));
             BytecodeViewer.viewer.printLineNumbers.setSelected(asBoolean(142));
+            BytecodeViewer.viewer.wordWrap.setSelected(asBoolean(143));
         }
         catch (IndexOutOfBoundsException e)
         {

@@ -158,6 +158,18 @@ public class ClassViewer extends ResourceViewer
         bytecodeViewPanel1.decompiler = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler();
         bytecodeViewPanel2.decompiler = BytecodeViewer.viewer.viewPane2.getSelectedDecompiler();
         bytecodeViewPanel3.decompiler = BytecodeViewer.viewer.viewPane3.getSelectedDecompiler();
+
+        if (bytecodeViewPanel1.textArea != null) {
+            bytecodeViewPanel1.textArea.setLineWrap(BytecodeViewer.viewer.wordWrap.isSelected());
+        }
+
+        if (bytecodeViewPanel2.textArea != null) {
+            bytecodeViewPanel2.textArea.setLineWrap(BytecodeViewer.viewer.wordWrap.isSelected());
+        }
+
+        if (bytecodeViewPanel3.textArea != null) {
+            bytecodeViewPanel3.textArea.setLineWrap(BytecodeViewer.viewer.wordWrap.isSelected());
+        }
     }
 
     public boolean isPanel1Editable() {
