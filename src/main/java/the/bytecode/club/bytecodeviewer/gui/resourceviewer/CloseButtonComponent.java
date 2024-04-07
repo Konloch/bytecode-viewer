@@ -71,4 +71,7 @@ public class CloseButtonComponent extends JPanel {
 		setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
 	}
 
+	public JTabbedPane getPane() {
+		return pane;
+	}
 }
