@@ -484,8 +484,8 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         this.tree.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if(e.getButton() == MouseEvent.BUTTON1) //right-click
-                    openPath(tree.getPathForLocation(e.getX(), e.getY()));
+                if (e.getButton() == MouseEvent.BUTTON1) // left-click
+                    openPath(tree.getClosestPathForLocation(e.getX(), e.getY()));
             }
         });
     
