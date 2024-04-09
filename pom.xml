@@ -431,6 +431,8 @@
                                 <exclude>META-INF/*NOTICE*</exclude>
                                 <exclude>META-INF/MANIFEST.MF</exclude>
                                 <exclude>LICENSE</exclude>
+                                <exclude>license.txt</exclude>
+                                <exclude>NOTICE</exclude>
                             </excludes>
                         </filter>
                         <!-- Ignore all ASM-related files from d2j-external but MCTLE fix -->
