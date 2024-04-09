@@ -286,5 +286,6 @@
   "MATCH_CASE": "Match Case",
   "EXACT_PATH": "Exact Path",
   "MIN_SDK_VERSION": "Minimum SDK version",
-  "PRINT_LINE_NUMBERS": "Print Line Numbers"
+  "PRINT_LINE_NUMBERS": "Print Line Numbers",
+  "AUTO_OPEN": "Open automatically"
 }
