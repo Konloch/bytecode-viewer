@@ -286,5 +286,6 @@
   "MATCH_CASE": "Groß-/Kleinschreibung beachten",
   "EXACT_PATH": "Genauer Pfad",
   "MIN_SDK_VERSION": "Minimale SDK-Version",
-  "PRINT_LINE_NUMBERS": "Zeilennummern einschließen"
+  "PRINT_LINE_NUMBERS": "Zeilennummern einschließen",
+  "AUTO_OPEN": "Automatisch öffnen"
 }

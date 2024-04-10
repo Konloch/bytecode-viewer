@@ -15,25 +15,25 @@
         <!-- Dependency versions -->
         <annotations.version>24.1.0</annotations.version>
         <apktool.version>2.9.3</apktool.version>
-        <asm.version>9.6</asm.version>
+        <asm.version>9.7</asm.version>
         <bined.version>0.2.1</bined.version>
         <byteanalysis.version>1.0bcv</byteanalysis.version>
         <cfr.version>0.152</cfr.version>
         <cloning.version>1.9.12</cloning.version>
         <commons-cli.version>1.6.0</commons-cli.version>
-        <commons-codec.version>1.16.0</commons-codec.version>
-        <commons-compiler.version>3.1.11</commons-compiler.version>
-        <commons-compress.version>1.25.0</commons-compress.version>
-        <commons-io.version>2.15.1</commons-io.version>
+        <commons-codec.version>1.16.1</commons-codec.version>
+        <commons-compiler.version>3.1.12</commons-compiler.version>
+        <commons-compress.version>1.26.1</commons-compress.version>
+        <commons-io.version>2.16.1</commons-io.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
         <commons-text.version>1.11.0</commons-text.version>
         <darklaf.version>3.0.2</darklaf.version>
         <darklaf-extensions-rsta.version>0.4.1</darklaf-extensions-rsta.version>
-        <decompiler-fernflower.version>6.3.6.Final</decompiler-fernflower.version>
-        <dex2jar.version>2.4.11</dex2jar.version>
+        <decompiler-fernflower.version>6.3.7.Final</decompiler-fernflower.version>
+        <dex2jar.version>2.4.17</dex2jar.version>
         <fernflower.version>e0d44f4</fernflower.version>
         <gson.version>2.10.1</gson.version>
-        <guava.version>33.0.0-jre</guava.version>
+        <guava.version>33.1.0-jre</guava.version>
         <httprequest.version>2.2.0</httprequest.version>
         <imgscalr-lib.version>4.2</imgscalr-lib.version>
         <jadx.version>1.4.7</jadx.version>
@@ -43,13 +43,13 @@
         <objenesis.version>3.3</objenesis.version>
         <binary-data.version>0.2.1</binary-data.version>
         <procyon.version>0.6.0</procyon.version>
-        <rsyntaxtextarea.version>3.3.4</rsyntaxtextarea.version>
+        <rsyntaxtextarea.version>3.4.0</rsyntaxtextarea.version>
         <semantic-version.version>2.1.1</semantic-version.version>
-        <slf4j.version>2.0.11</slf4j.version>
-        <smali.version>3.0.3</smali.version>
+        <slf4j.version>2.0.12</slf4j.version>
+        <smali.version>3.0.5</smali.version>
         <safeyaml.version>1.34.1</safeyaml.version>
         <treelayout.version>1.0.3</treelayout.version>
-        <webp-imageio.version>0.7.0</webp-imageio.version>
+        <webp-imageio.version>a8f700b</webp-imageio.version>
         <xpp3.version>1.1.4c</xpp3.version>
     </properties>
 
@@ -358,7 +358,7 @@
             <version>${darklaf-extensions-rsta.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.usefulness</groupId>
+            <groupId>com.github.ThexXTURBOXx</groupId>
             <artifactId>webp-imageio</artifactId>
             <version>${webp-imageio.version}</version>
         </dependency>
@@ -431,6 +431,8 @@
                                 <exclude>META-INF/*NOTICE*</exclude>
                                 <exclude>META-INF/MANIFEST.MF</exclude>
                                 <exclude>LICENSE</exclude>
+                                <exclude>license.txt</exclude>
+                                <exclude>NOTICE</exclude>
                             </excludes>
                         </filter>
                         <!-- Ignore all ASM-related files from d2j-external but MCTLE fix -->
