@@ -92,7 +92,8 @@ public class SearchableJTextArea extends JTextArea
 		
 		//set number-bar font
 		setFont(newFont);
-		
+		setLineWrap(BytecodeViewer.viewer.wordWrap.isSelected());
+
 		SwingUtilities.invokeLater(()-> {
 			//attach CTRL + Mouse Wheel Zoom
 			attachCtrlMouseWheelZoom();

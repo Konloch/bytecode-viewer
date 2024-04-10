@@ -185,7 +185,8 @@ public class MainViewerGUI extends JFrame
     public final JCheckBoxMenuItem decodeAPKResources = new TranslatedJCheckBoxMenuItem("Decode APK Resources", TranslatedComponents.DECODE_APK_RESOURCES);
     public final JCheckBoxMenuItem synchronizedViewing = new TranslatedJCheckBoxMenuItem("Synchronized Viewing", TranslatedComponents.SYNCHRONIZED_VIEWING);
     public final JCheckBoxMenuItem showClassMethods = new TranslatedJCheckBoxMenuItem("Show Class Methods", TranslatedComponents.SHOW_CLASS_METHODS);
-    
+    public final JCheckBoxMenuItem wordWrap = new TranslatedJCheckBoxMenuItem("Word Wrap", TranslatedComponents.WORD_WRAP);
+
     //apk conversion settings
     public final JMenu apkConversionSecondaryMenu = new TranslatedJMenu("APK Conversion/Decoding", TranslatedComponents.APK_CONVERSION_DECODING);
     public final JMenuItem apkConversionSettings = new TranslatedJMenuItem("APK Conversion/Decoding", TranslatedComponents.APK_CONVERSION_DECODING);
@@ -566,7 +567,8 @@ public class MainViewerGUI extends JFrame
         visualSettings.add(simplifyNameInTabTitle);
         visualSettings.add(synchronizedViewing);
         visualSettings.add(showClassMethods);
-        
+        visualSettings.add(wordWrap);
+
         //PROCYON SETTINGS
         settingsMainMenu.add(useNewSettingsDialog ? procyonSettings : procyonSettingsSecondaryMenu);
         procyonSettingsSecondaryMenu.add(alwaysGenerateExceptionVars);
@@ -684,6 +686,7 @@ public class MainViewerGUI extends JFrame
             SettingsSerializer.saveSettingsAsync();
             BytecodeViewer.refreshAllTabTitles();
         });
+        wordWrap.addActionListener(arg0 -> BytecodeViewer.refreshAllTabs());
     }
     
     public void buildPluginMenu()
@@ -766,7 +769,8 @@ public class MainViewerGUI extends JFrame
         
         showFileInTabTitle.setSelected(false);
         showClassMethods.setSelected(false);
-    
+        wordWrap.setSelected(false);
+
         simplifyNameInTabTitle.setEnabled(true);
     
         moveAllClassesIntoRoot.setEnabled(false);

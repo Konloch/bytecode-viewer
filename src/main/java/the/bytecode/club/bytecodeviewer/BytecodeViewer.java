@@ -25,6 +25,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableJTextArea;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListIconRenderer;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.CloseButtonComponent;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
@@ -669,8 +670,21 @@ public class BytecodeViewer
     {
         for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
         {
-            ResourceViewer viewer = ((TabbedPane) BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i)).resource;
-            viewer.refreshTitle();
+            Component tabComponent = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
+
+            if (tabComponent instanceof TabbedPane) {
+                ResourceViewer viewer = ((TabbedPane) tabComponent).resource;
+                viewer.refreshTitle();
+            } else if (tabComponent instanceof CloseButtonComponent) {
+                CloseButtonComponent closeBtn = (CloseButtonComponent) tabComponent;
+
+                for (Component other : closeBtn.getPane().getComponents()) {
+                    if (other instanceof ResourceViewer) {
+                        ResourceViewer viewer = (ResourceViewer) other;
+                        viewer.refreshTitle();
+                    }
+                }
+            }
         }
     }
     
@@ -684,8 +698,21 @@ public class BytecodeViewer
             updateBusyStatus(true);
             for (int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
             {
-                ResourceViewer viewer = ((TabbedPane) BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i)).resource;
-                viewer.refresh(null);
+                Component tabComponent = BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i);
+
+                if (tabComponent instanceof TabbedPane) {
+                    ResourceViewer viewer = ((TabbedPane) tabComponent).resource;
+                    viewer.refresh(null);
+                } else if (tabComponent instanceof CloseButtonComponent) {
+                    CloseButtonComponent closeBtn = (CloseButtonComponent) tabComponent;
+
+                    for (Component other : closeBtn.getPane().getComponents()) {
+                        if (other instanceof ResourceViewer) {
+                            ResourceViewer viewer = (ResourceViewer) other;
+                            viewer.refresh(null);
+                        }
+                    }
+                }
             }
             updateBusyStatus(false);
         }, "Refresh All Tabs").start();
