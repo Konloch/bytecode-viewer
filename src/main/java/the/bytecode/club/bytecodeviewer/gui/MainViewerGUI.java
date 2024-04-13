@@ -2,10 +2,8 @@ package the.bytecode.club.bytecodeviewer.gui;
 
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -352,7 +350,6 @@ public class MainViewerGUI extends JFrame
         uiComponents.add(resourcePane);
         uiComponents.add(searchBoxPane);
         uiComponents.add(workPane);
-//        uiComponents.add(hierarchy);
 
         viewPane1.setDefault();
         viewPane2.setDefault();
@@ -465,6 +462,7 @@ public class MainViewerGUI extends JFrame
 
 			BytecodeViewer.updateAllFonts(font);
 			BytecodeViewer.updateUI();
+            BytecodeViewer.refreshAllTabs();
 		});
         fontSize.add(fontSpinner);
         

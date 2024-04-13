@@ -675,7 +675,7 @@ public class BytecodeViewer
     }
     
     /**
-     * Refreshes the title on all of the opened tabs
+     * Refreshes all the opened tabs
      */
     public static void refreshAllTabs()
     {
@@ -684,7 +684,7 @@ public class BytecodeViewer
             updateBusyStatus(true);
             for (int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
             {
-                ResourceViewer viewer = ((TabbedPane) BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i)).resource;
+                ResourceViewer viewer = (ResourceViewer) BytecodeViewer.viewer.workPane.tabs.getComponentAt(i);
                 viewer.refresh(null);
             }
             updateBusyStatus(false);
