@@ -12,11 +12,15 @@ import java.awt.event.MouseEvent;
 
 public class TabComponent extends JPanel {
 
+	private JTabbedPane pane;
+
 	public TabComponent(final JTabbedPane pane) {
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		if (pane == null) {
 			throw new NullPointerException("TabbedPane is null");
 		}
+
+		this.pane = pane;
 
 		setOpaque(false);
 		JLabel label = new JLabel() {
@@ -51,7 +55,6 @@ public class TabComponent extends JPanel {
 			if (pane.indexOfTabComponent(TabComponent.this) != -1) {
 				int i = pane.indexOfTabComponent(TabComponent.this);
 				removeTab(i);
-				pane.remove(pane.indexOfTabComponent(TabComponent.this));
 			}
 		}));
 
@@ -60,7 +63,6 @@ public class TabComponent extends JPanel {
 			if (pane.indexOfTabComponent(TabComponent.this) != -1) {
 				int i = pane.indexOfTabComponent(TabComponent.this);
 				removeTab(i);
-				pane.remove(pane.indexOfTabComponent(TabComponent.this));
 			}
 		});
 
@@ -73,10 +75,8 @@ public class TabComponent extends JPanel {
 
 				if (pane.indexOfTabComponent(TabComponent.this) != 0) {
 					removeTab(0);
-					pane.remove(0);
 				} else {
 					removeTab(1);
-					pane.remove(1);
 				}
 			}
 		});
@@ -87,6 +87,7 @@ public class TabComponent extends JPanel {
 	private void removeTab(int index) {
 		ResourceViewer resourceViewer = (ResourceViewer) BytecodeViewer.viewer.workPane.tabs.getComponentAt(index);
 		BytecodeViewer.viewer.workPane.openedTabs.remove(resourceViewer.resource.workingName);
+		pane.remove(index);
 	}
 
 }
