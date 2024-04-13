@@ -295,6 +295,12 @@ public class BytecodeViewer
             if (launchArgs.length >= 1)
                 for (String s : launchArgs)
                     openFiles(new File[]{new File(s)}, true);
+
+        if (!cli)
+            Toolkit.getDefaultToolkit().addAWTEventListener(
+                event -> BytecodeViewer.refreshUI(),
+                AWTEvent.MOUSE_EVENT_MASK | AWTEvent.WINDOW_EVENT_MASK | AWTEvent.ACTION_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_WHEEL_EVENT_MASK
+            );
     }
     
     /**
@@ -770,6 +776,17 @@ public class BytecodeViewer
             if (value instanceof Font)
                 UIManager.put (key, font);
         }
+    }
+
+    /**
+     * Revalidate and repaints components.
+     */
+    public static void refreshUI() {
+        viewer.revalidate();
+        viewer.repaint();
+
+        viewer.workPane.revalidate();
+        viewer.workPane.repaint();
     }
 
     /**
