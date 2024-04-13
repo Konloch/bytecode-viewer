@@ -1,28 +1,27 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
 import com.github.weisj.darklaf.components.CloseButton;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.MouseClickedListener;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class CloseButtonComponent extends JPanel {
+public class TabComponent extends JPanel {
 
-	private final JTabbedPane pane;
-
-	public CloseButtonComponent(final JTabbedPane pane) {
+	public TabComponent(final JTabbedPane pane) {
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		if (pane == null) {
 			throw new NullPointerException("TabbedPane is null");
 		}
 
-		this.pane = pane;
 		setOpaque(false);
 		JLabel label = new JLabel() {
 			public String getText() {
-				int i = pane.indexOfTabComponent(CloseButtonComponent.this);
+				int i = pane.indexOfTabComponent(TabComponent.this);
 				if (i != -1) {
 					return pane.getTitleAt(i);
 				}
@@ -31,8 +30,8 @@ public class CloseButtonComponent extends JPanel {
 			}
 		};
 
-		add(label);
 		label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+		add(label);
 		JButton button = new CloseButton();
 		add(button);
 
@@ -49,15 +48,22 @@ public class CloseButtonComponent extends JPanel {
 			if (e.getButton() != MouseEvent.BUTTON1) // left-click
 				return;
 
-			if (pane.indexOfTabComponent(CloseButtonComponent.this) != -1)
-				pane.remove(pane.indexOfTabComponent(CloseButtonComponent.this));
+			if (pane.indexOfTabComponent(TabComponent.this) != -1) {
+				int i = pane.indexOfTabComponent(TabComponent.this);
+				removeTab(i);
+				pane.remove(pane.indexOfTabComponent(TabComponent.this));
+			}
 		}));
 
 		closeTab.addActionListener(e ->
 		{
-			if (pane.indexOfTabComponent(CloseButtonComponent.this) != -1)
-				pane.remove(pane.indexOfTabComponent(CloseButtonComponent.this));
+			if (pane.indexOfTabComponent(TabComponent.this) != -1) {
+				int i = pane.indexOfTabComponent(TabComponent.this);
+				removeTab(i);
+				pane.remove(pane.indexOfTabComponent(TabComponent.this));
+			}
 		});
+
 		closeAllTabs.addActionListener(e ->
 		{
 
@@ -65,14 +71,22 @@ public class CloseButtonComponent extends JPanel {
 				if (pane.getTabCount() <= 1)
 					return;
 
-				if (pane.indexOfTabComponent(CloseButtonComponent.this) != 0)
+				if (pane.indexOfTabComponent(TabComponent.this) != 0) {
+					removeTab(0);
 					pane.remove(0);
-				else
+				} else {
+					removeTab(1);
 					pane.remove(1);
+				}
 			}
 		});
 
 		setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
+	}
+
+	private void removeTab(int index) {
+		ResourceViewer resourceViewer = (ResourceViewer) BytecodeViewer.viewer.workPane.tabs.getComponentAt(index);
+		BytecodeViewer.viewer.workPane.openedTabs.remove(resourceViewer.resource.workingName);
 	}
 
 }

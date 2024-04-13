@@ -27,6 +27,9 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer
 /**
  * @author Konloch
  * @since 6/24/2021
+ * @deprecated Removal pending. <br>
+ * Disabled due to a bug when dragging a component, it got "removed" resulting in another
+ * tab being opened when clicking the same class in the file resource rather than opening the already opened file.
  */
 public class TabRemovalEvent implements ContainerListener
 {

@@ -15,12 +15,8 @@ import the.bytecode.club.uikit.tabpopup.closer.PopupMenuTabsCloseConfiguration;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.HashSet;
 import java.util.Set;
-
-import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -83,7 +79,6 @@ public class Workspace extends TranslatedVisibleComponent {
 
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-		tabs.addContainerListener(new TabRemovalEvent());
 		tabs.addChangeListener(arg0 -> buttonPanel.setVisible(tabs.getSelectedIndex() != -1));
 
 		this.setVisible(true);
@@ -148,7 +143,7 @@ public class Workspace extends TranslatedVisibleComponent {
 		resourceView.resource.workingName = workingName;
 
 		//set the tabs index
-		tabs.setTabComponentAt(tabIndex, new CloseButtonComponent(tabs));
+		tabs.setTabComponentAt(tabIndex, new TabComponent(tabs));
 
 		//open the tab that was just added
 		tabs.setSelectedIndex(tabIndex);
