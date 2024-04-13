@@ -122,6 +122,7 @@ public class MethodNodeDecompiler {
 
             if (m.signature != null) {
                 sb.append("         <sig:").append(m.signature).append(">");
+	            sb.append(nl);
             }
 
             if (m.annotationDefault != null) {
