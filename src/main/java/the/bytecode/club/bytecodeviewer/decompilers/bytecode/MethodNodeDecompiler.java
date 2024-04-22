@@ -122,11 +122,12 @@ public class MethodNodeDecompiler {
 
             if (m.signature != null) {
                 sb.append("         <sig:").append(m.signature).append(">");
+	            sb.append(nl);
             }
 
             if (m.annotationDefault != null) {
                 sb.append(m.annotationDefault);
-                sb.append("\n");
+                sb.append(nl);
             }
 
             InstructionPrinter insnPrinter = new InstructionPrinter(m, args);
@@ -182,9 +183,9 @@ public class MethodNodeDecompiler {
                 sb.append(":");
                 sb.append(printAttr(o, insnPrinter));
                 sb.append(">");
-                sb.append("\n");
+                sb.append(nl);
             }
-            sb.append("\n");
+            sb.append(nl);
         }
     }
 
