@@ -12,8 +12,11 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
 import org.objectweb.asm.ClassWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -359,7 +362,13 @@ public class BytecodeViewPanelUpdater implements Runnable
         bytecodeViewPanel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
         
         bytecodeViewPanel.textArea = updateUpdaterTextArea;
-        bytecodeViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+        if (bytecodeViewPanel.decompiler != Decompiler.BYTECODE_DISASSEMBLER) {
+            bytecodeViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+        } else {
+            AbstractTokenMakerFactory tokenMakerFactory = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
+            tokenMakerFactory.putMapping("text/javaBytecode", "the.bytecode.club.bytecodeviewer.decompilers.bytecode.JavaBytecodeTokenMaker");
+            bytecodeViewPanel.textArea.setSyntaxEditingStyle("text/javaBytecode");
+        }
         bytecodeViewPanel.textArea.setCodeFoldingEnabled(true);
         bytecodeViewPanel.textArea.setAntiAliasingEnabled(true);
         bytecodeViewPanel.textArea.setText(decompiledSource);
