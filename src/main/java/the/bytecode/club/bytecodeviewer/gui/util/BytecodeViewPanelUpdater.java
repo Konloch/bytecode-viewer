@@ -1,9 +1,19 @@
 package the.bytecode.club.bytecodeviewer.gui.util;
 
-import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory;
+import java.awt.BorderLayout;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
 import org.objectweb.asm.ClassWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -15,15 +25,6 @@ import the.bytecode.club.bytecodeviewer.gui.hexviewer.HexViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
-
-import javax.swing.*;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.util.Objects;
-import java.util.regex.Matcher;
 
 import static the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane.BLANK_COLOR;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.EDITABLE;
@@ -358,16 +359,7 @@ public class BytecodeViewPanelUpdater implements Runnable
         bytecodeViewPanel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
         
         bytecodeViewPanel.textArea = updateUpdaterTextArea;
-        if (bytecodeViewPanel.decompiler != Decompiler.BYTECODE_DISASSEMBLER) {
-            bytecodeViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-        } else {
-            AbstractTokenMakerFactory tokenMakerFactory =
-                    (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
-            tokenMakerFactory.putMapping("text/javaBytecode", "the.bytecode.club.bytecodeviewer.decompilers.bytecode" +
-                    ".JavaBytecodeTokenMaker");
-            bytecodeViewPanel.textArea.setSyntaxEditingStyle("text/javaBytecode");
-        }
-
+        bytecodeViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
         bytecodeViewPanel.textArea.setCodeFoldingEnabled(true);
         bytecodeViewPanel.textArea.setAntiAliasingEnabled(true);
         bytecodeViewPanel.textArea.setText(decompiledSource);
