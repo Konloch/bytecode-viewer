@@ -1,18 +1,10 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Point;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JSplitPane;
-import javax.swing.JViewport;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -60,25 +52,17 @@ public class ClassViewer extends ResourceViewer
     public BytecodeViewPanel bytecodeViewPanel1 = new BytecodeViewPanel(0, this);
     public BytecodeViewPanel bytecodeViewPanel2 = new BytecodeViewPanel(1, this);
     public BytecodeViewPanel bytecodeViewPanel3 = new BytecodeViewPanel(2, this);
-    
+
     public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
-    
+
     public ClassViewer(final ResourceContainer container, final String name)
     {
         super(new Resource(name, container.getWorkingName(name), container));
-        
+
         this.setName(name);
         this.setLayout(new BorderLayout());
-        this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, bytecodeViewPanel1, bytecodeViewPanel2);
-        this.sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, bytecodeViewPanel3);
-        this.add(sp2, BorderLayout.CENTER);
 
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                resetDivider();
-            }
-        });
+        this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     }
 
     @Override
@@ -92,7 +76,7 @@ public class ClassViewer extends ResourceViewer
         bytecodeViewPanel3.createPane(this);
 
         byte[] classBytes = getResourceBytes();
-        
+
         //TODO remove this once all of the importers have been properly updated to use a FileContainerImporter
         if(classBytes == null || classBytes.length == 0 || Configuration.forceResourceUpdateFromClassNode)
         {
@@ -103,10 +87,10 @@ public class ClassViewer extends ResourceViewer
                 System.err.println("WARNING: Class Resource imported using the old importer!");
                 System.err.println("TODO: Update it to use the FileContainerImporter");
             }
-            
+
             classBytes = ASMUtil.nodeToBytes(resource.getResourceClassNode());
         }
-        
+
         bytecodeViewPanel1.updatePane(this, classBytes, button, isPanel1Editable());
         bytecodeViewPanel2.updatePane(this, classBytes, button, isPanel2Editable());
         bytecodeViewPanel3.updatePane(this, classBytes, button, isPanel3Editable());
@@ -114,7 +98,7 @@ public class ClassViewer extends ResourceViewer
         Thread dumpBuild = new Thread(() ->
         {
             BytecodeViewer.updateBusyStatus(true);
-            
+
             while (Configuration.currentlyDumping)
             {
                 //wait until it's not dumping
@@ -140,7 +124,7 @@ public class ClassViewer extends ResourceViewer
         {
             if (Configuration.warnForEditing)
                 return;
-    
+
             Configuration.warnForEditing = true;
             if (!BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()
                     && !BytecodeViewer.viewer.compileOnSave.isSelected())
@@ -148,12 +132,12 @@ public class ClassViewer extends ResourceViewer
                 BytecodeViewer.showMessage("Make sure to compile (File>Compile or Ctrl + T) whenever you want to "
                         + "test or export your changes.\nYou can set compile automatically on refresh or on save "
                         + "in the settings menu.");
-        
+
                 SettingsSerializer.saveSettingsAsync();
             }
         }
     }
-    
+
     public void setPanes() {
         bytecodeViewPanel1.decompiler = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler();
         bytecodeViewPanel2.decompiler = BytecodeViewer.viewer.viewPane2.getSelectedDecompiler();
@@ -218,7 +202,7 @@ public class ClassViewer extends ResourceViewer
             int lineHeight = area.getLineHeight();
             return y >= lineHeight ? y / lineHeight : 0;
         }
-        
+
         return 0;
     }
 
@@ -232,7 +216,7 @@ public class ClassViewer extends ResourceViewer
             int lineHeight = area.getLineHeight();
             return point.y >= lineHeight ? point.y / lineHeight : 0;
         }
-        
+
         return 0;
     }
 
@@ -254,41 +238,66 @@ public class ClassViewer extends ResourceViewer
             area.setCaretPosition(area.getLineStartOffset(line));
         } catch (BadLocationException ignored) { }
     }
-    
+
+
     public void resetDivider()
     {
+		/*
+		This may be a bit overkill on how we handle setting/changing selected panels, but we now handle if only one panel is
+		selected, to not show any split panes but just the panel text.
+		 */
+
         SwingUtilities.invokeLater(() ->
         {
-            sp.setResizeWeight(0.5);
-            
-            if (bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel1.decompiler != Decompiler.NONE) {
-                setDividerLocation(sp, 0.5);
-            } else if (bytecodeViewPanel1.decompiler != Decompiler.NONE) {
-                setDividerLocation(sp, 1);
-            } else if (bytecodeViewPanel2.decompiler != Decompiler.NONE) {
-                sp.setResizeWeight(1);
-                setDividerLocation(sp, 0);
-            } else {
-                setDividerLocation(sp, 0);
+            // This clears any component so we can "repaint" our components based on the users selections
+            for (Component c : this.getComponents()) {
+				if (c instanceof BytecodeViewPanel || c instanceof JSplitPane) {
+					this.remove(c);
+				}
             }
-            
-            if (bytecodeViewPanel3.decompiler != Decompiler.NONE) {
-                sp2.setResizeWeight(0.7);
-                setDividerLocation(sp2, 0.7);
-                if ((bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel1.decompiler != Decompiler.NONE)
-                        || (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE)) {
-                    setDividerLocation(sp2, 0.5);
-                } else if (bytecodeViewPanel1.decompiler == Decompiler.NONE) {
-                    setDividerLocation(sp2, 0);
-                }
-            } else {
-                sp.setResizeWeight(1);
-                sp2.setResizeWeight(0);
-                setDividerLocation(sp2, 1);
+
+            this.sp.setResizeWeight(0.5);
+            setDividerLocation(sp, 0.5);
+
+			/* If panel 1 and panel 2 are ticked but not panel 3 */
+            if (bytecodeViewPanel1.decompiler != Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel3.decompiler == Decompiler.NONE) {
+                this.sp.setLeftComponent(bytecodeViewPanel1);
+                this.sp.setRightComponent(bytecodeViewPanel2);
+                this.add(sp, BorderLayout.CENTER);
+            } /* If panel 1 and panel 3 are ticked but not panel 2 */
+            else if (bytecodeViewPanel1.decompiler != Decompiler.NONE && bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel3.decompiler != Decompiler.NONE) {
+                this.sp.setLeftComponent(bytecodeViewPanel1);
+                this.sp.setRightComponent(bytecodeViewPanel3);
+                this.add(sp, BorderLayout.CENTER);
+            } /* If panel 2 and panel 3 are ticked but not panel 1 */
+            else if (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel3.decompiler != Decompiler.NONE) {
+                this.sp.setLeftComponent(bytecodeViewPanel2);
+                this.sp.setRightComponent(bytecodeViewPanel3);
+                this.add(sp, BorderLayout.CENTER);
+            }
+
+            // If all panels are selected, create the second split pane
+            if (bytecodeViewPanel1.decompiler != Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel3.decompiler != Decompiler.NONE) {
+                this.sp.setLeftComponent(bytecodeViewPanel1);
+                this.sp.setRightComponent(bytecodeViewPanel2);
+                this.sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, bytecodeViewPanel3);
+                this.sp2.setResizeWeight(0.7);
+                this.add(sp2);
+            }
+
+			/* If view panel 1 is only ticked... */
+            if (bytecodeViewPanel1.decompiler != Decompiler.NONE && bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel3.decompiler == Decompiler.NONE) {
+                this.add(bytecodeViewPanel1, BorderLayout.CENTER);
+            } /* If view panel 2 is only ticked... */
+            else if (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel3.decompiler == Decompiler.NONE) {
+                this.add(bytecodeViewPanel2, BorderLayout.CENTER);
+            } /* If view panel 3 is only ticked... */
+            else if (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel3.decompiler != Decompiler.NONE){
+                this.add(bytecodeViewPanel3, BorderLayout.CENTER);
             }
         });
     }
-    
+
     /**
      * Whoever wrote this function, THANK YOU!
      */
@@ -321,6 +330,6 @@ public class ClassViewer extends ResourceViewer
         }
         return splitter;
     }
-    
+
     private static final long serialVersionUID = -8650495368920680024L;
 }
