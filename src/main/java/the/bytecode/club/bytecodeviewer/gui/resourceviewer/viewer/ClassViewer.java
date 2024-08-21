@@ -56,7 +56,6 @@ public class ClassViewer extends ResourceViewer
 	public BytecodeViewPanel bytecodeViewPanel1 = new BytecodeViewPanel(0, this);
 	public BytecodeViewPanel bytecodeViewPanel2 = new BytecodeViewPanel(1, this);
 	public BytecodeViewPanel bytecodeViewPanel3 = new BytecodeViewPanel(2, this);
-	
 	public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
 	
 	public ClassViewer(ResourceContainer container, String name)
@@ -146,6 +145,7 @@ public class ClassViewer extends ResourceViewer
 				return;
 			
 			Configuration.warnForEditing = true;
+			
 			if (!BytecodeViewer.viewer.autoCompileOnRefresh.isSelected() && !BytecodeViewer.viewer.compileOnSave.isSelected())
 			{
 				BytecodeViewer.showMessage("Make sure to compile (File>Compile or Ctrl + T) whenever you want to " + "test or export your changes.\nYou can set compile automatically on refresh or on save " + "in the settings menu.");
