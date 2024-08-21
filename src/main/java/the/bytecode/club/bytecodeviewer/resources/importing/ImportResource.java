@@ -37,7 +37,7 @@ public class ImportResource implements Runnable
 	{
 		try
 		{
-			for (final File file : files)
+			for (File file : files)
 			{
 				final String fn = file.getName();
 				System.out.println("Opening..." + file.getAbsolutePath());
@@ -60,7 +60,7 @@ public class ImportResource implements Runnable
 					Import.FILE.getImporter().open(file);
 			}
 		}
-		catch (final Exception e)
+		catch (Exception e)
 		{
 			BytecodeViewer.handleException(e);
 		}

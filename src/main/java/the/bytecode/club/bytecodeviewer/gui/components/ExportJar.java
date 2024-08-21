@@ -36,7 +36,7 @@ import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 public class ExportJar extends JFrame
 {
-    public ExportJar(final String jarPath)
+    public ExportJar(String jarPath)
     {
         setSize(new Dimension(250, 277));
         setResizable(false);

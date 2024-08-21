@@ -32,7 +32,7 @@ public class ASMUtil
 	/**
 	 * Creates a new ClassNode instances from the provided byte[]
 	 */
-	public static ClassNode bytesToNode(final byte[] b)
+	public static ClassNode bytesToNode(byte[] b)
 	{
 		ClassReader cr = new ClassReader(b);
 		ClassNode cn = new ClassNode();

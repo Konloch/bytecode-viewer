@@ -63,7 +63,7 @@ public class MemberWithAnnotationSearch implements SearchPanel {
     return myPanel;
   }
 
-  public void search(final ResourceContainer container, final String resourceWorkingName, final ClassNode node, boolean caseSensitive) {
+  public void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean caseSensitive) {
     final String srchText = annotation.getText().trim();
 
     if (srchText.isEmpty()) return;

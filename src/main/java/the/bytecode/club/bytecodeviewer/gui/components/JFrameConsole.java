@@ -123,7 +123,7 @@ public class JFrameConsole extends JFrame
 	/**
 	 * Trims the console text to prevent killing the swing thread
 	 */
-	public String trimConsoleText(final String s)
+	public String trimConsoleText(String s)
 	{
 		int len = s.length();
 		

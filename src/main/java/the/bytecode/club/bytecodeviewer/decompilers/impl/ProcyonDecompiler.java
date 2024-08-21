@@ -100,7 +100,7 @@ public class ProcyonDecompiler extends InternalDecompiler {
 
             try (FileOutputStream fos = new FileOutputStream(tempClass)) {
                 fos.write(b);
-            } catch (final IOException e) {
+            } catch (IOException e) {
                 BytecodeViewer.handleException(e);
             }
 
@@ -237,9 +237,8 @@ public class ProcyonDecompiler extends InternalDecompiler {
         }
 
         @Override
-        public boolean tryLoadType(final String internalName,
-                                   final Buffer buffer) {
-            for (final ITypeLoader typeLoader : _typeLoaders) {
+        public boolean tryLoadType(String internalName, Buffer buffer) {
+            for (ITypeLoader typeLoader : _typeLoaders) {
                 if (typeLoader.tryLoadType(internalName, buffer)) {
                     return true;
                 }

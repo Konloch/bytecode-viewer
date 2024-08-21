@@ -71,8 +71,7 @@ public class LDCSearch implements SearchPanel
         return myPanel;
     }
 
-    public void search(final ResourceContainer container, final String resourceWorkingName, final ClassNode node,
-                       boolean caseSensitive)
+    public void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean caseSensitive)
     {
         final Iterator<MethodNode> methods = node.methods.iterator();
         final String srchText = searchText.getText();

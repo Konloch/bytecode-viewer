@@ -118,7 +118,7 @@ public class LibraryClassLoader extends ClassLoader implements ILoader<JarConten
         }
 
         @Override
-        protected String getCommonSuperClass(final String type1, final String type2) {
+        protected String getCommonSuperClass(String type1, String type2) {
             ClassNode ccn = classTree.getClass(type1);
             ClassNode dcn = classTree.getClass(type2);
 

@@ -36,7 +36,7 @@ public class ResourceTree extends JTree
 	private static final long serialVersionUID = -2355167326094772096L;
     DefaultMutableTreeNode treeRoot;
 	
-	public ResourceTree(final DefaultMutableTreeNode treeRoot)
+	public ResourceTree(DefaultMutableTreeNode treeRoot)
 	{
         super(treeRoot);
         this.treeRoot = treeRoot;
@@ -45,7 +45,7 @@ public class ResourceTree extends JTree
 	StringMetricsUtil m = null;
 	
 	@Override
-    public void paint(final Graphics graphics)
+    public void paint(Graphics graphics)
 	{
         try
         {

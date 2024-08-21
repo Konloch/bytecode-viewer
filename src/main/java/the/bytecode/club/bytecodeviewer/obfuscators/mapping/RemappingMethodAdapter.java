@@ -49,13 +49,11 @@ public class RemappingMethodAdapter extends LocalVariablesSorter {
 
     protected final org.objectweb.asm.commons.Remapper remapper;
 
-    public RemappingMethodAdapter(final int access, final String desc,
-                                  final MethodVisitor mv, final org.objectweb.asm.commons.Remapper remapper) {
+    public RemappingMethodAdapter(int access, String desc, MethodVisitor mv, org.objectweb.asm.commons.Remapper remapper) {
         this(Constants.ASM_VERSION, access, desc, mv, remapper);
     }
 
-    protected RemappingMethodAdapter(final int api, final int access,
-                                     final String desc, final MethodVisitor mv, final Remapper remapper) {
+    protected RemappingMethodAdapter(int api, int access, String desc, MethodVisitor mv, Remapper remapper) {
         super(api, access, desc, mv);
         this.remapper = remapper;
     }
@@ -124,8 +122,7 @@ public class RemappingMethodAdapter extends LocalVariablesSorter {
 
     @Deprecated
     @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-                                final String name, final String desc) {
+    public void visitMethodInsn(int opcode, String owner, String name, String desc) {
         if (api >= Constants.ASM_VERSION) {
             super.visitMethodInsn(opcode, owner, name, desc);
             return;
@@ -135,8 +132,7 @@ public class RemappingMethodAdapter extends LocalVariablesSorter {
     }
 
     @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-                                final String name, final String desc, final boolean itf) {
+    public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
         if (api < Constants.ASM_VERSION) {
             super.visitMethodInsn(opcode, owner, name, desc, itf);
             return;

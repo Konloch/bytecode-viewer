@@ -868,7 +868,7 @@ public class MainViewerGUI extends JFrame
         });
     }
     
-    public synchronized void updateBusyStatus(final boolean busy)
+    public synchronized void updateBusyStatus(boolean busy)
     {
         SwingUtilities.invokeLater(() ->
         {

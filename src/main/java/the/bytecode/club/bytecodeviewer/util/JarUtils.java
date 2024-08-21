@@ -67,7 +67,7 @@ public class JarUtils
      * @param jarFile the input jar file
      * @throws IOException
      */
-    public static void importArchiveA(final File jarFile) throws IOException
+    public static void importArchiveA(File jarFile) throws IOException
     {
         ResourceContainer container = new ResourceContainer(jarFile);
         Map<String, byte[]> files = new LinkedHashMap<>();
@@ -118,7 +118,7 @@ public class JarUtils
      * @param jarFile the input jar file
      * @throws IOException
      */
-    public static void importArchiveB(final File jarFile) throws IOException
+    public static void importArchiveB(File jarFile) throws IOException
     {
         //if this ever fails, worst case import Sun's jarsigner code from JDK 7 re-sign the jar to rebuild the CRC,
         // should also rebuild the archive byte offsets
@@ -160,7 +160,7 @@ public class JarUtils
         BytecodeViewer.addResourceContainer(container);
     }
     
-    public static List<ClassNode> loadClasses(final File jarFile) throws IOException
+    public static List<ClassNode> loadClasses(File jarFile) throws IOException
     {
         List<ClassNode> classes = new ArrayList<>();
         try (FileInputStream fis = new FileInputStream(jarFile);
@@ -200,7 +200,7 @@ public class JarUtils
      * @param zipFile the input zip file
      * @throws IOException
      */
-    public static Map<String, byte[]> loadResources(final File zipFile) throws IOException {
+    public static Map<String, byte[]> loadResources(File zipFile) throws IOException {
         if (!zipFile.exists())
             return new LinkedHashMap<>(); // just ignore (don't return null for null-safety!)
     
@@ -234,7 +234,7 @@ public class JarUtils
      * @param bytez the class file's byte[]
      * @return the ClassNode instance
      */
-    public static ClassNode getNode(final byte[] bytez)
+    public static ClassNode getNode(byte[] bytez)
     {
         //TODO figure out why is this synchronized and if it's actually needed (probably not)
         synchronized (LOCK)

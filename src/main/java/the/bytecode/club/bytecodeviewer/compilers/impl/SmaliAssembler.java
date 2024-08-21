@@ -56,7 +56,7 @@ public class SmaliAssembler extends InternalCompiler
 
         try {
             DiskWriter.replaceFile(tempSmali.getAbsolutePath(), contents, false);
-        } catch (final Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             //BytecodeViewer.handleException(e);
         }

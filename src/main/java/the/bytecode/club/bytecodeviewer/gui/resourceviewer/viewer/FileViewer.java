@@ -56,7 +56,7 @@ public class FileViewer extends ResourceViewer
     public boolean canRefresh;
     public int zoomSteps = 0;
 
-    public FileViewer(final ResourceContainer container, final String name)
+    public FileViewer(ResourceContainer container, String name)
     {
         super(new Resource(name, container.getWorkingName(name), container));
         

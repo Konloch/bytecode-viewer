@@ -143,7 +143,7 @@ public class MethodCallSearch implements SearchPanel
         }
     }
     
-    public void found(final ResourceContainer container, final String resourceWorkingName, final ClassNode node, final MethodNode method, final AbstractInsnNode insnNode)
+    public void found(ResourceContainer container, String resourceWorkingName, ClassNode node, MethodNode method, AbstractInsnNode insnNode)
     {
         BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(
                 container,

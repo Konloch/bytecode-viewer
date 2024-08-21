@@ -76,7 +76,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
 
         DefaultComboBoxModel<SearchRadius> radiusModel = new DefaultComboBoxModel<>();
         
-        for (final SearchRadius st : SEARCH_RADII)
+        for (SearchRadius st : SEARCH_RADII)
             radiusModel.addElement(st);
 
         searchRadiusBox = new JComboBox<>(radiusModel);
@@ -84,7 +84,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
         searchOpts.add(searchRadiusOpt);
 
         DefaultComboBoxModel<SearchType> typeModel = new DefaultComboBoxModel<>();
-        for (final SearchType st : SEARCH_TYPES)
+        for (SearchType st : SEARCH_TYPES)
             typeModel.addElement(st);
 
         typeBox = new JComboBox<>(typeModel);

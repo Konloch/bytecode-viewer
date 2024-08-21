@@ -30,7 +30,7 @@ import javax.swing.AbstractButton;
 public class ButtonHoverAnimation extends MouseAdapter
 {
 	@Override
-	public void mouseEntered(final MouseEvent e)
+	public void mouseEntered(MouseEvent e)
 	{
 		final Component component = e.getComponent();
 		if (component instanceof AbstractButton)
@@ -41,7 +41,7 @@ public class ButtonHoverAnimation extends MouseAdapter
 	}
 	
 	@Override
-	public void mouseExited(final MouseEvent e)
+	public void mouseExited(MouseEvent e)
 	{
 		final Component component = e.getComponent();
 		if (component instanceof AbstractButton)

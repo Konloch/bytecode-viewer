@@ -36,7 +36,7 @@ public enum SearchType
 	
 	public final SearchPanel panel;
 	
-	SearchType(final SearchPanel panel)
+	SearchType(SearchPanel panel)
 	{
 		this.panel = panel;
 	}

@@ -143,8 +143,7 @@ public final class ASMResourceUtil
         }
     }
 
-    public static void renameClassNode(final String oldName,
-                                       final String newName)
+    public static void renameClassNode(String oldName, String newName)
     {
         for (ClassNode c : BytecodeViewer.getLoadedClasses())
         {

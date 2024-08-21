@@ -62,7 +62,7 @@ public abstract class ResourceViewer extends JPanel
     }
     
     
-    public abstract void refresh(final JButton button);
+    public abstract void refresh(JButton button);
     
     /**
      * Updates the tab's title

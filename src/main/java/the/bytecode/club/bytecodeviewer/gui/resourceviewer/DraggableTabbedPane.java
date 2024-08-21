@@ -238,7 +238,7 @@ public class DraggableTabbedPane extends JTabbedPane {
 		public void dropActionChanged(DropTargetDragEvent e) {
 		}
 
-		public void dragOver(final DropTargetDragEvent e) {
+		public void dragOver(DropTargetDragEvent e) {
 			TabTransferData data = getTabTransferData(e);
 			if (data == null) return;
 

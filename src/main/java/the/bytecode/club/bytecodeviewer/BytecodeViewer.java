@@ -522,7 +522,7 @@ public class BytecodeViewer
      * @param files       the file(s) you wish to open
      * @param recentFiles if it should append to the recent files menu
      */
-    public static void openFiles(final File[] files, boolean recentFiles)
+    public static void openFiles(File[] files, boolean recentFiles)
     {
         if (recentFiles)
         {

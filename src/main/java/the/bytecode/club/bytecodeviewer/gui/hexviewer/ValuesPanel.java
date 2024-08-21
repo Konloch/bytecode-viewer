@@ -762,7 +762,7 @@ public class ValuesPanel extends javax.swing.JPanel {
             }
         }
 
-        private void scheduleNextStep(final ValuesPanelField valuesPanelField) {
+        private void scheduleNextStep(ValuesPanelField valuesPanelField) {
             SwingUtilities.invokeLater(() -> updateValue(valuesPanelField));
         }
 
@@ -770,7 +770,7 @@ public class ValuesPanel extends javax.swing.JPanel {
             return updateInProgress;
         }
 
-        private void updateValue(final ValuesPanelField valuesPanelField) {
+        private void updateValue(ValuesPanelField valuesPanelField) {
             if (valuesPanelField.ordinal() == 0) {
                 long dataSize = codeArea.getDataSize();
                 clearFields = dataPosition >= dataSize;

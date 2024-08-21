@@ -114,7 +114,7 @@ public class AllatoriStringDecrypter extends Plugin
 			scanMethodNode(classNode, method);
 	}
 	
-	public int readUnsignedShort(byte[] b, final int index)
+	public int readUnsignedShort(byte[] b, int index)
 	{
 		return ((b[index] & 0xFF) << 8) | (b[index + 1] & 0xFF);
 	}

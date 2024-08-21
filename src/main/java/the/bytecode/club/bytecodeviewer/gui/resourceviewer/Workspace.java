@@ -90,16 +90,16 @@ public class Workspace extends TranslatedVisibleComponent {
 	}
 
 	//load class resources
-	public void addClassResource(final ResourceContainer container, final String name) {
+	public void addClassResource(ResourceContainer container, String name) {
 		addResource(container, name, new ClassViewer(container, name));
 	}
 
 	//Load file resources
-	public void addFileResource(final ResourceContainer container, final String name) {
+	public void addFileResource(ResourceContainer container, String name) {
 		addResource(container, name, new FileViewer(container, name));
 	}
 
-	private void addResource(final ResourceContainer container, final String name, final ResourceViewer resourceView) {
+	private void addResource(ResourceContainer container, String name, ResourceViewer resourceView) {
 		// Warn user and prevent 'nothing' from opening if no Decompiler is selected
 		if (BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.NONE &&
 				BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE &&

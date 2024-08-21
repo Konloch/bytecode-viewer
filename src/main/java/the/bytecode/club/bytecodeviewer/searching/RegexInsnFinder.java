@@ -137,8 +137,7 @@ public class RegexInsnFinder {
     private static final String opcodesAnys = buildRegexItems(opcodesAny, false,
             false);
 
-    private static String buildRegexItems(final String[] items,
-                                          final boolean capture, final boolean stdRepl) {
+    private static String buildRegexItems(String[] items, boolean capture, boolean stdRepl) {
         if (items.length == 0)
             return "()";
         StringBuilder result = new StringBuilder((stdRepl ? "\\b" : "") + "(" + (capture ? "" : "?:")
@@ -150,11 +149,11 @@ public class RegexInsnFinder {
         return result.toString();
     }
 
-    private static String buildRegexItems(final String[] items) {
+    private static String buildRegexItems(String[] items) {
         return buildRegexItems(items, true, true);
     }
 
-    public static String processRegex(final String regex) {
+    public static String processRegex(String regex) {
         String result = regex.trim();
         result = result.replaceAll("\\bANYINSN *", opcodesAnys);
         result = result.replaceAll(opcodesInts
@@ -207,11 +206,11 @@ public class RegexInsnFinder {
     private int[] offsets;
     private String insnString;
 
-    public RegexInsnFinder(final ClassNode clazz, final MethodNode method) {
+    public RegexInsnFinder(ClassNode clazz, MethodNode method) {
         setMethod(clazz, method);
     }
 
-    private AbstractInsnNode[] cleanInsn(final InsnList insnList) {
+    private AbstractInsnNode[] cleanInsn(InsnList insnList) {
         final List<AbstractInsnNode> il = new ArrayList<>();
 
         for (AbstractInsnNode node : insnList) {
@@ -229,7 +228,7 @@ public class RegexInsnFinder {
     public void refresh() {
         origInstructions = cleanInsn(mn.instructions);
         final List<AbstractInsnNode> il = new ArrayList<>();
-        for (final AbstractInsnNode ain : mn.instructions.toArray())
+        for (AbstractInsnNode ain : mn.instructions.toArray())
             if (ain.getOpcode() >= 0) {
                 il.add(ain);
             }
@@ -245,7 +244,7 @@ public class RegexInsnFinder {
                         throw new UnexpectedException(
                                 "Unknown opcode encountered: "
                                         + ain.getOpcode());
-                    } catch (final UnexpectedException e) {
+                    } catch (UnexpectedException e) {
                         BytecodeViewer.handleException(e);
                     }
                 }
@@ -262,7 +261,7 @@ public class RegexInsnFinder {
     // without building a string of the whole method.
     public static boolean staticScan(ClassNode node, MethodNode mn, Pattern pattern) {
         final List<AbstractInsnNode> il = new ArrayList<>();
-        for (final AbstractInsnNode ain : mn.instructions.toArray())
+        for (AbstractInsnNode ain : mn.instructions.toArray())
             if (ain.getOpcode() >= 0) {
                 il.add(ain);
             }
@@ -273,7 +272,7 @@ public class RegexInsnFinder {
                         throw new UnexpectedException(
                                 "Unknown opcode encountered: "
                                         + ain.getOpcode());
-                    } catch (final UnexpectedException e) {
+                    } catch (UnexpectedException e) {
                         BytecodeViewer.handleException(e);
                     }
                 }
@@ -326,12 +325,12 @@ public class RegexInsnFinder {
         return insnString;
     }
 
-    public void setMethod(final ClassNode ci, final MethodNode mi) {
+    public void setMethod(ClassNode ci, MethodNode mi) {
         this.mn = mi;
         refresh();
     }
 
-    private AbstractInsnNode[] makeResult(final int start, final int end) {
+    private AbstractInsnNode[] makeResult(int start, int end) {
         int startIndex = 0;
         int endIndex = -1;
         for (int i = 0; i < offsets.length - 1; i++) {
@@ -359,13 +358,13 @@ public class RegexInsnFinder {
      * @param regex the regular expression
      * @return the matching instructions
      */
-    public AbstractInsnNode[] find(final String regex) {
+    public AbstractInsnNode[] find(String regex) {
         try {
             final Matcher regexMatcher = Pattern.compile(processRegex(regex),
                     Pattern.MULTILINE).matcher(insnString);
             if (regexMatcher.find())
                 return makeResult(regexMatcher.start(), regexMatcher.end());
-        } catch (final PatternSyntaxException ex) {
+        } catch (PatternSyntaxException ex) {
             //ignore, they fucked up regex
         }
         return new AbstractInsnNode[0];
@@ -377,7 +376,7 @@ public class RegexInsnFinder {
      * @param regex the regular expression
      * @return a list with all sets of matching instructions
      */
-    public List<AbstractInsnNode[]> findAll(final String regex) {
+    public List<AbstractInsnNode[]> findAll(String regex) {
         final List<AbstractInsnNode[]> results = new ArrayList<>();
         try {
             final Matcher regexMatcher = Pattern.compile(processRegex(regex),
@@ -385,7 +384,7 @@ public class RegexInsnFinder {
             while (regexMatcher.find()) {
                 results.add(makeResult(regexMatcher.start(), regexMatcher.end()));
             }
-        } catch (final PatternSyntaxException ex) {
+        } catch (PatternSyntaxException ex) {
             BytecodeViewer.handleException(ex);
         }
         return results;
@@ -398,7 +397,7 @@ public class RegexInsnFinder {
      * @param regex the regular expression
      * @return the groups with matching instructions
      */
-    public AbstractInsnNode[][] findGroups(final String regex) {
+    public AbstractInsnNode[][] findGroups(String regex) {
         try {
             final Matcher regexMatcher = Pattern.compile(processRegex(regex),
                     Pattern.MULTILINE).matcher(insnString);
@@ -411,7 +410,7 @@ public class RegexInsnFinder {
                 }
                 return result;
             }
-        } catch (final PatternSyntaxException ex) {
+        } catch (PatternSyntaxException ex) {
             BytecodeViewer.handleException(ex);
         }
         return new AbstractInsnNode[0][0];
@@ -424,7 +423,7 @@ public class RegexInsnFinder {
      * @param regex the regular expression
      * @return a list with all sets of groups with matching instructions
      */
-    public List<AbstractInsnNode[][]> findAllGroups(final String regex) {
+    public List<AbstractInsnNode[][]> findAllGroups(String regex) {
         final List<AbstractInsnNode[][]> results = new ArrayList<>();
         try {
             final Matcher regexMatcher = Pattern.compile(processRegex(regex),
@@ -438,7 +437,7 @@ public class RegexInsnFinder {
                 }
                 results.add(result);
             }
-        } catch (final PatternSyntaxException ex) {
+        } catch (PatternSyntaxException ex) {
             BytecodeViewer.handleException(ex);
         }
         return results;

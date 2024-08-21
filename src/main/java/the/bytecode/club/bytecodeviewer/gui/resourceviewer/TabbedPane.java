@@ -47,7 +47,7 @@ public class TabbedPane extends JPanel {
 	public final static MouseListener buttonHoverAnimation = new ButtonHoverAnimation();
 	public static final Color BLANK_COLOR = new Color(0, 0, 0, 0);
 
-	public TabbedPane(int tabIndex, String tabWorkingName, String fileContainerName, String name, final JTabbedPane existingTabs, ResourceViewer resource) {
+	public TabbedPane(int tabIndex, String tabWorkingName, String fileContainerName, String name, JTabbedPane existingTabs, ResourceViewer resource) {
 		// unset default FlowLayout' gaps
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 

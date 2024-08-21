@@ -35,7 +35,7 @@ import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 public abstract class VisibleComponent extends JInternalFrame
 {
-    public VisibleComponent(final String title)
+    public VisibleComponent(String title)
     {
         super(title, false, false, false, false);
         this.setDefaultIcon();

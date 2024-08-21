@@ -73,7 +73,7 @@ public class RegexSearch implements SearchPanel
     }
 
     @Override
-    public void search(final ResourceContainer container, final String resourceWorkingName, final ClassNode node, boolean exact)
+    public void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean exact)
     {
         final Iterator<MethodNode> methods = node.methods.iterator();
         final String srchText = searchText.getText();

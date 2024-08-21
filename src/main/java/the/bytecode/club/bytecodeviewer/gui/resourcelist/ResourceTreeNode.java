@@ -36,13 +36,13 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
 	private static final int CHILD_MAP_BUILD_THRESHOLD = 3;
 	private HashMap<Object, ResourceTreeNode> userObjectToChildMap = null;
 	
-	public ResourceTreeNode(final Object o)
+	public ResourceTreeNode(Object o)
 	{
 		super(o);
 	}
 	
 	@Override
-	public void insert(final MutableTreeNode newChild, final int childIndex)
+	public void insert(MutableTreeNode newChild, int childIndex)
 	{
 		super.insert(newChild, childIndex);
 		addToMap((ResourceTreeNode) newChild);
@@ -54,7 +54,7 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void recursiveSort(final ResourceTreeNode node)
+	private void recursiveSort(ResourceTreeNode node)
 	{
 		node.children.sort(nodeComparator);
 		for (TreeNode nextNode : (Iterable<TreeNode>) node.children)
@@ -145,7 +145,7 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
 	protected Comparator<TreeNode> nodeComparator = new Comparator<TreeNode>()
 	{
 		@Override
-		public int compare(final TreeNode o1, final TreeNode o2)
+		public int compare(TreeNode o1, TreeNode o2)
 		{
 			// To make sure nodes with children are always on top
 			final int firstOffset = o1.getChildCount() > 0 ? -1000 : 0;
@@ -155,7 +155,7 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
 		}
 		
 		@Override
-		public boolean equals(final Object obj)
+		public boolean equals(Object obj)
 		{
 			return false;
 		}

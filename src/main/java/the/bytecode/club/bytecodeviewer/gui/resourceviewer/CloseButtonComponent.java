@@ -12,7 +12,7 @@ public class CloseButtonComponent extends JPanel {
 
 	private final JTabbedPane pane;
 
-	public CloseButtonComponent(final JTabbedPane pane) {
+	public CloseButtonComponent(JTabbedPane pane) {
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		if (pane == null) {
 			throw new NullPointerException("TabbedPane is null");

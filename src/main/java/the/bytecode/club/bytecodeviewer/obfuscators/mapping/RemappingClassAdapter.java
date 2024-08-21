@@ -48,12 +48,11 @@ public class RemappingClassAdapter extends ClassVisitor {
 
     protected String className;
 
-    public RemappingClassAdapter(final ClassVisitor cv, final Remapper remapper) {
+    public RemappingClassAdapter(ClassVisitor cv, Remapper remapper) {
         this(Constants.ASM_VERSION, cv, remapper);
     }
 
-    protected RemappingClassAdapter(final int api, final ClassVisitor cv,
-                                    final Remapper remapper) {
+    protected RemappingClassAdapter(int api, ClassVisitor cv, Remapper remapper) {
         super(api, cv);
         this.remapper = remapper;
     }

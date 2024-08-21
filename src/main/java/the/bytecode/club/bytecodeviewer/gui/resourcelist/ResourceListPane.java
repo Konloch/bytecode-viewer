@@ -134,7 +134,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     }
     
     @Override
-    public void filesDropped(final File[] files)
+    public void filesDropped(File[] files)
     {
         if (files.length < 1)
             return;
@@ -204,7 +204,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     
         if (!container.resourceFiles.isEmpty())
         {
-            for (final Entry<String, byte[]> entry : container.resourceFiles.entrySet())
+            for (Entry<String, byte[]> entry : container.resourceFiles.entrySet())
             {
                 String name = entry.getKey();
                 final String[] spl = name.split("/");
@@ -215,7 +215,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 else
                 {
                     ResourceTreeNode parent = root;
-                    for (final String s : spl)
+                    for (String s : spl)
                     {
                         ResourceTreeNode child = parent.getChildByUserObject(s);
 
@@ -233,14 +233,13 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     }
 
     @SuppressWarnings("rawtypes")
-    public void expandAll(final JTree tree, final TreePath parent,
-                           final boolean expand) {
+    public void expandAll(JTree tree, TreePath parent, boolean expand) {
         // Traverse children
         final TreeNode node = (TreeNode) parent.getLastPathComponent();
         if (node.getChildCount() >= 0) {
-            for (final Enumeration e = node.children(); e.hasMoreElements(); ) {
-                final TreeNode n = (TreeNode) e.nextElement();
-                final TreePath path = parent.pathByAddingChild(n);
+            for (Enumeration e = node.children(); e.hasMoreElements(); ) {
+                TreeNode n = (TreeNode) e.nextElement();
+                TreePath path = parent.pathByAddingChild(n);
                 expandAll(tree, path, expand);
             }
         }
@@ -253,7 +252,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
     }
 
-    public void removeNode(final JTree tree, final TreePath nodePath)
+    public void removeNode(JTree tree, TreePath nodePath)
     {
         MutableTreeNode node = findNodeByPath(nodePath);
 		
@@ -542,7 +541,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         quickSearch.addFocusListener(new FocusListener()
         {
             @Override
-            public void focusGained(final FocusEvent arg0)
+            public void focusGained(FocusEvent arg0)
             {
                 if (quickSearch.getText().equals(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString()))
                 {
@@ -554,7 +553,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             }
         
             @Override
-            public void focusLost(final FocusEvent arg0)
+            public void focusLost(FocusEvent arg0)
             {
                 if (quickSearch.getText().isEmpty())
                 {

@@ -67,7 +67,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
     }
 
     @Override
-    public String decompileClassNode(final ClassNode cn, byte[] b)
+    public String decompileClassNode(ClassNode cn, byte[] b)
     {
         String start = tempDirectory + fs + MiscUtils.getUniqueName("", ".class");
 
@@ -76,7 +76,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
         String exception = "";
         try (FileOutputStream fos = new FileOutputStream(tempClass)) {
             fos.write(b);
-        } catch (final IOException e) {
+        } catch (IOException e) {
             StringWriter exceptionWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(exceptionWriter));
             e.printStackTrace();

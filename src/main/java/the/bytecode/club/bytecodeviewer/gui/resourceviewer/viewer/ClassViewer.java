@@ -63,7 +63,7 @@ public class ClassViewer extends ResourceViewer
     
     public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
     
-    public ClassViewer(final ResourceContainer container, final String name)
+    public ClassViewer(ResourceContainer container, String name)
     {
         super(new Resource(name, container.getWorkingName(name), container));
         
@@ -82,7 +82,7 @@ public class ClassViewer extends ResourceViewer
     }
 
     @Override
-    public void refresh(final JButton button)
+    public void refresh(JButton button)
     {
         setPanes();
         refreshTitle();
@@ -292,8 +292,7 @@ public class ClassViewer extends ResourceViewer
     /**
      * Whoever wrote this function, THANK YOU!
      */
-    public static JSplitPane setDividerLocation(final JSplitPane splitter,
-                                                final double proportion)
+    public static JSplitPane setDividerLocation(JSplitPane splitter, double proportion)
     {
         if (splitter.isShowing()) {
             if (splitter.getWidth() > 0 && splitter.getHeight() > 0) {

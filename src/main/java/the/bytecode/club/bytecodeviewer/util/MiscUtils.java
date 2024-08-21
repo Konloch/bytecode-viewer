@@ -333,7 +333,7 @@ public class MiscUtils
      * @return the read byte[]
      * @throws IOException
      */
-    public static byte[] getBytes(final InputStream is) throws IOException
+    public static byte[] getBytes(InputStream is) throws IOException
     {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 

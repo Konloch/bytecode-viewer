@@ -58,7 +58,7 @@ public class JADXDecompiler extends InternalDecompiler
 
         try (FileOutputStream fos = new FileOutputStream(tempClass)) {
             fos.write(b);
-        } catch (final IOException e) {
+        } catch (IOException e) {
             BytecodeViewer.handleException(e);
         }
 

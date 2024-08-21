@@ -41,7 +41,7 @@ public class SearchKeyAdapter extends KeyAdapter
 	}
 	
 	@Override
-	public void keyPressed(final KeyEvent ke)
+	public void keyPressed(KeyEvent ke)
 	{
 		//only trigger on enter
 		if (ke.getKeyCode() != KeyEvent.VK_ENTER)

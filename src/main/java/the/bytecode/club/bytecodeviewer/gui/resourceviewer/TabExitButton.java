@@ -69,7 +69,7 @@ public class TabExitButton extends JButton implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		final int i = tabbedPane.tabs.indexOfTabComponent(tabbedPane);
 		if (i != -1) {
 			tabbedPane.tabs.remove(i);
@@ -83,7 +83,7 @@ public class TabExitButton extends JButton implements ActionListener {
 
 	// paint the cross
 	@Override
-	protected void paintComponent(final Graphics g) {
+	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		final Graphics2D g2 = (Graphics2D) g.create();
 		// shift the image for pressed buttons
