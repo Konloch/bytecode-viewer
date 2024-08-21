@@ -1,21 +1,6 @@
-package the.bytecode.club.bytecodeviewer.bootloader.loader;
-
-import java.io.IOException;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassTree;
-import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
-import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents.JarContents;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -30,6 +15,21 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents.JarCont
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.bootloader.loader;
+
+import java.io.IOException;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassTree;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents.JarContents;
 
 /**
  * @author Bibl (don't ban me pls)
@@ -118,7 +118,7 @@ public class LibraryClassLoader extends ClassLoader implements ILoader<JarConten
         }
 
         @Override
-        protected String getCommonSuperClass(final String type1, final String type2) {
+        protected String getCommonSuperClass(String type1, String type2) {
             ClassNode ccn = classTree.getClass(type1);
             ClassNode dcn = classTree.getClass(type2);
 

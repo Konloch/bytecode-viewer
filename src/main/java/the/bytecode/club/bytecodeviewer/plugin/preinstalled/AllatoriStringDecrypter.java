@@ -1,3 +1,21 @@
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
 import java.awt.Dimension;
@@ -26,24 +44,6 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
-
-/***************************************************************************
- * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
- *                                                                         *
- * This program is free software: you can redistribute it and/or modify    *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation, either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
 
 /**
  * An Allatori String Decrypter, targets an unknown (old) version.
@@ -114,7 +114,7 @@ public class AllatoriStringDecrypter extends Plugin
 			scanMethodNode(classNode, method);
 	}
 	
-	public int readUnsignedShort(byte[] b, final int index)
+	public int readUnsignedShort(byte[] b, int index)
 	{
 		return ((b[index] & 0xFF) << 8) | (b[index + 1] & 0xFF);
 	}

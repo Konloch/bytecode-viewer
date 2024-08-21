@@ -1,17 +1,6 @@
-package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
-
-import the.bytecode.club.bytecodeviewer.gui.components.ButtonHoverAnimation;
-import the.bytecode.club.bytecodeviewer.gui.components.MaxWidthJLabel;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
-import the.bytecode.club.bytecodeviewer.gui.util.DelayTabbedPaneThread;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseListener;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,6 +16,16 @@ import java.awt.event.MouseListener;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
+
+import the.bytecode.club.bytecodeviewer.gui.components.ButtonHoverAnimation;
+import the.bytecode.club.bytecodeviewer.gui.components.MaxWidthJLabel;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseListener;
+
 /**
  * Component to be used as tabComponent; Contains a JLabel to show the text and a JButton to close the tab it belongs to
  *
@@ -38,7 +37,6 @@ public class TabbedPane extends JPanel {
 
 	public final JTabbedPane tabs;
 	public final JLabel label;
-	private DelayTabbedPaneThread probablyABadIdea;
 	private long startedDragging = 0;
 	public final String tabName;
 	public final String fileContainerName;
@@ -47,7 +45,7 @@ public class TabbedPane extends JPanel {
 	public final static MouseListener buttonHoverAnimation = new ButtonHoverAnimation();
 	public static final Color BLANK_COLOR = new Color(0, 0, 0, 0);
 
-	public TabbedPane(int tabIndex, String tabWorkingName, String fileContainerName, String name, final JTabbedPane existingTabs, ResourceViewer resource) {
+	public TabbedPane(int tabIndex, String tabWorkingName, String fileContainerName, String name, JTabbedPane existingTabs, ResourceViewer resource) {
 		// unset default FlowLayout' gaps
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 

@@ -1,3 +1,21 @@
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
 package the.bytecode.club.bytecodeviewer;
 
 import com.google.gson.Gson;
@@ -45,24 +63,6 @@ import static the.bytecode.club.bytecodeviewer.Constants.DEV_MODE;
 import static the.bytecode.club.bytecodeviewer.Constants.FAT_JAR;
 import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
-
-/***************************************************************************
- * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
- *                                                                         *
- * This program is free software: you can redistribute it and/or modify    *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation, either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
 
 /**
  * A lightweight Java Reverse Engineering suite, developed by Konloch - http://konloch.me
@@ -168,13 +168,13 @@ public class BytecodeViewer
     {
         launchArgs = args;
         
-        //welcome message
+        //CLI startup banner
         System.out.print("Bytecode Viewer " + VERSION);
+		
         if (FAT_JAR)
             System.out.print(" [Fat Jar]");
         
-        System.out.println(" - Created by @Konloch");
-        System.out.println("https://bytecodeviewer.com - https://the.bytecode.club");
+        System.out.println(" - https://bytecodeviewer.com\r\nCreated by @Konloch - https://konloch.com\r\nPresented by https://the.bytecode.club");
 
         // Set the security manager
         try {
@@ -291,10 +291,9 @@ public class BytecodeViewer
             viewer.requestFocus();
         
         //open files from launch args
-        if (!cli)
-            if (launchArgs.length >= 1)
-                for (String s : launchArgs)
-                    openFiles(new File[]{new File(s)}, true);
+        if (!cli && launchArgs.length >= 1)
+			for (String s : launchArgs)
+				openFiles(new File[]{new File(s)}, true);
     }
     
     /**
@@ -522,7 +521,7 @@ public class BytecodeViewer
      * @param files       the file(s) you wish to open
      * @param recentFiles if it should append to the recent files menu
      */
-    public static void openFiles(final File[] files, boolean recentFiles)
+    public static void openFiles(File[] files, boolean recentFiles)
     {
         if (recentFiles)
         {

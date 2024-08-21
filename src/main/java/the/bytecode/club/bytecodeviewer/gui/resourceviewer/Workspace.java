@@ -1,3 +1,21 @@
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -21,24 +39,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
-
-/***************************************************************************
- * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
- *                                                                         *
- * This program is free software: you can redistribute it and/or modify    *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation, either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
 
 /**
  * This pane contains all the resources, as tabs.
@@ -90,16 +90,16 @@ public class Workspace extends TranslatedVisibleComponent {
 	}
 
 	//load class resources
-	public void addClassResource(final ResourceContainer container, final String name) {
+	public void addClassResource(ResourceContainer container, String name) {
 		addResource(container, name, new ClassViewer(container, name));
 	}
 
 	//Load file resources
-	public void addFileResource(final ResourceContainer container, final String name) {
+	public void addFileResource(ResourceContainer container, String name) {
 		addResource(container, name, new FileViewer(container, name));
 	}
 
-	private void addResource(final ResourceContainer container, final String name, final ResourceViewer resourceView) {
+	private void addResource(ResourceContainer container, String name, ResourceViewer resourceView) {
 		// Warn user and prevent 'nothing' from opening if no Decompiler is selected
 		if (BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.NONE &&
 				BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE &&

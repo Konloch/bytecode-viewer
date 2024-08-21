@@ -1,14 +1,6 @@
-package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
-
-import java.awt.BorderLayout;
-import java.awt.Component;
-import javax.swing.JButton;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.Resource;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,6 +15,14 @@ import the.bytecode.club.bytecodeviewer.resources.Resource;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import javax.swing.JButton;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.resources.Resource;
 
 /**
  * This represents a component opened as a tab
@@ -51,8 +51,7 @@ public class ComponentViewer extends ResourceViewer
 	{
 		String workingName = containerName + title;
 		ComponentViewer componentViewer = new ComponentViewer(title, c);
-		BytecodeViewer.viewer.workPane.addResourceToTab(componentViewer,
-				workingName, containerName, title);
+		BytecodeViewer.viewer.workPane.addResourceToTab(componentViewer, workingName, containerName, title);
 		
 		return componentViewer;
 	}

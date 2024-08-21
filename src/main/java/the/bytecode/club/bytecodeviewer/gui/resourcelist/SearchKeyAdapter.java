@@ -1,15 +1,6 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcelist;
-
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.Enumeration;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,6 +15,15 @@ import java.util.Enumeration;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.resourcelist;
+
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Enumeration;
 
 /**
  * @author Konloch
@@ -41,7 +41,7 @@ public class SearchKeyAdapter extends KeyAdapter
 	}
 	
 	@Override
-	public void keyPressed(final KeyEvent ke)
+	public void keyPressed(KeyEvent ke)
 	{
 		//only trigger on enter
 		if (ke.getKeyCode() != KeyEvent.VK_ENTER)

@@ -1,20 +1,6 @@
-package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
-
-import java.util.List;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.api.PluginConsole;
-
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,6 +15,20 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
+
+import java.util.List;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldNode;
+import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.LdcInsnNode;
+import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.api.PluginConsole;
+
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 /**
  * Simply shows all the non-empty strings in every single class

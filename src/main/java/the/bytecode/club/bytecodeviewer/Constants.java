@@ -1,15 +1,7 @@
-package the.bytecode.club.bytecodeviewer;
-
-import java.io.File;
-import java.io.PrintStream;
-import java.nio.file.FileSystems;
-
-import org.objectweb.asm.Opcodes;
-import the.bytecode.club.bytecodeviewer.resources.ResourceType;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,6 +16,15 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceType;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer;
+
+import java.io.File;
+import java.io.PrintStream;
+import java.nio.file.FileSystems;
+
+import org.objectweb.asm.Opcodes;
+import the.bytecode.club.bytecodeviewer.resources.ResourceType;
 
 /**
  * General program constants, to use this class include everything as a wildcard static import:

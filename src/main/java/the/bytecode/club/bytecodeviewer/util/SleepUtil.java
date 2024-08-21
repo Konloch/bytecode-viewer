@@ -16,18 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.bytecodeviewer.gui.contextmenu;
-
-import javax.swing.JPopupMenu;
-import javax.swing.tree.TreePath;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
-import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
+package the.bytecode.club.bytecodeviewer.util;
 
 /**
  * @author Konloch
- * @since 7/26/2021
+ * @since 8/21/2024
  */
-public interface BuildContextMenuItem
+public class SleepUtil
 {
-	void buildMenu(ResourceTree tree, TreePath selPath, LDCSearchTreeNodeResult result, JPopupMenu menu);
+	public static void sleep(long ms)
+	{
+		try
+		{
+			Thread.sleep(ms);
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }

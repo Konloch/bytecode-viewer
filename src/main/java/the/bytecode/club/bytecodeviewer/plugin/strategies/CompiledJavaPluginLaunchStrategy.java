@@ -1,20 +1,6 @@
-package the.bytecode.club.bytecodeviewer.plugin.strategies;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,6 +15,21 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.plugin.strategies;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /**
  * @author Konloch
@@ -82,7 +83,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
                     String name = entry.getName();
                     if (name.endsWith(".class")) {
                         byte[] bytes = MiscUtils.getBytes(jis);
-                        if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe")) {
+                        if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER)) {
                             try {
                                 ClassReader cr = new ClassReader(bytes);
                                 ClassNode cn = new ClassNode();

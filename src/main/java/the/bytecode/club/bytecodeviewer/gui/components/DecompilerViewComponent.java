@@ -1,21 +1,6 @@
-package the.bytecode.club.bytecodeviewer.gui.components;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JSeparator;
-import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkspaceRefreshEvent;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
-import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBoxMenuItem;
-import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
-
-import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentType.*;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -30,6 +15,21 @@ import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComp
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.components;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSeparator;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.WorkspaceRefreshEvent;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckBoxMenuItem;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
+
+import static the.bytecode.club.bytecodeviewer.gui.components.DecompilerViewComponent.DecompilerComponentType.*;
 
 /**
  * @author Konloch

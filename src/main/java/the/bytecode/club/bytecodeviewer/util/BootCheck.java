@@ -1,21 +1,6 @@
-package the.bytecode.club.bytecodeviewer.util;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JOptionPane;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.CommandLineInput;
-import the.bytecode.club.bytecodeviewer.bootloader.Boot;
-import the.bytecode.club.bytecodeviewer.bootloader.loader.ILoader;
-import the.bytecode.club.bytecodeviewer.bootloader.resource.external.EmptyExternalResource;
-import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
-
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -30,6 +15,21 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.util;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.CommandLineInput;
+import the.bytecode.club.bytecodeviewer.bootloader.Boot;
+import the.bytecode.club.bytecodeviewer.bootloader.loader.ILoader;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.external.EmptyExternalResource;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
+
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 /**
  * Loads the libraries on boot. If booting failed for some reason, this kicks in as a fail safe.
@@ -47,15 +47,8 @@ public class BootCheck implements Runnable
 	@Override
 	public void run()
 	{
-		long start = System.currentTimeMillis();
-		
 		//7 second failsafe
-		while (System.currentTimeMillis() - start < 7000)
-		{
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException ignored) { }
-		}
+		SleepUtil.sleep(7000);
 		
 		//if it's failed to boot and it's not downloading attempt to load the libraries
 		failSafeLoadLibraries();

@@ -1,3 +1,21 @@
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
 package the.bytecode.club.bytecodeviewer.util;
 
 import java.io.File;
@@ -28,24 +46,6 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 
-/***************************************************************************
- * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
- *                                                                         *
- * This program is free software: you can redistribute it and/or modify    *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation, either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
-
 /**
  * Loading and saving jars
  *
@@ -67,7 +67,7 @@ public class JarUtils
      * @param jarFile the input jar file
      * @throws IOException
      */
-    public static void importArchiveA(final File jarFile) throws IOException
+    public static void importArchiveA(File jarFile) throws IOException
     {
         ResourceContainer container = new ResourceContainer(jarFile);
         Map<String, byte[]> files = new LinkedHashMap<>();
@@ -83,7 +83,7 @@ public class JarUtils
                         if (!entry.isDirectory())
                             files.put(name, bytes);
                     } else {
-                        if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe")) {
+                        if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER)) {
                             try {
                                 final ClassNode cn = getNode(bytes);
                                 container.resourceClasses.put(FilenameUtils.removeExtension(name), cn);
@@ -118,7 +118,7 @@ public class JarUtils
      * @param jarFile the input jar file
      * @throws IOException
      */
-    public static void importArchiveB(final File jarFile) throws IOException
+    public static void importArchiveB(File jarFile) throws IOException
     {
         //if this ever fails, worst case import Sun's jarsigner code from JDK 7 re-sign the jar to rebuild the CRC,
         // should also rebuild the archive byte offsets
@@ -138,7 +138,7 @@ public class JarUtils
                         if (!name.endsWith(".class")) {
                             files.put(name, bytes);
                         } else {
-                            if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
+                            if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER))
                             {
                                 try {
                                     final ClassNode cn = getNode(bytes);
@@ -160,7 +160,7 @@ public class JarUtils
         BytecodeViewer.addResourceContainer(container);
     }
     
-    public static List<ClassNode> loadClasses(final File jarFile) throws IOException
+    public static List<ClassNode> loadClasses(File jarFile) throws IOException
     {
         List<ClassNode> classes = new ArrayList<>();
         try (FileInputStream fis = new FileInputStream(jarFile);
@@ -171,7 +171,7 @@ public class JarUtils
                     final String name = entry.getName();
                     if (name.endsWith(".class")) {
                         byte[] bytes = MiscUtils.getBytes(jis);
-                        if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe")) {
+                        if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER)) {
                             try {
                                 final ClassNode cn = getNode(bytes);
                                 classes.add(cn);
@@ -200,7 +200,7 @@ public class JarUtils
      * @param zipFile the input zip file
      * @throws IOException
      */
-    public static Map<String, byte[]> loadResources(final File zipFile) throws IOException {
+    public static Map<String, byte[]> loadResources(File zipFile) throws IOException {
         if (!zipFile.exists())
             return new LinkedHashMap<>(); // just ignore (don't return null for null-safety!)
     
@@ -234,7 +234,7 @@ public class JarUtils
      * @param bytez the class file's byte[]
      * @return the ClassNode instance
      */
-    public static ClassNode getNode(final byte[] bytez)
+    public static ClassNode getNode(byte[] bytez)
     {
         //TODO figure out why is this synchronized and if it's actually needed (probably not)
         synchronized (LOCK)

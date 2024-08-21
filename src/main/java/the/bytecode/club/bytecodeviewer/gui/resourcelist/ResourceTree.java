@@ -1,17 +1,6 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcelist;
-
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import the.bytecode.club.bytecodeviewer.gui.util.StringMetricsUtil;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,6 +16,17 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+package the.bytecode.club.bytecodeviewer.gui.resourcelist;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import the.bytecode.club.bytecodeviewer.gui.util.StringMetricsUtil;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+
 /**
  * @author Konloch
  * @since 6/22/2021
@@ -36,7 +36,7 @@ public class ResourceTree extends JTree
 	private static final long serialVersionUID = -2355167326094772096L;
     DefaultMutableTreeNode treeRoot;
 	
-	public ResourceTree(final DefaultMutableTreeNode treeRoot)
+	public ResourceTree(DefaultMutableTreeNode treeRoot)
 	{
         super(treeRoot);
         this.treeRoot = treeRoot;
@@ -45,7 +45,7 @@ public class ResourceTree extends JTree
 	StringMetricsUtil m = null;
 	
 	@Override
-    public void paint(final Graphics graphics)
+    public void paint(Graphics graphics)
 	{
         try
         {

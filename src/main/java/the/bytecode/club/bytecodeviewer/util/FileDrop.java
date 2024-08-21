@@ -1,3 +1,21 @@
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
 package the.bytecode.club.bytecodeviewer.util;
 
 import java.awt.Color;
@@ -21,24 +39,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
-/***************************************************************************
- * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
- *                                                                         *
- * This program is free software: you can redistribute it and/or modify    *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation, either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
 
 /**
  * This class makes it easy to drag and drop files from the operating system to
@@ -102,7 +102,7 @@ public class FileDrop {
      * @param listener Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(final Component c, final Listener listener) {
+    public FileDrop(Component c, Listener listener) {
         this(null, // Logging stream
                 c, // Drop target
                 BorderFactory.createMatteBorder(2, 2, 2, 2,
@@ -122,8 +122,8 @@ public class FileDrop {
      * @param listener  Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(final Component c, final boolean recursive,
-                    final Listener listener) {
+    public FileDrop(Component c, boolean recursive,
+                    Listener listener) {
         this(null, // Logging stream
                 c, // Drop target
                 BorderFactory.createMatteBorder(2, 2, 2, 2,
@@ -144,8 +144,8 @@ public class FileDrop {
      * @param listener Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(final PrintStream out, final Component c,
-                    final Listener listener) {
+    public FileDrop(PrintStream out, Component c,
+                    Listener listener) {
         this(out, // Logging stream
                 c, // Drop target
                 BorderFactory.createMatteBorder(2, 2, 2, 2,
@@ -169,8 +169,8 @@ public class FileDrop {
      * @param listener  Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(final PrintStream out, final Component c,
-                    final boolean recursive, final Listener listener) {
+    public FileDrop(PrintStream out, Component c,
+                    boolean recursive, Listener listener) {
         this(out, // Logging stream
                 c, // Drop target
                 BorderFactory.createMatteBorder(2, 2, 2, 2,
@@ -187,8 +187,8 @@ public class FileDrop {
      * @param listener   Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(final Component c,
-                    final Border dragBorder, final Listener listener) {
+    public FileDrop(Component c,
+                    Border dragBorder, Listener listener) {
         this(null, // Logging stream
                 c, // Drop target
                 dragBorder, // Drag border
@@ -208,9 +208,9 @@ public class FileDrop {
      * @param listener   Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(final Component c,
-                    final Border dragBorder,
-                    final boolean recursive, final Listener listener) {
+    public FileDrop(Component c,
+                    Border dragBorder,
+                    boolean recursive, Listener listener) {
         this(null, c, dragBorder, recursive, listener);
     } // end constructor
 
@@ -227,8 +227,8 @@ public class FileDrop {
      * @param listener   Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(final PrintStream out, final Component c,
-                    final Border dragBorder, final Listener listener) {
+    public FileDrop(PrintStream out, Component c,
+                    Border dragBorder, Listener listener) {
         this(out, // Logging stream
                 c, // Drop target
                 dragBorder, // Drag border
@@ -250,14 +250,14 @@ public class FileDrop {
      * @param listener   Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(final PrintStream out, final Component c,
-                    final Border dragBorder,
-                    final boolean recursive, final Listener listener) {
+    public FileDrop(PrintStream out, Component c,
+                    Border dragBorder,
+                    boolean recursive, Listener listener) {
 
         if (supportsDnD()) { // Make a drop listener
             dropListener = new DropTargetListener() {
                 @Override
-                public void dragEnter(final DropTargetDragEvent evt) {
+                public void dragEnter(DropTargetDragEvent evt) {
                     log(out, "FileDrop: dragEnter event.");
 
                     // Is this an acceptable drag event?
@@ -284,7 +284,7 @@ public class FileDrop {
                 } // end dragEnter
 
                 @Override
-                public void dragOver(final DropTargetDragEvent evt) { // This
+                public void dragOver(DropTargetDragEvent evt) { // This
                     // is
                     // called
                     // continually
@@ -301,7 +301,7 @@ public class FileDrop {
                 } // end dragOver
 
                 @Override
-                public void drop(final DropTargetDropEvent evt) {
+                public void drop(DropTargetDropEvent evt) {
                     log(out, "FileDrop: drop event.");
                     try { // Get whatever was dropped
                         final Transferable tr = evt
@@ -380,12 +380,12 @@ public class FileDrop {
                             // (KDE/Gnome) support added.
                         } // end else: not a file list
                     } // end try
-                    catch (final IOException io) {
+                    catch (IOException io) {
                         log(out, "FileDrop: IOException - abort:");
                         BytecodeViewer.handleException(io);
                         evt.rejectDrop();
                     } // end catch IOException
-                    catch (final UnsupportedFlavorException ufe) {
+                    catch (UnsupportedFlavorException ufe) {
                         log(out,
                                 "FileDrop: UnsupportedFlavorException - abort:");
                         BytecodeViewer.handleException(
@@ -403,7 +403,7 @@ public class FileDrop {
                 } // end drop
 
                 @Override
-                public void dragExit(final DropTargetEvent evt) {
+                public void dragExit(DropTargetEvent evt) {
                     log(out, "FileDrop: dragExit event.");
                     // If it's a Swing component, reset its border
                     if (c instanceof JComponent) {
@@ -447,7 +447,7 @@ public class FileDrop {
                         .forName("java.awt.dnd.DnDConstants");
                 support = true;
             } // end try
-            catch (final Throwable t) {
+            catch (Throwable t) {
                 support = false;
             } // end catch
             supportsDnD = support;
@@ -458,8 +458,7 @@ public class FileDrop {
     // BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
     private static final String ZERO_CHAR_STRING = "" + (char) 0;
 
-    private static File[] createFileArray(final BufferedReader bReader,
-                                          final PrintStream out) {
+    private static File[] createFileArray(BufferedReader bReader, PrintStream out) {
         try {
             final java.util.List list = new java.util.ArrayList();
             java.lang.String line;
@@ -473,13 +472,13 @@ public class FileDrop {
                     final File file = new File(
                             new java.net.URI(line));
                     list.add(file);
-                } catch (final Exception ex) {
+                } catch (Exception ex) {
                     log(out, "Error with " + line + ": " + ex.getMessage());
                 }
             }
 
             return (File[]) list.toArray(new File[0]);
-        } catch (final IOException ex) {
+        } catch (IOException ex) {
             log(out, "FileDrop: IOException");
         }
         return new File[0];
@@ -487,14 +486,13 @@ public class FileDrop {
 
     // END 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
 
-    private void makeDropTarget(final PrintStream out,
-                                final Component c, final boolean recursive) {
+    private void makeDropTarget(PrintStream out, Component c, boolean recursive) {
         // Make drop target
         final DropTarget dt = new DropTarget();
         try {
             dt.addDropTargetListener(dropListener);
         } // end try
-        catch (final java.util.TooManyListenersException e) {
+        catch (java.util.TooManyListenersException e) {
             BytecodeViewer.handleException(e);
             log(out,
                     "FileDrop: Drop will not work due to previous error. Do you have another listener attached?");
@@ -536,8 +534,7 @@ public class FileDrop {
     /**
      * Determine if the dragged data is a file list.
      */
-    private boolean isDragOk(final PrintStream out,
-                             final DropTargetDragEvent evt) {
+    private boolean isDragOk(PrintStream out, DropTargetDragEvent evt) {
         boolean ok = false;
 
         // Get data flavors being dragged
@@ -577,7 +574,7 @@ public class FileDrop {
     /**
      * Outputs <tt>message</tt> to <tt>out</tt> if it's not null.
      */
-    private static void log(final PrintStream out, final String message) { // Log
+    private static void log(PrintStream out, String message) { // Log
         // message
         // if
         // requested
@@ -596,7 +593,7 @@ public class FileDrop {
      * @param c The component to unregister as a drop target
      * @since 1.0
      */
-    public static boolean remove(final Component c) {
+    public static boolean remove(Component c) {
         return remove(null, c, true);
     } // end remove
 
@@ -611,8 +608,7 @@ public class FileDrop {
      * @param recursive Recursively unregister components within a container
      * @since 1.0
      */
-    public static boolean remove(final PrintStream out,
-                                 final Component c, final boolean recursive) { // Make sure
+    public static boolean remove(PrintStream out, Component c, boolean recursive) { // Make sure
         // we
         // support
         // 
@@ -691,7 +687,7 @@ public class FileDrop {
          * @param source The event source
          * @since 1.1
          */
-        public Event(final File[] files, final Object source) {
+        public Event(File[] files, Object source) {
             super(source);
             this.files = files;
         } // end constructor
@@ -796,7 +792,7 @@ public class FileDrop {
          * @param data The data to transfer
          * @since 1.1
          */
-        public TransferableObject(final Object data) {
+        public TransferableObject(Object data) {
             this.data = data;
             this.customFlavor = new DataFlavor(
                     data.getClass(), MIME_TYPE);
@@ -811,7 +807,7 @@ public class FileDrop {
          * @see Fetcher
          * @since 1.1
          */
-        public TransferableObject(final Fetcher fetcher) {
+        public TransferableObject(Fetcher fetcher) {
             this.fetcher = fetcher;
         } // end constructor
 
@@ -829,7 +825,7 @@ public class FileDrop {
          * @see Fetcher
          * @since 1.1
          */
-        public TransferableObject(final Class dataClass, final Fetcher fetcher) {
+        public TransferableObject(Class dataClass, Fetcher fetcher) {
             this.fetcher = fetcher;
             this.customFlavor = new DataFlavor(dataClass,
                     MIME_TYPE);
