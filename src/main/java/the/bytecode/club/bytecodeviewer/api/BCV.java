@@ -22,6 +22,7 @@ import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
 import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.SleepUtil;
 
 import static the.bytecode.club.bytecodeviewer.Constants.DEV_MODE;
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
@@ -290,14 +291,9 @@ public class BCV
      */
     public static void hideFrame(JFrame frame, long milliseconds)
     {
-        new Thread(()->{
-            long started = System.currentTimeMillis();
-            while(System.currentTimeMillis()-started <= milliseconds)
-            {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ignored) { }
-            }
+        new Thread(()->
+        {
+	        SleepUtil.sleep(milliseconds);
     
             frame.setVisible(false);
         }, "Timed Swing Hide").start();

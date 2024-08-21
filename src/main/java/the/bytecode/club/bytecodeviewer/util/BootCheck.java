@@ -47,15 +47,8 @@ public class BootCheck implements Runnable
 	@Override
 	public void run()
 	{
-		long start = System.currentTimeMillis();
-		
 		//7 second failsafe
-		while (System.currentTimeMillis() - start < 7000)
-		{
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException ignored) { }
-		}
+		SleepUtil.sleep(7000);
 		
 		//if it's failed to boot and it's not downloading attempt to load the libraries
 		failSafeLoadLibraries();

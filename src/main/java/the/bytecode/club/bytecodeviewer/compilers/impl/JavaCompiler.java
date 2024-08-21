@@ -13,6 +13,7 @@ import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.SleepUtil;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
@@ -95,15 +96,10 @@ public class JavaCompiler extends InternalCompiler
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
 
-            Thread failSafe = new Thread(() -> {
-                long started = System.currentTimeMillis();
-                while (System.currentTimeMillis() - started <= 10_000) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+            Thread failSafe = new Thread(() ->
+            {
+	            //wait 10 seconds
+	            SleepUtil.sleep(10_000);
 
                 if (process.isAlive())
                 {
