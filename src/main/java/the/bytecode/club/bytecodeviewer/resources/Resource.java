@@ -1,12 +1,3 @@
-package the.bytecode.club.bytecodeviewer.resources;
-
-import org.apache.commons.io.IOUtils;
-import org.objectweb.asm.tree.ClassNode;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -24,6 +15,15 @@ import java.nio.charset.StandardCharsets;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.resources;
+
+import org.apache.commons.io.IOUtils;
+import org.objectweb.asm.tree.ClassNode;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Konloch

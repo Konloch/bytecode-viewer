@@ -1,7 +1,3 @@
-package the.bytecode.club.bytecodeviewer.bootloader;
-
-import static the.bytecode.club.bytecodeviewer.Constants.AUTOMATIC_LIBRARY_UPDATING;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -19,6 +15,10 @@ import static the.bytecode.club.bytecodeviewer.Constants.AUTOMATIC_LIBRARY_UPDAT
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.bootloader;
+
+import static the.bytecode.club.bytecodeviewer.Constants.AUTOMATIC_LIBRARY_UPDATING;
 
 /**
  * Downloads & installs the krakatau & enjarify zips

@@ -1,21 +1,3 @@
-package the.bytecode.club.bytecodeviewer.api;
-
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsole;
-import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
-import the.bytecode.club.bytecodeviewer.resources.IconResources;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-
-import static the.bytecode.club.bytecodeviewer.Constants.FAT_JAR;
-import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -33,6 +15,24 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.api;
+
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsole;
+import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+
+import static the.bytecode.club.bytecodeviewer.Constants.FAT_JAR;
+import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 /**
  * A simple class designed to show exceptions in the UI.

@@ -1,16 +1,3 @@
-package the.bytecode.club.bytecodeviewer.gui.components;
-
-import java.awt.Dimension;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import the.bytecode.club.bytecodeviewer.api.ASMResourceUtil;
-import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
-import the.bytecode.club.bytecodeviewer.resources.IconResources;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -28,6 +15,19 @@ import the.bytecode.club.bytecodeviewer.resources.IconResources;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.components;
+
+import java.awt.Dimension;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import the.bytecode.club.bytecodeviewer.api.ASMResourceUtil;
+import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 /**
  * The UI for File>Run aka EZ-Injection plugin.

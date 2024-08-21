@@ -1,18 +1,3 @@
-package the.bytecode.club.bytecodeviewer.gui.components;
-
-import java.awt.Component;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialog;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -30,6 +15,21 @@ import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialo
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.components;
+
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialog;
 
 /**
  * @author Konloch

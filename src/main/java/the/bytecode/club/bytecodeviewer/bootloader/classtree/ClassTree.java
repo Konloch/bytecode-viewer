@@ -1,19 +1,3 @@
-package the.bytecode.club.bytecodeviewer.bootloader.classtree;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.MethodNode;
-import the.bytecode.club.bytecodeviewer.bootloader.classtree.nullpermablehashmap.NullPermeableHashMap;
-import the.bytecode.club.bytecodeviewer.bootloader.classtree.nullpermablehashmap.SetCreator;
-
-import static the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassHelper.convertToMap;
-import static the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassHelper.copyOf;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -31,6 +15,22 @@ import static the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassHelper.
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.bootloader.classtree;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.bootloader.classtree.nullpermablehashmap.NullPermeableHashMap;
+import the.bytecode.club.bytecodeviewer.bootloader.classtree.nullpermablehashmap.SetCreator;
+
+import static the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassHelper.convertToMap;
+import static the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassHelper.copyOf;
 
 /**
  * @author Bibl (don't ban me pls)

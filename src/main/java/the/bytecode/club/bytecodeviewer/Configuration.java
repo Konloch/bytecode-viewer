@@ -1,14 +1,3 @@
-package the.bytecode.club.bytecodeviewer;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Locale;
-
-import the.bytecode.club.bytecodeviewer.bootloader.BootState;
-import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
-import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
-import the.bytecode.club.bytecodeviewer.translation.Language;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -26,6 +15,17 @@ import the.bytecode.club.bytecodeviewer.translation.Language;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Locale;
+
+import the.bytecode.club.bytecodeviewer.bootloader.BootState;
+import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
+import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
+import the.bytecode.club.bytecodeviewer.translation.Language;
 
 /**
  * A collection of variables that can be configured through the settings menu or some form of UI/plugin

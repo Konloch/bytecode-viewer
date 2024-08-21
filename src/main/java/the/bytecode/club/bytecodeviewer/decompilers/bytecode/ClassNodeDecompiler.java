@@ -1,17 +1,3 @@
-package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
-
-import java.util.ArrayList;
-import java.util.List;
-import org.objectweb.asm.Attribute;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldNode;
-import org.objectweb.asm.tree.InnerClassNode;
-import org.objectweb.asm.tree.MethodNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -29,6 +15,20 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.objectweb.asm.Attribute;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldNode;
+import org.objectweb.asm.tree.InnerClassNode;
+import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 /**
  * @author Konloch

@@ -1,11 +1,3 @@
-package the.bytecode.club.bytecodeviewer.plugin;
-
-import java.io.IOException;
-import org.apache.commons.io.FilenameUtils;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.resources.IconResources;
-import the.bytecode.club.bytecodeviewer.resources.Resource;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -23,6 +15,14 @@ import the.bytecode.club.bytecodeviewer.resources.Resource;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.plugin;
+
+import java.io.IOException;
+import org.apache.commons.io.FilenameUtils;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
+import the.bytecode.club.bytecodeviewer.resources.Resource;
 
 /**
  * @author Konloch

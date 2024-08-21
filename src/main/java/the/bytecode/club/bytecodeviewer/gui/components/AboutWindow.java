@@ -1,15 +1,3 @@
-package the.bytecode.club.bytecodeviewer.gui.components;
-
-import java.awt.CardLayout;
-import java.io.IOException;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import the.bytecode.club.bytecodeviewer.bootloader.InitialBootScreen;
-import the.bytecode.club.bytecodeviewer.resources.IconResources;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-
-import static the.bytecode.club.bytecodeviewer.Configuration.language;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -27,6 +15,18 @@ import static the.bytecode.club.bytecodeviewer.Configuration.language;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.components;
+
+import java.awt.CardLayout;
+import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import the.bytecode.club.bytecodeviewer.bootloader.InitialBootScreen;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+
+import static the.bytecode.club.bytecodeviewer.Configuration.language;
 
 /**
  * The about window - used to explain what BCV is, how to use it, etc.

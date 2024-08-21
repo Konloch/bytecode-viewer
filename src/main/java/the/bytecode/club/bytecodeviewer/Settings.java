@@ -1,21 +1,3 @@
-package the.bytecode.club.bytecodeviewer;
-
-import com.google.gson.reflect.TypeToken;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JMenuItem;
-import me.konloch.kontainer.io.DiskReader;
-import me.konloch.kontainer.io.DiskWriter;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-
-import static the.bytecode.club.bytecodeviewer.BytecodeViewer.gson;
-import static the.bytecode.club.bytecodeviewer.Configuration.maxRecentFiles;
-import static the.bytecode.club.bytecodeviewer.Constants.filesName;
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.getBCVDirectory;
-import static the.bytecode.club.bytecodeviewer.Constants.pluginsName;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -33,6 +15,24 @@ import static the.bytecode.club.bytecodeviewer.Constants.pluginsName;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer;
+
+import com.google.gson.reflect.TypeToken;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JMenuItem;
+import me.konloch.kontainer.io.DiskReader;
+import me.konloch.kontainer.io.DiskWriter;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+
+import static the.bytecode.club.bytecodeviewer.BytecodeViewer.gson;
+import static the.bytecode.club.bytecodeviewer.Configuration.maxRecentFiles;
+import static the.bytecode.club.bytecodeviewer.Constants.filesName;
+import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.getBCVDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.pluginsName;
 
 /**
  * @author Konloch

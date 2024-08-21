@@ -1,20 +1,3 @@
-package the.bytecode.club.bytecodeviewer.bootloader.resource.external;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.JarURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.JarInfo;
-import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.JarResource;
-import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents.JarContents;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -32,6 +15,23 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents.JarCont
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.bootloader.resource.external;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.JarURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.JarInfo;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.JarResource;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents.JarContents;
 
 /**
  * @author Bibl (don't ban me pls)

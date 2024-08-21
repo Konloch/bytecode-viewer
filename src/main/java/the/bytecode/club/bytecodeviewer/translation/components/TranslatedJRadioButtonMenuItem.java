@@ -1,9 +1,3 @@
-package the.bytecode.club.bytecodeviewer.translation.components;
-
-import javax.swing.JRadioButtonMenuItem;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -21,6 +15,12 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.translation.components;
+
+import javax.swing.JRadioButtonMenuItem;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 
 /**
  * @author Konloch

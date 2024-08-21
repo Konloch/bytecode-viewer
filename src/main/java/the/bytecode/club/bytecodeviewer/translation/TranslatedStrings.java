@@ -1,10 +1,3 @@
-package the.bytecode.club.bytecodeviewer.translation;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import the.bytecode.club.bytecodeviewer.api.BCV;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -22,6 +15,13 @@ import the.bytecode.club.bytecodeviewer.api.BCV;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.translation;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+import the.bytecode.club.bytecodeviewer.api.BCV;
 
 /**
  * Translation keys for constant strings (does not change the component text on language change).

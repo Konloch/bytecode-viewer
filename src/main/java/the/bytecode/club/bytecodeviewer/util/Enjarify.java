@@ -1,13 +1,3 @@
-package the.bytecode.club.bytecodeviewer.util;
-
-import java.io.File;
-import java.util.concurrent.atomic.AtomicBoolean;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
-
-import static the.bytecode.club.bytecodeviewer.Constants.enjarifyWorkingDirectory;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -25,6 +15,16 @@ import static the.bytecode.club.bytecodeviewer.Constants.enjarifyWorkingDirector
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.util;
+
+import java.io.File;
+import java.util.concurrent.atomic.AtomicBoolean;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
+
+import static the.bytecode.club.bytecodeviewer.Constants.enjarifyWorkingDirectory;
 
 /**
  * A simple wrapper for Enjarify.

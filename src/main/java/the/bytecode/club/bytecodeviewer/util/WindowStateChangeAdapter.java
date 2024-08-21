@@ -1,10 +1,3 @@
-package the.bytecode.club.bytecodeviewer.util;
-
-import java.awt.Frame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -22,6 +15,13 @@ import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.util;
+
+import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 
 /**
  * @author Konloch

@@ -1,10 +1,3 @@
-package the.bytecode.club.bytecodeviewer.bootloader.classtree;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import org.objectweb.asm.tree.ClassNode;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -22,6 +15,13 @@ import org.objectweb.asm.tree.ClassNode;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.bootloader.classtree;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import org.objectweb.asm.tree.ClassNode;
 
 /**
  * @author Bibl (don't ban me pls)

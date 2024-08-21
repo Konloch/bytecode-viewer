@@ -1,20 +1,3 @@
-package the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist;
-
-import java.util.Enumeration;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-import org.apache.commons.io.FilenameUtils;
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Constants;
-import the.bytecode.club.bytecodeviewer.api.ASMUtil;
-import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
-import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -32,6 +15,23 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist;
+
+import java.util.Enumeration;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import org.apache.commons.io.FilenameUtils;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.api.ASMUtil;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 /**
  * @author Konloch

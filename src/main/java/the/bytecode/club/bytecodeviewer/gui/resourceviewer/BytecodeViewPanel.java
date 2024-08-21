@@ -1,21 +1,3 @@
-package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
-
-import java.awt.BorderLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.compilers.Compiler;
-import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
-import the.bytecode.club.bytecodeviewer.gui.components.SystemConsole;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
-import the.bytecode.club.bytecodeviewer.gui.util.BytecodeViewPanelUpdater;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.util.JarUtils;
-
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -33,6 +15,24 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
+
+import java.awt.BorderLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.compilers.Compiler;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
+import the.bytecode.club.bytecodeviewer.gui.components.SystemConsole;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
+import the.bytecode.club.bytecodeviewer.gui.util.BytecodeViewPanelUpdater;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
+
+import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
 /**
  * Represents a Bytecode/ClassFile View Panel

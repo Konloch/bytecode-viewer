@@ -1,15 +1,3 @@
-package the.bytecode.club.bytecodeviewer.gui.components;
-
-import java.awt.Component;
-import java.util.List;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
-import the.bytecode.club.bytecodeviewer.gui.util.BytecodeViewPanelUpdater;
-import the.bytecode.club.bytecodeviewer.util.MethodParser;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -27,6 +15,18 @@ import the.bytecode.club.bytecodeviewer.util.MethodParser;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.components;
+
+import java.awt.Component;
+import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
+import the.bytecode.club.bytecodeviewer.gui.util.BytecodeViewPanelUpdater;
+import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
 /**
  * @author Konloch

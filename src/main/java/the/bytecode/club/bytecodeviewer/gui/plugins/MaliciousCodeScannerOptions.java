@@ -1,18 +1,3 @@
-package the.bytecode.club.bytecodeviewer.gui.plugins;
-
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScanModule;
-import the.bytecode.club.bytecodeviewer.malwarescanner.util.MaliciousCodeOptions;
-import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
-import the.bytecode.club.bytecodeviewer.plugin.preinstalled.MaliciousCodeScanner;
-import the.bytecode.club.bytecodeviewer.resources.IconResources;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -30,6 +15,21 @@ import the.bytecode.club.bytecodeviewer.resources.IconResources;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.plugins;
+
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScanModule;
+import the.bytecode.club.bytecodeviewer.malwarescanner.util.MaliciousCodeOptions;
+import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
+import the.bytecode.club.bytecodeviewer.plugin.preinstalled.MaliciousCodeScanner;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 /**
  * This GUI automatically populates the scan options from the MalwareScanModule enum.

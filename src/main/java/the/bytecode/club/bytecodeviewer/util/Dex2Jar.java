@@ -1,15 +1,3 @@
-package the.bytecode.club.bytecodeviewer.util;
-
-import com.googlecode.d2j.DexException;
-import com.googlecode.d2j.Method;
-import com.googlecode.d2j.dex.Dex2jar;
-import com.googlecode.d2j.dex.DexExceptionHandler;
-import com.googlecode.d2j.node.DexMethodNode;
-import com.googlecode.dex2jar.tools.Jar2Dex;
-import java.io.File;
-import org.objectweb.asm.MethodVisitor;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -27,6 +15,18 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.util;
+
+import com.googlecode.d2j.DexException;
+import com.googlecode.d2j.Method;
+import com.googlecode.d2j.dex.Dex2jar;
+import com.googlecode.d2j.dex.DexExceptionHandler;
+import com.googlecode.d2j.node.DexMethodNode;
+import com.googlecode.dex2jar.tools.Jar2Dex;
+import java.io.File;
+import org.objectweb.asm.MethodVisitor;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 /**
  * A simple wrapper for Dex2Jar.

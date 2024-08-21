@@ -1,13 +1,3 @@
-package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
-
-import the.bytecode.club.bytecodeviewer.gui.components.ButtonHoverAnimation;
-import the.bytecode.club.bytecodeviewer.gui.components.MaxWidthJLabel;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseListener;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -25,6 +15,16 @@ import java.awt.event.MouseListener;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
+
+import the.bytecode.club.bytecodeviewer.gui.components.ButtonHoverAnimation;
+import the.bytecode.club.bytecodeviewer.gui.components.MaxWidthJLabel;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseListener;
 
 /**
  * Component to be used as tabComponent; Contains a JLabel to show the text and a JButton to close the tab it belongs to

@@ -1,19 +1,3 @@
-package the.bytecode.club.bytecodeviewer.resources;
-
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
-
-import com.github.weisj.darklaf.iconset.AllIcons;
-import com.github.weisj.darklaf.properties.icons.IconLoader;
-import com.github.weisj.darklaf.properties.icons.IconResolver;
-import org.imgscalr.Scalr;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -31,6 +15,22 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.resources;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+
+import com.github.weisj.darklaf.iconset.AllIcons;
+import com.github.weisj.darklaf.properties.icons.IconLoader;
+import com.github.weisj.darklaf.properties.icons.IconResolver;
+import org.imgscalr.Scalr;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 /**
  * Any resources loaded by disc or by memory.

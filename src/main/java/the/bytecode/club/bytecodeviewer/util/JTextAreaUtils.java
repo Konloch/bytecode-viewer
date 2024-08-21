@@ -1,12 +1,3 @@
-package the.bytecode.club.bytecodeviewer.util;
-
-import java.awt.Color;
-import javax.swing.JTextArea;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Document;
-import javax.swing.text.Highlighter;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -24,6 +15,15 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.util;
+
+import java.awt.Color;
+import javax.swing.JTextArea;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Document;
+import javax.swing.text.Highlighter;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 /**
  * This allows functionality to main the same between JTextArea and RSyntaxTextArea text panels

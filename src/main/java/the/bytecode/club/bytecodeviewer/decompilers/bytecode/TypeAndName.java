@@ -1,7 +1,3 @@
-package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
-
-import org.objectweb.asm.Type;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -19,6 +15,10 @@ import org.objectweb.asm.Type;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
+
+import org.objectweb.asm.Type;
 
 /**
  * Container class for type and name. Used to pass arguments and local variables

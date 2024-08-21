@@ -1,10 +1,3 @@
-package the.bytecode.club.bytecodeviewer.util;
-
-import java.awt.KeyEventDispatcher;
-import java.awt.event.KeyEvent;
-import the.bytecode.club.bytecodeviewer.GlobalHotKeys;
-import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -22,6 +15,13 @@ import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.util;
+
+import java.awt.KeyEventDispatcher;
+import java.awt.event.KeyEvent;
+import the.bytecode.club.bytecodeviewer.GlobalHotKeys;
+import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 
 /**
  * @author Konloch

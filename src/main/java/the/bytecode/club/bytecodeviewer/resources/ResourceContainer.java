@@ -1,14 +1,3 @@
-package the.bytecode.club.bytecodeviewer.resources;
-
-import java.io.File;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import org.apache.commons.io.FilenameUtils;
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.api.ASMUtil;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTreeNode;
-import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -26,6 +15,17 @@ import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.resources;
+
+import java.io.File;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.apache.commons.io.FilenameUtils;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.api.ASMUtil;
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTreeNode;
+import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
 
 /**
  * Represents a loaded file in the form of a resource container

@@ -1,18 +1,3 @@
-package the.bytecode.club.bytecodeviewer.plugin.strategies;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -30,6 +15,21 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.plugin.strategies;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /**
  * @author Konloch

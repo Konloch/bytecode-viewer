@@ -1,11 +1,3 @@
-package the.bytecode.club.bytecodeviewer.gui.components;
-
-import java.awt.Dimension;
-import java.awt.Graphics;
-import javax.swing.Icon;
-import javax.swing.JMenuItem;
-import javax.swing.UIManager;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -23,6 +15,14 @@ import javax.swing.UIManager;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.components;
+
+import java.awt.Dimension;
+import java.awt.Graphics;
+import javax.swing.Icon;
+import javax.swing.JMenuItem;
+import javax.swing.UIManager;
 
 /**
  * @author Konloch

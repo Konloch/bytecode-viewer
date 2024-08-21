@@ -1,9 +1,3 @@
-package the.bytecode.club.bytecodeviewer.bootloader.loader;
-
-import java.util.HashMap;
-import java.util.Map;
-import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -21,6 +15,12 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalRes
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.bootloader.loader;
+
+import java.util.HashMap;
+import java.util.Map;
+import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalResource;
 
 /**
  * @author Bibl (don't ban me pls)

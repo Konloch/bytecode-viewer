@@ -1,20 +1,3 @@
-package the.bytecode.club.bytecodeviewer.gui.contextmenu;
-
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JPopupMenu;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
-import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Collapse;
-import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Expand;
-import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.New;
-import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Open;
-import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.QuickEdit;
-import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.QuickOpen;
-import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Delete;
-import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
-import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -32,6 +15,23 @@ import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.contextmenu;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JPopupMenu;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Collapse;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Expand;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.New;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Open;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.QuickEdit;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.QuickOpen;
+import the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist.Delete;
+import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
+import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
 
 /**
  * @author Konloch

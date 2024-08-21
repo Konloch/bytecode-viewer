@@ -1,7 +1,3 @@
-package the.bytecode.club.bytecodeviewer.resources.importing;
-
-import java.io.File;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -19,6 +15,10 @@ import java.io.File;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.resources.importing;
+
+import java.io.File;
 
 /**
  * @author Konloch

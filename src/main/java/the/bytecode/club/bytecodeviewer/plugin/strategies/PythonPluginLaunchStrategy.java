@@ -1,13 +1,3 @@
-package the.bytecode.club.bytecodeviewer.plugin.strategies;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -25,6 +15,16 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.plugin.strategies;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
 
 /**
  * @author Konloch

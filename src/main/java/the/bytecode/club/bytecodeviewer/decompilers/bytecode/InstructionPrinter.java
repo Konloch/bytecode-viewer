@@ -1,20 +1,3 @@
-package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
-
-import eu.bibl.banalysis.asm.desc.OpcodeInfo;
-import org.apache.commons.text.StringEscapeUtils;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.*;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Modifier;
-import java.util.*;
-import java.util.stream.Collectors;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -32,6 +15,23 @@ import java.util.stream.Collectors;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
+
+import eu.bibl.banalysis.asm.desc.OpcodeInfo;
+import org.apache.commons.text.StringEscapeUtils;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.*;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Modifier;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Konloch

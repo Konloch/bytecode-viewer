@@ -1,13 +1,3 @@
-package the.bytecode.club.bytecodeviewer.searching.impl;
-
-import java.util.Iterator;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.MethodNode;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
  * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
@@ -25,6 +15,16 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.searching.impl;
+
+import java.util.Iterator;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 /**
  * Field call searching
