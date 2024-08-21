@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.nio.file.FileSystems;
 
 import org.objectweb.asm.Opcodes;
 import the.bytecode.club.bytecodeviewer.resources.ResourceType;
@@ -66,8 +67,8 @@ public class Constants
 	//if true the version checker will prompt and ask how you would like to proceed
 	public static final boolean FORCE_VERSION_CHECKER_PROMPT = false;
 	
-	public static final String fs = System.getProperty("file.separator");
-	public static final String nl = System.getProperty("line.separator");
+	public static final String fs = FileSystems.getDefault().getSeparator();
+	public static final String nl = System.lineSeparator();
 	
 	public static final File BCVDir = resolveBCVRoot();
 	public static final File RT_JAR = new File(System.getProperty("java.home") + fs + "lib" + fs + "rt.jar");

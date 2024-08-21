@@ -379,7 +379,7 @@ public class ExternalResources
 
 			while ((line = reader.readLine()) != null) {
 				builder.append(line);
-				builder.append(System.getProperty("line.separator"));
+				builder.append(System.lineSeparator());
 			}
 
 			return builder.toString();
