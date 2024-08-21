@@ -291,10 +291,9 @@ public class BytecodeViewer
             viewer.requestFocus();
         
         //open files from launch args
-        if (!cli)
-            if (launchArgs.length >= 1)
-                for (String s : launchArgs)
-                    openFiles(new File[]{new File(s)}, true);
+        if (!cli && launchArgs.length >= 1)
+			for (String s : launchArgs)
+				openFiles(new File[]{new File(s)}, true);
     }
     
     /**
