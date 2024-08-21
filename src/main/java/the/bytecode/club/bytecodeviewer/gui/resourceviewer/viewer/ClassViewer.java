@@ -130,11 +130,14 @@ public class ClassViewer extends ResourceViewer
 			
 			if (bytecodeViewPanel1.decompiler != Decompiler.NONE)
 				bytecodeViewPanel1.updateThread.startNewThread();
+			
 			if (bytecodeViewPanel2.decompiler != Decompiler.NONE)
 				bytecodeViewPanel2.updateThread.startNewThread();
+			
 			if (bytecodeViewPanel3.decompiler != Decompiler.NONE)
 				bytecodeViewPanel3.updateThread.startNewThread();
 		}, "ClassViewer Temp Dump");
+		
 		dumpBuild.start();
 		
 		if (isPanel1Editable() || isPanel2Editable() || isPanel3Editable())
@@ -195,9 +198,11 @@ public class ClassViewer extends ResourceViewer
 			case 0:
 				area = classViewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
 				break;
+				
 			case 1:
 				area = classViewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
 				break;
+				
 			case 2:
 				area = classViewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
 				break;
@@ -209,10 +214,9 @@ public class ClassViewer extends ResourceViewer
 			if (methods != null)
 			{
 				int methodLine = methods.findMethod(method);
+				
 				if (methodLine != -1)
-				{
 					selectMethod(area, methodLine);
-				}
 			}
 		}
 	}
@@ -220,6 +224,7 @@ public class ClassViewer extends ResourceViewer
 	public static int getMaxViewLine(RSyntaxTextArea area)
 	{
 		Container parent = area.getParent();
+		
 		if (parent instanceof JViewport)
 		{
 			JViewport viewport = (JViewport) parent;
@@ -234,6 +239,7 @@ public class ClassViewer extends ResourceViewer
 	public static int getViewLine(RSyntaxTextArea area)
 	{
 		Container parent = area.getParent();
+		
 		if (parent instanceof JViewport)
 		{
 			JViewport viewport = (JViewport) parent;
@@ -248,6 +254,7 @@ public class ClassViewer extends ResourceViewer
 	public static void setViewLine(RSyntaxTextArea area, int line)
 	{
 		Container parent = area.getParent();
+		
 		if (parent instanceof JViewport)
 		{
 			JViewport viewport = (JViewport) parent;
@@ -291,9 +298,7 @@ public class ClassViewer extends ResourceViewer
 				sp2.setResizeWeight(0.7);
 				setDividerLocation(sp2, 0.7);
 				if ((bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel1.decompiler != Decompiler.NONE) || (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE))
-				{
 					setDividerLocation(sp2, 0.5);
-				}
 				else if (bytecodeViewPanel1.decompiler == Decompiler.NONE)
 					setDividerLocation(sp2, 0);
 			}

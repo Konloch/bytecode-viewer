@@ -27,5 +27,5 @@ public interface ITabPopupEventListener {
 	 * @param index, index of tab
 	 * @param e
 	 */
-	public void onTabPopupEvent(JTabbedPane tabbedPane, int index, TabPopupEvent e);
+	void onTabPopupEvent(JTabbedPane tabbedPane, int index, TabPopupEvent e);
 }

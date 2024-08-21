@@ -25,5 +25,5 @@ public interface ITabZeroComponentEventListener {
 	 * 
 	 * @param tabbedPane
 	 */
-	public void onTabZeroComponent(JTabbedPane tabbedPane);
+	void onTabZeroComponent(JTabbedPane tabbedPane);
 }
