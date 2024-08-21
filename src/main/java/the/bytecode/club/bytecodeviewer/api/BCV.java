@@ -96,7 +96,7 @@ public class BCV
             
             return cl.loadClass(cn.name);
         } catch (Exception classLoadException) {
-            the.bytecode.club.bytecodeviewer.BytecodeViewer.handleException(classLoadException);
+            BytecodeViewer.handleException(classLoadException);
         }
         
         return null;
@@ -134,14 +134,14 @@ public class BCV
                     try {
                         ret.add(cl.loadClass(className));
                     } catch (Exception classLoadException) {
-                        the.bytecode.club.bytecodeviewer.BytecodeViewer.handleException(classLoadException);
+                        BytecodeViewer.handleException(classLoadException);
                     }
                 }
             }
 
             return ret;
         } catch (Exception e) {
-            the.bytecode.club.bytecodeviewer.BytecodeViewer.handleException(e);
+            BytecodeViewer.handleException(e);
         }
         return null;
     }
@@ -160,7 +160,7 @@ public class BCV
      * @param plugin the file of the plugin
      */
     public static void startPlugin(File plugin) {
-        the.bytecode.club.bytecodeviewer.BytecodeViewer.startPlugin(plugin);
+        BytecodeViewer.startPlugin(plugin);
     }
 
     /**
@@ -170,7 +170,7 @@ public class BCV
      * @param recentFiles if it should save to the recent files menu.
      */
     public static void openFiles(File[] files, boolean recentFiles) {
-        the.bytecode.club.bytecodeviewer.BytecodeViewer.openFiles(files, recentFiles);
+        BytecodeViewer.openFiles(files, recentFiles);
     }
 
     /**
@@ -179,7 +179,7 @@ public class BCV
      * @return The opened class node or a null if nothing is opened
      */
     public static ClassNode getCurrentlyOpenedClassNode() {
-        return the.bytecode.club.bytecodeviewer.BytecodeViewer.getCurrentlyOpenedClassNode();
+        return BytecodeViewer.getCurrentlyOpenedClassNode();
     }
     
     /**
@@ -224,7 +224,7 @@ public class BCV
      * @return the ClassNode
      */
     public static ClassNode getClassNode(String name) {
-        return the.bytecode.club.bytecodeviewer.BytecodeViewer
+        return BytecodeViewer
                 .blindlySearchForClassNode(name);
     }
 
@@ -234,7 +234,7 @@ public class BCV
      * @return the loaded classes
      */
     public static List<ClassNode> getLoadedClasses() {
-        return the.bytecode.club.bytecodeviewer.BytecodeViewer
+        return BytecodeViewer
                 .getLoadedClasses();
     }
 
@@ -254,7 +254,7 @@ public class BCV
      * @param ask if it should ask the user about resetting the workspace
      */
     public static void resetWorkSpace(boolean ask) {
-        the.bytecode.club.bytecodeviewer.BytecodeViewer.resetWorkspace(ask);
+        BytecodeViewer.resetWorkspace(ask);
     }
 
     /**
@@ -264,7 +264,7 @@ public class BCV
      * @param busy if it should display the busy icon or not
      */
     public static void setBusy(boolean busy) {
-        the.bytecode.club.bytecodeviewer.BytecodeViewer.updateBusyStatus(busy);
+        BytecodeViewer.updateBusyStatus(busy);
     }
 
     /**
@@ -273,7 +273,7 @@ public class BCV
      * @param message the message you want to display
      */
     public static void showMessage(String message) {
-        the.bytecode.club.bytecodeviewer.BytecodeViewer.showMessage(message);
+        BytecodeViewer.showMessage(message);
     }
 
     /**
