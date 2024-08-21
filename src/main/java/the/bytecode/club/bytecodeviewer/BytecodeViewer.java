@@ -168,13 +168,13 @@ public class BytecodeViewer
     {
         launchArgs = args;
         
-        //welcome message
+        //CLI startup banner
         System.out.print("Bytecode Viewer " + VERSION);
+		
         if (FAT_JAR)
             System.out.print(" [Fat Jar]");
         
-        System.out.println(" - Created by @Konloch");
-        System.out.println("https://bytecodeviewer.com - https://the.bytecode.club");
+        System.out.println(" - https://bytecodeviewer.com\r\nCreated by @Konloch - https://konloch.com\r\nPresented by https://the.bytecode.club");
 
         // Set the security manager
         try {
