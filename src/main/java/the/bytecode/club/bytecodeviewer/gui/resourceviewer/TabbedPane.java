@@ -3,7 +3,6 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 import the.bytecode.club.bytecodeviewer.gui.components.ButtonHoverAnimation;
 import the.bytecode.club.bytecodeviewer.gui.components.MaxWidthJLabel;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
-import the.bytecode.club.bytecodeviewer.gui.util.DelayTabbedPaneThread;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +37,6 @@ public class TabbedPane extends JPanel {
 
 	public final JTabbedPane tabs;
 	public final JLabel label;
-	private DelayTabbedPaneThread probablyABadIdea;
 	private long startedDragging = 0;
 	public final String tabName;
 	public final String fileContainerName;
