@@ -38,7 +38,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 public final class ASMResourceUtil
 {
     /**
-     * Attempts to a method main inside of the loaded resources and returns the fully qualified name
+     * Attempts to a method main inside the loaded resources and returns the fully qualified name
      */
     public static String findMainMethod(String defaultFQN)
     {

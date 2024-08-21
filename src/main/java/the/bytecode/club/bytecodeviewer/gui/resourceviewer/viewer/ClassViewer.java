@@ -154,38 +154,46 @@ public class ClassViewer extends ResourceViewer
         }
     }
     
-    public void setPanes() {
+    public void setPanes()
+    {
         bytecodeViewPanel1.decompiler = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler();
         bytecodeViewPanel2.decompiler = BytecodeViewer.viewer.viewPane2.getSelectedDecompiler();
         bytecodeViewPanel3.decompiler = BytecodeViewer.viewer.viewPane3.getSelectedDecompiler();
     }
 
-    public boolean isPanel1Editable() {
+    public boolean isPanel1Editable()
+    {
         setPanes();
         return BytecodeViewer.viewer.viewPane1.isPaneEditable();
     }
 
-    public boolean isPanel2Editable() {
+    public boolean isPanel2Editable()
+    {
         setPanes();
         return BytecodeViewer.viewer.viewPane2.isPaneEditable();
     }
 
-    public boolean isPanel3Editable() {
+    public boolean isPanel3Editable()
+    {
         setPanes();
         return BytecodeViewer.viewer.viewPane3.isPaneEditable();
     }
 
 
-    public static void selectMethod(RSyntaxTextArea area, int methodLine) {
-        if (methodLine != area.getCaretLineNumber()) {
+    public static void selectMethod(RSyntaxTextArea area, int methodLine)
+    {
+        if (methodLine != area.getCaretLineNumber())
+		{
             setCaretLine(area, methodLine);
             setViewLine(area, methodLine);
         }
     }
 
-    public static void selectMethod(ClassViewer classViewer, int paneId, Method method) {
+    public static void selectMethod(ClassViewer classViewer, int paneId, Method method)
+    {
         RSyntaxTextArea area = null;
-        switch (paneId) {
+        switch (paneId)
+        {
             case 0:
                 area = classViewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
                 break;
@@ -197,11 +205,14 @@ public class ClassViewer extends ResourceViewer
                 break;
         }
 
-        if (area != null) {
+        if (area != null)
+		{
             MethodParser methods = classViewer.methods.get(paneId);
-            if (methods != null) {
+            if (methods != null)
+			{
                 int methodLine = methods.findMethod(method);
-                if (methodLine != -1) {
+                if (methodLine != -1)
+				{
                     selectMethod(area, methodLine);
                 }
             }
@@ -261,27 +272,31 @@ public class ClassViewer extends ResourceViewer
         {
             sp.setResizeWeight(0.5);
             
-            if (bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel1.decompiler != Decompiler.NONE) {
+            if (bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel1.decompiler != Decompiler.NONE)
                 setDividerLocation(sp, 0.5);
-            } else if (bytecodeViewPanel1.decompiler != Decompiler.NONE) {
+            else if (bytecodeViewPanel1.decompiler != Decompiler.NONE)
                 setDividerLocation(sp, 1);
-            } else if (bytecodeViewPanel2.decompiler != Decompiler.NONE) {
+			else if (bytecodeViewPanel2.decompiler != Decompiler.NONE)
+			{
                 sp.setResizeWeight(1);
                 setDividerLocation(sp, 0);
-            } else {
-                setDividerLocation(sp, 0);
             }
+			else
+                setDividerLocation(sp, 0);
             
-            if (bytecodeViewPanel3.decompiler != Decompiler.NONE) {
+            if (bytecodeViewPanel3.decompiler != Decompiler.NONE)
+			{
                 sp2.setResizeWeight(0.7);
                 setDividerLocation(sp2, 0.7);
                 if ((bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel1.decompiler != Decompiler.NONE)
                         || (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE)) {
                     setDividerLocation(sp2, 0.5);
-                } else if (bytecodeViewPanel1.decompiler == Decompiler.NONE) {
-                    setDividerLocation(sp2, 0);
                 }
-            } else {
+				else if (bytecodeViewPanel1.decompiler == Decompiler.NONE)
+                    setDividerLocation(sp2, 0);
+            }
+			else
+			{
                 sp.setResizeWeight(1);
                 sp2.setResizeWeight(0);
                 setDividerLocation(sp2, 1);
@@ -294,30 +309,39 @@ public class ClassViewer extends ResourceViewer
      */
     public static JSplitPane setDividerLocation(JSplitPane splitter, double proportion)
     {
-        if (splitter.isShowing()) {
-            if (splitter.getWidth() > 0 && splitter.getHeight() > 0) {
+        if (splitter.isShowing())
+		{
+            if (splitter.getWidth() > 0 && splitter.getHeight() > 0)
                 splitter.setDividerLocation(proportion);
-            } else {
-                splitter.addComponentListener(new ComponentAdapter() {
+			else
+			{
+                splitter.addComponentListener(new ComponentAdapter()
+                {
                     @Override
-                    public void componentResized(ComponentEvent ce) {
+                    public void componentResized(ComponentEvent ce)
+                    {
                         splitter.removeComponentListener(this);
                         setDividerLocation(splitter, proportion);
                     }
                 });
             }
-        } else {
-            splitter.addHierarchyListener(new HierarchyListener() {
+        }
+		else
+		{
+            splitter.addHierarchyListener(new HierarchyListener()
+            {
                 @Override
-                public void hierarchyChanged(HierarchyEvent e) {
-                    if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0
-                            && splitter.isShowing()) {
+                public void hierarchyChanged(HierarchyEvent e)
+                {
+                    if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0 && splitter.isShowing())
+					{
                         splitter.removeHierarchyListener(this);
                         setDividerLocation(splitter, proportion);
                     }
                 }
             });
         }
+		
         return splitter;
     }
     

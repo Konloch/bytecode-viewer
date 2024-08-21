@@ -51,8 +51,7 @@ public class ComponentViewer extends ResourceViewer
 	{
 		String workingName = containerName + title;
 		ComponentViewer componentViewer = new ComponentViewer(title, c);
-		BytecodeViewer.viewer.workPane.addResourceToTab(componentViewer,
-				workingName, containerName, title);
+		BytecodeViewer.viewer.workPane.addResourceToTab(componentViewer, workingName, containerName, title);
 		
 		return componentViewer;
 	}

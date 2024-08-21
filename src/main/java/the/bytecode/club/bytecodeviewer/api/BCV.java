@@ -60,7 +60,7 @@ public class BCV
     /**
      * Grab the loader instance
      *
-     * @return
+     * @return the static ClassNodeLoader instance
      */
     public static ClassNodeLoader getClassNodeLoader() {
         return loader;
