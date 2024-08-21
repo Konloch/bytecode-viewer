@@ -37,6 +37,7 @@ import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckB
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJTextField;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
+import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -346,7 +347,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
         
         //view classes
-        if (content != null && MiscUtils.getFileHeaderMagicNumber(content).equalsIgnoreCase("cafebabe")
+        if (content != null && FileHeaderUtils.doesFileHeaderMatch(content, FileHeaderUtils.JAVA_CLASS_FILE_HEADER)
                 || name.endsWith(".class"))
         {
             try

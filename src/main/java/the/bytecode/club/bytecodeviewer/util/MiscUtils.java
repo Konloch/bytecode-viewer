@@ -166,15 +166,6 @@ public class MiscUtils
         }
         return i;
     }
-
-    public static String getFileHeaderMagicNumber(byte[] fileContents)
-    {
-        if(fileContents == null || fileContents.length < 4)
-            return StringUtils.EMPTY;
-        
-        return String.format("%02X%02X%02X%02X", fileContents[0],
-                fileContents[1], fileContents[2],fileContents[3]);
-    }
     
     public static File autoAppendFileExtension(String extension, File file)
     {

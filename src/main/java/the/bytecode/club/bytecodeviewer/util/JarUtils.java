@@ -83,7 +83,7 @@ public class JarUtils
                         if (!entry.isDirectory())
                             files.put(name, bytes);
                     } else {
-                        if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe")) {
+                        if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER)) {
                             try {
                                 final ClassNode cn = getNode(bytes);
                                 container.resourceClasses.put(FilenameUtils.removeExtension(name), cn);
@@ -138,7 +138,7 @@ public class JarUtils
                         if (!name.endsWith(".class")) {
                             files.put(name, bytes);
                         } else {
-                            if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
+                            if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER))
                             {
                                 try {
                                     final ClassNode cn = getNode(bytes);
@@ -171,7 +171,7 @@ public class JarUtils
                     final String name = entry.getName();
                     if (name.endsWith(".class")) {
                         byte[] bytes = MiscUtils.getBytes(jis);
-                        if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe")) {
+                        if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER)) {
                             try {
                                 final ClassNode cn = getNode(bytes);
                                 classes.add(cn);

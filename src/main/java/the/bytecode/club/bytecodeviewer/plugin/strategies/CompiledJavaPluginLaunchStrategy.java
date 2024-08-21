@@ -10,6 +10,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
@@ -82,7 +83,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
                     String name = entry.getName();
                     if (name.endsWith(".class")) {
                         byte[] bytes = MiscUtils.getBytes(jis);
-                        if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe")) {
+                        if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER)) {
                             try {
                                 ClassReader cr = new ClassReader(bytes);
                                 ClassNode cn = new ClassNode();

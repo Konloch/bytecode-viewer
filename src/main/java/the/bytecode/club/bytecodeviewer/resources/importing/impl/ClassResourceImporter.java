@@ -7,6 +7,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
+import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -42,7 +43,7 @@ public class ClassResourceImporter implements Importer
 			byte[] bytes = MiscUtils.getBytes(fis);
 			ResourceContainer container = new ResourceContainer(file);
 
-			if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
+			if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER))
 			{
 				final ClassNode cn = JarUtils.getNode(bytes);
 

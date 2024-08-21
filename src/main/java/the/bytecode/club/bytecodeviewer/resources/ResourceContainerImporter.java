@@ -11,6 +11,7 @@ import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
+import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
@@ -109,7 +110,7 @@ public class ResourceContainerImporter
 	public ResourceContainerImporter addClassResource(String name, InputStream stream) throws IOException
 	{
 		byte[] bytes = MiscUtils.getBytes(stream);
-		if (MiscUtils.getFileHeaderMagicNumber(bytes).equalsIgnoreCase("cafebabe"))
+		if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER))
 		{
 			try
 			{
