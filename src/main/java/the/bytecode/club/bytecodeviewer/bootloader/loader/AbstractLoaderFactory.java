@@ -24,7 +24,7 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalRes
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 21 Jul 2015 00:18:07
+ * @since 21 Jul 2015 00:18:07
  */
 public final class AbstractLoaderFactory {
 

@@ -22,7 +22,7 @@ import java.net.URL;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 21 Jul 2015 00:29:11
+ * @since 21 Jul 2015 00:29:11
  */
 public class EmptyExternalResource<T> extends ExternalResource<T> {
 

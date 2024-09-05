@@ -28,7 +28,7 @@ import org.apache.commons.lang3.StringUtils;
  * Encoding Convert Utils
  *
  * @author hupan
- * @date 2019-11-19 14:29
+ * @since 2019-11-19 14:29
  */
 public class EncodeUtils {
 

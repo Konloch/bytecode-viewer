@@ -23,7 +23,7 @@ import java.net.URL;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 19 Jul 2015 02:30:30
+ * @since 19 Jul 2015 02:30:30
  */
 public abstract class ExternalResource<T> {
 

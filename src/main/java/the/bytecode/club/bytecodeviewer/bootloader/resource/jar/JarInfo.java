@@ -27,7 +27,7 @@ import java.net.URL;
  * Holds information about a single local or external JarFile.
  *
  * @author Bibl
- * @created ages ago
+ * @since 19 Jul 2013
  */
 public class JarInfo {
 

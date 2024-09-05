@@ -38,7 +38,7 @@ import static the.bytecode.club.bytecodeviewer.Configuration.language;
 /**
  * @author Konloch
  * @author Bibl (don't ban me pls)
- * @created 19 Jul 2015 04:12:21
+ * @since 19 Jul 2015 04:12:21
  */
 public class InitialBootScreen extends JFrame
 {

@@ -25,7 +25,7 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.JarResource;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created ages ago
+ * @since 19 Jul 2013
  */
 public class LocateableJarContents<C extends ClassNode> extends JarContents<C> {
 

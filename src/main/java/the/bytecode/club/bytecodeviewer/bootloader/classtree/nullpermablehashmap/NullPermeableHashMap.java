@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created ages ago
+ * @since ages ago
  */
 public class NullPermeableHashMap<K, V> extends HashMap<K, V> {
 

@@ -35,7 +35,7 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents.JarCont
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 19 Jul 2015 02:33:23
+ * @since 19 Jul 2015 02:33:23
  */
 public class ExternalLibrary extends ExternalResource<JarContents<ClassNode>> {
 

@@ -29,7 +29,7 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
 /**
  * @author Konloch
  * @author Bibl (don't ban me pls)
- * @created 1 Jun 2015
+ * @since 1 Jun 2015
  */
 public class PythonPluginLaunchStrategy implements PluginLaunchStrategy {
 

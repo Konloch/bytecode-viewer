@@ -20,7 +20,7 @@ package the.bytecode.club.bytecodeviewer.bootloader.loader;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 21 Jul 2015 00:14:53
+ * @since 21 Jul 2015 00:14:53
  */
 public interface LoaderFactory<T> {
 

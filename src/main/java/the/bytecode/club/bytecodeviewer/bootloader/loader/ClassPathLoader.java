@@ -26,7 +26,7 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalRes
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 21 Jul 2015 00:09:53
+ * @since 21 Jul 2015 00:09:53
  */
 public class ClassPathLoader implements ILoader<Object> {
 
