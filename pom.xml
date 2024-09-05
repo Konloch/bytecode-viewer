@@ -372,6 +372,16 @@
             <artifactId>org.abego.treelayout.core</artifactId>
             <version>${treelayout.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-core</artifactId>
+            <version>3.26.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-symbol-solver-core</artifactId>
+            <version>3.26.1</version>
+        </dependency>
 
         <!-- TODO Re-add for Graal.JS support -->
         <!--<dependency>

@@ -27,6 +27,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 import the.bytecode.club.bytecodeviewer.resources.Resource;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContainer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
 import javax.swing.*;
@@ -37,6 +38,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static the.bytecode.club.bytecodeviewer.util.MethodParser.Method;
@@ -57,6 +59,7 @@ public class ClassViewer extends ResourceViewer
 	public BytecodeViewPanel bytecodeViewPanel2 = new BytecodeViewPanel(1, this);
 	public BytecodeViewPanel bytecodeViewPanel3 = new BytecodeViewPanel(2, this);
 	public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
+	public HashMap<String, ClassFileContainer> classFiles = new HashMap<>();
 	
 	public ClassViewer(ResourceContainer container, String name)
 	{
