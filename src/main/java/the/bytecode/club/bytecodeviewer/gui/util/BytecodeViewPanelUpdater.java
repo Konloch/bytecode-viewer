@@ -35,6 +35,7 @@ import javax.swing.text.Element;
 
 import org.fife.ui.rsyntaxtextarea.*;
 import org.fife.ui.rtextarea.SmartHighlightPainter;
+import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.ClassWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -49,6 +50,8 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContainer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassFieldLocation;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassLocalVariableLocation;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassParameterLocation;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.TokenUtil;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
@@ -467,6 +470,16 @@ public class BytecodeViewPanelUpdater implements Runnable
 		 */
 		markField(textArea, classFileContainer, line, column, finalToken, highlighterEx);
 
+		/*
+		Method parameters
+		 */
+		markMethodParameter(textArea, classFileContainer, line, column, finalToken, highlighterEx);
+
+		/*
+		Method local variables
+		 */
+		markMethodLocalVariable(textArea, classFileContainer, line, column, finalToken, highlighterEx);
+
 		errorStripe.refreshMarkers();
 	}
 
@@ -500,6 +513,108 @@ public class BytecodeViewPanelUpdater implements Runnable
 					}
 				} catch (BadLocationException ex)
 				{
+					throw new RuntimeException(ex);
+				}
+			}
+		}));
+	}
+
+	/**
+	 * Search through the text area and mark all occurrences that match the selected token.
+	 *
+	 * @param textArea           the text area
+	 * @param classFileContainer the container
+	 * @param line               the caret line
+	 * @param column             the caret column
+	 * @param finalToken         the token
+	 * @param highlighterEx      the highlighter
+	 */
+	private static void markMethodParameter(
+			RSyntaxTextArea textArea,
+			ClassFileContainer classFileContainer,
+			int line,
+			int column,
+			Token finalToken,
+			RSyntaxTextAreaHighlighterEx highlighterEx
+	)
+	{
+		classFileContainer.methodParameterMembers.values().forEach(parameters -> parameters.forEach(parameter -> {
+			String method;
+			if (parameter.line == line && parameter.columnStart - 1 <= column && parameter.columnEnd >= column)
+			{
+				method = parameter.method;
+				try
+				{
+					Element root = textArea.getDocument().getDefaultRootElement();
+					for (
+							ClassParameterLocation location :
+							classFileContainer.getParameterLocationsFor(finalToken.getLexeme())
+					)
+					{
+						if (Objects.equals(method, location.method))
+						{
+							int startOffset = root
+									.getElement(location.line - 1)
+									.getStartOffset() + (location.columnStart - 1);
+							int endOffset = root
+									.getElement(location.line - 1)
+									.getStartOffset() + (location.columnEnd - 1);
+
+							highlighterEx.addMarkedOccurrenceHighlight(
+									startOffset, endOffset, new SmartHighlightPainter()
+							);
+						}
+					}
+				} catch (BadLocationException ex)
+				{
+					throw new RuntimeException(ex);
+				}
+			}
+		}));
+	}
+
+	/**
+	 * Search through the text area and mark all occurrences that match the selected token.
+	 *
+	 * @param textArea           the text area
+	 * @param classFileContainer the container
+	 * @param line               the caret line
+	 * @param column             the caret column
+	 * @param finalToken         the token
+	 * @param highlighterEx      the highlighter
+	 */
+	private static void markMethodLocalVariable(
+			RSyntaxTextArea textArea,
+			ClassFileContainer classFileContainer,
+			int line,
+			int column,
+			Token finalToken,
+			RSyntaxTextAreaHighlighterEx highlighterEx
+	) {
+		classFileContainer.methodLocalMembers.values().forEach(localVariables -> localVariables.forEach(localVariable -> {
+			String method;
+			if (localVariable.line == line && localVariable.columnStart - 1 <= column && localVariable.columnEnd >= column) {
+				method = localVariable.method;
+				try {
+					Element root = textArea.getDocument().getDefaultRootElement();
+					for (
+							ClassLocalVariableLocation location :
+							classFileContainer.getLocalLocationsFor(finalToken.getLexeme())
+					) {
+						if (Objects.equals(method, location.method)) {
+							int startOffset = root
+									.getElement(location.line - 1)
+									.getStartOffset() + (location.columnStart - 1);
+							int endOffset = root
+									.getElement(location.line - 1)
+									.getStartOffset() + (location.columnEnd - 1);
+
+							highlighterEx.addMarkedOccurrenceHighlight(
+									startOffset, endOffset, new SmartHighlightPainter()
+							);
+						}
+					}
+				} catch (BadLocationException ex) {
 					throw new RuntimeException(ex);
 				}
 			}
