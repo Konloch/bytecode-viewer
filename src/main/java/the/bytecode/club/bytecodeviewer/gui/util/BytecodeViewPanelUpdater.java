@@ -394,8 +394,8 @@ public class BytecodeViewPanelUpdater implements Runnable
 		updateUpdaterTextArea = new SearchableRSyntaxTextArea();
 
 		Configuration.rstaTheme.apply(updateUpdaterTextArea);
+		bytecodeViewPanel.add(updateUpdaterTextArea.getTextAreaSearchPanel(), BorderLayout.NORTH);
 		bytecodeViewPanel.add(updateUpdaterTextArea.getScrollPane());
-		bytecodeViewPanel.add(updateUpdaterTextArea.getTitleHeader(), BorderLayout.NORTH);
 
 		bytecodeViewPanel.textArea = updateUpdaterTextArea;
 
@@ -424,11 +424,13 @@ public class BytecodeViewPanelUpdater implements Runnable
 			bytecodeViewPanel.compiler = Compiler.KRAKATAU_ASSEMBLER;
 
 		String editable = isPanelEditable ? " - " + EDITABLE : "";
-		bytecodeViewPanel.textArea.getTitleHeader().setText(decompiler.getDecompilerName() + editable);
+		bytecodeViewPanel.textArea.getTextAreaSearchPanel().getTitleHeader().setText(decompiler.getDecompilerName() + editable);
 
-		// TODO: Whenever you click on a mark, both text areas get scrolled. Also, the error strip isn't laid out correctly.
 		MyErrorStripe errorStripe = new MyErrorStripe(bytecodeViewPanel.textArea);
 		bytecodeViewPanel.add(errorStripe, BorderLayout.LINE_END);
+
+		bytecodeViewPanel.revalidate();
+		bytecodeViewPanel.repaint();
 
 		bytecodeViewPanel.textArea.addCaretListener(e -> {
 			if (bytecodeViewPanel.textArea.isFocusOwner())
