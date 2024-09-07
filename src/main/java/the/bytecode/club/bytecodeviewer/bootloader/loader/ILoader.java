@@ -22,7 +22,7 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalRes
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 19 Jul 2015 02:29:43
+ * @since 19 Jul 2015 02:29:43
  */
 public interface ILoader<T> {
 

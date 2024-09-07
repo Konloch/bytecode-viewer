@@ -49,7 +49,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
 /**
  * @author Konloch
  * @author Bibl (don't ban me pls)
- * @created 19 Jul 2015 03:22:37
+ * @since 19 Jul 2015 03:22:37
  */
 public class Boot {
 

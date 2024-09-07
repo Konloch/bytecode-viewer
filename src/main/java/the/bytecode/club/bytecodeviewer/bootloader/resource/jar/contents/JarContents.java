@@ -30,7 +30,7 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.JarResource;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created ages ago
+ * @since 19 Jul 2013
  */
 public class JarContents<C extends ClassNode> {
 

@@ -20,7 +20,7 @@ package the.bytecode.club.bytecodeviewer.bootloader.classtree.nullpermablehashma
 
 /**
  * @author Bibl (don't ban me pls)
- * @created ages ago
+ * @since ages ago
  */
 public class NullCreator<V> implements ValueCreator<V> {
 
