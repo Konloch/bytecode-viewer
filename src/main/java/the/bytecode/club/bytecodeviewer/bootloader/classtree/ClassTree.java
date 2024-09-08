@@ -34,7 +34,7 @@ import static the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassHelper.
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 25 May 2015 (actually before this)
+ * @since 25 May 2015 (actually before this)
  */
 public class ClassTree {
     private static final SetCreator<ClassNode> SET_CREATOR = new SetCreator<>();

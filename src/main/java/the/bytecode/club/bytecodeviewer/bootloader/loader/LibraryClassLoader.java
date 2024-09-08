@@ -33,7 +33,7 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents.JarCont
 
 /**
  * @author Bibl (don't ban me pls)
- * @created 19 Jul 2015 02:48:41
+ * @since 19 Jul 2015 02:48:41
  *
  *         TODO: Resource loading
  */

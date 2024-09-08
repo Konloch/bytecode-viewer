@@ -22,7 +22,7 @@ import java.util.Arrays;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created ages ago
+ * @since 19 Jul 2013
  */
 public class JarResource {
 

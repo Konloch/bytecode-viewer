@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * @author Bibl (don't ban me pls)
- * @created ages ago
+ * @since 21 Jul 2013
  */
 public abstract class DataContainer<T> extends ArrayList<T> {
 

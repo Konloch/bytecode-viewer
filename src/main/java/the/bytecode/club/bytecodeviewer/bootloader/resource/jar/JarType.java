@@ -22,7 +22,7 @@ package the.bytecode.club.bytecodeviewer.bootloader.resource.jar;
  * Type of Jar Stored.
  *
  * @author Bibl
- * @created ages ago
+ * @since 19 Jul 2013
  */
 public enum JarType {
 
