@@ -26,15 +26,18 @@ public class ClassFileContainer
 	public transient NavigableMap<String, ArrayList<ClassParameterLocation>> methodParameterMembers = new TreeMap<>();
 	public transient NavigableMap<String, ArrayList<ClassLocalVariableLocation>> methodLocalMembers = new TreeMap<>();
 	public transient NavigableMap<String, ArrayList<ClassMethodLocation>> methodMembers = new TreeMap<>();
+	public transient NavigableMap<String, String> imports = new TreeMap<>();
 
 	public boolean hasBeenParsed = false;
 	public final String className;
 	private final String content;
+	private final String parentContainer;
 
-	public ClassFileContainer(String className, String content)
+	public ClassFileContainer(String className, String content, String parentContainer)
 	{
 		this.className = className;
 		this.content = content;
+		this.parentContainer = parentContainer;
 	}
 
 	public void parse()
@@ -48,6 +51,15 @@ public class ClassFileContainer
 		{
 			System.err.println("Parsing error!");
 		}
+	}
+
+	public String getName() {
+		return this.className.substring(this.className.lastIndexOf('.') + 1);
+	}
+
+	public String getParentContainer()
+	{
+		return this.parentContainer;
 	}
 
 	public void putField(String key, ClassFieldLocation value)
@@ -88,5 +100,15 @@ public class ClassFileContainer
 	public List<ClassMethodLocation> getMethodLocationsFor(String key)
 	{
 		return methodMembers.getOrDefault(key, new ArrayList<>());
+	}
+
+	public void putImport(String key, String value)
+	{
+		this.imports.put(key, value);
+	}
+
+	public String getImport(String key) {
+		String value = this.imports.get(key);
+		return value + "/" + key;
 	}
 }

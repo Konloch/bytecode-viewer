@@ -18,22 +18,8 @@
 
 package the.bytecode.club.bytecodeviewer.gui.util;
 
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import javax.swing.*;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Element;
-
 import org.fife.ui.rsyntaxtextarea.*;
 import org.fife.ui.rtextarea.SmartHighlightPainter;
-import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.ClassWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -54,6 +40,19 @@ import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.Class
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.TokenUtil;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
+import javax.swing.*;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Element;
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.util.Objects;
+import java.util.regex.Matcher;
+
 import static the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane.BLANK_COLOR;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.EDITABLE;
 
@@ -68,562 +67,564 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.EDI
 
 public class BytecodeViewPanelUpdater implements Runnable
 {
-	public final ClassViewer viewer;
-	public final BytecodeViewPanel bytecodeViewPanel;
-	private final JButton button;
-	private final byte[] classBytes;
+    public final ClassViewer viewer;
+    public final BytecodeViewPanel bytecodeViewPanel;
+    private final JButton button;
+    private final byte[] classBytes;
 
-	public SearchableRSyntaxTextArea updateUpdaterTextArea;
-	public JComboBox<Integer> methodsList;
-	public boolean isPanelEditable;
-	public boolean waitingFor;
-	private Thread thread;
+    public SearchableRSyntaxTextArea updateUpdaterTextArea;
+    public JComboBox<Integer> methodsList;
+    public boolean isPanelEditable;
+    public boolean waitingFor;
+    private Thread thread;
 
-	public BytecodeViewPanelUpdater(BytecodeViewPanel bytecodeViewPanel, ClassViewer cv, byte[] classBytes, boolean isPanelEditable, JButton button)
-	{
-		this.viewer = cv;
-		this.bytecodeViewPanel = bytecodeViewPanel;
-		this.classBytes = classBytes;
-		this.isPanelEditable = isPanelEditable;
-		this.button = button;
-		waitingFor = true;
-	}
+    public BytecodeViewPanelUpdater(BytecodeViewPanel bytecodeViewPanel, ClassViewer cv, byte[] classBytes, boolean isPanelEditable, JButton button)
+    {
+        this.viewer = cv;
+        this.bytecodeViewPanel = bytecodeViewPanel;
+        this.classBytes = classBytes;
+        this.isPanelEditable = isPanelEditable;
+        this.button = button;
+        waitingFor = true;
+    }
 
-	public void processDisplay()
-	{
-		try
-		{
-			BytecodeViewer.updateBusyStatus(true);
+    public void processDisplay()
+    {
+        try
+        {
+            BytecodeViewer.updateBusyStatus(true);
 
-			if (bytecodeViewPanel.decompiler != Decompiler.NONE)
-			{
-				//hex viewer
-				if (bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER)
-				{
-					final ClassWriter cw = new ClassWriter(0);
-					viewer.resource.getResourceClassNode().accept(cw);
+            if (bytecodeViewPanel.decompiler != Decompiler.NONE)
+            {
+                //hex viewer
+                if (bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER)
+                {
+                    final ClassWriter cw = new ClassWriter(0);
+                    viewer.resource.getResourceClassNode().accept(cw);
 
-					SwingUtilities.invokeLater(() ->
-					{
-						final HexViewer hex = new HexViewer(cw.toByteArray());
-						bytecodeViewPanel.add(hex);
-					});
-				} else
-				{
-					final Decompiler decompiler = bytecodeViewPanel.decompiler;
+                    SwingUtilities.invokeLater(() ->
+                    {
+                        final HexViewer hex = new HexViewer(cw.toByteArray());
+                        bytecodeViewPanel.add(hex);
+                    });
+                } else
+                {
+                    final Decompiler decompiler = bytecodeViewPanel.decompiler;
 
-					//perform decompiling inside of this thread
-					final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.resource.getResourceClassNode(), classBytes);
+                    //perform decompiling inside of this thread
+                    final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.resource.getResourceClassNode(), classBytes);
 
-					ClassFileContainer container = new ClassFileContainer(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), decompiledSource);
-					if (!container.hasBeenParsed)
-					{
-						container.parse();
-						viewer.classFiles.put(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), container);
-					}
+                    ClassFileContainer container = new ClassFileContainer(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), decompiledSource, viewer.resource.container.name);
+                    if (!container.hasBeenParsed)
+                    {
+                        container.parse();
+                        viewer.classFiles.put(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), container);
+                        container.hasBeenParsed = true;
+                    }
 
-					//set the swing components on the swing thread
-					SwingUtilities.invokeLater(() ->
-					{
-						buildTextArea(decompiler, decompiledSource);
-						waitingFor = false;
-					});
+                    //set the swing components on the swing thread
+                    SwingUtilities.invokeLater(() ->
+                    {
+                        buildTextArea(decompiler, decompiledSource);
+                        waitingFor = false;
+                    });
 
-					//hold this thread until the swing thread has finished attaching the components
-					while (waitingFor)
-					{
-						try
-						{
-							Thread.sleep(1);
-						} catch (Exception ignored)
-						{
-						}
-					}
-				}
-			}
-		} catch (IndexOutOfBoundsException | NullPointerException e)
-		{
-			//ignore
-		} catch (Exception e)
-		{
-			BytecodeViewer.handleException(e);
-		} finally
-		{
-			viewer.resetDivider();
-			BytecodeViewer.updateBusyStatus(false);
-			SwingUtilities.invokeLater(() ->
-			{
-				if (button != null)
-					button.setEnabled(true);
-			});
-		}
-	}
+                    //hold this thread until the swing thread has finished attaching the components
+                    while (waitingFor)
+                    {
+                        try
+                        {
+                            Thread.sleep(1);
+                        } catch (Exception ignored)
+                        {
+                        }
+                    }
+                }
+            }
+        } catch (IndexOutOfBoundsException | NullPointerException e)
+        {
+            //ignore
+        } catch (Exception e)
+        {
+            BytecodeViewer.handleException(e);
+        } finally
+        {
+            viewer.resetDivider();
+            BytecodeViewer.updateBusyStatus(false);
+            SwingUtilities.invokeLater(() ->
+            {
+                if (button != null)
+                    button.setEnabled(true);
+            });
+        }
+    }
 
-	public void startNewThread()
-	{
-		thread = new Thread(this, "Pane Update");
-		thread.start();
-	}
+    public void startNewThread()
+    {
+        thread = new Thread(this, "Pane Update");
+        thread.start();
+    }
 
-	@Override
-	public void run()
-	{
-		if (bytecodeViewPanel.decompiler == Decompiler.NONE)
-			return;
+    @Override
+    public void run()
+    {
+        if (bytecodeViewPanel.decompiler == Decompiler.NONE)
+            return;
 
-		processDisplay();
+        processDisplay();
 
-		if (bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER)
-			return;
+        if (bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER)
+            return;
 
-		//nullcheck broken pane
-		if (updateUpdaterTextArea == null || updateUpdaterTextArea.getScrollPane() == null
-				|| updateUpdaterTextArea.getScrollPane().getViewport() == null)
-		{
-			//build an error message
-			SwingUtilities.invokeLater(() ->
-					buildTextArea(bytecodeViewPanel.decompiler, "Critical BCV Error"));
-			return;
-		}
+        //nullcheck broken pane
+        if (updateUpdaterTextArea == null || updateUpdaterTextArea.getScrollPane() == null
+                || updateUpdaterTextArea.getScrollPane().getViewport() == null)
+        {
+            //build an error message
+            SwingUtilities.invokeLater(() ->
+                    buildTextArea(bytecodeViewPanel.decompiler, "Critical BCV Error"));
+            return;
+        }
 
-		//this still freezes the swing UI
-		synchronizePane();
-	}
+        //this still freezes the swing UI
+        synchronizePane();
+    }
 
-	public final CaretListener caretListener = new CaretListener()
-	{
-		@Override
-		public void caretUpdate(CaretEvent e)
-		{
-			MethodParser methods = viewer.methods.get(bytecodeViewPanel.panelIndex);
-			if (methods != null)
-			{
-				int methodLine = methods.findActiveMethod(updateUpdaterTextArea.getCaretLineNumber());
+    public final CaretListener caretListener = new CaretListener()
+    {
+        @Override
+        public void caretUpdate(CaretEvent e)
+        {
+            MethodParser methods = viewer.methods.get(bytecodeViewPanel.panelIndex);
+            if (methods != null)
+            {
+                int methodLine = methods.findActiveMethod(updateUpdaterTextArea.getCaretLineNumber());
 
-				if (methodLine != -1)
-				{
-					if (BytecodeViewer.viewer.showClassMethods.isSelected())
-					{
-						if (methodsList != null)
-						{
-							if (methodLine != (int) Objects.requireNonNull(methodsList.getSelectedItem()))
-							{
-								methodsList.setSelectedItem(methodLine);
-							}
-						}
-					}
-					if (BytecodeViewer.viewer.synchronizedViewing.isSelected())
-					{
-						int panes = 2;
-						if (viewer.bytecodeViewPanel3 != null)
-							panes = 3;
+                if (methodLine != -1)
+                {
+                    if (BytecodeViewer.viewer.showClassMethods.isSelected())
+                    {
+                        if (methodsList != null)
+                        {
+                            if (methodLine != (int) Objects.requireNonNull(methodsList.getSelectedItem()))
+                            {
+                                methodsList.setSelectedItem(methodLine);
+                            }
+                        }
+                    }
+                    if (BytecodeViewer.viewer.synchronizedViewing.isSelected())
+                    {
+                        int panes = 2;
+                        if (viewer.bytecodeViewPanel3 != null)
+                            panes = 3;
 
-						for (int i = 0; i < panes; i++)
-						{
-							if (i != bytecodeViewPanel.panelIndex)
-							{
-								ClassViewer.selectMethod(viewer, i, methods.getMethod(methodLine));
-							}
-						}
-					}
-				}
-			}
-		}
-	};
+                        for (int i = 0; i < panes; i++)
+                        {
+                            if (i != bytecodeViewPanel.panelIndex)
+                            {
+                                ClassViewer.selectMethod(viewer, i, methods.getMethod(methodLine));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
 
-	public final ChangeListener viewportListener = new ChangeListener()
-	{
-		@Override
-		public void stateChanged(ChangeEvent e)
-		{
-			int panes = 2;
-			if (viewer.bytecodeViewPanel3 != null)
-				panes = 3;
+    public final ChangeListener viewportListener = new ChangeListener()
+    {
+        @Override
+        public void stateChanged(ChangeEvent e)
+        {
+            int panes = 2;
+            if (viewer.bytecodeViewPanel3 != null)
+                panes = 3;
 
-			if (BytecodeViewer.viewer.synchronizedViewing.isSelected())
-			{
-				if (updateUpdaterTextArea.isShowing() && (updateUpdaterTextArea.hasFocus() || updateUpdaterTextArea.getMousePosition() != null))
-				{
-					int caretLine = updateUpdaterTextArea.getCaretLineNumber();
-					int maxViewLine = ClassViewer.getMaxViewLine(updateUpdaterTextArea);
-					int activeViewLine = ClassViewer.getViewLine(updateUpdaterTextArea);
-					int activeLine = (activeViewLine == maxViewLine && caretLine > maxViewLine) ? caretLine :
-							activeViewLine;
-					int activeLineDelta = -1;
-					MethodParser.Method activeMethod = null;
-					MethodParser activeMethods = viewer.methods.get(bytecodeViewPanel.panelIndex);
-					if (activeMethods != null)
-					{
-						int activeMethodLine = activeMethods.findActiveMethod(activeLine);
-						if (activeMethodLine != -1)
-						{
-							activeLineDelta = activeLine - activeMethodLine;
-							activeMethod = activeMethods.getMethod(activeMethodLine);
-							ClassViewer.selectMethod(updateUpdaterTextArea, activeMethodLine);
-						}
-					}
-					for (int i = 0; i < panes; i++)
-					{
-						if (i != bytecodeViewPanel.panelIndex)
-						{
-							int setLine = -1;
+            if (BytecodeViewer.viewer.synchronizedViewing.isSelected())
+            {
+                if (updateUpdaterTextArea.isShowing() && (updateUpdaterTextArea.hasFocus() || updateUpdaterTextArea.getMousePosition() != null))
+                {
+                    int caretLine = updateUpdaterTextArea.getCaretLineNumber();
+                    int maxViewLine = ClassViewer.getMaxViewLine(updateUpdaterTextArea);
+                    int activeViewLine = ClassViewer.getViewLine(updateUpdaterTextArea);
+                    int activeLine = (activeViewLine == maxViewLine && caretLine > maxViewLine) ? caretLine :
+                            activeViewLine;
+                    int activeLineDelta = -1;
+                    MethodParser.Method activeMethod = null;
+                    MethodParser activeMethods = viewer.methods.get(bytecodeViewPanel.panelIndex);
+                    if (activeMethods != null)
+                    {
+                        int activeMethodLine = activeMethods.findActiveMethod(activeLine);
+                        if (activeMethodLine != -1)
+                        {
+                            activeLineDelta = activeLine - activeMethodLine;
+                            activeMethod = activeMethods.getMethod(activeMethodLine);
+                            ClassViewer.selectMethod(updateUpdaterTextArea, activeMethodLine);
+                        }
+                    }
+                    for (int i = 0; i < panes; i++)
+                    {
+                        if (i != bytecodeViewPanel.panelIndex)
+                        {
+                            int setLine = -1;
 
-							RSyntaxTextArea area = null;
-							switch (i)
-							{
-								case 0:
-									area = viewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
-									break;
-								case 1:
-									area = viewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
-									break;
-								case 2:
-									area = viewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
-									break;
-							}
+                            RSyntaxTextArea area = null;
+                            switch (i)
+                            {
+                                case 0:
+                                    area = viewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
+                                    break;
+                                case 1:
+                                    area = viewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
+                                    break;
+                                case 2:
+                                    area = viewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
+                                    break;
+                            }
 
-							if (area != null)
-							{
-								if (activeMethod != null && activeLineDelta >= 0)
-								{
-									MethodParser methods = viewer.methods.get(i);
-									if (methods != null)
-									{
-										int methodLine = methods.findMethod(activeMethod);
-										if (methodLine != -1)
-										{
-											int viewLine = ClassViewer.getViewLine(area);
-											if (activeLineDelta != viewLine - methodLine)
-											{
-												setLine = methodLine + activeLineDelta;
-											}
-										}
-									}
-								} else if (activeLine != ClassViewer.getViewLine(area))
-								{
-									setLine = activeLine;
-								}
-								if (setLine >= 0)
-								{
-									ClassViewer.setViewLine(area, setLine);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	};
+                            if (area != null)
+                            {
+                                if (activeMethod != null && activeLineDelta >= 0)
+                                {
+                                    MethodParser methods = viewer.methods.get(i);
+                                    if (methods != null)
+                                    {
+                                        int methodLine = methods.findMethod(activeMethod);
+                                        if (methodLine != -1)
+                                        {
+                                            int viewLine = ClassViewer.getViewLine(area);
+                                            if (activeLineDelta != viewLine - methodLine)
+                                            {
+                                                setLine = methodLine + activeLineDelta;
+                                            }
+                                        }
+                                    }
+                                } else if (activeLine != ClassViewer.getViewLine(area))
+                                {
+                                    setLine = activeLine;
+                                }
+                                if (setLine >= 0)
+                                {
+                                    ClassViewer.setViewLine(area, setLine);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
 
-	public void synchronizePane()
-	{
-		if (bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER
-				|| bytecodeViewPanel.decompiler == Decompiler.NONE)
-			return;
+    public void synchronizePane()
+    {
+        if (bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER
+                || bytecodeViewPanel.decompiler == Decompiler.NONE)
+            return;
 
-		SwingUtilities.invokeLater(() ->
-		{
-			JViewport viewport = updateUpdaterTextArea.getScrollPane().getViewport();
-			viewport.addChangeListener(viewportListener);
-			updateUpdaterTextArea.addCaretListener(caretListener);
-		});
+        SwingUtilities.invokeLater(() ->
+        {
+            JViewport viewport = updateUpdaterTextArea.getScrollPane().getViewport();
+            viewport.addChangeListener(viewportListener);
+            updateUpdaterTextArea.addCaretListener(caretListener);
+        });
 
-		final MethodParser methods = viewer.methods.get(bytecodeViewPanel.panelIndex);
-		for (int i = 0; i < updateUpdaterTextArea.getLineCount(); i++)
-		{
-			String lineText = updateUpdaterTextArea.getLineText(i);
-			Matcher regexMatcher = MethodParser.regex.matcher(lineText);
-			if (regexMatcher.find())
-			{
-				String methodName = regexMatcher.group("name");
-				String methodParams = regexMatcher.group("params");
-				methods.addMethod(i, methodName, methodParams);
-			}
-		}
+        final MethodParser methods = viewer.methods.get(bytecodeViewPanel.panelIndex);
+        for (int i = 0; i < updateUpdaterTextArea.getLineCount(); i++)
+        {
+            String lineText = updateUpdaterTextArea.getLineText(i);
+            Matcher regexMatcher = MethodParser.regex.matcher(lineText);
+            if (regexMatcher.find())
+            {
+                String methodName = regexMatcher.group("name");
+                String methodParams = regexMatcher.group("params");
+                methods.addMethod(i, methodName, methodParams);
+            }
+        }
 
-		//TODO fix this
-		if (BytecodeViewer.viewer.showClassMethods.isSelected())
-		{
-			if (!methods.isEmpty())
-			{
-				methodsList = new JComboBox<>();
+        //TODO fix this
+        if (BytecodeViewer.viewer.showClassMethods.isSelected())
+        {
+            if (!methods.isEmpty())
+            {
+                methodsList = new JComboBox<>();
 
-				for (Integer line : methods.getMethodsLines())
-					methodsList.addItem(line);
+                for (Integer line : methods.getMethodsLines())
+                    methodsList.addItem(line);
 
-				methodsList.setRenderer(new MethodsRenderer(this));
-				methodsList.addActionListener(e ->
-				{
-					int line = (int) Objects.requireNonNull(methodsList.getSelectedItem());
+                methodsList.setRenderer(new MethodsRenderer(this));
+                methodsList.addActionListener(e ->
+                {
+                    int line = (int) Objects.requireNonNull(methodsList.getSelectedItem());
 
-					RSyntaxTextArea area = null;
-					switch (bytecodeViewPanel.panelIndex)
-					{
-						case 0:
-							area = viewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
-							break;
-						case 1:
-							area = viewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
-							break;
-						case 2:
-							area = viewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
-							break;
-					}
+                    RSyntaxTextArea area = null;
+                    switch (bytecodeViewPanel.panelIndex)
+                    {
+                        case 0:
+                            area = viewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
+                            break;
+                        case 1:
+                            area = viewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
+                            break;
+                        case 2:
+                            area = viewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
+                            break;
+                    }
 
-					if (area != null)
-						ClassViewer.selectMethod(area, line);
-				});
+                    if (area != null)
+                        ClassViewer.selectMethod(area, line);
+                });
 
-				JPanel panel = new JPanel(new BorderLayout());
-				panel.add(updateUpdaterTextArea.getScrollPane().getColumnHeader().getComponent(0), BorderLayout.NORTH);
-				panel.add(methodsList, BorderLayout.SOUTH);
-				methodsList.setBackground(BLANK_COLOR);
+                JPanel panel = new JPanel(new BorderLayout());
+                panel.add(updateUpdaterTextArea.getScrollPane().getColumnHeader().getComponent(0), BorderLayout.NORTH);
+                panel.add(methodsList, BorderLayout.SOUTH);
+                methodsList.setBackground(BLANK_COLOR);
 
-				SwingUtilities.invokeLater(() ->
-				{
-					updateUpdaterTextArea.getScrollPane().getColumnHeader().removeAll();
-					updateUpdaterTextArea.getScrollPane().getColumnHeader().add(panel);
-				});
-			}
-		}
-	}
+                SwingUtilities.invokeLater(() ->
+                {
+                    updateUpdaterTextArea.getScrollPane().getColumnHeader().removeAll();
+                    updateUpdaterTextArea.getScrollPane().getColumnHeader().add(panel);
+                });
+            }
+        }
+    }
 
-	public void buildTextArea(Decompiler decompiler, String decompiledSource)
-	{
-		updateUpdaterTextArea = new SearchableRSyntaxTextArea();
+    public void buildTextArea(Decompiler decompiler, String decompiledSource)
+    {
+        updateUpdaterTextArea = new SearchableRSyntaxTextArea();
 
-		Configuration.rstaTheme.apply(updateUpdaterTextArea);
-		bytecodeViewPanel.add(updateUpdaterTextArea.getTextAreaSearchPanel(), BorderLayout.NORTH);
-		bytecodeViewPanel.add(updateUpdaterTextArea.getScrollPane());
+        Configuration.rstaTheme.apply(updateUpdaterTextArea);
+        bytecodeViewPanel.add(updateUpdaterTextArea.getTextAreaSearchPanel(), BorderLayout.NORTH);
+        bytecodeViewPanel.add(updateUpdaterTextArea.getScrollPane());
 
-		bytecodeViewPanel.textArea = updateUpdaterTextArea;
+        bytecodeViewPanel.textArea = updateUpdaterTextArea;
 
-		bytecodeViewPanel.textArea.setMarkOccurrencesColor(Color.ORANGE);
-		bytecodeViewPanel.textArea.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-		bytecodeViewPanel.textArea.getCaret().setVisible(true);
-		bytecodeViewPanel.textArea.getCaret().setBlinkRate(0);
-		bytecodeViewPanel.textArea.setHighlighter(new RSyntaxTextAreaHighlighterEx());
+        bytecodeViewPanel.textArea.setMarkOccurrencesColor(Color.ORANGE);
+        bytecodeViewPanel.textArea.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+        bytecodeViewPanel.textArea.getCaret().setVisible(true);
+        bytecodeViewPanel.textArea.getCaret().setBlinkRate(0);
+        bytecodeViewPanel.textArea.setHighlighter(new RSyntaxTextAreaHighlighterEx());
 
-		if (bytecodeViewPanel.decompiler != Decompiler.BYTECODE_DISASSEMBLER)
-		{
-			bytecodeViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-		} else
-		{
-			AbstractTokenMakerFactory tokenMakerFactory = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
-			tokenMakerFactory.putMapping("text/javaBytecode", "the.bytecode.club.bytecodeviewer.decompilers.bytecode.JavaBytecodeTokenMaker");
-			bytecodeViewPanel.textArea.setSyntaxEditingStyle("text/javaBytecode");
-		}
-		bytecodeViewPanel.textArea.setCodeFoldingEnabled(true);
-		bytecodeViewPanel.textArea.setText(decompiledSource);
-		bytecodeViewPanel.textArea.setCaretPosition(0);
-		bytecodeViewPanel.textArea.setEditable(isPanelEditable);
+        if (bytecodeViewPanel.decompiler != Decompiler.BYTECODE_DISASSEMBLER)
+        {
+            bytecodeViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+        } else
+        {
+            AbstractTokenMakerFactory tokenMakerFactory = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
+            tokenMakerFactory.putMapping("text/javaBytecode", "the.bytecode.club.bytecodeviewer.decompilers.bytecode.JavaBytecodeTokenMaker");
+            bytecodeViewPanel.textArea.setSyntaxEditingStyle("text/javaBytecode");
+        }
+        bytecodeViewPanel.textArea.setCodeFoldingEnabled(true);
+        bytecodeViewPanel.textArea.setText(decompiledSource);
+        bytecodeViewPanel.textArea.setCaretPosition(0);
+        bytecodeViewPanel.textArea.setEditable(isPanelEditable);
 
-		if (isPanelEditable && decompiler == Decompiler.SMALI_DISASSEMBLER)
-			bytecodeViewPanel.compiler = Compiler.SMALI_ASSEMBLER;
-		else if (isPanelEditable && decompiler == Decompiler.KRAKATAU_DISASSEMBLER)
-			bytecodeViewPanel.compiler = Compiler.KRAKATAU_ASSEMBLER;
+        if (isPanelEditable && decompiler == Decompiler.SMALI_DISASSEMBLER)
+            bytecodeViewPanel.compiler = Compiler.SMALI_ASSEMBLER;
+        else if (isPanelEditable && decompiler == Decompiler.KRAKATAU_DISASSEMBLER)
+            bytecodeViewPanel.compiler = Compiler.KRAKATAU_ASSEMBLER;
 
-		String editable = isPanelEditable ? " - " + EDITABLE : "";
-		bytecodeViewPanel.textArea.getTextAreaSearchPanel().getTitleHeader().setText(decompiler.getDecompilerName() + editable);
+        String editable = isPanelEditable ? " - " + EDITABLE : "";
+        bytecodeViewPanel.textArea.getTextAreaSearchPanel().getTitleHeader().setText(decompiler.getDecompilerName() + editable);
 
-		MyErrorStripe errorStripe = new MyErrorStripe(bytecodeViewPanel.textArea);
-		bytecodeViewPanel.add(errorStripe, BorderLayout.LINE_END);
+        MyErrorStripe errorStripe = new MyErrorStripe(bytecodeViewPanel.textArea);
+        bytecodeViewPanel.add(errorStripe, BorderLayout.LINE_END);
 
-		bytecodeViewPanel.revalidate();
-		bytecodeViewPanel.repaint();
+        bytecodeViewPanel.revalidate();
+        bytecodeViewPanel.repaint();
 
-		String classContainerName = viewer.resource.workingName + "-" + decompiler.getDecompilerName();
-		ClassFileContainer classFileContainer = viewer.classFiles.get(classContainerName);
-		bytecodeViewPanel.textArea.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_DOWN_MASK), "goToAction");
-		bytecodeViewPanel.textArea.getActionMap().put("goToAction", new GoToAction(classFileContainer));
+        String classContainerName = viewer.resource.workingName + "-" + decompiler.getDecompilerName();
+        ClassFileContainer classFileContainer = viewer.classFiles.get(classContainerName);
+        bytecodeViewPanel.textArea.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_DOWN_MASK), "goToAction");
+        bytecodeViewPanel.textArea.getActionMap().put("goToAction", new GoToAction(classFileContainer));
 
-		bytecodeViewPanel.textArea.addCaretListener(e -> {
-			if (bytecodeViewPanel.textArea.isFocusOwner())
-			{
-				RSyntaxTextAreaHighlighterEx highlighterEx = (RSyntaxTextAreaHighlighterEx) bytecodeViewPanel.textArea.getHighlighter();
-				highlighterEx.clearMarkOccurrencesHighlights();
-				RSyntaxTextArea textArea = (RSyntaxTextArea) e.getSource();
-				markOccurrences(textArea, viewer.classFiles.get(classContainerName), errorStripe);
-			}
-		});
-	}
+        bytecodeViewPanel.textArea.addCaretListener(e -> {
+            if (bytecodeViewPanel.textArea.isFocusOwner())
+            {
+                RSyntaxTextAreaHighlighterEx highlighterEx = (RSyntaxTextAreaHighlighterEx) bytecodeViewPanel.textArea.getHighlighter();
+                highlighterEx.clearMarkOccurrencesHighlights();
+                RSyntaxTextArea textArea = (RSyntaxTextArea) e.getSource();
+                markOccurrences(textArea, viewer.classFiles.get(classContainerName), errorStripe);
+            }
+        });
+    }
 
-	private void markOccurrences(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, MyErrorStripe errorStripe)
-	{
-		RSyntaxTextAreaHighlighterEx highlighterEx = (RSyntaxTextAreaHighlighterEx) textArea.getHighlighter();
-		Token token = textArea.modelToToken(textArea.getCaretPosition());
-		if (token == null)
-		{
-			highlighterEx.clearMarkOccurrencesHighlights();
-			errorStripe.refreshMarkers();
-			return;
-		}
+    private void markOccurrences(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, MyErrorStripe errorStripe)
+    {
+        RSyntaxTextAreaHighlighterEx highlighterEx = (RSyntaxTextAreaHighlighterEx) textArea.getHighlighter();
+        Token token = textArea.modelToToken(textArea.getCaretPosition());
+        if (token == null)
+        {
+            highlighterEx.clearMarkOccurrencesHighlights();
+            errorStripe.refreshMarkers();
+            return;
+        }
 
-		token = TokenUtil.getToken(textArea, token);
-		if (token == null)
-		{
-			highlighterEx.clearMarkOccurrencesHighlights();
-			errorStripe.refreshMarkers();
-			return;
-		}
+        token = TokenUtil.getToken(textArea, token);
+        if (token == null)
+        {
+            highlighterEx.clearMarkOccurrencesHighlights();
+            errorStripe.refreshMarkers();
+            return;
+        }
 
-		int line = textArea.getCaretLineNumber() + 1;
-		int column = textArea.getCaretOffsetFromLineStart();
-		Token finalToken = token;
+        int line = textArea.getCaretLineNumber() + 1;
+        int column = textArea.getCaretOffsetFromLineStart();
+        Token finalToken = token;
 
 		/*
 		Fields
 		 */
-		markField(textArea, classFileContainer, line, column, finalToken, highlighterEx);
+        markField(textArea, classFileContainer, line, column, finalToken, highlighterEx);
 
 		/*
 		Method parameters
 		 */
-		markMethodParameter(textArea, classFileContainer, line, column, finalToken, highlighterEx);
+        markMethodParameter(textArea, classFileContainer, line, column, finalToken, highlighterEx);
 
 		/*
 		Method local variables
 		 */
-		markMethodLocalVariable(textArea, classFileContainer, line, column, finalToken, highlighterEx);
+        markMethodLocalVariable(textArea, classFileContainer, line, column, finalToken, highlighterEx);
 
-		errorStripe.refreshMarkers();
-	}
+        errorStripe.refreshMarkers();
+    }
 
-	private void markField(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
-	{
-		classFileContainer.fieldMembers.values().forEach(fields -> fields.forEach(field -> {
-			String owner;
-			if (field.line == line && field.columnStart - 1 <= column && field.columnEnd >= column)
-			{
-				owner = field.owner;
-				try
-				{
-					Element root = textArea.getDocument().getDefaultRootElement();
-					for (
-							ClassFieldLocation location :
-							classFileContainer.getFieldLocationsFor(finalToken.getLexeme())
-					)
-					{
-						if (Objects.equals(owner, location.owner))
-						{
-							int startOffset = root
-									.getElement(location.line - 1)
-									.getStartOffset() + (location.columnStart - 1);
-							int endOffset = root
-									.getElement(location.line - 1)
-									.getStartOffset() + (location.columnEnd - 1);
-							highlighterEx.addMarkedOccurrenceHighlight(
-									startOffset, endOffset, new SmartHighlightPainter()
-							);
-						}
-					}
-				} catch (BadLocationException ex)
-				{
-					throw new RuntimeException(ex);
-				}
-			}
-		}));
-	}
+    private void markField(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    {
+        classFileContainer.fieldMembers.values().forEach(fields -> fields.forEach(field -> {
+            if (field.line == line && field.columnStart - 1 <= column && field.columnEnd >= column)
+            {
+                try
+                {
+                    Element root = textArea.getDocument().getDefaultRootElement();
+                    for (
+                            ClassFieldLocation location :
+                            classFileContainer.getFieldLocationsFor(finalToken.getLexeme())
+                    )
+                    {
+                        int startOffset = root
+                                .getElement(location.line - 1)
+                                .getStartOffset() + (location.columnStart - 1);
+                        int endOffset = root
+                                .getElement(location.line - 1)
+                                .getStartOffset() + (location.columnEnd - 1);
+                        highlighterEx.addMarkedOccurrenceHighlight(
+                                startOffset, endOffset, new SmartHighlightPainter()
+                        );
+                    }
+                } catch (BadLocationException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }));
+    }
 
-	/**
-	 * Search through the text area and mark all occurrences that match the selected token.
-	 *
-	 * @param textArea           the text area
-	 * @param classFileContainer the container
-	 * @param line               the caret line
-	 * @param column             the caret column
-	 * @param finalToken         the token
-	 * @param highlighterEx      the highlighter
-	 */
-	private static void markMethodParameter(
-			RSyntaxTextArea textArea,
-			ClassFileContainer classFileContainer,
-			int line,
-			int column,
-			Token finalToken,
-			RSyntaxTextAreaHighlighterEx highlighterEx
-	)
-	{
-		classFileContainer.methodParameterMembers.values().forEach(parameters -> parameters.forEach(parameter -> {
-			String method;
-			if (parameter.line == line && parameter.columnStart - 1 <= column && parameter.columnEnd >= column)
-			{
-				method = parameter.method;
-				try
-				{
-					Element root = textArea.getDocument().getDefaultRootElement();
-					for (
-							ClassParameterLocation location :
-							classFileContainer.getParameterLocationsFor(finalToken.getLexeme())
-					)
-					{
-						if (Objects.equals(method, location.method))
-						{
-							int startOffset = root
-									.getElement(location.line - 1)
-									.getStartOffset() + (location.columnStart - 1);
-							int endOffset = root
-									.getElement(location.line - 1)
-									.getStartOffset() + (location.columnEnd - 1);
+    /**
+     * Search through the text area and mark all occurrences that match the selected token.
+     *
+     * @param textArea           the text area
+     * @param classFileContainer the container
+     * @param line               the caret line
+     * @param column             the caret column
+     * @param finalToken         the token
+     * @param highlighterEx      the highlighter
+     */
+    private static void markMethodParameter(
+            RSyntaxTextArea textArea,
+            ClassFileContainer classFileContainer,
+            int line,
+            int column,
+            Token finalToken,
+            RSyntaxTextAreaHighlighterEx highlighterEx
+    )
+    {
+        classFileContainer.methodParameterMembers.values().forEach(parameters -> parameters.forEach(parameter -> {
+            String method;
+            if (parameter.line == line && parameter.columnStart - 1 <= column && parameter.columnEnd >= column)
+            {
+                method = parameter.method;
+                try
+                {
+                    Element root = textArea.getDocument().getDefaultRootElement();
+                    for (
+                            ClassParameterLocation location :
+                            classFileContainer.getParameterLocationsFor(finalToken.getLexeme())
+                    )
+                    {
+                        if (Objects.equals(method, location.method))
+                        {
+                            int startOffset = root
+                                    .getElement(location.line - 1)
+                                    .getStartOffset() + (location.columnStart - 1);
+                            int endOffset = root
+                                    .getElement(location.line - 1)
+                                    .getStartOffset() + (location.columnEnd - 1);
 
-							highlighterEx.addMarkedOccurrenceHighlight(
-									startOffset, endOffset, new SmartHighlightPainter()
-							);
-						}
-					}
-				} catch (BadLocationException ex)
-				{
-					throw new RuntimeException(ex);
-				}
-			}
-		}));
-	}
+                            highlighterEx.addMarkedOccurrenceHighlight(
+                                    startOffset, endOffset, new SmartHighlightPainter()
+                            );
+                        }
+                    }
+                } catch (BadLocationException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }));
+    }
 
-	/**
-	 * Search through the text area and mark all occurrences that match the selected token.
-	 *
-	 * @param textArea           the text area
-	 * @param classFileContainer the container
-	 * @param line               the caret line
-	 * @param column             the caret column
-	 * @param finalToken         the token
-	 * @param highlighterEx      the highlighter
-	 */
-	private static void markMethodLocalVariable(
-			RSyntaxTextArea textArea,
-			ClassFileContainer classFileContainer,
-			int line,
-			int column,
-			Token finalToken,
-			RSyntaxTextAreaHighlighterEx highlighterEx
-	) {
-		classFileContainer.methodLocalMembers.values().forEach(localVariables -> localVariables.forEach(localVariable -> {
-			String method;
-			if (localVariable.line == line && localVariable.columnStart - 1 <= column && localVariable.columnEnd >= column) {
-				method = localVariable.method;
-				try {
-					Element root = textArea.getDocument().getDefaultRootElement();
-					for (
-							ClassLocalVariableLocation location :
-							classFileContainer.getLocalLocationsFor(finalToken.getLexeme())
-					) {
-						if (Objects.equals(method, location.method)) {
-							int startOffset = root
-									.getElement(location.line - 1)
-									.getStartOffset() + (location.columnStart - 1);
-							int endOffset = root
-									.getElement(location.line - 1)
-									.getStartOffset() + (location.columnEnd - 1);
+    /**
+     * Search through the text area and mark all occurrences that match the selected token.
+     *
+     * @param textArea           the text area
+     * @param classFileContainer the container
+     * @param line               the caret line
+     * @param column             the caret column
+     * @param finalToken         the token
+     * @param highlighterEx      the highlighter
+     */
+    private static void markMethodLocalVariable(
+            RSyntaxTextArea textArea,
+            ClassFileContainer classFileContainer,
+            int line,
+            int column,
+            Token finalToken,
+            RSyntaxTextAreaHighlighterEx highlighterEx
+    )
+    {
+        classFileContainer.methodLocalMembers.values().forEach(localVariables -> localVariables.forEach(localVariable -> {
+            String method;
+            if (localVariable.line == line && localVariable.columnStart - 1 <= column && localVariable.columnEnd >= column)
+            {
+                method = localVariable.method;
+                try
+                {
+                    Element root = textArea.getDocument().getDefaultRootElement();
+                    for (
+                            ClassLocalVariableLocation location :
+                            classFileContainer.getLocalLocationsFor(finalToken.getLexeme())
+                    )
+                    {
+                        if (Objects.equals(method, location.method))
+                        {
+                            int startOffset = root
+                                    .getElement(location.line - 1)
+                                    .getStartOffset() + (location.columnStart - 1);
+                            int endOffset = root
+                                    .getElement(location.line - 1)
+                                    .getStartOffset() + (location.columnEnd - 1);
 
-							highlighterEx.addMarkedOccurrenceHighlight(
-									startOffset, endOffset, new SmartHighlightPainter()
-							);
-						}
-					}
-				} catch (BadLocationException ex) {
-					throw new RuntimeException(ex);
-				}
-			}
-		}));
-	}
+                            highlighterEx.addMarkedOccurrenceHighlight(
+                                    startOffset, endOffset, new SmartHighlightPainter()
+                            );
+                        }
+                    }
+                } catch (BadLocationException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }));
+    }
 }

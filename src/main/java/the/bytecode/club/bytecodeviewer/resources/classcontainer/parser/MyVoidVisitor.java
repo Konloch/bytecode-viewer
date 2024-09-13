@@ -2,9 +2,11 @@ package the.bytecode.club.bytecodeviewer.resources.classcontainer.parser;
 
 import com.github.javaparser.Range;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.declarations.ResolvedValueDeclaration;
@@ -14,6 +16,7 @@ import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.Class
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassMethodLocation;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassParameterLocation;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -34,7 +37,7 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
 
     private String getOwner()
     {
-        return this.classFileContainer.className.substring(this.classFileContainer.className.lastIndexOf('.') + 1);
+        return this.classFileContainer.getName();
     }
 
     private String getMethod(CallableDeclaration<?> method)
@@ -66,6 +69,17 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         });
     }
 
+    @Override
+    public void visit(ImportDeclaration n, Object arg)
+    {
+        super.visit(n, arg);
+        Name class_ = n.getName();
+        String className = class_.getIdentifier();
+        String package_ = Objects.requireNonNull(class_.getQualifier().orElse(null)).asString();
+        package_ = package_.replace('.', '/');
+        this.classFileContainer.putImport(className, package_);
+    }
+
     /**
      * Visit all {@link FieldAccessExpr}s.
      * <p>
@@ -85,7 +99,6 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         int line = range.begin.line;
         int columnStart = range.begin.column;
         int columnEnd = range.end.column;
-        this.classFileContainer.putField(fieldName, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
 
         if (n.hasScope())
         {
@@ -101,15 +114,15 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (scope instanceof NameExpr)
                 {
                     NameExpr nameExpr = (NameExpr) scope;
+                    SimpleName simpleName1 = nameExpr.getName();
+                    String name1 = simpleName1.getIdentifier();
+                    Range range1 = nameExpr.getRange().get();
+                    int line1 = range1.begin.line;
+                    int columnStart1 = range1.begin.column;
+                    int columnEnd1 = range1.end.column;
                     try
                     {
                         ResolvedValueDeclaration vd = nameExpr.resolve();
-                        SimpleName simpleName1 = nameExpr.getName();
-                        String name1 = simpleName1.getIdentifier();
-                        Range range1 = nameExpr.getRange().get();
-                        int line1 = range1.begin.line;
-                        int columnStart1 = range1.begin.column;
-                        int columnEnd1 = range1.end.column;
                         if (vd.isField())
                         {
                             this.classFileContainer.putField(name1, new ClassFieldLocation(getOwner(), "reference", line1, columnStart1, columnEnd1 + 1));
@@ -122,10 +135,18 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                         }
                     } catch (UnsolvedSymbolException ignore)
                     {
+                        this.classFileContainer.putField(fieldName, new ClassFieldLocation(name1, "reference", line, columnStart, columnEnd + 1));
                     }
                 }
             }
         }
+    }
+
+    @Override
+    public void visit(ClassOrInterfaceType n, Object arg)
+    {
+        super.visit(n, arg);
+//        System.err.println(n.getName().getIdentifier());
     }
 
     /**
