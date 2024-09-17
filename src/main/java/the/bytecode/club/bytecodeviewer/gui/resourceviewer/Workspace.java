@@ -24,6 +24,7 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContainer;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
@@ -33,12 +34,9 @@ import the.bytecode.club.uikit.tabpopup.closer.PopupMenuTabsCloseConfiguration;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-
-import static the.bytecode.club.bytecodeviewer.Constants.BLOCK_TAB_MENU;
 
 /**
  * This pane contains all the resources, as tabs.
@@ -54,6 +52,7 @@ public class Workspace extends TranslatedVisibleComponent {
 	public final JPanel buttonPanel;
 	public final JButton refreshClass;
 	public final Set<String> openedTabs = new HashSet<>();
+	public HashMap<String, ClassFileContainer> classFiles = new HashMap<>();
 
 	public Workspace() {
 		super("Workspace", TranslatedComponents.WORK_SPACE);

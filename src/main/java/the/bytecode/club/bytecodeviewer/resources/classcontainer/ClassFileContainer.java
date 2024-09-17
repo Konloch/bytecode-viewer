@@ -57,6 +57,10 @@ public class ClassFileContainer
 		return this.className.substring(this.className.lastIndexOf('.') + 1);
 	}
 
+	public String getDecompiler() {
+		return getName().substring(6);
+	}
+
 	public String getParentContainer()
 	{
 		return this.parentContainer;

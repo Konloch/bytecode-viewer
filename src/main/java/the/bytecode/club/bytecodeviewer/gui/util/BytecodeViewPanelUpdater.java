@@ -72,6 +72,8 @@ public class BytecodeViewPanelUpdater implements Runnable
     private final JButton button;
     private final byte[] classBytes;
 
+    public MarkerCaretListener markerCaretListener;
+    private MyErrorStripe errorStripe;
     public SearchableRSyntaxTextArea updateUpdaterTextArea;
     public JComboBox<Integer> methodsList;
     public boolean isPanelEditable;
@@ -118,7 +120,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                     if (!container.hasBeenParsed)
                     {
                         container.parse();
-                        viewer.classFiles.put(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), container);
+                        BytecodeViewer.viewer.workPane.classFiles.put(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), container);
                         container.hasBeenParsed = true;
                     }
 
@@ -399,9 +401,6 @@ public class BytecodeViewPanelUpdater implements Runnable
         bytecodeViewPanel.textArea = updateUpdaterTextArea;
 
         bytecodeViewPanel.textArea.setMarkOccurrencesColor(Color.ORANGE);
-        bytecodeViewPanel.textArea.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-        bytecodeViewPanel.textArea.getCaret().setVisible(true);
-        bytecodeViewPanel.textArea.getCaret().setBlinkRate(0);
         bytecodeViewPanel.textArea.setHighlighter(new RSyntaxTextAreaHighlighterEx());
 
         if (bytecodeViewPanel.decompiler != Decompiler.BYTECODE_DISASSEMBLER)
@@ -426,26 +425,19 @@ public class BytecodeViewPanelUpdater implements Runnable
         String editable = isPanelEditable ? " - " + EDITABLE : "";
         bytecodeViewPanel.textArea.getTextAreaSearchPanel().getTitleHeader().setText(decompiler.getDecompilerName() + editable);
 
-        MyErrorStripe errorStripe = new MyErrorStripe(bytecodeViewPanel.textArea);
+        errorStripe = new MyErrorStripe(bytecodeViewPanel.textArea);
         bytecodeViewPanel.add(errorStripe, BorderLayout.LINE_END);
 
         bytecodeViewPanel.revalidate();
         bytecodeViewPanel.repaint();
 
         String classContainerName = viewer.resource.workingName + "-" + decompiler.getDecompilerName();
-        ClassFileContainer classFileContainer = viewer.classFiles.get(classContainerName);
+        ClassFileContainer classFileContainer = BytecodeViewer.viewer.workPane.classFiles.get(classContainerName);
         bytecodeViewPanel.textArea.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_DOWN_MASK), "goToAction");
         bytecodeViewPanel.textArea.getActionMap().put("goToAction", new GoToAction(classFileContainer));
 
-        bytecodeViewPanel.textArea.addCaretListener(e -> {
-            if (bytecodeViewPanel.textArea.isFocusOwner())
-            {
-                RSyntaxTextAreaHighlighterEx highlighterEx = (RSyntaxTextAreaHighlighterEx) bytecodeViewPanel.textArea.getHighlighter();
-                highlighterEx.clearMarkOccurrencesHighlights();
-                RSyntaxTextArea textArea = (RSyntaxTextArea) e.getSource();
-                markOccurrences(textArea, viewer.classFiles.get(classContainerName), errorStripe);
-            }
-        });
+        markerCaretListener = new MarkerCaretListener(classContainerName);
+        bytecodeViewPanel.textArea.addCaretListener(markerCaretListener);
     }
 
     private void markOccurrences(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, MyErrorStripe errorStripe)
@@ -626,5 +618,25 @@ public class BytecodeViewPanelUpdater implements Runnable
                 }
             }
         }));
+    }
+
+    public class MarkerCaretListener implements CaretListener
+    {
+
+        private final String classContainerName;
+
+        public MarkerCaretListener(String classContainerName)
+        {
+            this.classContainerName = classContainerName;
+        }
+
+        @Override
+        public void caretUpdate(CaretEvent e)
+        {
+            SearchableRSyntaxTextArea textArea = (SearchableRSyntaxTextArea) e.getSource();
+            RSyntaxTextAreaHighlighterEx highlighterEx = (RSyntaxTextAreaHighlighterEx) bytecodeViewPanel.textArea.getHighlighter();
+            highlighterEx.clearMarkOccurrencesHighlights();
+            markOccurrences(textArea, BytecodeViewer.viewer.workPane.classFiles.get(classContainerName), errorStripe);
+        }
     }
 }

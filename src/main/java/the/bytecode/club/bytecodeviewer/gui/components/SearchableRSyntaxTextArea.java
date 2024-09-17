@@ -30,9 +30,7 @@ import the.bytecode.club.bytecodeviewer.util.JTextAreaUtils;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseWheelEvent;
+import java.awt.event.*;
 
 /**
  * Searching on an RSyntaxTextArea using swing highlighting
@@ -86,6 +84,24 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
 
             GlobalHotKeys.keyPressed(keyEvent);
         }));
+
+        setCursor(new Cursor(Cursor.TEXT_CURSOR));
+        getCaret().setBlinkRate(0);
+        getCaret().setVisible(true);
+        addFocusListener(new FocusAdapter()
+        {
+            @Override
+            public void focusGained(FocusEvent e)
+            {
+                getCaret().setVisible(true);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e)
+            {
+                getCaret().setVisible(true);
+            }
+        });
 
         final Font newFont = getFont().deriveFont((float) BytecodeViewer.viewer.getFontSize());
 

@@ -1,17 +1,20 @@
 package the.bytecode.club.bytecodeviewer.gui.components.actions;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.Token;
-import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
+import the.bytecode.club.bytecodeviewer.gui.util.BytecodeViewPanelUpdater;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContainer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassFieldLocation;
-import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.TokenUtil;
 
 import javax.swing.*;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.text.Element;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
 
 /**
  * Created by Bl3nd.
@@ -36,20 +39,14 @@ public class GoToAction extends AbstractAction
         container.fieldMembers.values().forEach(fields -> fields.forEach(field -> {
             if (field.line == line && field.columnStart - 1 <= column && field.columnEnd >= column)
             {
+                Element root = textArea.getDocument().getDefaultRootElement();
                 // Open the class that is associated with the field's owner.
                 if (!field.owner.equals(container.getName()))
                 {
-                    ResourceContainer resourceContainer = BytecodeViewer.getFileContainer(container.getParentContainer());
-                    if (resourceContainer != null)
-                    {
-                        String s = container.getImport(field.owner);
-                        BytecodeViewer.viewer.workPane.addClassResource(resourceContainer, s + ".class");
-                    }
-
+                    openFieldClass(field, textArea);
                     return;
                 }
 
-                Element root = textArea.getDocument().getDefaultRootElement();
                 ClassFieldLocation first = fields.get(0);
                 int startOffset = root.getElement(first.line - 1).getStartOffset() + (first.columnStart - 1);
                 textArea.setCaretPosition(startOffset);
@@ -99,5 +96,83 @@ public class GoToAction extends AbstractAction
                 }
             }
         }));
+    }
+
+    private void openFieldClass(ClassFieldLocation field, RSyntaxTextArea textArea)
+    {
+        String token = textArea.modelToToken(textArea.getCaretPosition()).getLexeme();
+        ResourceContainer resourceContainer = BytecodeViewer.getFileContainer(container.getParentContainer());
+        if (resourceContainer != null)
+        {
+            String s = container.getImport(field.owner);
+            BytecodeViewer.viewer.workPane.addClassResource(resourceContainer, s + ".class");
+            ClassViewer activeResource = (ClassViewer) BytecodeViewer.viewer.workPane.getActiveResource();
+            HashMap<String, ClassFileContainer> classFiles = BytecodeViewer.viewer.workPane.classFiles;
+            Thread thread = new Thread(() -> {
+                try
+                {
+                    BytecodeViewer.updateBusyStatus(true);
+                    Thread.sleep(1000);
+                } catch (InterruptedException e)
+                {
+                    throw new RuntimeException(e);
+                } finally
+                {
+                    BytecodeViewer.updateBusyStatus(false);
+                }
+
+                String s2 = activeResource.resource.workingName + "-" + this.container.getDecompiler();
+                ClassFileContainer classFileContainer = classFiles.get(s2);
+                classFileContainer.fieldMembers.forEach((field1, field2) -> {
+                    if (field1.equals(token))
+                    {
+                        field2.forEach(classFieldLocation -> {
+                            if (classFieldLocation.type.equals("declaration"))
+                            {
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    BytecodeViewPanel panel = activeResource.getPanel(i);
+                                    if (panel.textArea != null)
+                                    {
+                                        if (panel.decompiler.getDecompilerName().equals(this.container.getDecompiler()))
+                                        {
+                                            Element root = panel.textArea.getDocument().getDefaultRootElement();
+                                            int startOffset = root.getElement(classFieldLocation.line - 1).getStartOffset() + (classFieldLocation.columnStart - 1);
+                                            panel.textArea.setCaretPosition(startOffset);
+                                            for (CaretListener caretListener : panel.textArea.getCaretListeners())
+                                            {
+                                                if (caretListener instanceof BytecodeViewPanelUpdater.MarkerCaretListener)
+                                                {
+                                                    BytecodeViewPanelUpdater.MarkerCaretListener markerCaretListener = (BytecodeViewPanelUpdater.MarkerCaretListener) caretListener;
+                                                    markerCaretListener.caretUpdate(new CaretEvent(panel.textArea)
+                                                    {
+                                                        @Override
+                                                        public int getDot()
+                                                        {
+                                                            return panel.textArea.getCaret().getDot();
+                                                        }
+
+                                                        @Override
+                                                        public int getMark()
+                                                        {
+                                                            return 0;
+                                                        }
+                                                    });
+                                                }
+                                            }
+
+                                            panel.textArea.requestFocusInWindow();
+
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+            thread.start();
+        }
     }
 }

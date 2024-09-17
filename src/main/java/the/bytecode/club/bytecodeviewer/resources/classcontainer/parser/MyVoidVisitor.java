@@ -1312,6 +1312,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         }
     }
 
+    /**
+     * Visit all {@link LambdaExpr}'s.
+     *
+     * @param n The current {@code LambdaExpr}
+     * @param arg Don't worry about it.
+     */
     @Override
     public void visit(LambdaExpr n, Object arg)
     {
@@ -1335,6 +1341,27 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(finalMethod), "declaration", line, columnStart, columnEnd + 1));
             });
         }
+    }
+
+    /**
+     * Visit all {@link EnumDeclaration}'s.
+     *
+     * @param n   The current {@code EnumDeclaration}
+     * @param arg Don't worry about it.
+     */
+    @Override
+    public void visit(EnumDeclaration n, Object arg)
+    {
+        super.visit(n, arg);
+        n.getEntries().forEach(entry -> {
+            SimpleName simpleName = entry.getName();
+            String name = simpleName.getIdentifier();
+            Range range = simpleName.getRange().get();
+            int line = range.begin.line;
+            int columnStart = range.begin.column;
+            int columnEnd = range.end.column;
+            this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "declaration", line, columnStart, columnEnd + 1));
+        });
     }
 
     /**
