@@ -3,14 +3,19 @@ package the.bytecode.club.bytecodeviewer.resources.classcontainer;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.resolution.TypeSolver;
 import com.github.javaparser.symbolsolver.JavaSymbolSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassFieldLocation;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassLocalVariableLocation;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassMethodLocation;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassParameterLocation;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.MyVoidVisitor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableMap;
@@ -34,12 +39,14 @@ public class ClassFileContainer
     public final String className;
     private final String content;
     private final String parentContainer;
+    private final String path;
 
-    public ClassFileContainer(String className, String content, String parentContainer)
+    public ClassFileContainer(String className, String content, ResourceContainer resourceContainer)
     {
         this.className = className;
         this.content = content;
-        this.parentContainer = parentContainer;
+        this.parentContainer = resourceContainer.name;
+        this.path = resourceContainer.file.getAbsolutePath();
     }
 
     /**
@@ -49,12 +56,16 @@ public class ClassFileContainer
     {
         try
         {
-            StaticJavaParser.getParserConfiguration().setSymbolResolver(new JavaSymbolSolver(new ReflectionTypeSolver()));
+            TypeSolver typeSolver = new CombinedTypeSolver(new ReflectionTypeSolver(), new JarTypeSolver(path));
+            StaticJavaParser.getParserConfiguration().setSymbolResolver(new JavaSymbolSolver(typeSolver));
             CompilationUnit compilationUnit = StaticJavaParser.parse(this.content);
             compilationUnit.accept(new MyVoidVisitor(this, compilationUnit), null);
         } catch (ParseProblemException e)
         {
             System.err.println("Parsing error!");
+        } catch (IOException e)
+        {
+            throw new RuntimeException(e);
         }
     }
 

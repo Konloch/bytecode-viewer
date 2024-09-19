@@ -6,10 +6,10 @@ import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.declarations.ResolvedValueDeclaration;
+import com.github.javaparser.resolution.types.ResolvedType;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContainer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassFieldLocation;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassLocalVariableLocation;
@@ -75,11 +75,14 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     public void visit(ImportDeclaration n, Object arg)
     {
         super.visit(n, arg);
-        Name class_ = n.getName();
-        String className = class_.getIdentifier();
-        String package_ = Objects.requireNonNull(class_.getQualifier().orElse(null)).asString();
-        package_ = package_.replace('.', '/');
-        this.classFileContainer.putImport(className, package_);
+        if (!n.isAsterisk())
+        {
+            Name class_ = n.getName();
+            String className = class_.getIdentifier();
+            String package_ = Objects.requireNonNull(class_.getQualifier().orElse(null)).asString();
+            package_ = package_.replace('.', '/');
+            this.classFileContainer.putImport(className, package_);
+        }
     }
 
     /**
@@ -137,18 +140,16 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                         }
                     } catch (UnsolvedSymbolException ignore)
                     {
+                        ResolvedType resolvedType = n.getSymbolResolver().calculateType(nameExpr);
+                        String qualifiedName = resolvedType.asReferenceType().getQualifiedName();
+                        String className = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1);
+                        String packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.'));
+                        this.classFileContainer.putImport(className, packageName.replace('.', '/'));
                         this.classFileContainer.putField(fieldName, new ClassFieldLocation(name1, "reference", line, columnStart, columnEnd + 1));
                     }
                 }
             }
         }
-    }
-
-    @Override
-    public void visit(ClassOrInterfaceType n, Object arg)
-    {
-        super.visit(n, arg);
-//        System.err.println(n.getName().getIdentifier());
     }
 
     /**

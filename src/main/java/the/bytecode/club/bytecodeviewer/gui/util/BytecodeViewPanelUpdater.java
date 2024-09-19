@@ -116,7 +116,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                     //perform decompiling inside of this thread
                     final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.resource.getResourceClassNode(), classBytes);
 
-                    ClassFileContainer container = new ClassFileContainer(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), decompiledSource, viewer.resource.container.name);
+                    ClassFileContainer container = new ClassFileContainer(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), decompiledSource, viewer.resource.container);
                     if (!container.hasBeenParsed)
                     {
                         container.parse();
