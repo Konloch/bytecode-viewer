@@ -17,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.util.HashMap;
 
 /**
+ * This action is triggered by a user typing (CTRL+B). This goes to a specific variables declaration whether it be in the opened class, or a class within the jar.
+ * <p>
  * Created by Bl3nd.
  * Date: 9/7/2024
  */
@@ -98,14 +100,20 @@ public class GoToAction extends AbstractAction
         }));
     }
 
+    /**
+     * Open a class that contains the declaration of a field.
+     *
+     * @param field    The field to jump to
+     * @param textArea The text area of the current class (not the class we are opening)
+     */
     private void openFieldClass(ClassFieldLocation field, RSyntaxTextArea textArea)
     {
         String token = textArea.modelToToken(textArea.getCaretPosition()).getLexeme();
         ResourceContainer resourceContainer = BytecodeViewer.getFileContainer(container.getParentContainer());
         if (resourceContainer != null)
         {
-            String s = container.getImport(field.owner);
-            BytecodeViewer.viewer.workPane.addClassResource(resourceContainer, s + ".class");
+            String className = container.getImport(field.owner);
+            BytecodeViewer.viewer.workPane.addClassResource(resourceContainer, className + ".class");
             ClassViewer activeResource = (ClassViewer) BytecodeViewer.viewer.workPane.getActiveResource();
             HashMap<String, ClassFileContainer> classFiles = BytecodeViewer.viewer.workPane.classFiles;
             Thread thread = new Thread(() -> {
@@ -121,8 +129,8 @@ public class GoToAction extends AbstractAction
                     BytecodeViewer.updateBusyStatus(false);
                 }
 
-                String s2 = activeResource.resource.workingName + "-" + this.container.getDecompiler();
-                ClassFileContainer classFileContainer = classFiles.get(s2);
+                String containerName = activeResource.resource.workingName + "-" + this.container.getDecompiler();
+                ClassFileContainer classFileContainer = classFiles.get(containerName);
                 classFileContainer.fieldMembers.forEach((field1, field2) -> {
                     if (field1.equals(token))
                     {
@@ -162,7 +170,6 @@ public class GoToAction extends AbstractAction
                                             }
 
                                             panel.textArea.requestFocusInWindow();
-
                                             break;
                                         }
                                     }

@@ -20,6 +20,8 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * Our custom visitor that allows us to get the information from JavaParser we need.
+ * <p>
  * Created by Bl3nd.
  * Date: 9/5/2024
  */
@@ -1315,7 +1317,7 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     /**
      * Visit all {@link LambdaExpr}'s.
      *
-     * @param n The current {@code LambdaExpr}
+     * @param n   The current {@code LambdaExpr}
      * @param arg Don't worry about it.
      */
     @Override
