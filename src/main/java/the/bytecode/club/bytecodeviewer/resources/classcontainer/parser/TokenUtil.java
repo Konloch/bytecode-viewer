@@ -24,6 +24,7 @@ public class TokenUtil
 				|| lexeme.equals(" ")
 				|| lexeme.equals(";")
 				|| lexeme.equals(",")
+				|| lexeme.equals(">")
 				? textArea.modelToToken(textArea.getCaretPosition() - 1)
 				: token;
 	}

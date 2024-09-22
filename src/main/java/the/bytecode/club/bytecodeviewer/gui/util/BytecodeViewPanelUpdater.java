@@ -34,9 +34,7 @@ import the.bytecode.club.bytecodeviewer.gui.hexviewer.HexViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContainer;
-import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassFieldLocation;
-import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassLocalVariableLocation;
-import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassParameterLocation;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.*;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.TokenUtil;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
 
@@ -117,7 +115,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                     final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.resource.getResourceClassNode(), classBytes);
 
                     ClassFileContainer container = new ClassFileContainer(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), decompiledSource, viewer.resource.container);
-                    if (!container.hasBeenParsed)
+                    if (!BytecodeViewer.viewer.workPane.classFiles.containsKey(viewer.resource.workingName + "-" + decompiler.getDecompilerName()))
                     {
                         container.parse();
                         BytecodeViewer.viewer.workPane.classFiles.put(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), container);
@@ -446,9 +444,13 @@ public class BytecodeViewPanelUpdater implements Runnable
         Token token = textArea.modelToToken(textArea.getCaretPosition());
         if (token == null)
         {
-            highlighterEx.clearMarkOccurrencesHighlights();
-            errorStripe.refreshMarkers();
-            return;
+            token = textArea.modelToToken(textArea.getCaretPosition() - 1);
+            if (token == null)
+            {
+                highlighterEx.clearMarkOccurrencesHighlights();
+                errorStripe.refreshMarkers();
+                return;
+            }
         }
 
         token = TokenUtil.getToken(textArea, token);
@@ -468,6 +470,11 @@ public class BytecodeViewPanelUpdater implements Runnable
 		 */
         markField(textArea, classFileContainer, line, column, finalToken, highlighterEx);
 
+        /*
+        Methods
+         */
+        markMethod(textArea, classFileContainer, line, column, finalToken, highlighterEx);
+
 		/*
 		Method parameters
 		 */
@@ -477,6 +484,11 @@ public class BytecodeViewPanelUpdater implements Runnable
 		Method local variables
 		 */
         markMethodLocalVariable(textArea, classFileContainer, line, column, finalToken, highlighterEx);
+
+        /*
+        Class references
+         */
+        markClasses(textArea, classFileContainer, line, column, finalToken, highlighterEx);
 
         errorStripe.refreshMarkers();
     }
@@ -489,24 +501,44 @@ public class BytecodeViewPanelUpdater implements Runnable
                 try
                 {
                     Element root = textArea.getDocument().getDefaultRootElement();
-                    for (
-                            ClassFieldLocation location :
-                            classFileContainer.getFieldLocationsFor(finalToken.getLexeme())
-                    )
+                    for (ClassFieldLocation location : classFileContainer.getFieldLocationsFor(finalToken.getLexeme()))
                     {
-                        int startOffset = root
-                                .getElement(location.line - 1)
-                                .getStartOffset() + (location.columnStart - 1);
-                        int endOffset = root
-                                .getElement(location.line - 1)
-                                .getStartOffset() + (location.columnEnd - 1);
-                        highlighterEx.addMarkedOccurrenceHighlight(
-                                startOffset, endOffset, new SmartHighlightPainter()
-                        );
+                        int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);
+                        int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
+                        highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                     }
                 } catch (BadLocationException ex)
                 {
                     throw new RuntimeException(ex);
+                }
+            }
+        }));
+    }
+
+    private void markMethod(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    {
+        classFileContainer.methodMembers.values().forEach(methods -> methods.forEach(method -> {
+            String owner;
+            String parameters;
+            if (method.line == line && method.columnStart - 1 <= column && method.columnEnd >= column)
+            {
+                owner = method.owner;
+                parameters = method.methodParameterTypes;
+                Element root = textArea.getDocument().getDefaultRootElement();
+                for (ClassMethodLocation location : classFileContainer.getMethodLocationsFor(finalToken.getLexeme()))
+                {
+                    try
+                    {
+                        if (Objects.equals(owner, location.owner) && Objects.equals(parameters, location.methodParameterTypes))
+                        {
+                            int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);
+                            int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
+                            highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
+                        }
+                    } catch (BadLocationException e)
+                    {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }));
@@ -522,14 +554,7 @@ public class BytecodeViewPanelUpdater implements Runnable
      * @param finalToken         the token
      * @param highlighterEx      the highlighter
      */
-    private static void markMethodParameter(
-            RSyntaxTextArea textArea,
-            ClassFileContainer classFileContainer,
-            int line,
-            int column,
-            Token finalToken,
-            RSyntaxTextAreaHighlighterEx highlighterEx
-    )
+    private static void markMethodParameter(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
         classFileContainer.methodParameterMembers.values().forEach(parameters -> parameters.forEach(parameter -> {
             String method;
@@ -539,23 +564,14 @@ public class BytecodeViewPanelUpdater implements Runnable
                 try
                 {
                     Element root = textArea.getDocument().getDefaultRootElement();
-                    for (
-                            ClassParameterLocation location :
-                            classFileContainer.getParameterLocationsFor(finalToken.getLexeme())
-                    )
+                    for (ClassParameterLocation location : classFileContainer.getParameterLocationsFor(finalToken.getLexeme()))
                     {
                         if (Objects.equals(method, location.method))
                         {
-                            int startOffset = root
-                                    .getElement(location.line - 1)
-                                    .getStartOffset() + (location.columnStart - 1);
-                            int endOffset = root
-                                    .getElement(location.line - 1)
-                                    .getStartOffset() + (location.columnEnd - 1);
+                            int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);
+                            int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
 
-                            highlighterEx.addMarkedOccurrenceHighlight(
-                                    startOffset, endOffset, new SmartHighlightPainter()
-                            );
+                            highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                         }
                     }
                 } catch (BadLocationException ex)
@@ -576,14 +592,7 @@ public class BytecodeViewPanelUpdater implements Runnable
      * @param finalToken         the token
      * @param highlighterEx      the highlighter
      */
-    private static void markMethodLocalVariable(
-            RSyntaxTextArea textArea,
-            ClassFileContainer classFileContainer,
-            int line,
-            int column,
-            Token finalToken,
-            RSyntaxTextAreaHighlighterEx highlighterEx
-    )
+    private static void markMethodLocalVariable(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
         classFileContainer.methodLocalMembers.values().forEach(localVariables -> localVariables.forEach(localVariable -> {
             String method;
@@ -593,23 +602,14 @@ public class BytecodeViewPanelUpdater implements Runnable
                 try
                 {
                     Element root = textArea.getDocument().getDefaultRootElement();
-                    for (
-                            ClassLocalVariableLocation location :
-                            classFileContainer.getLocalLocationsFor(finalToken.getLexeme())
-                    )
+                    for (ClassLocalVariableLocation location : classFileContainer.getLocalLocationsFor(finalToken.getLexeme()))
                     {
                         if (Objects.equals(method, location.method))
                         {
-                            int startOffset = root
-                                    .getElement(location.line - 1)
-                                    .getStartOffset() + (location.columnStart - 1);
-                            int endOffset = root
-                                    .getElement(location.line - 1)
-                                    .getStartOffset() + (location.columnEnd - 1);
+                            int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);
+                            int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
 
-                            highlighterEx.addMarkedOccurrenceHighlight(
-                                    startOffset, endOffset, new SmartHighlightPainter()
-                            );
+                            highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                         }
                     }
                 } catch (BadLocationException ex)
@@ -620,9 +620,29 @@ public class BytecodeViewPanelUpdater implements Runnable
         }));
     }
 
+    private void markClasses(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    {
+        classFileContainer.classReferences.values().forEach(classes -> classes.forEach(clazz -> {
+            if (clazz.line == line && clazz.columnStart - 1 <= column && clazz.columnEnd - 1 >= column)
+            {
+                try
+                {
+                    Element root = textArea.getDocument().getDefaultRootElement();
+                    for (ClassReferenceLocation location : classFileContainer.getClassReferenceLocationsFor(finalToken.getLexeme()))
+                    {
+                        int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);
+                        int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
+                        highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
+                    }
+                } catch (Exception ignored)
+                {
+                }
+            }
+        }));
+    }
+
     public class MarkerCaretListener implements CaretListener
     {
-
         private final String classContainerName;
 
         public MarkerCaretListener(String classContainerName)

@@ -9,10 +9,7 @@ import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSol
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassFieldLocation;
-import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassLocalVariableLocation;
-import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassMethodLocation;
-import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassParameterLocation;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.*;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.MyVoidVisitor;
 
 import java.io.IOException;
@@ -20,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableMap;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This is a container for a specific class. The container name is based on the actual class name and the decompiler used.
@@ -33,7 +31,7 @@ public class ClassFileContainer
     public transient NavigableMap<String, ArrayList<ClassParameterLocation>> methodParameterMembers = new TreeMap<>();
     public transient NavigableMap<String, ArrayList<ClassLocalVariableLocation>> methodLocalMembers = new TreeMap<>();
     public transient NavigableMap<String, ArrayList<ClassMethodLocation>> methodMembers = new TreeMap<>();
-    public transient NavigableMap<String, String> imports = new TreeMap<>();
+    public transient NavigableMap<String, ArrayList<ClassReferenceLocation>> classReferences = new TreeMap<>();
 
     public boolean hasBeenParsed = false;
     public final String className;
@@ -56,7 +54,7 @@ public class ClassFileContainer
     {
         try
         {
-            TypeSolver typeSolver = new CombinedTypeSolver(new ReflectionTypeSolver(), new JarTypeSolver(path));
+            TypeSolver typeSolver = new CombinedTypeSolver(new ReflectionTypeSolver(false), new JarTypeSolver(path));
             StaticJavaParser.getParserConfiguration().setSymbolResolver(new JavaSymbolSolver(typeSolver));
             CompilationUnit compilationUnit = StaticJavaParser.parse(this.content);
             compilationUnit.accept(new MyVoidVisitor(this, compilationUnit), null);
@@ -71,12 +69,12 @@ public class ClassFileContainer
 
     public String getName()
     {
-        return this.className.substring(this.className.lastIndexOf('.') + 1);
+        return this.className.substring(this.className.lastIndexOf('/') + 1, this.className.lastIndexOf('.'));
     }
 
     public String getDecompiler()
     {
-        return getName().substring(6);
+        return this.className.substring(this.className.lastIndexOf('-') + 1);
     }
 
     public String getParentContainer()
@@ -124,14 +122,28 @@ public class ClassFileContainer
         return methodMembers.getOrDefault(key, new ArrayList<>());
     }
 
-    public void putImport(String key, String value)
+    public void putClassReference(String key, ClassReferenceLocation value)
     {
-        this.imports.put(key, value);
+        this.classReferences.computeIfAbsent(key, v -> new ArrayList<>()).add(value);
     }
 
-    public String getImport(String key)
+    public List<ClassReferenceLocation> getClassReferenceLocationsFor(String key)
     {
-        String value = this.imports.get(key);
-        return value + "/" + key;
+        return classReferences.getOrDefault(key, null);
+    }
+
+    public String getClassForField(String fieldName)
+    {
+        AtomicReference<String> className = new AtomicReference<>("");
+        this.classReferences.forEach((s, v) -> {
+            v.forEach(classReferenceLocation -> {
+                if (classReferenceLocation.fieldName.equals(fieldName))
+                {
+                    className.set(classReferenceLocation.packagePath + "/" + s);
+                }
+            });
+        });
+
+        return className.get();
     }
 }
