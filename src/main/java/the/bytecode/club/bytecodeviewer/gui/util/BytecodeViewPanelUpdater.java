@@ -46,8 +46,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
 import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
@@ -433,6 +432,48 @@ public class BytecodeViewPanelUpdater implements Runnable
         ClassFileContainer classFileContainer = BytecodeViewer.viewer.workPane.classFiles.get(classContainerName);
         bytecodeViewPanel.textArea.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_DOWN_MASK), "goToAction");
         bytecodeViewPanel.textArea.getActionMap().put("goToAction", new GoToAction(classFileContainer));
+
+        bytecodeViewPanel.textArea.addMouseMotionListener(new MouseMotionAdapter()
+        {
+            @Override
+            public void mouseMoved(MouseEvent e)
+            {
+                if (e.isControlDown())
+                {
+                    RSyntaxTextArea textArea = (RSyntaxTextArea) e.getSource();
+                    Token token = textArea.viewToToken(e.getPoint());
+                    if (token != null)
+                    {
+                        String lexeme = token.getLexeme();
+                        if (classFileContainer.fieldMembers.containsKey(lexeme) || classFileContainer.methodMembers.containsKey(lexeme)
+                                || classFileContainer.methodLocalMembers.containsKey(lexeme) || classFileContainer.methodParameterMembers.containsKey(lexeme)
+                                || classFileContainer.classReferences.containsKey(lexeme))
+                        {
+                            textArea.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                        }
+                    }
+                } else
+                {
+                    if (bytecodeViewPanel.textArea.getCursor().getType() != Cursor.TEXT_CURSOR)
+                    {
+                        bytecodeViewPanel.textArea.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+                    }
+                }
+            }
+        });
+
+        bytecodeViewPanel.textArea.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                if (e.isControlDown())
+                {
+                    RSyntaxTextArea textArea = (RSyntaxTextArea) e.getSource();
+                    textArea.getActionMap().get("goToAction").actionPerformed(new ActionEvent(textArea, ActionEvent.ACTION_PERFORMED, "goToAction"));
+                }
+            }
+        });
 
         markerCaretListener = new MarkerCaretListener(classContainerName);
         bytecodeViewPanel.textArea.addCaretListener(markerCaretListener);
