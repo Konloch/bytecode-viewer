@@ -38,7 +38,7 @@ public class NewlineOutputStream extends FilterOutputStream {
     public NewlineOutputStream(OutputStream os) {
         super(os);
         if (newline == null) {
-            String s = System.getProperty("line.separator");
+            String s = System.lineSeparator();
             if (s == null || s.length() <= 0)
                 s = "\n";
             newline = s.getBytes(StandardCharsets.ISO_8859_1);    // really us-ascii

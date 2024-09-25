@@ -88,7 +88,7 @@ public class JavaCompiler extends InternalCompiler
                         Configuration.javac,
                         "-d", fileStart2,
                         "-classpath",
-                        cp.getAbsolutePath() + System.getProperty("path.separator") + Configuration.library,
+                        cp.getAbsolutePath() + File.pathSeparator + Configuration.library,
                         java.getAbsolutePath()
                 );
             }
