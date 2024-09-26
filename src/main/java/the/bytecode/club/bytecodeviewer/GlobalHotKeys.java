@@ -1,17 +1,6 @@
-package the.bytecode.club.bytecodeviewer;
-
-import java.awt.event.KeyEvent;
-import java.io.File;
-import javax.swing.JFileChooser;
-import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
-import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
-import the.bytecode.club.bytecodeviewer.util.DialogUtils;
-import the.bytecode.club.bytecodeviewer.util.JarUtils;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -26,6 +15,17 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer;
+
+import java.awt.event.KeyEvent;
+import java.io.File;
+import javax.swing.JFileChooser;
+import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
+import the.bytecode.club.bytecodeviewer.gui.components.RunOptions;
+import the.bytecode.club.bytecodeviewer.util.DialogUtils;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /**
  * Whenever a key is pressed on the swing UI it should get logged here

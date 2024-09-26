@@ -41,15 +41,13 @@ import the.bytecode.club.bytecodeviewer.Constants;
  */
 public class RemappingAnnotationAdapter extends AnnotationVisitor {
 
-    protected final org.objectweb.asm.commons.Remapper remapper;
+    protected final Remapper remapper;
 
-    public RemappingAnnotationAdapter(final AnnotationVisitor av,
-                                      final org.objectweb.asm.commons.Remapper remapper) {
+    public RemappingAnnotationAdapter(AnnotationVisitor av, Remapper remapper) {
         this(Constants.ASM_VERSION, av, remapper);
     }
 
-    protected RemappingAnnotationAdapter(final int api,
-                                         final AnnotationVisitor av, final Remapper remapper) {
+    protected RemappingAnnotationAdapter(int api, AnnotationVisitor av, Remapper remapper) {
         super(api, av);
         this.remapper = remapper;
     }

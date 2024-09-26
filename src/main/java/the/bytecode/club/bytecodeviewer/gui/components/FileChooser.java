@@ -1,16 +1,6 @@
-package the.bytecode.club.bytecodeviewer.gui.components;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,6 +15,16 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.components;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /**
  * @author Konloch

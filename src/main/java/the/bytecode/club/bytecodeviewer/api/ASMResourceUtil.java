@@ -1,19 +1,6 @@
-package the.bytecode.club.bytecodeviewer.api;
-
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.FieldNode;
-import org.objectweb.asm.tree.InnerClassNode;
-import org.objectweb.asm.tree.LocalVariableNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.TypeInsnNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,6 +16,19 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+package the.bytecode.club.bytecodeviewer.api;
+
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.FieldNode;
+import org.objectweb.asm.tree.InnerClassNode;
+import org.objectweb.asm.tree.LocalVariableNode;
+import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.TypeInsnNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 /**
  * Used to interact with classnodes loaded inside of BCV as resources
  *
@@ -38,7 +38,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 public final class ASMResourceUtil
 {
     /**
-     * Attempts to a method main inside of the loaded resources and returns the fully qualified name
+     * Attempts to a method main inside the loaded resources and returns the fully qualified name
      */
     public static String findMainMethod(String defaultFQN)
     {
@@ -143,8 +143,7 @@ public final class ASMResourceUtil
         }
     }
 
-    public static void renameClassNode(final String oldName,
-                                       final String newName)
+    public static void renameClassNode(String oldName, String newName)
     {
         for (ClassNode c : BytecodeViewer.getLoadedClasses())
         {

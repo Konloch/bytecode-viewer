@@ -1,14 +1,6 @@
-package the.bytecode.club.bytecodeviewer.obfuscators.mapping;
-
-import java.util.ArrayList;
-import java.util.List;
-import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.FieldMappingData;
-import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
-import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MethodMappingData;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,6 +15,14 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MethodMappingDa
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.obfuscators.mapping;
+
+import java.util.ArrayList;
+import java.util.List;
+import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.FieldMappingData;
+import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
+import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MethodMappingData;
 
 public class HookMap {
 

@@ -47,13 +47,11 @@ public class RemappingSignatureAdapter extends SignatureVisitor {
 
     private String className;
 
-    public RemappingSignatureAdapter(final SignatureVisitor v,
-                                     final org.objectweb.asm.commons.Remapper remapper) {
+    public RemappingSignatureAdapter(SignatureVisitor v, Remapper remapper) {
         this(Constants.ASM_VERSION, v, remapper);
     }
 
-    protected RemappingSignatureAdapter(final int api,
-                                        final SignatureVisitor v, final Remapper remapper) {
+    protected RemappingSignatureAdapter(int api, SignatureVisitor v, Remapper remapper) {
         super(api);
         this.v = v;
         this.remapper = remapper;

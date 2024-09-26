@@ -1,3 +1,21 @@
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
 import java.awt.*;
@@ -37,29 +55,12 @@ import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJCheckB
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJTextField;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
+import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
-
-/***************************************************************************
- * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
- *                                                                         *
- * This program is free software: you can redistribute it and/or modify    *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation, either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
 
 /**
  * The file navigation pane.
@@ -134,7 +135,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     }
     
     @Override
-    public void filesDropped(final File[] files)
+    public void filesDropped(File[] files)
     {
         if (files.length < 1)
             return;
@@ -204,7 +205,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     
         if (!container.resourceFiles.isEmpty())
         {
-            for (final Entry<String, byte[]> entry : container.resourceFiles.entrySet())
+            for (Entry<String, byte[]> entry : container.resourceFiles.entrySet())
             {
                 String name = entry.getKey();
                 final String[] spl = name.split("/");
@@ -215,7 +216,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 else
                 {
                     ResourceTreeNode parent = root;
-                    for (final String s : spl)
+                    for (String s : spl)
                     {
                         ResourceTreeNode child = parent.getChildByUserObject(s);
 
@@ -233,14 +234,13 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     }
 
     @SuppressWarnings("rawtypes")
-    public void expandAll(final JTree tree, final TreePath parent,
-                           final boolean expand) {
+    public void expandAll(JTree tree, TreePath parent, boolean expand) {
         // Traverse children
         final TreeNode node = (TreeNode) parent.getLastPathComponent();
         if (node.getChildCount() >= 0) {
-            for (final Enumeration e = node.children(); e.hasMoreElements(); ) {
-                final TreeNode n = (TreeNode) e.nextElement();
-                final TreePath path = parent.pathByAddingChild(n);
+            for (Enumeration e = node.children(); e.hasMoreElements(); ) {
+                TreeNode n = (TreeNode) e.nextElement();
+                TreePath path = parent.pathByAddingChild(n);
                 expandAll(tree, path, expand);
             }
         }
@@ -253,7 +253,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
     }
 
-    public void removeNode(final JTree tree, final TreePath nodePath)
+    public void removeNode(JTree tree, TreePath nodePath)
     {
         MutableTreeNode node = findNodeByPath(nodePath);
 		
@@ -347,7 +347,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
         
         //view classes
-        if (content != null && MiscUtils.getFileHeaderMagicNumber(content).equalsIgnoreCase("cafebabe")
+        if (content != null && FileHeaderUtils.doesFileHeaderMatch(content, FileHeaderUtils.JAVA_CLASS_FILE_HEADER)
                 || name.endsWith(".class"))
         {
             try
@@ -542,7 +542,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         quickSearch.addFocusListener(new FocusListener()
         {
             @Override
-            public void focusGained(final FocusEvent arg0)
+            public void focusGained(FocusEvent arg0)
             {
                 if (quickSearch.getText().equals(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString()))
                 {
@@ -554,7 +554,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             }
         
             @Override
-            public void focusLost(final FocusEvent arg0)
+            public void focusLost(FocusEvent arg0)
             {
                 if (quickSearch.getText().isEmpty())
                 {

@@ -45,12 +45,11 @@ public class RemappingFieldAdapter extends FieldVisitor {
 
     private final org.objectweb.asm.commons.Remapper remapper;
 
-    public RemappingFieldAdapter(final FieldVisitor fv, final org.objectweb.asm.commons.Remapper remapper) {
+    public RemappingFieldAdapter(FieldVisitor fv, org.objectweb.asm.commons.Remapper remapper) {
         this(Constants.ASM_VERSION, fv, remapper);
     }
 
-    protected RemappingFieldAdapter(final int api, final FieldVisitor fv,
-                                    final Remapper remapper) {
+    protected RemappingFieldAdapter(int api, FieldVisitor fv, Remapper remapper) {
         super(api, fv);
         this.remapper = remapper;
     }

@@ -1,18 +1,6 @@
-package the.bytecode.club.bytecodeviewer.gui.components;
-
-import javax.swing.Icon;
-
-import com.github.weisj.darklaf.components.RotatableIconAnimator;
-import com.github.weisj.darklaf.components.loading.LoadingIndicator;
-import com.github.weisj.darklaf.iconset.AllIcons;
-import com.github.weisj.darklaf.properties.icons.RotatableIcon;
-import the.bytecode.club.bytecodeviewer.resources.IconResources;
-
-import java.awt.event.*;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,6 +15,18 @@ import java.awt.event.*;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.components;
+
+import javax.swing.Icon;
+
+import com.github.weisj.darklaf.components.RotatableIconAnimator;
+import com.github.weisj.darklaf.components.loading.LoadingIndicator;
+import com.github.weisj.darklaf.iconset.AllIcons;
+import com.github.weisj.darklaf.properties.icons.RotatableIcon;
+import the.bytecode.club.bytecodeviewer.resources.IconResources;
+
+import java.awt.event.*;
 
 /**
  * @author Konloch

@@ -1,3 +1,21 @@
+/***************************************************************************
+ * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation, either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
 package the.bytecode.club.bytecodeviewer.util;
 
 import java.awt.image.BufferedImage;
@@ -25,24 +43,6 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.translation.Language;
 
 import static the.bytecode.club.bytecodeviewer.BytecodeViewer.gson;
-
-/***************************************************************************
- * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
- *                                                                         *
- * This program is free software: you can redistribute it and/or modify    *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation, either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
 
 /**
  * A collection of Misc Utils.
@@ -165,15 +165,6 @@ public class MiscUtils
                 i++;
         }
         return i;
-    }
-
-    public static String getFileHeaderMagicNumber(byte[] fileContents)
-    {
-        if(fileContents == null || fileContents.length < 4)
-            return StringUtils.EMPTY;
-        
-        return String.format("%02X%02X%02X%02X", fileContents[0],
-                fileContents[1], fileContents[2],fileContents[3]);
     }
     
     public static File autoAppendFileExtension(String extension, File file)
@@ -333,7 +324,7 @@ public class MiscUtils
      * @return the read byte[]
      * @throws IOException
      */
-    public static byte[] getBytes(final InputStream is) throws IOException
+    public static byte[] getBytes(InputStream is) throws IOException
     {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 

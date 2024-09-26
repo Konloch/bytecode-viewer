@@ -1,27 +1,6 @@
-package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Arrays;
-import java.util.List;
-import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.SettingsSerializer;
-import the.bytecode.club.bytecodeviewer.api.ASMUtil;
-import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
-import the.bytecode.club.bytecodeviewer.resources.Resource;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-import the.bytecode.club.bytecodeviewer.util.MethodParser;
-
-import static the.bytecode.club.bytecodeviewer.util.MethodParser.Method;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -36,6 +15,31 @@ import static the.bytecode.club.bytecodeviewer.util.MethodParser.Method;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.SettingsSerializer;
+import the.bytecode.club.bytecodeviewer.api.ASMUtil;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
+import the.bytecode.club.bytecodeviewer.resources.Resource;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.util.MethodParser;
+
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
+import java.util.Arrays;
+import java.util.List;
+
+import static the.bytecode.club.bytecodeviewer.util.MethodParser.Method;
 
 /**
  * This represents the opened classfile.
@@ -52,10 +56,9 @@ public class ClassViewer extends ResourceViewer
     public BytecodeViewPanel bytecodeViewPanel1 = new BytecodeViewPanel(0, this);
     public BytecodeViewPanel bytecodeViewPanel2 = new BytecodeViewPanel(1, this);
     public BytecodeViewPanel bytecodeViewPanel3 = new BytecodeViewPanel(2, this);
-
     public List<MethodParser> methods = Arrays.asList(new MethodParser(), new MethodParser(), new MethodParser());
 
-    public ClassViewer(final ResourceContainer container, final String name)
+    public ClassViewer(ResourceContainer container, String name)
     {
         super(new Resource(name, container.getWorkingName(name), container));
 
@@ -66,7 +69,7 @@ public class ClassViewer extends ResourceViewer
     }
 
     @Override
-    public void refresh(final JButton button)
+    public void refresh(JButton button)
     {
         setPanes();
         refreshTitle();
@@ -78,11 +81,11 @@ public class ClassViewer extends ResourceViewer
         byte[] classBytes = getResourceBytes();
 
         //TODO remove this once all of the importers have been properly updated to use a FileContainerImporter
-        if(classBytes == null || classBytes.length == 0 || Configuration.forceResourceUpdateFromClassNode)
+        if (classBytes == null || classBytes.length == 0 || Configuration.forceResourceUpdateFromClassNode)
         {
             //TODO remove this error message when all of the importers have been updated
             // only APK and DEX are left
-            if(!Configuration.forceResourceUpdateFromClassNode)
+            if (!Configuration.forceResourceUpdateFromClassNode)
             {
                 System.err.println("WARNING: Class Resource imported using the old importer!");
                 System.err.println("TODO: Update it to use the FileContainerImporter");
@@ -102,9 +105,11 @@ public class ClassViewer extends ResourceViewer
             while (Configuration.currentlyDumping)
             {
                 //wait until it's not dumping
-                try {
+                try
+                {
                     Thread.sleep(100);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException e)
+                {
                     e.printStackTrace();
                 }
             }
@@ -113,11 +118,14 @@ public class ClassViewer extends ResourceViewer
 
             if (bytecodeViewPanel1.decompiler != Decompiler.NONE)
                 bytecodeViewPanel1.updateThread.startNewThread();
+
             if (bytecodeViewPanel2.decompiler != Decompiler.NONE)
                 bytecodeViewPanel2.updateThread.startNewThread();
+
             if (bytecodeViewPanel3.decompiler != Decompiler.NONE)
                 bytecodeViewPanel3.updateThread.startNewThread();
         }, "ClassViewer Temp Dump");
+
         dumpBuild.start();
 
         if (isPanel1Editable() || isPanel2Editable() || isPanel3Editable())
@@ -126,68 +134,93 @@ public class ClassViewer extends ResourceViewer
                 return;
 
             Configuration.warnForEditing = true;
-            if (!BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()
-                    && !BytecodeViewer.viewer.compileOnSave.isSelected())
+
+            if (!BytecodeViewer.viewer.autoCompileOnRefresh.isSelected() && !BytecodeViewer.viewer.compileOnSave.isSelected())
             {
-                BytecodeViewer.showMessage("Make sure to compile (File>Compile or Ctrl + T) whenever you want to "
-                        + "test or export your changes.\nYou can set compile automatically on refresh or on save "
-                        + "in the settings menu.");
+                BytecodeViewer.showMessage("Make sure to compile (File>Compile or Ctrl + T) whenever you want to " + "test or export your changes.\nYou can set compile automatically on refresh or on save " + "in the settings menu.");
 
                 SettingsSerializer.saveSettingsAsync();
             }
         }
     }
 
-    public void setPanes() {
+    public void setPanes()
+    {
         bytecodeViewPanel1.decompiler = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler();
         bytecodeViewPanel2.decompiler = BytecodeViewer.viewer.viewPane2.getSelectedDecompiler();
         bytecodeViewPanel3.decompiler = BytecodeViewer.viewer.viewPane3.getSelectedDecompiler();
     }
 
-    public boolean isPanel1Editable() {
+    public boolean isPanel1Editable()
+    {
         setPanes();
         return BytecodeViewer.viewer.viewPane1.isPaneEditable();
     }
 
-    public boolean isPanel2Editable() {
+    public boolean isPanel2Editable()
+    {
         setPanes();
         return BytecodeViewer.viewer.viewPane2.isPaneEditable();
     }
 
-    public boolean isPanel3Editable() {
+    public boolean isPanel3Editable()
+    {
         setPanes();
         return BytecodeViewer.viewer.viewPane3.isPaneEditable();
     }
 
+    public BytecodeViewPanel getPanel(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                return bytecodeViewPanel1;
+            case 1:
+                return bytecodeViewPanel2;
+            case 2:
+                return bytecodeViewPanel3;
+        }
 
-    public static void selectMethod(RSyntaxTextArea area, int methodLine) {
-        if (methodLine != area.getCaretLineNumber()) {
+        return null;
+    }
+
+
+    public static void selectMethod(RSyntaxTextArea area, int methodLine)
+    {
+        if (methodLine != area.getCaretLineNumber())
+        {
             setCaretLine(area, methodLine);
             setViewLine(area, methodLine);
         }
     }
 
-    public static void selectMethod(ClassViewer classViewer, int paneId, Method method) {
+    public static void selectMethod(ClassViewer classViewer, int paneId, Method method)
+    {
         RSyntaxTextArea area = null;
-        switch (paneId) {
+        switch (paneId)
+        {
             case 0:
                 area = classViewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
                 break;
+
             case 1:
                 area = classViewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
                 break;
+
             case 2:
                 area = classViewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
                 break;
         }
 
-        if (area != null) {
+        if (area != null)
+        {
             MethodParser methods = classViewer.methods.get(paneId);
-            if (methods != null) {
+            if (methods != null)
+            {
                 int methodLine = methods.findMethod(method);
-                if (methodLine != -1) {
+
+                if (methodLine != -1)
                     selectMethod(area, methodLine);
-                }
             }
         }
     }
@@ -195,6 +228,7 @@ public class ClassViewer extends ResourceViewer
     public static int getMaxViewLine(RSyntaxTextArea area)
     {
         Container parent = area.getParent();
+
         if (parent instanceof JViewport)
         {
             JViewport viewport = (JViewport) parent;
@@ -209,6 +243,7 @@ public class ClassViewer extends ResourceViewer
     public static int getViewLine(RSyntaxTextArea area)
     {
         Container parent = area.getParent();
+
         if (parent instanceof JViewport)
         {
             JViewport viewport = (JViewport) parent;
@@ -223,6 +258,7 @@ public class ClassViewer extends ResourceViewer
     public static void setViewLine(RSyntaxTextArea area, int line)
     {
         Container parent = area.getParent();
+
         if (parent instanceof JViewport)
         {
             JViewport viewport = (JViewport) parent;
@@ -234,11 +270,13 @@ public class ClassViewer extends ResourceViewer
 
     public static void setCaretLine(RSyntaxTextArea area, int line)
     {
-        try {
+        try
+        {
             area.setCaretPosition(area.getLineStartOffset(line));
-        } catch (BadLocationException ignored) { }
+        } catch (BadLocationException ignored)
+        {
+        }
     }
-
 
     public void resetDivider()
     {
@@ -301,33 +339,40 @@ public class ClassViewer extends ResourceViewer
     /**
      * Whoever wrote this function, THANK YOU!
      */
-    public static JSplitPane setDividerLocation(final JSplitPane splitter,
-                                                final double proportion)
+    public static JSplitPane setDividerLocation(JSplitPane splitter, double proportion)
     {
-        if (splitter.isShowing()) {
-            if (splitter.getWidth() > 0 && splitter.getHeight() > 0) {
+        if (splitter.isShowing())
+        {
+            if (splitter.getWidth() > 0 && splitter.getHeight() > 0)
                 splitter.setDividerLocation(proportion);
-            } else {
-                splitter.addComponentListener(new ComponentAdapter() {
+            else
+            {
+                splitter.addComponentListener(new ComponentAdapter()
+                {
                     @Override
-                    public void componentResized(ComponentEvent ce) {
+                    public void componentResized(ComponentEvent ce)
+                    {
                         splitter.removeComponentListener(this);
                         setDividerLocation(splitter, proportion);
                     }
                 });
             }
-        } else {
-            splitter.addHierarchyListener(new HierarchyListener() {
+        } else
+        {
+            splitter.addHierarchyListener(new HierarchyListener()
+            {
                 @Override
-                public void hierarchyChanged(HierarchyEvent e) {
-                    if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0
-                            && splitter.isShowing()) {
+                public void hierarchyChanged(HierarchyEvent e)
+                {
+                    if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0 && splitter.isShowing())
+                    {
                         splitter.removeHierarchyListener(this);
                         setDividerLocation(splitter, proportion);
                     }
                 }
             });
         }
+
         return splitter;
     }
 

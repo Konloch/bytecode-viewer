@@ -1,13 +1,6 @@
-package the.bytecode.club.bytecodeviewer.gui.components;
-
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.AbstractButton;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,6 +16,13 @@ import javax.swing.AbstractButton;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+package the.bytecode.club.bytecodeviewer.gui.components;
+
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.AbstractButton;
+
 /**
  * @author Konloch
  * @since 6/25/2021
@@ -30,7 +30,7 @@ import javax.swing.AbstractButton;
 public class ButtonHoverAnimation extends MouseAdapter
 {
 	@Override
-	public void mouseEntered(final MouseEvent e)
+	public void mouseEntered(MouseEvent e)
 	{
 		final Component component = e.getComponent();
 		if (component instanceof AbstractButton)
@@ -41,7 +41,7 @@ public class ButtonHoverAnimation extends MouseAdapter
 	}
 	
 	@Override
-	public void mouseExited(final MouseEvent e)
+	public void mouseExited(MouseEvent e)
 	{
 		final Component component = e.getComponent();
 		if (component instanceof AbstractButton)

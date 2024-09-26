@@ -1,11 +1,6 @@
-package the.bytecode.club.bytecodeviewer.plugin;
-
-import java.io.File;
-import the.bytecode.club.bytecodeviewer.api.Plugin;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,9 +16,14 @@ import the.bytecode.club.bytecodeviewer.api.Plugin;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+package the.bytecode.club.bytecodeviewer.plugin;
+
+import java.io.File;
+import the.bytecode.club.bytecodeviewer.api.Plugin;
+
 /**
  * @author Bibl (don't ban me pls)
- * @created 1 Jun 2015
+ * @since 1 Jun 2015
  */
 public interface PluginLaunchStrategy {
 

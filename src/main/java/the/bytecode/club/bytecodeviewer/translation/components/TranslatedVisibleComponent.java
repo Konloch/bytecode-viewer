@@ -1,12 +1,6 @@
-package the.bytecode.club.bytecodeviewer.translation.components;
-
-import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,6 +15,12 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.translation.components;
+
+import the.bytecode.club.bytecodeviewer.gui.components.VisibleComponent;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 
 /**
  * @author Konloch

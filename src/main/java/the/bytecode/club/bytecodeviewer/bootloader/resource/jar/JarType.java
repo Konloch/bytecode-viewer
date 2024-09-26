@@ -1,8 +1,6 @@
-package the.bytecode.club.bytecodeviewer.bootloader.resource.jar;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,11 +16,13 @@ package the.bytecode.club.bytecodeviewer.bootloader.resource.jar;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+package the.bytecode.club.bytecodeviewer.bootloader.resource.jar;
+
 /**
  * Type of Jar Stored.
  *
  * @author Bibl
- * @created ages ago
+ * @since 19 Jul 2013
  */
 public enum JarType {
 

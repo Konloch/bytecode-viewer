@@ -1,26 +1,6 @@
-package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
-
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
-import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
-import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
-import the.bytecode.club.uikit.tabpopup.closer.JTabbedPanePopupMenuTabsCloser;
-import the.bytecode.club.uikit.tabpopup.closer.PopupMenuTabsCloseConfiguration;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -36,6 +16,28 @@ import java.util.Set;
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
+
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.FileViewer;
+import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContainer;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
+import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
+import the.bytecode.club.uikit.tabpopup.closer.JTabbedPanePopupMenuTabsCloser;
+import the.bytecode.club.uikit.tabpopup.closer.PopupMenuTabsCloseConfiguration;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * This pane contains all the resources, as tabs.
  *
@@ -50,6 +52,7 @@ public class Workspace extends TranslatedVisibleComponent {
 	public final JPanel buttonPanel;
 	public final JButton refreshClass;
 	public final Set<String> openedTabs = new HashSet<>();
+	public HashMap<String, ClassFileContainer> classFiles = new HashMap<>();
 
 	public Workspace() {
 		super("Workspace", TranslatedComponents.WORK_SPACE);
@@ -85,16 +88,16 @@ public class Workspace extends TranslatedVisibleComponent {
 	}
 
 	//load class resources
-	public void addClassResource(final ResourceContainer container, final String name) {
+	public void addClassResource(ResourceContainer container, String name) {
 		addResource(container, name, new ClassViewer(container, name));
 	}
 
 	//Load file resources
-	public void addFileResource(final ResourceContainer container, final String name) {
+	public void addFileResource(ResourceContainer container, String name) {
 		addResource(container, name, new FileViewer(container, name));
 	}
 
-	private void addResource(final ResourceContainer container, final String name, final ResourceViewer resourceView) {
+	private void addResource(ResourceContainer container, String name, ResourceViewer resourceView) {
 		// Warn user and prevent 'nothing' from opening if no Decompiler is selected
 		if (BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.NONE &&
 				BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE &&

@@ -1,11 +1,6 @@
-package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
-
-import the.bytecode.club.bytecodeviewer.searching.SearchPanel;
-import the.bytecode.club.bytecodeviewer.searching.impl.*;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,6 +15,11 @@ import the.bytecode.club.bytecodeviewer.searching.impl.*;
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
+
+package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
+
+import the.bytecode.club.bytecodeviewer.searching.SearchPanel;
+import the.bytecode.club.bytecodeviewer.searching.impl.*;
 
 /**
  * @author Konloch
@@ -36,7 +36,7 @@ public enum SearchType
 	
 	public final SearchPanel panel;
 	
-	SearchType(final SearchPanel panel)
+	SearchType(SearchPanel panel)
 	{
 		this.panel = panel;
 	}

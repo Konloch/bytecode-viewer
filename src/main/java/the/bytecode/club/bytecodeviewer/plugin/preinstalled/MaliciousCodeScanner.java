@@ -1,18 +1,6 @@
-package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.api.Plugin;
-import the.bytecode.club.bytecodeviewer.api.PluginConsole;
-import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScan;
-import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScanModule;
-import the.bytecode.club.bytecodeviewer.malwarescanner.util.MaliciousCodeOptions;
-
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
- * Copyright (C) 2014 Kalen 'Konloch' Kinloch - http://bytecodeviewer.com  *
+ * Copyright (C) 2014 Konloch - Konloch.com / BytecodeViewer.com           *
  *                                                                         *
  * This program is free software: you can redistribute it and/or modify    *
  *   it under the terms of the GNU General Public License as published by  *
@@ -28,8 +16,20 @@ import the.bytecode.club.bytecodeviewer.malwarescanner.util.MaliciousCodeOptions
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.api.Plugin;
+import the.bytecode.club.bytecodeviewer.api.PluginConsole;
+import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScan;
+import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScanModule;
+import the.bytecode.club.bytecodeviewer.malwarescanner.util.MaliciousCodeOptions;
+
 /**
- * The Malicious Code Scanner plugin. All of the core components have been moved to the malwarescanner package.
+ * The Malicious Code Scanner plugin. All the core components have been moved to the malwarescanner package.
  *
  * This tool is used to help aid reverse engineers in identifying malicious code.
  *
