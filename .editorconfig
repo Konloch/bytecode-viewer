@@ -1,0 +1,21 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+tab_width = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.java]
+max_line_length = 120
+
+[*.xml]
+indent_size = 2
+tab_width = 2
+
+[*.properties]
+indent_size = 2
+tab_width = 2
