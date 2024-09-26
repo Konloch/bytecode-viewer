@@ -480,7 +480,11 @@ public class BytecodeViewPanelUpdater implements Runnable
 
     private void markOccurrences(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, MyErrorStripe errorStripe)
     {
-        RSyntaxTextAreaHighlighterEx highlighterEx = (RSyntaxTextAreaHighlighterEx) textArea.getHighlighter();
+	    //prevent NPE
+	    if(classFileContainer == null)
+		    return;
+	
+	    RSyntaxTextAreaHighlighterEx highlighterEx = (RSyntaxTextAreaHighlighterEx) textArea.getHighlighter();
         Token token = textArea.modelToToken(textArea.getCaretPosition());
         if (token == null)
         {
