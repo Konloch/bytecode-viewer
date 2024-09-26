@@ -7,7 +7,7 @@ import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog
 
 import java.lang.reflect.Field
 
-import static the.bytecode.club.bytecodeviewer.Constants.nl
+import static the.bytecode.club.bytecodeviewer.Constants.NL
 
 /**
  ** This is an example of a String Decrypter Groovy Plugin for BCV.
@@ -22,7 +22,7 @@ class ExampleStringDecrypter extends Plugin {
 
         MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING",
                 "WARNING: This will load the classes into the JVM and execute the initialize function"
-                        + nl + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
+                        + NL + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.",
                 new String[]{"Continue", "Cancel"})
 
         if (dialog.promptChoice() == 0) {

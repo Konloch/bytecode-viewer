@@ -30,7 +30,7 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Objects;
 
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 
 /**
  * Runs the classes then simply grabs the static String[] z
@@ -47,7 +47,7 @@ public class ZStringArrayDecrypter extends Plugin
         PluginConsole gui = new PluginConsole("ZStringArray Decrypter");
         StringBuilder out = new StringBuilder();
 
-        MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING", "WARNING: This will load the classes into the JVM and execute the initialize function" + nl + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.", new String[]{"Continue", "Cancel"});
+        MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING", "WARNING: This will load the classes into the JVM and execute the initialize function" + NL + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.", new String[]{"Continue", "Cancel"});
 
         if (dialog.promptChoice() == 0)
         {
@@ -61,13 +61,13 @@ public class ZStringArrayDecrypter extends Plugin
                     {
                         if (field.getName().equals("z"))
                         {
-                            out.append(cn.getName()).append(":").append(nl);
+                            out.append(cn.getName()).append(":").append(NL);
                             field.setAccessible(true);
                             if (field.get(null) != null && field.get(null) instanceof String[] && Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers()))
                             {
                                 String[] fieldVal = (String[]) field.get(null);
                                 for (int i = 0; i < fieldVal.length; i++)
-                                    out.append("  z[").append(i).append("] = ").append(fieldVal[i]).append(nl);
+                                    out.append("  z[").append(i).append("] = ").append(fieldVal[i]).append(NL);
                             }
                         }
                     }
@@ -82,7 +82,7 @@ public class ZStringArrayDecrypter extends Plugin
 
             if (needsWarning)
             {
-                BytecodeViewer.showMessage("Some classes failed to decrypt, if you'd like to decrypt all of them" + nl + "makes sure you include ALL the libraries it requires.");
+                BytecodeViewer.showMessage("Some classes failed to decrypt, if you'd like to decrypt all of them" + NL + "makes sure you include ALL the libraries it requires.");
             }
 
             gui.setText(out.toString());

@@ -46,7 +46,7 @@ public class PopupMenuTabsCloseConfiguration
         return close;
     }
 
-    public void Close(boolean close)
+    public void close(boolean close)
     {
         this.close = close;
     }

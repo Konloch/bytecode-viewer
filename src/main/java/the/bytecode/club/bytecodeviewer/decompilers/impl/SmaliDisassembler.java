@@ -47,7 +47,7 @@ public class SmaliDisassembler extends InternalDecompiler
     public String decompileClassNode(ClassNode cn, byte[] b)
     {
         String exception = "";
-        String fileStart = tempDirectory + fs + "temp";
+        String fileStart = TEMP_DIRECTORY + FS + "temp";
 
         String start = MiscUtils.getUniqueName(fileStart, ".class");
 
@@ -124,7 +124,7 @@ public class SmaliDisassembler extends InternalDecompiler
             exception += ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
 
-        return SMALI + " " + DISASSEMBLER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + nl + nl + exception;
+        return SMALI + " " + DISASSEMBLER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     @Override

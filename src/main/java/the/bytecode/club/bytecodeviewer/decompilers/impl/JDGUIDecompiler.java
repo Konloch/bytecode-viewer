@@ -34,8 +34,8 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.*;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.JDGUI;
 
@@ -55,19 +55,19 @@ public class JDGUIDecompiler extends InternalDecompiler
         String exception;
         try
         {
-            final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
+            final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
             tempDirectory.mkdir();
 
-            final File tempClass = new File(tempDirectory.getAbsolutePath() + fs + cn.name + ".class");
-            final File tempJava = new File(tempDirectory.getAbsolutePath() + fs + cn.name + ".java");
+            final File tempClass = new File(tempDirectory.getAbsolutePath() + FS + cn.name + ".class");
+            final File tempJava = new File(tempDirectory.getAbsolutePath() + FS + cn.name + ".java");
 
             if (cn.name.contains("/"))
             {
                 String[] raw = cn.name.split("/");
-                String path = tempDirectory.getAbsolutePath() + fs;
+                String path = tempDirectory.getAbsolutePath() + FS;
                 for (int i = 0; i < raw.length - 1; i++)
                 {
-                    path += raw[i] + fs;
+                    path += raw[i] + FS;
                     File f = new File(path);
                     f.mkdir();
                 }
@@ -124,7 +124,7 @@ public class JDGUIDecompiler extends InternalDecompiler
             exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
 
-        return JDGUI + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + nl + nl + exception;
+        return JDGUI + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     @Override

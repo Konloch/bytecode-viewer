@@ -52,13 +52,13 @@ public class ClassTree
         this(convertToMap(classes));
     }
 
-    public ClassTree(Map<String, ClassNode> classes_)
+    public ClassTree(Map<String, ClassNode> classes)
     {
-        classes = copyOf(classes_);
+        this.classes = copyOf(classes);
         supers = new NullPermeableHashMap<>(SET_CREATOR);
         delgates = new NullPermeableHashMap<>(SET_CREATOR);
 
-        build(classes);
+        build(this.classes);
     }
 
     // TODO: optimise
@@ -66,32 +66,36 @@ public class ClassTree
     {
         for (ClassNode node : classes.values())
         {
-            for (String iface : node.interfaces)
+            for (String iFace : node.interfaces)
             {
-                ClassNode ifacecs = classes.get(iface);
-                if (ifacecs == null)
+                ClassNode iFaces = classes.get(iFace);
+                if (iFaces == null)
                     continue;
 
-                getDelegates0(ifacecs).add(node);
+                getDelegates0(iFaces).add(node);
 
                 Set<ClassNode> superinterfaces = new HashSet<>();
-                buildSubTree(classes, superinterfaces, ifacecs);
+                buildSubTree(classes, superinterfaces, iFaces);
 
                 getSupers0(node).addAll(superinterfaces);
             }
+
             ClassNode currentSuper = classes.get(node.superName);
+
             while (currentSuper != null)
             {
                 getDelegates0(currentSuper).add(node);
                 getSupers0(node).add(currentSuper);
-                for (String iface : currentSuper.interfaces)
+                for (String iFace : currentSuper.interfaces)
                 {
-                    ClassNode ifacecs = classes.get(iface);
-                    if (ifacecs == null)
+                    ClassNode iFaces = classes.get(iFace);
+
+                    if (iFaces == null)
                         continue;
-                    getDelegates0(ifacecs).add(currentSuper);
+
+                    getDelegates0(iFaces).add(currentSuper);
                     Set<ClassNode> superinterfaces = new HashSet<>();
-                    buildSubTree(classes, superinterfaces, ifacecs);
+                    buildSubTree(classes, superinterfaces, iFaces);
                     getSupers0(currentSuper).addAll(superinterfaces);
                     getSupers0(node).addAll(superinterfaces);
                 }
@@ -108,6 +112,7 @@ public class ClassTree
         for (String iface : node.interfaces)
         {
             ClassNode ifacecs = classes.get(iface);
+
             if (ifacecs == null)
                 continue;
 
@@ -126,14 +131,17 @@ public class ClassTree
             for (String iface : currentSuper.interfaces)
             {
                 ClassNode ifacecs = classes.get(iface);
+
                 if (ifacecs == null)
                     continue;
+
                 getDelegates0(ifacecs).add(currentSuper);
                 Set<ClassNode> superinterfaces = new HashSet<>();
                 buildSubTree(classes, superinterfaces, ifacecs);
                 getSupers0(currentSuper).addAll(superinterfaces);
                 getSupers0(node).addAll(superinterfaces);
             }
+
             currentSuper = classes.get(currentSuper.superName);
         }
 
@@ -162,14 +170,12 @@ public class ClassTree
     public Set<MethodNode> getMethodsFromSuper(ClassNode node, String name, String desc)
     {
         Set<MethodNode> methods = new HashSet<>();
-        for (ClassNode super_ : getSupers(node))
+        for (ClassNode superClassNode : getSupers(node))
         {
-            for (MethodNode mn : super_.methods)
+            for (MethodNode mn : superClassNode.methods)
             {
                 if (mn.name.equals(name) && mn.desc.equals(desc))
-                {
                     methods.add(mn);
-                }
             }
         }
         return methods;
@@ -183,9 +189,7 @@ public class ClassTree
             for (MethodNode mn : delegate.methods)
             {
                 if (mn.name.equals(name) && mn.desc.equals(desc))
-                {
                     methods.add(mn);
-                }
             }
         }
         return methods;
@@ -193,14 +197,12 @@ public class ClassTree
 
     public MethodNode getFirstMethodFromSuper(ClassNode node, String name, String desc)
     {
-        for (ClassNode super_ : getSupers(node))
+        for (ClassNode superClassNode : getSupers(node))
         {
-            for (MethodNode mn : super_.methods)
+            for (MethodNode mn : superClassNode.methods)
             {
                 if (mn.name.equals(name) && mn.desc.equals(desc))
-                {
                     return mn;
-                }
             }
         }
         return null;
@@ -234,12 +236,10 @@ public class ClassTree
     public Set<ClassNode> getSupers(ClassNode cn)
     {
         return Collections.unmodifiableSet(supers.get(cn));
-        // return supers.get(cn);
     }
 
     public Set<ClassNode> getDelegates(ClassNode cn)
     {
         return Collections.unmodifiableSet(delgates.get(cn));
-        // return delgates.get(cn);
     }
 }

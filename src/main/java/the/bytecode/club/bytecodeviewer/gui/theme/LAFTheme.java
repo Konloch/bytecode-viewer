@@ -45,7 +45,11 @@ public enum LAFTheme
     SYSTEM("System Theme", RSTATheme.THEME_MATCH, TranslatedComponents.SYSTEM_THEME), //System theme
     DARK("Dark Theme", RSTATheme.THEME_MATCH, TranslatedComponents.DARK_THEME), //DarkLaf
     LIGHT("Light Theme", RSTATheme.THEME_MATCH, TranslatedComponents.LIGHT_THEME), //Intellij theme
-    ONE_DARK("One Dark Theme", RSTATheme.THEME_MATCH, TranslatedComponents.ONE_DARK_THEME), SOLARIZED_DARK("Solarized Dark Theme", RSTATheme.THEME_MATCH, TranslatedComponents.SOLARIZED_DARK_THEME), SOLARIZED_LIGHT("Solarized Light Theme", RSTATheme.THEME_MATCH, TranslatedComponents.SOLARIZED_LIGHT_THEME), HIGH_CONTRAST_DARK("High Contrast Dark Theme", RSTATheme.THEME_MATCH, TranslatedComponents.HIGH_CONTRAST_DARK_THEME), HIGH_CONTRAST_LIGHT("High Contrast Light Theme", RSTATheme.THEME_MATCH, TranslatedComponents.HIGH_CONTRAST_LIGHT_THEME),
+    ONE_DARK("One Dark Theme", RSTATheme.THEME_MATCH, TranslatedComponents.ONE_DARK_THEME),
+    SOLARIZED_DARK("Solarized Dark Theme", RSTATheme.THEME_MATCH, TranslatedComponents.SOLARIZED_DARK_THEME),
+    SOLARIZED_LIGHT("Solarized Light Theme", RSTATheme.THEME_MATCH, TranslatedComponents.SOLARIZED_LIGHT_THEME),
+    HIGH_CONTRAST_DARK("High Contrast Dark Theme", RSTATheme.THEME_MATCH, TranslatedComponents.HIGH_CONTRAST_DARK_THEME),
+    HIGH_CONTRAST_LIGHT("High Contrast Light Theme", RSTATheme.THEME_MATCH, TranslatedComponents.HIGH_CONTRAST_LIGHT_THEME),
     ;
 
     private final String readableName;

@@ -85,14 +85,14 @@ public class LibraryClassLoader extends ClassLoader implements ILoader<JarConten
     @Override
     public Class<?> findClass(String name) throws ClassNotFoundException, NoClassDefFoundError
     {
-        String byte_name = name.replace(".", "/");
-        if (classCache.containsKey(byte_name))
-            return classCache.get(byte_name);
+        String byteName = name.replace(".", "/");
+        if (classCache.containsKey(byteName))
+            return classCache.get(byteName);
 
         ClassNode cn = null;
         for (JarContents<ClassNode> contents : binded)
         {
-            cn = contents.getClassContents().namedMap().get(byte_name);
+            cn = contents.getClassContents().namedMap().get(byteName);
             if (cn != null)
                 break;
         }
@@ -102,7 +102,7 @@ public class LibraryClassLoader extends ClassLoader implements ILoader<JarConten
             Class<?> klass = define(cn);
             if (klass != null)
             {
-                classCache.put(byte_name, klass);
+                classCache.put(byteName, klass);
                 return klass;
             }
         }

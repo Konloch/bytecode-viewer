@@ -80,7 +80,7 @@ public class ProcyonDecompiler extends InternalDecompiler
         String exception;
         try
         {
-            String fileStart = tempDirectory + fs + "temp";
+            String fileStart = TEMP_DIRECTORY + FS + "temp";
 
             final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
@@ -121,7 +121,7 @@ public class ProcyonDecompiler extends InternalDecompiler
             exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
 
-        return PROCYON + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + nl + nl + exception;
+        return PROCYON + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     @Override

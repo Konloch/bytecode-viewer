@@ -40,8 +40,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
+import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 import static the.bytecode.club.bytecodeviewer.Settings.addRecentPlugin;
 
 /**
@@ -164,7 +164,7 @@ public class PluginWriter extends JFrame
 
     public void runPlugin()
     {
-        File tempFile = new File(tempDirectory + fs + "temp" + MiscUtils.randomString(32) + fs + pluginName);
+        File tempFile = new File(TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(32) + FS + pluginName);
         tempFile.getParentFile().mkdirs();
 
         try

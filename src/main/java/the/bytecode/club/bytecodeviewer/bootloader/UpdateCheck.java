@@ -34,7 +34,7 @@ import java.net.URI;
 import java.net.URL;
 
 import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 
 /**
  * @author Konloch
@@ -43,7 +43,8 @@ public class UpdateCheck implements Runnable
 {
     //just brute force download the url path
     //one of these works for every single version of BCV
-    public static final String[] remoteGithubReleases = new String[]{
+    public static final String[] REMOTE_GITHUB_RELEASES = new String[]
+    {
         //current url scheme since v2.9.12
         "https://github.com/Konloch/bytecode-viewer/releases/download/v{VERSION}/Bytecode-Viewer-{VERSION}.jar",
         //for v2.9.10 and v2.9.11
@@ -59,13 +60,17 @@ public class UpdateCheck implements Runnable
         //for v1.0
         "https://github.com/Konloch/bytecode-viewer/releases/download/B{VERSION}/BytecodeViewer.jar",
         //zip variant of current url scheme since v2.9.12 (not currently used but incase it ever does)
-        "https://github.com/Konloch/bytecode-viewer/releases/download/v{VERSION}/Bytecode-Viewer-{VERSION}.zip",};
+        "https://github.com/Konloch/bytecode-viewer/releases/download/v{VERSION}/Bytecode-Viewer-{VERSION}.zip"
+    };
 
     //a list of all of the released versions of BCV
-    public static final String[] versions = new String[]{
+    public static final String[] BCV_VERSIONS = new String[]
+    {
         //"2.11.0",
         //"2.10.15",
-        "2.10.14", "2.10.13", "2.10.12", "2.10.11", "2.9.22", "2.9.21", "2.9.20", "2.9.19", "2.9.18", "2.9.17", "2.9.16", "2.9.15", "2.9.14", "2.9.13", "2.9.12", "2.9.11", "2.9.10", //broken due to repo change
+        "2.10.14", "2.10.13", "2.10.12", "2.10.11",
+        "2.9.22", "2.9.21", "2.9.20",
+        "2.9.19", "2.9.18", "2.9.17", "2.9.16", "2.9.15", "2.9.14", "2.9.13", "2.9.12", "2.9.11", "2.9.10", //broken due to repo change
         "2.9.8", //broken due to repo change & zip
         "2.9.7", //broken due to repo change & zip
         "2.9.6", //zip
@@ -79,7 +84,11 @@ public class UpdateCheck implements Runnable
         "2.8.0", //zip
         "2.7.1", //zip
         "2.7.0", //zip
-        "2.6.0", "2.5.2", "2.5.1", "2.5.0", "2.4.0", "2.3.0", "2.2.1", "2.2.0", "2.1.1", "2.1.0", "2.0.1", "2.0", "1.5.3", "1.5.2", "1.5.1", "1.5", "1.4", "1.3.1", "1.3", "1.2", "1.1", "1.0",};
+        "2.6.0", "2.5.2", "2.5.1", "2.5.0", "2.4.0", "2.3.0", "2.2.1", "2.2.0", "2.1.1", "2.1.0", "2.0.1",
+        "2.0",
+        "1.5.3", "1.5.2", "1.5.1", "1.5", "1.4", "1.3.1", "1.3",
+        "1.2", "1.1", "1.0"
+    };
 
     @Override
     public void run()
@@ -100,7 +109,7 @@ public class UpdateCheck implements Runnable
             {
             }
 
-            MultipleChoiceDialog outdatedDialog = new MultipleChoiceDialog("Bytecode Viewer - Outdated Version", "Your version: " + localVersion + ", latest version: " + version + nl + "What would you like to do?", new String[]{"Open The Download Page", "Download The Updated Jar", "Do Nothing (And Don't Ask Again)"});
+            MultipleChoiceDialog outdatedDialog = new MultipleChoiceDialog("Bytecode Viewer - Outdated Version", "Your version: " + localVersion + ", latest version: " + version + NL + "What would you like to do?", new String[]{"Open The Download Page", "Download The Updated Jar", "Do Nothing (And Don't Ask Again)"});
 
             int result = outdatedDialog.promptChoice();
 
@@ -109,7 +118,7 @@ public class UpdateCheck implements Runnable
                 if (Desktop.isDesktopSupported())
                     Desktop.getDesktop().browse(new URI("https://github.com/Konloch/bytecode-viewer/releases"));
                 else
-                    BytecodeViewer.showMessage("Cannot open the page, please manually type it." + nl + "https://github.com/Konloch/bytecode-viewer/releases");
+                    BytecodeViewer.showMessage("Cannot open the page, please manually type it." + NL + "https://github.com/Konloch/bytecode-viewer/releases");
             }
             else if (result == 1)
             {
@@ -152,7 +161,9 @@ public class UpdateCheck implements Runnable
 
             if (file.exists())
             {
-                MultipleChoiceDialog overwriteDialog = new MultipleChoiceDialog("Bytecode Viewer - Overwrite File", "The file " + file + " exists, would you like to overwrite it?", new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
+                MultipleChoiceDialog overwriteDialog = new MultipleChoiceDialog("Bytecode Viewer - Overwrite File",
+                    "The file " + file + " exists, would you like to overwrite it?",
+                    new String[]{ TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString() });
 
                 if (overwriteDialog.promptChoice() != 0)
                     return null;
@@ -166,21 +177,21 @@ public class UpdateCheck implements Runnable
 
     //used to download all released versions of BCV
 	/*public static void main(String[] args)
-	{
-		BytecodeViewer.viewer = new MainViewerGUI();
-		for(String version : versions)
-		{
-			//TODO most are jars, check which are zip and append zip as needed
-			File file = new File("./" + version + ".zip");
-			if(!file.exists())
-				downloadBCV(version, file, () -> {}, () -> {});
-		}
-	}*/
+    {
+        BytecodeViewer.viewer = new MainViewerGUI();
+        for(String version : BCV_VERSIONS)
+        {
+            //TODO most are jars, check which are zip and append zip as needed
+            File file = new File("./" + version + ".zip");
+            if(!file.exists())
+            downloadBCV(version, file, () -> {}, () -> {});
+        }
+    }*/
 
     private static void downloadBCV(String version, File saveTo, Runnable onFinish, Runnable onFail)
     {
         boolean found = false;
-        for (String urlAttempt : remoteGithubReleases)
+        for (String urlAttempt : REMOTE_GITHUB_RELEASES)
         {
             try
             {
@@ -223,7 +234,7 @@ public class UpdateCheck implements Runnable
     private static void download(String url, File saveTo, Runnable onFinish) throws Exception
     {
         BCV.log("Downloading from: " + url);
-        BytecodeViewer.showMessage("Downloading the jar in the background, when it's finished you will be alerted with another message box." + nl + nl + "Expect this to take several minutes.");
+        BytecodeViewer.showMessage("Downloading the jar in the background, when it's finished you will be alerted with another message box." + NL + NL + "Expect this to take several minutes.");
 
         try (InputStream is = new URL(url).openConnection().getInputStream(); FileOutputStream fos = new FileOutputStream(saveTo))
         {

@@ -32,8 +32,8 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import javax.swing.*;
 import java.io.File;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
+import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 
 /**
  * @author Konloch
@@ -87,7 +87,7 @@ public class ResourceDecompiling
                 return;
 
             //this temporary jar file will be used to store the classes while BCV performs decompilation
-            File temporaryTargetJar = MiscUtils.deleteExistingFile(new File(tempDirectory + fs + "temp_" + MiscUtils.getRandomizedName() + ".jar"));
+            File temporaryTargetJar = MiscUtils.deleteExistingFile(new File(TEMP_DIRECTORY + FS + "temp_" + MiscUtils.getRandomizedName() + ".jar"));
 
             //extract all the loaded classes imported into BCV to the temporary target jar
             JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), temporaryTargetJar.getAbsolutePath());

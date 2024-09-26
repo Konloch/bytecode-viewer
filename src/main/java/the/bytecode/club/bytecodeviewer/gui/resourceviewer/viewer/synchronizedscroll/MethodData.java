@@ -29,15 +29,18 @@ import java.util.Objects;
  */
 public class MethodData
 {
-    public String name, desc;
+    public String name;
+    public String desc;
 
     @Override
     public boolean equals(Object o)
     {
         if (this == o)
             return true;
+
         if (!(o instanceof MethodData))
             return false;
+
         MethodData that = (MethodData) o;
         return Objects.equals(name, that.name) && Objects.equals(desc, that.desc);
     }
@@ -51,11 +54,15 @@ public class MethodData
     public String constructPattern()
     {
         final StringBuilder pattern = new StringBuilder();
-        pattern.append(name).append(" *\\(");
         final org.objectweb.asm.Type[] types = org.objectweb.asm.Type.getArgumentTypes(desc);
+
+        pattern.append(name).append(" *\\(");
         pattern.append("(.*)");
-        Arrays.stream(types).map(Type::getClassName).forEach(clazzName -> pattern.append(clazzName.substring(clazzName.lastIndexOf(".") + 1)).append("(.*)"));
+        Arrays.stream(types).map(Type::getClassName)
+            .forEach(clazzName -> pattern.append(clazzName.substring(clazzName.lastIndexOf(".") + 1))
+                .append("(.*)"));
         pattern.append("\\) *\\{");
+
         return pattern.toString();
     }
 }

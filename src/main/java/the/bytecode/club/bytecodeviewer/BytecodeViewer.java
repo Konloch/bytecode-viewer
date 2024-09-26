@@ -141,13 +141,13 @@ public class BytecodeViewer
     public static Refactorer refactorer = new Refactorer();
 
     //GSON Reference
-    public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    public static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     //Threads
-    private static final Thread versionChecker = new Thread(new UpdateCheck(), "Version Checker");
-    private static final Thread pingBack = new Thread(new PingBack(), "Pingback");
-    private static final Thread installFatJar = new Thread(new InstallFatJar(), "Install Fat-Jar");
-    private static final Thread bootCheck = new Thread(new BootCheck(), "Boot Check");
+    private static final Thread VERSION_CHECKER = new Thread(new UpdateCheck(), "Version Checker");
+    private static final Thread PING_BACK = new Thread(new PingBack(), "Pingback");
+    private static final Thread INSTALL_FAT_JAR = new Thread(new InstallFatJar(), "Install Fat-Jar");
+    private static final Thread BOOT_CHECK = new Thread(new BootCheck(), "Boot Check");
 
     /**
      * Main startup
@@ -202,23 +202,23 @@ public class BytecodeViewer
                 MiscUtils.setLanguage(MiscUtils.guessLanguage());
 
             //handle CLI
-            int CLI = CommandLineInput.parseCommandLine(args);
-            if (CLI == CommandLineInput.STOP)
+            int isCLI = CommandLineInput.parseCommandLine(args);
+            if (isCLI == CommandLineInput.STOP)
                 return;
 
             //load with shaded libraries
             if (FAT_JAR)
             {
-                installFatJar.start();
+                INSTALL_FAT_JAR.start();
             }
             else //load through bootloader
             {
-                bootCheck.start();
-                Boot.boot(args, CLI != CommandLineInput.GUI);
+                BOOT_CHECK.start();
+                Boot.boot(args, isCLI != CommandLineInput.GUI);
             }
 
             //CLI arguments say spawn the GUI
-            if (CLI == CommandLineInput.GUI)
+            if (isCLI == CommandLineInput.GUI)
             {
                 BytecodeViewer.boot(false);
                 Configuration.bootState = BootState.GUI_SHOWING;
@@ -264,20 +264,20 @@ public class BytecodeViewer
         //ping back once on first boot to add to global user count
         if (!Configuration.pingback)
         {
-            pingBack.start();
+            PING_BACK.start();
             Configuration.pingback = true;
         }
 
         //version checking
         if (viewer.updateCheck.isSelected() && !DEV_MODE)
-            versionChecker.start();
+            VERSION_CHECKER.start();
 
         //show the main UI
         if (!cli)
             viewer.setVisible(true);
 
         //print startup time
-        System.out.println("Start up took " + ((System.currentTimeMillis() - Configuration.start) / 1000) + " seconds");
+        System.out.println("Start up took " + ((System.currentTimeMillis() - Configuration.BOOT_TIMESTAMP) / 1000) + " seconds");
 
         //request focus on GUI for hotkeys on start
         if (!cli)
@@ -677,11 +677,13 @@ public class BytecodeViewer
         new Thread(() ->
         {
             updateBusyStatus(true);
+
             for (int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
             {
                 ResourceViewer viewer = (ResourceViewer) BytecodeViewer.viewer.workPane.tabs.getComponentAt(i);
                 viewer.refresh(null);
             }
+
             updateBusyStatus(false);
         }, "Refresh All Tabs").start();
     }
@@ -695,7 +697,8 @@ public class BytecodeViewer
     {
         if (ask)
         {
-            MultipleChoiceDialog dialog = new MultipleChoiceDialog(TranslatedStrings.RESET_TITLE.toString(), TranslatedStrings.RESET_CONFIRM.toString(), new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
+            MultipleChoiceDialog dialog = new MultipleChoiceDialog(TranslatedStrings.RESET_TITLE.toString(), TranslatedStrings.RESET_CONFIRM.toString(),
+                new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
 
             if (dialog.promptChoice() != 0)
                 return;
@@ -732,7 +735,7 @@ public class BytecodeViewer
      */
     public static void cleanup()
     {
-        File tempF = new File(tempDirectory);
+        File tempF = new File(TEMP_DIRECTORY);
 
         try
         {
@@ -767,6 +770,7 @@ public class BytecodeViewer
         {
             Object key = enumeration.nextElement();
             Object value = UIManager.get(key);
+
             if (value instanceof Font)
                 UIManager.put(key, font);
         }

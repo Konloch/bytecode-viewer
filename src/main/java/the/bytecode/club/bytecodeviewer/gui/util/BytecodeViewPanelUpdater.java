@@ -109,15 +109,17 @@ public class BytecodeViewPanelUpdater implements Runnable
                 else
                 {
                     final Decompiler decompiler = bytecodeViewPanel.decompiler;
+                    final String workingDecompilerName = viewer.resource.workingName + "-" + decompiler.getDecompilerName();
 
                     //perform decompiling inside of this thread
                     final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.resource.getResourceClassNode(), classBytes);
 
-                    ClassFileContainer container = new ClassFileContainer(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), decompiledSource, viewer.resource.container);
-                    if (!BytecodeViewer.viewer.workPane.classFiles.containsKey(viewer.resource.workingName + "-" + decompiler.getDecompilerName()))
+                    ClassFileContainer container = new ClassFileContainer(workingDecompilerName, decompiledSource, viewer.resource.container);
+
+                    if (!BytecodeViewer.viewer.workPane.classFiles.containsKey(workingDecompilerName))
                     {
                         container.parse();
-                        BytecodeViewer.viewer.workPane.classFiles.put(viewer.resource.workingName + "-" + decompiler.getDecompilerName(), container);
+                        BytecodeViewer.viewer.workPane.classFiles.put(workingDecompilerName, container);
                         container.hasBeenParsed = true;
                     }
 
@@ -180,7 +182,9 @@ public class BytecodeViewPanelUpdater implements Runnable
             return;
 
         //nullcheck broken pane
-        if (updateUpdaterTextArea == null || updateUpdaterTextArea.getScrollPane() == null || updateUpdaterTextArea.getScrollPane().getViewport() == null)
+        if (updateUpdaterTextArea == null
+            || updateUpdaterTextArea.getScrollPane() == null
+            || updateUpdaterTextArea.getScrollPane().getViewport() == null)
         {
             //build an error message
             SwingUtilities.invokeLater(() -> buildTextArea(bytecodeViewPanel.decompiler, "Critical BCV Error"));
@@ -252,6 +256,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                     int activeLineDelta = -1;
                     MethodParser.Method activeMethod = null;
                     MethodParser activeMethods = viewer.methods.get(bytecodeViewPanel.panelIndex);
+
                     if (activeMethods != null)
                     {
                         int activeMethodLine = activeMethods.findActiveMethod(activeLine);
@@ -262,6 +267,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                             ClassViewer.selectMethod(updateUpdaterTextArea, activeMethodLine);
                         }
                     }
+
                     for (int i = 0; i < panes; i++)
                     {
                         if (i != bytecodeViewPanel.panelIndex)
@@ -304,6 +310,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                                 {
                                     setLine = activeLine;
                                 }
+
                                 if (setLine >= 0)
                                 {
                                     ClassViewer.setViewLine(area, setLine);
@@ -329,10 +336,11 @@ public class BytecodeViewPanelUpdater implements Runnable
         });
 
         final MethodParser methods = viewer.methods.get(bytecodeViewPanel.panelIndex);
+
         for (int i = 0; i < updateUpdaterTextArea.getLineCount(); i++)
         {
             String lineText = updateUpdaterTextArea.getLineText(i);
-            Matcher regexMatcher = MethodParser.regex.matcher(lineText);
+            Matcher regexMatcher = MethodParser.REGEX.matcher(lineText);
             if (regexMatcher.find())
             {
                 String methodName = regexMatcher.group("name");
@@ -411,6 +419,7 @@ public class BytecodeViewPanelUpdater implements Runnable
             tokenMakerFactory.putMapping("text/javaBytecode", "the.bytecode.club.bytecodeviewer.decompilers.bytecode.JavaBytecodeTokenMaker");
             bytecodeViewPanel.textArea.setSyntaxEditingStyle("text/javaBytecode");
         }
+
         bytecodeViewPanel.textArea.setCodeFoldingEnabled(true);
         bytecodeViewPanel.textArea.setText(decompiledSource);
         bytecodeViewPanel.textArea.setCaretPosition(0);
@@ -488,6 +497,7 @@ public class BytecodeViewPanelUpdater implements Runnable
 
         RSyntaxTextAreaHighlighterEx highlighterEx = (RSyntaxTextAreaHighlighterEx) textArea.getHighlighter();
         Token token = textArea.modelToToken(textArea.getCaretPosition());
+
         if (token == null)
         {
             token = textArea.modelToToken(textArea.getCaretPosition() - 1);

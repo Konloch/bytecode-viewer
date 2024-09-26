@@ -46,18 +46,18 @@ public class FernFlowerDecompiler extends InternalDecompiler
     {
         File tempZip = new File(sourceJar);
 
-        File f = new File(tempDirectory + fs + "temp" + fs);
+        File f = new File(TEMP_DIRECTORY + FS + "temp" + FS);
         f.mkdir();
 
         try
         {
-            org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempZip.getAbsolutePath(), tempDirectory + "./temp/"));
+            org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempZip.getAbsolutePath(), TEMP_DIRECTORY + "./temp/"));
         }
         catch (StackOverflowError | Exception ignored)
         {
         }
 
-        File tempZip2 = new File(tempDirectory + fs + "temp" + fs + tempZip.getName());
+        File tempZip2 = new File(TEMP_DIRECTORY + FS + "temp" + FS + tempZip.getName());
         if (tempZip2.exists())
             tempZip2.renameTo(new File(zipName));
 
@@ -67,7 +67,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b)
     {
-        String start = tempDirectory + fs + MiscUtils.getUniqueName("", ".class");
+        String start = TEMP_DIRECTORY + FS + MiscUtils.getUniqueName("", ".class");
 
         final File tempClass = new File(start + ".class");
 
@@ -108,7 +108,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
         {
             try
             {
-                org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClass.getAbsolutePath(), new File(tempDirectory).getAbsolutePath()));
+                org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClass.getAbsolutePath(), new File(TEMP_DIRECTORY).getAbsolutePath()));
             }
             catch (Throwable e)
             {
@@ -124,7 +124,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
         String javaDir = start;
         if (BytecodeViewer.viewer.ren.isSelected())
         {
-            javaDir = tempDirectory + "class_0";
+            javaDir = TEMP_DIRECTORY + "class_0";
         }
 
         final File outputJava = new File(javaDir + ".java");
@@ -145,11 +145,11 @@ public class FernFlowerDecompiler extends InternalDecompiler
                 e.printStackTrace(new PrintWriter(exceptionWriter));
                 e.printStackTrace();
 
-                exception += nl + nl + exceptionWriter;
+                exception += NL + NL + exceptionWriter;
             }
         }
 
-        return FERNFLOWER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + nl + nl + exception;
+        return FERNFLOWER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     private String[] generateMainMethod(String className, String folder)

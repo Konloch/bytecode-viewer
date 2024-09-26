@@ -113,7 +113,7 @@ public class BCV
     {
         try
         {
-            File f = new File(tempDirectory + fs + MiscUtils.randomString(12) + "loaded_temp.jar");
+            File f = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(12) + "loaded_temp.jar");
             List<Class<?>> ret = new ArrayList<>();
 
             JarUtils.saveAsJar(BCV.getLoadedClasses(), f.getAbsolutePath());

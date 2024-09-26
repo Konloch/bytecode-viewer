@@ -58,7 +58,6 @@ public class FileViewer extends ResourceViewer
 
         this.setName(name);
         this.setLayout(new BorderLayout());
-
         this.add(mainPanel, BorderLayout.CENTER);
 
         setContents();
@@ -69,7 +68,9 @@ public class FileViewer extends ResourceViewer
         final byte[] contents = resource.getResourceBytes();
         final String nameLowerCase = this.resource.name.toLowerCase();
         final String onlyName = FilenameUtils.getName(nameLowerCase);
-        final boolean hexViewerOnly = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.HEXCODE_VIEWER && BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE && BytecodeViewer.viewer.viewPane3.getSelectedDecompiler() == Decompiler.NONE;
+        final boolean hexViewerOnly = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.HEXCODE_VIEWER
+            && BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE
+            && BytecodeViewer.viewer.viewPane3.getSelectedDecompiler() == Decompiler.NONE;
 
         //image viewer
         if (MiscUtils.guessIfBinary(contents) || hexViewerOnly)
@@ -79,7 +80,6 @@ public class FileViewer extends ResourceViewer
             //  + Check for CAFEBABE
             //  + ClassRead then quick-decompile using Pane1 Decompiler
             //      (If none selected, try Pane2, Pane3, default to Procyon)
-
 
             //check by file extension to display image
             if (!onlyName.contains(":") && ResourceType.imageExtensionMap.containsKey(FilenameUtils.getExtension(onlyName)) && !hexViewerOnly)

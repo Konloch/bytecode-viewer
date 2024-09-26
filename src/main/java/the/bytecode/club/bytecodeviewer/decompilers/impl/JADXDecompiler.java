@@ -47,7 +47,7 @@ public class JADXDecompiler extends InternalDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b)
     {
-        String fileStart = tempDirectory + fs;
+        String fileStart = TEMP_DIRECTORY + FS;
 
         String exception = "";
         final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
@@ -92,7 +92,7 @@ public class JADXDecompiler extends InternalDecompiler
         if (exception.isEmpty())
             exception = "Decompiled source file not found!";
 
-        return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + nl + nl + exception;
+        return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     //TODO remove
@@ -129,13 +129,13 @@ public class JADXDecompiler extends InternalDecompiler
                     e.printStackTrace();
                     String exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
 
-                    return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + nl + nl + exception;
+                    return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
                 }
                 return s;
             }
         }
 
-        return "JADX error!" + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR;
+        return "JADX error!" + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR;
     }
 
     @Override

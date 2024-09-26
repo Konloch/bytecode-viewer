@@ -51,26 +51,26 @@ public class MethodParser
         }
     }
 
-    public static final Pattern regex = Pattern.compile("\\s*(?:static|public|private|protected|final|abstract)" + "[\\w\\s.<>\\[\\]]*\\s+(?<name>[\\w.]+)\\s*\\((?<params>[\\w\\s,.<>\\[\\]$?]*)\\)");
+    public static final Pattern REGEX = Pattern.compile("\\s*(?:static|public|private|protected|final|abstract)"
+        + "[\\w\\s.<>\\[\\]]*\\s+(?<name>[\\w.]+)\\s*\\((?<params>[\\w\\s,.<>\\[\\]$?]*)\\)");
 
     private final TreeMap<Integer, Method> methods = new TreeMap<>();
 
     private static String removeBrackets(String string)
     {
         if (string.indexOf('<') != -1 && string.indexOf('>') != -1)
-        {
             return removeBrackets(string.replaceAll("<[^<>]*>", ""));
-        }
+
         return string;
     }
 
     private static String getLastPart(String string, int character)
     {
         int ch = string.lastIndexOf(character);
+
         if (ch != -1)
-        {
             string = string.substring(ch + 1);
-        }
+
         return string;
     }
 
@@ -80,6 +80,7 @@ public class MethodParser
         {
             name = getLastPart(name, '.');
             String[] args = {};
+
             if (!params.isEmpty())
             {
                 params = removeBrackets(params);
@@ -87,15 +88,18 @@ public class MethodParser
                 for (int i = 0; i < args.length; i++)
                 {
                     args[i] = args[i].trim();
+
                     if (args[i].indexOf(' ') != -1)
                     {
                         String[] strings = args[i].split(" ");
                         args[i] = strings[strings.length - 2];
                     }
+
                     args[i] = getLastPart(args[i], '.');
                     args[i] = getLastPart(args[i], '$');
                 }
             }
+
             Method method = new Method(name, Arrays.asList(args));
             methods.put(line, method);
         }
@@ -120,22 +124,26 @@ public class MethodParser
     public String getMethodName(int line)
     {
         Method method = methods.get(line);
+
         if (method != null)
         {
             if (!method.name.isEmpty())
                 return method.name;
         }
+
         return "";
     }
 
     public List<String> getMethodParams(int line)
     {
         Method method = methods.get(line);
+
         if (method != null)
         {
             if (!method.params.isEmpty())
                 return method.params;
         }
+
         return null;
     }
 
@@ -151,11 +159,10 @@ public class MethodParser
             if (name.equals(entry.getValue().name) && params.size() == entry.getValue().params.size())
             {
                 if (params.equals(entry.getValue().params))
-                {
                     return entry.getKey();
-                }
             }
         }
+
         return -1;
     }
 
@@ -165,10 +172,9 @@ public class MethodParser
         {
             Map.Entry<Integer, Method> low = methods.floorEntry(line);
             if (low != null)
-            {
                 return low.getKey();
-            }
         }
+
         return -1;
     }
 
@@ -184,16 +190,14 @@ public class MethodParser
             {
                 Map.Entry<Integer, Method> low = methods.floorEntry(line);
                 Map.Entry<Integer, Method> high = methods.ceilingEntry(line);
+
                 if (low != null && high != null)
-                {
                     return Math.abs(line - low.getKey()) < Math.abs(line - high.getKey()) ? low.getKey() : high.getKey();
-                }
                 else if (low != null || high != null)
-                {
                     return low != null ? low.getKey() : high.getKey();
-                }
             }
         }
+
         return -1;
     }
 }

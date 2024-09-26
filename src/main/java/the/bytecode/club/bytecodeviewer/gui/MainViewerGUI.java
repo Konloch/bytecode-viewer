@@ -63,7 +63,7 @@ import java.util.Map;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialog;
 import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
 
 /**
  * The main file for the GUI
@@ -907,7 +907,7 @@ public class MainViewerGUI extends JFrame
 
             for (ResourceContainer container : BytecodeViewer.resourceContainers.values())
             {
-                File newFile = new File(container.file.getParent() + fs + container.name);
+                File newFile = new File(container.file.getParent() + FS + container.name);
                 if (!container.file.getAbsolutePath().equals(newFile.getAbsolutePath()) && (container.file.getAbsolutePath().endsWith(".apk") || container.file.getAbsolutePath().endsWith(".dex"))) //APKs & dex get renamed
                 {
                     container.file.renameTo(newFile);

@@ -29,8 +29,8 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.File;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
+import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 
 /**
  * @author Konloch
@@ -41,14 +41,14 @@ public class DEXResourceImporter implements Importer
     @Override
     public void open(File file) throws Exception
     {
-        File tempCopy = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".dex");
+        File tempCopy = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + ".dex");
 
         FileUtils.copyFile(file, tempCopy); //copy and rename to prevent unicode filenames
 
         ResourceContainer container = new ResourceContainer(tempCopy, file.getName());
 
         String name = MiscUtils.getRandomizedName() + ".jar";
-        File output = new File(tempDirectory + fs + name);
+        File output = new File(TEMP_DIRECTORY + FS + name);
 
         if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
             Dex2Jar.dex2Jar(tempCopy, output);

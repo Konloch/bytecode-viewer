@@ -29,7 +29,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 
 /**
  * @author Konloch
@@ -45,6 +45,7 @@ public class ClassNodeDecompiler
         sb.append(getAccessString(cn.access));
         sb.append(" ");
         sb.append(cn.name);
+
         if (cn.superName != null && !cn.superName.equals("java/lang/Object"))
         {
             sb.append(" extends ");
@@ -52,34 +53,37 @@ public class ClassNodeDecompiler
         }
 
         int amountOfInterfaces = cn.interfaces.size();
+
         if (amountOfInterfaces > 0)
         {
             sb.append(" implements ");
             sb.append(cn.interfaces.get(0));
+
             for (int i = 1; i < amountOfInterfaces; i++)
             {
                 sb.append(", ");
                 sb.append(cn.interfaces.get(i));
             }
         }
+
         sb.append(" {");
-        sb.append(nl);
+        sb.append(NL);
         sb.append("     ");
         sb.append("<ClassVersion=" + cn.version + ">");
-        sb.append(nl);
+        sb.append(NL);
 
         if (cn.sourceDebug != null)
         {
             sb.append("     ");
             sb.append("<SourceDebug=" + cn.sourceDebug + ">");
-            sb.append(nl);
+            sb.append(NL);
         }
 
         if (cn.sourceFile != null)
         {
             sb.append("     ");
             sb.append("<SourceFile=" + cn.sourceFile + ">");
-            sb.append(nl);
+            sb.append(NL);
         }
 
         if (cn.signature != null)
@@ -90,17 +94,19 @@ public class ClassNodeDecompiler
 
         for (FieldNode fn : cn.fields)
         {
-            sb.append(nl);
+            sb.append(NL);
             sb.append("     ");
             FieldNodeDecompiler.decompile(sb, fn);
         }
+
         if (cn.fields.size() > 0)
         {
-            sb.append(nl);
+            sb.append(NL);
         }
+
         for (MethodNode mn : cn.methods)
         {
-            sb.append(nl);
+            sb.append(NL);
             MethodNodeDecompiler.decompile(sb, mn, cn);
         }
 
@@ -111,13 +117,14 @@ public class ClassNodeDecompiler
             {
                 decompiledClasses.add(innerClassName);
                 ClassNode cn1 = BytecodeViewer.blindlySearchForClassNode(innerClassName);
+
                 if (cn1 != null)
                 {
                     sb.appendPrefix("     ");
-                    sb.append(nl + nl);
+                    sb.append(NL + NL);
                     sb = decompile(sb, decompiledClasses, cn1);
                     sb.trimPrefix(5);
-                    sb.append(nl);
+                    sb.append(NL);
                 }
                 else
                 {
@@ -129,21 +136,24 @@ public class ClassNodeDecompiler
         if (!unableToDecompile.isEmpty())
         {
             sb.append("// The following inner classes couldn't be decompiled: ");
+
             for (String s : unableToDecompile)
             {
                 sb.append(s);
                 sb.append(" ");
             }
-            sb.append(nl);
+
+            sb.append(NL);
         }
 
         if (cn.attrs != null)
         {
-            sb.append(nl);
+            sb.append(NL);
+
             for (Attribute attr : cn.attrs)
             {
                 //TODO: finish attributes
-                sb.append(attr.type + ": ");// + attr.content.toString());
+                sb.append(attr.type + ": "); // + attr.content.toString());
             }
         }
 
@@ -157,6 +167,7 @@ public class ClassNodeDecompiler
     public static String getAccessString(int access)
     {
         List<String> tokens = new ArrayList<>();
+
         if ((access & Opcodes.ACC_PUBLIC) != 0)
             tokens.add("public");
         if ((access & Opcodes.ACC_PRIVATE) != 0)
@@ -182,11 +193,13 @@ public class ClassNodeDecompiler
 
         // hackery delimeters
         StringBuilder sb = new StringBuilder(tokens.get(0));
+
         for (int i = 1; i < tokens.size(); i++)
         {
             sb.append(" ");
             sb.append(tokens.get(i));
         }
+
         return sb.toString();
     }
 }

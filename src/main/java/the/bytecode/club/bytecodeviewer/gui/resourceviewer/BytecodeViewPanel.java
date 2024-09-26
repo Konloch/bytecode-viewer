@@ -31,7 +31,7 @@ import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import javax.swing.*;
 import java.awt.*;
 
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 
 /**
  * Represents a Bytecode/ClassFile View Panel
@@ -79,7 +79,7 @@ public class BytecodeViewPanel extends JPanel
             return true;
 
         SystemConsole errConsole = new SystemConsole(TranslatedStrings.JAVA_COMPILE_FAILED.toString());
-        errConsole.setText(TranslatedStrings.ERROR_COMPILING_CLASS + " " + viewer.resource.getResourceClassNode().name + nl + TranslatedStrings.COMPILER_TIP + nl + nl + TranslatedStrings.SUGGESTED_FIX_COMPILER_ERROR + nl + nl);
+        errConsole.setText(TranslatedStrings.ERROR_COMPILING_CLASS + " " + viewer.resource.getResourceClassNode().name + NL + TranslatedStrings.COMPILER_TIP + NL + NL + TranslatedStrings.SUGGESTED_FIX_COMPILER_ERROR + NL + NL);
 
         try
         {

@@ -23,7 +23,7 @@ import the.bytecode.club.bytecodeviewer.Constants;
 import javax.swing.*;
 import java.io.PrintStream;
 
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 
 /**
  * A swing console that can print out from PrintStreams
@@ -136,7 +136,7 @@ public class JFrameConsolePrintStream extends JFrameConsole
                         String start = split[0] + "'" + split[1] + "', ";
                         s = s.substring(start.length());
                     }
-                    replace.append(s).append(nl);
+                    replace.append(s).append(NL);
                 }
 
                 setText(replace.toString());

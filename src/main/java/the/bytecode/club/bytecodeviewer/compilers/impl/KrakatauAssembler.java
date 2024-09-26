@@ -51,16 +51,16 @@ public class KrakatauAssembler extends InternalCompiler
         if (!ExternalResources.getSingleton().hasSetPython2Command())
             return null;
 
-        File tempD = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
+        File tempD = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
         tempD.mkdir();
 
-        File tempJ = new File(tempD.getAbsolutePath() + fs + fullyQualifiedName + ".j");
+        File tempJ = new File(tempD.getAbsolutePath() + FS + fullyQualifiedName + ".j");
         DiskWriter.replaceFile(tempJ.getAbsolutePath(), contents, true);
 
-        final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
+        final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
         tempDirectory.mkdir();
 
-        final File tempJar = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
+        final File tempJar = new File(Constants.TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(32) + ".jar");
         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 
         StringBuilder log = new StringBuilder();
@@ -72,29 +72,33 @@ public class KrakatauAssembler extends InternalCompiler
                 pythonCommands = ArrayUtils.addAll(pythonCommands, "-2");
 
             ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(pythonCommands, "-O", //love you storyyeller <3
-                krakatauWorkingDirectory + fs + "assemble.py", "-out", tempDirectory.getAbsolutePath(), tempJ.getAbsolutePath()));
+                krakatauWorkingDirectory + FS + "assemble.py", "-out", tempDirectory.getAbsolutePath(), tempJ.getAbsolutePath()));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
 
             //Read out dir output
-            try (InputStream is = process.getInputStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+            try (InputStream is = process.getInputStream();
+                 InputStreamReader isr = new InputStreamReader(is);
+                 BufferedReader br = new BufferedReader(isr))
             {
                 String line;
                 while ((line = br.readLine()) != null)
-                    log.append(nl).append(line);
+                    log.append(NL).append(line);
             }
 
-            log.append(nl).append(nl).append(TranslatedStrings.ERROR2).append(nl).append(nl);
-            try (InputStream is = process.getErrorStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+            log.append(NL).append(NL).append(TranslatedStrings.ERROR2).append(NL).append(NL);
+            try (InputStream is = process.getErrorStream();
+                 InputStreamReader isr = new InputStreamReader(is);
+                 BufferedReader br = new BufferedReader(isr))
             {
                 String line;
                 while ((line = br.readLine()) != null)
-                    log.append(nl).append(line);
+                    log.append(NL).append(line);
             }
 
             int exitValue = process.waitFor();
-            log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
+            log.append(NL).append(NL).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
             System.err.println(log);
 
             byte[] b = FileUtils.readFileToByteArray(Objects.requireNonNull(ExternalResources.getSingleton().findFile(tempDirectory, ".class")));

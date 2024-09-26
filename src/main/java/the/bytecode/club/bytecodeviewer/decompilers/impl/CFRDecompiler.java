@@ -43,7 +43,7 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.CFR;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
 
@@ -86,7 +86,7 @@ public class CFRDecompiler extends InternalDecompiler
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             t.printStackTrace(pw);
-            return CFR + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + nl + nl + sw;
+            return CFR + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + sw;
         }
     }
 

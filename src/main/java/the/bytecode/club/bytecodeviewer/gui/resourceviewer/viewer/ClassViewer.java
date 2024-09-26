@@ -138,7 +138,9 @@ public class ClassViewer extends ResourceViewer
 
             if (!BytecodeViewer.viewer.autoCompileOnRefresh.isSelected() && !BytecodeViewer.viewer.compileOnSave.isSelected())
             {
-                BytecodeViewer.showMessage("Make sure to compile (File>Compile or Ctrl + T) whenever you want to " + "test or export your changes.\nYou can set compile automatically on refresh or on save " + "in the settings menu.");
+                BytecodeViewer.showMessage("Make sure to compile (File>Compile or Ctrl + T) whenever you want to "
+                    + "test or export your changes.\nYou can set compile automatically on refresh or on save "
+                    + "in the settings menu.");
 
                 SettingsSerializer.saveSettingsAsync();
             }
@@ -293,9 +295,7 @@ public class ClassViewer extends ResourceViewer
             for (Component c : this.getComponents())
             {
                 if (c instanceof BytecodeViewPanel || c instanceof JSplitPane)
-                {
                     this.remove(c);
-                }
             }
 
             this.sp.setResizeWeight(0.5);
@@ -307,13 +307,17 @@ public class ClassViewer extends ResourceViewer
                 this.sp.setLeftComponent(bytecodeViewPanel1);
                 this.sp.setRightComponent(bytecodeViewPanel2);
                 this.add(sp, BorderLayout.CENTER);
-            } /* If panel 1 and panel 3 are ticked but not panel 2 */
+            }
+
+            /* If panel 1 and panel 3 are ticked but not panel 2 */
             else if (bytecodeViewPanel1.decompiler != Decompiler.NONE && bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel3.decompiler != Decompiler.NONE)
             {
                 this.sp.setLeftComponent(bytecodeViewPanel1);
                 this.sp.setRightComponent(bytecodeViewPanel3);
                 this.add(sp, BorderLayout.CENTER);
-            } /* If panel 2 and panel 3 are ticked but not panel 1 */
+            }
+
+            /* If panel 2 and panel 3 are ticked but not panel 1 */
             else if (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel3.decompiler != Decompiler.NONE)
             {
                 this.sp.setLeftComponent(bytecodeViewPanel2);
@@ -332,15 +336,25 @@ public class ClassViewer extends ResourceViewer
             }
 
             /* If view panel 1 is only ticked... */
-            if (bytecodeViewPanel1.decompiler != Decompiler.NONE && bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel3.decompiler == Decompiler.NONE)
+            if (bytecodeViewPanel1.decompiler != Decompiler.NONE
+                && bytecodeViewPanel2.decompiler == Decompiler.NONE
+                && bytecodeViewPanel3.decompiler == Decompiler.NONE)
             {
                 this.add(bytecodeViewPanel1, BorderLayout.CENTER);
-            } /* If view panel 2 is only ticked... */
-            else if (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel3.decompiler == Decompiler.NONE)
+            }
+
+            /* If view panel 2 is only ticked... */
+            else if (bytecodeViewPanel1.decompiler == Decompiler.NONE
+                && bytecodeViewPanel2.decompiler != Decompiler.NONE
+                && bytecodeViewPanel3.decompiler == Decompiler.NONE)
             {
                 this.add(bytecodeViewPanel2, BorderLayout.CENTER);
-            } /* If view panel 3 is only ticked... */
-            else if (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel3.decompiler != Decompiler.NONE)
+            }
+
+            /* If view panel 3 is only ticked... */
+            else if (bytecodeViewPanel1.decompiler == Decompiler.NONE
+                && bytecodeViewPanel2.decompiler == Decompiler.NONE
+                && bytecodeViewPanel3.decompiler != Decompiler.NONE)
             {
                 this.add(bytecodeViewPanel3, BorderLayout.CENTER);
             }

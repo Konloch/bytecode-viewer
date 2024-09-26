@@ -32,7 +32,8 @@ import java.net.URLClassLoader;
 public class ClassPathLoader implements ILoader<Object>
 {
 
-    void extendClassPath(URL url) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+    void extendClassPath(URL url) throws NoSuchMethodException, SecurityException,
+        IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
         URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
         Class<URLClassLoader> urlClass = URLClassLoader.class;
@@ -59,10 +60,11 @@ public class ClassPathLoader implements ILoader<Object>
                     extendClassPath(url);
                 }
             }
-        }/* catch (IOException e) {
-			System.err.println("Error loading resource.");
-			e.printStackTrace();
-		}*/
+        }
+        /* catch (IOException e) {
+            System.err.println("Error loading resource.");
+            e.printStackTrace();
+        }*/
         catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
         {
             System.err.println("Error reflecting URLClassLoader.addURL(URL) ?");

@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
 import static the.bytecode.club.bytecodeviewer.api.ExceptionUI.SEND_STACKTRACE_TO;
 
 /**
@@ -59,9 +59,9 @@ public class JavapDisassembler extends InternalDecompiler
 
     private synchronized String synchronizedDecompilation(ClassNode cn, byte[] b)
     {
-        final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
+        final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
         tempDirectory.mkdir();
-        final File tempClass = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".class");
+        final File tempClass = new File(Constants.TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(32) + ".class");
 
         DiskWriter.replaceFileBytes(tempClass.getAbsolutePath(), b, false);
 

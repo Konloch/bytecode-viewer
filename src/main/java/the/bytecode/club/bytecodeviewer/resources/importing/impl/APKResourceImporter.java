@@ -27,8 +27,8 @@ import the.bytecode.club.bytecodeviewer.util.*;
 
 import java.io.File;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
+import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 
 /**
  * @author Konloch
@@ -40,7 +40,7 @@ public class APKResourceImporter implements Importer
     @Override
     public void open(File file) throws Exception
     {
-        File tempCopy = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
+        File tempCopy = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + ".apk");
         FileUtils.copyFile(file, tempCopy);
 
         ResourceContainer container = new ResourceContainer(tempCopy, file.getName());
@@ -48,7 +48,7 @@ public class APKResourceImporter implements Importer
         // APK Resource Decoding Here
         if (BytecodeViewer.viewer.decodeAPKResources.isSelected())
         {
-            File decodedResources = new File(tempDirectory + fs + MiscUtils.randomString(32) + ".apk");
+            File decodedResources = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + ".apk");
             APKTool.decodeResources(tempCopy, decodedResources, container);
             container.resourceFiles = JarUtils.loadResources(decodedResources);
         }
@@ -57,7 +57,7 @@ public class APKResourceImporter implements Importer
         // to prevent unicode filenames
 
         String name = MiscUtils.getRandomizedName() + ".jar";
-        File output = new File(tempDirectory + fs + name);
+        File output = new File(TEMP_DIRECTORY + FS + name);
 
         if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
             Dex2Jar.dex2Jar(tempCopy, output);

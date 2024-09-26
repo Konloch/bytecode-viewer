@@ -47,8 +47,8 @@ import java.io.File;
 import java.util.Enumeration;
 import java.util.Map.Entry;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
+import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 
 /**
  * The file navigation pane.
@@ -379,7 +379,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
 
                 //TODO make a settings toggle to disable preservation of the original name
                 // it should also detect if the file name is not compatible with the current OS and enable automatically
-                File tempFile = new File(tempDirectory + fs + hash + fs + name + "." + extension);
+                File tempFile = new File(TEMP_DIRECTORY + FS + hash + FS + name + "." + extension);
                 if (!tempFile.exists())
                 {
                     DiskWriter.replaceFileBytes(tempFile.getAbsolutePath(), content, false);

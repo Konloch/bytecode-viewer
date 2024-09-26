@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 
 /**
  * @author Konloch
@@ -39,15 +39,11 @@ public class MethodNodeDecompiler
 
     public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb, MethodNode m, ClassNode cn)
     {
-        String class_;
+        String className;
         if (cn.name.contains("/"))
-        {
-            class_ = cn.name.substring(cn.name.lastIndexOf("/") + 1);
-        }
+            className = cn.name.substring(cn.name.lastIndexOf("/") + 1);
         else
-        {
-            class_ = cn.name;
-        }
+            className = cn.name;
 
         String s = getAccessString(m.access);
         sb.append("     ");
@@ -56,9 +52,7 @@ public class MethodNodeDecompiler
             sb.append(" ");
 
         if (m.name.equals("<init>"))
-        {
-            sb.append(class_);
-        }
+            sb.append(className);
         else if (!m.name.equals("<clinit>"))
         {
             Type returnType = Type.getReturnType(m.desc);
@@ -111,7 +105,7 @@ public class MethodNodeDecompiler
             sb.append(" {}");
             sb.append(" //");
             sb.append(m.desc);
-            sb.append(nl);
+            sb.append(NL);
         }
         else
         {
@@ -129,18 +123,18 @@ public class MethodNodeDecompiler
             sb.append(" //");
             sb.append(m.desc);
 
-            sb.append(nl);
+            sb.append(NL);
 
             if (m.signature != null)
             {
                 sb.append("         <sig:").append(m.signature).append(">");
-                sb.append(nl);
+                sb.append(NL);
             }
 
             if (m.annotationDefault != null)
             {
                 sb.append(m.annotationDefault);
-                sb.append(nl);
+                sb.append(NL);
             }
 
             InstructionPrinter insnPrinter = new InstructionPrinter(m, args);
@@ -155,6 +149,7 @@ public class MethodNodeDecompiler
             addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb, insnPrinter);
 
             List<TryCatchBlockNode> tryCatchBlocks = m.tryCatchBlocks;
+
             for (int i = 0; i < tryCatchBlocks.size(); i++)
             {
                 TryCatchBlockNode o = tryCatchBlocks.get(i);
@@ -170,15 +165,16 @@ public class MethodNodeDecompiler
                     sb.append(o.type);
                 else
                     sb.append("Type is null.");
-                sb.append(nl);
+                sb.append(NL);
             }
+
             for (String insn : insnPrinter.createPrint())
             {
                 sb.append("         ");
                 sb.append(insn);
-                sb.append(nl);
+                sb.append(NL);
             }
-            sb.append("     }" + nl);
+            sb.append("     }" + NL);
         }
         return sb;
     }
@@ -196,9 +192,9 @@ public class MethodNodeDecompiler
                 sb.append(":");
                 sb.append(printAttr(o, insnPrinter));
                 sb.append(">");
-                sb.append(nl);
+                sb.append(NL);
             }
-            sb.append(nl);
+            sb.append(NL);
         }
     }
 

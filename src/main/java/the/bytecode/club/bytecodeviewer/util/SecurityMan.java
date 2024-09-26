@@ -41,8 +41,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SecurityMan extends SecurityManager
 {
-    private static final boolean disableExecSandbox = true;
-    private static final boolean disableDiskWriteSandbox = true;
+    private static final boolean DISABLE_EXEC_SANDBOX = true;
+    private static final boolean DISABLE_DISK_WRITE_SANDBOX = true;
 
     private final AtomicInteger silentExec = new AtomicInteger(1);
     private boolean printing = false;
@@ -77,11 +77,17 @@ public class SecurityMan extends SecurityManager
     public void checkExec(String cmd)
     {
         //This was disabled on 02-13-2022, at some point in the future I will fix the compatibility issues and re-enable it.
-        if (disableExecSandbox)
+        if (DISABLE_EXEC_SANDBOX)
             return;
 
-        //incoming command must contain the following or it will be automatically denied
-        String[] execWhitelist = {"attrib", "python", "pypy", "java", "brut_util",};
+        //incoming command must contain the following, or it will be automatically denied
+        String[] execWhitelist = {
+            "attrib",
+            "python",
+            "pypy",
+            "java",
+            "brut_util"
+        };
 
         //the goal is to make this true
         boolean allow = false;
@@ -108,7 +114,7 @@ public class SecurityMan extends SecurityManager
             blocked = true;
 
             //block anything executing in system temp
-        else if (normalizedPath.startsWith(Constants.systemTempDirectory.toLowerCase()))
+        else if (normalizedPath.startsWith(Constants.SYSTEM_TEMP_DIRECTORY.toLowerCase()))
             blocked = true;
 
         //can only write into BCV dir, so anything executing from here has probably been dropped
@@ -170,7 +176,19 @@ public class SecurityMan extends SecurityManager
      */
     private boolean canClassExecute(String fullyQualifiedClassName)
     {
-        return fullyQualifiedClassName.equals(KrakatauDecompiler.class.getCanonicalName()) || fullyQualifiedClassName.equals(KrakatauDisassembler.class.getCanonicalName()) || fullyQualifiedClassName.equals(CFRDecompiler.class.getCanonicalName()) || fullyQualifiedClassName.equals(ProcyonDecompiler.class.getCanonicalName()) || fullyQualifiedClassName.equals(FernFlowerDecompiler.class.getCanonicalName()) || fullyQualifiedClassName.equals(JDGUIDecompiler.class.getCanonicalName()) || fullyQualifiedClassName.equals(KrakatauAssembler.class.getCanonicalName()) || fullyQualifiedClassName.equals(ExternalResources.class.getCanonicalName()) || fullyQualifiedClassName.equals(Enjarify.class.getCanonicalName()) || fullyQualifiedClassName.equals(APKTool.class.getCanonicalName()) || fullyQualifiedClassName.equals(BytecodeViewer.class.getCanonicalName()) || fullyQualifiedClassName.equals(Constants.class.getCanonicalName()) || fullyQualifiedClassName.equals(JavaCompiler.class.getCanonicalName());
+        return fullyQualifiedClassName.equals(KrakatauDecompiler.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(KrakatauDisassembler.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(CFRDecompiler.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(ProcyonDecompiler.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(FernFlowerDecompiler.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(JDGUIDecompiler.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(KrakatauAssembler.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(ExternalResources.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(Enjarify.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(APKTool.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(BytecodeViewer.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(Constants.class.getCanonicalName())
+            || fullyQualifiedClassName.equals(JavaCompiler.class.getCanonicalName());
     }
 
     @Override
@@ -334,13 +352,24 @@ public class SecurityMan extends SecurityManager
             System.out.println("Writing: " + file);
 
         //This was disabled on 02-13-2022, at some point in the future I will fix the compatibility issues and re-enable it.
-        if (disableDiskWriteSandbox)
+        if (DISABLE_DISK_WRITE_SANDBOX)
             return;
 
         try
         {
             //can only export as the following extensions
-            if (file.endsWith(".zip") || file.endsWith(".jar") || file.endsWith(".apk") || file.endsWith(".dex") || file.endsWith(".class") || file.endsWith("js") || file.endsWith(".java") || file.endsWith(".gy") || file.endsWith(".bcv") || file.endsWith(".json") || file.endsWith(".txt") || file.endsWith(".log"))
+            if (file.endsWith(".zip")
+                || file.endsWith(".jar")
+                || file.endsWith(".apk")
+                || file.endsWith(".dex")
+                || file.endsWith(".class")
+                || file.endsWith("js")
+                || file.endsWith(".java")
+                || file.endsWith(".gy")
+                || file.endsWith(".bcv")
+                || file.endsWith(".json")
+                || file.endsWith(".txt")
+                || file.endsWith(".log"))
                 return;
 
             //can only write into BCV dir
@@ -348,7 +377,7 @@ public class SecurityMan extends SecurityManager
                 return;
 
             //can only write into system temp
-            if (file.startsWith(Constants.systemTempDirectory))
+            if (file.startsWith(Constants.SYSTEM_TEMP_DIRECTORY))
                 return;
         }
         catch (IOException e)

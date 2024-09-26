@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 
 /**
  * EZ Injection - This plugin is designed to provide a graphical way for the
@@ -243,7 +243,7 @@ public class EZInjection extends Plugin
             for (ClassNode cn : BytecodeViewer.getLoadedClasses())
                 BCV.getClassNodeLoader().addClass(cn);
 
-            print("Attempting to find " + invokeMethodInformation + ":" + nl + nl);
+            print("Attempting to find " + invokeMethodInformation + ":" + NL + NL);
 
             for (ClassNode classNode : classNodeList)
             {
@@ -258,7 +258,7 @@ public class EZInjection extends Plugin
                         {
                             if (m2.getName().equals(m.name))
                             {
-                                print("Invoking " + invokeMethodInformation + ":" + nl + nl);
+                                print("Invoking " + invokeMethodInformation + ":" + NL + NL);
 
                                 GraphicalReflectionKit kit = launchKit ? new GraphicalReflectionKit() : null;
                                 try

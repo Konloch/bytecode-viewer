@@ -24,8 +24,8 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 import java.io.File;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
+import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 
 /**
  * @author Konloch
@@ -37,14 +37,14 @@ public class APKTool
     {
         try
         {
-            File dir = new File(tempDirectory + fs + MiscUtils.randomString(32) + fs + "Decoded Resources");
+            File dir = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS + "Decoded Resources");
             dir.mkdirs();
 
-            File tempAPKPath = new File(tempDirectory + fs + MiscUtils.randomString(12));
+            File tempAPKPath = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(12));
             tempAPKPath.mkdirs();
             brut.apktool.Main.main(new String[]{"r", "--frame-path", tempAPKPath.getAbsolutePath(), "d", input.getAbsolutePath(), "-o", dir.getAbsolutePath(), "-f"});
 
-            File zip = new File(tempDirectory + fs + MiscUtils.randomString(12) + ".zip");
+            File zip = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(12) + ".zip");
             ZipUtils.zipFolderAPKTool(dir.getAbsolutePath(), zip.getAbsolutePath());
 
             if (zip.exists())
@@ -61,17 +61,17 @@ public class APKTool
 
     public static synchronized void buildAPK(File input, File output, ResourceContainer container)
     {
-        String temp = tempDirectory + fs;
-        File tempDir = new File(temp + fs + MiscUtils.getRandomizedName() + fs);
+        String temp = TEMP_DIRECTORY + FS;
+        File tempDir = new File(temp + FS + MiscUtils.getRandomizedName() + FS);
         tempDir.mkdirs();
 
 
-        File tempAPKPath = new File(tempDirectory + fs + MiscUtils.randomString(12));
+        File tempAPKPath = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(12));
         tempAPKPath.mkdirs();
 
         try
         {
-            File smaliFolder = new File(container.APKToolContents.getAbsolutePath() + fs + "smali");
+            File smaliFolder = new File(container.APKToolContents.getAbsolutePath() + FS + "smali");
             FileUtils.deleteDirectory(smaliFolder);
 
 

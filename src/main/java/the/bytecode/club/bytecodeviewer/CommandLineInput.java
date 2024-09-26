@@ -43,23 +43,23 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 public class CommandLineInput
 {
 
-    private static final Options options = new Options();
-    private static final CommandLineParser parser = new DefaultParser();
+    private static final Options OPTIONS = new Options();
+    private static final CommandLineParser PARSER = new DefaultParser();
 
     /*BECAUSE WHO DOESN'T LOVE MAGIC NUMBERS*/
-    public static int STOP = -1;
-    public static int GUI = 0;
-    public static int CLI = 1;
+    public static final int STOP = -1;
+    public static final int GUI = 0;
+    public static final int CLI = 1;
 
     static
     {
-        options.addOption("help", false, "prints the help menu.");
-        options.addOption("list", false, "lists all the available decompilers for BCV " + VERSION + ".");
-        options.addOption("decompiler", true, "sets the decompiler, procyon by default.");
-        options.addOption("i", true, "sets the input.");
-        options.addOption("o", true, "sets the output.");
-        options.addOption("t", true, "sets the target class to decompile, append all to decomp all as zip.");
-        options.addOption("nowait", true, "won't wait the 5 seconds to allow the user to read the CLI.");
+        OPTIONS.addOption("help", false, "prints the help menu.");
+        OPTIONS.addOption("list", false, "lists all the available decompilers for BCV " + VERSION + ".");
+        OPTIONS.addOption("decompiler", true, "sets the decompiler, procyon by default.");
+        OPTIONS.addOption("i", true, "sets the input.");
+        OPTIONS.addOption("o", true, "sets the output.");
+        OPTIONS.addOption("t", true, "sets the target class to decompile, append all to decomp all as zip.");
+        OPTIONS.addOption("nowait", true, "won't wait the 5 seconds to allow the user to read the CLI.");
     }
 
     public static boolean containsCommand(String[] args)
@@ -69,8 +69,17 @@ public class CommandLineInput
 
         try
         {
-            CommandLine cmd = parser.parse(options, args);
-            if (cmd.hasOption("help") || cmd.hasOption("clean") || cmd.hasOption("english") || cmd.hasOption("list") || cmd.hasOption("decompiler") || cmd.hasOption("i") || cmd.hasOption("o") || cmd.hasOption("t") || cmd.hasOption("nowait"))
+            CommandLine cmd = PARSER.parse(OPTIONS, args);
+
+            if (cmd.hasOption("help")
+                || cmd.hasOption("clean")
+                || cmd.hasOption("english")
+                || cmd.hasOption("list")
+                || cmd.hasOption("decompiler")
+                || cmd.hasOption("i")
+                || cmd.hasOption("o")
+                || cmd.hasOption("t")
+                || cmd.hasOption("nowait"))
             {
                 return true;
             }
@@ -89,7 +98,8 @@ public class CommandLineInput
             return GUI;
         try
         {
-            CommandLine cmd = parser.parse(options, args);
+            CommandLine cmd = PARSER.parse(OPTIONS, args);
+
             if (cmd.hasOption("list"))
             {
                 System.out.println("Procyon");
@@ -100,12 +110,16 @@ public class CommandLineInput
                 System.out.println("JD-GUI");
                 System.out.println("Smali");
                 System.out.println("ASMifier");
+
                 return STOP;
             }
             else if (cmd.hasOption("clean"))
             {
                 new File(Constants.getBCVDirectory()).delete();
-                if (cmd.getOptionValue("i") == null && cmd.getOptionValue("o") == null && cmd.getOptionValue("t") == null)
+
+                if (cmd.getOptionValue("i") == null
+                    && cmd.getOptionValue("o") == null
+                    && cmd.getOptionValue("t") == null)
                     return GUI;
             }
             else if (cmd.hasOption("english"))
@@ -115,7 +129,15 @@ public class CommandLineInput
             }
             else if (cmd.hasOption("help"))
             {
-                for (String s : new String[]{"-help                         Displays the help menu", "-clean                        Deletes the BCV directory", "-english                      Forces English language translations", "-list                         Displays the available decompilers", "-decompiler <decompiler>      Selects the decompiler, procyon by default", "-i <input file>               Selects the input file", "-o <output file>              Selects the output file", "-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile all as zip", "-nowait                       Doesn't wait for the user to read the CLI messages"})
+                for (String s : new String[]{"-help                         Displays the help menu",
+                    "-clean                        Deletes the BCV directory",
+                    "-english                      Forces English language translations",
+                    "-list                         Displays the available decompilers",
+                    "-decompiler <decompiler>      Selects the decompiler, procyon by default",
+                    "-i <input file>               Selects the input file",
+                    "-o <output file>              Selects the output file",
+                    "-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile all as zip",
+                    "-nowait                       Doesn't wait for the user to read the CLI messages"})
                     System.out.println(s);
                 return STOP;
             }
@@ -181,7 +203,7 @@ public class CommandLineInput
     {
         try
         {
-            CommandLine cmd = parser.parse(options, args);
+            CommandLine cmd = PARSER.parse(OPTIONS, args);
             String decompiler = cmd.getOptionValue("decompiler");
             File input = new File(cmd.getOptionValue("i"));
             File output = new File(cmd.getOptionValue("o"));
@@ -197,7 +219,7 @@ public class CommandLineInput
             //if its zip/jar/apk/dex attempt unzip as whole zip
             //if its just class allow any
 
-            File tempZip = new File(tempDirectory + fs + "temp_" + MiscUtils.getRandomizedName() + ".jar");
+            File tempZip = new File(TEMP_DIRECTORY + FS + "temp_" + MiscUtils.getRandomizedName() + ".jar");
             if (tempZip.exists())
                 tempZip.delete();
 

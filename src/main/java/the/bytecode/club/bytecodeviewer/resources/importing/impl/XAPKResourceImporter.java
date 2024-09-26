@@ -37,8 +37,8 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
+import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 
 /**
  * Compressed APKs (XAPK)
@@ -68,7 +68,7 @@ public class XAPKResourceImporter implements Importer
 
                 if (fileName.endsWith(".apk"))
                 {
-                    File tempFile = new File(tempDirectory + fs + "temp" + MiscUtils.randomString(32) + fs + entry);
+                    File tempFile = new File(TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(32) + FS + entry);
                     tempFile.getParentFile().mkdirs();
 
                     try (InputStream in = zipFile.getInputStream(entry); OutputStream out = new FileOutputStream(tempFile))

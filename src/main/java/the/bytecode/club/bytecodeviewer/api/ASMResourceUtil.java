@@ -41,16 +41,15 @@ public final class ASMResourceUtil
                 MethodNode m = (MethodNode) o;
 
                 if (m.name.equals("main") && m.desc.equals("([Ljava/lang/String;)V"))
-                {
                     return cn.name + "." + m.name;
-                }
             }
         }
 
         return defaultFQN;
     }
 
-    public static void renameFieldNode(String originalParentName, String originalFieldName, String originalFieldDesc, String newFieldParent, String newFieldName, String newFieldDesc)
+    public static void renameFieldNode(String originalParentName, String originalFieldName, String originalFieldDesc,
+                                       String newFieldParent, String newFieldName, String newFieldDesc)
     {
         for (ClassNode c : BytecodeViewer.getLoadedClasses())
         {
@@ -78,7 +77,8 @@ public final class ASMResourceUtil
         }
     }
 
-    public static void renameMethodNode(String originalParentName, String originalMethodName, String originalMethodDesc, String newParent, String newName, String newDesc)
+    public static void renameMethodNode(String originalParentName, String originalMethodName, String originalMethodDesc,
+                                        String newParent, String newName, String newDesc)
     {
         for (ClassNode c : BytecodeViewer.getLoadedClasses())
         {
@@ -182,6 +182,7 @@ public final class ASMResourceUtil
                             mi.owner = newName;
                         mi.desc = mi.desc.replace(oldName, newName);
                     }
+
                     if (i instanceof FieldInsnNode)
                     {
                         FieldInsnNode fi = (FieldInsnNode) i;

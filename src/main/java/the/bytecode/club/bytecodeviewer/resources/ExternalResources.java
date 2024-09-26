@@ -20,6 +20,7 @@ package the.bytecode.club.bytecodeviewer.resources;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.SettingsSerializer;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
@@ -64,7 +65,7 @@ public class ExternalResources
         boolean block = true;
         //while (Configuration.java.isEmpty() && block)
         {
-            BytecodeViewer.showMessage("You need to set your Java path, this requires the JRE to be downloaded." + nl + "(C:/Program Files/Java/JDK_xx/bin/java.exe)");
+            BytecodeViewer.showMessage("You need to set your Java path, this requires the JRE to be downloaded." + NL + "(C:/Program Files/Java/JDK_xx/bin/java.exe)");
             ExternalResources.getSingleton().selectJava();
             block = !blockTillSelected; //signal block flag off
         }
@@ -94,7 +95,7 @@ public class ExternalResources
         boolean block = true;
         //while (Configuration.javaTools.isEmpty() && block)
         {
-            BytecodeViewer.showMessage("You need to set your Java Tools path, this requires the JDK to be downloaded." + nl + "(C:/Program Files/Java/JDK_xx/lib/tools.jar)");
+            BytecodeViewer.showMessage("You need to set your Java Tools path, this requires the JDK to be downloaded." + NL + "(C:/Program Files/Java/JDK_xx/lib/tools.jar)");
             ExternalResources.getSingleton().selectJavaTools();
             block = !blockTillSelected; //signal block flag off
         }
@@ -296,7 +297,7 @@ public class ExternalResources
      */
     public String findLibrary(String nameContains)
     {
-        for (File f : MiscUtils.listFiles(new File(libsDirectory)))
+        for (File f : MiscUtils.listFiles(new File(LIBS_DIRECTORY)))
             if (f.getName().contains(nameContains))
                 return f.getAbsolutePath();
 
@@ -358,7 +359,9 @@ public class ExternalResources
      */
     public String readProcess(Process process) throws IOException
     {
-        try (InputStream is = process.getInputStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader reader = new BufferedReader(isr))
+        try (InputStream is = process.getInputStream();
+             InputStreamReader isr = new InputStreamReader(is);
+             BufferedReader reader = new BufferedReader(isr))
         {
             StringBuilder builder = new StringBuilder();
             String line;
@@ -366,7 +369,7 @@ public class ExternalResources
             while ((line = reader.readLine()) != null)
             {
                 builder.append(line);
-                builder.append(System.getProperty("line.separator"));
+                builder.append(Constants.NL);
             }
 
             return builder.toString();

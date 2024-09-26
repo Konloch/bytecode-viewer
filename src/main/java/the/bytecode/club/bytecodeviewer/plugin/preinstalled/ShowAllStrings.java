@@ -24,7 +24,7 @@ import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 
 import java.util.List;
 
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 
 /**
  * Simply shows all the non-empty strings in every single class
@@ -51,7 +51,7 @@ public class ShowAllStrings extends Plugin
                 {
                     String s = (String) v;
                     if (!s.isEmpty())
-                        sb.append(classNode.name).append(".").append(f.name).append(f.desc).append(" -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r")).append("\"").append(nl);
+                        sb.append(classNode.name).append(".").append(f.name).append(f.desc).append(" -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r")).append("\"").append(NL);
                 }
 
                 if (v instanceof String[])
@@ -60,7 +60,7 @@ public class ShowAllStrings extends Plugin
                     {
                         String s = ((String[]) v)[i];
                         if (!s.isEmpty())
-                            sb.append(classNode.name).append(".").append(f.name).append(f.desc).append("[").append(i).append("] -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r")).append("\"").append(nl);
+                            sb.append(classNode.name).append(".").append(f.name).append(f.desc).append("[").append(i).append("] -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r")).append("\"").append(NL);
                     }
                 }
             }
@@ -78,7 +78,7 @@ public class ShowAllStrings extends Plugin
                         {
                             final String s = (String) ((LdcInsnNode) a).cst;
                             if (!s.isEmpty())
-                                sb.append(classNode.name).append(".").append(m.name).append(m.desc).append(" -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r")).append("\"").append(nl);
+                                sb.append(classNode.name).append(".").append(m.name).append(m.desc).append(" -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r")).append("\"").append(NL);
                         }
                     }
                 }

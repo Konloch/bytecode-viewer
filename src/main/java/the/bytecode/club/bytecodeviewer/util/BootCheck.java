@@ -30,7 +30,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 
 /**
  * Loads the libraries on boot. If booting failed for some reason, this kicks in as a fail safe.
@@ -58,7 +58,7 @@ public class BootCheck implements Runnable
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void failSafeLoadLibraries()
     {
-        if (!Boot.completedboot && !Boot.downloading)
+        if (!Boot.completedBoot && !Boot.downloading)
         {
             File libsDir = Boot.libsDir();
             File[] listFiles = libsDir.listFiles();
@@ -66,7 +66,7 @@ public class BootCheck implements Runnable
             //first boot failed to download libraries
             if (listFiles == null || listFiles.length <= 0)
             {
-                BytecodeViewer.showMessage("Github is loading extremely slow, BCV needs to download libraries from github in order" + nl + "to work, please try adjusting your network settings or manually downloading these libraries" + nl + "if this error persists.");
+                BytecodeViewer.showMessage("Github is loading extremely slow, BCV needs to download libraries from github in order" + NL + "to work, please try adjusting your network settings or manually downloading these libraries" + NL + "if this error persists.");
                 return;
             }
 
@@ -107,7 +107,6 @@ public class BootCheck implements Runnable
             Boot.checkEnjarify();
             Boot.checkKrakatau();
 
-            Boot.globalstop = false;
             Boot.hide();
 
             int CLI = CommandLineInput.parseCommandLine(BytecodeViewer.launchArgs);

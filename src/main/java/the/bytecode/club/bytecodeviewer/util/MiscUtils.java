@@ -44,8 +44,8 @@ public class MiscUtils
 {
     private static final String AB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String AN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    private static final Random rnd = new Random();
-    private static final Set<String> createdRandomizedNames = new HashSet<>();
+    private static final Random RND = new Random();
+    private static final Set<String> CREATED_RANDOMIZED_NAMES = new HashSet<>();
 
     /**
      * Returns a random string without numbers
@@ -57,7 +57,7 @@ public class MiscUtils
     {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
-            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+            sb.append(AB.charAt(RND.nextInt(AB.length())));
         return sb.toString();
     }
 
@@ -73,9 +73,9 @@ public class MiscUtils
         while (!generated)
         {
             String randomizedName = MiscUtils.randomString(25);
-            if (!createdRandomizedNames.contains(randomizedName))
+            if (!CREATED_RANDOMIZED_NAMES.contains(randomizedName))
             {
-                createdRandomizedNames.add(randomizedName);
+                CREATED_RANDOMIZED_NAMES.add(randomizedName);
                 name = randomizedName;
                 generated = true;
             }
@@ -86,7 +86,8 @@ public class MiscUtils
     public static void printProcess(Process process) throws Exception
     {
         //Read out dir output
-        try (InputStream is = process.getInputStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+        try (InputStream is = process.getInputStream();
+             InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
         {
             String line;
             while ((line = br.readLine()) != null)
@@ -95,7 +96,9 @@ public class MiscUtils
             }
         }
 
-        try (InputStream is = process.getErrorStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+        try (InputStream is = process.getErrorStream();
+             InputStreamReader isr = new InputStreamReader(is);
+             BufferedReader br = new BufferedReader(isr))
         {
             String line;
             while ((line = br.readLine()) != null)
@@ -115,7 +118,7 @@ public class MiscUtils
     {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
-            sb.append(AN.charAt(rnd.nextInt(AN.length())));
+            sb.append(AN.charAt(RND.nextInt(AN.length())));
         return sb.toString();
     }
 

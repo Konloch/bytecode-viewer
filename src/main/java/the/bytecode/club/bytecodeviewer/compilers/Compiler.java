@@ -29,8 +29,9 @@ import the.bytecode.club.bytecodeviewer.compilers.impl.SmaliAssembler;
  */
 public enum Compiler
 {
-    KRAKATAU_ASSEMBLER(new KrakatauAssembler()), SMALI_ASSEMBLER(new SmaliAssembler()), JAVA_COMPILER(new JavaCompiler()),
-    ;
+    KRAKATAU_ASSEMBLER(new KrakatauAssembler()),
+    SMALI_ASSEMBLER(new SmaliAssembler()),
+    JAVA_COMPILER(new JavaCompiler());
 
     private final InternalCompiler compiler;
 

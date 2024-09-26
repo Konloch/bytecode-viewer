@@ -30,8 +30,8 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import javax.swing.*;
 import java.io.File;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
+import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 
 /**
  * @author Konloch
@@ -72,7 +72,7 @@ public class DexExport implements Exporter
                 Thread saveAsJar = new Thread(() ->
                 {
                     BytecodeViewer.updateBusyStatus(true);
-                    final String input = tempDirectory + fs + MiscUtils.getRandomizedName() + ".jar";
+                    final String input = TEMP_DIRECTORY + FS + MiscUtils.getRandomizedName() + ".jar";
                     JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 
                     Thread saveAsDex = new Thread(() ->

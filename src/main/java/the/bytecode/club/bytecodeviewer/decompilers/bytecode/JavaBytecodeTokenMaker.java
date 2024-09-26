@@ -111,6 +111,7 @@ public class JavaBytecodeTokenMaker extends AbstractJFlexCTokenMaker
         int i = 0;       /* index in packed string  */
         int j = offset;  /* index in unpacked array */
         int l = packed.length();
+
         while (i < l)
         {
             int count = packed.charAt(i++);

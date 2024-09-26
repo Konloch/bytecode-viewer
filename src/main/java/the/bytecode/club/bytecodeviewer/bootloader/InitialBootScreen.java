@@ -60,25 +60,26 @@ public class InitialBootScreen extends JFrame
         gridBagLayout.columnWidths = new int[]{0, 0};
         gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         getContentPane().setLayout(gridBagLayout);
 
         JScrollPane scrollPane = new JScrollPane();
-        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-        gbc_scrollPane.gridheight = 24;
-        gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-        gbc_scrollPane.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane.gridx = 0;
-        gbc_scrollPane.gridy = 0;
-        getContentPane().add(scrollPane, gbc_scrollPane);
+        GridBagConstraints scrollPaneConstraints = new GridBagConstraints();
+        scrollPaneConstraints.gridheight = 24;
+        scrollPaneConstraints.insets = new Insets(0, 0, 5, 0);
+        scrollPaneConstraints.fill = GridBagConstraints.BOTH;
+        scrollPaneConstraints.gridx = 0;
+        scrollPaneConstraints.gridy = 0;
+        getContentPane().add(scrollPane, scrollPaneConstraints);
 
         scrollPane.setViewportView(HTMLPane.fromResource(language.getHTMLPath("intro")));
 
-        GridBagConstraints gbc_progressBar = new GridBagConstraints();
-        gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
-        gbc_progressBar.gridx = 0;
-        gbc_progressBar.gridy = 24;
-        getContentPane().add(progressBar, gbc_progressBar);
+        GridBagConstraints progressBarConstraints = new GridBagConstraints();
+        progressBarConstraints.fill = GridBagConstraints.HORIZONTAL;
+        progressBarConstraints.gridx = 0;
+        progressBarConstraints.gridy = 24;
+        getContentPane().add(progressBar, progressBarConstraints);
         this.setLocationRelativeTo(null);
     }
 

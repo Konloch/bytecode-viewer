@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
 
 /**
  * An Allatori String Decrypter, targets an unknown (old) version.
@@ -60,7 +60,7 @@ public class AllatoriStringDecrypter extends Plugin
     {
         PluginConsole frame = new PluginConsole("Allatori String Decrypter");
 
-        MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING", "WARNING: This will load the classes into the JVM and execute the allatori decrypter function" + nl + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.", new String[]{"Continue", "Cancel"});
+        MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - WARNING", "WARNING: This will load the classes into the JVM and execute the allatori decrypter function" + NL + "for each class. IF THE FILE YOU'RE LOADING IS MALICIOUS, DO NOT CONTINUE.", new String[]{"Continue", "Cancel"});
 
         if (dialog.promptChoice() == 0)
         {
@@ -97,7 +97,7 @@ public class AllatoriStringDecrypter extends Plugin
     private void log(String msg)
     {
         out.append(msg);
-        out.append(Constants.nl);
+        out.append(Constants.NL);
     }
 
     public void scanClassNode(ClassNode classNode) throws Exception

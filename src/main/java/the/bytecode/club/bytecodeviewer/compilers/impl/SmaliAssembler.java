@@ -30,8 +30,8 @@ import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 import java.io.File;
 import java.util.Objects;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
+import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 
 /**
  * Smali Assembler Wrapper for Java
@@ -44,16 +44,16 @@ public class SmaliAssembler extends InternalCompiler
     @Override
     public byte[] compile(String contents, String fullyQualifiedName)
     {
-        String fileStart = tempDirectory + fs + "temp";
+        String fileStart = TEMP_DIRECTORY + FS + "temp";
         int fileNumber = MiscUtils.getClassNumber(fileStart, ".dex");
 
-        final File tempSmaliFolder = new File(fileStart + fileNumber + "-smalifolder" + fs);
+        final File tempSmaliFolder = new File(fileStart + fileNumber + "-smalifolder" + FS);
         tempSmaliFolder.mkdir();
 
-        File tempSmali = new File(tempSmaliFolder.getAbsolutePath() + fs + fileNumber + ".smali");
+        File tempSmali = new File(tempSmaliFolder.getAbsolutePath() + FS + fileNumber + ".smali");
         File tempDex = new File("./out.dex");
         File tempJar = new File(fileStart + fileNumber + ".jar");
-        File tempJarFolder = new File(fileStart + fileNumber + "-jar" + fs);
+        File tempJarFolder = new File(fileStart + fileNumber + "-jar" + FS);
 
         try
         {

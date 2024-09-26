@@ -66,31 +66,31 @@ public class Constants
     //if true the version checker will prompt and ask how you would like to proceed
     public static final boolean FORCE_VERSION_CHECKER_PROMPT = false;
 
-    public static final String fs = System.getProperty("file.separator");
-    public static final String nl = System.getProperty("line.separator");
-
-    public static final File BCVDir = resolveBCVRoot();
-    public static final File RT_JAR = new File(System.getProperty("java.home") + fs + "lib" + fs + "rt.jar");
-    public static final File JAVA_BINARY = new File(System.getProperty("java.home") + fs + "bin" + fs + "java.exe");
-    public static final File JAVA_BINARY_NIX = new File(System.getProperty("java.home") + fs + "bin" + fs + "java");
-    public static final File RT_JAR_DUMPED = new File(getBCVDirectory() + fs + "rt.jar");
-    public static final String filesName = getBCVDirectory() + fs + "recentfiles.json";
-    public static final String pluginsName = getBCVDirectory() + fs + "recentplugins.json";
-    public static final String settingsName = getBCVDirectory() + fs + "settings.bcv";
-    public static final String tempDirectory = getBCVDirectory() + fs + "bcv_temp" + fs;
-    public static final String systemTempDirectory = System.getProperty("java.io.tmpdir");
-    public static final String libsDirectory = getBCVDirectory() + fs + "libs" + fs;
-    public static String krakatauWorkingDirectory = getBCVDirectory() + fs + "krakatau_" + krakatauVersion;
-    public static String enjarifyWorkingDirectory = getBCVDirectory() + fs + "enjarify_" + enjarifyVersion;
+    public static final String FS = System.getProperty("file.separator");
+    public static final String NL = System.getProperty("line.separator");
     public static final String[] SUPPORTED_FILE_EXTENSIONS = ResourceType.supportedBCVExtensionMap.keySet().toArray(new String[0]);
     public static final int ASM_VERSION = Opcodes.ASM9;
+
+    public static final File BCVDir = resolveBCVRoot();
+    public static final File RT_JAR = new File(System.getProperty("java.home") + FS + "lib" + FS + "rt.jar");
+    public static final File JAVA_BINARY = new File(System.getProperty("java.home") + FS + "bin" + FS + "java.exe");
+    public static final File JAVA_BINARY_NIX = new File(System.getProperty("java.home") + FS + "bin" + FS + "java");
+    public static final File RT_JAR_DUMPED = new File(getBCVDirectory() + FS + "rt.jar");
+    public static final String FILES_NAME = getBCVDirectory() + FS + "recentfiles.json";
+    public static final String PLUGINS_NAME = getBCVDirectory() + FS + "recentplugins.json";
+    public static final String SETTINGS_NAME = getBCVDirectory() + FS + "settings.bcv";
+    public static final String TEMP_DIRECTORY = getBCVDirectory() + FS + "bcv_temp" + FS;
+    public static final String SYSTEM_TEMP_DIRECTORY = System.getProperty("java.io.tmpdir");
+    public static final String LIBS_DIRECTORY = getBCVDirectory() + FS + "libs" + FS;
+    public static String krakatauWorkingDirectory = getBCVDirectory() + FS + "krakatau_" + krakatauVersion;
+    public static String enjarifyWorkingDirectory = getBCVDirectory() + FS + "enjarify_" + enjarifyVersion;
 
     public static final PrintStream ERR = System.err;
     public static final PrintStream OUT = System.out;
 
     public static File resolveBCVRoot()
     {
-        File defaultLocation = new File(System.getProperty("user.home") + fs + ".Bytecode-Viewer");
+        File defaultLocation = new File(System.getProperty("user.home") + FS + ".Bytecode-Viewer");
 
         //if BCV was previously installed using the default directory, continue to use that
         if (defaultLocation.exists())
@@ -99,11 +99,11 @@ public class Constants
         //handle XDG Base Directory - https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
         if (isNix())
         {
-            File homeLocal = new File(System.getProperty("user.home") + fs + ".local");
+            File homeLocal = new File(System.getProperty("user.home") + FS + ".local");
             if (homeLocal.exists())
-                return new File(homeLocal, "share" + fs + ".Bytecode-Viewer");
+                return new File(homeLocal, "share" + FS + ".Bytecode-Viewer");
 
-            File homeConfig = new File(System.getProperty("user.home") + fs + ".config");
+            File homeConfig = new File(System.getProperty("user.home") + FS + ".config");
             if (homeConfig.exists())
                 return new File(homeConfig, ".Bytecode-Viewer");
         }

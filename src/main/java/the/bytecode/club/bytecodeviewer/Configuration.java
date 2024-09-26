@@ -70,7 +70,7 @@ public class Configuration
     public static boolean needsReDump = true;
     public static boolean warnForEditing = false;
     public static boolean runningObfuscation = false;
-    public static final long start = System.currentTimeMillis();
+    public static final long BOOT_TIMESTAMP = System.currentTimeMillis();
     public static String lastOpenDirectory = ".";
     public static String lastSaveDirectory = ".";
     public static String lastPluginDirectory = ".";
@@ -80,7 +80,7 @@ public class Configuration
     public static int silenceExceptionGUI = 0;
     public static int pauseExceptionGUI = 0;
 
-    public static final int maxRecentFiles = 25; //eventually may be a setting
+    public static int maxRecentFiles = 25; //eventually may be a setting
     public static boolean verifyCorruptedStateOnBoot = false; //eventually may be a setting
 
     public static BootState bootState = BootState.START_UP;

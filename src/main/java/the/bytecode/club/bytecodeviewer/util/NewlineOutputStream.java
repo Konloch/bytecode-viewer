@@ -19,6 +19,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import org.jetbrains.annotations.NotNull;
+import the.bytecode.club.bytecodeviewer.Constants;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class NewlineOutputStream extends FilterOutputStream
         super(os);
         if (newline == null)
         {
-            String s = System.getProperty("line.separator");
+            String s = Constants.NL;
             if (s == null || s.length() <= 0)
                 s = "\n";
             newline = s.getBytes(StandardCharsets.ISO_8859_1);    // really us-ascii

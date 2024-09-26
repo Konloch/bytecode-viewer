@@ -33,7 +33,6 @@ import java.util.Arrays;
  */
 public class InstructionPattern implements Opcodes
 {
-
     /**
      * Last instruction-match position pointer
      **/
@@ -67,6 +66,7 @@ public class InstructionPattern implements Opcodes
     {
         filters = new InstructionFilter[opcodes.length];
         lastMatch = new AbstractInsnNode[opcodes.length];
+
         for (int i = 0; i < opcodes.length; i++)
         {
             filters[i] = new OpcodeFilter(opcodes[i]);
@@ -100,16 +100,17 @@ public class InstructionPattern implements Opcodes
         if (filter.accept(ain))
         {
             lastMatch[pointer] = ain;
+
             if (pointer >= (filters.length - 1))
-            {
                 return true;
-            }
+
             pointer++;
         }
         else
         {
             reset();
         }
+
         return false;
     }
 
@@ -150,10 +151,12 @@ public class InstructionPattern implements Opcodes
     public static InstructionFilter[] translate(AbstractInsnNode[] ains)
     {
         InstructionFilter[] filters = new InstructionFilter[ains.length];
+
         for (int i = 0; i < ains.length; i++)
         {
             filters[i] = translate(ains[i]);
         }
+
         return filters;
     }
 
@@ -167,63 +170,38 @@ public class InstructionPattern implements Opcodes
     public static InstructionFilter translate(AbstractInsnNode ain)
     {
         if (ain instanceof LdcInsnNode)
-        {
             return new LdcInstructionFilter(((LdcInsnNode) ain).cst);
-        }
         else if (ain instanceof TypeInsnNode)
-        {
             return new TypeInstructionFilter(ain.getOpcode(), ((TypeInsnNode) ain).desc);
-        }
         else if (ain instanceof FieldInsnNode)
-        {
             return new FieldInstructionFilter(ain.getOpcode(), ((FieldInsnNode) ain).owner, ((FieldInsnNode) ain).name, ((FieldInsnNode) ain).desc);
-        }
         else if (ain instanceof MethodInsnNode)
-        {
             return new MethodInstructionFilter(ain.getOpcode(), ((MethodInsnNode) ain).owner, ((MethodInsnNode) ain).name, ((MethodInsnNode) ain).desc);
-        }
         else if (ain instanceof VarInsnNode)
-        {
             return new VarInstructionFilter(ain.getOpcode(), ((VarInsnNode) ain).var);
-        }
         else if (ain instanceof InsnNode)
-        {
             return new InsnInstructionFilter(ain.getOpcode());
-        }
         else if (ain instanceof IincInsnNode)
-        {
             return new IincInstructionFilter(((IincInsnNode) ain).incr, ((IincInsnNode) ain).var);
-        }
         else if (ain instanceof JumpInsnNode)
-        {
             return new JumpInstructionFilter(ain.getOpcode());
-        }
         else if (ain instanceof LabelNode)
-        {
-            return InstructionFilter.ACCEPT_ALL; // TODO: Cache labels and
-            // check. // TODO: That's a
-            // fucking stupid idea.
-        }
-        else if (ain instanceof MultiANewArrayInsnNode)
-        {
-            return new MultiANewArrayInstructionFilter(((MultiANewArrayInsnNode) ain).desc, ((MultiANewArrayInsnNode) ain).dims);
-        }
-        else
-        {
             return InstructionFilter.ACCEPT_ALL;
-        }
+        else if (ain instanceof MultiANewArrayInsnNode)
+            return new MultiANewArrayInstructionFilter(((MultiANewArrayInsnNode) ain).desc, ((MultiANewArrayInsnNode) ain).dims);
+        else
+            return InstructionFilter.ACCEPT_ALL;
     }
 
     public static void main(String[] args)
     {
-        AbstractInsnNode[] ains = new AbstractInsnNode[]{new LdcInsnNode("ldc"), new VarInsnNode(ASTORE, 0), new LdcInsnNode("ldc")};
+        AbstractInsnNode[] abstractInsnNodes = new AbstractInsnNode[]{new LdcInsnNode("ldc"), new VarInsnNode(ASTORE, 0), new LdcInsnNode("ldc")};
         InstructionPattern pattern = new InstructionPattern(new AbstractInsnNode[]{new LdcInsnNode("ldc"), new VarInsnNode(-1, -1)});
-        for (AbstractInsnNode ain : ains)
+
+        for (AbstractInsnNode insnNode : abstractInsnNodes)
         {
-            if (pattern.accept(ain))
-            {
+            if (pattern.accept(insnNode))
                 System.out.println(Arrays.toString(pattern.getLastMatch()));
-            }
         }
     }
 }

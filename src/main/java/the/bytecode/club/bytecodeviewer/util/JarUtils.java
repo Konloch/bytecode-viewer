@@ -36,7 +36,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
+import static the.bytecode.club.bytecodeviewer.Constants.FS;
 
 /**
  * Loading and saving jars
@@ -384,7 +384,7 @@ public class JarUtils
                 ClassWriter cw = new ClassWriter(0);
                 cn.accept(cw);
 
-                String name = dir + fs + cn.name + ".class";
+                String name = dir + FS + cn.name + ".class";
                 File f = new File(name);
                 f.mkdirs();
 

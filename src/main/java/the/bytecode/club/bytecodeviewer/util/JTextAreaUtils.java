@@ -34,7 +34,7 @@ import java.awt.*;
  */
 public class JTextAreaUtils
 {
-    private static final DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(new Color(255, 62, 150));
+    private static final DefaultHighlighter.DefaultHighlightPainter PAINTER = new DefaultHighlighter.DefaultHighlightPainter(new Color(255, 62, 150));
 
     /**
      * This was really interesting to write.
@@ -163,7 +163,7 @@ public class JTextAreaUtils
             {
                 // Create highlighter using private painter and apply around
                 // pattern
-                highlighter.addHighlight(pos, pos + pattern.length(), painter);
+                highlighter.addHighlight(pos, pos + pattern.length(), PAINTER);
                 pos += pattern.length();
             }
         }

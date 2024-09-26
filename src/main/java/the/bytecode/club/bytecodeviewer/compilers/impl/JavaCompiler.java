@@ -43,19 +43,20 @@ public class JavaCompiler extends InternalCompiler
     @Override
     public byte[] compile(String contents, String fullyQualifiedName)
     {
-        String fileStart = tempDirectory + fs + "temp" + MiscUtils.randomString(12) + fs;
-        String fileStart2 = tempDirectory + fs + "temp" + MiscUtils.randomString(12) + fs;
-        File java = new File(fileStart + fs + fullyQualifiedName + ".java");
-        File clazz = new File(fileStart2 + fs + fullyQualifiedName + ".class");
-        File cp = new File(tempDirectory + fs + "cpath_" + MiscUtils.randomString(12) + ".jar");
-        File tempD = new File(fileStart + fs + fullyQualifiedName.substring(0, fullyQualifiedName.length() - fullyQualifiedName.split("/")[fullyQualifiedName.split("/").length - 1].length()));
+        String fileStart = TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(12) + FS;
+        String fileStart2 = TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(12) + FS;
+        File java = new File(fileStart + FS + fullyQualifiedName + ".java");
+        File clazz = new File(fileStart2 + FS + fullyQualifiedName + ".class");
+        File cp = new File(TEMP_DIRECTORY + FS + "cpath_" + MiscUtils.randomString(12) + ".jar");
+        File tempD = new File(fileStart + FS + fullyQualifiedName.substring(0, fullyQualifiedName.length() -
+            fullyQualifiedName.split("/")[fullyQualifiedName.split("/").length - 1].length()));
 
         tempD.mkdirs();
         new File(fileStart2).mkdirs();
 
         if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists())
         {
-            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + nl + "(C:/Program Files/Java/JDK_xx/bin/javac.exe)");
+            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + NL + "(C:/Program Files/Java/JDK_xx/bin/javac.exe)");
             ExternalResources.getSingleton().selectJavac();
         }
 
@@ -75,13 +76,11 @@ public class JavaCompiler extends InternalCompiler
             ProcessBuilder pb;
 
             if (Configuration.library.isEmpty())
-            {
-                pb = new ProcessBuilder(Configuration.javac, "-d", fileStart2, "-classpath", cp.getAbsolutePath(), java.getAbsolutePath());
-            }
+                pb = new ProcessBuilder(Configuration.javac, "-d", fileStart2,
+                    "-classpath", cp.getAbsolutePath(), java.getAbsolutePath());
             else
-            {
-                pb = new ProcessBuilder(Configuration.javac, "-d", fileStart2, "-classpath", cp.getAbsolutePath() + System.getProperty("path.separator") + Configuration.library, java.getAbsolutePath());
-            }
+                pb = new ProcessBuilder(Configuration.javac, "-d", fileStart2,
+                    "-classpath", cp.getAbsolutePath() + System.getProperty("path.separator") + Configuration.library, java.getAbsolutePath());
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
@@ -102,22 +101,26 @@ public class JavaCompiler extends InternalCompiler
             int exitValue = process.waitFor();
 
             //Read out dir output
-            try (InputStream is = process.getInputStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+            try (InputStream is = process.getInputStream();
+                 InputStreamReader isr = new InputStreamReader(is);
+                 BufferedReader br = new BufferedReader(isr))
             {
                 String line;
                 while ((line = br.readLine()) != null)
-                    log.append(nl).append(line);
+                    log.append(NL).append(line);
             }
 
-            log.append(nl).append(nl).append(TranslatedStrings.ERROR2).append(nl).append(nl);
-            try (InputStream is = process.getErrorStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+            log.append(NL).append(NL).append(TranslatedStrings.ERROR2).append(NL).append(NL);
+            try (InputStream is = process.getErrorStream();
+                 InputStreamReader isr = new InputStreamReader(is);
+                 BufferedReader br = new BufferedReader(isr))
             {
                 String line;
                 while ((line = br.readLine()) != null)
-                    log.append(nl).append(line);
+                    log.append(NL).append(line);
             }
 
-            log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
+            log.append(NL).append(NL).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
             System.out.println(log);
 
             if (!clazz.exists())

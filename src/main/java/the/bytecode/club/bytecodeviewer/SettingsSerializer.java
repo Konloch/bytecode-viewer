@@ -29,7 +29,7 @@ import javax.swing.*;
 import java.io.File;
 
 import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
-import static the.bytecode.club.bytecodeviewer.Constants.settingsName;
+import static the.bytecode.club.bytecodeviewer.Constants.SETTINGS_NAME;
 
 /**
  * Used to handle loading/saving the GUI (options).
@@ -51,7 +51,7 @@ public class SettingsSerializer
     {
         try
         {
-            DiskWriter.replaceFile(settingsName, "BCV: " + VERSION, false);
+            DiskWriter.replaceFile(SETTINGS_NAME, "BCV: " + VERSION, false);
             save(BytecodeViewer.viewer.rbr.isSelected());
             save(BytecodeViewer.viewer.rsy.isSelected());
             save(BytecodeViewer.viewer.din.isSelected());
@@ -167,9 +167,9 @@ public class SettingsSerializer
             save(Configuration.deleteForeignLibraries);
 
             if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
-                DiskWriter.writeNewLine(settingsName, "0");
+                DiskWriter.writeNewLine(SETTINGS_NAME, "0");
             else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
-                DiskWriter.writeNewLine(settingsName, "1");
+                DiskWriter.writeNewLine(SETTINGS_NAME, "1");
 
             save(Configuration.python3);
             save(Configuration.javac);
@@ -216,13 +216,13 @@ public class SettingsSerializer
     {
         try
         {
-            settingsFileExists = new File(settingsName).exists();
+            settingsFileExists = new File(SETTINGS_NAME).exists();
 
             if (!settingsFileExists)
                 return;
 
             //precache the file
-            DiskReader.loadString(settingsName, 0, true);
+            DiskReader.loadString(SETTINGS_NAME, 0, true);
 
             //process the cached file
             Configuration.lafTheme = LAFTheme.valueOf(asString(127));
@@ -416,21 +416,21 @@ public class SettingsSerializer
 
     public static void save(Object o)
     {
-        DiskWriter.writeNewLine(settingsName, String.valueOf(o), false);
+        DiskWriter.writeNewLine(SETTINGS_NAME, String.valueOf(o), false);
     }
 
     public static String asString(int lineNumber) throws Exception
     {
-        return DiskReader.loadString(settingsName, lineNumber, false);
+        return DiskReader.loadString(SETTINGS_NAME, lineNumber, false);
     }
 
     public static boolean asBoolean(int lineNumber) throws Exception
     {
-        return Boolean.parseBoolean(DiskReader.loadString(settingsName, lineNumber, false));
+        return Boolean.parseBoolean(DiskReader.loadString(SETTINGS_NAME, lineNumber, false));
     }
 
     public static int asInt(int lineNumber) throws Exception
     {
-        return Integer.parseInt(DiskReader.loadString(settingsName, lineNumber, false));
+        return Integer.parseInt(DiskReader.loadString(SETTINGS_NAME, lineNumber, false));
     }
 }
