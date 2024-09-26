@@ -70,10 +70,7 @@ public class TabComponent extends JPanel {
 			if (e.getButton() != MouseEvent.BUTTON1) // left-click
 				return;
 
-			if (pane.indexOfTabComponent(TabComponent.this) != -1) {
-				int i = pane.indexOfTabComponent(TabComponent.this);
-				removeTab(i);
-			}
+			closePane();
 		}));
 
 		closeTab.addActionListener(e ->
@@ -86,7 +83,6 @@ public class TabComponent extends JPanel {
 
 		closeAllTabs.addActionListener(e ->
 		{
-
 			while (true) {
 				if (pane.getTabCount() <= 1)
 					return;
@@ -101,7 +97,16 @@ public class TabComponent extends JPanel {
 
 		setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
 	}
-
+	
+	public void closePane()
+	{
+		if (pane.indexOfTabComponent(TabComponent.this) != -1)
+		{
+			int i = pane.indexOfTabComponent(TabComponent.this);
+			removeTab(i);
+		}
+	}
+	
 	private void removeTab(int index) {
 		ResourceViewer resourceViewer = (ResourceViewer) BytecodeViewer.viewer.workPane.tabs.getComponentAt(index);
 		BytecodeViewer.viewer.workPane.openedTabs.remove(resourceViewer.resource.workingName);
