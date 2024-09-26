@@ -16,38 +16,28 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.uikit.tabpopup;
+package the.bytecode.club.bytecodeviewer.gui.tabpopup;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
-/**
- * Show PopupMenu on Tabs
- *
- * @author su
- */
-public abstract class AbstractJTabbedPanePopupMenuHandler extends JTabbedPanePopupEventHandler implements ITabPopupEventListener
+public class TabPopupEvent extends MouseEvent
 {
+    private static final long serialVersionUID = 2510164400674753411L;
 
-    public AbstractJTabbedPanePopupMenuHandler(JTabbedPane tabbedPane)
+    private final Component popupOnTab;
+
+    public TabPopupEvent(MouseEvent e, Component popupOnTab)
     {
-        super(tabbedPane);
-        registerPopupEventListener(this);
+        super(e.getComponent(), e.getID(), e.getWhen(), e.getModifiers(), e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger(), e.getButton());
+
+        this.popupOnTab = popupOnTab;
     }
 
-    @Override
-    public void onTabPopupEvent(JTabbedPane tabbedPane, int index, TabPopupEvent e)
+    public Component getPopupOnTab()
     {
-        JPopupMenu popupMenu = toBuildTabPopupMenu(tabbedPane, e.getPopupOnTab());
-        popupTabMenuWithEvent(popupMenu, e);
+        return popupOnTab;
     }
 
-    public abstract JPopupMenu toBuildTabPopupMenu(JTabbedPane tabbedPane, Component popupOnTab);
-
-
-    public static void popupTabMenuWithEvent(JPopupMenu popupMenu, TabPopupEvent e)
-    {
-        popupMenu.show(e.getComponent(), e.getX(), e.getY());
-    }
 
 }

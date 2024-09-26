@@ -16,16 +16,14 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.uikit.tabpopup;
+package the.bytecode.club.bytecodeviewer.gui.tabpopup;
 
 import javax.swing.*;
 
-public interface ITabPopupEventListener
+public interface ITabZeroComponentEventListener
 {
     /**
      * @param tabbedPane
-     * @param index,     index of tab
-     * @param e
      */
-    void onTabPopupEvent(JTabbedPane tabbedPane, int index, TabPopupEvent e);
+    void onTabZeroComponent(JTabbedPane tabbedPane);
 }

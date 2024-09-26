@@ -16,31 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.uikit.tabpopup;
+package the.bytecode.club.bytecodeviewer.gui.tabpopup;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
+import javax.swing.*;
 
-public class TabPopupEvent extends MouseEvent
+public interface ITabPopupEventListener
 {
     /**
-     *
+     * @param tabbedPane
+     * @param index,     index of tab
+     * @param e
      */
-    private static final long serialVersionUID = 2510164400674753411L;
-
-    private final Component popupOnTab;
-
-    public TabPopupEvent(MouseEvent e, Component popupOnTab)
-    {
-        super(e.getComponent(), e.getID(), e.getWhen(), e.getModifiers(), e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger(), e.getButton());
-
-        this.popupOnTab = popupOnTab;
-    }
-
-    public Component getPopupOnTab()
-    {
-        return popupOnTab;
-    }
-
-
+    void onTabPopupEvent(JTabbedPane tabbedPane, int index, TabPopupEvent e);
 }
