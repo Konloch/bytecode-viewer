@@ -64,18 +64,8 @@ public class ClassViewer extends ResourceViewer
 
         this.setName(name);
         this.setLayout(new BorderLayout());
-        this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, bytecodeViewPanel1, bytecodeViewPanel2);
-        this.sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, bytecodeViewPanel3);
-        this.add(sp2, BorderLayout.CENTER);
 
-        this.addComponentListener(new ComponentAdapter()
-        {
-            @Override
-            public void componentResized(ComponentEvent e)
-            {
-                resetDivider();
-            }
-        });
+        this.sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     }
 
     @Override
@@ -290,34 +280,58 @@ public class ClassViewer extends ResourceViewer
 
     public void resetDivider()
     {
+		/*
+		This may be a bit overkill on how we handle setting/changing selected panels, but we now handle if only one panel is
+		selected, to not show any split panes but just the panel text.
+		 */
+
         SwingUtilities.invokeLater(() ->
         {
-            sp.setResizeWeight(0.5);
+            // This clears any component so we can "repaint" our components based on the users selections
+            for (Component c : this.getComponents()) {
+				if (c instanceof BytecodeViewPanel || c instanceof JSplitPane) {
+					this.remove(c);
+				}
+            }
 
-            if (bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel1.decompiler != Decompiler.NONE)
-                setDividerLocation(sp, 0.5);
-            else if (bytecodeViewPanel1.decompiler != Decompiler.NONE)
-                setDividerLocation(sp, 1);
-            else if (bytecodeViewPanel2.decompiler != Decompiler.NONE)
-            {
-                sp.setResizeWeight(1);
-                setDividerLocation(sp, 0);
-            } else
-                setDividerLocation(sp, 0);
+            this.sp.setResizeWeight(0.5);
+            setDividerLocation(sp, 0.5);
 
-            if (bytecodeViewPanel3.decompiler != Decompiler.NONE)
-            {
-                sp2.setResizeWeight(0.7);
-                setDividerLocation(sp2, 0.7);
-                if ((bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel1.decompiler != Decompiler.NONE) || (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE))
-                    setDividerLocation(sp2, 0.5);
-                else if (bytecodeViewPanel1.decompiler == Decompiler.NONE)
-                    setDividerLocation(sp2, 0);
-            } else
-            {
-                sp.setResizeWeight(1);
-                sp2.setResizeWeight(0);
-                setDividerLocation(sp2, 1);
+			/* If panel 1 and panel 2 are ticked but not panel 3 */
+            if (bytecodeViewPanel1.decompiler != Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel3.decompiler == Decompiler.NONE) {
+                this.sp.setLeftComponent(bytecodeViewPanel1);
+                this.sp.setRightComponent(bytecodeViewPanel2);
+                this.add(sp, BorderLayout.CENTER);
+            } /* If panel 1 and panel 3 are ticked but not panel 2 */
+            else if (bytecodeViewPanel1.decompiler != Decompiler.NONE && bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel3.decompiler != Decompiler.NONE) {
+                this.sp.setLeftComponent(bytecodeViewPanel1);
+                this.sp.setRightComponent(bytecodeViewPanel3);
+                this.add(sp, BorderLayout.CENTER);
+            } /* If panel 2 and panel 3 are ticked but not panel 1 */
+            else if (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel3.decompiler != Decompiler.NONE) {
+                this.sp.setLeftComponent(bytecodeViewPanel2);
+                this.sp.setRightComponent(bytecodeViewPanel3);
+                this.add(sp, BorderLayout.CENTER);
+            }
+
+            // If all panels are selected, create the second split pane
+            if (bytecodeViewPanel1.decompiler != Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel3.decompiler != Decompiler.NONE) {
+                this.sp.setLeftComponent(bytecodeViewPanel1);
+                this.sp.setRightComponent(bytecodeViewPanel2);
+                this.sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, bytecodeViewPanel3);
+                this.sp2.setResizeWeight(0.7);
+                this.add(sp2);
+            }
+
+			/* If view panel 1 is only ticked... */
+            if (bytecodeViewPanel1.decompiler != Decompiler.NONE && bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel3.decompiler == Decompiler.NONE) {
+                this.add(bytecodeViewPanel1, BorderLayout.CENTER);
+            } /* If view panel 2 is only ticked... */
+            else if (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler != Decompiler.NONE && bytecodeViewPanel3.decompiler == Decompiler.NONE) {
+                this.add(bytecodeViewPanel2, BorderLayout.CENTER);
+            } /* If view panel 3 is only ticked... */
+            else if (bytecodeViewPanel1.decompiler == Decompiler.NONE && bytecodeViewPanel2.decompiler == Decompiler.NONE && bytecodeViewPanel3.decompiler != Decompiler.NONE){
+                this.add(bytecodeViewPanel3, BorderLayout.CENTER);
             }
         });
     }

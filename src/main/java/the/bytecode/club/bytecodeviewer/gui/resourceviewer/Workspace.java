@@ -82,7 +82,6 @@ public class Workspace extends TranslatedVisibleComponent {
 
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-		tabs.addContainerListener(new TabRemovalEvent());
 		tabs.addChangeListener(arg0 -> buttonPanel.setVisible(tabs.getSelectedIndex() != -1));
 
 		this.setVisible(true);
@@ -147,7 +146,7 @@ public class Workspace extends TranslatedVisibleComponent {
 		resourceView.resource.workingName = workingName;
 
 		//set the tabs index
-		tabs.setTabComponentAt(tabIndex, new CloseButtonComponent(tabs));
+		tabs.setTabComponentAt(tabIndex, new TabComponent(tabs));
 
 		//open the tab that was just added
 		tabs.setSelectedIndex(tabIndex);
