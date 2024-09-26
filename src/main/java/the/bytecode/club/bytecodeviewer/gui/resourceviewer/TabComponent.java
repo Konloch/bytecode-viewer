@@ -53,6 +53,7 @@ public class TabComponent extends JPanel {
 		};
 
 		label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+		label.setOpaque(false);
 		add(label);
 		JButton button = new CloseButton();
 		add(button);
@@ -64,13 +65,18 @@ public class TabComponent extends JPanel {
 		rightClickMenu.add(closeAllTabs);
 		rightClickMenu.add(closeTab);
 		button.setComponentPopupMenu(rightClickMenu);
-
+		
+		//TODO add left-click close: when we add a new listener the parent listener (jTabbedPane) conflicts and won't respect the opaque flag.
+		//  button.addMouseListener(new MouseClickedListener(e ->
+		//      if (e.getButton() == MouseEvent.BUTTON2)     // middle-click
+		//	        closePane();
+		//  }));
+		
 		button.addMouseListener(new MouseClickedListener(e ->
 		{
-			if (e.getButton() != MouseEvent.BUTTON1) // left-click
-				return;
-
-			closePane();
+			if (e.getButton() == MouseEvent.BUTTON2     // middle-click
+				|| e.getButton() == MouseEvent.BUTTON1) // left-click
+				closePane();
 		}));
 
 		closeTab.addActionListener(e ->
@@ -96,6 +102,20 @@ public class TabComponent extends JPanel {
 		});
 
 		setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
+	}
+	
+	public void selectPane()
+	{
+		if (pane.indexOfTabComponent(TabComponent.this) != -1)
+		{
+			int i = pane.indexOfTabComponent(TabComponent.this);
+			selectTab(i);
+		}
+	}
+	
+	private void selectTab(int index)
+	{
+		BytecodeViewer.viewer.workPane.tabs.setSelectedIndex(index);
 	}
 	
 	public void closePane()
