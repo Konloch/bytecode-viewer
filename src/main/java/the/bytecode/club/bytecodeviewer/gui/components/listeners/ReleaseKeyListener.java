@@ -27,24 +27,31 @@ import java.awt.event.KeyListener;
  */
 public class ReleaseKeyListener implements KeyListener
 {
-	private final KeyReleasedEvent keyReleasedEvent;
-	
-	public ReleaseKeyListener(KeyReleasedEvent keyReleasedEvent) {this.keyReleasedEvent = keyReleasedEvent;}
-	
-	@Override
-	public void keyTyped(KeyEvent e) { }
-	
-	@Override
-	public void keyPressed(KeyEvent e) { }
-	
-	@Override
-	public void keyReleased(KeyEvent e)
-	{
-		keyReleasedEvent.keyReleased(e);
-	}
-	
-	public interface KeyReleasedEvent
-	{
-		void keyReleased(KeyEvent e);
-	}
+    private final KeyReleasedEvent keyReleasedEvent;
+
+    public ReleaseKeyListener(KeyReleasedEvent keyReleasedEvent)
+    {
+        this.keyReleasedEvent = keyReleasedEvent;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e)
+    {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e)
+    {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e)
+    {
+        keyReleasedEvent.keyReleased(e);
+    }
+
+    public interface KeyReleasedEvent
+    {
+        void keyReleased(KeyEvent e);
+    }
 }

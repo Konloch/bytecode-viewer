@@ -18,11 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.compilers.impl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -33,9 +28,9 @@ import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.SleepUtil;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import java.io.*;
+
+import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /**
  * Java Compiler
@@ -54,16 +49,18 @@ public class JavaCompiler extends InternalCompiler
         File clazz = new File(fileStart2 + fs + fullyQualifiedName + ".class");
         File cp = new File(tempDirectory + fs + "cpath_" + MiscUtils.randomString(12) + ".jar");
         File tempD = new File(fileStart + fs + fullyQualifiedName.substring(0, fullyQualifiedName.length() - fullyQualifiedName.split("/")[fullyQualifiedName.split("/").length - 1].length()));
-        
+
         tempD.mkdirs();
         new File(fileStart2).mkdirs();
 
-        if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists()) {
+        if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists())
+        {
             BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + nl + "(C:/Program Files/Java/JDK_xx/bin/javac.exe)");
             ExternalResources.getSingleton().selectJavac();
         }
 
-        if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists()) {
+        if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists())
+        {
             BytecodeViewer.showMessage("You need to set Javac!");
             return null;
         }
@@ -72,25 +69,18 @@ public class JavaCompiler extends InternalCompiler
         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), cp.getAbsolutePath());
 
         boolean cont = true;
-        try {
+        try
+        {
             StringBuilder log = new StringBuilder();
             ProcessBuilder pb;
 
-            if (Configuration.library.isEmpty()) {
-                pb = new ProcessBuilder(
-                        Configuration.javac,
-                        "-d", fileStart2,
-                        "-classpath", cp.getAbsolutePath(),
-                        java.getAbsolutePath()
-                );
-            } else {
-                pb = new ProcessBuilder(
-                        Configuration.javac,
-                        "-d", fileStart2,
-                        "-classpath",
-                        cp.getAbsolutePath() + System.getProperty("path.separator") + Configuration.library,
-                        java.getAbsolutePath()
-                );
+            if (Configuration.library.isEmpty())
+            {
+                pb = new ProcessBuilder(Configuration.javac, "-d", fileStart2, "-classpath", cp.getAbsolutePath(), java.getAbsolutePath());
+            }
+            else
+            {
+                pb = new ProcessBuilder(Configuration.javac, "-d", fileStart2, "-classpath", cp.getAbsolutePath() + System.getProperty("path.separator") + Configuration.library, java.getAbsolutePath());
             }
 
             Process process = pb.start();
@@ -98,8 +88,8 @@ public class JavaCompiler extends InternalCompiler
 
             Thread failSafe = new Thread(() ->
             {
-	            //wait 10 seconds
-	            SleepUtil.sleep(10_000);
+                //wait 10 seconds
+                SleepUtil.sleep(10_000);
 
                 if (process.isAlive())
                 {
@@ -112,18 +102,16 @@ public class JavaCompiler extends InternalCompiler
             int exitValue = process.waitFor();
 
             //Read out dir output
-            try (InputStream is = process.getInputStream();
-                 InputStreamReader isr = new InputStreamReader(is);
-                 BufferedReader br = new BufferedReader(isr)) {
+            try (InputStream is = process.getInputStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+            {
                 String line;
                 while ((line = br.readLine()) != null)
                     log.append(nl).append(line);
             }
 
             log.append(nl).append(nl).append(TranslatedStrings.ERROR2).append(nl).append(nl);
-            try (InputStream is = process.getErrorStream();
-                 InputStreamReader isr = new InputStreamReader(is);
-                 BufferedReader br = new BufferedReader(isr)) {
+            try (InputStream is = process.getErrorStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+            {
                 String line;
                 while ((line = br.readLine()) != null)
                     log.append(nl).append(line);
@@ -134,7 +122,9 @@ public class JavaCompiler extends InternalCompiler
 
             if (!clazz.exists())
                 throw new Exception(log.toString());
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             cont = false;
             e.printStackTrace();
         }
@@ -142,9 +132,12 @@ public class JavaCompiler extends InternalCompiler
         cp.delete();
 
         if (cont)
-            try {
+            try
+            {
                 return org.apache.commons.io.FileUtils.readFileToByteArray(clazz);
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 e.printStackTrace();
                 //BytecodeViewer.handleException(e);
             }

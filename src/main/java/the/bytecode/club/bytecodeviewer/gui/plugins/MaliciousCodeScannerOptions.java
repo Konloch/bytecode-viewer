@@ -18,18 +18,17 @@
 
 package the.bytecode.club.bytecodeviewer.gui.plugins;
 
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.malwarescanner.MalwareScanModule;
 import the.bytecode.club.bytecodeviewer.malwarescanner.util.MaliciousCodeOptions;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.MaliciousCodeScanner;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This GUI automatically populates the scan options from the MalwareScanModule enum.
@@ -40,15 +39,15 @@ import the.bytecode.club.bytecodeviewer.resources.IconResources;
 public class MaliciousCodeScannerOptions extends JFrame
 {
     private static final int SPACER_HEIGHT_BETWEEN_OPTIONS = 26;
-    
+
     public static void open()
     {
         if (BytecodeViewer.promptIfNoLoadedClasses())
             return;
-        
+
         new MaliciousCodeScannerOptions().setVisible(true);
     }
-    
+
     public MaliciousCodeScannerOptions()
     {
         this.setIconImages(IconResources.iconList);
@@ -57,21 +56,22 @@ public class MaliciousCodeScannerOptions extends JFrame
         setTitle("Malicious Code Scanner Options");
         getContentPane().setLayout(null);
         List<MaliciousCodeOptions> checkBoxes = new ArrayList<>();
-        
+
         int y = 7;
-        for(MalwareScanModule module : MalwareScanModule.values())
+        for (MalwareScanModule module : MalwareScanModule.values())
         {
             final JCheckBox checkBox = new JCheckBox(module.getOptionText());
             checkBox.setSelected(module.isToggledByDefault());
             checkBox.setBounds(6, y, 232, 23);
             getContentPane().add(checkBox);
             checkBoxes.add(new MaliciousCodeOptions(module, checkBox));
-            
+
             y += SPACER_HEIGHT_BETWEEN_OPTIONS;
         }
-    
+
         JButton btnNewButton = new JButton("Start Scanning");
-        btnNewButton.addActionListener(arg0 -> {
+        btnNewButton.addActionListener(arg0 ->
+        {
             PluginManager.runPlugin(new MaliciousCodeScanner(checkBoxes));
             dispose();
         });

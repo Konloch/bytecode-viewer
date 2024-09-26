@@ -18,11 +18,12 @@
 
 package the.bytecode.club.bytecodeviewer.api;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple plugin class, it will run the plugin in a background thread.
@@ -35,21 +36,25 @@ public abstract class Plugin extends Thread
     //as long as your code is being called from the execute function
     // this will be the current container
     public ResourceContainer activeContainer = null;
-    
+
     @Override
     public void run()
     {
         BytecodeViewer.updateBusyStatus(true);
-        
+
         try
         {
             if (BytecodeViewer.promptIfNoLoadedResources())
                 return;
-    
+
             executeContainer();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             BytecodeViewer.handleException(e);
-        } finally {
+        }
+        finally
+        {
             finished = true;
             BytecodeViewer.updateBusyStatus(false);
         }
@@ -62,7 +67,8 @@ public abstract class Plugin extends Thread
      *
      * @return true if the plugin is finished executing
      */
-    public boolean isFinished() {
+    public boolean isFinished()
+    {
         return finished;
     }
 
@@ -71,24 +77,26 @@ public abstract class Plugin extends Thread
      * still be considered finished (EZ-Injection), you can call this function
      * and it will set the finished boolean to true.
      */
-    public void setFinished() {
+    public void setFinished()
+    {
         finished = true;
     }
-    
+
     /**
      * On plugin start each resource container is iterated through
      */
     public void executeContainer()
     {
-        BytecodeViewer.getResourceContainers().forEach(container -> {
+        BytecodeViewer.getResourceContainers().forEach(container ->
+        {
             //set the active container
             activeContainer = container;
-            
+
             //call on the plugin code
             execute(new ArrayList<>(container.resourceClasses.values()));
         });
     }
-    
+
     /**
      * On plugin start each resource container is iterated through,
      * then this is called with the resource container classes

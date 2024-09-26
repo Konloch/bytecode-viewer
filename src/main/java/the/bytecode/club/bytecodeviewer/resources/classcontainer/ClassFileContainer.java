@@ -60,12 +60,12 @@ public class ClassFileContainer
             CompilationUnit compilationUnit = StaticJavaParser.parse(this.content);
             compilationUnit.accept(new MyVoidVisitor(this, compilationUnit), null);
         }
-		catch (java.lang.ClassCastException | UnsolvedSymbolException | ParseProblemException e)
+        catch (java.lang.ClassCastException | UnsolvedSymbolException | ParseProblemException e)
         {
             System.err.println("Parsing error!");
-			e.printStackTrace();
+            e.printStackTrace();
         }
-		catch (IOException e)
+        catch (IOException e)
         {
             throw new RuntimeException(e);
         }
@@ -139,8 +139,10 @@ public class ClassFileContainer
     public String getClassForField(String fieldName)
     {
         AtomicReference<String> className = new AtomicReference<>("");
-        this.classReferences.forEach((s, v) -> {
-            v.forEach(classReferenceLocation -> {
+        this.classReferences.forEach((s, v) ->
+        {
+            v.forEach(classReferenceLocation ->
+            {
                 if (classReferenceLocation.fieldName.equals(fieldName))
                 {
                     className.set(classReferenceLocation.packagePath + "/" + s);

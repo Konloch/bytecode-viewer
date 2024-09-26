@@ -105,7 +105,8 @@ public class BytecodeViewPanelUpdater implements Runnable
                         final HexViewer hex = new HexViewer(cw.toByteArray());
                         bytecodeViewPanel.add(hex);
                     });
-                } else
+                }
+                else
                 {
                     final Decompiler decompiler = bytecodeViewPanel.decompiler;
 
@@ -133,19 +134,23 @@ public class BytecodeViewPanelUpdater implements Runnable
                         try
                         {
                             Thread.sleep(1);
-                        } catch (Exception ignored)
+                        }
+                        catch (Exception ignored)
                         {
                         }
                     }
                 }
             }
-        } catch (IndexOutOfBoundsException | NullPointerException e)
+        }
+        catch (IndexOutOfBoundsException | NullPointerException e)
         {
             //ignore
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             BytecodeViewer.handleException(e);
-        } finally
+        }
+        finally
         {
             viewer.resetDivider();
             BytecodeViewer.updateBusyStatus(false);
@@ -175,12 +180,10 @@ public class BytecodeViewPanelUpdater implements Runnable
             return;
 
         //nullcheck broken pane
-        if (updateUpdaterTextArea == null || updateUpdaterTextArea.getScrollPane() == null
-                || updateUpdaterTextArea.getScrollPane().getViewport() == null)
+        if (updateUpdaterTextArea == null || updateUpdaterTextArea.getScrollPane() == null || updateUpdaterTextArea.getScrollPane().getViewport() == null)
         {
             //build an error message
-            SwingUtilities.invokeLater(() ->
-                    buildTextArea(bytecodeViewPanel.decompiler, "Critical BCV Error"));
+            SwingUtilities.invokeLater(() -> buildTextArea(bytecodeViewPanel.decompiler, "Critical BCV Error"));
             return;
         }
 
@@ -245,8 +248,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                     int caretLine = updateUpdaterTextArea.getCaretLineNumber();
                     int maxViewLine = ClassViewer.getMaxViewLine(updateUpdaterTextArea);
                     int activeViewLine = ClassViewer.getViewLine(updateUpdaterTextArea);
-                    int activeLine = (activeViewLine == maxViewLine && caretLine > maxViewLine) ? caretLine :
-                            activeViewLine;
+                    int activeLine = (activeViewLine == maxViewLine && caretLine > maxViewLine) ? caretLine : activeViewLine;
                     int activeLineDelta = -1;
                     MethodParser.Method activeMethod = null;
                     MethodParser activeMethods = viewer.methods.get(bytecodeViewPanel.panelIndex);
@@ -297,7 +299,8 @@ public class BytecodeViewPanelUpdater implements Runnable
                                             }
                                         }
                                     }
-                                } else if (activeLine != ClassViewer.getViewLine(area))
+                                }
+                                else if (activeLine != ClassViewer.getViewLine(area))
                                 {
                                     setLine = activeLine;
                                 }
@@ -315,8 +318,7 @@ public class BytecodeViewPanelUpdater implements Runnable
 
     public void synchronizePane()
     {
-        if (bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER
-                || bytecodeViewPanel.decompiler == Decompiler.NONE)
+        if (bytecodeViewPanel.decompiler == Decompiler.HEXCODE_VIEWER || bytecodeViewPanel.decompiler == Decompiler.NONE)
             return;
 
         SwingUtilities.invokeLater(() ->
@@ -402,7 +404,8 @@ public class BytecodeViewPanelUpdater implements Runnable
         if (bytecodeViewPanel.decompiler != Decompiler.BYTECODE_DISASSEMBLER)
         {
             bytecodeViewPanel.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-        } else
+        }
+        else
         {
             AbstractTokenMakerFactory tokenMakerFactory = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
             tokenMakerFactory.putMapping("text/javaBytecode", "the.bytecode.club.bytecodeviewer.decompilers.bytecode.JavaBytecodeTokenMaker");
@@ -444,14 +447,13 @@ public class BytecodeViewPanelUpdater implements Runnable
                     if (token != null)
                     {
                         String lexeme = token.getLexeme();
-                        if (classFileContainer.fieldMembers.containsKey(lexeme) || classFileContainer.methodMembers.containsKey(lexeme)
-                                || classFileContainer.methodLocalMembers.containsKey(lexeme) || classFileContainer.methodParameterMembers.containsKey(lexeme)
-                                || classFileContainer.classReferences.containsKey(lexeme))
+                        if (classFileContainer.fieldMembers.containsKey(lexeme) || classFileContainer.methodMembers.containsKey(lexeme) || classFileContainer.methodLocalMembers.containsKey(lexeme) || classFileContainer.methodParameterMembers.containsKey(lexeme) || classFileContainer.classReferences.containsKey(lexeme))
                         {
                             textArea.setCursor(new Cursor(Cursor.HAND_CURSOR));
                         }
                     }
-                } else
+                }
+                else
                 {
                     if (bytecodeViewPanel.textArea.getCursor().getType() != Cursor.TEXT_CURSOR)
                     {
@@ -480,11 +482,11 @@ public class BytecodeViewPanelUpdater implements Runnable
 
     private void markOccurrences(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, MyErrorStripe errorStripe)
     {
-	    //prevent NPE
-	    if(classFileContainer == null)
-		    return;
-	
-	    RSyntaxTextAreaHighlighterEx highlighterEx = (RSyntaxTextAreaHighlighterEx) textArea.getHighlighter();
+        //prevent NPE
+        if (classFileContainer == null)
+            return;
+
+        RSyntaxTextAreaHighlighterEx highlighterEx = (RSyntaxTextAreaHighlighterEx) textArea.getHighlighter();
         Token token = textArea.modelToToken(textArea.getCaretPosition());
         if (token == null)
         {
@@ -539,7 +541,8 @@ public class BytecodeViewPanelUpdater implements Runnable
 
     private void markField(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
-        classFileContainer.fieldMembers.values().forEach(fields -> fields.forEach(field -> {
+        classFileContainer.fieldMembers.values().forEach(fields -> fields.forEach(field ->
+        {
             if (field.line == line && field.columnStart - 1 <= column && field.columnEnd >= column)
             {
                 try
@@ -551,7 +554,8 @@ public class BytecodeViewPanelUpdater implements Runnable
                         int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
                         highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                     }
-                } catch (BadLocationException ex)
+                }
+                catch (BadLocationException ex)
                 {
                     throw new RuntimeException(ex);
                 }
@@ -561,7 +565,8 @@ public class BytecodeViewPanelUpdater implements Runnable
 
     private void markMethod(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
-        classFileContainer.methodMembers.values().forEach(methods -> methods.forEach(method -> {
+        classFileContainer.methodMembers.values().forEach(methods -> methods.forEach(method ->
+        {
             String owner;
             String parameters;
             if (method.line == line && method.columnStart - 1 <= column && method.columnEnd >= column)
@@ -579,7 +584,8 @@ public class BytecodeViewPanelUpdater implements Runnable
                             int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
                             highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                         }
-                    } catch (BadLocationException e)
+                    }
+                    catch (BadLocationException e)
                     {
                         throw new RuntimeException(e);
                     }
@@ -600,7 +606,8 @@ public class BytecodeViewPanelUpdater implements Runnable
      */
     private static void markMethodParameter(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
-        classFileContainer.methodParameterMembers.values().forEach(parameters -> parameters.forEach(parameter -> {
+        classFileContainer.methodParameterMembers.values().forEach(parameters -> parameters.forEach(parameter ->
+        {
             String method;
             if (parameter.line == line && parameter.columnStart - 1 <= column && parameter.columnEnd >= column)
             {
@@ -618,7 +625,8 @@ public class BytecodeViewPanelUpdater implements Runnable
                             highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                         }
                     }
-                } catch (BadLocationException ex)
+                }
+                catch (BadLocationException ex)
                 {
                     throw new RuntimeException(ex);
                 }
@@ -638,7 +646,8 @@ public class BytecodeViewPanelUpdater implements Runnable
      */
     private static void markMethodLocalVariable(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
-        classFileContainer.methodLocalMembers.values().forEach(localVariables -> localVariables.forEach(localVariable -> {
+        classFileContainer.methodLocalMembers.values().forEach(localVariables -> localVariables.forEach(localVariable ->
+        {
             String method;
             if (localVariable.line == line && localVariable.columnStart - 1 <= column && localVariable.columnEnd >= column)
             {
@@ -656,7 +665,8 @@ public class BytecodeViewPanelUpdater implements Runnable
                             highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                         }
                     }
-                } catch (BadLocationException ex)
+                }
+                catch (BadLocationException ex)
                 {
                     throw new RuntimeException(ex);
                 }
@@ -666,7 +676,8 @@ public class BytecodeViewPanelUpdater implements Runnable
 
     private void markClasses(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
-        classFileContainer.classReferences.values().forEach(classes -> classes.forEach(clazz -> {
+        classFileContainer.classReferences.values().forEach(classes -> classes.forEach(clazz ->
+        {
             if (clazz.line == line && clazz.columnStart - 1 <= column && clazz.columnEnd - 1 >= column)
             {
                 try
@@ -678,7 +689,8 @@ public class BytecodeViewPanelUpdater implements Runnable
                         int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
                         highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                     }
-                } catch (Exception ignored)
+                }
+                catch (Exception ignored)
                 {
                 }
             }

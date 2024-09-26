@@ -18,11 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.api;
 
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsole;
@@ -30,9 +25,12 @@ import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
-import static the.bytecode.club.bytecodeviewer.Constants.FAT_JAR;
-import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import java.awt.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /**
  * A simple class designed to show exceptions in the UI.
@@ -45,18 +43,20 @@ public class ExceptionUI extends JFrameConsole
     public static final String KONLOCH = "https://github.com/Konloch/bytecode-viewer/issues or Konloch at https://the.bytecode.club or konloch@gmail.com";
     public static final String SEND_STACKTRACE_TO = buildErrorLogHeader(KONLOCH);
     public static final String SEND_STACKTRACE_TO_NL = SEND_STACKTRACE_TO + nl + nl;
-    
+
     /**
      * @param e The exception to be shown
      */
-    public ExceptionUI(Throwable e) {
+    public ExceptionUI(Throwable e)
+    {
         setupException(e, KONLOCH);
     }
 
     /**
      * @param e The exception to be shown
      */
-    public ExceptionUI(String e) {
+    public ExceptionUI(String e)
+    {
         setupFrame(e, KONLOCH);
     }
 
@@ -64,7 +64,8 @@ public class ExceptionUI extends JFrameConsole
      * @param e      The exception to be shown
      * @param author the author of the plugin throwing this exception.
      */
-    public ExceptionUI(Throwable e, String author) {
+    public ExceptionUI(Throwable e, String author)
+    {
         setupException(e, author);
     }
 
@@ -72,36 +73,39 @@ public class ExceptionUI extends JFrameConsole
      * @param e      The exception to be shown
      * @param author the author of the plugin throwing this exception.
      */
-    public ExceptionUI(String e, String author) {
+    public ExceptionUI(String e, String author)
+    {
         setupFrame(e, author);
     }
-    
+
     /**
      * Handles error suppression and prints stacktraces to strings
      */
     private void setupException(Throwable error, String author)
     {
         //exceptions are completely hidden
-        if(Configuration.silenceExceptionGUI > 0)
+        if (Configuration.silenceExceptionGUI > 0)
             return;
-    
+
         //exception GUI is disabled but printstack is still enabled
-        if(Configuration.pauseExceptionGUI > 0)
+        if (Configuration.pauseExceptionGUI > 0)
         {
             error.printStackTrace();
             return;
         }
-        
-        try (StringWriter sw = new StringWriter();
-             PrintWriter pw = new PrintWriter(sw)) {
+
+        try (StringWriter sw = new StringWriter(); PrintWriter pw = new PrintWriter(sw))
+        {
             error.printStackTrace(pw);
             error.printStackTrace();
 
             setupFrame(sw.toString(), author);
-        } catch (IOException ignored) {
+        }
+        catch (IOException ignored)
+        {
         }
     }
-    
+
     /**
      * Creates a new frame and fills it with the error log
      */
@@ -111,35 +115,31 @@ public class ExceptionUI extends JFrameConsole
         setSize(new Dimension(600, 400));
         setTitle("Bytecode Viewer " + VERSION + " - Error Log - Send this to " + author);
         getContentPane().setLayout(new CardLayout(0, 0));
-        
+
         getTextArea().setText(buildErrorLogHeader(author) + nl + nl + error);
         getTextArea().setCaretPosition(0);
-        
+
         //embed error log as a new tab
-        if(Configuration.errorLogsAsNewTab)
+        if (Configuration.errorLogsAsNewTab)
             PluginManager.addExceptionUI(this);
-        
-        //pop open a new window frame
+
+            //pop open a new window frame
         else
         {
             setLocationRelativeTo(BytecodeViewer.viewer);
             setVisible(true);
         }
     }
-    
+
     /**
      * Returns the error log header
      */
     public static String buildErrorLogHeader(String author)
     {
         String fatJar = FAT_JAR ? " [Fat Jar]" : "";
-        
-        return TranslatedStrings.PLEASE_SEND_THIS_ERROR_LOG_TO + " " + author +
-                "\n" + TranslatedStrings.PLEASE_SEND_RESOURCES +
-                "\nBytecode Viewer Version: " + VERSION + fatJar +
-                ", OS: " + System.getProperty("os.name") +
-                ", Java: " + System.getProperty("java.version");
+
+        return TranslatedStrings.PLEASE_SEND_THIS_ERROR_LOG_TO + " " + author + "\n" + TranslatedStrings.PLEASE_SEND_RESOURCES + "\nBytecode Viewer Version: " + VERSION + fatJar + ", OS: " + System.getProperty("os.name") + ", Java: " + System.getProperty("java.version");
     }
-    
+
     private static final long serialVersionUID = -5230501978224926296L;
 }

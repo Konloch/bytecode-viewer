@@ -18,12 +18,13 @@
 
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.util.List;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
+
+import java.util.List;
 
 /**
  * Simply shows all classes that have a public static void main(String[])
@@ -41,7 +42,7 @@ public class ShowMainMethods extends Plugin
     {
         PluginConsole frame = new PluginConsole("Show Main Methods");
         StringBuilder sb = new StringBuilder();
-        
+
         for (ClassNode classNode : classNodeList)
         {
             for (Object o : classNode.methods.toArray())

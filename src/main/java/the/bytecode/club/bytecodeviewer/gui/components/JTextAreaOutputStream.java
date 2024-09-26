@@ -18,10 +18,10 @@
 
 package the.bytecode.club.bytecodeviewer.gui.components;
 
+import javax.swing.*;
 import java.io.Closeable;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import javax.swing.JTextArea;
 
 /**
  * @author Konloch
@@ -29,43 +29,44 @@ import javax.swing.JTextArea;
  */
 public class JTextAreaOutputStream extends OutputStream implements Closeable
 {
-	private StringBuilder sb = new StringBuilder();
-	private final JTextArea textArea;
-	private final PrintStream og;
-	
-	public JTextAreaOutputStream(JTextArea textArea, PrintStream og)
-	{
-		this.textArea = textArea;
-		this.og = og;
-	}
-	
-	public boolean noUpdateRequired()
-	{
-		return sb.length() <= 0;
-	}
-	
-	public void update()
-	{
-		textArea.append(sb.toString());
-		sb = new StringBuilder();
-	}
-	
-	@Override
-	public void write(int b)
-	{
-		sb.append((char) b);
-		if(og != null)
-			og.write(b);
-	}
-	
-	public StringBuilder getBuffer()
-	{
-		return sb;
-	}
+    private StringBuilder sb = new StringBuilder();
+    private final JTextArea textArea;
+    private final PrintStream og;
 
-	@Override
-	public void close() {
-		if (og != null)
-			og.close();
-	}
+    public JTextAreaOutputStream(JTextArea textArea, PrintStream og)
+    {
+        this.textArea = textArea;
+        this.og = og;
+    }
+
+    public boolean noUpdateRequired()
+    {
+        return sb.length() <= 0;
+    }
+
+    public void update()
+    {
+        textArea.append(sb.toString());
+        sb = new StringBuilder();
+    }
+
+    @Override
+    public void write(int b)
+    {
+        sb.append((char) b);
+        if (og != null)
+            og.write(b);
+    }
+
+    public StringBuilder getBuffer()
+    {
+        return sb;
+    }
+
+    @Override
+    public void close()
+    {
+        if (og != null)
+            og.close();
+    }
 }

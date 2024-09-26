@@ -37,7 +37,8 @@ import java.awt.event.KeyEvent;
  *
  * @author hajdam
  */
-public class HexViewer extends JPanel {
+public class HexViewer extends JPanel
+{
 
     private final CodeArea codeArea;
     private final JToolBar toolBar;
@@ -52,15 +53,18 @@ public class HexViewer extends JPanel {
     private BinaryStatusApi binaryStatus;
     private final AbstractAction goToAction;
 
-    public HexViewer(byte[] contentData) {
+    public HexViewer(byte[] contentData)
+    {
         super(new BorderLayout());
         codeArea = new CodeArea();
         codeArea.setFocusTraversalKeysEnabled(false);
         codeArea.setPainter(new HighlightNonAsciiCodeAreaPainter(codeArea));
         toolBar = new JToolBar();
-        statusPanel = new BinaryStatusPanel() {
+        statusPanel = new BinaryStatusPanel()
+        {
             @Override
-            public Dimension getMinimumSize() {
+            public Dimension getMinimumSize()
+            {
                 return new Dimension(0, super.getMinimumSize().height);
             }
         };
@@ -68,9 +72,11 @@ public class HexViewer extends JPanel {
         codeArea.setContentData(new ByteArrayData(contentData));
         codeArea.setEditMode(EditMode.READ_ONLY);
 
-        cycleCodeTypesAction = new AbstractAction() {
+        cycleCodeTypesAction = new AbstractAction()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 int codeTypePos = codeArea.getCodeType().ordinal();
                 CodeType[] values = CodeType.values();
                 CodeType next = codeTypePos + 1 >= values.length ? values[0] : values[codeTypePos + 1];
@@ -79,16 +85,20 @@ public class HexViewer extends JPanel {
             }
         };
 
-        goToAction = new AbstractAction() {
+        goToAction = new AbstractAction()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 final GoToBinaryPanel goToPanel = new GoToBinaryPanel();
                 goToPanel.setCursorPosition(codeArea.getCaret().getCaretPosition().getDataPosition());
                 goToPanel.setMaxPosition(codeArea.getDataSize());
                 final JDialog dialog = new JDialog((JFrame) SwingUtilities.getRoot(HexViewer.this), Dialog.ModalityType.APPLICATION_MODAL);
-                OkCancelPanel okCancelPanel = new OkCancelPanel() {
+                OkCancelPanel okCancelPanel = new OkCancelPanel()
+                {
                     @Override
-                    protected void okAction() {
+                    protected void okAction()
+                    {
                         goToPanel.acceptInput();
                         codeArea.setCaretPosition(goToPanel.getTargetPosition());
                         codeArea.revealCursor();
@@ -98,16 +108,19 @@ public class HexViewer extends JPanel {
                     }
 
                     @Override
-                    protected void cancelAction() {
+                    protected void cancelAction()
+                    {
                         dialog.setVisible(false);
                         dialog.dispose();
                     }
                 };
 
                 final String ESC_CANCEL = "esc-cancel";
-                dialog.getRootPane().getActionMap().put(ESC_CANCEL, new AbstractAction() {
+                dialog.getRootPane().getActionMap().put(ESC_CANCEL, new AbstractAction()
+                {
                     @Override
-                    public void actionPerformed(ActionEvent e) {
+                    public void actionPerformed(ActionEvent e)
+                    {
                         okCancelPanel.cancelAction();
                     }
                 });
@@ -125,7 +138,8 @@ public class HexViewer extends JPanel {
         init();
     }
 
-    private void init() {
+    private void init()
+    {
         cycleCodeTypesAction.putValue(Action.SHORT_DESCRIPTION, "Cycle through code types");
 
         cycleCodeTypeButton = new JButton();
@@ -135,11 +149,15 @@ public class HexViewer extends JPanel {
         JToggleButton lineWrappingToggleButton = new JToggleButton();
         lineWrappingToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/the/bytecode/club/bytecodeviewer/gui/hexviewer/resources/bined-linewrap.png")));
         lineWrappingToggleButton.setToolTipText("Toggle line wrapping");
-        lineWrappingToggleButton.addActionListener(evt -> {
-            if (codeArea.getRowWrapping() == RowWrappingMode.WRAPPING) {
+        lineWrappingToggleButton.addActionListener(evt ->
+        {
+            if (codeArea.getRowWrapping() == RowWrappingMode.WRAPPING)
+            {
                 codeArea.setMaxBytesPerRow(16);
                 codeArea.setRowWrapping(RowWrappingMode.NO_WRAPPING);
-            } else {
+            }
+            else
+            {
                 codeArea.setMaxBytesPerRow(0);
                 codeArea.setRowWrapping(RowWrappingMode.WRAPPING);
             }
@@ -150,9 +168,11 @@ public class HexViewer extends JPanel {
 
         codeAreaPanel = new JPanel(new BorderLayout());
         codeAreaPanel.add(codeArea, BorderLayout.CENTER);
-        codeArea.setComponentPopupMenu(new JPopupMenu() {
+        codeArea.setComponentPopupMenu(new JPopupMenu()
+        {
             @Override
-            public void show(Component invoker, int x, int y) {
+            public void show(Component invoker, int x, int y)
+            {
                 removeAll();
                 final JPopupMenu menu = createPopupMenu();
                 menu.show(invoker, x, y);
@@ -176,15 +196,20 @@ public class HexViewer extends JPanel {
         invalidate();
     }
 
-    private void setShowValuesPanel(boolean show) {
-        if (valuesPanelVisible != show) {
-            if (show) {
+    private void setShowValuesPanel(boolean show)
+    {
+        if (valuesPanelVisible != show)
+        {
+            if (show)
+            {
                 codeAreaPanel.add(valuesPanelScrollBar, BorderLayout.SOUTH);
                 codeAreaPanel.revalidate();
                 codeAreaPanel.repaint();
                 valuesPanelVisible = true;
                 valuesPanel.enableUpdate();
-            } else {
+            }
+            else
+            {
                 valuesPanel.disableUpdate();
                 codeAreaPanel.remove(valuesPanelScrollBar);
                 codeAreaPanel.revalidate();
@@ -194,7 +219,8 @@ public class HexViewer extends JPanel {
         }
     }
 
-    public void registerBinaryStatus(BinaryStatusApi binaryStatusApi) {
+    public void registerBinaryStatus(BinaryStatusApi binaryStatusApi)
+    {
         this.binaryStatus = binaryStatusApi;
         codeArea.addCaretMovedListener((CodeAreaCaretPosition caretPosition) -> binaryStatus.setCursorPosition(caretPosition));
         codeArea.addSelectionChangedListener(() -> binaryStatus.setSelectionRange(codeArea.getSelection()));
@@ -210,9 +236,12 @@ public class HexViewer extends JPanel {
      *
      * @return down mask for meta keys
      */
-    public static int getMetaMask() {
-        try {
-            switch (java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) {
+    public static int getMetaMask()
+    {
+        try
+        {
+            switch (java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())
+            {
                 case java.awt.Event.META_MASK:
                     return KeyEvent.META_DOWN_MASK;
                 case java.awt.Event.SHIFT_MASK:
@@ -222,48 +251,59 @@ public class HexViewer extends JPanel {
                 default:
                     return KeyEvent.CTRL_DOWN_MASK;
             }
-        } catch (java.awt.HeadlessException ex) {
+        }
+        catch (java.awt.HeadlessException ex)
+        {
             return KeyEvent.CTRL_DOWN_MASK;
         }
     }
 
     @Nonnull
-    private JPopupMenu createPopupMenu() {
+    private JPopupMenu createPopupMenu()
+    {
         JPopupMenu menu = new JPopupMenu();
 
         JMenu viewMenu = new JMenu("View");
         JMenu codeTypeMenu = new JMenu("Code Type");
         ButtonGroup codeTypeButtonGroup = new ButtonGroup();
-        JRadioButtonMenuItem binaryCodeTypeMenuItem = new JRadioButtonMenuItem(new AbstractAction("Binary") {
+        JRadioButtonMenuItem binaryCodeTypeMenuItem = new JRadioButtonMenuItem(new AbstractAction("Binary")
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 codeArea.setCodeType(CodeType.BINARY);
                 updateCycleButtonState();
                 menu.setVisible(false);
             }
         });
         codeTypeButtonGroup.add(binaryCodeTypeMenuItem);
-        JRadioButtonMenuItem octalCodeTypeMenuItem = new JRadioButtonMenuItem(new AbstractAction("Octal") {
+        JRadioButtonMenuItem octalCodeTypeMenuItem = new JRadioButtonMenuItem(new AbstractAction("Octal")
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 codeArea.setCodeType(CodeType.OCTAL);
                 updateCycleButtonState();
                 menu.setVisible(false);
             }
         });
         codeTypeButtonGroup.add(octalCodeTypeMenuItem);
-        JRadioButtonMenuItem decimalCodeTypeMenuItem = new JRadioButtonMenuItem(new AbstractAction("Decimal") {
+        JRadioButtonMenuItem decimalCodeTypeMenuItem = new JRadioButtonMenuItem(new AbstractAction("Decimal")
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 codeArea.setCodeType(CodeType.DECIMAL);
                 updateCycleButtonState();
                 menu.setVisible(false);
             }
         });
         codeTypeButtonGroup.add(decimalCodeTypeMenuItem);
-        JRadioButtonMenuItem hexadecimalCodeTypeMenuItem = new JRadioButtonMenuItem(new AbstractAction("Hexadecimal") {
+        JRadioButtonMenuItem hexadecimalCodeTypeMenuItem = new JRadioButtonMenuItem(new AbstractAction("Hexadecimal")
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 codeArea.setCodeType(CodeType.HEXADECIMAL);
                 updateCycleButtonState();
                 menu.setVisible(false);
@@ -274,20 +314,25 @@ public class HexViewer extends JPanel {
         codeTypeMenu.add(octalCodeTypeMenuItem);
         codeTypeMenu.add(decimalCodeTypeMenuItem);
         codeTypeMenu.add(hexadecimalCodeTypeMenuItem);
-        switch (codeArea.getCodeType()) {
-            case BINARY: {
+        switch (codeArea.getCodeType())
+        {
+            case BINARY:
+            {
                 binaryCodeTypeMenuItem.setSelected(true);
                 break;
             }
-            case OCTAL: {
+            case OCTAL:
+            {
                 octalCodeTypeMenuItem.setSelected(true);
                 break;
             }
-            case DECIMAL: {
+            case DECIMAL:
+            {
                 decimalCodeTypeMenuItem.setSelected(true);
                 break;
             }
-            case HEXADECIMAL: {
+            case HEXADECIMAL:
+            {
                 hexadecimalCodeTypeMenuItem.setSelected(true);
                 break;
             }
@@ -296,14 +341,16 @@ public class HexViewer extends JPanel {
         viewMenu.add(codeTypeMenu);
         JCheckBoxMenuItem showValuesPanelMenuItem = new JCheckBoxMenuItem("Show values panel");
         showValuesPanelMenuItem.setSelected(valuesPanelVisible);
-        showValuesPanelMenuItem.addActionListener((event) -> {
+        showValuesPanelMenuItem.addActionListener((event) ->
+        {
             setShowValuesPanel(showValuesPanelMenuItem.isSelected());
             menu.setVisible(false);
         });
         viewMenu.add(showValuesPanelMenuItem);
         JCheckBoxMenuItem codeColorizationMenuItem = new JCheckBoxMenuItem("Code Colorization");
         codeColorizationMenuItem.setSelected(((HighlightNonAsciiCodeAreaPainter) codeArea.getPainter()).isNonAsciiHighlightingEnabled());
-        codeColorizationMenuItem.addActionListener((event) -> {
+        codeColorizationMenuItem.addActionListener((event) ->
+        {
             ((HighlightNonAsciiCodeAreaPainter) codeArea.getPainter()).setNonAsciiHighlightingEnabled(codeColorizationMenuItem.isSelected());
             menu.setVisible(false);
         });
@@ -330,7 +377,8 @@ public class HexViewer extends JPanel {
         return menu;
     }
 
-    private void updateCycleButtonState() {
+    private void updateCycleButtonState()
+    {
         CodeType codeType = codeArea.getCodeType();
         cycleCodeTypeButton.setText(codeType.name().substring(0, 3));
     }

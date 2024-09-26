@@ -20,12 +20,6 @@ package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
 import jadx.api.JadxArgs;
 import jadx.api.JadxDecompiler;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Random;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -34,9 +28,10 @@ import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import java.io.*;
+import java.util.Random;
+
+import static the.bytecode.club.bytecodeviewer.Constants.*;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.JADX;
 
@@ -48,24 +43,29 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.JAD
 public class JADXDecompiler extends InternalDecompiler
 {
     private final Random r = new Random();
-    
+
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b) {
+    public String decompileClassNode(ClassNode cn, byte[] b)
+    {
         String fileStart = tempDirectory + fs;
 
         String exception = "";
         final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
-        try (FileOutputStream fos = new FileOutputStream(tempClass)) {
+        try (FileOutputStream fos = new FileOutputStream(tempClass))
+        {
             fos.write(b);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             BytecodeViewer.handleException(e);
         }
 
         File fuckery = new File(fuckery(fileStart));
         fuckery.mkdirs();
-        
-        try {
+
+        try
+        {
             JadxArgs args = new JadxArgs();
             args.setInputFile(tempClass);
             args.setOutDir(fuckery);
@@ -75,7 +75,9 @@ public class JADXDecompiler extends InternalDecompiler
             JadxDecompiler jadx = new JadxDecompiler(args);
             jadx.load();
             jadx.saveSources();
-        } catch (StackOverflowError | Exception e) {
+        }
+        catch (StackOverflowError | Exception e)
+        {
             StringWriter exceptionWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(exceptionWriter));
             e.printStackTrace();
@@ -86,13 +88,11 @@ public class JADXDecompiler extends InternalDecompiler
 
         if (fuckery.exists())
             return findFile(MiscUtils.listFiles(fuckery));
-        
-        if(exception.isEmpty())
+
+        if (exception.isEmpty())
             exception = "Decompiled source file not found!";
 
-        return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
-                nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
-                nl + nl + exception;
+        return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + nl + nl + exception;
     }
 
     //TODO remove
@@ -105,36 +105,41 @@ public class JADXDecompiler extends InternalDecompiler
             if (!f.exists())
                 return f.toString();
         }
-        
+
         return null;
     }
 
-    public String findFile(File[] fA) {
-        for (File f : fA) {
+    public String findFile(File[] fA)
+    {
+        for (File f : fA)
+        {
             if (f.isDirectory())
                 return findFile(MiscUtils.listFiles(f));
-            else {
+            else
+            {
                 String s;
-                try {
+                try
+                {
                     s = DiskReader.loadAsString(f.getAbsolutePath());
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     StringWriter sw = new StringWriter();
                     e.printStackTrace(new PrintWriter(sw));
                     e.printStackTrace();
                     String exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
-                    
-                    return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
-                            nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
-                            nl + nl + exception;
+
+                    return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + nl + nl + exception;
                 }
                 return s;
             }
         }
-        
-        return "JADX error!" +
-                nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR;
+
+        return "JADX error!" + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR;
     }
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName) { }
+    public void decompileToZip(String sourceJar, String zipName)
+    {
+    }
 }

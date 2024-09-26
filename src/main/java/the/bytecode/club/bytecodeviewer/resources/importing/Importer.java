@@ -26,5 +26,5 @@ import java.io.File;
  */
 public interface Importer
 {
-	void open(File file) throws Exception;
+    void open(File file) throws Exception;
 }

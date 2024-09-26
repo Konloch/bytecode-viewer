@@ -26,19 +26,23 @@ import java.util.Map;
  * @author Bibl (don't ban me pls)
  * @since 21 Jul 2013
  */
-public abstract class DataContainer<T> extends ArrayList<T> {
+public abstract class DataContainer<T> extends ArrayList<T>
+{
 
     private static final long serialVersionUID = -9022506488647444546L;
 
-    public DataContainer() {
+    public DataContainer()
+    {
         this(16);
     }
 
-    public DataContainer(int cap) {
+    public DataContainer(int cap)
+    {
         super(cap);
     }
 
-    public DataContainer(Collection<T> data) {
+    public DataContainer(Collection<T> data)
+    {
         addAll(data);
     }
 

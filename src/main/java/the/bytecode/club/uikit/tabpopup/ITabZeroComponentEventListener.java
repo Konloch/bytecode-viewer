@@ -18,12 +18,12 @@
 
 package the.bytecode.club.uikit.tabpopup;
 
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 
-public interface ITabZeroComponentEventListener {
-	/**
-	 * 
-	 * @param tabbedPane
-	 */
-	void onTabZeroComponent(JTabbedPane tabbedPane);
+public interface ITabZeroComponentEventListener
+{
+    /**
+     * @param tabbedPane
+     */
+    void onTabZeroComponent(JTabbedPane tabbedPane);
 }

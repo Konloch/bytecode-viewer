@@ -20,7 +20,6 @@ package the.bytecode.club.bytecodeviewer.gui.components.listeners;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  * @author Konloch
@@ -28,21 +27,22 @@ import java.awt.event.MouseListener;
  */
 public class MouseClickedListener extends MouseAdapter
 {
-	private final MouseClickedEvent mouseClickedEvent;
-	
-	public MouseClickedListener(MouseClickedEvent mouseClickedEvent)
-	{
-		this.mouseClickedEvent = mouseClickedEvent;
-	}
-	
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		mouseClickedEvent.mouseClicked(e);
-		super.mouseClicked(e);
-	}
-	
-	public interface MouseClickedEvent
-	{
-		void mouseClicked(MouseEvent e);
-	}
+    private final MouseClickedEvent mouseClickedEvent;
+
+    public MouseClickedListener(MouseClickedEvent mouseClickedEvent)
+    {
+        this.mouseClickedEvent = mouseClickedEvent;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e)
+    {
+        mouseClickedEvent.mouseClicked(e);
+        super.mouseClicked(e);
+    }
+
+    public interface MouseClickedEvent
+    {
+        void mouseClicked(MouseEvent e);
+    }
 }

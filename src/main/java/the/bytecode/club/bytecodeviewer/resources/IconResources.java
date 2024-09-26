@@ -18,19 +18,19 @@
 
 package the.bytecode.club.bytecodeviewer.resources;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
-
 import com.github.weisj.darklaf.iconset.AllIcons;
 import com.github.weisj.darklaf.properties.icons.IconLoader;
 import com.github.weisj.darklaf.properties.icons.IconResolver;
 import org.imgscalr.Scalr;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Any resources loaded by disc or by memory.
@@ -41,7 +41,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 public class IconResources
 {
     static protected final int SIZE = 9;
-    
+
     public static final List<BufferedImage> iconList;
     public static final BufferedImage icon;
     public static final Icon add;
@@ -65,7 +65,7 @@ public class IconResources
     public static final Icon imageIcon;
     public static final Icon decodedIcon;
     public static final Icon javaIcon;
-    
+
     static
     {
         IconResolver iconResolver = IconLoader.get();
@@ -100,15 +100,20 @@ public class IconResources
             size += 2;
         }
     }
-    
-    private static BufferedImage resize(BufferedImage image, int width, int height) {
+
+    private static BufferedImage resize(BufferedImage image, int width, int height)
+    {
         return Scalr.resize(image, Scalr.Method.ULTRA_QUALITY, width, height);
     }
 
-    private static BufferedImage loadImageFromResource(String imageLocation) {
-        try {
+    private static BufferedImage loadImageFromResource(String imageLocation)
+    {
+        try
+        {
             return ImageIO.read(Objects.requireNonNull(IconResources.class.getResourceAsStream("/" + imageLocation)));
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             BytecodeViewer.handleException(e);
         }
         return null;

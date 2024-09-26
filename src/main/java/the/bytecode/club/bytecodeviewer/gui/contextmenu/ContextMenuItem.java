@@ -24,21 +24,22 @@ package the.bytecode.club.bytecodeviewer.gui.contextmenu;
  */
 public class ContextMenuItem
 {
-	private final ContextMenuType menuType;
-	private final BuildContextMenuItem buildContextMenuItem;
-	
-	public ContextMenuItem(ContextMenuType menuType, BuildContextMenuItem buildContextMenuItem) {
-		this.menuType = menuType;
-		this.buildContextMenuItem = buildContextMenuItem;
-	}
-	
-	public ContextMenuType getMenuType()
-	{
-		return menuType;
-	}
-	
-	public BuildContextMenuItem getBuildContextMenuItem()
-	{
-		return buildContextMenuItem;
-	}
+    private final ContextMenuType menuType;
+    private final BuildContextMenuItem buildContextMenuItem;
+
+    public ContextMenuItem(ContextMenuType menuType, BuildContextMenuItem buildContextMenuItem)
+    {
+        this.menuType = menuType;
+        this.buildContextMenuItem = buildContextMenuItem;
+    }
+
+    public ContextMenuType getMenuType()
+    {
+        return menuType;
+    }
+
+    public BuildContextMenuItem getBuildContextMenuItem()
+    {
+        return buildContextMenuItem;
+    }
 }

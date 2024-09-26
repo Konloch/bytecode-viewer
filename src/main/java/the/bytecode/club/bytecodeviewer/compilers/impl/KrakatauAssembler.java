@@ -18,11 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.compilers.impl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Objects;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -35,9 +30,13 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.krakatauWorkingDirectory;
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Objects;
+
+import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /**
  * Krakatau Java assembler, requires Python 2.7
@@ -49,7 +48,7 @@ public class KrakatauAssembler extends InternalCompiler
     @Override
     public byte[] compile(String contents, String fullyQualifiedName)
     {
-        if(!ExternalResources.getSingleton().hasSetPython2Command())
+        if (!ExternalResources.getSingleton().hasSetPython2Command())
             return null;
 
         File tempD = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
@@ -60,43 +59,35 @@ public class KrakatauAssembler extends InternalCompiler
 
         final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempDirectory.mkdir();
-        
+
         final File tempJar = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
-    
+
         StringBuilder log = new StringBuilder();
-        
+
         try
         {
             String[] pythonCommands = new String[]{Configuration.python2};
-            if(Configuration.python2Extra)
+            if (Configuration.python2Extra)
                 pythonCommands = ArrayUtils.addAll(pythonCommands, "-2");
-            
-            ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
-                    pythonCommands,
-                    "-O", //love you storyyeller <3
-                    krakatauWorkingDirectory + fs + "assemble.py",
-                    "-out",
-                    tempDirectory.getAbsolutePath(),
-                    tempJ.getAbsolutePath()
-            ));
+
+            ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(pythonCommands, "-O", //love you storyyeller <3
+                krakatauWorkingDirectory + fs + "assemble.py", "-out", tempDirectory.getAbsolutePath(), tempJ.getAbsolutePath()));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
 
             //Read out dir output
-            try (InputStream is = process.getInputStream();
-                 InputStreamReader isr = new InputStreamReader(is);
-                 BufferedReader br = new BufferedReader(isr)) {
+            try (InputStream is = process.getInputStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+            {
                 String line;
                 while ((line = br.readLine()) != null)
                     log.append(nl).append(line);
             }
 
             log.append(nl).append(nl).append(TranslatedStrings.ERROR2).append(nl).append(nl);
-            try (InputStream is = process.getErrorStream();
-                 InputStreamReader isr = new InputStreamReader(is);
-                 BufferedReader br = new BufferedReader(isr)) {
+            try (InputStream is = process.getErrorStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+            {
                 String line;
                 while ((line = br.readLine()) != null)
                     log.append(nl).append(line);
@@ -106,12 +97,13 @@ public class KrakatauAssembler extends InternalCompiler
             log.append(nl).append(nl).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
             System.err.println(log);
 
-            byte[] b = FileUtils.readFileToByteArray(Objects.requireNonNull(
-                    ExternalResources.getSingleton().findFile(tempDirectory, ".class")));
+            byte[] b = FileUtils.readFileToByteArray(Objects.requireNonNull(ExternalResources.getSingleton().findFile(tempDirectory, ".class")));
             tempDirectory.delete();
             tempJar.delete();
             return b;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             //BytecodeViewer.handleException(log.toString());
         }

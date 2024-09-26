@@ -18,10 +18,11 @@
 
 package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
-import java.util.Objects;
+import org.exbin.bined.PositionCodeType;
+
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.bined.PositionCodeType;
+import java.util.Objects;
 
 /**
  * Document size format for status.
@@ -29,34 +30,41 @@ import org.exbin.bined.PositionCodeType;
  * @author hajdam
  */
 @ParametersAreNonnullByDefault
-public class StatusDocumentSizeFormat {
+public class StatusDocumentSizeFormat
+{
 
     private PositionCodeType positionCodeType = PositionCodeType.DECIMAL;
     private boolean showRelative = true;
 
-    public StatusDocumentSizeFormat() {
+    public StatusDocumentSizeFormat()
+    {
 
     }
 
-    public StatusDocumentSizeFormat(PositionCodeType positionCodeType, boolean showRelative) {
+    public StatusDocumentSizeFormat(PositionCodeType positionCodeType, boolean showRelative)
+    {
         this.positionCodeType = positionCodeType;
         this.showRelative = showRelative;
     }
 
     @Nonnull
-    public PositionCodeType getCodeType() {
+    public PositionCodeType getCodeType()
+    {
         return positionCodeType;
     }
 
-    public void setCodeType(PositionCodeType positionCodeType) {
+    public void setCodeType(PositionCodeType positionCodeType)
+    {
         this.positionCodeType = Objects.requireNonNull(positionCodeType);
     }
 
-    public boolean isShowRelative() {
+    public boolean isShowRelative()
+    {
         return showRelative;
     }
 
-    public void setShowRelative(boolean showRelativeSize) {
+    public void setShowRelative(boolean showRelativeSize)
+    {
         this.showRelative = showRelativeSize;
     }
 }

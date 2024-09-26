@@ -18,12 +18,10 @@
 
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author Konloch
@@ -32,27 +30,27 @@ import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 public class JFrameConsoleTabbed extends JFrame
 {
-	private final JTabbedPane tabbedPane;
-	
-	public JFrameConsoleTabbed(String title)
-	{
-		setIconImages(IconResources.iconList);
-		setTitle(title);
-		setSize(new Dimension(542, 316));
-		
-		tabbedPane = new JTabbedPane();
-		getContentPane().add(tabbedPane, BorderLayout.CENTER);
-		
-		this.setLocationRelativeTo(null);
-	}
-	
-	public void addConsole(Component console, String containerName)
-	{
-		tabbedPane.add(console, containerName);
-	}
-	
-	public JTabbedPane getTabbedPane()
-	{
-		return tabbedPane;
-	}
+    private final JTabbedPane tabbedPane;
+
+    public JFrameConsoleTabbed(String title)
+    {
+        setIconImages(IconResources.iconList);
+        setTitle(title);
+        setSize(new Dimension(542, 316));
+
+        tabbedPane = new JTabbedPane();
+        getContentPane().add(tabbedPane, BorderLayout.CENTER);
+
+        this.setLocationRelativeTo(null);
+    }
+
+    public void addConsole(Component console, String containerName)
+    {
+        tabbedPane.add(console, containerName);
+    }
+
+    public JTabbedPane getTabbedPane()
+    {
+        return tabbedPane;
+    }
 }

@@ -18,18 +18,15 @@
 
 package the.bytecode.club.bytecodeviewer.api;
 
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
+
 import java.security.AllPermission;
 import java.security.CodeSource;
 import java.security.Permissions;
 import java.security.ProtectionDomain;
 import java.security.cert.Certificate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.tree.ClassNode;
+import java.util.*;
 
 /**
  * @author Demmonic
@@ -44,7 +41,8 @@ public final class ClassNodeLoader extends ClassLoader
      *
      * @param cn The class
      */
-    public void addClass(ClassNode cn) {
+    public void addClass(ClassNode cn)
+    {
         classes.put(cn.name.replace("/", "."), cn);
     }
 
@@ -52,33 +50,41 @@ public final class ClassNodeLoader extends ClassLoader
      * @param name The name of the class
      * @return If this class loader contains the provided class node
      */
-    public boolean contains(String name) {
+    public boolean contains(String name)
+    {
         return (classes.get(name) != null);
     }
 
     /**
      * @return All class nodes in this loader
      */
-    public Collection<ClassNode> getAll() {
+    public Collection<ClassNode> getAll()
+    {
         return classes.values();
     }
 
     /**
      * Clears out all class nodes
      */
-    public void clear() {
+    public void clear()
+    {
         classes.clear();
     }
 
     /**
      * @return All classes in this loader
      */
-    public Collection<Class<?>> getAllClasses() {
+    public Collection<Class<?>> getAllClasses()
+    {
         List<Class<?>> classes = new ArrayList<>();
-        for (String s : this.classes.keySet()) {
-            try {
+        for (String s : this.classes.keySet())
+        {
+            try
+            {
                 classes.add(loadClass(s));
-            } catch (ClassNotFoundException e) {
+            }
+            catch (ClassNotFoundException e)
+            {
                 e.printStackTrace();
             }
         }
@@ -90,20 +96,26 @@ public final class ClassNodeLoader extends ClassLoader
      * @param name The name of the class
      * @return The class node with the provided name
      */
-    public ClassNode get(String name) {
+    public ClassNode get(String name)
+    {
         return classes.get(name);
     }
 
     @Override
-    public Class<?> loadClass(String className) throws ClassNotFoundException {
+    public Class<?> loadClass(String className) throws ClassNotFoundException
+    {
         return findClass(className);
     }
 
     @Override
-    public Class<?> findClass(String name) throws ClassNotFoundException {
-        if (classes.containsKey(name)) {
+    public Class<?> findClass(String name) throws ClassNotFoundException
+    {
+        if (classes.containsKey(name))
+        {
             return nodeToClass(classes.get(name));
-        } else {
+        }
+        else
+        {
             return super.loadClass(name);
         }
     }
@@ -118,23 +130,26 @@ public final class ClassNodeLoader extends ClassLoader
     {
         if (super.findLoadedClass(node.name.replace("/", ".")) != null)
             return findLoadedClass(node.name.replace("/", "."));
-       
+
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        try {
+        try
+        {
             node.accept(cw);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
-        
+
         byte[] b = cw.toByteArray();
-        return defineClass(node.name.replaceAll("/", "."), b, 0, b.length,
-                getDomain());
+        return defineClass(node.name.replaceAll("/", "."), b, 0, b.length, getDomain());
     }
 
     /**
      * @return This class loader's protection domain
      */
-    private ProtectionDomain getDomain() {
+    private ProtectionDomain getDomain()
+    {
         CodeSource code = new CodeSource(null, (Certificate[]) null);
         return new ProtectionDomain(code, getPermissions());
     }
@@ -142,7 +157,8 @@ public final class ClassNodeLoader extends ClassLoader
     /**
      * @return This class loader's permissions
      */
-    private Permissions getPermissions() {
+    private Permissions getPermissions()
+    {
         Permissions permissions = new Permissions();
         permissions.add(new AllPermission());
         return permissions;

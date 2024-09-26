@@ -8,8 +8,8 @@
         </linearGradient>
         <linearGradient id="palette.green"
                         fallback="%#28CD41">
-            <stop offset="0" stop-color="#28CD41" />
-            <stop offset="1" stop-color="#28CD41" />
+            <stop offset="0" stop-color="#28CD41"/>
+            <stop offset="1" stop-color="#28CD41"/>
         </linearGradient>
         <linearGradient id="fileIconForeground"
                         fallback="Label.background" opacity="fileIconOpacity"

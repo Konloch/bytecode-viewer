@@ -24,23 +24,28 @@ import java.util.HashMap;
  * @author Bibl (don't ban me pls)
  * @since ages ago
  */
-public class NullPermeableHashMap<K, V> extends HashMap<K, V> {
+public class NullPermeableHashMap<K, V> extends HashMap<K, V>
+{
 
     private static final long serialVersionUID = 1L;
 
     private final ValueCreator<V> creator;
 
-    public NullPermeableHashMap(ValueCreator<V> creator) {
+    public NullPermeableHashMap(ValueCreator<V> creator)
+    {
         this.creator = creator;
     }
 
-    public NullPermeableHashMap() {
+    public NullPermeableHashMap()
+    {
         this(new NullCreator<>());
     }
 
-    public V getNonNull(K k) {
+    public V getNonNull(K k)
+    {
         V val = get(k);
-        if (val == null) {
+        if (val == null)
+        {
             val = creator.create();
             put(k, val);
         }

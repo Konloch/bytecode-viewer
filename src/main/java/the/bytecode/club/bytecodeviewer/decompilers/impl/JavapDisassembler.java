@@ -18,10 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import java.io.File;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import me.konloch.kontainer.io.DiskWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -33,12 +29,17 @@ import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
+import java.io.File;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.api.ExceptionUI.SEND_STACKTRACE_TO;
 
 /**
  * Javap disassembler
- *
+ * <p>
  * https://github.com/Konloch/bytecode-viewer/issues/93
  *
  * @author Konloch
@@ -50,46 +51,42 @@ public class JavapDisassembler extends InternalDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b)
     {
-        if(!ExternalResources.getSingleton().hasJavaToolsSet())
+        if (!ExternalResources.getSingleton().hasJavaToolsSet())
             return "Set Java Tools Path!";
-        
+
         return synchronizedDecompilation(cn, b);
     }
-    
+
     private synchronized String synchronizedDecompilation(ClassNode cn, byte[] b)
     {
         final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
         tempDirectory.mkdir();
         final File tempClass = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".class");
-    
+
         DiskWriter.replaceFileBytes(tempClass.getAbsolutePath(), b, false);
-    
+
         JFrameConsolePrintStream sysOutBuffer = null;
         try
         {
             //load java tools into a temporary classloader
-            URLClassLoader child = new URLClassLoader(
-                    new URL[] {new File(Configuration.javaTools).toURI().toURL()},
-                    this.getClass().getClassLoader()
-            );
-        
+            URLClassLoader child = new URLClassLoader(new URL[]{new File(Configuration.javaTools).toURI().toURL()}, this.getClass().getClassLoader());
+
             //setup reflection
             Class<?> javap = child.loadClass("com.sun.tools.javap.Main");
             Method main = javap.getMethod("main", String[].class);
-        
+
             //pipe sys out
             sysOutBuffer = new JFrameConsolePrintStream("", false);
-        
+
             //silence security manager debugging
             BytecodeViewer.sm.silenceExec(true);
-        
+
             //invoke Javap
-            main.invoke(null, (Object) new String[]{
-                    "-p", //Shows all classes and members
-                    "-c", //Prints out disassembled code
-                    //"-l", //Prints out line and local variable tables
-                    "-constants", //Shows static final constants
-                    tempClass.getAbsolutePath()});
+            main.invoke(null, (Object) new String[]{"-p", //Shows all classes and members
+                "-c", //Prints out disassembled code
+                //"-l", //Prints out line and local variable tables
+                "-constants", //Shows static final constants
+                tempClass.getAbsolutePath()});
         }
         catch (IllegalAccessException e)
         {
@@ -104,16 +101,18 @@ public class JavapDisassembler extends InternalDecompiler
             BytecodeViewer.sm.silenceExec(false);
             tempClass.delete();
         }
-    
-        if(sysOutBuffer != null)
+
+        if (sysOutBuffer != null)
         {
             sysOutBuffer.finished();
             return sysOutBuffer.getTextAreaOutputStreamOut().getBuffer().toString();
         }
-    
+
         return SEND_STACKTRACE_TO;
     }
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName) { }
+    public void decompileToZip(String sourceJar, String zipName)
+    {
+    }
 }

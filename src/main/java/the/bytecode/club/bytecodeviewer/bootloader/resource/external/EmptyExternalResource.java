@@ -24,12 +24,14 @@ import java.net.URL;
  * @author Bibl (don't ban me pls)
  * @since 21 Jul 2015 00:29:11
  */
-public class EmptyExternalResource<T> extends ExternalResource<T> {
+public class EmptyExternalResource<T> extends ExternalResource<T>
+{
 
     /**
      * @param location
      */
-    public EmptyExternalResource(URL location) {
+    public EmptyExternalResource(URL location)
+    {
         super(location);
     }
 
@@ -37,7 +39,8 @@ public class EmptyExternalResource<T> extends ExternalResource<T> {
      * @see the.bytecode.club.bootloader.resource.ExternalResource#load()
      */
     @Override
-    public T load() {
+    public T load()
+    {
         throw new UnsupportedOperationException();
     }
 }

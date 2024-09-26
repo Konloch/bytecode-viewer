@@ -18,12 +18,10 @@
 
 package the.bytecode.club.bytecodeviewer.gui.plugins;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * A graphical way to execute reflection.

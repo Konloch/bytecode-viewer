@@ -18,14 +18,16 @@
 
 package the.bytecode.club.bytecodeviewer.plugin;
 
-import java.io.File;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
+
+import java.io.File;
 
 /**
  * @author Bibl (don't ban me pls)
  * @since 1 Jun 2015
  */
-public interface PluginLaunchStrategy {
+public interface PluginLaunchStrategy
+{
 
     Plugin run(File file) throws Throwable;
 }

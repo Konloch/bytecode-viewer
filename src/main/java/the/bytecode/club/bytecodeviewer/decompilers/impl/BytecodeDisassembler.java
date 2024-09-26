@@ -18,11 +18,12 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import java.util.ArrayList;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.bytecode.PrefixedStringBuilder;
+
+import java.util.ArrayList;
 
 /**
  * @author Konloch
@@ -30,13 +31,14 @@ import the.bytecode.club.bytecodeviewer.decompilers.bytecode.PrefixedStringBuild
  */
 public class BytecodeDisassembler extends InternalDecompiler
 {
-	@Override
-	public String decompileClassNode(ClassNode cn, byte[] b) {
-		return ClassNodeDecompiler.decompile(new PrefixedStringBuilder(),
-				new ArrayList<>(), cn).toString();
-	}
-	
-	@Override
-	public void decompileToZip(String sourceJar, String zipName) {
-	}
+    @Override
+    public String decompileClassNode(ClassNode cn, byte[] b)
+    {
+        return ClassNodeDecompiler.decompile(new PrefixedStringBuilder(), new ArrayList<>(), cn).toString();
+    }
+
+    @Override
+    public void decompileToZip(String sourceJar, String zipName)
+    {
+    }
 }

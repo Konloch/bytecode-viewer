@@ -28,9 +28,12 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 public abstract class BackgroundSearchThread extends Thread
 {
-    public BackgroundSearchThread() { }
+    public BackgroundSearchThread()
+    {
+    }
 
-    public BackgroundSearchThread(boolean finished) {
+    public BackgroundSearchThread(boolean finished)
+    {
         this.finished = finished;
     }
 

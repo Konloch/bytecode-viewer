@@ -18,17 +18,14 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
 
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.*;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.AnnotationNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.LocalVariableNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.TryCatchBlockNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
@@ -37,14 +34,18 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
  * @author Bibl
  */
 
-public class MethodNodeDecompiler {
+public class MethodNodeDecompiler
+{
 
-    public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb,
-                                                  MethodNode m, ClassNode cn) {
+    public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb, MethodNode m, ClassNode cn)
+    {
         String class_;
-        if (cn.name.contains("/")) {
+        if (cn.name.contains("/"))
+        {
             class_ = cn.name.substring(cn.name.lastIndexOf("/") + 1);
-        } else {
+        }
+        else
+        {
             class_ = cn.name;
         }
 
@@ -54,9 +55,12 @@ public class MethodNodeDecompiler {
         if (s.length() > 0)
             sb.append(" ");
 
-        if (m.name.equals("<init>")) {
+        if (m.name.equals("<init>"))
+        {
             sb.append(class_);
-        } else if (!m.name.equals("<clinit>")) {
+        }
+        else if (!m.name.equals("<clinit>"))
+        {
             Type returnType = Type.getReturnType(m.desc);
             sb.append(returnType.getClassName());
             sb.append(" ");
@@ -65,13 +69,15 @@ public class MethodNodeDecompiler {
 
         TypeAndName[] args = new TypeAndName[0];
 
-        if (!m.name.equals("<clinit>")) {
+        if (!m.name.equals("<clinit>"))
+        {
             sb.append("(");
 
             final Type[] argTypes = Type.getArgumentTypes(m.desc);
             args = new TypeAndName[argTypes.length];
 
-            for (int i = 0; i < argTypes.length; i++) {
+            for (int i = 0; i < argTypes.length; i++)
+            {
                 final Type type = argTypes[i];
 
                 final TypeAndName tan = new TypeAndName();
@@ -82,33 +88,38 @@ public class MethodNodeDecompiler {
 
                 args[i] = tan;
 
-                sb.append(type.getClassName() + " " + argName
-                        + (i < argTypes.length - 1 ? ", " : ""));
+                sb.append(type.getClassName() + " " + argName + (i < argTypes.length - 1 ? ", " : ""));
             }
 
             sb.append(")");
         }
 
         int amountOfThrows = m.exceptions.size();
-        if (amountOfThrows > 0) {
+        if (amountOfThrows > 0)
+        {
             sb.append(" throws ");
             sb.append(m.exceptions.get(0));// exceptions is list<string>
-            for (int i = 1; i < amountOfThrows; i++) {
+            for (int i = 1; i < amountOfThrows; i++)
+            {
                 sb.append(", ");
                 sb.append(m.exceptions.get(i));
             }
         }
 
-        if (s.contains("abstract")) {
+        if (s.contains("abstract"))
+        {
             sb.append(" {}");
             sb.append(" //");
             sb.append(m.desc);
             sb.append(nl);
-        } else {
+        }
+        else
+        {
 
             sb.append(" {");
 
-            if (BytecodeViewer.viewer.debugHelpers.isSelected()) {
+            if (BytecodeViewer.viewer.debugHelpers.isSelected())
+            {
                 if (m.name.equals("<clinit>"))
                     sb.append(" // <clinit>");
                 else if (m.name.equals("<init>"))
@@ -120,12 +131,14 @@ public class MethodNodeDecompiler {
 
             sb.append(nl);
 
-            if (m.signature != null) {
+            if (m.signature != null)
+            {
                 sb.append("         <sig:").append(m.signature).append(">");
-	            sb.append(nl);
+                sb.append(nl);
             }
 
-            if (m.annotationDefault != null) {
+            if (m.annotationDefault != null)
+            {
                 sb.append(m.annotationDefault);
                 sb.append(nl);
             }
@@ -134,19 +147,16 @@ public class MethodNodeDecompiler {
 
             addAttrList(m.attrs, "attr", sb, insnPrinter);
             addAttrList(m.invisibleAnnotations, "invisAnno", sb, insnPrinter);
-            addAttrList(m.invisibleAnnotations, "invisLocalVarAnno", sb,
-                    insnPrinter);
-            addAttrList(m.invisibleTypeAnnotations, "invisTypeAnno", sb,
-                    insnPrinter);
+            addAttrList(m.invisibleAnnotations, "invisLocalVarAnno", sb, insnPrinter);
+            addAttrList(m.invisibleTypeAnnotations, "invisTypeAnno", sb, insnPrinter);
             addAttrList(m.localVariables, "localVar", sb, insnPrinter);
             addAttrList(m.visibleAnnotations, "visAnno", sb, insnPrinter);
-            addAttrList(m.visibleLocalVariableAnnotations, "visLocalVarAnno",
-                    sb, insnPrinter);
-            addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb,
-                    insnPrinter);
+            addAttrList(m.visibleLocalVariableAnnotations, "visLocalVarAnno", sb, insnPrinter);
+            addAttrList(m.visibleTypeAnnotations, "visTypeAnno", sb, insnPrinter);
 
             List<TryCatchBlockNode> tryCatchBlocks = m.tryCatchBlocks;
-            for (int i = 0; i < tryCatchBlocks.size(); i++) {
+            for (int i = 0; i < tryCatchBlocks.size(); i++)
+            {
                 TryCatchBlockNode o = tryCatchBlocks.get(i);
                 sb.append("         ");
                 sb.append("TryCatch").append(i).append(": L");
@@ -162,7 +172,8 @@ public class MethodNodeDecompiler {
                     sb.append("Type is null.");
                 sb.append(nl);
             }
-            for (String insn : insnPrinter.createPrint()) {
+            for (String insn : insnPrinter.createPrint())
+            {
                 sb.append("         ");
                 sb.append(insn);
                 sb.append(nl);
@@ -172,12 +183,14 @@ public class MethodNodeDecompiler {
         return sb;
     }
 
-    private static void addAttrList(List<?> list, String name,
-                                    PrefixedStringBuilder sb, InstructionPrinter insnPrinter) {
+    private static void addAttrList(List<?> list, String name, PrefixedStringBuilder sb, InstructionPrinter insnPrinter)
+    {
         if (list == null)
             return;
-        if (list.size() > 0) {
-            for (Object o : list) {
+        if (list.size() > 0)
+        {
+            for (Object o : list)
+            {
                 sb.append("         <");
                 sb.append(name);
                 sb.append(":");
@@ -189,22 +202,26 @@ public class MethodNodeDecompiler {
         }
     }
 
-    private static String printAttr(Object o, InstructionPrinter insnPrinter) {
-        if (o instanceof LocalVariableNode) {
+    private static String printAttr(Object o, InstructionPrinter insnPrinter)
+    {
+        if (o instanceof LocalVariableNode)
+        {
             LocalVariableNode lvn = (LocalVariableNode) o;
-            return "index=" + lvn.index + " , name=" + lvn.name + " , desc="
-                    + lvn.desc + ", sig=" + lvn.signature + ", start=L"
-                    + insnPrinter.resolveLabel(lvn.start) + ", end=L"
-                    + insnPrinter.resolveLabel(lvn.end);
-        } else if (o instanceof AnnotationNode) {
+            return "index=" + lvn.index + " , name=" + lvn.name + " , desc=" + lvn.desc + ", sig=" + lvn.signature + ", start=L" + insnPrinter.resolveLabel(lvn.start) + ", end=L" + insnPrinter.resolveLabel(lvn.end);
+        }
+        else if (o instanceof AnnotationNode)
+        {
             AnnotationNode an = (AnnotationNode) o;
             StringBuilder sb = new StringBuilder();
             sb.append("desc = ");
             sb.append(an.desc);
             sb.append(" , values = ");
-            if (an.values != null) {
+            if (an.values != null)
+            {
                 sb.append(Arrays.toString(an.values.toArray()));
-            } else {
+            }
+            else
+            {
                 sb.append("[]");
             }
             return sb.toString();
@@ -214,7 +231,8 @@ public class MethodNodeDecompiler {
         return o.toString();
     }
 
-    private static String getAccessString(int access) {
+    private static String getAccessString(int access)
+    {
         // public, protected, private, abstract, static,
         // final, synchronized, native & strictfp are permitted
         List<String> tokens = new ArrayList<>();
@@ -246,7 +264,8 @@ public class MethodNodeDecompiler {
             return "";
         // hackery delimeters
         StringBuilder sb = new StringBuilder(tokens.get(0));
-        for (int i = 1; i < tokens.size(); i++) {
+        for (int i = 1; i < tokens.size(); i++)
+        {
             sb.append(" ");
             sb.append(tokens.get(i));
         }

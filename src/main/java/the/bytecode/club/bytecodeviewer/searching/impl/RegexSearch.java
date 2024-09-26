@@ -18,11 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.searching.impl;
 
-import java.awt.*;
-import java.util.Iterator;
-import java.util.regex.Pattern;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -35,6 +30,11 @@ import the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder;
 import the.bytecode.club.bytecodeviewer.searching.SearchPanel;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJLabel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import static the.bytecode.club.bytecodeviewer.searching.RegexInsnFinder.processRegex;
 
@@ -80,7 +80,7 @@ public class RegexSearch implements SearchPanel
 
         if (srchText.isEmpty())
             return;
-        
+
         Pattern pattern = Pattern.compile(processRegex(srchText), Pattern.MULTILINE);
         while (methods.hasNext())
         {
@@ -95,17 +95,12 @@ public class RegexSearch implements SearchPanel
 
                     if (desc2.equals("null"))
                         desc2 = method.desc;
-                } catch (java.lang.ArrayIndexOutOfBoundsException ignored) {}
-    
-                BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(
-                        container,
-                        resourceWorkingName,
-                        node,
-                        method,
-                        null,
-                        node.name + "." + method.name + desc2,
-                        ""
-                ));
+                }
+                catch (java.lang.ArrayIndexOutOfBoundsException ignored)
+                {
+                }
+
+                BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(container, resourceWorkingName, node, method, null, node.name + "." + method.name + desc2, ""));
             }
         }
     }

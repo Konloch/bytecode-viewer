@@ -18,23 +18,20 @@
 
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldNode;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.BCV;
 import the.bytecode.club.bytecodeviewer.api.BytecodeHook;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 import the.bytecode.club.bytecodeviewer.gui.plugins.GraphicalReflectionKit;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
@@ -65,12 +62,7 @@ public class EZInjection extends Plugin
 
     private static String[] debugClasses;
 
-    public EZInjection(boolean accessModifiers, boolean injectHooks,
-                       boolean debugHooks, boolean invokeMethod,
-                       String invokeMethodInformation, boolean sandboxRuntime,
-                       boolean sandboxSystem, String debugClasses, String proxy,
-                       boolean useProxy, boolean launchKit, boolean console,
-                       boolean printCmdL)
+    public EZInjection(boolean accessModifiers, boolean injectHooks, boolean debugHooks, boolean invokeMethod, String invokeMethodInformation, boolean sandboxRuntime, boolean sandboxSystem, String debugClasses, String proxy, boolean useProxy, boolean launchKit, boolean console, boolean printCmdL)
     {
         BCV.createNewClassNodeLoaderInstance();
         this.accessModifiers = accessModifiers;
@@ -80,12 +72,12 @@ public class EZInjection extends Plugin
         this.invokeMethodInformation = invokeMethodInformation + "([Ljava/lang/String;)V";
         EZInjection.sandboxRuntime = sandboxRuntime;
         EZInjection.sandboxSystem = sandboxSystem;
-        
+
         if (debugClasses.equals("*"))
             EZInjection.all = true;
         else
             EZInjection.debugClasses = debugClasses.split(",");
-        
+
         this.proxy = proxy;
         this.useProxy = useProxy;
         this.launchKit = launchKit;
@@ -140,28 +132,28 @@ public class EZInjection extends Plugin
     @Override
     public void execute(List<ClassNode> classNodeList)
     {
-        if(console)
+        if (console)
             new PluginConsole("EZ Injection v" + version);
 
         if (accessModifiers)
             print("Setting all of the access modifiers to public/public static.");
-        
+
         if (injectHooks)
             print("Injecting hook...");
-        
+
         if (debugHooks)
             print("Hooks are debugging.");
         else if (injectHooks)
             print("Hooks are not debugging.");
         else
             print("Hooks are disabled completely.");
-        
+
         if (useProxy)
             print("Forcing proxy as '" + proxy + "'.");
-        
+
         if (launchKit)
             print("Launching the Graphicial Reflection Kit upon a succcessful invoke of the main method.");
-    
+
         //force everything to be public
         for (ClassNode classNode : classNodeList)
         {
@@ -171,80 +163,55 @@ public class EZInjection extends Plugin
 
                 if (accessModifiers)
                 {
-                    if (f.access == Opcodes.ACC_PRIVATE
-                            || f.access == Opcodes.ACC_PROTECTED)
+                    if (f.access == Opcodes.ACC_PRIVATE || f.access == Opcodes.ACC_PROTECTED)
                         f.access = Opcodes.ACC_PUBLIC;
 
-                    if (f.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_STATIC
-                            || f.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC)
+                    if (f.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_STATIC || f.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC)
                         f.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC;
 
-                    if (f.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL
-                            || f.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL)
+                    if (f.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL || f.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL)
                         f.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL;
 
-                    if (f.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC
-                            || f.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC)
+                    if (f.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC || f.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC)
                         f.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC;
                 }
             }
-            
+
             for (Object o : classNode.methods.toArray())
             {
                 MethodNode m = (MethodNode) o;
                 if (accessModifiers)
                 {
-                    if (m.access == Opcodes.ACC_PRIVATE
-                            || m.access == Opcodes.ACC_PROTECTED)
+                    if (m.access == Opcodes.ACC_PRIVATE || m.access == Opcodes.ACC_PROTECTED)
                         m.access = Opcodes.ACC_PUBLIC;
 
-                    if (m.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_STATIC
-                            || m.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC)
+                    if (m.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_STATIC || m.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC)
                         m.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC;
 
-                    if (m.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL
-                            || m.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL)
+                    if (m.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL || m.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL)
                         m.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL;
 
-                    if (m.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC
-                            || m.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC)
+                    if (m.access == Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC || m.access == Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC)
                         m.access = Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC;
                 }
 
-                if (injectHooks
-                        && m.access != Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PRIVATE + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PROTECTED + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ABSTRACT)
+                if (injectHooks && m.access != Opcodes.ACC_ABSTRACT && m.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_ABSTRACT && m.access != Opcodes.ACC_PRIVATE + Opcodes.ACC_ABSTRACT && m.access != Opcodes.ACC_PROTECTED + Opcodes.ACC_ABSTRACT && m.access != Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT && m.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT && m.access != Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT && m.access != Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_ABSTRACT && m.access != Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ABSTRACT && m.access != Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ABSTRACT && m.access != Opcodes.ACC_PROTECTED + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ABSTRACT)
                 {
                     boolean inject = true;
-                    if (m.instructions.size() >= 2
-                            && m.instructions.get(1) instanceof MethodInsnNode)
+                    if (m.instructions.size() >= 2 && m.instructions.get(1) instanceof MethodInsnNode)
                     {
                         MethodInsnNode mn = (MethodInsnNode) m.instructions.get(1);
-    
+
                         // already been injected
                         if (mn.owner.equals(EZInjection.class.getName().replace(".", "/")))
                             inject = false;
                     }
-                    
+
                     if (inject)
                     {
                         // make this function grab parameters eventually
-                        m.instructions
-                                .insert(new MethodInsnNode(
-                                        Opcodes.INVOKESTATIC,
-                                        EZInjection.class.getName().replace(".", "/"),
-                                        "hook", "(Ljava/lang/String;)V"));
-                        m.instructions.insert(new LdcInsnNode(classNode.name
-                                + "." + m.name + m.desc));
+                        m.instructions.insert(new MethodInsnNode(Opcodes.INVOKESTATIC, EZInjection.class.getName().replace(".", "/"), "hook", "(Ljava/lang/String;)V"));
+                        m.instructions.insert(new LdcInsnNode(classNode.name + "." + m.name + m.desc));
                     }
                 }
             }
@@ -256,7 +223,9 @@ public class EZInjection extends Plugin
             {
                 String[] split = proxy.split(":");
                 setProxy(split[0], split[1]);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 // ignore
             }
         }
@@ -269,7 +238,7 @@ public class EZInjection extends Plugin
         {
             //start print debugging
             BytecodeViewer.sm.setPrinting(true);
-            
+
             // load all the classnodes into the classloader
             for (ClassNode cn : BytecodeViewer.getLoadedClasses())
                 BCV.getClassNodeLoader().addClass(cn);
@@ -282,25 +251,23 @@ public class EZInjection extends Plugin
                 {
                     MethodNode m = (MethodNode) o;
                     String methodInformation = classNode.name + "." + m.name + m.desc;
-                    
+
                     if (invokeMethodInformation.equals(methodInformation))
                     {
-                        for (Method m2 : BCV
-                                .getClassNodeLoader().nodeToClass(classNode)
-                                .getMethods())
+                        for (Method m2 : BCV.getClassNodeLoader().nodeToClass(classNode).getMethods())
                         {
                             if (m2.getName().equals(m.name))
                             {
                                 print("Invoking " + invokeMethodInformation + ":" + nl + nl);
-                                
+
                                 GraphicalReflectionKit kit = launchKit ? new GraphicalReflectionKit() : null;
                                 try
                                 {
-                                    if(kit != null)
+                                    if (kit != null)
                                         kit.setVisible(true);
-                                    
+
                                     m2.invoke(classNode.getClass().getDeclaredConstructor().newInstance(), (Object[]) new String[1]);
-                                    
+
                                     print("Finished running " + invokeMethodInformation);
                                 }
                                 catch (Exception e)
@@ -314,8 +281,8 @@ public class EZInjection extends Plugin
                                 {
                                     //disable print debugging
                                     BytecodeViewer.sm.setPrinting(false);
-                                    
-                                    if(kit != null)
+
+                                    if (kit != null)
                                         kit.setVisible(false);
                                 }
                             }

@@ -18,10 +18,11 @@
 
 package the.bytecode.club.bytecodeviewer.util;
 
-import java.io.File;
 import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+
+import java.io.File;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
@@ -29,17 +30,19 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
 /**
  * @author Konloch
  */
-public class APKTool {
+public class APKTool
+{
 
-    public static synchronized void decodeResources(File input, File output, ResourceContainer container) {
-        try {
+    public static synchronized void decodeResources(File input, File output, ResourceContainer container)
+    {
+        try
+        {
             File dir = new File(tempDirectory + fs + MiscUtils.randomString(32) + fs + "Decoded Resources");
             dir.mkdirs();
 
             File tempAPKPath = new File(tempDirectory + fs + MiscUtils.randomString(12));
             tempAPKPath.mkdirs();
-            brut.apktool.Main.main(new String[]{"r", "--frame-path", tempAPKPath.getAbsolutePath(), "d",
-                    input.getAbsolutePath(), "-o", dir.getAbsolutePath(), "-f"});
+            brut.apktool.Main.main(new String[]{"r", "--frame-path", tempAPKPath.getAbsolutePath(), "d", input.getAbsolutePath(), "-o", dir.getAbsolutePath(), "-f"});
 
             File zip = new File(tempDirectory + fs + MiscUtils.randomString(12) + ".zip");
             ZipUtils.zipFolderAPKTool(dir.getAbsolutePath(), zip.getAbsolutePath());
@@ -49,12 +52,15 @@ public class APKTool {
 
             container.APKToolContents = dir;
             tempAPKPath.delete();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             BytecodeViewer.handleException(e);
         }
     }
 
-    public static synchronized void buildAPK(File input, File output, ResourceContainer container) {
+    public static synchronized void buildAPK(File input, File output, ResourceContainer container)
+    {
         String temp = tempDirectory + fs;
         File tempDir = new File(temp + fs + MiscUtils.getRandomizedName() + fs);
         tempDir.mkdirs();
@@ -63,17 +69,19 @@ public class APKTool {
         File tempAPKPath = new File(tempDirectory + fs + MiscUtils.randomString(12));
         tempAPKPath.mkdirs();
 
-        try {
+        try
+        {
             File smaliFolder = new File(container.APKToolContents.getAbsolutePath() + fs + "smali");
             FileUtils.deleteDirectory(smaliFolder);
 
 
             //save entire jar as smali files
             System.out.println("Building!");
-            brut.apktool.Main.main(new String[]{"b", container.APKToolContents.getAbsolutePath(), "--frame-path",
-                    tempAPKPath.getAbsolutePath(), "-o", output.getAbsolutePath()});
+            brut.apktool.Main.main(new String[]{"b", container.APKToolContents.getAbsolutePath(), "--frame-path", tempAPKPath.getAbsolutePath(), "-o", output.getAbsolutePath()});
             tempAPKPath.delete();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             BytecodeViewer.handleException(e);
         }
     }

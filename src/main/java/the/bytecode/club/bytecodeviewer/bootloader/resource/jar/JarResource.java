@@ -24,26 +24,31 @@ import java.util.Arrays;
  * @author Bibl (don't ban me pls)
  * @since 19 Jul 2013
  */
-public class JarResource {
+public class JarResource
+{
 
     private final String name;
     private final byte[] data;
 
-    public JarResource(String name, byte[] data) {
+    public JarResource(String name, byte[] data)
+    {
         this.name = name;
         this.data = data;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public byte[] getData() {
+    public byte[] getData()
+    {
         return data;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         final int prime = 31;
         int result = 1;
         result = (prime * result) + Arrays.hashCode(data);
@@ -52,7 +57,8 @@ public class JarResource {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if (this == obj)
             return true;
         if (obj == null)
@@ -62,8 +68,11 @@ public class JarResource {
         JarResource other = (JarResource) obj;
         if (!Arrays.equals(data, other.data))
             return false;
-        if (name == null) {
+        if (name == null)
+        {
             return other.name == null;
-        } else return name.equals(other.name);
+        }
+        else
+            return name.equals(other.name);
     }
 }

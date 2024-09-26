@@ -25,7 +25,5 @@ package the.bytecode.club.bytecodeviewer.bootloader;
 
 public enum BootState
 {
-	START_UP,
-	SETTINGS_LOADED,
-	GUI_SHOWING,
+    START_UP, SETTINGS_LOADED, GUI_SHOWING,
 }

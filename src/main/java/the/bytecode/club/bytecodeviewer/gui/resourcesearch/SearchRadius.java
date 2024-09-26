@@ -24,5 +24,5 @@ package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
  */
 public enum SearchRadius
 {
-	All_Classes, Current_Class
+    All_Classes, Current_Class
 }

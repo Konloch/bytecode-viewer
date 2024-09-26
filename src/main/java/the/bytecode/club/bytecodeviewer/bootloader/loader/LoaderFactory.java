@@ -22,7 +22,8 @@ package the.bytecode.club.bytecodeviewer.bootloader.loader;
  * @author Bibl (don't ban me pls)
  * @since 21 Jul 2015 00:14:53
  */
-public interface LoaderFactory<T> {
+public interface LoaderFactory<T>
+{
 
     ILoader<T> spawnLoader();
 }

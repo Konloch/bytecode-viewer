@@ -43,90 +43,90 @@ import java.util.List;
  */
 public class RSyntaxTextAreaHighlighterEx extends RSyntaxTextAreaHighlighter
 {
-	private final List<SyntaxLayeredHighlightInfoImpl> markedOccurrences = new ArrayList<>();
-	private static final Color DEFAULT_PARSER_NOTICE_COLOR = Color.RED;
+    private final List<SyntaxLayeredHighlightInfoImpl> markedOccurrences = new ArrayList<>();
+    private static final Color DEFAULT_PARSER_NOTICE_COLOR = Color.RED;
 
-	public Object addMarkedOccurrenceHighlight(int start, int end, @NotNull SmartHighlightPainter p) throws BadLocationException
-	{
-		Document doc = textArea.getDocument();
-		TextUI mapper = textArea.getUI();
-		// Always layered highlights for marked occurrences.
-		SyntaxLayeredHighlightInfoImpl i = new SyntaxLayeredHighlightInfoImpl();
-		p.setPaint(UIManager.getColor("ScrollBar.thumb"));
-		i.setPainter(p);
-		i.setStartOffset(doc.createPosition(start));
-		// HACK: Use "end-1" to prevent chars the user types at the "end" of
-		// the highlight to be absorbed into the highlight (default Highlight
-		// behavior).
-		i.setEndOffset(doc.createPosition(end - 1));
-		markedOccurrences.add(i);
-		mapper.damageRange(textArea, start, end);
-		return i;
-	}
+    public Object addMarkedOccurrenceHighlight(int start, int end, @NotNull SmartHighlightPainter p) throws BadLocationException
+    {
+        Document doc = textArea.getDocument();
+        TextUI mapper = textArea.getUI();
+        // Always layered highlights for marked occurrences.
+        SyntaxLayeredHighlightInfoImpl i = new SyntaxLayeredHighlightInfoImpl();
+        p.setPaint(UIManager.getColor("ScrollBar.thumb"));
+        i.setPainter(p);
+        i.setStartOffset(doc.createPosition(start));
+        // HACK: Use "end-1" to prevent chars the user types at the "end" of
+        // the highlight to be absorbed into the highlight (default Highlight
+        // behavior).
+        i.setEndOffset(doc.createPosition(end - 1));
+        markedOccurrences.add(i);
+        mapper.damageRange(textArea, start, end);
+        return i;
+    }
 
-	@Override
-	public List<DocumentRange> getMarkedOccurrences()
-	{
-		List<DocumentRange> list = new ArrayList<>(markedOccurrences.size());
-		for (HighlightInfo info : markedOccurrences)
-		{
-			int start = info.getStartOffset();
-			int end = info.getEndOffset() + 1; // HACK
-			if (start <= end)
-			{
-				// Occasionally a Marked Occurrence can have a lost end offset
-				// but not start offset (replacing entire text content with
-				// new content, and a marked occurrence is on the last token
-				// in the document).
-				DocumentRange range = new DocumentRange(start, end);
-				list.add(range);
-			}
-		}
+    @Override
+    public List<DocumentRange> getMarkedOccurrences()
+    {
+        List<DocumentRange> list = new ArrayList<>(markedOccurrences.size());
+        for (HighlightInfo info : markedOccurrences)
+        {
+            int start = info.getStartOffset();
+            int end = info.getEndOffset() + 1; // HACK
+            if (start <= end)
+            {
+                // Occasionally a Marked Occurrence can have a lost end offset
+                // but not start offset (replacing entire text content with
+                // new content, and a marked occurrence is on the last token
+                // in the document).
+                DocumentRange range = new DocumentRange(start, end);
+                list.add(range);
+            }
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	public void clearMarkOccurrencesHighlights()
-	{
-		// Don't remove via an iterator; since our List is an ArrayList, this
-		// implies tons of System.arrayCopy()s
-		for (HighlightInfo info : markedOccurrences)
-		{
-			repaintListHighlight(info);
-		}
+    public void clearMarkOccurrencesHighlights()
+    {
+        // Don't remove via an iterator; since our List is an ArrayList, this
+        // implies tons of System.arrayCopy()s
+        for (HighlightInfo info : markedOccurrences)
+        {
+            repaintListHighlight(info);
+        }
 
-		markedOccurrences.clear();
-	}
+        markedOccurrences.clear();
+    }
 
-	@Override
-	public void paintLayeredHighlights(Graphics g, int lineStart, int lineEnd, Shape viewBounds, JTextComponent editor, View view)
-	{
-		paintListLayered(g, lineStart, lineEnd, viewBounds, editor, view, markedOccurrences);
-		super.paintLayeredHighlights(g, lineStart, lineEnd, viewBounds, editor, view);
-	}
+    @Override
+    public void paintLayeredHighlights(Graphics g, int lineStart, int lineEnd, Shape viewBounds, JTextComponent editor, View view)
+    {
+        paintListLayered(g, lineStart, lineEnd, viewBounds, editor, view, markedOccurrences);
+        super.paintLayeredHighlights(g, lineStart, lineEnd, viewBounds, editor, view);
+    }
 
-	private static class SyntaxLayeredHighlightInfoImpl extends LayeredHighlightInfoImpl
-	{
-		private ParserNotice notice;
+    private static class SyntaxLayeredHighlightInfoImpl extends LayeredHighlightInfoImpl
+    {
+        private ParserNotice notice;
 
-		@Override
-		public Color getColor()
-		{
-			Color color = null;
-			if (notice != null)
-			{
-				color = notice.getColor();
-				if (color == null)
-					color = DEFAULT_PARSER_NOTICE_COLOR;
-			}
+        @Override
+        public Color getColor()
+        {
+            Color color = null;
+            if (notice != null)
+            {
+                color = notice.getColor();
+                if (color == null)
+                    color = DEFAULT_PARSER_NOTICE_COLOR;
+            }
 
-			return color;
-		}
+            return color;
+        }
 
-		@Override
-		public String toString()
-		{
-			return "[SyntaxLayeredHighlightInfoImpl: startOffs=" + getStartOffset() + ", endOffs=" + getEndOffset() + ", color=" + getColor() + "]";
-		}
-	}
+        @Override
+        public String toString()
+        {
+            return "[SyntaxLayeredHighlightInfoImpl: startOffs=" + getStartOffset() + ", endOffs=" + getEndOffset() + ", color=" + getColor() + "]";
+        }
+    }
 }

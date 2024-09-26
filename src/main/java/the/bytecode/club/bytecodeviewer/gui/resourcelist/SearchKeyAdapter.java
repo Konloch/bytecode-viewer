@@ -31,145 +31,145 @@ import java.util.Enumeration;
  */
 public class SearchKeyAdapter extends KeyAdapter
 {
-	private final ResourceListPane resourceListPane;
-	private int iteratePast;
-	private String pastQT;
-	
-	public SearchKeyAdapter(ResourceListPane resourceListPane)
-	{
-		this.resourceListPane = resourceListPane;
-	}
-	
-	@Override
-	public void keyPressed(KeyEvent ke)
-	{
-		//only trigger on enter
-		if (ke.getKeyCode() != KeyEvent.VK_ENTER)
-			return;
-		
-		String qt = resourceListPane.quickSearch.getText();
-		
-		if (qt.trim().isEmpty()) //NOPE
-			return;
-		
-		if (pastQT == null || !pastQT.equals(qt))
-		{
-			iteratePast = 0;
-			pastQT = qt;
-		}
-		
-		String[] path;
-		
-		path = qt.split("[\\./]+"); // split at dot or slash
-		qt = qt.replace('/', '.');
-		
-		ResourceTreeNode curNode = resourceListPane.treeRoot;
-		boolean caseSensitive = resourceListPane.caseSensitive.isSelected();
-		
-		boolean success = false;
-		if (resourceListPane.exact.isSelected())
-		{
-			pathLoop:
-			for (int i = 0; i < path.length; i++)
-			{
-				final String pathName = path[i];
-				final boolean isLast = i == path.length - 1;
-				
-				for (int c = 0; c < curNode.getChildCount(); c++)
-				{
-					final ResourceTreeNode child = (ResourceTreeNode) curNode.getChildAt(c);
-					Object userObject = child.getUserObject();
-					if (caseSensitive ? userObject.toString().equals(pathName) : userObject.toString().equalsIgnoreCase(pathName))
-					{
-						curNode = child;
-						if (isLast)
-						{
-							final TreePath pathn = new TreePath(curNode.getPath());
-							resourceListPane.tree.setSelectionPath(pathn);
-							resourceListPane.tree.makeVisible(pathn);
-							resourceListPane.tree.scrollPathToVisible(pathn);
-							resourceListPane.openPath(pathn); //auto open
-							success = true;
-							break pathLoop;
-						}
-						continue pathLoop;
-					}
-				}
-				System.out.println("Could not find " + pathName);
-				break;
-			}
-		}
-		else
-		{
-			int iteratations = 0;
-			TreePath loopFallBack = null;
-			TreePath pathOpen = null;
-			
-			@SuppressWarnings("unchecked") Enumeration<TreeNode> enums = curNode.depthFirstEnumeration();
-			while (enums != null && enums.hasMoreElements())
-			{
-				ResourceTreeNode node = (ResourceTreeNode) enums.nextElement();
-				if (node.isLeaf())
-				{
-					String userObject = (String) (node.getUserObject());
-					String lastElem = path[path.length - 1];
-					
-					if (caseSensitive ? userObject.contains(lastElem) : userObject.toLowerCase().contains(lastElem.toLowerCase()))
-					{
-						TreeNode[] pathArray = node.getPath();
-						int k = 0;
-						StringBuilder fullPath = new StringBuilder();
-						while (pathArray != null && k < pathArray.length)
-						{
-							ResourceTreeNode n = (ResourceTreeNode) pathArray[k];
-							String s = (String) (n.getUserObject());
-							fullPath.append(s);
-							if (k++ != pathArray.length - 1)
-								fullPath.append(".");
-						}
-						
-						String fullPathString = fullPath.toString();
-						
-						if (caseSensitive ? fullPathString.contains(qt) : fullPathString.toLowerCase().contains(qt.toLowerCase()))
-						{
-							if (loopFallBack == null)
-								loopFallBack = new TreePath(node.getPath());
-							
-							if (iteratations++ < iteratePast)
-								continue;
-							
-							pathOpen = new TreePath(node.getPath());
-							break;
-						}
-					}
-				}
-			}
-			
-			if (pathOpen == null && loopFallBack != null)
-			{
-				iteratePast = 0;
-				pathOpen = loopFallBack;
-			}
-			
-			if (pathOpen != null)
-			{
-				resourceListPane.tree.setSelectionPath(pathOpen.getParentPath());
-				resourceListPane.tree.setSelectionPath(pathOpen);
-				resourceListPane.tree.makeVisible(pathOpen);
-				resourceListPane.tree.scrollPathToVisible(pathOpen);
-				
-				if(resourceListPane.autoOpen.isSelected())
-				{
-					resourceListPane.openPath(pathOpen);
-					resourceListPane.quickSearch.requestFocusInWindow();
-				}
-				
-				iteratePast++;
-				success = true;
-			}
-		}
-		
-		if (!success)
-			Toolkit.getDefaultToolkit().beep();
-	}
+    private final ResourceListPane resourceListPane;
+    private int iteratePast;
+    private String pastQT;
+
+    public SearchKeyAdapter(ResourceListPane resourceListPane)
+    {
+        this.resourceListPane = resourceListPane;
+    }
+
+    @Override
+    public void keyPressed(KeyEvent ke)
+    {
+        //only trigger on enter
+        if (ke.getKeyCode() != KeyEvent.VK_ENTER)
+            return;
+
+        String qt = resourceListPane.quickSearch.getText();
+
+        if (qt.trim().isEmpty()) //NOPE
+            return;
+
+        if (pastQT == null || !pastQT.equals(qt))
+        {
+            iteratePast = 0;
+            pastQT = qt;
+        }
+
+        String[] path;
+
+        path = qt.split("[\\./]+"); // split at dot or slash
+        qt = qt.replace('/', '.');
+
+        ResourceTreeNode curNode = resourceListPane.treeRoot;
+        boolean caseSensitive = resourceListPane.caseSensitive.isSelected();
+
+        boolean success = false;
+        if (resourceListPane.exact.isSelected())
+        {
+            pathLoop:
+            for (int i = 0; i < path.length; i++)
+            {
+                final String pathName = path[i];
+                final boolean isLast = i == path.length - 1;
+
+                for (int c = 0; c < curNode.getChildCount(); c++)
+                {
+                    final ResourceTreeNode child = (ResourceTreeNode) curNode.getChildAt(c);
+                    Object userObject = child.getUserObject();
+                    if (caseSensitive ? userObject.toString().equals(pathName) : userObject.toString().equalsIgnoreCase(pathName))
+                    {
+                        curNode = child;
+                        if (isLast)
+                        {
+                            final TreePath pathn = new TreePath(curNode.getPath());
+                            resourceListPane.tree.setSelectionPath(pathn);
+                            resourceListPane.tree.makeVisible(pathn);
+                            resourceListPane.tree.scrollPathToVisible(pathn);
+                            resourceListPane.openPath(pathn); //auto open
+                            success = true;
+                            break pathLoop;
+                        }
+                        continue pathLoop;
+                    }
+                }
+                System.out.println("Could not find " + pathName);
+                break;
+            }
+        }
+        else
+        {
+            int iteratations = 0;
+            TreePath loopFallBack = null;
+            TreePath pathOpen = null;
+
+            @SuppressWarnings("unchecked") Enumeration<TreeNode> enums = curNode.depthFirstEnumeration();
+            while (enums != null && enums.hasMoreElements())
+            {
+                ResourceTreeNode node = (ResourceTreeNode) enums.nextElement();
+                if (node.isLeaf())
+                {
+                    String userObject = (String) (node.getUserObject());
+                    String lastElem = path[path.length - 1];
+
+                    if (caseSensitive ? userObject.contains(lastElem) : userObject.toLowerCase().contains(lastElem.toLowerCase()))
+                    {
+                        TreeNode[] pathArray = node.getPath();
+                        int k = 0;
+                        StringBuilder fullPath = new StringBuilder();
+                        while (pathArray != null && k < pathArray.length)
+                        {
+                            ResourceTreeNode n = (ResourceTreeNode) pathArray[k];
+                            String s = (String) (n.getUserObject());
+                            fullPath.append(s);
+                            if (k++ != pathArray.length - 1)
+                                fullPath.append(".");
+                        }
+
+                        String fullPathString = fullPath.toString();
+
+                        if (caseSensitive ? fullPathString.contains(qt) : fullPathString.toLowerCase().contains(qt.toLowerCase()))
+                        {
+                            if (loopFallBack == null)
+                                loopFallBack = new TreePath(node.getPath());
+
+                            if (iteratations++ < iteratePast)
+                                continue;
+
+                            pathOpen = new TreePath(node.getPath());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (pathOpen == null && loopFallBack != null)
+            {
+                iteratePast = 0;
+                pathOpen = loopFallBack;
+            }
+
+            if (pathOpen != null)
+            {
+                resourceListPane.tree.setSelectionPath(pathOpen.getParentPath());
+                resourceListPane.tree.setSelectionPath(pathOpen);
+                resourceListPane.tree.makeVisible(pathOpen);
+                resourceListPane.tree.scrollPathToVisible(pathOpen);
+
+                if (resourceListPane.autoOpen.isSelected())
+                {
+                    resourceListPane.openPath(pathOpen);
+                    resourceListPane.quickSearch.requestFocusInWindow();
+                }
+
+                iteratePast++;
+                success = true;
+            }
+        }
+
+        if (!success)
+            Toolkit.getDefaultToolkit().beep();
+    }
 }

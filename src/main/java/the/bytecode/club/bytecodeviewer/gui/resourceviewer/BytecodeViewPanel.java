@@ -18,10 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
-import java.awt.BorderLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.compilers.Compiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
@@ -31,6 +27,9 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.util.BytecodeViewPanelUpdater;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
+
+import javax.swing.*;
+import java.awt.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
@@ -42,69 +41,66 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
  */
 public class BytecodeViewPanel extends JPanel
 {
-	public final int panelIndex;
-	public final ClassViewer viewer;
-	public SearchableRSyntaxTextArea textArea;
-	public BytecodeViewPanelUpdater updateThread;
-	public Decompiler decompiler = Decompiler.NONE;
-	public Compiler compiler = Compiler.JAVA_COMPILER;
-	
-	public BytecodeViewPanel(int panelIndex, ClassViewer viewer)
-	{
-		super(new BorderLayout());
-		this.panelIndex = panelIndex;
-		this.viewer = viewer;
-	}
-	
-	public void createPane(ClassViewer viewer)
-	{
-		removeAll();
-		textArea = null;
-		
-		if(viewer.resource == null)
-			add(new JLabel("ERROR: Resource Viewer Missing Resource"));
+    public final int panelIndex;
+    public final ClassViewer viewer;
+    public SearchableRSyntaxTextArea textArea;
+    public BytecodeViewPanelUpdater updateThread;
+    public Decompiler decompiler = Decompiler.NONE;
+    public Compiler compiler = Compiler.JAVA_COMPILER;
 
-		//TODO remove when bcel support is added
-		else if(viewer.resource.getResourceClassNode() == null)
-			add(new JLabel("ERROR: Resource Viewer Missing ClassNode"));
-	}
-	
-	public void updatePane(ClassViewer cv, byte[] b, JButton button, boolean isPanelEditable)
-	{
-		updateThread = new BytecodeViewPanelUpdater(this, cv, b, isPanelEditable, button);
-	}
-	
-	public boolean compile()
-	{
-		if(textArea == null || !textArea.isEditable())
-			return true;
-		
-		SystemConsole errConsole = new SystemConsole(TranslatedStrings.JAVA_COMPILE_FAILED.toString());
-		errConsole.setText(TranslatedStrings.ERROR_COMPILING_CLASS + " " + viewer.resource.getResourceClassNode().name +
-				nl + TranslatedStrings.COMPILER_TIP +
-				nl + nl + TranslatedStrings.SUGGESTED_FIX_COMPILER_ERROR +
-				nl + nl);
-		
-		try
-		{
-			String text = textArea.getText();
-			byte[] compiledClass = compiler.getCompiler().compile(text, viewer.resource.getResourceClassNode().name);
-			
-			if (compiledClass != null)
-			{
-				ClassNode newNode = JarUtils.getNode(compiledClass);
-				viewer.resource.container.updateNode(viewer.resource.name, newNode);
-				errConsole.finished();
-				return true;
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		
-		errConsole.setVisible(true);
-		errConsole.finished();
-		return false;
-	}
+    public BytecodeViewPanel(int panelIndex, ClassViewer viewer)
+    {
+        super(new BorderLayout());
+        this.panelIndex = panelIndex;
+        this.viewer = viewer;
+    }
+
+    public void createPane(ClassViewer viewer)
+    {
+        removeAll();
+        textArea = null;
+
+        if (viewer.resource == null)
+            add(new JLabel("ERROR: Resource Viewer Missing Resource"));
+
+            //TODO remove when bcel support is added
+        else if (viewer.resource.getResourceClassNode() == null)
+            add(new JLabel("ERROR: Resource Viewer Missing ClassNode"));
+    }
+
+    public void updatePane(ClassViewer cv, byte[] b, JButton button, boolean isPanelEditable)
+    {
+        updateThread = new BytecodeViewPanelUpdater(this, cv, b, isPanelEditable, button);
+    }
+
+    public boolean compile()
+    {
+        if (textArea == null || !textArea.isEditable())
+            return true;
+
+        SystemConsole errConsole = new SystemConsole(TranslatedStrings.JAVA_COMPILE_FAILED.toString());
+        errConsole.setText(TranslatedStrings.ERROR_COMPILING_CLASS + " " + viewer.resource.getResourceClassNode().name + nl + TranslatedStrings.COMPILER_TIP + nl + nl + TranslatedStrings.SUGGESTED_FIX_COMPILER_ERROR + nl + nl);
+
+        try
+        {
+            String text = textArea.getText();
+            byte[] compiledClass = compiler.getCompiler().compile(text, viewer.resource.getResourceClassNode().name);
+
+            if (compiledClass != null)
+            {
+                ClassNode newNode = JarUtils.getNode(compiledClass);
+                viewer.resource.container.updateNode(viewer.resource.name, newNode);
+                errConsole.finished();
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        errConsole.setVisible(true);
+        errConsole.finished();
+        return false;
+    }
 }

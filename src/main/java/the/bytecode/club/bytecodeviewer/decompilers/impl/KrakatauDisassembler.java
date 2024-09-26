@@ -18,12 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
@@ -38,9 +32,9 @@ import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.krakatauWorkingDirectory;
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
+import java.io.*;
+
+import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /**
  * Krakatau Java Disassembler Wrapper, requires Python 2.7
@@ -51,8 +45,9 @@ import static the.bytecode.club.bytecodeviewer.Constants.nl;
 public class KrakatauDisassembler extends InternalDecompiler
 {
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b) {
-        if(!ExternalResources.getSingleton().hasSetPython2Command())
+    public String decompileClassNode(ClassNode cn, byte[] b)
+    {
+        if (!ExternalResources.getSingleton().hasSetPython2Command())
             return TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH.toString();
 
         String s = ExceptionUI.SEND_STACKTRACE_TO_NL;
@@ -62,21 +57,14 @@ public class KrakatauDisassembler extends InternalDecompiler
         final File tempJar = new File(Constants.tempDirectory + fs + "temp" + MiscUtils.randomString(32) + ".jar");
         JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 
-        try {
+        try
+        {
             String[] pythonCommands = new String[]{Configuration.python2};
-            if(Configuration.python2Extra)
+            if (Configuration.python2Extra)
                 pythonCommands = ArrayUtils.addAll(pythonCommands, "-2");
-            
-            ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
-                    pythonCommands,
-                    "-O", //love you storyyeller <3
-                    krakatauWorkingDirectory + fs + "disassemble.py",
-                    "-path",
-                    tempJar.getAbsolutePath(),
-                    "-out",
-                    tempDirectory.getAbsolutePath(),
-                    cn.name + ".class"
-            ));
+
+            ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(pythonCommands, "-O", //love you storyyeller <3
+                krakatauWorkingDirectory + fs + "disassemble.py", "-path", tempJar.getAbsolutePath(), "-out", tempDirectory.getAbsolutePath(), cn.name + ".class"));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
@@ -84,22 +72,22 @@ public class KrakatauDisassembler extends InternalDecompiler
             StringBuilder log = new StringBuilder(TranslatedStrings.PROCESS2 + nl + nl);
 
             //Read out dir output
-            try (InputStream is = process.getInputStream();
-                 InputStreamReader isr = new InputStreamReader(is);
-                 BufferedReader br = new BufferedReader(isr)) {
+            try (InputStream is = process.getInputStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+            {
                 String line;
-                while ((line = br.readLine()) != null) {
+                while ((line = br.readLine()) != null)
+                {
                     log.append(nl).append(line);
                 }
             }
 
             log.append(nl).append(nl).append(TranslatedStrings.ERROR2).append(nl).append(nl);
 
-            try (InputStream is = process.getErrorStream();
-                 InputStreamReader isr = new InputStreamReader(is);
-                 BufferedReader br = new BufferedReader(isr)) {
+            try (InputStream is = process.getErrorStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+            {
                 String line;
-                while ((line = br.readLine()) != null) {
+                while ((line = br.readLine()) != null)
+                {
                     log.append(nl).append(line);
                 }
             }
@@ -110,7 +98,9 @@ public class KrakatauDisassembler extends InternalDecompiler
 
             // if the motherfucker failed this'll fail, aka won't set.
             s = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + fs + cn.name + ".j");
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
@@ -120,8 +110,9 @@ public class KrakatauDisassembler extends InternalDecompiler
     }
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName) {
-        if(!ExternalResources.getSingleton().hasSetPython2Command())
+    public void decompileToZip(String sourceJar, String zipName)
+    {
+        if (!ExternalResources.getSingleton().hasSetPython2Command())
             return;
 
         String ran = MiscUtils.randomString(32);
@@ -130,28 +121,23 @@ public class KrakatauDisassembler extends InternalDecompiler
 
         final File tempJar = new File(sourceJar);
 
-        try {
+        try
+        {
             String[] pythonCommands = new String[]{Configuration.python2};
-            if(Configuration.python2Extra)
+            if (Configuration.python2Extra)
                 pythonCommands = ArrayUtils.addAll(pythonCommands, "-2");
-            
-            ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
-                    pythonCommands,
-                    "-O", //love you storyyeller <3
-                    krakatauWorkingDirectory + fs + "disassemble.py",
-                    "-path",
-                    Configuration.rt + ";" + tempJar.getAbsolutePath(),
-                    "-out",
-                    tempDirectory.getAbsolutePath(),
-                    tempJar.getAbsolutePath()
-            ));
+
+            ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(pythonCommands, "-O", //love you storyyeller <3
+                krakatauWorkingDirectory + fs + "disassemble.py", "-path", Configuration.rt + ";" + tempJar.getAbsolutePath(), "-out", tempDirectory.getAbsolutePath(), tempJar.getAbsolutePath()));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
             process.waitFor();
 
             ZipUtils.zipFolder(tempDirectory.getAbsolutePath(), zipName, ran);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             BytecodeViewer.handleException(e);
         }
     }

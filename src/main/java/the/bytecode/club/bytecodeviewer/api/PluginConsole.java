@@ -34,28 +34,27 @@ public class PluginConsole extends SystemConsole
     //window showing is disabled to allow this frame to be added as a tab
     private boolean showWindow;
     private boolean added;
-    
+
     public PluginConsole(String pluginName)
     {
-        super(Configuration.pluginConsoleAsNewTab ? (pluginName + " Output")
-                : (TranslatedStrings.PLUGIN_CONSOLE_TITLE + " - " + pluginName));
+        super(Configuration.pluginConsoleAsNewTab ? (pluginName + " Output") : (TranslatedStrings.PLUGIN_CONSOLE_TITLE + " - " + pluginName));
     }
-    
+
     @Override
     public void setVisible(boolean visible)
     {
-        if(!added && visible)
+        if (!added && visible)
         {
             added = true;
             PluginManager.addConsole(this);
         }
-        
+
         //do nothing
-        if(!showWindow)
+        if (!showWindow)
             return;
-        
+
         super.setVisible(visible);
     }
-    
+
     private static final long serialVersionUID = -6556940545421437508L;
 }

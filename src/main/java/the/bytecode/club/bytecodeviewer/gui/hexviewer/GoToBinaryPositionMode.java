@@ -21,7 +21,8 @@ package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 /**
  * Mode for calculation of the go-to position in binary document.
  */
-public enum GoToBinaryPositionMode {
+public enum GoToBinaryPositionMode
+{
     /**
      * Count from start of the document.
      */

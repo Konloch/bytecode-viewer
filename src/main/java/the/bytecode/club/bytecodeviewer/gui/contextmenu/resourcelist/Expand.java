@@ -18,12 +18,13 @@
 
 package the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist;
 
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
  * @author Konloch
@@ -31,16 +32,15 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
  */
 public class Expand extends ContextMenuItem
 {
-	public Expand()
-	{
-		super(ContextMenuType.DIRECTORY, ((tree, selPath, result, menu) ->
-                menu.add(new AbstractAction(TranslatedStrings.EXPAND.toString())
-                {
-                    @Override
-                    public void actionPerformed(ActionEvent e)
-                    {
-                        BytecodeViewer.viewer.resourcePane.expandAll(tree, selPath, true);
-                    }
-                })));
-	}
+    public Expand()
+    {
+        super(ContextMenuType.DIRECTORY, ((tree, selPath, result, menu) -> menu.add(new AbstractAction(TranslatedStrings.EXPAND.toString())
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                BytecodeViewer.viewer.resourcePane.expandAll(tree, selPath, true);
+            }
+        })));
+    }
 }

@@ -18,13 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.plugin;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.swing.filechooser.FileFilter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
@@ -32,18 +25,17 @@ import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsoleTabbed;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ComponentViewer;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.CompiledJavaPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.GroovyPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.JavaPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.JavascriptPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.PythonPluginLaunchStrategy;
-import the.bytecode.club.bytecodeviewer.plugin.strategies.RubyPluginLaunchStrategy;
+import the.bytecode.club.bytecodeviewer.plugin.strategies.*;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
+import javax.swing.filechooser.FileFilter;
+import java.io.File;
+import java.util.*;
+
 /**
  * Supports loading of groovy, python or ruby scripts.
- *
+ * <p>
  * Only allows one plugin to be running at once.
  *
  * @author Konloch
@@ -56,11 +48,11 @@ public final class PluginManager
     private static final Map<String, PluginLaunchStrategy> launchStrategies = new HashMap<>();
     private static final PluginFileFilter filter = new PluginFileFilter();
     private static final List<Plugin> pluginInstances = new ArrayList<>();
-    
+
     //TODO this system needs to be redone, currently it will conflict if more than one plugin is ran at the same time
     // the solution is to tie the plugin object into the plugin console,
     // then move all of this into the plugin class as non-static objects
-    
+
     private static Plugin activePlugin;
     private static JFrameConsoleTabbed activeTabbedConsole;
     private static JFrameConsoleTabbed activeTabbedException;
@@ -100,25 +92,25 @@ public final class PluginManager
             BytecodeViewer.showMessage(TranslatedStrings.ONE_PLUGIN_AT_A_TIME.toString());
             return;
         }
-        
+
         //reset the console count
         consoleCount = 0;
         exceptionCount = 0;
-        
+
         //reset the active tabbed console
         activeTabbedConsole = null;
         activeTabbedException = null;
         exceptionTabs.clear();
-    
+
         //reset the active plugin
         activePlugin = newPluginInstance;
-        
+
         //clean the plugin list from dead threads
         pluginInstances.removeIf(Plugin::isFinished);
-        
+
         //add to the list of running instances
         pluginInstances.add(newPluginInstance);
-        
+
         //start the plugin thread
         newPluginInstance.start();
     }
@@ -142,38 +134,36 @@ public final class PluginManager
         if (p != null)
             runPlugin(p);
     }
-    
+
     /**
      * Add an active console from a plugin being ran
      */
     public static void addExceptionUI(ExceptionUI ui)
     {
-        if(activePlugin == null)
+        if (activePlugin == null)
         {
             ui.setLocationRelativeTo(BytecodeViewer.viewer);
             ui.setVisible(true);
             return;
         }
-        
-        final String name = activePlugin.activeContainer == null
-                ? "#" + (activeTabbedException.getTabbedPane().getTabCount() + 1)
-                : activePlugin.activeContainer.name;
-        
+
+        final String name = activePlugin.activeContainer == null ? "#" + (activeTabbedException.getTabbedPane().getTabCount() + 1) : activePlugin.activeContainer.name;
+
         ExceptionUI existingUI = exceptionTabs.get(name);
-        
+
         int id = exceptionCount++;
-        if(activeTabbedException == null)
+        if (activeTabbedException == null)
         {
             String title = "Error #" + errorCounter++;
             activeTabbedException = new JFrameConsoleTabbed(title);
-            
-            if(Configuration.pluginConsoleAsNewTab)
+
+            if (Configuration.pluginConsoleAsNewTab)
                 ComponentViewer.addComponentAsTab(title, activeTabbedException.getComponent(0));
             else
                 activeTabbedException.setVisible(true);
         }
-    
-        if(existingUI == null)
+
+        if (existingUI == null)
         {
             activeTabbedException.addConsole(ui.getComponent(0), name);
             exceptionTabs.put(name, ui);
@@ -181,54 +171,56 @@ public final class PluginManager
         else
             existingUI.appendText("\n\r" + ui.getTextArea().getText());
     }
-    
+
     /**
      * Add an active console from a plugin being ran
      */
     public static void addConsole(PluginConsole console)
     {
         int id = consoleCount++;
-    
-        if(activeTabbedConsole == null)
+
+        if (activeTabbedConsole == null)
         {
             activeTabbedConsole = new JFrameConsoleTabbed(console.getTitle());
-            
-            if(Configuration.pluginConsoleAsNewTab)
+
+            if (Configuration.pluginConsoleAsNewTab)
                 ComponentViewer.addComponentAsTab(console.getTitle(), activeTabbedConsole.getComponent(0));
             else
                 activeTabbedConsole.setVisible(true);
         }
-    
+
         console.setConsoleID(id);
-        
-        final String name = (activePlugin == null || activePlugin.activeContainer == null)
-                ? ("#" + (activeTabbedConsole.getTabbedPane().getTabCount() + 1))
-                : activePlugin.activeContainer.name;
-        
+
+        final String name = (activePlugin == null || activePlugin.activeContainer == null) ? ("#" + (activeTabbedConsole.getTabbedPane().getTabCount() + 1)) : activePlugin.activeContainer.name;
+
         activeTabbedConsole.addConsole(console.getComponent(0), name);
     }
 
-    public static void register(String name, PluginLaunchStrategy strat) {
+    public static void register(String name, PluginLaunchStrategy strat)
+    {
         launchStrategies.put(name, strat);
     }
 
-    public static Set<String> pluginExtensions() {
+    public static Set<String> pluginExtensions()
+    {
         return launchStrategies.keySet();
     }
-    
+
     public static Map<String, PluginLaunchStrategy> getLaunchStrategies()
     {
         return launchStrategies;
     }
-    
-    public static FileFilter fileFilter() {
+
+    public static FileFilter fileFilter()
+    {
         return filter;
     }
 
     public static class PluginFileFilter extends FileFilter
     {
         @Override
-        public boolean accept(File f) {
+        public boolean accept(File f)
+        {
             if (f.isDirectory())
                 return true;
 
@@ -236,7 +228,8 @@ public final class PluginManager
         }
 
         @Override
-        public String getDescription() {
+        public String getDescription()
+        {
             return TranslatedStrings.SELECT_EXTERNAL_PLUGIN_DESCRIPTION.toString();
         }
     }

@@ -18,14 +18,9 @@
 
 package the.bytecode.club.bytecodeviewer.resources.importing;
 
+import the.bytecode.club.bytecodeviewer.resources.importing.impl.*;
+
 import java.util.HashMap;
-import the.bytecode.club.bytecodeviewer.resources.importing.impl.APKResourceImporter;
-import the.bytecode.club.bytecodeviewer.resources.importing.impl.ClassResourceImporter;
-import the.bytecode.club.bytecodeviewer.resources.importing.impl.DEXResourceImporter;
-import the.bytecode.club.bytecodeviewer.resources.importing.impl.DirectoryResourceImporter;
-import the.bytecode.club.bytecodeviewer.resources.importing.impl.FileResourceImporter;
-import the.bytecode.club.bytecodeviewer.resources.importing.impl.XAPKResourceImporter;
-import the.bytecode.club.bytecodeviewer.resources.importing.impl.ZipResourceImporter;
 
 /**
  * @author Konloch
@@ -33,35 +28,31 @@ import the.bytecode.club.bytecodeviewer.resources.importing.impl.ZipResourceImpo
  */
 public enum Import
 {
-	DIRECTORY(new DirectoryResourceImporter()),
-	FILE(new FileResourceImporter()),
-	//TODO ear needs to import the same as XAPK
-	//TODO war needs to add the /libs correctly similar to XAPK
-	ZIP(new ZipResourceImporter(), "zip", "jar", "war", "ear"),
-	CLASS(new ClassResourceImporter(), "class"),
-	XAPK(new XAPKResourceImporter(), "xapk"),
-	APK(new APKResourceImporter(), "apk"),
-	DEX(new DEXResourceImporter(), "dex"),
-	;
-	
-	public static final HashMap<String, Import> extensionMap = new HashMap<>();
-	
-	private final Importer importer;
-	private final String[] extensions;
-	
-	static
-	{
-		for(Import i : values())
-			for(String s : i.extensions)
-				extensionMap.put(s, i);
-	}
-	
-	Import(Importer importer, String... extensions) {this.importer = importer;
-		this.extensions = extensions;
-	}
-	
-	public Importer getImporter()
-	{
-		return importer;
-	}
+    DIRECTORY(new DirectoryResourceImporter()), FILE(new FileResourceImporter()), //TODO ear needs to import the same as XAPK
+//TODO war needs to add the /libs correctly similar to XAPK
+ZIP(new ZipResourceImporter(), "zip", "jar", "war", "ear"), CLASS(new ClassResourceImporter(), "class"), XAPK(new XAPKResourceImporter(), "xapk"), APK(new APKResourceImporter(), "apk"), DEX(new DEXResourceImporter(), "dex"),
+    ;
+
+    public static final HashMap<String, Import> extensionMap = new HashMap<>();
+
+    private final Importer importer;
+    private final String[] extensions;
+
+    static
+    {
+        for (Import i : values())
+            for (String s : i.extensions)
+                extensionMap.put(s, i);
+    }
+
+    Import(Importer importer, String... extensions)
+    {
+        this.importer = importer;
+        this.extensions = extensions;
+    }
+
+    public Importer getImporter()
+    {
+        return importer;
+    }
 }

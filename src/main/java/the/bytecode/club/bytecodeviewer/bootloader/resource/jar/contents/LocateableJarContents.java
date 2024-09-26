@@ -18,31 +18,35 @@
 
 package the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents;
 
-import java.net.URL;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.bootloader.resource.DataContainer;
 import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.JarResource;
+
+import java.net.URL;
 
 /**
  * @author Bibl (don't ban me pls)
  * @since 19 Jul 2013
  */
-public class LocateableJarContents<C extends ClassNode> extends JarContents<C> {
+public class LocateableJarContents<C extends ClassNode> extends JarContents<C>
+{
 
     private final URL[] jarUrls;
 
-    public LocateableJarContents(URL... jarUrls) {
+    public LocateableJarContents(URL... jarUrls)
+    {
         super();
         this.jarUrls = jarUrls;
     }
 
-    public LocateableJarContents(DataContainer<C> classContents, DataContainer<JarResource> resourceContents,
-                                 URL... jarUrls) {
+    public LocateableJarContents(DataContainer<C> classContents, DataContainer<JarResource> resourceContents, URL... jarUrls)
+    {
         super(classContents, resourceContents);
         this.jarUrls = jarUrls;
     }
 
-    public URL[] getJarUrls() {
+    public URL[] getJarUrls()
+    {
         return jarUrls;
     }
 }

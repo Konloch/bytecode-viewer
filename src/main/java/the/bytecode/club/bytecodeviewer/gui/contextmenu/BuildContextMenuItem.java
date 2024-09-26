@@ -18,10 +18,11 @@
 
 package the.bytecode.club.bytecodeviewer.gui.contextmenu;
 
-import javax.swing.JPopupMenu;
-import javax.swing.tree.TreePath;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceTree;
 import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
+
+import javax.swing.*;
+import javax.swing.tree.TreePath;
 
 /**
  * @author Konloch
@@ -29,5 +30,5 @@ import the.bytecode.club.bytecodeviewer.searching.LDCSearchTreeNodeResult;
  */
 public interface BuildContextMenuItem
 {
-	void buildMenu(ResourceTree tree, TreePath selPath, LDCSearchTreeNodeResult result, JPopupMenu menu);
+    void buildMenu(ResourceTree tree, TreePath selPath, LDCSearchTreeNodeResult result, JPopupMenu menu);
 }

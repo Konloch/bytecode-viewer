@@ -18,8 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.compilers.impl;
 
-import java.io.File;
-import java.util.Objects;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -28,6 +26,9 @@ import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.util.Enjarify;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
+
+import java.io.File;
+import java.util.Objects;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
@@ -54,17 +55,22 @@ public class SmaliAssembler extends InternalCompiler
         File tempJar = new File(fileStart + fileNumber + ".jar");
         File tempJarFolder = new File(fileStart + fileNumber + "-jar" + fs);
 
-        try {
+        try
+        {
             DiskWriter.replaceFile(tempSmali.getAbsolutePath(), contents, false);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             //BytecodeViewer.handleException(e);
         }
 
-        try {
-            com.googlecode.d2j.smali.SmaliCmd.main(tempSmaliFolder.getAbsolutePath(),
-                    "-o", tempDex.getAbsolutePath());
-        } catch (Exception e) {
+        try
+        {
+            com.googlecode.d2j.smali.SmaliCmd.main(tempSmaliFolder.getAbsolutePath(), "-o", tempDex.getAbsolutePath());
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             //BytecodeViewer.handleException(e);
         }
@@ -77,14 +83,16 @@ public class SmaliAssembler extends InternalCompiler
 
         System.out.println("Temporary dex: " + tempDex.getAbsolutePath());
 
-        try {
+        try
+        {
             System.out.println("Unzipping to " + tempJarFolder.getAbsolutePath());
             ZipUtils.unzipFilesToPath(tempJar.getAbsolutePath(), tempJarFolder.getAbsolutePath());
 
             File outputClass = null;
             boolean found = false;
             File current = tempJarFolder;
-            try {
+            try
+            {
                 while (!found)
                 {
                     File f = Objects.requireNonNull(current.listFiles())[0];
@@ -100,8 +108,13 @@ public class SmaliAssembler extends InternalCompiler
                 System.out.println("Saved as: " + outputClass.getAbsolutePath());
 
                 return FileUtils.readFileToByteArray(outputClass);
-            } catch (java.lang.NullPointerException ignored) { }
-        } catch (Exception e) {
+            }
+            catch (java.lang.NullPointerException ignored)
+            {
+            }
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             //BytecodeViewer.handleException(e);
         }

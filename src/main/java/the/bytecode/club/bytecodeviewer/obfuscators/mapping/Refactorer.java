@@ -26,25 +26,30 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 /**
  * @author sc4re
  */
-public class Refactorer {
+public class Refactorer
+{
 
     protected HookMap hooks;
 
-    public Refactorer() {
+    public Refactorer()
+    {
         hooks = new HookMap();
     }
 
-    public HookMap getHooks() {
+    public HookMap getHooks()
+    {
         return hooks;
     }
 
-    public void run() {
+    public void run()
+    {
         if (getHooks() == null)
             return;
 
         RefactorMapper mapper = new RefactorMapper(getHooks());
         //Map<String, ClassNode> refactored = new HashMap<>();
-        for (ClassNode cn : BytecodeViewer.getLoadedClasses()) {
+        for (ClassNode cn : BytecodeViewer.getLoadedClasses())
+        {
             //String oldName = cn.name;
             ClassReader cr = new ClassReader(getClassNodeBytes(cn));
             ClassWriter cw = new ClassWriter(cr, 0);
@@ -61,7 +66,8 @@ public class Refactorer {
         mapper.printMap();
     }
 
-    private byte[] getClassNodeBytes(ClassNode cn) {
+    private byte[] getClassNodeBytes(ClassNode cn)
+    {
         ClassWriter cw = new ClassWriter(0);
         cn.accept(cw);
         return cw.toByteArray();

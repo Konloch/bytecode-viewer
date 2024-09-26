@@ -18,13 +18,13 @@
 
 package the.bytecode.club.bytecodeviewer.gui.contextmenu.resourcelist;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+
+import javax.swing.*;
 
 /**
  * @author Konloch
@@ -32,21 +32,20 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
  */
 public class QuickEdit extends ContextMenuItem
 {
-	public QuickEdit()
-	{
-		super(ContextMenuType.RESOURCE, ((tree, selPath, result, menu) ->
-		{
-			JMenu quickOpen = new JMenu("Quick Edit");
-			quickOpen.add(createMenu(TranslatedStrings.KRAKATAU.toString(), ()->
-					BytecodeViewer.viewer.resourcePane.quickDecompile(Decompiler.KRAKATAU_DISASSEMBLER, selPath, true)));
-			menu.add(quickOpen);
-		}));
-	}
-	
-	private static JMenuItem createMenu(String name, Runnable onClick)
-	{
-		JMenuItem menu = new JMenuItem(name);
-		menu.addActionListener((e)->onClick.run());
-		return menu;
-	}
+    public QuickEdit()
+    {
+        super(ContextMenuType.RESOURCE, ((tree, selPath, result, menu) ->
+        {
+            JMenu quickOpen = new JMenu("Quick Edit");
+            quickOpen.add(createMenu(TranslatedStrings.KRAKATAU.toString(), () -> BytecodeViewer.viewer.resourcePane.quickDecompile(Decompiler.KRAKATAU_DISASSEMBLER, selPath, true)));
+            menu.add(quickOpen);
+        }));
+    }
+
+    private static JMenuItem createMenu(String name, Runnable onClick)
+    {
+        JMenuItem menu = new JMenuItem(name);
+        menu.addActionListener((e) -> onClick.run());
+        return menu;
+    }
 }

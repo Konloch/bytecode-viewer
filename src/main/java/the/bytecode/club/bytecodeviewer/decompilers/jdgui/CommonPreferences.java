@@ -21,7 +21,8 @@ package the.bytecode.club.bytecodeviewer.decompilers.jdgui;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommonPreferences {
+public class CommonPreferences
+{
     private final Map<String, Object> preferences;
     protected boolean showDefaultConstructor;
     protected boolean realignmentLineNumber;
@@ -30,7 +31,8 @@ public class CommonPreferences {
     protected boolean unicodeEscape;
     protected boolean showLineNumbers;
 
-    public CommonPreferences() {
+    public CommonPreferences()
+    {
         this.showPrefixThis = true;
         this.mergeEmptyLines = false;
         this.unicodeEscape = false;
@@ -38,10 +40,8 @@ public class CommonPreferences {
         this.preferences = new HashMap<>();
     }
 
-    public CommonPreferences(
-            boolean showDefaultConstructor, boolean realignmentLineNumber,
-            boolean showPrefixThis, boolean mergeEmptyLines,
-            boolean unicodeEscape, boolean showLineNumbers) {
+    public CommonPreferences(boolean showDefaultConstructor, boolean realignmentLineNumber, boolean showPrefixThis, boolean mergeEmptyLines, boolean unicodeEscape, boolean showLineNumbers)
+    {
         this.showDefaultConstructor = showDefaultConstructor;
         this.realignmentLineNumber = realignmentLineNumber;
         this.showPrefixThis = showPrefixThis;
@@ -51,31 +51,38 @@ public class CommonPreferences {
         this.preferences = new HashMap<>();
     }
 
-    public boolean isShowDefaultConstructor() {
+    public boolean isShowDefaultConstructor()
+    {
         return showDefaultConstructor;
     }
 
-    public boolean isRealignmentLineNumber() {
+    public boolean isRealignmentLineNumber()
+    {
         return realignmentLineNumber;
     }
 
-    public boolean isShowPrefixThis() {
+    public boolean isShowPrefixThis()
+    {
         return showPrefixThis;
     }
 
-    public boolean isMergeEmptyLines() {
+    public boolean isMergeEmptyLines()
+    {
         return mergeEmptyLines;
     }
 
-    public boolean isUnicodeEscape() {
+    public boolean isUnicodeEscape()
+    {
         return unicodeEscape;
     }
 
-    public boolean isShowLineNumbers() {
+    public boolean isShowLineNumbers()
+    {
         return showLineNumbers;
     }
 
-    public Map<String, Object> getPreferences() {
+    public Map<String, Object> getPreferences()
+    {
         return preferences;
     }
 }

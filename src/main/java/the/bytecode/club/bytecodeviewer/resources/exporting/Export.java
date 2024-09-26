@@ -29,18 +29,17 @@ import the.bytecode.club.bytecodeviewer.resources.exporting.impl.ZipExport;
  */
 public enum Export
 {
-	RUNNABLE_JAR(new RunnableJarExporter()),
-	ZIP(new ZipExport()),
-	DEX(new DexExport()),
-	APK(new APKExport())
-	;
-	
-	private final Exporter exporter;
-	
-	Export(Exporter exporter) {this.exporter = exporter;}
-	
-	public Exporter getExporter()
-	{
-		return exporter;
-	}
+    RUNNABLE_JAR(new RunnableJarExporter()), ZIP(new ZipExport()), DEX(new DexExport()), APK(new APKExport());
+
+    private final Exporter exporter;
+
+    Export(Exporter exporter)
+    {
+        this.exporter = exporter;
+    }
+
+    public Exporter getExporter()
+    {
+        return exporter;
+    }
 }

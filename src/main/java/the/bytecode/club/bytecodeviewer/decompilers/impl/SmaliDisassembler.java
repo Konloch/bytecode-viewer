@@ -19,12 +19,6 @@
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
 import com.googlecode.d2j.smali.BaksmaliCmd;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Objects;
 import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
@@ -35,12 +29,11 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.nl;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.DISASSEMBLER;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.SMALI;
+import java.io.*;
+import java.util.Objects;
+
+import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /**
  * Smali Disassembler Wrapper
@@ -63,9 +56,12 @@ public class SmaliDisassembler extends InternalDecompiler
         final File tempDexOut = new File(start + "-out");
         final File tempSmali = new File(start + "-smali"); //output directory
 
-        try (FileOutputStream fos = new FileOutputStream(tempClass)) {
+        try (FileOutputStream fos = new FileOutputStream(tempClass))
+        {
             fos.write(b);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             BytecodeViewer.handleException(e);
         }
 
@@ -73,10 +69,12 @@ public class SmaliDisassembler extends InternalDecompiler
 
         Dex2Jar.saveAsDex(tempClass, tempDex, true);
 
-        try {
-            BaksmaliCmd.main(tempDex.getAbsolutePath(),
-                    "-o", tempDexOut.getAbsolutePath());
-        } catch (Exception e) {
+        try
+        {
+            BaksmaliCmd.main(tempDex.getAbsolutePath(), "-o", tempDexOut.getAbsolutePath());
+        }
+        catch (Exception e)
+        {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
@@ -84,9 +82,12 @@ public class SmaliDisassembler extends InternalDecompiler
             exception += ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
 
-        try {
+        try
+        {
             FileUtils.moveDirectory(tempDexOut, tempSmali);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
@@ -98,19 +99,24 @@ public class SmaliDisassembler extends InternalDecompiler
 
         boolean found = false;
         File current = tempSmali;
-        while (!found) {
+        while (!found)
+        {
             File f = Objects.requireNonNull(current.listFiles())[0];
             if (f.isDirectory())
                 current = f;
-            else {
+            else
+            {
                 outputSmali = f;
                 found = true;
             }
 
         }
-        try {
+        try
+        {
             return DiskReader.loadAsString(outputSmali.getAbsolutePath());
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
@@ -118,13 +124,12 @@ public class SmaliDisassembler extends InternalDecompiler
             exception += ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
 
-        return SMALI + " " + DISASSEMBLER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
-                nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
-                nl + nl + exception;
+        return SMALI + " " + DISASSEMBLER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + nl + nl + exception;
     }
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName) {
+    public void decompileToZip(String sourceJar, String zipName)
+    {
 
     }
 }

@@ -70,7 +70,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     public void visit(FieldDeclaration n, Object arg)
     {
         super.visit(n, arg);
-        n.getVariables().forEach(variableDeclarator -> {
+        n.getVariables().forEach(variableDeclarator ->
+        {
             SimpleName name = variableDeclarator.getName();
             String fieldName = name.getIdentifier();
             Range range = name.getRange().get();
@@ -96,7 +97,9 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             int columnStart = range.begin.column;
             int columnEnd = range.end.column;
             this.classFileContainer.putClassReference(nameAsString, new ClassReferenceLocation(getOwner(), packagePath, "", "reference", line, columnStart, columnEnd + 1));
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
         }
     }
 
@@ -146,14 +149,17 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                         if (vd.isField())
                         {
                             this.classFileContainer.putField(name1, new ClassFieldLocation(getOwner(), "reference", line1, columnStart1, columnEnd1 + 1));
-                        } else if (vd.isVariable())
+                        }
+                        else if (vd.isVariable())
                         {
                             this.classFileContainer.putLocalVariable(name1, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line1, columnStart1, columnEnd1 + 1));
-                        } else if (vd.isParameter())
+                        }
+                        else if (vd.isParameter())
                         {
                             this.classFileContainer.putParameter(name1, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line1, columnStart1, columnEnd1 + 1));
                         }
-                    } catch (UnsolvedSymbolException ignore)
+                    }
+                    catch (UnsolvedSymbolException ignore)
                     {
                         ResolvedType resolvedType = n.getSymbolResolver().calculateType(nameExpr);
                         String qualifiedName = resolvedType.asReferenceType().getQualifiedName();
@@ -162,7 +168,9 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                         this.classFileContainer.putClassReference(className, new ClassReferenceLocation(getOwner(), packageName.replace('.', '/'), fieldName, "reference", line1, columnStart1, columnEnd1 + 1));
                         this.classFileContainer.putField(fieldName, new ClassFieldLocation(name1, "reference", line, columnStart, columnEnd + 1));
                     }
-                } else if (scope instanceof ThisExpr) {
+                }
+                else if (scope instanceof ThisExpr)
+                {
                     ThisExpr thisExpr = (ThisExpr) scope;
                     ResolvedType resolvedType = n.getSymbolResolver().calculateType(thisExpr);
                     String qualifiedName = resolvedType.asReferenceType().getQualifiedName();
@@ -188,7 +196,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     public void visit(ConstructorDeclaration n, Object arg)
     {
         super.visit(n, arg);
-        n.getParameters().forEach(parameter -> {
+        n.getParameters().forEach(parameter ->
+        {
             SimpleName name = parameter.getName();
             String parameterName = name.getIdentifier();
             Range range = name.getRange().get();
@@ -231,7 +240,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         ConstructorDeclaration constructor = findConstructorForStatement(n, this.compilationUnit);
         if (constructor != null)
         {
-            n.getArguments().forEach(argument -> {
+            n.getArguments().forEach(argument ->
+            {
                 if (argument instanceof NameExpr)
                 {
                     NameExpr nameExpr = (NameExpr) argument;
@@ -245,17 +255,17 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                     if (vd.isField())
                     {
                         this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isVariable())
-                    {
-                        this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), constructor.getDeclarationAsString(false, false), "reference", line, columnStart,
-                                columnEnd + 1));
-                    } else if (vd.isParameter())
-                    {
-                        this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(),
-                                constructor.getDeclarationAsString(false, false),
-                                "reference", line, columnStart, columnEnd + 1));
                     }
-                } else
+                    else if (vd.isVariable())
+                    {
+                        this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), constructor.getDeclarationAsString(false, false), "reference", line, columnStart, columnEnd + 1));
+                    }
+                    else if (vd.isParameter())
+                    {
+                        this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), constructor.getDeclarationAsString(false, false), "reference", line, columnStart, columnEnd + 1));
+                    }
+                }
+                else
                 {
                     if ((argument instanceof LongLiteralExpr) || (argument instanceof StringLiteralExpr) || (argument instanceof CharLiteralExpr) || argument instanceof BooleanLiteralExpr || argument instanceof NullLiteralExpr || argument instanceof IntegerLiteralExpr)
                     {
@@ -296,15 +306,15 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         int columnEnd = range.end.column;
         this.classFileContainer.putMethod(methodSimpleName.getIdentifier(), new ClassMethodLocation(resolve.getClassName(), signature, parameters, "declaration", line, columnStart, columnEnd + 1));
 
-        n.getParameters().forEach(parameter -> {
+        n.getParameters().forEach(parameter ->
+        {
             SimpleName name = parameter.getName();
             String parameterName = name.getIdentifier();
             Range range1 = name.getRange().get();
             int line1 = range1.begin.line;
             int columnStart1 = range1.begin.column;
             int columnEnd1 = range1.end.column;
-            this.classFileContainer.putParameter(parameterName, new ClassParameterLocation(getOwner(), n.getDeclarationAsString(false, false),
-                    "declaration", line1, columnStart1, columnEnd1 + 1));
+            this.classFileContainer.putParameter(parameterName, new ClassParameterLocation(getOwner(), n.getDeclarationAsString(false, false), "declaration", line1, columnStart1, columnEnd1 + 1));
         });
     }
 
@@ -345,7 +355,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             int columnStart = range.begin.column;
             int columnEnd = range.end.column;
             this.classFileContainer.putMethod(methodSimpleName.getIdentifier(), new ClassMethodLocation(resolve.getClassName(), signature, parameters, "reference", line, columnStart, columnEnd + 1));
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
         }
 
@@ -369,14 +380,17 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                         if (vd.isField())
                         {
                             this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line1, columnStart1, columnEnd1 + 1));
-                        } else if (vd.isVariable())
+                        }
+                        else if (vd.isVariable())
                         {
                             this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line1, columnStart1, columnEnd1 + 1));
-                        } else if (vd.isParameter())
+                        }
+                        else if (vd.isParameter())
                         {
                             this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line1, columnStart1, columnEnd1 + 1));
                         }
-                    } catch (UnsolvedSymbolException ignored)
+                    }
+                    catch (UnsolvedSymbolException ignored)
                     {
                         ResolvedType resolvedType = n.getSymbolResolver().calculateType(nameExpr);
                         String qualifiedName = resolvedType.asReferenceType().getQualifiedName();
@@ -388,7 +402,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             }
 
             CallableDeclaration<?> finalMethod = method;
-            n.getArguments().forEach(argument -> {
+            n.getArguments().forEach(argument ->
+            {
                 if (argument instanceof NameExpr)
                 {
                     NameExpr nameExpr = (NameExpr) argument;
@@ -402,16 +417,19 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                     if (vd.isField())
                     {
                         this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line1, columnStart1, columnEnd1 + 1));
-                    } else if (vd.isVariable())
+                    }
+                    else if (vd.isVariable())
                     {
                         this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(finalMethod), "reference", line1, columnStart1, columnEnd1 + 1));
-                    } else if (vd.isParameter())
+                    }
+                    else if (vd.isParameter())
                     {
                         this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(finalMethod), "reference", line1, columnStart1, columnEnd1 + 1));
                     }
                 }
             });
-        } else if (staticInitializer != null)
+        }
+        else if (staticInitializer != null)
         {
             if (n.hasScope())
             {
@@ -431,21 +449,25 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                         if (vd.isField())
                         {
                             this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line1, columnStart1, columnEnd1 + 1));
-                        } else if (vd.isVariable())
+                        }
+                        else if (vd.isVariable())
                         {
                             this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), "static", "reference", line1, columnStart1, columnEnd1 + 1));
-                        } else if (vd.isParameter())
+                        }
+                        else if (vd.isParameter())
                         {
                             this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), "static", "reference", line1, columnStart1, columnEnd1 + 1));
                         }
-                    } catch (UnsolvedSymbolException ignored)
+                    }
+                    catch (UnsolvedSymbolException ignored)
                     {
 
                     }
                 }
             }
 
-            n.getArguments().forEach(argument -> {
+            n.getArguments().forEach(argument ->
+            {
                 if (argument instanceof NameExpr)
                 {
                     NameExpr nameExpr = (NameExpr) argument;
@@ -459,10 +481,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                     if (vd.isField())
                     {
                         this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line1, columnStart1, columnEnd1 + 1));
-                    } else if (vd.isVariable())
+                    }
+                    else if (vd.isVariable())
                     {
                         this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), "static", "reference", line1, columnStart1, columnEnd1 + 1));
-                    } else if (vd.isParameter())
+                    }
+                    else if (vd.isParameter())
                     {
                         this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), "static", "reference", line1, columnStart1, columnEnd1 + 1));
                     }
@@ -490,7 +514,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         if (method != null)
         {
             CallableDeclaration<?> finalMethod = method;
-            n.getArguments().forEach(argument -> {
+            n.getArguments().forEach(argument ->
+            {
                 if (argument instanceof NameExpr)
                 {
                     NameExpr nameExpr = (NameExpr) argument;
@@ -504,10 +529,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                     if (vd.isField())
                     {
                         this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isVariable())
+                    }
+                    else if (vd.isVariable())
                     {
                         this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(finalMethod), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isParameter())
+                    }
+                    else if (vd.isParameter())
                     {
                         this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(finalMethod), "reference", line, columnStart, columnEnd + 1));
                     }
@@ -540,7 +567,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         if (method != null)
         {
             CallableDeclaration<?> finalMethod = method;
-            n.getVariables().forEach(variable -> {
+            n.getVariables().forEach(variable ->
+            {
                 ResolvedValueDeclaration vd = variable.resolve();
                 SimpleName simpleName = variable.getName();
                 String name = simpleName.getIdentifier();
@@ -550,9 +578,11 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 int columnEnd = range.end.column;
                 this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(finalMethod), "declaration", line, columnStart, columnEnd + 1));
             });
-        } else if (staticInitializer != null)
+        }
+        else if (staticInitializer != null)
         {
-            n.getVariables().forEach(variable -> {
+            n.getVariables().forEach(variable ->
+            {
                 ResolvedValueDeclaration vd = variable.resolve();
                 SimpleName simpleName = variable.getName();
                 String name = simpleName.getIdentifier();
@@ -602,10 +632,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
@@ -627,19 +659,23 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                     if (vd.isField())
                     {
                         this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isVariable())
+                    }
+                    else if (vd.isVariable())
                     {
                         this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isParameter())
+                    }
+                    else if (vd.isParameter())
                     {
                         this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                     }
-                } catch (UnsolvedSymbolException e)
+                }
+                catch (UnsolvedSymbolException e)
                 {
                     System.err.println(nameExpr.getName().getIdentifier() + " not resolved. " + e.getMessage());
                 }
             }
-        } else if (staticInitializer != null)
+        }
+        else if (staticInitializer != null)
         {
             Expression value = n.getValue();
             if (value instanceof NameExpr)
@@ -655,7 +691,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), "static", "reference", line, columnStart, columnEnd + 1));
                 }/* else if (vd.isParameter()) {
@@ -679,11 +716,13 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                     if (vd.isField())
                     {
                         this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isVariable())
+                    }
+                    else if (vd.isVariable())
                     {
                         this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), "static", "reference", line, columnStart, columnEnd + 1));
                     }
-                } catch (UnsolvedSymbolException e)
+                }
+                catch (UnsolvedSymbolException e)
                 {
                     System.err.println(nameExpr.getName().getIdentifier() + " not resolved. " + e.getMessage());
                 }
@@ -752,10 +791,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
@@ -795,10 +836,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
@@ -838,10 +881,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
@@ -861,10 +906,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
@@ -904,10 +951,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
@@ -952,14 +1001,17 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
-            } else if (staticInitializer != null)
+            }
+            else if (staticInitializer != null)
             {
                 ResolvedValueDeclaration vd = nameExpr.resolve();
                 SimpleName simpleName = nameExpr.getName();
@@ -971,10 +1023,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), "static", "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), "static", "reference", line, columnStart, columnEnd + 1));
                 }
@@ -992,7 +1046,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     public void visit(ArrayInitializerExpr n, Object arg)
     {
         super.visit(n, arg);
-        n.getValues().forEach(value -> {
+        n.getValues().forEach(value ->
+        {
             if (value instanceof NameExpr)
             {
                 NameExpr nameExpr = (NameExpr) value;
@@ -1014,10 +1069,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                     if (vd.isField())
                     {
                         this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isVariable())
+                    }
+                    else if (vd.isVariable())
                     {
                         this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isParameter())
+                    }
+                    else if (vd.isParameter())
                     {
                         this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                     }
@@ -1036,7 +1093,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     public void visit(ArrayCreationExpr n, Object arg)
     {
         super.visit(n, arg);
-        n.getLevels().forEach(level -> {
+        n.getLevels().forEach(level ->
+        {
             Expression dimension = level.getDimension().orElse(null);
             if (dimension instanceof NameExpr)
             {
@@ -1059,10 +1117,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                     if (vd.isField())
                     {
                         this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isVariable())
+                    }
+                    else if (vd.isVariable())
                     {
                         this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isParameter())
+                    }
+                    else if (vd.isParameter())
                     {
                         this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                     }
@@ -1103,10 +1163,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
@@ -1135,10 +1197,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
@@ -1178,10 +1242,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
@@ -1221,10 +1287,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
@@ -1266,14 +1334,17 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                     if (vd.isField())
                     {
                         this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isVariable())
+                    }
+                    else if (vd.isVariable())
                     {
                         this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                    } else if (vd.isParameter())
+                    }
+                    else if (vd.isParameter())
                     {
                         this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                     }
-                } catch (UnsolvedSymbolException ignored)
+                }
+                catch (UnsolvedSymbolException ignored)
                 {
                 }
             }
@@ -1312,10 +1383,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
                 }
@@ -1344,10 +1417,12 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 if (vd.isField())
                 {
                     this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isVariable())
+                }
+                else if (vd.isVariable())
                 {
                     this.classFileContainer.putLocalVariable(name, new ClassLocalVariableLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd + 1));
-                } else if (vd.isParameter())
+                }
+                else if (vd.isParameter())
                 {
                     this.classFileContainer.putParameter(name, new ClassParameterLocation(getOwner(), getMethod(method), "reference", line, columnStart, columnEnd));
                 }
@@ -1374,7 +1449,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         if (method != null)
         {
             CallableDeclaration<?> finalMethod = method;
-            n.getParameters().forEach(parameter -> {
+            n.getParameters().forEach(parameter ->
+            {
                 SimpleName simpleName = parameter.getName();
                 String name = simpleName.getIdentifier();
                 Range range = parameter.getRange().get();
@@ -1396,7 +1472,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     public void visit(EnumDeclaration n, Object arg)
     {
         super.visit(n, arg);
-        n.getEntries().forEach(entry -> {
+        n.getEntries().forEach(entry ->
+        {
             SimpleName simpleName = entry.getName();
             String name = simpleName.getIdentifier();
             Range range = simpleName.getRange().get();
@@ -1588,7 +1665,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         if (contains[0])
         {
             return initializerDeclaration[0];
-        } else
+        }
+        else
         {
             return null;
         }

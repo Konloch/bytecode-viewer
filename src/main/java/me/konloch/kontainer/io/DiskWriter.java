@@ -1,10 +1,6 @@
 package me.konloch.kontainer.io;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Arrays;
 
 /**
@@ -13,7 +9,8 @@ import java.util.Arrays;
  * @author Konloch
  */
 
-public class DiskWriter {
+public class DiskWriter
+{
 
     /**
      * Used to insert a difference string with preserving the file extension
@@ -21,15 +18,17 @@ public class DiskWriter {
      * @param fileName   The file name
      * @param difference Normally an integer
      * @return The filename with the difference inserted and the file extension
-     *         preserved
+     * preserved
      */
-    public static String insertFileName(String fileName, String difference) {
+    public static String insertFileName(String fileName, String difference)
+    {
         String[] babe = fileName.split("\\.");
         int count = 0;
         int math = babe.length;
         StringBuilder m = new StringBuilder();
 
-        for (String s2 : babe) {
+        for (String s2 : babe)
+        {
             m.append(s2);
             if (math - 2 == count)
                 m.append(difference).append(".");
@@ -49,8 +48,8 @@ public class DiskWriter {
      * @param fileContents
      * @param debug
      */
-    public static synchronized void writeNewLine(String filename,
-                                                 byte[] fileContents, boolean debug) {
+    public static synchronized void writeNewLine(String filename, byte[] fileContents, boolean debug)
+    {
         new File(filename).getParentFile().mkdirs();
         String original = filename;
         int counter = 0;
@@ -59,26 +58,28 @@ public class DiskWriter {
         int failSafe = 0;
         while (!saved && failSafe++ <= 42069)
         {
-            try (FileWriter fr = new FileWriter(filename, true);
-                 BufferedWriter bw = new BufferedWriter(fr);
-                 PrintWriter writer = new PrintWriter(bw)) {
+            try (FileWriter fr = new FileWriter(filename, true); BufferedWriter bw = new BufferedWriter(fr); PrintWriter writer = new PrintWriter(bw))
+            {
                 writer.println(Arrays.toString(fileContents));
                 if (debug)
                     System.out.println("Saved " + filename + " to disk");
                 saved = true;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 if (debug)
-                    System.out.println("Failed saving, trying to save as "
-                            + filename);
-                if (original.contains(".")) {
+                    System.out.println("Failed saving, trying to save as " + filename);
+                if (original.contains("."))
+                {
                     filename = insertFileName(original, "" + counter);
-                } else
+                }
+                else
                     filename = original + counter;
                 counter++;
             }
         }
     }
-    
+
     /**
      * Writes a string to the file
      */
@@ -90,8 +91,8 @@ public class DiskWriter {
     /**
      * Writes a string to the file
      */
-    public static synchronized void writeNewLine(String filename,
-                                                 String lineToWrite, boolean debug) {
+    public static synchronized void writeNewLine(String filename, String lineToWrite, boolean debug)
+    {
         new File(filename).getParentFile().mkdirs();
         String original = filename;
         int counter = 0;
@@ -100,21 +101,22 @@ public class DiskWriter {
         int failSafe = 0;
         while (!saved && failSafe++ <= 42069)
         {
-            try (FileWriter fr = new FileWriter(filename, true);
-                 BufferedWriter bw = new BufferedWriter(fr);
-                 PrintWriter writer = new PrintWriter(bw)) {
+            try (FileWriter fr = new FileWriter(filename, true); BufferedWriter bw = new BufferedWriter(fr); PrintWriter writer = new PrintWriter(bw))
+            {
                 writer.println(lineToWrite);
                 if (debug)
-                    System.out.println("Saved " + filename + ">" + lineToWrite
-                            + " to disk");
+                    System.out.println("Saved " + filename + ">" + lineToWrite + " to disk");
                 saved = true;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 if (debug)
-                    System.out.println("Failed saving, trying to save as "
-                            + filename);
-                if (original.contains(".")) {
+                    System.out.println("Failed saving, trying to save as " + filename);
+                if (original.contains("."))
+                {
                     filename = insertFileName(original, "" + counter);
-                } else
+                }
+                else
                     filename = original + counter;
                 counter++;
             }
@@ -129,13 +131,13 @@ public class DiskWriter {
      * @param fileContents
      * @param debug
      */
-    public static synchronized void replaceFileBytes(String filename,
-                                                     byte[] fileContents, boolean debug) {
+    public static synchronized void replaceFileBytes(String filename, byte[] fileContents, boolean debug)
+    {
         new File(filename).getParentFile().mkdirs();
         File f = new File(filename);
         if (f.exists())
             f.delete();
-    
+
         String original = filename;
         int counter = 0;
 
@@ -150,13 +152,16 @@ public class DiskWriter {
                 if (debug)
                     System.out.println("Saved " + filename + " to disk");
                 saved = true;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 if (debug)
-                    System.out.println("Failed saving, trying to save as "
-                            + filename);
-                if (original.contains(".")) {
+                    System.out.println("Failed saving, trying to save as " + filename);
+                if (original.contains("."))
+                {
                     filename = insertFileName(original, "" + counter);
-                } else
+                }
+                else
                     filename = original + counter;
                 counter++;
             }
@@ -171,8 +176,8 @@ public class DiskWriter {
      * @param lineToWrite
      * @param debug
      */
-    public static synchronized void replaceFile(String filename,
-                                                String lineToWrite, boolean debug) {
+    public static synchronized void replaceFile(String filename, String lineToWrite, boolean debug)
+    {
         new File(filename).getParentFile().mkdirs();
         File f = new File(filename);
         if (f.exists())
@@ -184,21 +189,22 @@ public class DiskWriter {
         int failSafe = 0;
         while (!saved && failSafe++ <= 42069)
         {
-            try (FileWriter fr = new FileWriter(filename, true);
-                 BufferedWriter bw = new BufferedWriter(fr);
-                 PrintWriter writer = new PrintWriter(bw)) {
+            try (FileWriter fr = new FileWriter(filename, true); BufferedWriter bw = new BufferedWriter(fr); PrintWriter writer = new PrintWriter(bw))
+            {
                 writer.println(lineToWrite);
                 if (debug)
-                    System.out.println("Saved " + filename + ">" + lineToWrite
-                            + " to disk");
+                    System.out.println("Saved " + filename + ">" + lineToWrite + " to disk");
                 saved = true;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 if (debug)
-                    System.out.println("Failed saving, trying to save as "
-                            + filename + "_");
-                if (original.contains(".")) {
+                    System.out.println("Failed saving, trying to save as " + filename + "_");
+                if (original.contains("."))
+                {
                     filename = insertFileName(original, "" + counter);
-                } else
+                }
+                else
                     filename = original + counter;
                 counter++;
             }

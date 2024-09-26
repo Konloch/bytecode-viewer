@@ -18,9 +18,8 @@
 
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Display an image on a JLabel element
@@ -30,8 +29,8 @@ import javax.swing.JLabel;
  */
 public class ImageJLabel extends JLabel
 {
-	public ImageJLabel(Image image)
-	{
-		super("", new ImageIcon(image), JLabel.CENTER);
-	}
+    public ImageJLabel(Image image)
+    {
+        super("", new ImageIcon(image), JLabel.CENTER);
+    }
 }

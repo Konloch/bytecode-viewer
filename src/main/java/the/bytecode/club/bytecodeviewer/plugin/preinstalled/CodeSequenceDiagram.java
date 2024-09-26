@@ -20,12 +20,6 @@ package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
-import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.UIManager;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodInsnNode;
@@ -35,6 +29,12 @@ import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+import java.util.List;
 
 /**
  * A simple code sequence diagram.
@@ -48,7 +48,7 @@ public class CodeSequenceDiagram extends Plugin
     {
         PluginManager.runPlugin(new CodeSequenceDiagram());
     }
-    
+
     @Override
     public void execute(List<ClassNode> classNodeList)
     {
@@ -57,7 +57,7 @@ public class CodeSequenceDiagram extends Plugin
             BytecodeViewer.showMessage(TranslatedStrings.FIRST_VIEW_A_CLASS.toString());
             return;
         }
-        
+
         ClassNode c = BytecodeViewer.getCurrentlyOpenedClassNode();
         JFrame frame = new JFrame("Code Sequence Diagram - " + c.name);
 
@@ -87,8 +87,7 @@ public class CodeSequenceDiagram extends Plugin
             for (MethodNode m : c.methods)
             {
                 String mIdentifier = c.name + "." + m.name + m.desc;
-                Object attach = graph.insertVertex(parent, null, mIdentifier, testX, testY,
-                        mIdentifier.length() * magicNumber, 30);
+                Object attach = graph.insertVertex(parent, null, mIdentifier, testX, testY, mIdentifier.length() * magicNumber, 30);
                 testX += (int) (font.getStringBounds(mIdentifier, frc).getWidth()) + 60;
                 for (AbstractInsnNode i : m.instructions.toArray())
                 {
@@ -102,7 +101,7 @@ public class CodeSequenceDiagram extends Plugin
                         attach = node2;
                     }
                 }
-                
+
                 testY += 60;
                 testX = 10;
             }

@@ -18,10 +18,11 @@
 
 package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
-import java.util.Objects;
+import org.exbin.bined.PositionCodeType;
+
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.bined.PositionCodeType;
+import java.util.Objects;
 
 /**
  * Cursor position format for status.
@@ -29,33 +30,40 @@ import org.exbin.bined.PositionCodeType;
  * @author hajdam
  */
 @ParametersAreNonnullByDefault
-public class StatusCursorPositionFormat {
+public class StatusCursorPositionFormat
+{
 
     private PositionCodeType positionCodeType = PositionCodeType.DECIMAL;
     private boolean showOffset = true;
 
-    public StatusCursorPositionFormat() {
+    public StatusCursorPositionFormat()
+    {
     }
 
-    public StatusCursorPositionFormat(PositionCodeType positionCodeType, boolean showOffset) {
+    public StatusCursorPositionFormat(PositionCodeType positionCodeType, boolean showOffset)
+    {
         this.positionCodeType = positionCodeType;
         this.showOffset = showOffset;
     }
 
     @Nonnull
-    public PositionCodeType getCodeType() {
+    public PositionCodeType getCodeType()
+    {
         return positionCodeType;
     }
 
-    public void setCodeType(PositionCodeType positionCodeType) {
+    public void setCodeType(PositionCodeType positionCodeType)
+    {
         this.positionCodeType = Objects.requireNonNull(positionCodeType);
     }
 
-    public boolean isShowOffset() {
+    public boolean isShowOffset()
+    {
         return showOffset;
     }
 
-    public void setShowOffset(boolean showOffset) {
+    public void setShowOffset(boolean showOffset)
+    {
         this.showOffset = showOffset;
     }
 }

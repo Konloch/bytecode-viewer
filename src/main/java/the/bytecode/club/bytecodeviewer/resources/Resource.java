@@ -31,39 +31,40 @@ import java.nio.charset.StandardCharsets;
  */
 public class Resource
 {
-	public final String name;
-	public String workingName;
-	public final ResourceContainer container;
-	
-	public Resource(String name, String workingName, ResourceContainer container)
-	{
-		this.name = name;
-		this.workingName = workingName;
-		this.container = container;
-	}
+    public final String name;
+    public String workingName;
+    public final ResourceContainer container;
 
-	public static String loadResourceAsString(String resourcePath) throws IOException
-	{
-		try (InputStream is = IconResources.class.getResourceAsStream(resourcePath)) {
-			if (is == null)
-				return null;
-			return IOUtils.toString(is, StandardCharsets.UTF_8);
-		}
-	}
-	
-	/**
-	 * Returns the resource bytes from the resource container
-	 */
-	public byte[] getResourceBytes()
-	{
-		return container.getFileContents(name);
-	}
-	
-	/**
-	 * Returns the resource bytes from the resource container
-	 */
-	public ClassNode getResourceClassNode()
-	{
-		return container.getClassNode(name);
-	}
+    public Resource(String name, String workingName, ResourceContainer container)
+    {
+        this.name = name;
+        this.workingName = workingName;
+        this.container = container;
+    }
+
+    public static String loadResourceAsString(String resourcePath) throws IOException
+    {
+        try (InputStream is = IconResources.class.getResourceAsStream(resourcePath))
+        {
+            if (is == null)
+                return null;
+            return IOUtils.toString(is, StandardCharsets.UTF_8);
+        }
+    }
+
+    /**
+     * Returns the resource bytes from the resource container
+     */
+    public byte[] getResourceBytes()
+    {
+        return container.getFileContents(name);
+    }
+
+    /**
+     * Returns the resource bytes from the resource container
+     */
+    public ClassNode getResourceClassNode()
+    {
+        return container.getClassNode(name);
+    }
 }

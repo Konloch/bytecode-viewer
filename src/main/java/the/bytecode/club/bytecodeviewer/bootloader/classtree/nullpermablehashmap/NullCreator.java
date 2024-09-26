@@ -22,10 +22,12 @@ package the.bytecode.club.bytecodeviewer.bootloader.classtree.nullpermablehashma
  * @author Bibl (don't ban me pls)
  * @since ages ago
  */
-public class NullCreator<V> implements ValueCreator<V> {
+public class NullCreator<V> implements ValueCreator<V>
+{
 
     @Override
-    public V create() {
+    public V create()
+    {
         return null;
     }
 }

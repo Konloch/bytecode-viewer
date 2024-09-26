@@ -18,12 +18,13 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.util.TraceClassVisitor;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * Objectweb ASM Textifier output
@@ -33,14 +34,16 @@ import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 public class ASMTextifierDisassembler extends InternalDecompiler
 {
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b) {
+    public String decompileClassNode(ClassNode cn, byte[] b)
+    {
         StringWriter writer = new StringWriter();
         cn.accept(new TraceClassVisitor(null, new Textifier(), new PrintWriter(writer)));
         return writer.toString();
     }
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName) {
+    public void decompileToZip(String sourceJar, String zipName)
+    {
 
     }
 }

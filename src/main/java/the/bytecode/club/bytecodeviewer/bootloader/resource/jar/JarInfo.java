@@ -29,7 +29,8 @@ import java.net.URL;
  * @author Bibl
  * @since 19 Jul 2013
  */
-public class JarInfo {
+public class JarInfo
+{
 
     private final String path;
     private final JarType type;
@@ -39,7 +40,8 @@ public class JarInfo {
      *
      * @param path Path to jar.
      */
-    public JarInfo(File path) {
+    public JarInfo(File path)
+    {
         this(path.getAbsolutePath(), JarType.FILE);
     }
 
@@ -49,7 +51,8 @@ public class JarInfo {
      * @param path Path to jar.
      * @param type Type of jar.
      */
-    public JarInfo(String path, JarType type) {
+    public JarInfo(String path, JarType type)
+    {
         this.path = path;
         this.type = type;
     }
@@ -59,18 +62,21 @@ public class JarInfo {
      *
      * @param url URL to jar.
      */
-    public JarInfo(URL url) {
+    public JarInfo(URL url)
+    {
         this(url.toExternalForm(), JarType.WEB);
     }
 
     /**
      * @return Real path to JarFile.
      */
-    public final String getPath() {
+    public final String getPath()
+    {
         return path;
     }
 
-    public final JarType getType() {
+    public final JarType getType()
+    {
         return type;
     }
 
@@ -80,9 +86,11 @@ public class JarInfo {
      * @return The formatted url.
      * @throws MalformedURLException
      */
-    public URL formattedURL() throws MalformedURLException {
+    public URL formattedURL() throws MalformedURLException
+    {
         StringBuilder sb = new StringBuilder().append("jar:").append(type.prefix()).append(path);
-        if (type.equals(JarType.FILE) && !path.endsWith(".jar")) {
+        if (type.equals(JarType.FILE) && !path.endsWith(".jar"))
+        {
             File file = new File(path);
             if (!file.exists())
                 sb.append(".jar");
@@ -92,7 +100,8 @@ public class JarInfo {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         final int prime = 31;
         int result = 1;
         result = (prime * result) + ((path == null) ? 0 : path.hashCode());
@@ -101,7 +110,8 @@ public class JarInfo {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if (this == obj)
             return true;
         if (obj == null)
@@ -109,10 +119,12 @@ public class JarInfo {
         if (getClass() != obj.getClass())
             return false;
         JarInfo other = (JarInfo) obj;
-        if (path == null) {
+        if (path == null)
+        {
             if (other.path != null)
                 return false;
-        } else if (!path.equals(other.path))
+        }
+        else if (!path.equals(other.path))
             return false;
         return type == other.type;
     }

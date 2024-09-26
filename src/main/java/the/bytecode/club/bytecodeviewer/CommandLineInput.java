@@ -18,7 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer;
 
-import java.io.File;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -31,9 +30,9 @@ import the.bytecode.club.bytecodeviewer.translation.Language;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
-import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
-import static the.bytecode.club.bytecodeviewer.Constants.fs;
-import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
+import java.io.File;
+
+import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /**
  * Used to allow BCV to be integrated as CLI instead of GUI.
@@ -41,7 +40,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
  * @author Konloch
  */
 
-public class CommandLineInput {
+public class CommandLineInput
+{
 
     private static final Options options = new Options();
     private static final CommandLineParser parser = new DefaultParser();
@@ -51,7 +51,8 @@ public class CommandLineInput {
     public static int GUI = 0;
     public static int CLI = 1;
 
-    static {
+    static
+    {
         options.addOption("help", false, "prints the help menu.");
         options.addOption("list", false, "lists all the available decompilers for BCV " + VERSION + ".");
         options.addOption("decompiler", true, "sets the decompiler, procyon by default.");
@@ -61,38 +62,36 @@ public class CommandLineInput {
         options.addOption("nowait", true, "won't wait the 5 seconds to allow the user to read the CLI.");
     }
 
-    public static boolean containsCommand(String[] args) {
+    public static boolean containsCommand(String[] args)
+    {
         if (args == null || args.length == 0)
             return false;
 
-        try {
+        try
+        {
             CommandLine cmd = parser.parse(options, args);
-            if (
-                    cmd.hasOption("help") ||
-                            cmd.hasOption("clean") ||
-                            cmd.hasOption("english") ||
-                            cmd.hasOption("list") ||
-                            cmd.hasOption("decompiler") ||
-                            cmd.hasOption("i") ||
-                            cmd.hasOption("o") ||
-                            cmd.hasOption("t") ||
-                            cmd.hasOption("nowait")
-            ) {
+            if (cmd.hasOption("help") || cmd.hasOption("clean") || cmd.hasOption("english") || cmd.hasOption("list") || cmd.hasOption("decompiler") || cmd.hasOption("i") || cmd.hasOption("o") || cmd.hasOption("t") || cmd.hasOption("nowait"))
+            {
                 return true;
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
         return false;
     }
 
-    public static int parseCommandLine(String[] args) {
+    public static int parseCommandLine(String[] args)
+    {
         if (!containsCommand(args))
             return GUI;
-        try {
+        try
+        {
             CommandLine cmd = parser.parse(options, args);
-            if (cmd.hasOption("list")) {
+            if (cmd.hasOption("list"))
+            {
                 System.out.println("Procyon");
                 System.out.println("CFR");
                 System.out.println("FernFlower");
@@ -102,38 +101,38 @@ public class CommandLineInput {
                 System.out.println("Smali");
                 System.out.println("ASMifier");
                 return STOP;
-            } else if (cmd.hasOption("clean")) {
+            }
+            else if (cmd.hasOption("clean"))
+            {
                 new File(Constants.getBCVDirectory()).delete();
-                if(cmd.getOptionValue("i") == null && cmd.getOptionValue("o") == null
-                        && cmd.getOptionValue("t") == null)
+                if (cmd.getOptionValue("i") == null && cmd.getOptionValue("o") == null && cmd.getOptionValue("t") == null)
                     return GUI;
-            } else if (cmd.hasOption("english")) {
+            }
+            else if (cmd.hasOption("english"))
+            {
                 Configuration.language = Language.ENGLISH;
                 return GUI;
-            } else if (cmd.hasOption("help")) {
-                for (String s : new String[]{
-                        "-help                         Displays the help menu",
-                        "-clean                        Deletes the BCV directory",
-                        "-english                      Forces English language translations",
-                        "-list                         Displays the available decompilers",
-                        "-decompiler <decompiler>      Selects the decompiler, procyon by default",
-                        "-i <input file>               Selects the input file",
-                        "-o <output file>              Selects the output file",
-                        "-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile all as zip",
-                        "-nowait                       Doesn't wait for the user to read the CLI messages"
-                })
+            }
+            else if (cmd.hasOption("help"))
+            {
+                for (String s : new String[]{"-help                         Displays the help menu", "-clean                        Deletes the BCV directory", "-english                      Forces English language translations", "-list                         Displays the available decompilers", "-decompiler <decompiler>      Selects the decompiler, procyon by default", "-i <input file>               Selects the input file", "-o <output file>              Selects the output file", "-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile all as zip", "-nowait                       Doesn't wait for the user to read the CLI messages"})
                     System.out.println(s);
                 return STOP;
-            } else {
-                if (cmd.getOptionValue("i") == null) {
+            }
+            else
+            {
+                if (cmd.getOptionValue("i") == null)
+                {
                     System.err.println("Set the input with -i");
                     return STOP;
                 }
-                if (cmd.getOptionValue("o") == null) {
+                if (cmd.getOptionValue("o") == null)
+                {
                     System.err.println("Set the output with -o");
                     return STOP;
                 }
-                if (cmd.getOptionValue("t") == null) {
+                if (cmd.getOptionValue("t") == null)
+                {
                     System.err.println("Set the target with -t");
                     return STOP;
                 }
@@ -142,12 +141,14 @@ public class CommandLineInput {
                 File output = new File(cmd.getOptionValue("o"));
                 String decompiler = cmd.getOptionValue("decompiler");
 
-                if (!input.exists()) {
+                if (!input.exists())
+                {
                     System.err.println(input.getAbsolutePath() + " does not exist.");
                     return STOP;
                 }
 
-                if (output.exists()) {
+                if (output.exists())
+                {
                     System.err.println("WARNING: Deleted old " + output.getAbsolutePath() + ".");
                     output.delete();
                 }
@@ -156,19 +157,9 @@ public class CommandLineInput {
                 //if its zip/jar/apk/dex attempt unzip as whole zip
                 //if its just class allow any
 
-                if (
-                        decompiler != null &&
-                                !decompiler.equalsIgnoreCase("procyon") &&
-                                !decompiler.equalsIgnoreCase("cfr") &&
-                                !decompiler.equalsIgnoreCase("fernflower") &&
-                                !decompiler.equalsIgnoreCase("krakatau") &&
-                                !decompiler.equalsIgnoreCase("krakatau-bytecode") &&
-                                !decompiler.equalsIgnoreCase("jd-gui") &&
-                                !decompiler.equalsIgnoreCase("smali") &&
-                                !decompiler.equalsIgnoreCase("asmifier")
-                ) {
-                    System.out.println("Error, no decompiler called '" + decompiler + "' found. Type -list"
-                            + " for the list");
+                if (decompiler != null && !decompiler.equalsIgnoreCase("procyon") && !decompiler.equalsIgnoreCase("cfr") && !decompiler.equalsIgnoreCase("fernflower") && !decompiler.equalsIgnoreCase("krakatau") && !decompiler.equalsIgnoreCase("krakatau-bytecode") && !decompiler.equalsIgnoreCase("jd-gui") && !decompiler.equalsIgnoreCase("smali") && !decompiler.equalsIgnoreCase("asmifier"))
+                {
+                    System.out.println("Error, no decompiler called '" + decompiler + "' found. Type -list" + " for the list");
                 }
 
 
@@ -177,24 +168,28 @@ public class CommandLineInput {
 
                 return CLI;
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             BytecodeViewer.handleException(e);
         }
 
         return GUI;
     }
 
-    public static void executeCommandLine(String[] args) {
-        try {
+    public static void executeCommandLine(String[] args)
+    {
+        try
+        {
             CommandLine cmd = parser.parse(options, args);
             String decompiler = cmd.getOptionValue("decompiler");
             File input = new File(cmd.getOptionValue("i"));
             File output = new File(cmd.getOptionValue("o"));
             String target = cmd.getOptionValue("t");
 
-            if (cmd.getOptionValue("decompiler") == null) {
-                System.out.println("You can define another decompiler by appending -decompiler \"name\", by default "
-                        + "procyon has been set.");
+            if (cmd.getOptionValue("decompiler") == null)
+            {
+                System.out.println("You can define another decompiler by appending -decompiler \"name\", by default " + "procyon has been set.");
                 decompiler = "procyon";
             }
 
@@ -202,178 +197,247 @@ public class CommandLineInput {
             //if its zip/jar/apk/dex attempt unzip as whole zip
             //if its just class allow any
 
-            File tempZip =
-                    new File(tempDirectory + fs + "temp_" + MiscUtils.getRandomizedName() + ".jar");
+            File tempZip = new File(tempDirectory + fs + "temp_" + MiscUtils.getRandomizedName() + ".jar");
             if (tempZip.exists())
                 tempZip.delete();
 
             JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempZip.getAbsolutePath());
 
-            if (decompiler.equalsIgnoreCase("procyon")) {
+            if (decompiler.equalsIgnoreCase("procyon"))
+            {
                 System.out.println("Decompiling " + input.getAbsolutePath() + " with Procyon");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
-                if (target.equalsIgnoreCase("all")) {
+                if (target.equalsIgnoreCase("all"))
+                {
                     Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         BytecodeViewer.handleException(e);
                     }
                 }
-            } else if (decompiler.equalsIgnoreCase("cfr")) {
+            }
+            else if (decompiler.equalsIgnoreCase("cfr"))
+            {
                 System.out.println("Decompiling " + input.getAbsolutePath() + " with CFR");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
-                if (target.equalsIgnoreCase("all")) {
+                if (target.equalsIgnoreCase("all"))
+                {
                     Decompiler.CFR_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.CFR_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         BytecodeViewer.handleException(e);
                     }
                 }
-            } else if (decompiler.equalsIgnoreCase("fernflower")) {
+            }
+            else if (decompiler.equalsIgnoreCase("fernflower"))
+            {
                 System.out.println("Decompiling " + input.getAbsolutePath() + " with FernFlower");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
-                if (target.equalsIgnoreCase("all")) {
+                if (target.equalsIgnoreCase("all"))
+                {
                     Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         BytecodeViewer.handleException(e);
                     }
                 }
-            } else if (decompiler.equalsIgnoreCase("krakatau")) {
+            }
+            else if (decompiler.equalsIgnoreCase("krakatau"))
+            {
                 System.out.println("Decompiling " + input.getAbsolutePath() + " with Krakatau");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
-                if (target.equalsIgnoreCase("all")) {
+                if (target.equalsIgnoreCase("all"))
+                {
                     Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         BytecodeViewer.handleException(e);
                     }
                 }
-            } else if (decompiler.equalsIgnoreCase("krakatau-bytecode")) {
+            }
+            else if (decompiler.equalsIgnoreCase("krakatau-bytecode"))
+            {
                 System.out.println("Decompiling " + input.getAbsolutePath() + " with Krakatau-Bytecode");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
-                if (target.equalsIgnoreCase("all")) {
+                if (target.equalsIgnoreCase("all"))
+                {
                     System.out.println("Coming soon.");
                     //Decompiler.krakatauDA.decompileToZip(output.getAbsolutePath());
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.KRAKATAU_DISASSEMBLER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         BytecodeViewer.handleException(e);
                     }
                 }
-            } else if (decompiler.equalsIgnoreCase("jd-gui")) {
+            }
+            else if (decompiler.equalsIgnoreCase("jd-gui"))
+            {
                 System.out.println("Decompiling " + input.getAbsolutePath() + " with JD-GUI");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
-                if (target.equalsIgnoreCase("all")) {
+                if (target.equalsIgnoreCase("all"))
+                {
                     System.out.println("Coming soon.");
                     //Decompiler.jdgui.decompileToZip(output.getAbsolutePath());
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.JD_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         BytecodeViewer.handleException(e);
                     }
                 }
-            } else if (decompiler.equalsIgnoreCase("smali")) {
+            }
+            else if (decompiler.equalsIgnoreCase("smali"))
+            {
                 System.out.println("Decompiling " + input.getAbsolutePath() + " with Smali");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
-                if (target.equalsIgnoreCase("all")) {
+                if (target.equalsIgnoreCase("all"))
+                {
                     System.out.println("Coming soon.");
                     //Decompiler.smali.decompileToZip(output.getAbsolutePath());
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.SMALI_DISASSEMBLER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         BytecodeViewer.handleException(e);
                     }
                 }
-            } else if (decompiler.equalsIgnoreCase("jadx")) {
+            }
+            else if (decompiler.equalsIgnoreCase("jadx"))
+            {
                 System.out.println("Decompiling " + input.getAbsolutePath() + " with JADX");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
-                if (target.equalsIgnoreCase("all")) {
+                if (target.equalsIgnoreCase("all"))
+                {
                     System.out.println("Coming soon.");
                     //Decompiler.smali.decompileToZip(output.getAbsolutePath());
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.JADX_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         BytecodeViewer.handleException(e);
                     }
                 }
             }
-            else if (decompiler.equalsIgnoreCase("asmifier")) {
+            else if (decompiler.equalsIgnoreCase("asmifier"))
+            {
                 System.out.println("Generating ASM code for " + input.getAbsolutePath() + " with ASMifier");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
-                if (target.equalsIgnoreCase("all")) {
+                if (target.equalsIgnoreCase("all"))
+                {
                     System.out.println("Coming soon.");
                     //Decompiler.smali.decompileToZip(output.getAbsolutePath());
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.ASMIFIER_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         BytecodeViewer.handleException(e);
                     }
                 }
@@ -383,21 +447,30 @@ public class CommandLineInput {
             System.out.println("Bytecode Viewer " + VERSION + " [CLI] - Created by @Konloch - https://bytecodeviewer.com");
             Configuration.canExit = true;
             System.exit(0);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             BytecodeViewer.handleException(e);
         }
     }
 
-    public static ClassWriter accept(ClassNode cn) {
+    public static ClassWriter accept(ClassNode cn)
+    {
         ClassWriter cw = new ClassWriter(0);
-        try {
+        try
+        {
             cn.accept(cw);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
-            try {
+            try
+            {
                 Thread.sleep(200);
                 cn.accept(cw);
-            } catch (InterruptedException ignored) {
+            }
+            catch (InterruptedException ignored)
+            {
             }
         }
         return cw;

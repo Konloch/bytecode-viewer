@@ -10,22 +10,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public class TokenUtil
 {
-	public static Token getToken(final RSyntaxTextArea textArea, final @NotNull Token token)
-	{
-		String lexeme = token.getLexeme();
-		return lexeme.isEmpty()
-				|| lexeme.equals(".")
-				|| lexeme.equals("(")
-				|| lexeme.equals(")")
-				|| lexeme.equals("[")
-				|| lexeme.equals("~")
-				|| lexeme.equals("-")
-				|| lexeme.equals("+")
-				|| lexeme.equals(" ")
-				|| lexeme.equals(";")
-				|| lexeme.equals(",")
-				|| lexeme.equals(">")
-				? textArea.modelToToken(textArea.getCaretPosition() - 1)
-				: token;
-	}
+    public static Token getToken(final RSyntaxTextArea textArea, final @NotNull Token token)
+    {
+        String lexeme = token.getLexeme();
+        return lexeme.isEmpty() || lexeme.equals(".") || lexeme.equals("(") || lexeme.equals(")") || lexeme.equals("[") || lexeme.equals("~") || lexeme.equals("-") || lexeme.equals("+") || lexeme.equals(" ") || lexeme.equals(";") || lexeme.equals(",") || lexeme.equals(">") ? textArea.modelToToken(textArea.getCaretPosition() - 1) : token;
+    }
 }

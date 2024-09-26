@@ -18,9 +18,10 @@
 
 package the.bytecode.club.bytecodeviewer.translation.components;
 
-import javax.swing.JCheckBoxMenuItem;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponentReference;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
+
+import javax.swing.*;
 
 /**
  * @author Konloch
@@ -28,19 +29,19 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
  */
 public class TranslatedJCheckBoxMenuItem extends JCheckBoxMenuItem
 {
-	public TranslatedJCheckBoxMenuItem(String text, TranslatedComponents translatedComponents)
-	{
-		super(text);
-		
-		if(translatedComponents != null)
-		{
-			TranslatedComponentReference componentReference = translatedComponents.getTranslatedComponentReference();
-			componentReference.runOnUpdate.add(()->
-			{
-				if(componentReference.value != null && !componentReference.value.isEmpty())
-					setText(componentReference.value);
-			});
-			componentReference.translate();
-		}
-	}
+    public TranslatedJCheckBoxMenuItem(String text, TranslatedComponents translatedComponents)
+    {
+        super(text);
+
+        if (translatedComponents != null)
+        {
+            TranslatedComponentReference componentReference = translatedComponents.getTranslatedComponentReference();
+            componentReference.runOnUpdate.add(() ->
+            {
+                if (componentReference.value != null && !componentReference.value.isEmpty())
+                    setText(componentReference.value);
+            });
+            componentReference.translate();
+        }
+    }
 }

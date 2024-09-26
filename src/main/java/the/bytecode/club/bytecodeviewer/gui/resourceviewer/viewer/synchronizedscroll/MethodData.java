@@ -18,9 +18,10 @@
 
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.synchronizedscroll;
 
+import org.objectweb.asm.Type;
+
 import java.util.Arrays;
 import java.util.Objects;
-import org.objectweb.asm.Type;
 
 /**
  * @author Konloch
@@ -28,32 +29,33 @@ import org.objectweb.asm.Type;
  */
 public class MethodData
 {
-	public String name, desc;
+    public String name, desc;
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof MethodData)) return false;
-		MethodData that = (MethodData) o;
-		return Objects.equals(name, that.name) && Objects.equals(desc, that.desc);
-	}
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (!(o instanceof MethodData))
+            return false;
+        MethodData that = (MethodData) o;
+        return Objects.equals(name, that.name) && Objects.equals(desc, that.desc);
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(name, desc);
-	}
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(name, desc);
+    }
 
-	public String constructPattern()
-	{
-		final StringBuilder pattern = new StringBuilder();
-		pattern.append(name).append(" *\\(");
-		final org.objectweb.asm.Type[] types = org.objectweb.asm.Type
-				.getArgumentTypes(desc);
-		pattern.append("(.*)");
-		Arrays.stream(types).map(Type::getClassName)
-				.forEach(clazzName -> pattern.append(clazzName.substring(clazzName.lastIndexOf(".") + 1)).append(
-						"(.*)"));
-		pattern.append("\\) *\\{");
-		return pattern.toString();
-	}
+    public String constructPattern()
+    {
+        final StringBuilder pattern = new StringBuilder();
+        pattern.append(name).append(" *\\(");
+        final org.objectweb.asm.Type[] types = org.objectweb.asm.Type.getArgumentTypes(desc);
+        pattern.append("(.*)");
+        Arrays.stream(types).map(Type::getClassName).forEach(clazzName -> pattern.append(clazzName.substring(clazzName.lastIndexOf(".") + 1)).append("(.*)"));
+        pattern.append("\\) *\\{");
+        return pattern.toString();
+    }
 }

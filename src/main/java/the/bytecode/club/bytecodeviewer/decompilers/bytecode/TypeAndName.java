@@ -27,7 +27,8 @@ import org.objectweb.asm.Type;
  * @author Waterwolf
  * @since 10/02/2011
  */
-public class TypeAndName {
+public class TypeAndName
+{
     public Type type = null;
     public String name = null;
 }

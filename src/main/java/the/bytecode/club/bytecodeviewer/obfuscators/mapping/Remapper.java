@@ -49,67 +49,82 @@ import org.objectweb.asm.signature.SignatureWriter;
  *
  * @author Eugene Kuleshov
  */
-public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
+public abstract class Remapper extends org.objectweb.asm.commons.Remapper
+{
 
     @Override
-    public String mapDesc(String desc) {
+    public String mapDesc(String desc)
+    {
         Type t = Type.getType(desc);
-        switch (t.getSort()) {
-        case Type.ARRAY:
-            StringBuilder s = new StringBuilder(mapDesc(t.getElementType().getDescriptor()));
-            for (int i = 0; i < t.getDimensions(); ++i) {
-                s.insert(0, '[');
-            }
-            return s.toString();
-        case Type.OBJECT:
-            String newType = map(t.getInternalName());
-            if (newType != null) {
-                return 'L' + newType + ';';
-            }
+        switch (t.getSort())
+        {
+            case Type.ARRAY:
+                StringBuilder s = new StringBuilder(mapDesc(t.getElementType().getDescriptor()));
+                for (int i = 0; i < t.getDimensions(); ++i)
+                {
+                    s.insert(0, '[');
+                }
+                return s.toString();
+            case Type.OBJECT:
+                String newType = map(t.getInternalName());
+                if (newType != null)
+                {
+                    return 'L' + newType + ';';
+                }
         }
         return desc;
     }
 
-    private Type mapType(Type t) {
-        switch (t.getSort()) {
-        case Type.ARRAY:
-            StringBuilder s = new StringBuilder(mapDesc(t.getElementType().getDescriptor()));
-            for (int i = 0; i < t.getDimensions(); ++i) {
-                s.insert(0, '[');
-            }
-            return Type.getType(s.toString());
-        case Type.OBJECT:
-            s = new StringBuilder(map(t.getInternalName()));
-            return Type.getObjectType(s.toString());
-        case Type.METHOD:
-            return Type.getMethodType(mapMethodDesc(t.getDescriptor()));
+    private Type mapType(Type t)
+    {
+        switch (t.getSort())
+        {
+            case Type.ARRAY:
+                StringBuilder s = new StringBuilder(mapDesc(t.getElementType().getDescriptor()));
+                for (int i = 0; i < t.getDimensions(); ++i)
+                {
+                    s.insert(0, '[');
+                }
+                return Type.getType(s.toString());
+            case Type.OBJECT:
+                s = new StringBuilder(map(t.getInternalName()));
+                return Type.getObjectType(s.toString());
+            case Type.METHOD:
+                return Type.getMethodType(mapMethodDesc(t.getDescriptor()));
         }
         return t;
     }
 
     @Override
-    public String mapType(String type) {
-        if (type == null) {
+    public String mapType(String type)
+    {
+        if (type == null)
+        {
             return null;
         }
         return mapType(Type.getObjectType(type)).getInternalName();
     }
 
     @Override
-    public String[] mapTypes(String[] types) {
+    public String[] mapTypes(String[] types)
+    {
         String[] newTypes = null;
         boolean needMapping = false;
-        for (int i = 0; i < types.length; i++) {
+        for (int i = 0; i < types.length; i++)
+        {
             String type = types[i];
             String newType = map(type);
-            if (newType != null && newTypes == null) {
+            if (newType != null && newTypes == null)
+            {
                 newTypes = new String[types.length];
-                if (i > 0) {
+                if (i > 0)
+                {
                     System.arraycopy(types, 0, newTypes, 0, i);
                 }
                 needMapping = true;
             }
-            if (needMapping) {
+            if (needMapping)
+            {
                 newTypes[i] = newType == null ? type : newType;
             }
         }
@@ -117,18 +132,22 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
     }
 
     @Override
-    public String mapMethodDesc(String desc) {
-        if ("()V".equals(desc)) {
+    public String mapMethodDesc(String desc)
+    {
+        if ("()V".equals(desc))
+        {
             return desc;
         }
 
         Type[] args = Type.getArgumentTypes(desc);
         StringBuilder sb = new StringBuilder("(");
-        for (Type arg : args) {
+        for (Type arg : args)
+        {
             sb.append(mapDesc(arg.getDescriptor()));
         }
         Type returnType = Type.getReturnType(desc);
-        if (returnType == Type.VOID_TYPE) {
+        if (returnType == Type.VOID_TYPE)
+        {
             sb.append(")V");
             return sb.toString();
         }
@@ -137,15 +156,16 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
     }
 
     @Override
-    public Object mapValue(Object value) {
-        if (value instanceof Type) {
+    public Object mapValue(Object value)
+    {
+        if (value instanceof Type)
+        {
             return mapType((Type) value);
         }
-        if (value instanceof Handle) {
+        if (value instanceof Handle)
+        {
             Handle h = (Handle) value;
-            return new Handle(h.getTag(), mapType(h.getOwner()), mapMethodName(
-                    h.getOwner(), h.getName(), h.getDesc()),
-                    mapMethodDesc(h.getDesc()), h.getTag() == Opcodes.H_INVOKEINTERFACE);
+            return new Handle(h.getTag(), mapType(h.getOwner()), mapMethodName(h.getOwner(), h.getName(), h.getDesc()), mapMethodDesc(h.getDesc()), h.getTag() == Opcodes.H_INVOKEINTERFACE);
         }
         return value;
     }
@@ -156,23 +176,29 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
      *                      MethodVisitor.visitLocalVariable methods
      */
     @Override
-    public String mapSignature(String signature, boolean typeSignature) {
-        if (signature == null) {
+    public String mapSignature(String signature, boolean typeSignature)
+    {
+        if (signature == null)
+        {
             return null;
         }
         SignatureReader r = new SignatureReader(signature);
         SignatureWriter w = new SignatureWriter();
         SignatureVisitor a = createSignatureRemapper(w);
-        if (typeSignature) {
+        if (typeSignature)
+        {
             r.acceptType(a);
-        } else {
+        }
+        else
+        {
             r.accept(a);
         }
         return w.toString();
     }
 
     @Override
-    protected SignatureVisitor createSignatureRemapper(SignatureVisitor v) {
+    protected SignatureVisitor createSignatureRemapper(SignatureVisitor v)
+    {
         return new RemappingSignatureAdapter(v, this);
     }
 
@@ -185,7 +211,8 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
      * @return new name of the method
      */
     @Override
-    public String mapMethodName(String owner, String name, String desc) {
+    public String mapMethodName(String owner, String name, String desc)
+    {
         return name;
     }
 
@@ -197,7 +224,8 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
      * @return new invokdynamic name.
      */
     @Override
-    public String mapInvokeDynamicMethodName(String name, String desc) {
+    public String mapInvokeDynamicMethodName(String name, String desc)
+    {
         return name;
     }
 
@@ -210,7 +238,8 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
      * @return new name of the field.
      */
     @Override
-    public String mapFieldName(String owner, String name, String desc) {
+    public String mapFieldName(String owner, String name, String desc)
+    {
         return name;
     }
 
@@ -218,7 +247,8 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper {
      * Map type name to the new name. Subclasses can override.
      */
     @Override
-    public String map(String typeName) {
+    public String map(String typeName)
+    {
         return typeName;
     }
 }

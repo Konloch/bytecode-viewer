@@ -28,14 +28,17 @@ import the.bytecode.club.bytecodeviewer.api.ASMResourceUtil;
  * @author Konloch
  */
 
-public class RenameClasses extends JavaObfuscator {
+public class RenameClasses extends JavaObfuscator
+{
 
     @Override
-    public void obfuscate() {
+    public void obfuscate()
+    {
         int stringLength = getStringLength();
 
         System.out.println("Obfuscating class names...");
-        for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
+        for (ClassNode c : BytecodeViewer.getLoadedClasses())
+        {
             String newName = generateUniqueName(stringLength);
             ASMResourceUtil.renameClassNode(c.name, newName);
             c.name = newName;

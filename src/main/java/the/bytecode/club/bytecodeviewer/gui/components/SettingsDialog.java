@@ -18,16 +18,10 @@
 
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import java.awt.Component;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialog;
 
@@ -38,67 +32,67 @@ import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialo
 
 public class SettingsDialog extends JScrollPane
 {
-	public static final List<JComponent> components = new ArrayList<>();
-	public static final List<JDialog> dialogs = new ArrayList<>();
-	private final List<JMenuItem> options = new ArrayList<>();
-	private final JMenu menu;
-	private final JPanel display;
-	
-	public SettingsDialog(JMenu menu, JPanel display)
-	{
-		super(display);
-		
-		this.menu = menu;
-		this.display = display;
-		
-		if(!useNewSettingsDialog)
-			return;
-		
-		List<JMenuItem> options = new ArrayList<>();
-		for(Component child : menu.getMenuComponents())
-		{
-			if(!(child instanceof JMenuItem))
-				continue;
-			
-			JMenuItem menuItem = (JMenuItem) child;
-			
-			options.add(menuItem);
-			
-			//force unselect after a selection has been made
-			//this fixes a graphical bug from forcing menu items on non-menus
-			menuItem.addActionListener(e -> unselectAll());
-		}
-		
-		this.options.addAll(options);
-		
-		buildPanel();
-		
-		components.add(this);
-	}
-	
-	public void unselectAll()
-	{
-		options.forEach(jMenuItem -> jMenuItem.setArmed(false));
-	}
-	
-	public void showDialog()
-	{
-		ExtendedJOptionPane.showJPanelDialog(null, this, 460, dialogs::add);
-	}
-	
-	private void buildPanel()
-	{
-		display.setLayout(new BoxLayout(display, BoxLayout.Y_AXIS));
-		for(JMenuItem menuItem : options)
-			display.add(menuItem);
-	}
-	
-	@Override
-	public String getName()
-	{
-		if(menu == null)
-			return "ERROR: Dialog missing menu";
-		
-		return menu.getText();
-	}
+    public static final List<JComponent> components = new ArrayList<>();
+    public static final List<JDialog> dialogs = new ArrayList<>();
+    private final List<JMenuItem> options = new ArrayList<>();
+    private final JMenu menu;
+    private final JPanel display;
+
+    public SettingsDialog(JMenu menu, JPanel display)
+    {
+        super(display);
+
+        this.menu = menu;
+        this.display = display;
+
+        if (!useNewSettingsDialog)
+            return;
+
+        List<JMenuItem> options = new ArrayList<>();
+        for (Component child : menu.getMenuComponents())
+        {
+            if (!(child instanceof JMenuItem))
+                continue;
+
+            JMenuItem menuItem = (JMenuItem) child;
+
+            options.add(menuItem);
+
+            //force unselect after a selection has been made
+            //this fixes a graphical bug from forcing menu items on non-menus
+            menuItem.addActionListener(e -> unselectAll());
+        }
+
+        this.options.addAll(options);
+
+        buildPanel();
+
+        components.add(this);
+    }
+
+    public void unselectAll()
+    {
+        options.forEach(jMenuItem -> jMenuItem.setArmed(false));
+    }
+
+    public void showDialog()
+    {
+        ExtendedJOptionPane.showJPanelDialog(null, this, 460, dialogs::add);
+    }
+
+    private void buildPanel()
+    {
+        display.setLayout(new BoxLayout(display, BoxLayout.Y_AXIS));
+        for (JMenuItem menuItem : options)
+            display.add(menuItem);
+    }
+
+    @Override
+    public String getName()
+    {
+        if (menu == null)
+            return "ERROR: Dialog missing menu";
+
+        return menu.getText();
+    }
 }

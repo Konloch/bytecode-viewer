@@ -18,10 +18,11 @@
 
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
-import java.awt.event.ActionEvent;
-import javax.swing.JButton;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
  * @author Konloch
@@ -29,29 +30,30 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer
  */
 public class WorkspaceRefresh implements Runnable
 {
-	private final ActionEvent event;
-	
-	public WorkspaceRefresh(ActionEvent event) {
-		this.event = event;
-	}
-	
-	@Override
-	public void run()
-	{
-		if (!BytecodeViewer.autoCompileSuccessful())
-			return;
-		
-		JButton src = null;
-		if(event != null && event.getSource() instanceof JButton)
-			src = (JButton) event.getSource();
-		
-		final ResourceViewer tabComp = (ResourceViewer) BytecodeViewer.viewer.workPane.tabs.getSelectedComponent();
-		
-		if(tabComp == null)
-			return;
-		
-		BytecodeViewer.updateBusyStatus(true);
-		tabComp.refresh(src);
-		BytecodeViewer.updateBusyStatus(false);
-	}
+    private final ActionEvent event;
+
+    public WorkspaceRefresh(ActionEvent event)
+    {
+        this.event = event;
+    }
+
+    @Override
+    public void run()
+    {
+        if (!BytecodeViewer.autoCompileSuccessful())
+            return;
+
+        JButton src = null;
+        if (event != null && event.getSource() instanceof JButton)
+            src = (JButton) event.getSource();
+
+        final ResourceViewer tabComp = (ResourceViewer) BytecodeViewer.viewer.workPane.tabs.getSelectedComponent();
+
+        if (tabComp == null)
+            return;
+
+        BytecodeViewer.updateBusyStatus(true);
+        tabComp.refresh(src);
+        BytecodeViewer.updateBusyStatus(false);
+    }
 }

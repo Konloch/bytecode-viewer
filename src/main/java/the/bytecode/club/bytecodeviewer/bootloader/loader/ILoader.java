@@ -24,7 +24,8 @@ import the.bytecode.club.bytecodeviewer.bootloader.resource.external.ExternalRes
  * @author Bibl (don't ban me pls)
  * @since 19 Jul 2015 02:29:43
  */
-public interface ILoader<T> {
+public interface ILoader<T>
+{
 
     void bind(ExternalResource<T> resource);
 

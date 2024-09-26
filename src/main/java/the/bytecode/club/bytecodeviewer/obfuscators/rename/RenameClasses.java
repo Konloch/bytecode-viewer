@@ -32,33 +32,36 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
  * @author Konloch
  */
 
-public class RenameClasses extends JavaObfuscator {
+public class RenameClasses extends JavaObfuscator
+{
 
     public static void open()
     {
-        if (Configuration.runningObfuscation) {
-            BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish"
-                    + ".");
+        if (Configuration.runningObfuscation)
+        {
+            BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish" + ".");
             return;
         }
         new RenameClasses().start();
         BytecodeViewer.viewer.workPane.refreshClass.doClick();
         BytecodeViewer.viewer.resourcePane.tree.updateUI();
     }
-    
+
     @Override
-    public void obfuscate() {
+    public void obfuscate()
+    {
         int stringLength = 5;//getStringLength();
 
         System.out.println("Obfuscating class names...");
         classLoop:
-        for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
+        for (ClassNode c : BytecodeViewer.getLoadedClasses())
+        {
 
             /* As we dont want to rename classes that contain native dll methods */
-            for (MethodNode o : c.methods) {
+            for (MethodNode o : c.methods)
+            {
                 /* As we dont want to rename any  main-classes */
-                if (o.name.equals("main") && o.desc.equals("([Ljava/lang/String;)V")
-                        || o.name.equals("init") && c.superName.equals("java/applet/Applet"))
+                if (o.name.equals("main") && o.desc.equals("([Ljava/lang/String;)V") || o.name.equals("init") && c.superName.equals("java/applet/Applet"))
                     continue classLoop;
 
                 /* As we dont want to rename native dll methods */
@@ -69,7 +72,7 @@ public class RenameClasses extends JavaObfuscator {
             String newName = generateUniqueName(stringLength);
 
             BytecodeViewer.refactorer.getHooks().addClass(new MappingData(c.name, newName));
-			
+
 			/*ASMUtil_OLD.renameClassNode(c.name, newName);
 			c.name = newName;*/
         }

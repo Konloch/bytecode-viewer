@@ -18,12 +18,13 @@
 
 package the.bytecode.club.bytecodeviewer.gui.contextmenu.searchbox;
 
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
  * @author Konloch
@@ -31,16 +32,15 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
  */
 public class Open extends ContextMenuItem
 {
-	public Open()
-	{
-		super(ContextMenuType.SEARCH_BOX_RESULT, ((tree, selPath, result, menu) ->
-                menu.add(new AbstractAction(TranslatedStrings.OPEN_UNSTYLED.toString())
-                {
-                    @Override
-                    public void actionPerformed(ActionEvent e)
-                    {
-                        BytecodeViewer.viewer.workPane.addClassResource(result.container, result.resourceWorkingName);
-                    }
-                })));
-	}
+    public Open()
+    {
+        super(ContextMenuType.SEARCH_BOX_RESULT, ((tree, selPath, result, menu) -> menu.add(new AbstractAction(TranslatedStrings.OPEN_UNSTYLED.toString())
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                BytecodeViewer.viewer.workPane.addClassResource(result.container, result.resourceWorkingName);
+            }
+        })));
+    }
 }

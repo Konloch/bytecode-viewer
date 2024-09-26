@@ -1,13 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-  <defs id="colors">
-    <linearGradient id="menuIconEnabled"
-                    fallback="Label.foreground">
-      <stop offset="0" stop-color="#AFB1B3"/>
-      <stop offset="1" stop-color="#AFB1B3"/>
-    </linearGradient>
-  </defs>
-  <g fill="url(#menuIconEnabled)" fill-rule="evenodd">
-    <rect width="12" height="2" x="2" y="12"/>
-    <path d="M8.99999994,6 L12.6638093,6 L7.99690461,10.6838094 L3.32999992,6 L6.99999994,6 L6.99999994,1 L8.99999994,1 L8.99999994,6 Z"/>
-  </g>
+    <defs id="colors">
+        <linearGradient id="menuIconEnabled"
+                        fallback="Label.foreground">
+            <stop offset="0" stop-color="#AFB1B3"/>
+            <stop offset="1" stop-color="#AFB1B3"/>
+        </linearGradient>
+    </defs>
+    <g fill="url(#menuIconEnabled)" fill-rule="evenodd">
+        <rect width="12" height="2" x="2" y="12"/>
+        <path
+            d="M8.99999994,6 L12.6638093,6 L7.99690461,10.6838094 L3.32999992,6 L6.99999994,6 L6.99999994,1 L8.99999994,1 L8.99999994,6 Z"/>
+    </g>
 </svg>

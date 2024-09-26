@@ -18,11 +18,11 @@
 
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import javax.swing.JButton;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.Resource;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * This represents a component opened as a tab
@@ -33,31 +33,32 @@ import the.bytecode.club.bytecodeviewer.resources.Resource;
 
 public class ComponentViewer extends ResourceViewer
 {
-	private final Component component;
-	private static final String containerName = "internalComponent.";
-	
-	public ComponentViewer(String title, Component component)
-	{
-		super(new Resource(title, containerName + title, null));
-		
-		this.component = component;
-		
-		setLayout(new BorderLayout());
-		setName(title);
-		add(component, BorderLayout.CENTER);
-	}
-	
-	public static ComponentViewer addComponentAsTab(String title, Component c)
-	{
-		String workingName = containerName + title;
-		ComponentViewer componentViewer = new ComponentViewer(title, c);
-		BytecodeViewer.viewer.workPane.addResourceToTab(componentViewer, workingName, containerName, title);
-		
-		return componentViewer;
-	}
-	
-	@Override
-	public void refresh(JButton button) {
-		//TODO add a refresh event so the component can be updated
-	}
+    private final Component component;
+    private static final String containerName = "internalComponent.";
+
+    public ComponentViewer(String title, Component component)
+    {
+        super(new Resource(title, containerName + title, null));
+
+        this.component = component;
+
+        setLayout(new BorderLayout());
+        setName(title);
+        add(component, BorderLayout.CENTER);
+    }
+
+    public static ComponentViewer addComponentAsTab(String title, Component c)
+    {
+        String workingName = containerName + title;
+        ComponentViewer componentViewer = new ComponentViewer(title, c);
+        BytecodeViewer.viewer.workPane.addResourceToTab(componentViewer, workingName, containerName, title);
+
+        return componentViewer;
+    }
+
+    @Override
+    public void refresh(JButton button)
+    {
+        //TODO add a refresh event so the component can be updated
+    }
 }

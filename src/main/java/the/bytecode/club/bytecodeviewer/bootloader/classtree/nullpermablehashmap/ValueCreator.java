@@ -22,7 +22,8 @@ package the.bytecode.club.bytecodeviewer.bootloader.classtree.nullpermablehashma
  * @author Bibl (don't ban me pls)
  * @since ages ago
  */
-public interface ValueCreator<V> {
+public interface ValueCreator<V>
+{
 
     V create();
 }

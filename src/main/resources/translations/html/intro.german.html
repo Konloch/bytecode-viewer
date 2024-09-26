@@ -29,20 +29,25 @@ Der Bytecode Viewer (BCV) wurde extrem benutzer- und einsteigerfreundlich gestal
     <li> -decompiler [decompiler] Wählt einen Decompiler aus, standardmäßig procyon</li>
     <li> -i [input file] Wählt die Eingabedatei aus (Jar, Class, APK, ZIP, DEX funktionieren alle automatisch)</li>
     <li> -o [Ausgabedatei] Wählt die Ausgabedatei aus (Java oder Java-Bytecode)</li>
-    <li> -t [target classname] Muss entweder der voll qualifizierte Klassenname sein oder "all", um alle als zip zu dekompilieren</li>
+    <li> -t [target classname] Muss entweder der voll qualifizierte Klassenname sein oder "all", um alle als zip zu
+        dekompilieren
+    </li>
     <li> -nowait Wartet nicht auf den Benutzer, um die CLI-Meldungen zu lesen</li>
 </ul>
 
 <h2>Datei</h2>
 <ul>
-    <li>Hinzufügen (Strg + O) - Wenn Sie ein jar/zip hinzufügen, wird BCV es entpacken, wenn Sie eine APK- oder DEX-Datei hinzufügen, führt BCV dex2jar
+    <li>Hinzufügen (Strg + O) - Wenn Sie ein jar/zip hinzufügen, wird BCV es entpacken, wenn Sie eine APK- oder
+        DEX-Datei hinzufügen, führt BCV dex2jar
         und dann den Jar-Eingabeprozess aus.
     </li>
     <li>Neue Datei öffnen (Strg + L) - Öffnet die zuletzt geöffnete Datei erneut.</li>
     <li>Neuer Arbeitsbereich (Strg + N) - Löscht die geöffneten Jars/Ressourcen.</li>
-    <li>Ausführen (Strg + R) - Führt die in BCV geladenen Klassendateien in einer sicheren, sandboxed und vollständig debugbaren JVM-Instanz aus.
+    <li>Ausführen (Strg + R) - Führt die in BCV geladenen Klassendateien in einer sicheren, sandboxed und vollständig
+        debugbaren JVM-Instanz aus.
     </li>
-    <li>Kompilieren (Strg + T) - Versucht, alle bearbeitbaren Bereiche, die Sie ausgewählt haben, zu kompilieren. Wenn es sich um Java handelt, geschieht dies mit
+    <li>Kompilieren (Strg + T) - Versucht, alle bearbeitbaren Bereiche, die Sie ausgewählt haben, zu kompilieren. Wenn
+        es sich um Java handelt, geschieht dies mit
         Ranino. Krakatau und *Smali verwenden ihre eigenen Assembler.
     </li>
     <li>Speichern als Jar - Exportiert die Klassendateien und geladenen Ressourcen als lauffähige Jar-Datei.</li>
@@ -72,18 +77,24 @@ Der Bytecode Viewer (BCV) wurde extrem benutzer- und einsteigerfreundlich gestal
 
 <h2>Einstellungen</h2>
 <ul>
-    <li>Beim Speichern kompilieren - Wenn diese Option aktiviert ist, wird bei jedem Aufruf einer der Funktionen Datei>Speichern * versucht, vor dem Speichern zu kompilieren.
+    <li>Beim Speichern kompilieren - Wenn diese Option aktiviert ist, wird bei jedem Aufruf einer der Funktionen
+        Datei>Speichern * versucht, vor dem Speichern zu kompilieren.
     </li>
-    <li>Beim Aktualisieren kompilieren - Wenn diese Option ausgewählt ist, wird bei jedem Aktualisieren kompiliert, bevor die Ressource/Klasse neu geladen wird.
+    <li>Beim Aktualisieren kompilieren - Wenn diese Option ausgewählt ist, wird bei jedem Aktualisieren kompiliert,
+        bevor die Ressource/Klasse neu geladen wird.
     </li>
-    <li>Aktualisierungsprüfung - Wenn ausgewählt, wird https://github.com/Konloch/bytecode-viewer abgefragt, um sicherzustellen, dass Sie die neueste Version haben.
+    <li>Aktualisierungsprüfung - Wenn ausgewählt, wird https://github.com/Konloch/bytecode-viewer abgefragt, um
+        sicherzustellen, dass Sie die neueste Version haben.
     </li>
-    <li>Auffrischen bei Ansichtsänderung - Wenn diese Option ausgewählt ist, werden bei jeder Änderung einer Option in den Ansichtsfenstern die
+    <li>Auffrischen bei Ansichtsänderung - Wenn diese Option ausgewählt ist, werden bei jeder Änderung einer Option in
+        den Ansichtsfenstern die
         aktuell geöffneten Ressourcen/Klasse aktualisiert.
     </li>
-    <li>APK-Ressourcen dekodieren - Wenn diese Option ausgewählt ist, wird beim Hinzufügen einer APK zuerst APKTool.jar ausgeführt, um die Ressourcen zu dekodieren.
+    <li>APK-Ressourcen dekodieren - Wenn diese Option ausgewählt ist, wird beim Hinzufügen einer APK zuerst APKTool.jar
+        ausgeführt, um die Ressourcen zu dekodieren.
     </li>
-    <li>Set Python 2.7 Executable - Setzen Sie das Python 2.7 Executable, wenn Sie möchten, dass Krakatau Decompiler/Disassembler/Assembler
+    <li>Set Python 2.7 Executable - Setzen Sie das Python 2.7 Executable, wenn Sie möchten, dass Krakatau
+        Decompiler/Disassembler/Assembler
         funktionieren soll.
     </li>
     <li>Set JRE RT Library - Stellen Sie die JRE RT Library für Krakatau Decompiler ein.</li>
@@ -94,10 +105,14 @@ Der Bytecode Viewer (BCV) wurde extrem benutzer- und einsteigerfreundlich gestal
     <li>Plugin öffnen - Öffnen Sie ein für BCV erstelltes .java-Plugin.</li>
     <li>Zuletzt verwendete Plugins - Die letzten 25 Plugins, die Sie mit BCV geöffnet haben.</li>
     <li>Code-Ablaufdiagramm - Erstellt ein grobes Codefolgediagramm für die aktuell geöffnete Klassendatei.</li>
-    <li>Scanner für bösartigen Code - Ermöglicht es Ihnen, zu definieren, wonach gesucht werden soll, und gibt aus, was gefunden wurde.</li>
+    <li>Scanner für bösartigen Code - Ermöglicht es Ihnen, zu definieren, wonach gesucht werden soll, und gibt aus, was
+        gefunden wurde.
+    </li>
     <li>Main-Methoden anzeigen - Erkennt und gibt alle öffentlichen statischen void main(String[]) Funktionen aus.</li>
     <li>Alle Strings anzeigen - Erkennt alle Zeichenketten in jeder Klassendatei und gibt sie aus.</li>
-    <li>Strings ersetzen - Ermöglicht ein einfaches, permanentes Ersetzen der Strings in der Klassendatei. Sehr nützlich für URL-Swapping.</li>
+    <li>Strings ersetzen - Ermöglicht ein einfaches, permanentes Ersetzen der Strings in der Klassendatei. Sehr nützlich
+        für URL-Swapping.
+    </li>
     <li>Allatori-String-Decrypter - Entschlüsselt die mit Allatori verdeckten/verschlüsselten Strings.</li>
     <li>ZKM-String-Decrypter - Entschlüsselt die ZKM-verschleierten/verschlüsselten Strings.</li>
     <li>ZStringArray-String-Decrypter - Entschlüsselt die ZStringArray-verschleierten/verschlüsselten Strings.</li>
@@ -126,8 +141,12 @@ Der Bytecode Viewer (BCV) wurde extrem benutzer- und einsteigerfreundlich gestal
     <li>Wenn BCV nicht startet, fügen Sie einfach -clean als Argument an, um das lib-Verzeichnis zu bereinigen.</li>
     <li>Ruhen Sie sich aus und machen Sie sich Notizen</li>
     <li>BCV wurde aus Liebe zum Java Reverse Engineering entwickelt.</li>
-    <li>Du kannst dem Discord-Server unter <a href="https://discord.gg/aexsYpfMEf">https://discord.gg/aexsYpfMEf</a> beitreten!</li>
-    <li>Die Homepage von Bytecode Viewer ist unter <a href="https://bytecodeviewer.com">https://bytecodeviewer.com</a> zu finden.</li>
+    <li>Du kannst dem Discord-Server unter <a href="https://discord.gg/aexsYpfMEf">https://discord.gg/aexsYpfMEf</a>
+        beitreten!
+    </li>
+    <li>Die Homepage von Bytecode Viewer ist unter <a href="https://bytecodeviewer.com">https://bytecodeviewer.com</a>
+        zu finden.
+    </li>
 </ul>
 
 </html>

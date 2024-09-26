@@ -18,13 +18,13 @@
 
 package the.bytecode.club.bytecodeviewer.gui.contextmenu.searchbox;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuItem;
 import the.bytecode.club.bytecodeviewer.gui.contextmenu.ContextMenuType;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+
+import javax.swing.*;
 
 /**
  * @author Konloch
@@ -32,24 +32,24 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
  */
 public class QuickOpen extends ContextMenuItem
 {
-	public QuickOpen()
-	{
-		super(ContextMenuType.SEARCH_BOX_RESULT, ((tree, selPath, result, menu) ->
-		{
-			JMenu quickOpen = new JMenu(TranslatedStrings.QUICK_OPEN.toString());
-			quickOpen.add(createMenu(TranslatedStrings.PROCYON.toString(), ()->BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.PROCYON_DECOMPILER, result, false)));
-			quickOpen.add(createMenu(TranslatedStrings.CFR.toString(), ()->BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.CFR_DECOMPILER, result, false)));
-			quickOpen.add(createMenu(TranslatedStrings.FERNFLOWER.toString(), ()->BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.FERNFLOWER_DECOMPILER, result, false)));
-			quickOpen.add(createMenu(TranslatedStrings.KRAKATAU.toString(), ()->BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.KRAKATAU_DECOMPILER, result, false)));
-			quickOpen.add(createMenu(TranslatedStrings.BYTECODE.toString(), ()->BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.BYTECODE_DISASSEMBLER, result, false)));
-			menu.add(quickOpen);
-		}));
-	}
-	
-	private static JMenuItem createMenu(String name, Runnable onClick)
-	{
-		JMenuItem menu = new JMenuItem(name);
-		menu.addActionListener((e)->onClick.run());
-		return menu;
-	}
+    public QuickOpen()
+    {
+        super(ContextMenuType.SEARCH_BOX_RESULT, ((tree, selPath, result, menu) ->
+        {
+            JMenu quickOpen = new JMenu(TranslatedStrings.QUICK_OPEN.toString());
+            quickOpen.add(createMenu(TranslatedStrings.PROCYON.toString(), () -> BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.PROCYON_DECOMPILER, result, false)));
+            quickOpen.add(createMenu(TranslatedStrings.CFR.toString(), () -> BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.CFR_DECOMPILER, result, false)));
+            quickOpen.add(createMenu(TranslatedStrings.FERNFLOWER.toString(), () -> BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.FERNFLOWER_DECOMPILER, result, false)));
+            quickOpen.add(createMenu(TranslatedStrings.KRAKATAU.toString(), () -> BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.KRAKATAU_DECOMPILER, result, false)));
+            quickOpen.add(createMenu(TranslatedStrings.BYTECODE.toString(), () -> BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.BYTECODE_DISASSEMBLER, result, false)));
+            menu.add(quickOpen);
+        }));
+    }
+
+    private static JMenuItem createMenu(String name, Runnable onClick)
+    {
+        JMenuItem menu = new JMenuItem(name);
+        menu.addActionListener((e) -> onClick.run());
+        return menu;
+    }
 }

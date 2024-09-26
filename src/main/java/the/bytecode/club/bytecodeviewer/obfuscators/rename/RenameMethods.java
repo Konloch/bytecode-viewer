@@ -33,55 +33,45 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MethodMappingDa
  * @author Konloch
  */
 
-public class RenameMethods extends JavaObfuscator {
+public class RenameMethods extends JavaObfuscator
+{
 
     public static void open()
     {
-        if (Configuration.runningObfuscation) {
-            BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish"
-                    + ".");
+        if (Configuration.runningObfuscation)
+        {
+            BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish" + ".");
             return;
         }
         new RenameMethods().start();
         BytecodeViewer.viewer.workPane.refreshClass.doClick();
         BytecodeViewer.viewer.resourcePane.tree.updateUI();
     }
-    
+
     @Override
-    public void obfuscate() {
+    public void obfuscate()
+    {
         int stringLength = getStringLength();
 
         System.out.println("Obfuscating method names...");
-        for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
-            for (Object o : c.methods.toArray()) {
+        for (ClassNode c : BytecodeViewer.getLoadedClasses())
+        {
+            for (Object o : c.methods.toArray())
+            {
                 MethodNode m = (MethodNode) o;
 
                 /* As we dont want to rename native dll methods */
                 if ((m.access & Opcodes.ACC_NATIVE) != 0)
                     continue;
 
-                if (m.access != Opcodes.ACC_ABSTRACT
-                        && m.access != Opcodes.ACC_ABSTRACT
-                        + Opcodes.ACC_STATIC
-                        && m.access != Opcodes.ACC_ABSTRACT
-                        + Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC
-                        && m.access != Opcodes.ACC_ABSTRACT
-                        + Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE
-                        && m.access != Opcodes.ACC_ABSTRACT
-                        + Opcodes.ACC_STATIC + Opcodes.ACC_PROTECTED
-                        && m.access != Opcodes.ACC_ABSTRACT
-                        + Opcodes.ACC_PUBLIC
-                        && m.access != Opcodes.ACC_ABSTRACT
-                        + Opcodes.ACC_PRIVATE
-                        && m.access != Opcodes.ACC_ABSTRACT
-                        + Opcodes.ACC_PROTECTED) {
-                    if (!m.name.equals("main") && !m.name.equals("<init>")
-                            && !m.name.equals("<clinit>")) {
+                if (m.access != Opcodes.ACC_ABSTRACT && m.access != Opcodes.ACC_ABSTRACT + Opcodes.ACC_STATIC && m.access != Opcodes.ACC_ABSTRACT + Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC && m.access != Opcodes.ACC_ABSTRACT + Opcodes.ACC_STATIC + Opcodes.ACC_PRIVATE && m.access != Opcodes.ACC_ABSTRACT + Opcodes.ACC_STATIC + Opcodes.ACC_PROTECTED && m.access != Opcodes.ACC_ABSTRACT + Opcodes.ACC_PUBLIC && m.access != Opcodes.ACC_ABSTRACT + Opcodes.ACC_PRIVATE && m.access != Opcodes.ACC_ABSTRACT + Opcodes.ACC_PROTECTED)
+                {
+                    if (!m.name.equals("main") && !m.name.equals("<init>") && !m.name.equals("<clinit>"))
+                    {
                         String newName = generateUniqueName(stringLength);
 
-                        BytecodeViewer.refactorer.getHooks().addMethod(new MethodMappingData(c.name,
-                                new MappingData(m.name, newName), m.desc));
-						
+                        BytecodeViewer.refactorer.getHooks().addMethod(new MethodMappingData(c.name, new MappingData(m.name, newName), m.desc));
+
 						/*ASMUtil_OLD.renameMethodNode(c.name, m.name, m.desc,
 								null, newName, null);*/
                     }

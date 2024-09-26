@@ -39,40 +39,45 @@ import the.bytecode.club.bytecodeviewer.Constants;
  *
  * @author Eugene Kuleshov
  */
-public class RemappingAnnotationAdapter extends AnnotationVisitor {
+public class RemappingAnnotationAdapter extends AnnotationVisitor
+{
 
     protected final Remapper remapper;
 
-    public RemappingAnnotationAdapter(AnnotationVisitor av, Remapper remapper) {
+    public RemappingAnnotationAdapter(AnnotationVisitor av, Remapper remapper)
+    {
         this(Constants.ASM_VERSION, av, remapper);
     }
 
-    protected RemappingAnnotationAdapter(int api, AnnotationVisitor av, Remapper remapper) {
+    protected RemappingAnnotationAdapter(int api, AnnotationVisitor av, Remapper remapper)
+    {
         super(api, av);
         this.remapper = remapper;
     }
 
     @Override
-    public void visit(String name, Object value) {
+    public void visit(String name, Object value)
+    {
         av.visit(name, remapper.mapValue(value));
     }
 
     @Override
-    public void visitEnum(String name, String desc, String value) {
+    public void visitEnum(String name, String desc, String value)
+    {
         av.visitEnum(name, remapper.mapDesc(desc), value);
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(String name, String desc) {
+    public AnnotationVisitor visitAnnotation(String name, String desc)
+    {
         AnnotationVisitor v = av.visitAnnotation(name, remapper.mapDesc(desc));
-        return v == null ? null : (v == av ? this
-                : new RemappingAnnotationAdapter(v, remapper));
+        return v == null ? null : (v == av ? this : new RemappingAnnotationAdapter(v, remapper));
     }
 
     @Override
-    public AnnotationVisitor visitArray(String name) {
+    public AnnotationVisitor visitArray(String name)
+    {
         AnnotationVisitor v = av.visitArray(name);
-        return v == null ? null : (v == av ? this
-                : new RemappingAnnotationAdapter(v, remapper));
+        return v == null ? null : (v == av ? this : new RemappingAnnotationAdapter(v, remapper));
     }
 }

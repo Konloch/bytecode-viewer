@@ -18,9 +18,10 @@
 
 package the.bytecode.club.bytecodeviewer.util;
 
-import java.net.URL;
 import com.konloch.httprequest.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.Configuration;
+
+import java.net.URL;
 
 /**
  * Pings back to bytecodeviewer.com to be added into the total running statistics
@@ -30,13 +31,16 @@ import the.bytecode.club.bytecodeviewer.Configuration;
  */
 public class PingBack implements Runnable
 {
-	@Override
-	public void run()
-	{
-		try {
-			new HTTPRequest(new URL("https://bytecodeviewer.com/add.php")).read();
-		} catch (Exception e) {
-			Configuration.pingback = false;
-		}
-	}
+    @Override
+    public void run()
+    {
+        try
+        {
+            new HTTPRequest(new URL("https://bytecodeviewer.com/add.php")).read();
+        }
+        catch (Exception e)
+        {
+            Configuration.pingback = false;
+        }
+    }
 }

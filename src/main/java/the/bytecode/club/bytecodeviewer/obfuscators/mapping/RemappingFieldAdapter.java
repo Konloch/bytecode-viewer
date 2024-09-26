@@ -41,31 +41,33 @@ import the.bytecode.club.bytecodeviewer.Constants;
  *
  * @author Eugene Kuleshov
  */
-public class RemappingFieldAdapter extends FieldVisitor {
+public class RemappingFieldAdapter extends FieldVisitor
+{
 
     private final org.objectweb.asm.commons.Remapper remapper;
 
-    public RemappingFieldAdapter(FieldVisitor fv, org.objectweb.asm.commons.Remapper remapper) {
+    public RemappingFieldAdapter(FieldVisitor fv, org.objectweb.asm.commons.Remapper remapper)
+    {
         this(Constants.ASM_VERSION, fv, remapper);
     }
 
-    protected RemappingFieldAdapter(int api, FieldVisitor fv, Remapper remapper) {
+    protected RemappingFieldAdapter(int api, FieldVisitor fv, Remapper remapper)
+    {
         super(api, fv);
         this.remapper = remapper;
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        AnnotationVisitor av = fv.visitAnnotation(remapper.mapDesc(desc),
-                visible);
+    public AnnotationVisitor visitAnnotation(String desc, boolean visible)
+    {
+        AnnotationVisitor av = fv.visitAnnotation(remapper.mapDesc(desc), visible);
         return av == null ? null : new RemappingAnnotationAdapter(av, remapper);
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-                                                 TypePath typePath, String desc, boolean visible) {
-        AnnotationVisitor av = super.visitTypeAnnotation(typeRef, typePath,
-                remapper.mapDesc(desc), visible);
+    public AnnotationVisitor visitTypeAnnotation(int typeRef, TypePath typePath, String desc, boolean visible)
+    {
+        AnnotationVisitor av = super.visitTypeAnnotation(typeRef, typePath, remapper.mapDesc(desc), visible);
         return av == null ? null : new RemappingAnnotationAdapter(av, remapper);
     }
 }

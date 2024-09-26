@@ -24,7 +24,8 @@ package the.bytecode.club.bytecodeviewer.bootloader.resource.jar;
  * @author Bibl
  * @since 19 Jul 2013
  */
-public enum JarType {
+public enum JarType
+{
 
     /**
      * Local file
@@ -37,14 +38,16 @@ public enum JarType {
 
     private final String prefix;
 
-    JarType(String prefix) {
+    JarType(String prefix)
+    {
         this.prefix = prefix;
     }
 
     /**
      * Gets the prefix for the JarURLConnection.
      **/
-    public String prefix() {
+    public String prefix()
+    {
         return prefix;
     }
 }

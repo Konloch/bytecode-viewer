@@ -18,8 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -29,35 +27,39 @@ import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 /**
  * @author Konloch
  * @since 6/26/2021
  */
 public class ClassResourceImporter implements Importer
 {
-	@Override
-	public void open(File file) throws Exception
-	{
-		final String name = file.getName();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			byte[] bytes = MiscUtils.getBytes(fis);
-			ResourceContainer container = new ResourceContainer(file);
+    @Override
+    public void open(File file) throws Exception
+    {
+        final String name = file.getName();
+        try (FileInputStream fis = new FileInputStream(file))
+        {
+            byte[] bytes = MiscUtils.getBytes(fis);
+            ResourceContainer container = new ResourceContainer(file);
 
-			if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER))
-			{
-				final ClassNode cn = JarUtils.getNode(bytes);
+            if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER))
+            {
+                final ClassNode cn = JarUtils.getNode(bytes);
 
-				container.resourceClasses.put(FilenameUtils.removeExtension(name), cn);
-				container.resourceClassBytes.put(name, bytes);
-			}
-			else
-			{
-				BytecodeViewer.showMessage(name + "\nHeader does not start with CAFEBABE\nimporting as resource instead.");
+                container.resourceClasses.put(FilenameUtils.removeExtension(name), cn);
+                container.resourceClassBytes.put(name, bytes);
+            }
+            else
+            {
+                BytecodeViewer.showMessage(name + "\nHeader does not start with CAFEBABE\nimporting as resource instead.");
 
-				//TODO double check this
-				container.resourceFiles.put(name, bytes);
-			}
-			BytecodeViewer.addResourceContainer(container);
-		}
-	}
+                //TODO double check this
+                container.resourceFiles.put(name, bytes);
+            }
+            BytecodeViewer.addResourceContainer(container);
+        }
+    }
 }

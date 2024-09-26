@@ -19,11 +19,11 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
 import com.github.weisj.darklaf.iconset.AllIcons;
-import javax.swing.BorderFactory;
-import javax.swing.JInternalFrame;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
+
+import javax.swing.*;
 
 /**
  * Used to represent all the panes inside of Bytecode Viewer.
@@ -42,7 +42,8 @@ public abstract class VisibleComponent extends JInternalFrame
     }
 
     @Override
-    public void updateUI() {
+    public void updateUI()
+    {
         if (Configuration.lafTheme != LAFTheme.SYSTEM)
             setBorder(BorderFactory.createEmptyBorder());
         else
@@ -52,15 +53,18 @@ public abstract class VisibleComponent extends JInternalFrame
 
     public void setDefaultIcon()
     {
-        try {
-            if(Configuration.showDarkLAFComponentIcons)
+        try
+        {
+            if (Configuration.showDarkLAFComponentIcons)
                 setFrameIcon(AllIcons.Window.Frame.get(16, 16));
             else
                 setFrameIcon(IconResources.jarIcon);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
-    
+
     private static final long serialVersionUID = -6453413772343643526L;
 }

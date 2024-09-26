@@ -18,16 +18,12 @@
 
 package the.bytecode.club.bytecodeviewer.bootloader.classtree;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import the.bytecode.club.bytecodeviewer.bootloader.classtree.nullpermablehashmap.NullPermeableHashMap;
 import the.bytecode.club.bytecodeviewer.bootloader.classtree.nullpermablehashmap.SetCreator;
+
+import java.util.*;
 
 import static the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassHelper.convertToMap;
 import static the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassHelper.copyOf;
@@ -36,24 +32,28 @@ import static the.bytecode.club.bytecodeviewer.bootloader.classtree.ClassHelper.
  * @author Bibl (don't ban me pls)
  * @since 25 May 2015 (actually before this)
  */
-public class ClassTree {
+public class ClassTree
+{
     private static final SetCreator<ClassNode> SET_CREATOR = new SetCreator<>();
 
     private final Map<String, ClassNode> classes;
     private final NullPermeableHashMap<ClassNode, Set<ClassNode>> supers;
     private final NullPermeableHashMap<ClassNode, Set<ClassNode>> delgates;
 
-    public ClassTree() {
+    public ClassTree()
+    {
         classes = new HashMap<>();
         supers = new NullPermeableHashMap<>(SET_CREATOR);
         delgates = new NullPermeableHashMap<>(SET_CREATOR);
     }
 
-    public ClassTree(Collection<ClassNode> classes) {
+    public ClassTree(Collection<ClassNode> classes)
+    {
         this(convertToMap(classes));
     }
 
-    public ClassTree(Map<String, ClassNode> classes_) {
+    public ClassTree(Map<String, ClassNode> classes_)
+    {
         classes = copyOf(classes_);
         supers = new NullPermeableHashMap<>(SET_CREATOR);
         delgates = new NullPermeableHashMap<>(SET_CREATOR);
@@ -62,9 +62,12 @@ public class ClassTree {
     }
 
     // TODO: optimise
-    public void build(Map<String, ClassNode> classes) {
-        for (ClassNode node : classes.values()) {
-            for (String iface : node.interfaces) {
+    public void build(Map<String, ClassNode> classes)
+    {
+        for (ClassNode node : classes.values())
+        {
+            for (String iface : node.interfaces)
+            {
                 ClassNode ifacecs = classes.get(iface);
                 if (ifacecs == null)
                     continue;
@@ -77,10 +80,12 @@ public class ClassTree {
                 getSupers0(node).addAll(superinterfaces);
             }
             ClassNode currentSuper = classes.get(node.superName);
-            while (currentSuper != null) {
+            while (currentSuper != null)
+            {
                 getDelegates0(currentSuper).add(node);
                 getSupers0(node).add(currentSuper);
-                for (String iface : currentSuper.interfaces) {
+                for (String iface : currentSuper.interfaces)
+                {
                     ClassNode ifacecs = classes.get(iface);
                     if (ifacecs == null)
                         continue;
@@ -98,8 +103,10 @@ public class ClassTree {
         }
     }
 
-    public void build(ClassNode node) {
-        for (String iface : node.interfaces) {
+    public void build(ClassNode node)
+    {
+        for (String iface : node.interfaces)
+        {
             ClassNode ifacecs = classes.get(iface);
             if (ifacecs == null)
                 continue;
@@ -112,10 +119,12 @@ public class ClassTree {
             getSupers0(node).addAll(superinterfaces);
         }
         ClassNode currentSuper = classes.get(node.superName);
-        while (currentSuper != null) {
+        while (currentSuper != null)
+        {
             getDelegates0(currentSuper).add(node);
             getSupers0(node).add(currentSuper);
-            for (String iface : currentSuper.interfaces) {
+            for (String iface : currentSuper.interfaces)
+            {
                 ClassNode ifacecs = classes.get(iface);
                 if (ifacecs == null)
                     continue;
@@ -134,12 +143,14 @@ public class ClassTree {
         classes.put(node.name, node);
     }
 
-    private void buildSubTree(Map<String, ClassNode> classes, Collection<ClassNode> superinterfaces,
-                              ClassNode current) {
+    private void buildSubTree(Map<String, ClassNode> classes, Collection<ClassNode> superinterfaces, ClassNode current)
+    {
         superinterfaces.add(current);
-        for (String iface : current.interfaces) {
+        for (String iface : current.interfaces)
+        {
             ClassNode cs = classes.get(iface);
-            if (cs != null) {
+            if (cs != null)
+            {
                 getDelegates0(cs).add(current);
                 buildSubTree(classes, superinterfaces, cs);
             } /*else {
@@ -148,11 +159,15 @@ public class ClassTree {
         }
     }
 
-    public Set<MethodNode> getMethodsFromSuper(ClassNode node, String name, String desc) {
+    public Set<MethodNode> getMethodsFromSuper(ClassNode node, String name, String desc)
+    {
         Set<MethodNode> methods = new HashSet<>();
-        for (ClassNode super_ : getSupers(node)) {
-            for (MethodNode mn : super_.methods) {
-                if (mn.name.equals(name) && mn.desc.equals(desc)) {
+        for (ClassNode super_ : getSupers(node))
+        {
+            for (MethodNode mn : super_.methods)
+            {
+                if (mn.name.equals(name) && mn.desc.equals(desc))
+                {
                     methods.add(mn);
                 }
             }
@@ -160,11 +175,15 @@ public class ClassTree {
         return methods;
     }
 
-    public Set<MethodNode> getMethodsFromDelegates(ClassNode node, String name, String desc) {
+    public Set<MethodNode> getMethodsFromDelegates(ClassNode node, String name, String desc)
+    {
         Set<MethodNode> methods = new HashSet<>();
-        for (ClassNode delegate : getDelegates(node)) {
-            for (MethodNode mn : delegate.methods) {
-                if (mn.name.equals(name) && mn.desc.equals(desc)) {
+        for (ClassNode delegate : getDelegates(node))
+        {
+            for (MethodNode mn : delegate.methods)
+            {
+                if (mn.name.equals(name) && mn.desc.equals(desc))
+                {
                     methods.add(mn);
                 }
             }
@@ -172,10 +191,14 @@ public class ClassTree {
         return methods;
     }
 
-    public MethodNode getFirstMethodFromSuper(ClassNode node, String name, String desc) {
-        for (ClassNode super_ : getSupers(node)) {
-            for (MethodNode mn : super_.methods) {
-                if (mn.name.equals(name) && mn.desc.equals(desc)) {
+    public MethodNode getFirstMethodFromSuper(ClassNode node, String name, String desc)
+    {
+        for (ClassNode super_ : getSupers(node))
+        {
+            for (MethodNode mn : super_.methods)
+            {
+                if (mn.name.equals(name) && mn.desc.equals(desc))
+                {
                     return mn;
                 }
             }
@@ -183,32 +206,39 @@ public class ClassTree {
         return null;
     }
 
-    public ClassNode getClass(String name) {
+    public ClassNode getClass(String name)
+    {
         return classes.get(name);
     }
 
-    public boolean isInherited(ClassNode cn, String name, String desc) {
+    public boolean isInherited(ClassNode cn, String name, String desc)
+    {
         return getFirstMethodFromSuper(cn, name, desc) != null;
     }
 
-    private Set<ClassNode> getSupers0(ClassNode cn) {
+    private Set<ClassNode> getSupers0(ClassNode cn)
+    {
         return supers.getNonNull(cn);
     }
 
-    private Set<ClassNode> getDelegates0(ClassNode cn) {
+    private Set<ClassNode> getDelegates0(ClassNode cn)
+    {
         return delgates.getNonNull(cn);
     }
 
-    public Map<String, ClassNode> getClasses() {
+    public Map<String, ClassNode> getClasses()
+    {
         return classes;
     }
 
-    public Set<ClassNode> getSupers(ClassNode cn) {
+    public Set<ClassNode> getSupers(ClassNode cn)
+    {
         return Collections.unmodifiableSet(supers.get(cn));
         // return supers.get(cn);
     }
 
-    public Set<ClassNode> getDelegates(ClassNode cn) {
+    public Set<ClassNode> getDelegates(ClassNode cn)
+    {
         return Collections.unmodifiableSet(delgates.get(cn));
         // return delgates.get(cn);
     }

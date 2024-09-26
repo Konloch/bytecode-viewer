@@ -18,15 +18,11 @@
 
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import javax.swing.Icon;
-
 import com.github.weisj.darklaf.components.RotatableIconAnimator;
-import com.github.weisj.darklaf.components.loading.LoadingIndicator;
-import com.github.weisj.darklaf.iconset.AllIcons;
 import com.github.weisj.darklaf.properties.icons.RotatableIcon;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
-import java.awt.event.*;
+import java.awt.event.HierarchyEvent;
 
 /**
  * @author Konloch
@@ -34,20 +30,21 @@ import java.awt.event.*;
  */
 public class WaitBusyIcon extends JMenuItemIcon
 {
-	private final RotatableIconAnimator animator;
+    private final RotatableIconAnimator animator;
 
-	public WaitBusyIcon()
-	{
-		super(new RotatableIcon(IconResources.busyIcon));
-		animator = new RotatableIconAnimator(8, (RotatableIcon) getIcon(), this);
-		addHierarchyListener(e -> {
-			if ((e.getChangeFlags() & HierarchyEvent.PARENT_CHANGED) != 0)
-			{
-				if (getParent() == null)
-					animator.stop();
-				else
-					animator.start();
-			}
-		});
-	}
+    public WaitBusyIcon()
+    {
+        super(new RotatableIcon(IconResources.busyIcon));
+        animator = new RotatableIconAnimator(8, (RotatableIcon) getIcon(), this);
+        addHierarchyListener(e ->
+        {
+            if ((e.getChangeFlags() & HierarchyEvent.PARENT_CHANGED) != 0)
+            {
+                if (getParent() == null)
+                    animator.stop();
+                else
+                    animator.start();
+            }
+        });
+    }
 }

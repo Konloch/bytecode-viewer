@@ -1,27 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-  <defs id="colors">
-    <linearGradient id="fileIconBackground"
-                    fallback="Label.foreground" opacity="fileIconOpacity"
-                    opacity-fallback="%100">
-      <stop offset="0" stop-color="#9AA7B0" stop-opacity=".8"/>
-      <stop offset="1" stop-color="#9AA7B0" stop-opacity=".8"/>
-    </linearGradient>
-    <linearGradient id="palette.cyan"
-                    fallback="%#40B6E0">
-      <stop offset="0" stop-color="#40B6E0" />
-      <stop offset="1" stop-color="#40B6E0" />
-    </linearGradient>
-    <linearGradient id="fileIconForeground"
-                    fallback="Label.background" opacity="fileIconOpacity"
-                    opacity-fallback="%100">
-      <stop offset="0" stop-color="#231F20" stop-opacity=".8"/>
-      <stop offset="1" stop-color="#231F20" stop-opacity=".8"/>
-    </linearGradient>
-  </defs>
-  <g fill="none" fill-rule="evenodd">
-    <polygon fill="url(#palette.cyan)" fill-opacity=".7" points="1 16 16 16 16 9 1 9"/>
-    <polygon fill="url(#fileIconBackground)" points="7 1 3 5 7 5"/>
-    <polygon fill="url(#fileIconBackground)" points="8 1 8 6 3 6 3 8 13 8 13 1"/>
-    <path fill="url(#fileIconForeground)" d="M1.39509277,3.58770752 C1.62440186,3.83789062 1.83782861,4 2.28682861,4 C2.81318359,4 3,3.58770752 3,3.29760742 L3,0 L4,0 L4,3.58770752 C4,4.31964111 3.32670898,5 2.45,5 C1.629,5 1.15,4.76264111 0.8,4.31964111 L1.39509277,3.58770752 Z" transform="translate(2 10)"/>
-  </g>
+    <defs id="colors">
+        <linearGradient id="fileIconBackground"
+                        fallback="Label.foreground" opacity="fileIconOpacity"
+                        opacity-fallback="%100">
+            <stop offset="0" stop-color="#9AA7B0" stop-opacity=".8"/>
+            <stop offset="1" stop-color="#9AA7B0" stop-opacity=".8"/>
+        </linearGradient>
+        <linearGradient id="palette.cyan"
+                        fallback="%#40B6E0">
+            <stop offset="0" stop-color="#40B6E0"/>
+            <stop offset="1" stop-color="#40B6E0"/>
+        </linearGradient>
+        <linearGradient id="fileIconForeground"
+                        fallback="Label.background" opacity="fileIconOpacity"
+                        opacity-fallback="%100">
+            <stop offset="0" stop-color="#231F20" stop-opacity=".8"/>
+            <stop offset="1" stop-color="#231F20" stop-opacity=".8"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <polygon fill="url(#palette.cyan)" fill-opacity=".7" points="1 16 16 16 16 9 1 9"/>
+        <polygon fill="url(#fileIconBackground)" points="7 1 3 5 7 5"/>
+        <polygon fill="url(#fileIconBackground)" points="8 1 8 6 3 6 3 8 13 8 13 1"/>
+        <path fill="url(#fileIconForeground)"
+              d="M1.39509277,3.58770752 C1.62440186,3.83789062 1.83782861,4 2.28682861,4 C2.81318359,4 3,3.58770752 3,3.29760742 L3,0 L4,0 L4,3.58770752 C4,4.31964111 3.32670898,5 2.45,5 C1.629,5 1.15,4.76264111 0.8,4.31964111 L1.39509277,3.58770752 Z"
+              transform="translate(2 10)"/>
+    </g>
 </svg>

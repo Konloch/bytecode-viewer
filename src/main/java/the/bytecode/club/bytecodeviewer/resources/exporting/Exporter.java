@@ -24,5 +24,5 @@ package the.bytecode.club.bytecodeviewer.resources.exporting;
  */
 public interface Exporter
 {
-	void promptForExport();
+    void promptForExport();
 }

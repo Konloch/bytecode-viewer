@@ -18,27 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
-import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.util.Enumeration;
-import java.util.Map.Entry;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JTree;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FilenameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -57,7 +36,16 @@ import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisible
 import the.bytecode.club.bytecodeviewer.util.FileDrop;
 import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
 import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+
+import javax.swing.*;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.util.Enumeration;
+import java.util.Map.Entry;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.tempDirectory;
@@ -84,36 +72,36 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     public final JTextField quickSearch = new TranslatedJTextField("Quick file search (no file extension)", TranslatedComponents.QUICK_FILE_SEARCH_NO_FILE_EXTENSION);
     public final FileDrop fileDrop;
     public boolean cancel = false;
-    
+
     public final KeyAdapter search = new SearchKeyAdapter(this);
-    
+
     private void showContextMenu(ResourceTree tree, TreePath selPath, int x, int y)
     {
         if (selPath == null)
             return;
-    
+
         ContextMenu.buildMenu(tree, selPath, null, rightClickMenu);
         rightClickMenu.show(this.tree, x, y);
     }
-    
+
     public ResourceListPane()
     {
         super("Files", TranslatedComponents.FILES);
-        
+
         tree.setRootVisible(false);
         tree.setShowsRootHandles(true);
         quickSearch.setForeground(quickSearch.getDisabledTextColor());
-    
+
         attachTreeListeners();
         attachQuickSearchListeners();
-    
+
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(new JScrollPane(tree), BorderLayout.CENTER);
-    
+
         JPanel exactPanel = new JPanel(new BorderLayout());
         JPanel quickSearchPanel = new JPanel();
         JPanel buttonPanel = new JPanel(new BorderLayout());
-        
+
         quickSearchPanel.setLayout(new BorderLayout());
         quickSearchPanel.add(quickSearch, BorderLayout.CENTER);
 
@@ -127,46 +115,46 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         buttonPanel.add(close, BorderLayout.WEST);
         quickSearchPanel.add(buttonPanel, BorderLayout.EAST);
         quickSearchPanel.add(exactPanel, BorderLayout.SOUTH);
-    
+
         getContentPane().add(quickSearchPanel, BorderLayout.SOUTH);
-    
+
         this.setVisible(true);
         fileDrop = new FileDrop(this, this);
     }
-    
+
     @Override
     public void filesDropped(File[] files)
     {
         if (files.length < 1)
             return;
-        
+
         BytecodeViewer.openFiles(files, true);
     }
-    
+
     public void addResourceContainer(ResourceContainer container)
     {
         ResourceTreeNode root = container.treeNode = new ResourceTreeNode(container.name);
-    
+
         treeRoot.add(root);
         tree.setCellRenderer(new ResourceListIconRenderer());
-        
+
         buildTree(container, root);
-    
+
         treeRoot.sort();
-        
+
         tree.expandPath(new TreePath(tree.getModel().getRoot()));
         tree.updateUI();
-    
+
         //TODO add a setting to expand on resource import
         // expandAll(tree, true);
     }
-    
+
     public void removeResource(ResourceContainer container)
     {
         container.treeNode.removeFromParent();
         tree.updateUI();
     }
-    
+
     private void buildTree(ResourceContainer container, ResourceTreeNode root)
     {
         if (!container.resourceClasses.isEmpty())
@@ -185,24 +173,24 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                     for (int i1 = 0; i1 < splLength; i1++)
                     {
                         String s = spl[i1];
-                    
+
                         if (i1 == splLength - 1)
                             s += ".class";
-                    
+
                         ResourceTreeNode child = parent.getChildByUserObject(s);
-                    
+
                         if (child == null)
                         {
                             child = new ResourceTreeNode(s);
                             parent.add(child);
                         }
-                    
+
                         parent = child;
                     }
                 }
             }
         }
-    
+
         if (!container.resourceFiles.isEmpty())
         {
             for (Entry<String, byte[]> entry : container.resourceFiles.entrySet())
@@ -234,11 +222,14 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     }
 
     @SuppressWarnings("rawtypes")
-    public void expandAll(JTree tree, TreePath parent, boolean expand) {
+    public void expandAll(JTree tree, TreePath parent, boolean expand)
+    {
         // Traverse children
         final TreeNode node = (TreeNode) parent.getLastPathComponent();
-        if (node.getChildCount() >= 0) {
-            for (Enumeration e = node.children(); e.hasMoreElements(); ) {
+        if (node.getChildCount() >= 0)
+        {
+            for (Enumeration e = node.children(); e.hasMoreElements(); )
+            {
                 TreeNode n = (TreeNode) e.nextElement();
                 TreePath path = parent.pathByAddingChild(n);
                 expandAll(tree, path, expand);
@@ -246,9 +237,12 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
 
         // Expansion or collapse must be done bottom-up
-        if (expand) {
+        if (expand)
+        {
             tree.expandPath(parent);
-        } else {
+        }
+        else
+        {
             tree.collapsePath(parent);
         }
     }
@@ -256,40 +250,44 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
     public void removeNode(JTree tree, TreePath nodePath)
     {
         MutableTreeNode node = findNodeByPath(nodePath);
-		
+
         if (node == null)
             return;
-        
+
         node.removeFromParent();
         tree.repaint();
         tree.updateUI();
     }
-    
-    private MutableTreeNode findNodeByPath(TreePath path) {
+
+    private MutableTreeNode findNodeByPath(TreePath path)
+    {
         MutableTreeNode node = treeRoot;
-        for (int pathStep = 1; pathStep < path.getPathCount(); pathStep++) {
+        for (int pathStep = 1; pathStep < path.getPathCount(); pathStep++)
+        {
             TreeNode pathNode = (TreeNode) path.getPathComponent(pathStep);
             int childIndex = node.getIndex(pathNode);
-            if (childIndex < 0) {
+            if (childIndex < 0)
+            {
                 return null;
             }
             node = (MutableTreeNode) node.getChildAt(childIndex);
-            
-            if (node == null) {
+
+            if (node == null)
+            {
                 return null;
             }
         }
-        
+
         return node;
     }
-    
+
     public void resetWorkspace()
     {
         treeRoot.removeAllChildren();
         tree.repaint();
         tree.updateUI();
     }
-    
+
     /**
      * Opens and decompiles the TreePath in a new tab
      */
@@ -301,16 +299,16 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         boolean editable2 = BytecodeViewer.viewer.viewPane2.isPaneEditable();
         Decompiler tempDecompiler3 = BytecodeViewer.viewer.viewPane3.getSelectedDecompiler();
         boolean editable3 = BytecodeViewer.viewer.viewPane3.isPaneEditable();
-    
+
         BytecodeViewer.viewer.viewPane1.setSelectedDecompiler(decompiler);
         BytecodeViewer.viewer.viewPane1.setPaneEditable(quickEdit);
         BytecodeViewer.viewer.viewPane2.setSelectedDecompiler(Decompiler.NONE);
         BytecodeViewer.viewer.viewPane2.setPaneEditable(false);
         BytecodeViewer.viewer.viewPane3.setSelectedDecompiler(Decompiler.NONE);
         BytecodeViewer.viewer.viewPane3.setPaneEditable(false);
-        
+
         openPath(selPath);
-    
+
         BytecodeViewer.viewer.viewPane1.setSelectedDecompiler(tempDecompiler1);
         BytecodeViewer.viewer.viewPane1.setPaneEditable(editable1);
         BytecodeViewer.viewer.viewPane2.setSelectedDecompiler(tempDecompiler2);
@@ -321,7 +319,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
 
     public void openPath(TreePath path)
     {
-		//do not open null path, or gui root path
+        //do not open null path, or gui root path
         if (path == null || path.getPathCount() == 1)
             return;
 
@@ -334,30 +332,29 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
         }
 
         String pathName = path.getPathComponent(1).toString();
-	    ResourceContainer container = getContainerFromName(pathName);
+        ResourceContainer container = getContainerFromName(pathName);
         String name = nameBuffer.toString();
-        
+
         boolean resourceMode = false;
         byte[] content = container.resourceClassBytes.get(name);
-        
-        if(content == null)
+
+        if (content == null)
         {
             content = container.resourceFiles.get(name);
             resourceMode = true;
         }
-        
+
         //view classes
-        if (content != null && FileHeaderUtils.doesFileHeaderMatch(content, FileHeaderUtils.JAVA_CLASS_FILE_HEADER)
-                || name.endsWith(".class"))
+        if (content != null && FileHeaderUtils.doesFileHeaderMatch(content, FileHeaderUtils.JAVA_CLASS_FILE_HEADER) || name.endsWith(".class"))
         {
             try
             {
-                if(resourceMode)
+                if (resourceMode)
                 {
                     //TODO load this cn into the resource viewer
                     //final ClassNode cn = ASMUtil.bytesToNode(content);
                 }
-                
+
                 //display via name
                 BytecodeViewer.viewer.workPane.addClassResource(container, name);
             }
@@ -368,25 +365,25 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             }
         }
         //view non-classfile resources
-        else if(container.resourceFiles.containsKey(name))
+        else if (container.resourceFiles.containsKey(name))
         {
             final String fn = name.toLowerCase();
             final String extension = fn.contains(":") ? null : FilenameUtils.getExtension(fn);
-    
+
             Import imp = Import.extensionMap.get(extension);
-            if(imp == null) //show images, text files, or hex view
+            if (imp == null) //show images, text files, or hex view
                 BytecodeViewer.viewer.workPane.addFileResource(container, name);
             else //attempt to import known resources
             {
                 int hash = (container.name + name).hashCode();
-                
+
                 //TODO make a settings toggle to disable preservation of the original name
                 // it should also detect if the file name is not compatible with the current OS and enable automatically
                 File tempFile = new File(tempDirectory + fs + hash + fs + name + "." + extension);
-                if(!tempFile.exists())
+                if (!tempFile.exists())
                 {
                     DiskWriter.replaceFileBytes(tempFile.getAbsolutePath(), content, false);
-    
+
                     try
                     {
                         imp.getImporter().open(tempFile);
@@ -394,7 +391,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                     catch (Exception e)
                     {
                         e.printStackTrace();
-        
+
                         //failsafe
                         BytecodeViewer.viewer.workPane.addFileResource(container, name);
                     }
@@ -406,49 +403,49 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             }
         }
     }
-	
-	//TODO support non-containers being removed
-	// this will require us finding all child nodes in the tree path provided,
-	// then removing each one by one from both memory and the GUI
+
+    //TODO support non-containers being removed
+    // this will require us finding all child nodes in the tree path provided,
+    // then removing each one by one from both memory and the GUI
     public void deletePath(TreePath path)
     {
-	    //do not open null path, or gui root path
+        //do not open null path, or gui root path
         if (path == null || path.getPathCount() == 1)
             return;
-		
-		//verify the path is a container root
-		if(path.getPathCount() != 2)
-			return;
+
+        //verify the path is a container root
+        if (path.getPathCount() != 2)
+            return;
 
         String pathName = path.getPathComponent(1).toString();
         ResourceContainer container = getContainerFromName(pathName);
-		
-		if(container != null)
-		{
-			deleteContainer(container);
-		}
+
+        if (container != null)
+        {
+            deleteContainer(container);
+        }
     }
-	
-	public void deleteContainer(ResourceContainer container)
-	{
-		container.resourceFiles.clear();
-		container.resourceClasses.clear();
-		container.resourceClassBytes.clear();
-		BytecodeViewer.resourceContainers.values().remove(container);
-		LazyNameUtil.removeName(container.name);
-	}
-	
-	public ResourceContainer getContainerFromName(String name)
-	{
-		for (ResourceContainer c : BytecodeViewer.resourceContainers.values())
-		{
-			if (c.name.equals(name))
-				return c;
-		}
-		
-		return null;
-	}
-    
+
+    public void deleteContainer(ResourceContainer container)
+    {
+        container.resourceFiles.clear();
+        container.resourceClasses.clear();
+        container.resourceClassBytes.clear();
+        BytecodeViewer.resourceContainers.values().remove(container);
+        LazyNameUtil.removeName(container.name);
+    }
+
+    public ResourceContainer getContainerFromName(String name)
+    {
+        for (ResourceContainer c : BytecodeViewer.resourceContainers.values())
+        {
+            if (c.name.equals(name))
+                return c;
+        }
+
+        return null;
+    }
+
     public void attachTreeListeners()
     {
         tree.addMouseListener(new MouseAdapter()
@@ -460,52 +457,60 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 {
                     ResourceTree tree = (ResourceTree) e.getSource();
                     TreePath selPath = ResourceListPane.this.tree.getClosestPathForLocation(e.getX(), e.getY());
-                    
+
                     if (selPath == null)
                         return;
-                    
+
                     showContextMenu(tree, selPath, e.getX(), e.getY());
                 }
             }
         });
-    
-        this.open.addActionListener(e -> {
+
+        this.open.addActionListener(e ->
+        {
             final TreeNode root = (TreeNode) tree.getModel().getRoot();
             expandAll(tree, new TreePath(root), true);
         });
-    
-        this.close.addActionListener(e -> {
+
+        this.close.addActionListener(e ->
+        {
             final TreeNode root = (TreeNode) tree.getModel().getRoot();
             final TreePath path = new TreePath(root);
             expandAll(tree, path, false);
             tree.expandPath(path);
         });
-    
-        this.tree.addMouseListener(new MouseAdapter() {
+
+        this.tree.addMouseListener(new MouseAdapter()
+        {
             @Override
-            public void mousePressed(MouseEvent e) {
+            public void mousePressed(MouseEvent e)
+            {
                 if (e.getButton() == MouseEvent.BUTTON1) // left-click
                     openPath(tree.getClosestPathForLocation(e.getX(), e.getY()));
             }
         });
-    
+
         /*this.tree.addTreeSelectionListener(arg0 -> {
             if (cancel) {
                 cancel = false;
                 return;
             }
-            
+
             openPath(arg0.getPath());
         });*/
-    
+
         this.tree.addKeyListener(new KeyListener()
         {
             @Override
-            public void keyReleased(KeyEvent e) { }
-        
+            public void keyReleased(KeyEvent e)
+            {
+            }
+
             @Override
-            public void keyTyped(KeyEvent e) { }
-        
+            public void keyTyped(KeyEvent e)
+            {
+            }
+
             @Override
             public void keyPressed(KeyEvent e)
             {
@@ -517,12 +522,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                         openPath(tree.getSelectionPath());
                     }
                 }
-                else if ((int) e.getKeyChar() != 0 &&
-                        (int) e.getKeyChar() != 8 &&
-                        (int) e.getKeyChar() != 127 &&
-                        (int) e.getKeyChar() != 65535 &&
-                        !e.isControlDown() &&
-                        !e.isAltDown())
+                else if ((int) e.getKeyChar() != 0 && (int) e.getKeyChar() != 8 && (int) e.getKeyChar() != 127 && (int) e.getKeyChar() != 65535 && !e.isControlDown() && !e.isAltDown())
                 {
                     quickSearch.grabFocus();
                     quickSearch.setText("" + e.getKeyChar());
@@ -535,7 +535,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             }
         });
     }
-    
+
     public void attachQuickSearchListeners()
     {
         quickSearch.addKeyListener(search);
@@ -547,20 +547,20 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 if (quickSearch.getText().equals(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString()))
                 {
                     quickSearch.setText("");
-					
-					if(Configuration.lafTheme != LAFTheme.SYSTEM)
+
+                    if (Configuration.lafTheme != LAFTheme.SYSTEM)
                         quickSearch.setForeground(quickSearch.getSelectedTextColor());
                 }
             }
-        
+
             @Override
             public void focusLost(FocusEvent arg0)
             {
                 if (quickSearch.getText().isEmpty())
                 {
                     quickSearch.setText(TranslatedStrings.QUICK_FILE_SEARCH_NO_FILE_EXTENSION.toString());
-	
-	                if(Configuration.lafTheme != LAFTheme.SYSTEM)
+
+                    if (Configuration.lafTheme != LAFTheme.SYSTEM)
                         quickSearch.setForeground(quickSearch.getDisabledTextColor());
                 }
             }

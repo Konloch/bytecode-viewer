@@ -29,19 +29,18 @@ import java.util.Objects;
  */
 public class ClassFileUtils
 {
-	/**
-	 * Grab the byte array from the loaded Class object by getting the resource from the classloader
-	 */
-	public static byte[] getClassFileBytes(Class<?> clazz) throws IOException
-	{
-		try (InputStream is = clazz.getResourceAsStream("/" + clazz.getName().replace('.', '/') + ".class");
-		     ByteArrayOutputStream baos = new ByteArrayOutputStream())
-		{
-			int r;
-			byte[] buffer = new byte[8192];
-			while ((r = Objects.requireNonNull(is).read(buffer)) >= 0)
-				baos.write(buffer, 0, r);
-			return baos.toByteArray();
-		}
-	}
+    /**
+     * Grab the byte array from the loaded Class object by getting the resource from the classloader
+     */
+    public static byte[] getClassFileBytes(Class<?> clazz) throws IOException
+    {
+        try (InputStream is = clazz.getResourceAsStream("/" + clazz.getName().replace('.', '/') + ".class"); ByteArrayOutputStream baos = new ByteArrayOutputStream())
+        {
+            int r;
+            byte[] buffer = new byte[8192];
+            while ((r = Objects.requireNonNull(is).read(buffer)) >= 0)
+                baos.write(buffer, 0, r);
+            return baos.toByteArray();
+        }
+    }
 }

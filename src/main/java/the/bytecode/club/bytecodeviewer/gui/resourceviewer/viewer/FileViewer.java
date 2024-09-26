@@ -18,13 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.image.BufferedImage;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -39,6 +32,10 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceType;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 /**
  * Represents any open non-class file inside of a tab.
  *
@@ -48,8 +45,7 @@ import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 public class FileViewer extends ResourceViewer
 {
     public static final float ZOOM_STEP_SIZE = 1.5f;
-    public final SearchableRSyntaxTextArea textArea = (SearchableRSyntaxTextArea)
-            Configuration.rstaTheme.apply(new SearchableRSyntaxTextArea());
+    public final SearchableRSyntaxTextArea textArea = (SearchableRSyntaxTextArea) Configuration.rstaTheme.apply(new SearchableRSyntaxTextArea());
     public final JPanel mainPanel = new JPanel(new BorderLayout());
     public BufferedImage originalImage;
     public BufferedImage image;
@@ -59,24 +55,22 @@ public class FileViewer extends ResourceViewer
     public FileViewer(ResourceContainer container, String name)
     {
         super(new Resource(name, container.getWorkingName(name), container));
-        
+
         this.setName(name);
         this.setLayout(new BorderLayout());
-        
+
         this.add(mainPanel, BorderLayout.CENTER);
 
         setContents();
     }
-    
+
     public void setContents()
     {
         final byte[] contents = resource.getResourceBytes();
         final String nameLowerCase = this.resource.name.toLowerCase();
         final String onlyName = FilenameUtils.getName(nameLowerCase);
-        final boolean hexViewerOnly = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.HEXCODE_VIEWER &&
-                BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE &&
-                BytecodeViewer.viewer.viewPane3.getSelectedDecompiler() == Decompiler.NONE;
-        
+        final boolean hexViewerOnly = BytecodeViewer.viewer.viewPane1.getSelectedDecompiler() == Decompiler.HEXCODE_VIEWER && BytecodeViewer.viewer.viewPane2.getSelectedDecompiler() == Decompiler.NONE && BytecodeViewer.viewer.viewPane3.getSelectedDecompiler() == Decompiler.NONE;
+
         //image viewer
         if (MiscUtils.guessIfBinary(contents) || hexViewerOnly)
         {
@@ -85,17 +79,16 @@ public class FileViewer extends ResourceViewer
             //  + Check for CAFEBABE
             //  + ClassRead then quick-decompile using Pane1 Decompiler
             //      (If none selected, try Pane2, Pane3, default to Procyon)
-            
-            
+
+
             //check by file extension to display image
-            if (!onlyName.contains(":") &&
-                    ResourceType.imageExtensionMap.containsKey(FilenameUtils.getExtension(onlyName)) &&
-                    !hexViewerOnly)
+            if (!onlyName.contains(":") && ResourceType.imageExtensionMap.containsKey(FilenameUtils.getExtension(onlyName)) && !hexViewerOnly)
             {
                 canRefresh = true;
 
                 image = MiscUtils.loadImage(image, contents);
-                if (image == null) {
+                if (image == null)
+                {
                     HexViewer hex = new HexViewer(contents);
                     mainPanel.add(hex);
                     return;
@@ -103,21 +96,26 @@ public class FileViewer extends ResourceViewer
                 originalImage = image;
 
                 mainPanel.add(new ImageJLabel(image), BorderLayout.CENTER);
-                mainPanel.addMouseWheelListener(e -> {
+                mainPanel.addMouseWheelListener(e ->
+                {
                     int notches = e.getWheelRotation();
                     int width = originalImage.getWidth();
                     int height = originalImage.getHeight();
                     int oldZoomSteps = zoomSteps;
 
-                    if (notches < 0) {
+                    if (notches < 0)
+                    {
                         //zoom in
                         zoomSteps++;
-                    } else {
+                    }
+                    else
+                    {
                         //zoom out
                         zoomSteps--;
                     }
 
-                    try {
+                    try
+                    {
                         double factor = Math.pow(ZOOM_STEP_SIZE, zoomSteps);
                         int newWidth = (int) (width * factor);
                         int newHeight = (int) (height * factor);
@@ -126,7 +124,9 @@ public class FileViewer extends ResourceViewer
                         mainPanel.removeAll();
                         mainPanel.add(new ImageJLabel(image), BorderLayout.CENTER);
                         mainPanel.updateUI();
-                    } catch (Throwable ignored) {
+                    }
+                    catch (Throwable ignored)
+                    {
                         zoomSteps = oldZoomSteps;
                     }
                 });
@@ -140,40 +140,40 @@ public class FileViewer extends ResourceViewer
                 return;
             }
         }
-        
+
         textArea.setCodeFoldingEnabled(true);
         SyntaxLanguage.setLanguage(textArea, nameLowerCase);
         textArea.setText(new String(contents));
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
         textArea.setCaretPosition(0);
-        
+
         mainPanel.add(textArea.getScrollPane());
     }
-    
+
     @Override
     public void refresh(JButton src)
     {
         refreshTitle();
-        
+
         if (!canRefresh)
         {
-            if(src != null)
+            if (src != null)
                 src.setEnabled(true);
-            
+
             return;
         }
 
         mainPanel.removeAll();
-      
+
         image = MiscUtils.loadImage(image, resource.getResourceBytes());
-        
+
         JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
         mainPanel.add(label, BorderLayout.CENTER);
         mainPanel.updateUI();
-    
-        if(src != null)
+
+        if (src != null)
             src.setEnabled(true);
     }
-    
+
     private static final long serialVersionUID = 6103372882168257164L;
 }

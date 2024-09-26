@@ -24,59 +24,59 @@ package the.bytecode.club.bytecodeviewer.util;
  */
 class SeqAndCount
 {
-	Integer seq;
-	Integer count;
-	
-	public static SeqAndCount init()
-	{
-		SeqAndCount seqAndCount = new SeqAndCount();
-		seqAndCount.setSeq(1);
-		seqAndCount.setCount(1);
-		return seqAndCount;
-	}
-	
-	public SeqAndCount incrSeq()
-	{
-		seq++;
-		return this;
-	}
-	
-	public SeqAndCount incrCount()
-	{
-		count++;
-		return this;
-	}
-	
-	public SeqAndCount decrCount()
-	{
-		count--;
-		return this;
-	}
-	
-	public SeqAndCount incrSeqAndCount()
-	{
-		seq++;
-		count++;
-		return this;
-	}
-	
-	public Integer getSeq()
-	{
-		return seq;
-	}
-	
-	public void setSeq(Integer seq)
-	{
-		this.seq = seq;
-	}
-	
-	public Integer getCount()
-	{
-		return count;
-	}
-	
-	public void setCount(Integer count)
-	{
-		this.count = count;
-	}
+    Integer seq;
+    Integer count;
+
+    public static SeqAndCount init()
+    {
+        SeqAndCount seqAndCount = new SeqAndCount();
+        seqAndCount.setSeq(1);
+        seqAndCount.setCount(1);
+        return seqAndCount;
+    }
+
+    public SeqAndCount incrSeq()
+    {
+        seq++;
+        return this;
+    }
+
+    public SeqAndCount incrCount()
+    {
+        count++;
+        return this;
+    }
+
+    public SeqAndCount decrCount()
+    {
+        count--;
+        return this;
+    }
+
+    public SeqAndCount incrSeqAndCount()
+    {
+        seq++;
+        count++;
+        return this;
+    }
+
+    public Integer getSeq()
+    {
+        return seq;
+    }
+
+    public void setSeq(Integer seq)
+    {
+        this.seq = seq;
+    }
+
+    public Integer getCount()
+    {
+        return count;
+    }
+
+    public void setCount(Integer count)
+    {
+        this.count = count;
+    }
 }

@@ -18,11 +18,8 @@
 
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import javax.swing.Icon;
-import javax.swing.JMenuItem;
-import javax.swing.UIManager;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author Konloch
@@ -30,24 +27,24 @@ import javax.swing.UIManager;
  */
 public class JMenuItemIcon extends JMenuItem
 {
-	public JMenuItemIcon(Icon icon)
-	{
-		super("");
-		
-		setIcon(icon);
-		setAlignmentY(0.65f);
-		Dimension size = new Dimension((int) (icon.getIconWidth()*1.4), icon.getIconHeight());
-		setSize(size);
-		setPreferredSize(size);
-		setMinimumSize(size);
-		setMaximumSize(size);
-	}
-	
-	@Override
-	public void paint(Graphics g)
-	{
-		g.setColor(UIManager.getColor("Panel.background"));
-		g.fillRect(0, 0, getWidth(), getHeight());
-		super.paint(g);
-	}
+    public JMenuItemIcon(Icon icon)
+    {
+        super("");
+
+        setIcon(icon);
+        setAlignmentY(0.65f);
+        Dimension size = new Dimension((int) (icon.getIconWidth() * 1.4), icon.getIconHeight());
+        setSize(size);
+        setPreferredSize(size);
+        setMinimumSize(size);
+        setMaximumSize(size);
+    }
+
+    @Override
+    public void paint(Graphics g)
+    {
+        g.setColor(UIManager.getColor("Panel.background"));
+        g.fillRect(0, 0, getWidth(), getHeight());
+        super.paint(g);
+    }
 }

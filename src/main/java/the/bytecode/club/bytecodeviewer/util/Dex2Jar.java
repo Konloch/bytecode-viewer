@@ -24,9 +24,10 @@ import com.googlecode.d2j.dex.Dex2jar;
 import com.googlecode.d2j.dex.DexExceptionHandler;
 import com.googlecode.d2j.node.DexMethodNode;
 import com.googlecode.dex2jar.tools.Jar2Dex;
-import java.io.File;
 import org.objectweb.asm.MethodVisitor;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
+import java.io.File;
 
 /**
  * A simple wrapper for Dex2Jar.
@@ -34,7 +35,8 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
  * @author Konloch
  */
 
-public class Dex2Jar {
+public class Dex2Jar
+{
 
     /**
      * Converts a .apk or .dex to .jar
@@ -42,24 +44,30 @@ public class Dex2Jar {
      * @param input  the input .apk or .dex file
      * @param output the output .jar file
      */
-    public static synchronized void dex2Jar(File input, File output) {
-        try {
-            Dex2jar d2Jar = Dex2jar.from(input)
-                    .computeFrames(true)
-                    .withExceptionHandler(new DexExceptionHandler() {
-                        public void handleFileException(Exception e) {
-                            e.printStackTrace();
-                        }
+    public static synchronized void dex2Jar(File input, File output)
+    {
+        try
+        {
+            Dex2jar d2Jar = Dex2jar.from(input).computeFrames(true).withExceptionHandler(new DexExceptionHandler()
+            {
+                public void handleFileException(Exception e)
+                {
+                    e.printStackTrace();
+                }
 
-                        public void handleMethodTranslateException(Method method, DexMethodNode methodNode,
-                                                                   MethodVisitor mv, Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
+                public void handleMethodTranslateException(Method method, DexMethodNode methodNode, MethodVisitor mv, Exception e)
+                {
+                    e.printStackTrace();
+                }
+            });
             d2Jar.to(output.toPath());
-        } catch (DexException e) {
+        }
+        catch (DexException e)
+        {
             e.printStackTrace();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             BytecodeViewer.handleException(e);
         }
     }
@@ -70,19 +78,21 @@ public class Dex2Jar {
      * @param input  the input .jar file
      * @param output the output .dex file
      */
-    public static synchronized void saveAsDex(File input, File output) {
+    public static synchronized void saveAsDex(File input, File output)
+    {
         saveAsDex(input, output, true);
     }
 
-    public static synchronized void saveAsDex(File input, File output, boolean delete) {
-        try {
-            Jar2Dex.main(input.getAbsolutePath(),
-                    "-f",
-                    "-o", output.getAbsolutePath(),
-                    "-s", BytecodeViewer.viewer.getMinSdkVersion() + "");
+    public static synchronized void saveAsDex(File input, File output, boolean delete)
+    {
+        try
+        {
+            Jar2Dex.main(input.getAbsolutePath(), "-f", "-o", output.getAbsolutePath(), "-s", BytecodeViewer.viewer.getMinSdkVersion() + "");
             if (delete)
                 input.delete();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             BytecodeViewer.handleException(e);
         }
     }

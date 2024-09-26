@@ -18,9 +18,10 @@
 
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 /**
  * @author Konloch
@@ -29,15 +30,15 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 public class WorkspaceRefreshEvent implements ActionListener
 {
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		if (BytecodeViewer.viewer.refreshOnChange.isSelected())
-		{
-			if (!BytecodeViewer.hasActiveResource())
-				return;
-			
-			BytecodeViewer.viewer.workPane.refreshClass.doClick();
-		}
-	}
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if (BytecodeViewer.viewer.refreshOnChange.isSelected())
+        {
+            if (!BytecodeViewer.hasActiveResource())
+                return;
+
+            BytecodeViewer.viewer.workPane.refreshClass.doClick();
+        }
+    }
 }

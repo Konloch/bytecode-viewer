@@ -18,16 +18,13 @@
 
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import java.awt.Dimension;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import the.bytecode.club.bytecodeviewer.api.ASMResourceUtil;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * The UI for File>Run aka EZ-Injection plugin.
@@ -41,7 +38,7 @@ public class RunOptions extends JFrame
     private final JCheckBox debugMethodCalls;
     private final JTextField debugClasses;
     private final JTextField socksProxy;
-    
+
     public RunOptions()
     {
         this.setIconImages(IconResources.iconList);
@@ -114,16 +111,9 @@ public class RunOptions extends JFrame
         printToCommandLine.setBounds(6, 315, 232, 23);
         getContentPane().add(printToCommandLine);
         this.setLocationRelativeTo(null);
-        btnNewButton.addActionListener(arg0 -> {
-            PluginManager.runPlugin(new EZInjection(accessModifiers
-                    .isSelected(), injectHooks.isSelected(),
-                    debugMethodCalls.isSelected(), invokeMethod
-                    .isSelected(),
-                    mainMethodFQN.getText(), false, false, debugClasses
-                    .getText(), this.socksProxy.getText(), forceProxy
-                    .isSelected(),
-                    launchReflectionKit.isSelected(), console.isSelected(),
-                    printToCommandLine.isSelected()));
+        btnNewButton.addActionListener(arg0 ->
+        {
+            PluginManager.runPlugin(new EZInjection(accessModifiers.isSelected(), injectHooks.isSelected(), debugMethodCalls.isSelected(), invokeMethod.isSelected(), mainMethodFQN.getText(), false, false, debugClasses.getText(), this.socksProxy.getText(), forceProxy.isSelected(), launchReflectionKit.isSelected(), console.isSelected(), printToCommandLine.isSelected()));
             dispose();
         });
     }

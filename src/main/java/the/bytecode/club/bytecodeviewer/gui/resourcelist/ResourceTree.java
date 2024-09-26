@@ -18,14 +18,12 @@
 
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
 import the.bytecode.club.bytecodeviewer.gui.util.StringMetricsUtil;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.*;
 
 /**
  * @author Konloch
@@ -33,20 +31,20 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
  */
 public class ResourceTree extends JTree
 {
-	private static final long serialVersionUID = -2355167326094772096L;
+    private static final long serialVersionUID = -2355167326094772096L;
     DefaultMutableTreeNode treeRoot;
-	
-	public ResourceTree(DefaultMutableTreeNode treeRoot)
-	{
+
+    public ResourceTree(DefaultMutableTreeNode treeRoot)
+    {
         super(treeRoot);
         this.treeRoot = treeRoot;
     }
-	
-	StringMetricsUtil m = null;
-	
-	@Override
+
+    StringMetricsUtil m = null;
+
+    @Override
     public void paint(Graphics graphics)
-	{
+    {
         try
         {
             Graphics2D g = (Graphics2D) graphics;
@@ -57,15 +55,12 @@ public class ResourceTree extends JTree
             }
             if (treeRoot.getChildCount() < 1)
             {
-                g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                 g.setColor(new Color(0, 0, 0, 100));
                 g.fillRect(0, 0, getWidth(), getHeight());
                 g.setColor(Color.white);
                 String s = TranslatedStrings.DRAG_CLASS_JAR.toString();
-                g.drawString(s,
-                        ((int) ((getWidth() / 2) - (m.getWidth(s) / 2))),
-                        getHeight() / 2);
+                g.drawString(s, ((int) ((getWidth() / 2) - (m.getWidth(s) / 2))), getHeight() / 2);
             }
         }
         catch (InternalError | NullPointerException | ClassCastException ignored)

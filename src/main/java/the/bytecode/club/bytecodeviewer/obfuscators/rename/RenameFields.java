@@ -32,11 +32,13 @@ import the.bytecode.club.bytecodeviewer.obfuscators.mapping.data.MappingData;
  * @author Konloch
  */
 
-public class RenameFields extends JavaObfuscator {
+public class RenameFields extends JavaObfuscator
+{
 
     public static void open()
     {
-        if (Configuration.runningObfuscation) {
+        if (Configuration.runningObfuscation)
+        {
             BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish.");
             return;
         }
@@ -44,21 +46,23 @@ public class RenameFields extends JavaObfuscator {
         BytecodeViewer.viewer.workPane.refreshClass.doClick();
         BytecodeViewer.viewer.resourcePane.tree.updateUI();
     }
-    
+
     @Override
-    public void obfuscate() {
+    public void obfuscate()
+    {
         int stringLength = getStringLength();
 
         System.out.println("Obfuscating fields names...");
-        for (ClassNode c : BytecodeViewer.getLoadedClasses()) {
-            for (Object o : c.fields.toArray()) {
+        for (ClassNode c : BytecodeViewer.getLoadedClasses())
+        {
+            for (Object o : c.fields.toArray())
+            {
                 FieldNode f = (FieldNode) o;
 
                 String newName = generateUniqueName(stringLength);
 
-                BytecodeViewer.refactorer.getHooks().addField(new FieldMappingData(c.name, new MappingData(f.name,
-                        newName), f.desc));
-				
+                BytecodeViewer.refactorer.getHooks().addField(new FieldMappingData(c.name, new MappingData(f.name, newName), f.desc));
+
 				/*ASMUtil_OLD.renameFieldNode(c.name, f.name, f.desc, null, newName, null);
 				f.name = newName;*/
             }

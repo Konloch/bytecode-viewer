@@ -18,20 +18,16 @@
 
 package the.bytecode.club.bytecodeviewer.plugin.strategies;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
-import java.util.List;
-import javax.script.Bindings;
-import javax.script.Invocable;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
+
+import javax.script.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.List;
 
 /**
  * @author Konloch
@@ -44,21 +40,21 @@ public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
     public static final String firstPickEngine = "nashorn";
     //fallback to graal.js
     public static final String fallBackEngine = "graal.js";
-    
+
     @Override
     public Plugin run(File file) throws Throwable
     {
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName(firstPickEngine);
-    
+
         //nashorn compatability with graal
         if (engine == null)
         {
             engine = manager.getEngineByName(fallBackEngine);
-            
+
             if (engine == null)
                 throw new Exception("Cannot find Javascript script engine! Please contact Konloch.");
-            
+
             Bindings bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
             bindings.put("polyglot.js.allowHostAccess", true);
             bindings.put("polyglot.js.allowAllAccess", true);
@@ -67,9 +63,9 @@ public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
 
         Reader reader = new FileReader(file);
         engine.eval(reader);
-    
+
         ScriptEngine finalEngine = engine;
-        
+
         return new Plugin()
         {
             @Override
@@ -79,7 +75,7 @@ public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
                 {
                     //add the active container as a global variable to the JS script
                     finalEngine.put("activeContainer", activeContainer);
-                    
+
                     //invoke the JS function
                     ((Invocable) finalEngine).invokeFunction("execute", classNodeList);
                 }

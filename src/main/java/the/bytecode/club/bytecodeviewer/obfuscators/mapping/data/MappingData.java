@@ -18,40 +18,48 @@
 
 package the.bytecode.club.bytecodeviewer.obfuscators.mapping.data;
 
-public class MappingData {
+public class MappingData
+{
 
     protected String obfuscatedName;
     protected String refactoredName;
 
-    public MappingData(String refactoredName) {
+    public MappingData(String refactoredName)
+    {
         this("", refactoredName);
     }
 
-    public MappingData(String obfuscatedName, String refactoredName) {
+    public MappingData(String obfuscatedName, String refactoredName)
+    {
         this.obfuscatedName = obfuscatedName;
         this.refactoredName = refactoredName;
     }
 
-    public String getObfuscatedName() {
+    public String getObfuscatedName()
+    {
         return obfuscatedName;
     }
 
-    public MappingData setObfuscatedName(String obfuscatedName) {
+    public MappingData setObfuscatedName(String obfuscatedName)
+    {
         this.obfuscatedName = obfuscatedName;
         return this;
     }
 
-    public String getRefactoredName() {
+    public String getRefactoredName()
+    {
         return refactoredName;
     }
 
-    public MappingData setRefactoredName(String refactoredName) {
+    public MappingData setRefactoredName(String refactoredName)
+    {
         this.refactoredName = refactoredName;
         return this;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         final int prime = 31;
         int result = 1;
         result = (prime * result) + ((obfuscatedName == null) ? 0 : obfuscatedName.hashCode());
@@ -60,7 +68,8 @@ public class MappingData {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if (this == obj)
             return true;
         if (obj == null)
@@ -68,13 +77,18 @@ public class MappingData {
         if (getClass() != obj.getClass())
             return false;
         MappingData other = (MappingData) obj;
-        if (obfuscatedName == null) {
+        if (obfuscatedName == null)
+        {
             if (other.obfuscatedName != null)
                 return false;
-        } else if (!obfuscatedName.equals(other.obfuscatedName))
+        }
+        else if (!obfuscatedName.equals(other.obfuscatedName))
             return false;
-        if (refactoredName == null) {
+        if (refactoredName == null)
+        {
             return other.refactoredName == null;
-        } else return refactoredName.equals(other.refactoredName);
+        }
+        else
+            return refactoredName.equals(other.refactoredName);
     }
 }

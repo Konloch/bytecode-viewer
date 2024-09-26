@@ -18,19 +18,15 @@
 
 package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
-import java.awt.Toolkit;
+import org.exbin.bined.*;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseEvent;
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import javax.swing.JToolTip;
-import org.exbin.bined.CodeAreaCaretPosition;
-import org.exbin.bined.CodeAreaUtils;
-import org.exbin.bined.EditMode;
-import org.exbin.bined.EditOperation;
-import org.exbin.bined.PositionCodeType;
-import org.exbin.bined.SelectionRange;
 
 /**
  * Binary editor status panel.
@@ -38,7 +34,8 @@ import org.exbin.bined.SelectionRange;
  * @author hajdam
  */
 @ParametersAreNonnullByDefault
-public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatusApi {
+public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatusApi
+{
 
     public static int DEFAULT_OCTAL_SPACE_GROUP_SIZE = 4;
     public static int DEFAULT_DECIMAL_SPACE_GROUP_SIZE = 3;
@@ -89,26 +86,32 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
     private javax.swing.JMenuItem positionGoToMenuItem;
     private javax.swing.JPopupMenu positionPopupMenu;
 
-    public BinaryStatusPanel() {
+    public BinaryStatusPanel()
+    {
         initComponents();
     }
 
-    public void updateStatus() {
+    public void updateStatus()
+    {
         updateCaretPosition();
         updateCursorPositionToolTip();
         updateDocumentSize();
         updateDocumentSizeToolTip();
 
-        switch (cursorPositionFormat.getCodeType()) {
-            case OCTAL: {
+        switch (cursorPositionFormat.getCodeType())
+        {
+            case OCTAL:
+            {
                 octalCursorPositionModeRadioButtonMenuItem.setSelected(true);
                 break;
             }
-            case DECIMAL: {
+            case DECIMAL:
+            {
                 decimalCursorPositionModeRadioButtonMenuItem.setSelected(true);
                 break;
             }
-            case HEXADECIMAL: {
+            case HEXADECIMAL:
+            {
                 hexadecimalCursorPositionModeRadioButtonMenuItem.setSelected(true);
                 break;
             }
@@ -117,16 +120,20 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         }
         cursorPositionShowOffsetCheckBoxMenuItem.setSelected(cursorPositionFormat.isShowOffset());
 
-        switch (documentSizeFormat.getCodeType()) {
-            case OCTAL: {
+        switch (documentSizeFormat.getCodeType())
+        {
+            case OCTAL:
+            {
                 octalDocumentSizeModeRadioButtonMenuItem.setSelected(true);
                 break;
             }
-            case DECIMAL: {
+            case DECIMAL:
+            {
                 decimalDocumentSizeModeRadioButtonMenuItem.setSelected(true);
                 break;
             }
-            case HEXADECIMAL: {
+            case HEXADECIMAL:
+            {
                 hexadecimalDocumentSizeModeRadioButtonMenuItem.setSelected(true);
                 break;
             }
@@ -136,7 +143,8 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         documentSizeShowRelativeCheckBoxMenuItem.setSelected(documentSizeFormat.isShowRelative());
     }
 
-    private void initComponents() {
+    private void initComponents()
+    {
 
         positionPopupMenu = new javax.swing.JPopupMenu();
         cursorPositionCodeTypeMenu = new javax.swing.JMenu();
@@ -157,16 +165,20 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         documentSizeCopyMenuItem = new javax.swing.JMenuItem();
         documentSizeModeButtonGroup = new javax.swing.ButtonGroup();
         cursorPositionModeButtonGroup = new javax.swing.ButtonGroup();
-        documentSizeLabel = new javax.swing.JLabel() {
+        documentSizeLabel = new javax.swing.JLabel()
+        {
             @Override
-            public JToolTip createToolTip() {
+            public JToolTip createToolTip()
+            {
                 updateDocumentSizeToolTip();
                 return super.createToolTip();
             }
         };
-        cursorPositionLabel = new javax.swing.JLabel() {
+        cursorPositionLabel = new javax.swing.JLabel()
+        {
             @Override
-            public JToolTip createToolTip() {
+            public JToolTip createToolTip()
+            {
                 updateCursorPositionToolTip();
                 return super.createToolTip();
             }
@@ -274,8 +286,10 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         cursorPositionLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         cursorPositionLabel.setComponentPopupMenu(positionPopupMenu);
         cursorPositionLabel.setName("cursorPositionLabel");
-        cursorPositionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        cursorPositionLabel.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 cursorPositionLabelMouseClicked(evt);
             }
         });
@@ -285,8 +299,10 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         editModeLabel.setToolTipText("Edit mode");
         editModeLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         editModeLabel.setName("editModeLabel");
-        editModeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        editModeLabel.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 editModeLabelMouseClicked(evt);
             }
         });
@@ -296,151 +312,170 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         encodingLabel.setToolTipText("Active encoding");
         encodingLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         encodingLabel.setName("encodingLabel");
-        encodingLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+        encodingLabel.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
                 encodingLabelMousePressed(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
+
+            public void mouseReleased(java.awt.event.MouseEvent evt)
+            {
                 encodingLabelMouseReleased(evt);
             }
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 encodingLabelMouseClicked(evt);
             }
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(195, Short.MAX_VALUE)
-                .addComponent(encodingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(documentSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(cursorPositionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(editModeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(editModeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(documentSizeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(cursorPositionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(encodingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup().addContainerGap(195, Short.MAX_VALUE).addComponent(encodingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 0, 0).addComponent(documentSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 0, 0).addComponent(cursorPositionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 0, 0).addComponent(editModeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(editModeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(documentSizeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(cursorPositionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(encodingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void editModeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editModeLabelMouseClicked
-//        if (statusControlHandler != null && evt.getButton() == MouseEvent.BUTTON1) {
-//            if (editOperation == EditOperation.INSERT) {
-//                statusControlHandler.changeEditOperation(EditOperation.OVERWRITE);
-//            } else if (editOperation == EditOperation.OVERWRITE) {
-//                statusControlHandler.changeEditOperation(EditOperation.INSERT);
-//            }
-//        }
+    private void editModeLabelMouseClicked(java.awt.event.MouseEvent evt)
+    {//GEN-FIRST:event_editModeLabelMouseClicked
+        //        if (statusControlHandler != null && evt.getButton() == MouseEvent.BUTTON1) {
+        //            if (editOperation == EditOperation.INSERT) {
+        //                statusControlHandler.changeEditOperation(EditOperation.OVERWRITE);
+        //            } else if (editOperation == EditOperation.OVERWRITE) {
+        //                statusControlHandler.changeEditOperation(EditOperation.INSERT);
+        //            }
+        //        }
     }//GEN-LAST:event_editModeLabelMouseClicked
 
-    private void cursorPositionLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cursorPositionLabelMouseClicked
-        if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() > 1) {
+    private void cursorPositionLabelMouseClicked(java.awt.event.MouseEvent evt)
+    {//GEN-FIRST:event_cursorPositionLabelMouseClicked
+        if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() > 1)
+        {
             // statusControlHandler.changeCursorPosition();
         }
     }//GEN-LAST:event_cursorPositionLabelMouseClicked
 
-    private void positionGoToMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_positionGoToMenuItemActionPerformed
+    private void positionGoToMenuItemActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_positionGoToMenuItemActionPerformed
         // statusControlHandler.changeCursorPosition();
     }//GEN-LAST:event_positionGoToMenuItemActionPerformed
 
-    private void positionCopyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_positionCopyMenuItemActionPerformed
-        try {
+    private void positionCopyMenuItemActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_positionCopyMenuItemActionPerformed
+        try
+        {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(new StringSelection(cursorPositionLabel.getText()), null);
-        } catch (IllegalStateException ex) {
+        }
+        catch (IllegalStateException ex)
+        {
             // ignore issues with clipboard
         }
     }//GEN-LAST:event_positionCopyMenuItemActionPerformed
 
-    private void documentSizeCopyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_documentSizeCopyMenuItemActionPerformed
-        try {
+    private void documentSizeCopyMenuItemActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_documentSizeCopyMenuItemActionPerformed
+        try
+        {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(new StringSelection(documentSizeLabel.getText()), null);
-        } catch (IllegalStateException ex) {
+        }
+        catch (IllegalStateException ex)
+        {
             // ignore issues with clipboard
         }
     }//GEN-LAST:event_documentSizeCopyMenuItemActionPerformed
 
-    private void encodingLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_encodingLabelMouseClicked
-        if (evt.getButton() == MouseEvent.BUTTON1) {
+    private void encodingLabelMouseClicked(java.awt.event.MouseEvent evt)
+    {//GEN-FIRST:event_encodingLabelMouseClicked
+        if (evt.getButton() == MouseEvent.BUTTON1)
+        {
             // Not supported
-        } else {
+        }
+        else
+        {
             handleEncodingPopup(evt);
         }
     }//GEN-LAST:event_encodingLabelMouseClicked
 
-    private void encodingLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_encodingLabelMousePressed
+    private void encodingLabelMousePressed(java.awt.event.MouseEvent evt)
+    {//GEN-FIRST:event_encodingLabelMousePressed
         handleEncodingPopup(evt);
     }//GEN-LAST:event_encodingLabelMousePressed
 
-    private void encodingLabelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_encodingLabelMouseReleased
+    private void encodingLabelMouseReleased(java.awt.event.MouseEvent evt)
+    {//GEN-FIRST:event_encodingLabelMouseReleased
         handleEncodingPopup(evt);
     }//GEN-LAST:event_encodingLabelMouseReleased
 
-    private void cursorPositionShowOffsetCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursorPositionShowOffsetCheckBoxMenuItemActionPerformed
+    private void cursorPositionShowOffsetCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_cursorPositionShowOffsetCheckBoxMenuItemActionPerformed
         cursorPositionFormat.setShowOffset(cursorPositionShowOffsetCheckBoxMenuItem.isSelected());
         updateCaretPosition();
     }//GEN-LAST:event_cursorPositionShowOffsetCheckBoxMenuItemActionPerformed
 
-    private void documentSizeShowRelativeCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_documentSizeShowRelativeCheckBoxMenuItemActionPerformed
+    private void documentSizeShowRelativeCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_documentSizeShowRelativeCheckBoxMenuItemActionPerformed
         documentSizeFormat.setShowRelative(documentSizeShowRelativeCheckBoxMenuItem.isSelected());
         updateDocumentSize();
         updateDocumentSizeToolTip();
     }//GEN-LAST:event_documentSizeShowRelativeCheckBoxMenuItemActionPerformed
 
-    private void octalCursorPositionModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_octalCursorPositionModeRadioButtonMenuItemActionPerformed
+    private void octalCursorPositionModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_octalCursorPositionModeRadioButtonMenuItemActionPerformed
         cursorPositionFormat.setCodeType(PositionCodeType.OCTAL);
         updateCaretPosition();
     }//GEN-LAST:event_octalCursorPositionModeRadioButtonMenuItemActionPerformed
 
-    private void decimalCursorPositionModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decimalCursorPositionModeRadioButtonMenuItemActionPerformed
+    private void decimalCursorPositionModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_decimalCursorPositionModeRadioButtonMenuItemActionPerformed
         cursorPositionFormat.setCodeType(PositionCodeType.DECIMAL);
         updateCaretPosition();
     }//GEN-LAST:event_decimalCursorPositionModeRadioButtonMenuItemActionPerformed
 
-    private void hexadecimalCursorPositionModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hexadecimalCursorPositionModeRadioButtonMenuItemActionPerformed
+    private void hexadecimalCursorPositionModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_hexadecimalCursorPositionModeRadioButtonMenuItemActionPerformed
         cursorPositionFormat.setCodeType(PositionCodeType.HEXADECIMAL);
         updateCaretPosition();
     }//GEN-LAST:event_hexadecimalCursorPositionModeRadioButtonMenuItemActionPerformed
 
-    private void octalDocumentSizeModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_octalDocumentSizeModeRadioButtonMenuItemActionPerformed
+    private void octalDocumentSizeModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_octalDocumentSizeModeRadioButtonMenuItemActionPerformed
         documentSizeFormat.setCodeType(PositionCodeType.OCTAL);
         updateDocumentSize();
     }//GEN-LAST:event_octalDocumentSizeModeRadioButtonMenuItemActionPerformed
 
-    private void decimalDocumentSizeModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decimalDocumentSizeModeRadioButtonMenuItemActionPerformed
+    private void decimalDocumentSizeModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_decimalDocumentSizeModeRadioButtonMenuItemActionPerformed
         documentSizeFormat.setCodeType(PositionCodeType.DECIMAL);
         updateDocumentSize();
     }//GEN-LAST:event_decimalDocumentSizeModeRadioButtonMenuItemActionPerformed
 
-    private void hexadecimalDocumentSizeModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hexadecimalDocumentSizeModeRadioButtonMenuItemActionPerformed
+    private void hexadecimalDocumentSizeModeRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_hexadecimalDocumentSizeModeRadioButtonMenuItemActionPerformed
         documentSizeFormat.setCodeType(PositionCodeType.HEXADECIMAL);
         updateDocumentSize();
     }//GEN-LAST:event_hexadecimalDocumentSizeModeRadioButtonMenuItemActionPerformed
 
-    private void handleEncodingPopup(java.awt.event.MouseEvent evt) {
-        if (evt.isPopupTrigger()) {
+    private void handleEncodingPopup(java.awt.event.MouseEvent evt)
+    {
+        if (evt.isPopupTrigger())
+        {
             // Not supported
         }
     }
 
     @Override
-    public void setCursorPosition(CodeAreaCaretPosition caretPosition) {
+    public void setCursorPosition(CodeAreaCaretPosition caretPosition)
+    {
         this.caretPosition = caretPosition;
         updateCaretPosition();
         updateCursorPositionToolTip();
     }
 
     @Override
-    public void setSelectionRange(SelectionRange selectionRange) {
+    public void setSelectionRange(SelectionRange selectionRange)
+    {
         this.selectionRange = selectionRange;
         updateCaretPosition();
         updateCursorPositionToolTip();
@@ -449,7 +484,8 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
     }
 
     @Override
-    public void setCurrentDocumentSize(long documentSize, long initialDocumentSize) {
+    public void setCurrentDocumentSize(long documentSize, long initialDocumentSize)
+    {
         this.documentSize = documentSize;
         this.initialDocumentSize = initialDocumentSize;
         updateDocumentSize();
@@ -457,30 +493,39 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
     }
 
     @Nonnull
-    public String getEncoding() {
+    public String getEncoding()
+    {
         return encodingLabel.getText();
     }
 
-    public void setEncoding(String encodingName) {
+    public void setEncoding(String encodingName)
+    {
         encodingLabel.setText(encodingName + " ^");
     }
 
     @Override
-    public void setEditMode(EditMode editMode, EditOperation editOperation) {
+    public void setEditMode(EditMode editMode, EditOperation editOperation)
+    {
         this.editOperation = editOperation;
-        switch (editMode) {
-            case READ_ONLY: {
+        switch (editMode)
+        {
+            case READ_ONLY:
+            {
                 editModeLabel.setText(READONLY_EDIT_MODE_LABEL);
                 break;
             }
             case EXPANDING:
-            case CAPPED: {
-                switch (editOperation) {
-                    case INSERT: {
+            case CAPPED:
+            {
+                switch (editOperation)
+                {
+                    case INSERT:
+                    {
                         editModeLabel.setText(INSERT_EDIT_MODE_LABEL);
                         break;
                     }
-                    case OVERWRITE: {
+                    case OVERWRITE:
+                    {
                         editModeLabel.setText(OVERWRITE_EDIT_MODE_LABEL);
                         break;
                     }
@@ -489,7 +534,8 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
                 }
                 break;
             }
-            case INPLACE: {
+            case INPLACE:
+            {
                 editModeLabel.setText(INPLACE_EDIT_MODE_LABEL);
                 break;
             }
@@ -498,20 +544,28 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         }
     }
 
-    private void updateCaretPosition() {
-        if (caretPosition == null) {
+    private void updateCaretPosition()
+    {
+        if (caretPosition == null)
+        {
             cursorPositionLabel.setText("-");
-        } else {
+        }
+        else
+        {
             StringBuilder labelBuilder = new StringBuilder();
-            if (selectionRange != null && !selectionRange.isEmpty()) {
+            if (selectionRange != null && !selectionRange.isEmpty())
+            {
                 long first = selectionRange.getFirst();
                 long last = selectionRange.getLast();
                 labelBuilder.append(numberToPosition(first, cursorPositionFormat.getCodeType()));
                 labelBuilder.append(" to ");
                 labelBuilder.append(numberToPosition(last, cursorPositionFormat.getCodeType()));
-            } else {
+            }
+            else
+            {
                 labelBuilder.append(numberToPosition(caretPosition.getDataPosition(), cursorPositionFormat.getCodeType()));
-                if (cursorPositionFormat.isShowOffset()) {
+                if (cursorPositionFormat.isShowOffset())
+                {
                     labelBuilder.append(":");
                     labelBuilder.append(caretPosition.getCodeOffset());
                 }
@@ -520,13 +574,18 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         }
     }
 
-    private void updateCursorPositionToolTip() {
+    private void updateCursorPositionToolTip()
+    {
         StringBuilder builder = new StringBuilder();
         builder.append("<html>");
-        if (caretPosition == null) {
+        if (caretPosition == null)
+        {
             builder.append("Cursor position");
-        } else {
-            if (selectionRange != null && !selectionRange.isEmpty()) {
+        }
+        else
+        {
+            if (selectionRange != null && !selectionRange.isEmpty())
+            {
                 long first = selectionRange.getFirst();
                 long last = selectionRange.getLast();
                 builder.append("Selection from<br>");
@@ -538,7 +597,9 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
                 builder.append(OCTAL_CODE_TYPE_LABEL + ": ").append(numberToPosition(last, PositionCodeType.OCTAL)).append("<br>");
                 builder.append(DECIMAL_CODE_TYPE_LABEL + ": ").append(numberToPosition(last, PositionCodeType.DECIMAL)).append("<br>");
                 builder.append(HEXADECIMAL_CODE_TYPE_LABEL + ": ").append(numberToPosition(first, PositionCodeType.HEXADECIMAL)).append("<br>");
-            } else {
+            }
+            else
+            {
                 long dataPosition = caretPosition.getDataPosition();
                 builder.append("Cursor position<br>");
                 builder.append(OCTAL_CODE_TYPE_LABEL + ": ").append(numberToPosition(dataPosition, PositionCodeType.OCTAL)).append("<br>");
@@ -551,18 +612,26 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         cursorPositionLabel.setToolTipText(builder.toString());
     }
 
-    private void updateDocumentSize() {
-        if (documentSize == -1) {
+    private void updateDocumentSize()
+    {
+        if (documentSize == -1)
+        {
             documentSizeLabel.setText(documentSizeFormat.isShowRelative() ? "0 (0)" : "0");
-        } else {
+        }
+        else
+        {
             StringBuilder labelBuilder = new StringBuilder();
-            if (selectionRange != null && !selectionRange.isEmpty()) {
+            if (selectionRange != null && !selectionRange.isEmpty())
+            {
                 labelBuilder.append(numberToPosition(selectionRange.getLength(), documentSizeFormat.getCodeType()));
                 labelBuilder.append(" of ");
                 labelBuilder.append(numberToPosition(documentSize, documentSizeFormat.getCodeType()));
-            } else {
+            }
+            else
+            {
                 labelBuilder.append(numberToPosition(documentSize, documentSizeFormat.getCodeType()));
-                if (documentSizeFormat.isShowRelative()) {
+                if (documentSizeFormat.isShowRelative())
+                {
                     long difference = documentSize - initialDocumentSize;
                     labelBuilder.append(difference > 0 ? " (+" : " (");
                     labelBuilder.append(numberToPosition(difference, documentSizeFormat.getCodeType()));
@@ -575,10 +644,12 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         }
     }
 
-    private void updateDocumentSizeToolTip() {
+    private void updateDocumentSizeToolTip()
+    {
         StringBuilder builder = new StringBuilder();
         builder.append("<html>");
-        if (selectionRange != null && !selectionRange.isEmpty()) {
+        if (selectionRange != null && !selectionRange.isEmpty())
+        {
             long length = selectionRange.getLength();
             builder.append("Selection length<br>");
             builder.append(OCTAL_CODE_TYPE_LABEL + ": ").append(numberToPosition(length, PositionCodeType.OCTAL)).append("<br>");
@@ -596,22 +667,28 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
     }
 
     @Nonnull
-    private String numberToPosition(long value, PositionCodeType codeType) {
-        if (value == 0) {
+    private String numberToPosition(long value, PositionCodeType codeType)
+    {
+        if (value == 0)
+        {
             return "0";
         }
 
         int spaceGroupSize;
-        switch (codeType) {
-            case OCTAL: {
+        switch (codeType)
+        {
+            case OCTAL:
+            {
                 spaceGroupSize = octalSpaceGroupSize;
                 break;
             }
-            case DECIMAL: {
+            case DECIMAL:
+            {
                 spaceGroupSize = decimalSpaceGroupSize;
                 break;
             }
-            case HEXADECIMAL: {
+            case HEXADECIMAL:
+            {
                 spaceGroupSize = hexadecimalSpaceGroupSize;
                 break;
             }
@@ -623,12 +700,17 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
         StringBuilder builder = new StringBuilder();
         int base = codeType.getBase();
         int groupSize = spaceGroupSize == 0 ? -1 : spaceGroupSize;
-        while (remainder > 0) {
-            if (groupSize >= 0) {
-                if (groupSize == 0) {
+        while (remainder > 0)
+        {
+            if (groupSize >= 0)
+            {
+                if (groupSize == 0)
+                {
                     builder.insert(0, ' ');
                     groupSize = spaceGroupSize - 1;
-                } else {
+                }
+                else
+                {
                     groupSize--;
                 }
             }
@@ -638,7 +720,8 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
             builder.insert(0, CodeAreaUtils.UPPER_HEX_CODES[digit]);
         }
 
-        if (value < 0) {
+        if (value < 0)
+        {
             builder.insert(0, "-");
         }
         return builder.toString();

@@ -3,9 +3,9 @@ var PluginConsole = Java.type("the.bytecode.club.bytecodeviewer.api.PluginConsol
 var gui;
 
 /**
- ** [plugin description goes here]
- **
- ** @author [your name goes here]
+ * [plugin description goes here]
+ *
+ * @author [your name goes here]
  **/
 
 /**

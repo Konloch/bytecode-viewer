@@ -18,49 +18,52 @@
 
 package the.bytecode.club.bytecodeviewer.bootloader.resource.jar.contents;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.bootloader.resource.DataContainer;
 import the.bytecode.club.bytecodeviewer.bootloader.resource.jar.JarResource;
+
+import java.util.*;
 
 /**
  * @author Bibl (don't ban me pls)
  * @since 19 Jul 2013
  */
-public class JarContents<C extends ClassNode> {
+public class JarContents<C extends ClassNode>
+{
 
     private final DataContainer<C> classContents;
     private final DataContainer<JarResource> resourceContents;
 
-    public JarContents() {
+    public JarContents()
+    {
         classContents = new ClassNodeContainer<>();
         resourceContents = new ResourceContainer();
     }
 
-    public JarContents(DataContainer<C> classContents, DataContainer<JarResource> resourceContents) {
+    public JarContents(DataContainer<C> classContents, DataContainer<JarResource> resourceContents)
+    {
         this.classContents = classContents == null ? new ClassNodeContainer<>() : classContents;
         this.resourceContents = resourceContents == null ? new ResourceContainer() : resourceContents;
     }
 
-    public final DataContainer<C> getClassContents() {
+    public final DataContainer<C> getClassContents()
+    {
         return classContents;
     }
 
-    public final DataContainer<JarResource> getResourceContents() {
+    public final DataContainer<JarResource> getResourceContents()
+    {
         return resourceContents;
     }
 
-    public void merge(JarContents<C> contents) {
+    public void merge(JarContents<C> contents)
+    {
         classContents.addAll(contents.classContents);
         resourceContents.addAll(contents.resourceContents);
     }
 
-    public JarContents<C> add(JarContents<C> contents) {
+    public JarContents<C> add(JarContents<C> contents)
+    {
         List<C> c1 = classContents;
         List<C> c2 = contents.classContents;
 
@@ -78,53 +81,66 @@ public class JarContents<C extends ClassNode> {
         return new JarContents<>(new ClassNodeContainer<>(c3), new ResourceContainer(r3));
     }
 
-    public static class ClassNodeContainer<C extends ClassNode> extends DataContainer<C> {
+    public static class ClassNodeContainer<C extends ClassNode> extends DataContainer<C>
+    {
         private static final long serialVersionUID = -6169578803641192235L;
 
         private Map<String, C> lastMap = new HashMap<>();
         private boolean invalidated;
 
-        public ClassNodeContainer() {
+        public ClassNodeContainer()
+        {
             this(16);
         }
 
-        public ClassNodeContainer(int cap) {
+        public ClassNodeContainer(int cap)
+        {
             super(cap);
         }
 
-        public ClassNodeContainer(Collection<C> data) {
+        public ClassNodeContainer(Collection<C> data)
+        {
             super(data);
         }
 
         @Override
-        public boolean add(C c) {
+        public boolean add(C c)
+        {
             invalidated = true;
             return super.add(c);
         }
 
         @Override
-        public boolean addAll(Collection<? extends C> c) {
+        public boolean addAll(Collection<? extends C> c)
+        {
             invalidated = true;
             return super.addAll(c);
         }
 
         @Override
-        public boolean remove(Object c) {
+        public boolean remove(Object c)
+        {
             invalidated = true;
             return super.remove(c);
         }
 
         @Override
-        public Map<String, C> namedMap() {
-            if (invalidated) {
+        public Map<String, C> namedMap()
+        {
+            if (invalidated)
+            {
                 invalidated = false;
                 Map<String, C> nodeMap = new HashMap<>();
                 Iterator<C> it = iterator();
-                while (it.hasNext()) {
+                while (it.hasNext())
+                {
                     C cn = it.next();
-                    if (nodeMap.containsKey(cn.name)) {
+                    if (nodeMap.containsKey(cn.name))
+                    {
                         it.remove();
-                    } else {
+                    }
+                    else
+                    {
                         nodeMap.put(cn.name, cn);
                     }
                 }
@@ -134,25 +150,31 @@ public class JarContents<C extends ClassNode> {
         }
     }
 
-    public static class ResourceContainer extends DataContainer<JarResource> {
+    public static class ResourceContainer extends DataContainer<JarResource>
+    {
         private static final long serialVersionUID = -6169578803641192235L;
 
-        public ResourceContainer() {
+        public ResourceContainer()
+        {
             this(16);
         }
 
-        public ResourceContainer(int cap) {
+        public ResourceContainer(int cap)
+        {
             super(cap);
         }
 
-        public ResourceContainer(List<JarResource> data) {
+        public ResourceContainer(List<JarResource> data)
+        {
             addAll(data);
         }
 
         @Override
-        public Map<String, JarResource> namedMap() {
+        public Map<String, JarResource> namedMap()
+        {
             Map<String, JarResource> map = new HashMap<>();
-            for (JarResource resource : this) {
+            for (JarResource resource : this)
+            {
                 map.put(resource.getName(), resource);
             }
             return map;

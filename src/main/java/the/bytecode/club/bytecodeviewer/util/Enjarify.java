@@ -18,11 +18,12 @@
 
 package the.bytecode.club.bytecodeviewer.util;
 
-import java.io.File;
-import java.util.concurrent.atomic.AtomicBoolean;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
+
+import java.io.File;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static the.bytecode.club.bytecodeviewer.Constants.enjarifyWorkingDirectory;
 
@@ -32,7 +33,8 @@ import static the.bytecode.club.bytecodeviewer.Constants.enjarifyWorkingDirector
  * @author Konloch
  */
 
-public class Enjarify {
+public class Enjarify
+{
 
     /**
      * Converts a .apk or .dex to .jar
@@ -40,65 +42,71 @@ public class Enjarify {
      * @param input  the input .apk or .dex file
      * @param output the output .jar file
      */
-    public static synchronized void apk2Jar(File input, File output) {
-        if(!ExternalResources.getSingleton().hasSetPython3Command())
+    public static synchronized void apk2Jar(File input, File output)
+    {
+        if (!ExternalResources.getSingleton().hasSetPython3Command())
             return;
 
-        try {
-            ProcessBuilder pb = new ProcessBuilder(
-                    Configuration.python3,
-                    "-O",
-                    "-m",
-                    "enjarify.main",
-                    input.getAbsolutePath(),
-                    "-o",
-                    output.getAbsolutePath(),
-                    "-f"
-            );
+        try
+        {
+            ProcessBuilder pb = new ProcessBuilder(Configuration.python3, "-O", "-m", "enjarify.main", input.getAbsolutePath(), "-o", output.getAbsolutePath(), "-f");
 
             pb.directory(new File(enjarifyWorkingDirectory));
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
-    
+
             AtomicBoolean holdThread = new AtomicBoolean(true);
-            
+
             //wait for the process to finish then signal when done
-            new Thread(()->{
-                try {
+            new Thread(() ->
+            {
+                try
+                {
                     process.waitFor();
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e)
+                {
                     e.printStackTrace();
-                } finally {
+                }
+                finally
+                {
                     holdThread.set(false);
                 }
             }, "Enjarify Wait Thread").start();
-            
+
             //if python3 fails to close but it was able to process the APK
-            new Thread(()->{
-                while(holdThread.get())
+            new Thread(() ->
+            {
+                while (holdThread.get())
                 {
-                    if(output.length() > 0)
+                    if (output.length() > 0)
                         holdThread.set(false);
-                    
-                    try {
+
+                    try
+                    {
                         Thread.sleep(500);
-                    } catch (InterruptedException ignored) { }
+                    }
+                    catch (InterruptedException ignored)
+                    {
+                    }
                 }
             }, "Enjarify Fail Safe Thread").start();
-            
+
             //hold thread while enjarify is processing
-            while(holdThread.get())
+            while (holdThread.get())
             {
                 Thread.sleep(100);
             }
-            
+
             //kill the python3 process if it's still alive
-            if(process.isAlive())
+            if (process.isAlive())
                 process.destroy();
-            
+
             MiscUtils.printProcess(process);
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             BytecodeViewer.handleException(e);
         }
     }

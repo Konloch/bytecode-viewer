@@ -1,7 +1,7 @@
 package the.bytecode.club.bytecodeviewer;
 
 import com.github.weisj.darklaf.LafManager;
-import com.github.weisj.darklaf.properties.icons.*;
+import com.github.weisj.darklaf.properties.icons.IconLoader;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJRadioButtonMenuItem;
@@ -14,7 +14,8 @@ public class IconDemo
 
     public static void main(String[] args)
     {
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() ->
+        {
             switchToLaf(LAFTheme.SYSTEM);
             JFrame frame = new JFrame("Icon Demo");
             JMenuBar menuBar = new JMenuBar();
@@ -53,8 +54,10 @@ public class IconDemo
                 new IconEntry("Decoded", IconResources.decodedIcon),
                 new IconEntry(".java", IconResources.javaIcon),
             };
+
             JList<IconEntry> iconList = new JList<>(iconEntries);
-            iconList.setCellRenderer(new DefaultListCellRenderer() {
+            iconList.setCellRenderer(new DefaultListCellRenderer()
+            {
                 @Override
                 public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus)
                 {

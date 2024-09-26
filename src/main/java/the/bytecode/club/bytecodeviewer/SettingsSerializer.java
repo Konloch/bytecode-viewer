@@ -18,14 +18,15 @@
 
 package the.bytecode.club.bytecodeviewer;
 
-import java.io.File;
-import javax.swing.JFrame;
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
 import the.bytecode.club.bytecodeviewer.translation.Language;
+
+import javax.swing.*;
+import java.io.File;
 
 import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
 import static the.bytecode.club.bytecodeviewer.Constants.settingsName;
@@ -39,13 +40,13 @@ import static the.bytecode.club.bytecodeviewer.Constants.settingsName;
 public class SettingsSerializer
 {
     private static boolean settingsFileExists;
-    
+
     public static void saveSettingsAsync()
     {
         Thread saveThread = new Thread(SettingsSerializer::saveSettings, "Save Settings");
         saveThread.start();
     }
-    
+
     public static synchronized void saveSettings()
     {
         try
@@ -164,12 +165,12 @@ public class SettingsSerializer
             save("deprecated");
             save(BytecodeViewer.viewer.getFontSize());
             save(Configuration.deleteForeignLibraries);
-    
+
             if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
                 DiskWriter.writeNewLine(settingsName, "0");
             else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
                 DiskWriter.writeNewLine(settingsName, "1");
-    
+
             save(Configuration.python3);
             save(Configuration.javac);
             save(Configuration.java);
@@ -182,16 +183,16 @@ public class SettingsSerializer
             save(BytecodeViewer.viewer.showClassMethods.isSelected());
             save(BytecodeViewer.viewer.ren.isSelected());
             save("deprecated");
-            
+
             save(Configuration.lafTheme.name());
             save(Configuration.rstaTheme.name());
             save(BytecodeViewer.viewer.simplifyNameInTabTitle.isSelected());
             save(Configuration.language.name());
-            
+
             save(BytecodeViewer.viewer.viewPane1.isPaneEditable());
             save(BytecodeViewer.viewer.viewPane2.isPaneEditable());
             save(BytecodeViewer.viewer.viewPane3.isPaneEditable());
-            
+
             save(Configuration.javaTools);
             save("deprecated");
             save("deprecated");
@@ -201,11 +202,13 @@ public class SettingsSerializer
             save(Configuration.python3Extra);
             save(BytecodeViewer.viewer.getMinSdkVersion());
             save(BytecodeViewer.viewer.printLineNumbers.isSelected());
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             BytecodeViewer.handleException(e);
         }
     }
-    
+
     /**
      * Preload data used to configure the looks and components of the application
      */
@@ -214,13 +217,13 @@ public class SettingsSerializer
         try
         {
             settingsFileExists = new File(settingsName).exists();
-            
-            if(!settingsFileExists)
+
+            if (!settingsFileExists)
                 return;
-            
+
             //precache the file
             DiskReader.loadString(settingsName, 0, true);
-            
+
             //process the cached file
             Configuration.lafTheme = LAFTheme.valueOf(asString(127));
             Configuration.rstaTheme = RSTATheme.valueOf(asString(128));
@@ -236,15 +239,15 @@ public class SettingsSerializer
             e.printStackTrace();
         }
     }
-    
+
     //utilizes the Disk Reader's caching system.
     public static void loadSettings()
     {
-        if(!settingsFileExists)
+        if (!settingsFileExists)
             return;
-        
+
         Settings.firstBoot = false;
-        
+
         try
         {
             //parse the cached file from memory (from preload)
@@ -335,7 +338,8 @@ public class SettingsSerializer
             BytecodeViewer.viewer.refreshOnChange.setSelected(asBoolean(84));
 
             boolean bool = Boolean.parseBoolean(asString(85));
-            if (bool) {
+            if (bool)
+            {
                 BytecodeViewer.viewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 BytecodeViewer.viewer.isMaximized = true;
             }
@@ -344,16 +348,16 @@ public class SettingsSerializer
             Configuration.lastOpenDirectory = asString(88);
             Configuration.python2 = asString(89);
             Configuration.rt = asString(90);
-            
+
             BytecodeViewer.viewer.decodeAPKResources.setSelected(asBoolean(106));
             Configuration.library = asString(107);
             Configuration.pingback = asBoolean(108);
-            
+
             BytecodeViewer.viewer.fontSpinner.setValue(asInt(112));
             Configuration.deleteForeignLibraries = asBoolean(113);
-            
+
             //APK Decompiler
-            switch(asInt(114))
+            switch (asInt(114))
             {
                 case 0:
                     BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionDex.getModel(), true);
@@ -362,7 +366,7 @@ public class SettingsSerializer
                     BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel(), true);
                     break;
             }
-    
+
             Configuration.python3 = asString(115);
             Configuration.javac = asString(116);
             Configuration.java = asString(117);
@@ -380,16 +384,16 @@ public class SettingsSerializer
             //line 128 is used for theme on preload
             BytecodeViewer.viewer.simplifyNameInTabTitle.setSelected(asBoolean(129));
             Configuration.simplifiedTabNames = BytecodeViewer.viewer.simplifyNameInTabTitle.isSelected();
-            
+
             //line 130 is used for preload
-            if(Configuration.language != Language.ENGLISH)
+            if (Configuration.language != Language.ENGLISH)
                 Configuration.language.setLanguageTranslations(); //load language translations
             Settings.hasSetLanguageAsSystemLanguage = true;
-            
+
             BytecodeViewer.viewer.viewPane1.setPaneEditable(asBoolean(131));
             BytecodeViewer.viewer.viewPane2.setPaneEditable(asBoolean(132));
             BytecodeViewer.viewer.viewPane3.setPaneEditable(asBoolean(133));
-            
+
             Configuration.javaTools = asString(134);
             //ignore 135
             //ignore 136
@@ -409,22 +413,22 @@ public class SettingsSerializer
             e.printStackTrace();
         }
     }
-    
+
     public static void save(Object o)
     {
         DiskWriter.writeNewLine(settingsName, String.valueOf(o), false);
     }
-    
+
     public static String asString(int lineNumber) throws Exception
     {
         return DiskReader.loadString(settingsName, lineNumber, false);
     }
-    
+
     public static boolean asBoolean(int lineNumber) throws Exception
     {
         return Boolean.parseBoolean(DiskReader.loadString(settingsName, lineNumber, false));
     }
-    
+
     public static int asInt(int lineNumber) throws Exception
     {
         return Integer.parseInt(DiskReader.loadString(settingsName, lineNumber, false));

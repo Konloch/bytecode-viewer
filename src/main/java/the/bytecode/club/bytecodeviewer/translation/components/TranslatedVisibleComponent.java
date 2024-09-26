@@ -28,19 +28,19 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
  */
 public class TranslatedVisibleComponent extends VisibleComponent
 {
-	public TranslatedVisibleComponent(String title, TranslatedComponents translatedComponents)
-	{
-		super(title);
-		
-		if(translatedComponents != null)
-		{
-			TranslatedComponentReference componentReference = translatedComponents.getTranslatedComponentReference();
-			componentReference.runOnUpdate.add(()->
-			{
-				if(componentReference.value != null && !componentReference.value.isEmpty())
-					setTitle(componentReference.value);
-			});
-			componentReference.translate();
-		}
-	}
+    public TranslatedVisibleComponent(String title, TranslatedComponents translatedComponents)
+    {
+        super(title);
+
+        if (translatedComponents != null)
+        {
+            TranslatedComponentReference componentReference = translatedComponents.getTranslatedComponentReference();
+            componentReference.runOnUpdate.add(() ->
+            {
+                if (componentReference.value != null && !componentReference.value.isEmpty())
+                    setTitle(componentReference.value);
+            });
+            componentReference.translate();
+        }
+    }
 }

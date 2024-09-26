@@ -18,9 +18,10 @@
 
 package the.bytecode.club.bytecodeviewer.searching;
 
-import javax.swing.JPanel;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+
+import javax.swing.*;
 
 /**
  * @author Konloch
@@ -29,7 +30,7 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
  */
 public interface SearchPanel
 {
-	JPanel getPanel();
-	
-	void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean exact);
+    JPanel getPanel();
+
+    void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean exact);
 }

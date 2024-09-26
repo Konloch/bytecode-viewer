@@ -18,29 +18,19 @@
 
 package the.bytecode.club.bytecodeviewer.util;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import javax.imageio.ImageIO;
-import javax.swing.SwingUtilities;
 import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.translation.Language;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.*;
 
 import static the.bytecode.club.bytecodeviewer.BytecodeViewer.gson;
 
@@ -63,24 +53,28 @@ public class MiscUtils
      * @param len the length of the String
      * @return the randomized string
      */
-    public static String randomString(int len) {
+    public static String randomString(int len)
+    {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
             sb.append(AB.charAt(rnd.nextInt(AB.length())));
         return sb.toString();
     }
-    
+
     /**
      * Ensures it will only return a uniquely generated names, contains a dupe checker to be sure
      *
      * @return the unique randomized name of 25 characters.
      */
-    public static String getRandomizedName() {
+    public static String getRandomizedName()
+    {
         boolean generated = false;
         String name = "";
-        while (!generated) {
+        while (!generated)
+        {
             String randomizedName = MiscUtils.randomString(25);
-            if (!createdRandomizedNames.contains(randomizedName)) {
+            if (!createdRandomizedNames.contains(randomizedName))
+            {
                 createdRandomizedNames.add(randomizedName);
                 name = randomizedName;
                 generated = true;
@@ -89,22 +83,23 @@ public class MiscUtils
         return name;
     }
 
-    public static void printProcess(Process process) throws Exception {
+    public static void printProcess(Process process) throws Exception
+    {
         //Read out dir output
-        try (InputStream is = process.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(isr)) {
+        try (InputStream is = process.getInputStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+        {
             String line;
-            while ((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null)
+            {
                 System.out.println(line);
             }
         }
 
-        try (InputStream is = process.getErrorStream();
-             InputStreamReader isr = new InputStreamReader(is);
-             BufferedReader br = new BufferedReader(isr)) {
+        try (InputStream is = process.getErrorStream(); InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+        {
             String line;
-            while ((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null)
+            {
                 System.out.println(line);
             }
         }
@@ -116,7 +111,8 @@ public class MiscUtils
      * @param len the length of the String
      * @return the randomized string
      */
-    public static String randomStringNum(int len) {
+    public static String randomStringNum(int len)
+    {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
             sb.append(AN.charAt(rnd.nextInt(AN.length())));
@@ -130,15 +126,18 @@ public class MiscUtils
      * @param ext   the file extension it'll use
      * @return the unique name
      */
-    public static String getUniqueName(String start, String ext) {
+    public static String getUniqueName(String start, String ext)
+    {
         String s = null;
         boolean b = true;
         File f;
         String m;
-        while (b) {
+        while (b)
+        {
             m = MiscUtils.randomString(32);
             f = new File(start + m + ext);
-            if (!f.exists()) {
+            if (!f.exists())
+            {
                 s = start + m;
                 b = false;
             }
@@ -153,7 +152,8 @@ public class MiscUtils
      * @param ext   the file extension it'll use
      * @return the unique number
      */
-    public static int getClassNumber(String start, String ext) {
+    public static int getClassNumber(String start, String ext)
+    {
         boolean b = true;
         int i = 0;
         while (b)
@@ -166,81 +166,91 @@ public class MiscUtils
         }
         return i;
     }
-    
+
     public static File autoAppendFileExtension(String extension, File file)
     {
         if (!file.getName().endsWith(extension))
             file = new File(file.getAbsolutePath() + extension);
-        
+
         return file;
     }
-    
-    public static String extension(String name) {
+
+    public static String extension(String name)
+    {
         return name.substring(name.lastIndexOf('.') + 1);
     }
 
-    public static String append(File file, String extension) {
+    public static String append(File file, String extension)
+    {
         String path = file.getAbsolutePath();
         if (!path.endsWith(extension))
             path += extension;
         return path;
     }
-    
-    public static int fileContainersHash(List<ResourceContainer> resourceContainers) {
+
+    public static int fileContainersHash(List<ResourceContainer> resourceContainers)
+    {
         StringBuilder block = new StringBuilder();
-        for (ResourceContainer container : resourceContainers) {
+        for (ResourceContainer container : resourceContainers)
+        {
             block.append(container.name);
-            for (ClassNode node : container.resourceClasses.values()) {
+            for (ClassNode node : container.resourceClasses.values())
+            {
                 block.append(node.name);
             }
         }
-        
+
         return block.hashCode();
     }
-    
+
     /**
      * Converts an array list to a string
      *
      * @param a array
      * @return string with newline per array object
      */
-    public static String listToString(List<String> a) {
+    public static String listToString(List<String> a)
+    {
         return gson.toJson(a);
     }
-    
+
     /**
      * @author JoshTheWolfe
      */
     @SuppressWarnings({"unchecked"})
-    public static void updateEnv(String name, String val) throws ReflectiveOperationException {
+    public static void updateEnv(String name, String val) throws ReflectiveOperationException
+    {
         Map<String, String> env = System.getenv();
         Field field = env.getClass().getDeclaredField("m");
         field.setAccessible(true);
         ((Map<String, String>) field.get(env)).put(name, val);
     }
-    
+
     public static BufferedImage loadImage(BufferedImage defaultImage, byte[] contents)
     {
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(contents)) {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(contents))
+        {
             return ImageIO.read(bais);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             BytecodeViewer.handleException(e);
         }
-        
+
         return defaultImage;
     }
-    
+
     public static void deduplicateAndTrim(List<String> list, int maxLength)
     {
         List<String> temporaryList = new ArrayList<>();
-        for(String s : list)
-            if(!s.isEmpty() && !temporaryList.contains(s))
+        for (String s : list)
+            if (!s.isEmpty() && !temporaryList.contains(s))
                 temporaryList.add(s);
-            
+
         list.clear();
         list.addAll(temporaryList);
 
-        while(list.size() > maxLength)
+        while (list.size() > maxLength)
             list.remove(list.size() - 1);
     }
 
@@ -248,28 +258,32 @@ public class MiscUtils
      * Returns whether the bytes most likely represent binary data.
      * Based on https://stackoverflow.com/a/13533390/5894824
      */
-    public static boolean guessIfBinary(byte[] data) {
+    public static boolean guessIfBinary(byte[] data)
+    {
         double ascii = 0;
         double other = 0;
-        for (byte b : data) {
-            if (b == 0x09 || b == 0x0A || b == 0x0C || b == 0x0D || (b >= 0x20 && b <= 0x7E)) ascii++;
-            else other++;
+        for (byte b : data)
+        {
+            if (b == 0x09 || b == 0x0A || b == 0x0C || b == 0x0D || (b >= 0x20 && b <= 0x7E))
+                ascii++;
+            else
+                other++;
         }
         return other != 0 && other / (ascii + other) > 0.25;
     }
-    
+
     public static Language guessLanguage()
     {
         String userLanguage = System.getProperty("user.language");
         String systemLanguageCode = userLanguage != null ? userLanguage.toLowerCase() : "";
-        
+
         return Language.getLanguageCodeLookup().getOrDefault(systemLanguageCode, Language.ENGLISH);
     }
-    
+
     public static void setLanguage(Language language)
     {
         Configuration.language = language;
-    
+
         try
         {
             Language.ENGLISH.setLanguageTranslations(); //load english first incase the translation file is missing anything
@@ -281,7 +295,7 @@ public class MiscUtils
             ex.printStackTrace();
         }
     }
-    
+
     /**
      * START's a new thread (Creates a new thread and runs that thread runnable on it)
      */
@@ -289,7 +303,7 @@ public class MiscUtils
     {
         return createNewThread(threadName, false, threadRunnable);
     }
-    
+
     /**
      * START's a new thread (Creates a new thread and runs that thread runnable on it)
      * RUN's a new thread (Just executes the thread runnable on the active thread)
@@ -297,26 +311,26 @@ public class MiscUtils
     public static Thread createNewThread(String threadName, boolean runDontStart, Runnable threadRunnable)
     {
         Thread temporaryThread = new Thread(threadRunnable, threadName);
-        
-        if(runDontStart)
+
+        if (runDontStart)
             temporaryThread.run();
         else
             temporaryThread.start();
-        
+
         return temporaryThread;
     }
-    
+
     public static String getChildFromPath(String path)
     {
         if (path != null && path.contains("/"))
         {
             String[] pathParts = StringUtils.split(path, "/");
-            return pathParts[pathParts.length-1];
+            return pathParts[pathParts.length - 1];
         }
-        
+
         return path;
     }
-    
+
     /**
      * Reads an InputStream and returns the read byte[]
      *
@@ -326,7 +340,8 @@ public class MiscUtils
      */
     public static byte[] getBytes(InputStream is) throws IOException
     {
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
+        {
 
             byte[] buffer = new byte[1024];
             int a;
@@ -337,7 +352,8 @@ public class MiscUtils
         }
     }
 
-    public static File[] listFiles(File file) {
+    public static File[] listFiles(File file)
+    {
         if (file == null)
             return new File[0];
         File[] list = file.listFiles();
@@ -350,7 +366,7 @@ public class MiscUtils
     {
         if (file.exists())
             file.delete();
-        
+
         return file;
     }
 }

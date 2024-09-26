@@ -29,12 +29,12 @@ import java.util.List;
  */
 public class TranslatedComponentReference
 {
-	public String key;
-	public String value;
-	public List<Runnable> runOnUpdate = new ArrayList<>();
-	
-	public void translate()
-	{
-		runOnUpdate.forEach(Runnable::run);
-	}
+    public String key;
+    public String value;
+    public List<Runnable> runOnUpdate = new ArrayList<>();
+
+    public void translate()
+    {
+        runOnUpdate.forEach(Runnable::run);
+    }
 }

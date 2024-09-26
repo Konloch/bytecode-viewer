@@ -18,13 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -35,75 +28,82 @@ import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Konloch
  * @since 6/26/2021
  */
 public class DirectoryResourceImporter implements Importer
 {
-	@Override
-	public void open(File file) throws Exception
-	{
-		ResourceContainer container = new ResourceContainer(file);
-		Map<String, byte[]> allDirectoryFiles = new LinkedHashMap<>();
-		Map<String, ClassNode> allDirectoryClasses = new LinkedHashMap<>();
-		
-		boolean finished = false;
-		List<File> totalFiles = new ArrayList<>();
-		totalFiles.add(file);
-		String dir = file.getAbsolutePath();
-		
-		while (!finished)
-		{
-			boolean added = false;
-			for (int i = 0; i < totalFiles.size(); i++)
-			{
-				File child = totalFiles.get(i);
-				for (File rocket : MiscUtils.listFiles(child))
-					if (!totalFiles.contains(rocket))
-					{
-						totalFiles.add(rocket);
-						added = true;
-					}
-			}
-			
-			if (!added)
-			{
-				for (File child : totalFiles)
-				{
-					if(!child.isFile())
-						continue;
-					
-					final String trimmedPath = child.getAbsolutePath().substring(dir.length() + 1)
-							.replaceAll("\\\\", "\\/");
-					final String fileName = child.getName();
-					
-					if (fileName.endsWith(".class"))
-					{
-						byte[] bytes = Files.readAllBytes(Paths.get(child.getAbsolutePath()));
-						if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER))
-						{
-							final ClassNode cn = JarUtils.getNode(bytes);
-							allDirectoryClasses.put(FilenameUtils.removeExtension(trimmedPath), cn);
-						}
-					}
-					//attempt to import archives automatically
-					else if(ImportResource.importKnownFile(file))
-					{
-						//let import resource handle it
-					}
-					else //pack files into a single container
-					{
-						allDirectoryFiles.put(trimmedPath, Files.readAllBytes(Paths.get(child.getAbsolutePath())));
-					}
-				}
-				
-				finished = true;
-			}
-		}
-		
-		container.resourceClasses.putAll(allDirectoryClasses);
-		container.resourceFiles = allDirectoryFiles;
-		BytecodeViewer.addResourceContainer(container);
-	}
+    @Override
+    public void open(File file) throws Exception
+    {
+        ResourceContainer container = new ResourceContainer(file);
+        Map<String, byte[]> allDirectoryFiles = new LinkedHashMap<>();
+        Map<String, ClassNode> allDirectoryClasses = new LinkedHashMap<>();
+
+        boolean finished = false;
+        List<File> totalFiles = new ArrayList<>();
+        totalFiles.add(file);
+        String dir = file.getAbsolutePath();
+
+        while (!finished)
+        {
+            boolean added = false;
+            for (int i = 0; i < totalFiles.size(); i++)
+            {
+                File child = totalFiles.get(i);
+                for (File rocket : MiscUtils.listFiles(child))
+                    if (!totalFiles.contains(rocket))
+                    {
+                        totalFiles.add(rocket);
+                        added = true;
+                    }
+            }
+
+            if (!added)
+            {
+                for (File child : totalFiles)
+                {
+                    if (!child.isFile())
+                        continue;
+
+                    final String trimmedPath = child.getAbsolutePath().substring(dir.length() + 1).replaceAll("\\\\", "\\/");
+                    final String fileName = child.getName();
+
+                    if (fileName.endsWith(".class"))
+                    {
+                        byte[] bytes = Files.readAllBytes(Paths.get(child.getAbsolutePath()));
+                        if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER))
+                        {
+                            final ClassNode cn = JarUtils.getNode(bytes);
+                            allDirectoryClasses.put(FilenameUtils.removeExtension(trimmedPath), cn);
+                        }
+                    }
+                    //attempt to import archives automatically
+                    else if (ImportResource.importKnownFile(file))
+                    {
+                        //let import resource handle it
+                    }
+                    else //pack files into a single container
+                    {
+                        allDirectoryFiles.put(trimmedPath, Files.readAllBytes(Paths.get(child.getAbsolutePath())));
+                    }
+                }
+
+                finished = true;
+            }
+        }
+
+        container.resourceClasses.putAll(allDirectoryClasses);
+        container.resourceFiles = allDirectoryFiles;
+        BytecodeViewer.addResourceContainer(container);
+    }
 }

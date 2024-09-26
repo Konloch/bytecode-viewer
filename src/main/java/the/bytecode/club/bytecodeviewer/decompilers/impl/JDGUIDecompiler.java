@@ -18,12 +18,6 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import me.konloch.kontainer.io.DiskReader;
 import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.objectweb.asm.tree.ClassNode;
@@ -37,6 +31,8 @@ import the.bytecode.club.bytecodeviewer.decompilers.jdgui.JDGUIClassFileUtil;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.PlainTextPrinter;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+
+import java.io.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.fs;
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
@@ -54,28 +50,35 @@ public class JDGUIDecompiler extends InternalDecompiler
 {
 
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b) {
+    public String decompileClassNode(ClassNode cn, byte[] b)
+    {
         String exception;
-        try {
+        try
+        {
             final File tempDirectory = new File(Constants.tempDirectory + fs + MiscUtils.randomString(32) + fs);
             tempDirectory.mkdir();
-            
+
             final File tempClass = new File(tempDirectory.getAbsolutePath() + fs + cn.name + ".class");
             final File tempJava = new File(tempDirectory.getAbsolutePath() + fs + cn.name + ".java");
 
-            if (cn.name.contains("/")) {
+            if (cn.name.contains("/"))
+            {
                 String[] raw = cn.name.split("/");
                 String path = tempDirectory.getAbsolutePath() + fs;
-                for (int i = 0; i < raw.length - 1; i++) {
+                for (int i = 0; i < raw.length - 1; i++)
+                {
                     path += raw[i] + fs;
                     File f = new File(path);
                     f.mkdir();
                 }
             }
 
-            try (FileOutputStream fos = new FileOutputStream(tempClass)) {
+            try (FileOutputStream fos = new FileOutputStream(tempClass))
+            {
                 fos.write(b);
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 BytecodeViewer.handleException(e);
             }
 
@@ -84,14 +87,17 @@ public class JDGUIDecompiler extends InternalDecompiler
             String directoryPath = JDGUIClassFileUtil.ExtractDirectoryPath(pathToClass);
             String internalPath = JDGUIClassFileUtil.ExtractInternalPath(directoryPath, pathToClass);
 
-            CommonPreferences preferences = new CommonPreferences() {
+            CommonPreferences preferences = new CommonPreferences()
+            {
                 @Override
-                public boolean isShowLineNumbers() {
+                public boolean isShowLineNumbers()
+                {
                     return false;
                 }
 
                 @Override
-                public boolean isMergeEmptyLines() {
+                public boolean isMergeEmptyLines()
+                {
                     return true;
                 }
             };
@@ -102,26 +108,27 @@ public class JDGUIDecompiler extends InternalDecompiler
             //HtmlPrinter printer = new HtmlPrinter(ps);
             org.jd.core.v1.api.Decompiler decompiler = new ClassFileToJavaSourceDecompiler();
 
-            try (PrintStream ps = new PrintStream(tempJava.getAbsolutePath());
-                 PlainTextPrinter printer = new PlainTextPrinter(preferences, ps)) {
+            try (PrintStream ps = new PrintStream(tempJava.getAbsolutePath()); PlainTextPrinter printer = new PlainTextPrinter(preferences, ps))
+            {
                 decompiler.decompile(loader, printer, internalPath, preferences.getPreferences());
             }
 
             return DiskReader.loadAsString(tempJava.getAbsolutePath());
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
 
             exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
-        
-        return JDGUI + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO +
-                nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR +
-                nl + nl + exception;
+
+        return JDGUI + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + nl + nl + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + nl + nl + exception;
     }
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName) {
+    public void decompileToZip(String sourceJar, String zipName)
+    {
     }
 }

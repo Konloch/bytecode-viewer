@@ -18,15 +18,11 @@
 
 package the.bytecode.club.bytecodeviewer.plugin.preinstalled;
 
-import java.util.List;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.*;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.api.PluginConsole;
+
+import java.util.List;
 
 import static the.bytecode.club.bytecodeviewer.Constants.nl;
 
@@ -43,32 +39,28 @@ public class ShowAllStrings extends Plugin
     {
         PluginConsole frame = new PluginConsole("Show All Strings");
         StringBuilder sb = new StringBuilder();
-        
+
         for (ClassNode classNode : classNodeList)
         {
             for (Object o : classNode.fields.toArray())
             {
                 FieldNode f = (FieldNode) o;
                 Object v = f.value;
-                
+
                 if (v instanceof String)
                 {
                     String s = (String) v;
                     if (!s.isEmpty())
-                        sb.append(classNode.name).append(".").append(f.name).append(f.desc).append(" -> \"")
-                                .append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r"))
-                                .append("\"").append(nl);
+                        sb.append(classNode.name).append(".").append(f.name).append(f.desc).append(" -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r")).append("\"").append(nl);
                 }
-                
+
                 if (v instanceof String[])
                 {
                     for (int i = 0; i < ((String[]) v).length; i++)
                     {
                         String s = ((String[]) v)[i];
                         if (!s.isEmpty())
-                            sb.append(classNode.name).append(".").append(f.name).append(f.desc).append("[").append(i)
-                                    .append("] -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r"))
-                                    .append("\"").append(nl);
+                            sb.append(classNode.name).append(".").append(f.name).append(f.desc).append("[").append(i).append("] -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r")).append("\"").append(nl);
                     }
                 }
             }
@@ -77,7 +69,7 @@ public class ShowAllStrings extends Plugin
             {
                 MethodNode m = (MethodNode) o;
                 InsnList iList = m.instructions;
-                
+
                 for (AbstractInsnNode a : iList.toArray())
                 {
                     if (a instanceof LdcInsnNode)
@@ -86,15 +78,13 @@ public class ShowAllStrings extends Plugin
                         {
                             final String s = (String) ((LdcInsnNode) a).cst;
                             if (!s.isEmpty())
-                                sb.append(classNode.name).append(".").append(m.name).append(m.desc).append(" -> \"")
-                                        .append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r"))
-                                        .append("\"").append(nl);
+                                sb.append(classNode.name).append(".").append(m.name).append(m.desc).append(" -> \"").append(s.replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r")).append("\"").append(nl);
                         }
                     }
                 }
             }
         }
-    
+
         frame.setText(sb.toString());
         frame.setVisible(true);
     }

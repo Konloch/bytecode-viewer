@@ -18,10 +18,11 @@
 
 package the.bytecode.club.bytecodeviewer.util;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Prevents name path collisions by allowing the same name to be used in multiple resource containers.
@@ -33,7 +34,8 @@ public class LazyNameUtil
     public static boolean SAME_NAME_JAR_WORKSPACE = false;
     private static final Map<String, SeqAndCount> nameMap = new HashMap<>();
 
-    public static void reset() {
+    public static void reset()
+    {
         nameMap.clear();
     }
 

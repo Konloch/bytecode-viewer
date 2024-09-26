@@ -41,49 +41,59 @@ import java.util.List;
  * @author GraxCode
  */
 
-public class MemberWithAnnotationSearch implements SearchPanel {
-  JTextField annotation;
-  JPanel myPanel = null;
+public class MemberWithAnnotationSearch implements SearchPanel
+{
+    JTextField annotation;
+    JPanel myPanel = null;
 
-  public MemberWithAnnotationSearch() {
-    annotation = new JTextField("");
-    annotation.addKeyListener(EnterKeyEvent.SINGLETON);
-    LAFTheme.registerThemeUpdate(annotation);
-  }
-
-  @Override
-  public JPanel getPanel() {
-    if (myPanel == null) {
-      myPanel = new JPanel(new BorderLayout(16, 16));
-      myPanel.add(new TranslatedJLabel("Annotation name: ", TranslatedComponents.ANNOTATION_NAME), BorderLayout.WEST);
-      myPanel.add(annotation, BorderLayout.CENTER);
-      LAFTheme.registerThemeUpdate(myPanel);
+    public MemberWithAnnotationSearch()
+    {
+        annotation = new JTextField("");
+        annotation.addKeyListener(EnterKeyEvent.SINGLETON);
+        LAFTheme.registerThemeUpdate(annotation);
     }
 
-    return myPanel;
-  }
+    @Override
+    public JPanel getPanel()
+    {
+        if (myPanel == null)
+        {
+            myPanel = new JPanel(new BorderLayout(16, 16));
+            myPanel.add(new TranslatedJLabel("Annotation name: ", TranslatedComponents.ANNOTATION_NAME), BorderLayout.WEST);
+            myPanel.add(annotation, BorderLayout.CENTER);
+            LAFTheme.registerThemeUpdate(myPanel);
+        }
 
-  public void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean caseSensitive) {
-    final String srchText = annotation.getText().trim();
-
-    if (srchText.isEmpty()) return;
-
-    node.fields.stream().filter(fn -> hasAnnotation(srchText, Arrays.asList(fn.invisibleAnnotations, fn.visibleAnnotations)))
-            .forEach(fn -> BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(container, resourceWorkingName, node, null, fn, fn.name + " " + fn.desc, "")));
-    node.methods.stream().filter(mn -> hasAnnotation(srchText, Arrays.asList(mn.invisibleAnnotations, mn.visibleAnnotations)))
-            .forEach(mn -> BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(container, resourceWorkingName, node, mn, null, mn.name + mn.desc, "")));
-  }
-
-  public static boolean hasAnnotation(String annotation, List<List<AnnotationNode>> annoLists) {
-    if (annoLists == null) return false;
-    for (List<AnnotationNode> annos : annoLists) {
-      if (annos == null) continue;
-      if (annos.stream().anyMatch(ant -> {
-        String internalName = Type.getType(ant.desc).getInternalName();
-        return internalName.equals(annotation) || internalName.endsWith('/' + annotation) || ant.desc.endsWith('/' + annotation.replace('.', '$'));
-        // in case dot is used for inner class annotations
-      })) return true;
+        return myPanel;
     }
-    return false;
-  }
+
+    public void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean caseSensitive)
+    {
+        final String srchText = annotation.getText().trim();
+
+        if (srchText.isEmpty())
+            return;
+
+        node.fields.stream().filter(fn -> hasAnnotation(srchText, Arrays.asList(fn.invisibleAnnotations, fn.visibleAnnotations))).forEach(fn -> BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(container, resourceWorkingName, node, null, fn, fn.name + " " + fn.desc, "")));
+        node.methods.stream().filter(mn -> hasAnnotation(srchText, Arrays.asList(mn.invisibleAnnotations, mn.visibleAnnotations))).forEach(mn -> BytecodeViewer.viewer.searchBoxPane.treeRoot.add(new LDCSearchTreeNodeResult(container, resourceWorkingName, node, mn, null, mn.name + mn.desc, "")));
+    }
+
+    public static boolean hasAnnotation(String annotation, List<List<AnnotationNode>> annoLists)
+    {
+        if (annoLists == null)
+            return false;
+        for (List<AnnotationNode> annos : annoLists)
+        {
+            if (annos == null)
+                continue;
+            if (annos.stream().anyMatch(ant ->
+            {
+                String internalName = Type.getType(ant.desc).getInternalName();
+                return internalName.equals(annotation) || internalName.endsWith('/' + annotation) || ant.desc.endsWith('/' + annotation.replace('.', '$'));
+                // in case dot is used for inner class annotations
+            }))
+                return true;
+        }
+        return false;
+    }
 }

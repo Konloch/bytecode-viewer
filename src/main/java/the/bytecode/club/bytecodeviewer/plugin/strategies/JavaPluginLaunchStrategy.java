@@ -18,10 +18,11 @@
 
 package the.bytecode.club.bytecodeviewer.plugin.strategies;
 
-import java.io.File;
 import org.codehaus.janino.SimpleCompiler;
 import the.bytecode.club.bytecodeviewer.api.Plugin;
 import the.bytecode.club.bytecodeviewer.plugin.PluginLaunchStrategy;
+
+import java.io.File;
 
 /**
  * @author Konloch
@@ -38,13 +39,9 @@ public class JavaPluginLaunchStrategy implements PluginLaunchStrategy
 
         //debug
         //System.out.println(file.getName().substring(0, file.getName().length() - (".java".length())));
-        
+
         //get the class object from the compiler classloader
-        Class<?> clazz = Class.forName(
-                file.getName().substring(0, file.getName().length() - ".java".length()),
-                true,
-                compiler.getClassLoader()
-        );
+        Class<?> clazz = Class.forName(file.getName().substring(0, file.getName().length() - ".java".length()), true, compiler.getClassLoader());
 
         //create a new instance of the class
         return (Plugin) clazz.getDeclaredConstructor().newInstance();

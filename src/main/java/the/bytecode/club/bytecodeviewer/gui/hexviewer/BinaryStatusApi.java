@@ -18,11 +18,12 @@
 
 package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.bined.CodeAreaCaretPosition;
 import org.exbin.bined.EditMode;
 import org.exbin.bined.EditOperation;
 import org.exbin.bined.SelectionRange;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Binary editor status interface.
@@ -30,7 +31,8 @@ import org.exbin.bined.SelectionRange;
  * @author hajdam
  */
 @ParametersAreNonnullByDefault
-public interface BinaryStatusApi {
+public interface BinaryStatusApi
+{
 
     /**
      * Reports cursor position.
@@ -49,7 +51,7 @@ public interface BinaryStatusApi {
     /**
      * Reports currently active edit mode.
      *
-     * @param mode edit mode
+     * @param mode      edit mode
      * @param operation edit operation
      */
     void setEditMode(EditMode mode, EditOperation operation);
@@ -57,7 +59,7 @@ public interface BinaryStatusApi {
     /**
      * Sets current document size.
      *
-     * @param documentSize document size
+     * @param documentSize        document size
      * @param initialDocumentSize document size when file was opened
      */
     void setCurrentDocumentSize(long documentSize, long initialDocumentSize);

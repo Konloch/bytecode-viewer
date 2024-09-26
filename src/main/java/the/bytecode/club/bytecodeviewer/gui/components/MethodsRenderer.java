@@ -18,15 +18,13 @@
 
 package the.bytecode.club.bytecodeviewer.gui.components;
 
-import java.awt.Component;
-import java.util.List;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 import the.bytecode.club.bytecodeviewer.gui.util.BytecodeViewPanelUpdater;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 /**
  * @author Konloch
@@ -35,29 +33,31 @@ import the.bytecode.club.bytecodeviewer.util.MethodParser;
  */
 public class MethodsRenderer extends JLabel implements ListCellRenderer<Object>
 {
-	private final BytecodeViewPanelUpdater bytecodeViewPanelUpdater;
-	
-	public MethodsRenderer(BytecodeViewPanelUpdater bytecodeViewPanelUpdater)
-	{
-		this.bytecodeViewPanelUpdater = bytecodeViewPanelUpdater;
-		setOpaque(true);
-	}
-	
-	@Override
-	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
-	                                              boolean cellHasFocus)
-	{
-		int methodIndex = (Integer) value;
-		MethodParser methods;
-		List<MethodParser> methodParsers = bytecodeViewPanelUpdater.viewer.methods;
-		BytecodeViewPanel bytecodeViewPanel = bytecodeViewPanelUpdater.bytecodeViewPanel;
-		try {
-			methods = methodParsers.get(bytecodeViewPanel.decompiler.ordinal());
-		} catch (ArrayIndexOutOfBoundsException e) {
-			methods = methodParsers.get(bytecodeViewPanel.panelIndex);
-		}
-		MethodParser.Method method = methods.getMethod(methodIndex);
-		setText(method.toString());
-		return this;
-	}
+    private final BytecodeViewPanelUpdater bytecodeViewPanelUpdater;
+
+    public MethodsRenderer(BytecodeViewPanelUpdater bytecodeViewPanelUpdater)
+    {
+        this.bytecodeViewPanelUpdater = bytecodeViewPanelUpdater;
+        setOpaque(true);
+    }
+
+    @Override
+    public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+    {
+        int methodIndex = (Integer) value;
+        MethodParser methods;
+        List<MethodParser> methodParsers = bytecodeViewPanelUpdater.viewer.methods;
+        BytecodeViewPanel bytecodeViewPanel = bytecodeViewPanelUpdater.bytecodeViewPanel;
+        try
+        {
+            methods = methodParsers.get(bytecodeViewPanel.decompiler.ordinal());
+        }
+        catch (ArrayIndexOutOfBoundsException e)
+        {
+            methods = methodParsers.get(bytecodeViewPanel.panelIndex);
+        }
+        MethodParser.Method method = methods.getMethod(methodIndex);
+        setText(method.toString());
+        return this;
+    }
 }
