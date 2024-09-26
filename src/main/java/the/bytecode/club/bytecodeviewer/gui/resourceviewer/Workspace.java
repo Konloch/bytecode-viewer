@@ -142,7 +142,6 @@ public class Workspace extends TranslatedVisibleComponent {
 		final int tabIndex = tabs.indexOfComponent(resourceView);
 
 		//create a new tabbed pane
-		resourceView.tabbedPane = new TabbedPane(tabIndex, workingName, containerName, name, tabs, resourceView);
 		resourceView.resource.workingName = workingName;
 
 		//set the tabs index

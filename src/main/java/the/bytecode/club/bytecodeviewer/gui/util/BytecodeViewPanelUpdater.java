@@ -50,7 +50,6 @@ import java.awt.event.*;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
-import static the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane.BLANK_COLOR;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.EDITABLE;
 
 /**
@@ -376,7 +375,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                 JPanel panel = new JPanel(new BorderLayout());
                 panel.add(updateUpdaterTextArea.getScrollPane().getColumnHeader().getComponent(0), BorderLayout.NORTH);
                 panel.add(methodsList, BorderLayout.SOUTH);
-                methodsList.setBackground(BLANK_COLOR);
+                methodsList.setBackground(new Color(0, 0, 0, 0));
 
                 SwingUtilities.invokeLater(() ->
                 {

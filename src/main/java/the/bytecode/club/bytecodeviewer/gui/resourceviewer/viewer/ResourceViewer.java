@@ -21,7 +21,6 @@ package the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.resources.Resource;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -34,7 +33,6 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 public abstract class ResourceViewer extends JPanel
 {
     public final Resource resource;
-    public TabbedPane tabbedPane;
     
     protected ResourceViewer(Resource resource) {this.resource = resource;}
     
@@ -69,8 +67,9 @@ public abstract class ResourceViewer extends JPanel
      */
     public void refreshTitle()
     {
-        if(tabbedPane != null)
-            tabbedPane.label.setText(getTabName());
+		//TODO
+        //if(tabbedPane != null)
+        //    tabbedPane.label.setText(getTabName());
     }
 
     private static final long serialVersionUID = -2965538493489119191L;

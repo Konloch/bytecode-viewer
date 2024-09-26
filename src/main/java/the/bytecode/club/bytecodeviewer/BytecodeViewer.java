@@ -43,7 +43,6 @@ import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableJTextArea;
 import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea;
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListIconRenderer;
-import the.bytecode.club.bytecodeviewer.gui.resourceviewer.TabbedPane;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
@@ -668,8 +667,9 @@ public class BytecodeViewer
     {
         for(int i = 0; i < BytecodeViewer.viewer.workPane.tabs.getTabCount(); i++)
         {
-            ResourceViewer viewer = ((TabbedPane) BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i)).resource;
-            viewer.refreshTitle();
+            //ResourceViewer viewer = ((TabbedPane) BytecodeViewer.viewer.workPane.tabs.getTabComponentAt(i)).resource;
+            //viewer.refreshTitle();
+	        //TODO
         }
     }
     
