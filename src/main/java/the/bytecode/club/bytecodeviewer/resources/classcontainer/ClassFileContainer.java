@@ -4,6 +4,7 @@ import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.resolution.TypeSolver;
+import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
@@ -58,10 +59,13 @@ public class ClassFileContainer
             StaticJavaParser.getParserConfiguration().setSymbolResolver(new JavaSymbolSolver(typeSolver));
             CompilationUnit compilationUnit = StaticJavaParser.parse(this.content);
             compilationUnit.accept(new MyVoidVisitor(this, compilationUnit), null);
-        } catch (ParseProblemException e)
+        }
+		catch (java.lang.ClassCastException | UnsolvedSymbolException | ParseProblemException e)
         {
             System.err.println("Parsing error!");
-        } catch (IOException e)
+			e.printStackTrace();
+        }
+		catch (IOException e)
         {
             throw new RuntimeException(e);
         }
