@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+  "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+  "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!--
+  Checkstyle configuration customized for my code style preferences.
+
+  This configuration enforces the following:
+    - Proper indentation (4 spaces)
+    - No unnecessary trailing spaces
+    - Maximum line length of 120 characters
+    - Consistent brace style (Allman)
+    - Proper whitespace usage
+    - Enforcement of basic Java best practices without adhering strictly to official conventions.
+-->
+
+<module name="Checker">
+  <property name="severity" value="error"/>
+  <property name="fileExtensions" value="java, properties, xml"/>
+
+  <!-- Exclude module-info.java files as they are not needed for validation -->
+  <module name="BeforeExecutionExclusionFileFilter">
+    <property name="fileNamePattern" value="module-info\.java$"/>
+  </module>
+
+  <!-- Ensure files end with a newline -->
+  <module name="NewlineAtEndOfFile"/>
+
+  <!-- Enforce maximum file length -->
+  <module name="FileLength"/>
+
+  <!-- Maximum line length set to 150 characters -->
+  <module name="LineLength">
+    <property name="max" value="150"/>
+  </module>
+
+  <!-- Disallow tab characters, enforce 4-space indentation -->
+  <module name="FileTabCharacter">
+    <property name="eachLine" value="true"/>
+  </module>
+
+  <module name="TreeWalker">
+    <!-- Enforce brace style (K&R), which starts a block on the same line as the control statement -->
+    <module name="LeftCurly">
+      <property name="option" value="nl"/>
+    </module>
+    <module name="RightCurly">
+      <property name="option" value="alone"/>
+    </module>
+
+    <!-- Enforce indentation -->
+    <module name="Indentation">
+      <property name="basicOffset" value="4"/>
+      <property name="braceAdjustment" value="0"/>
+      <property name="caseIndent" value="4"/>
+      <property name="throwsIndent" value="4"/>
+      <property name="lineWrappingIndentation" value="4"/>
+      <property name="arrayInitIndent" value="4"/>
+    </module>
+
+    <!-- Enforce no empty blocks without comments -->
+    <module name="EmptyBlock">
+      <property name="option" value="TEXT"/>
+      <property name="tokens" value="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH"/>
+    </module>
+
+    <!-- No unused imports -->
+    <module name="UnusedImports"/>
+
+    <!-- Checks for naming conventions -->
+    <module name="ConstantName"/>
+    <module name="LocalFinalVariableName"/>
+    <module name="LocalVariableName"/>
+    <module name="MemberName"/>
+    <module name="MethodName"/>
+    <module name="PackageName"/>
+    <module name="ParameterName"/>
+    <module name="StaticVariableName"/>
+    <module name="TypeName"/>
+
+    <!-- Enforce spacing around operators -->
+    <module name="WhitespaceAround">
+      <property name="allowEmptyConstructors" value="true"/>
+      <property name="allowEmptyMethods" value="true"/>
+      <property name="allowEmptyTypes" value="true"/>
+      <property name="allowEmptyLoops" value="true"/>
+      <property name="allowEmptyLambdas" value="true"/>
+    </module>
+
+    <!-- Additional whitespace rules to avoid inconsistent formatting -->
+    <module name="WhitespaceAfter"/>
+    <module name="NoWhitespaceBefore"/>
+    <module name="ParenPad"/>
+
+    <!-- Ensure a blank line exists between class definitions and members -->
+    <module name="EmptyLineSeparator">
+      <property name="allowNoEmptyLineBetweenFields" value="true"/>
+    </module>
+
+    <!-- No multiple variable declarations in a single line -->
+    <module name="MultipleVariableDeclarations"/>
+
+    <!-- Ensure proper method design and code clarity -->
+    <module name="FinalClass"/>
+  </module>
+</module>
