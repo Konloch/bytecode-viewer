@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.bytecodeviewer;
+package the.bytecode.club.bytecodeviewer.cli;
 
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.cli.CommandLine;
@@ -25,15 +25,17 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.translation.Language;
-import the.bytecode.club.bytecodeviewer.util.CLIAction;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.File;
 
-import static the.bytecode.club.bytecodeviewer.util.CLIAction.*;
+import static the.bytecode.club.bytecodeviewer.cli.CLIAction.*;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /**

@@ -1,4 +1,4 @@
-package the.bytecode.club.bytecodeviewer.util;
+package the.bytecode.club.bytecodeviewer.cli;
 
 /**
  * @author Konloch

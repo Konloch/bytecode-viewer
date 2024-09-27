@@ -29,6 +29,8 @@ import the.bytecode.club.bytecodeviewer.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.bootloader.BootState;
 import the.bytecode.club.bytecodeviewer.bootloader.InstallFatJar;
 import the.bytecode.club.bytecodeviewer.bootloader.UpdateCheck;
+import the.bytecode.club.bytecodeviewer.cli.CLIAction;
+import the.bytecode.club.bytecodeviewer.cli.CommandLineInput;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.components.ExtendedJOptionPane;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
