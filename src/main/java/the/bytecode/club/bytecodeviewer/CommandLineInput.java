@@ -27,11 +27,13 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.translation.Language;
+import the.bytecode.club.bytecodeviewer.util.CLIAction;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.File;
 
+import static the.bytecode.club.bytecodeviewer.util.CLIAction.*;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /**
@@ -45,11 +47,6 @@ public class CommandLineInput
 
     private static final Options OPTIONS = new Options();
     private static final CommandLineParser PARSER = new DefaultParser();
-
-    /*BECAUSE WHO DOESN'T LOVE MAGIC NUMBERS*/
-    public static final int STOP = -1;
-    public static final int GUI = 0;
-    public static final int CLI = 1;
 
     static
     {
@@ -92,7 +89,7 @@ public class CommandLineInput
         return false;
     }
 
-    public static int parseCommandLine(String[] args)
+    public static CLIAction parseCommandLine(String[] args)
     {
         if (!containsCommand(args))
             return GUI;

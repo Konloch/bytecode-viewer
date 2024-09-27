@@ -202,8 +202,8 @@ public class BytecodeViewer
                 MiscUtils.setLanguage(MiscUtils.guessLanguage());
 
             //handle CLI
-            int isCLI = CommandLineInput.parseCommandLine(args);
-            if (isCLI == CommandLineInput.STOP)
+            CLIAction isCLI = CommandLineInput.parseCommandLine(args);
+            if (isCLI == CLIAction.STOP)
                 return;
 
             //load with shaded libraries
@@ -214,11 +214,11 @@ public class BytecodeViewer
             else //load through bootloader
             {
                 BOOT_CHECK.start();
-                Boot.boot(args, isCLI != CommandLineInput.GUI);
+                Boot.boot(args, isCLI != CLIAction.GUI);
             }
 
             //CLI arguments say spawn the GUI
-            if (isCLI == CommandLineInput.GUI)
+            if (isCLI == CLIAction.GUI)
             {
                 BytecodeViewer.boot(false);
                 Configuration.bootState = BootState.GUI_SHOWING;
