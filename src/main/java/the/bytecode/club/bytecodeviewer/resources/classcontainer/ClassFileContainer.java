@@ -60,7 +60,7 @@ public class ClassFileContainer
             CompilationUnit compilationUnit = StaticJavaParser.parse(this.content);
             compilationUnit.accept(new MyVoidVisitor(this, compilationUnit), null);
         }
-        catch (java.lang.ClassCastException | UnsolvedSymbolException | ParseProblemException e)
+        catch (java.util.NoSuchElementException | java.lang.ClassCastException | UnsolvedSymbolException | ParseProblemException e)
         {
             System.err.println("Parsing error!");
             e.printStackTrace();
