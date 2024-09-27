@@ -9,6 +9,7 @@ import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
+import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.*;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.MyVoidVisitor;
@@ -51,14 +52,18 @@ public class ClassFileContainer
     /**
      * Parse the class content with JavaParser.
      */
-    public void parse()
+    public boolean parse()
     {
         try
         {
-            TypeSolver typeSolver = new CombinedTypeSolver(new ReflectionTypeSolver(false), new JarTypeSolver(path));
-            StaticJavaParser.getParserConfiguration().setSymbolResolver(new JavaSymbolSolver(typeSolver));
-            CompilationUnit compilationUnit = StaticJavaParser.parse(this.content);
-            compilationUnit.accept(new MyVoidVisitor(this, compilationUnit), null);
+            if (shouldParse())
+            {
+                TypeSolver typeSolver = new CombinedTypeSolver(new ReflectionTypeSolver(false), new JarTypeSolver(path));
+                StaticJavaParser.getParserConfiguration().setSymbolResolver(new JavaSymbolSolver(typeSolver));
+                CompilationUnit compilationUnit = StaticJavaParser.parse(this.content);
+                compilationUnit.accept(new MyVoidVisitor(this, compilationUnit), null);
+                return true;
+            }
         }
         catch (IOException e)
         {
@@ -69,6 +74,17 @@ public class ClassFileContainer
             System.err.println("Parsing error: " + className);
             e.printStackTrace();
         }
+
+        return false;
+    }
+
+    public boolean shouldParse()
+    {
+        return !getDecompiler().equals(Decompiler.BYTECODE_DISASSEMBLER.getDecompilerName())
+            && !getDecompiler().equals(Decompiler.KRAKATAU_DISASSEMBLER.getDecompilerName())
+            && !getDecompiler().equals(Decompiler.JAVAP_DISASSEMBLER.getDecompilerName())
+            && !getDecompiler().equals(Decompiler.SMALI_DISASSEMBLER.getDecompilerName())
+            && !getDecompiler().equals(Decompiler.ASM_TEXTIFY_DISASSEMBLER.getDecompilerName());
     }
 
     public String getName()
