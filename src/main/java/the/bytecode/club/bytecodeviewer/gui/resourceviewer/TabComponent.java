@@ -19,6 +19,7 @@
 package the.bytecode.club.bytecodeviewer.gui.resourceviewer;
 
 import com.github.weisj.darklaf.components.CloseButton;
+import com.github.weisj.darklaf.ui.tabbedpane.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.gui.components.listeners.MouseClickedListener;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
@@ -26,7 +27,8 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.util.Objects;
 
 public class TabComponent extends JPanel
 {
@@ -69,11 +71,8 @@ public class TabComponent extends JPanel
         rightClickMenu.add(closeTab);
         button.setComponentPopupMenu(rightClickMenu);
 
-        //TODO add left-click close: when we add a new listener the parent listener (jTabbedPane) conflicts and won't respect the opaque flag.
-        //  button.addMouseListener(new MouseClickedListener(e ->
-        //      if (e.getButton() == MouseEvent.BUTTON2)     // middle-click
-        //	        closePane();
-        //  }));
+        addMouseListener(new TabMouseListener());
+        addMouseMotionListener(new TabMouseListener());
 
         button.addMouseListener(new MouseClickedListener(e ->
         {
@@ -136,6 +135,149 @@ public class TabComponent extends JPanel
         ResourceViewer resourceViewer = (ResourceViewer) BytecodeViewer.viewer.workPane.tabs.getComponentAt(index);
         BytecodeViewer.viewer.workPane.openedTabs.remove(resourceViewer.resource.workingName);
         pane.remove(index);
+    }
+
+    /**
+     * Get the tab panel for mouse positions.
+     *
+     * @return the panel.
+     */
+    private ScrollableTabPanel getTabPanel()
+    {
+        for (Component component : Objects.requireNonNull(viewport()).getComponents())
+            if (component instanceof ScrollableTabPanel)
+                return (ScrollableTabPanel) component;
+
+        return null;
+    }
+
+    /**
+     * Get the viewport from darklaf.
+     *
+     * @return the viewport.
+     */
+    private DarkScrollableTabViewport viewport()
+    {
+        for (Component component : pane.getComponents())
+            if (component instanceof DarkScrollableTabViewport)
+                return (DarkScrollableTabViewport) component;
+
+        return null;
+    }
+
+    /**
+     * Get the tabbed pane handler from darklaf.
+     *
+     * @return the handler.
+     */
+    private DarkScrollTabbedPaneHandler getHandler()
+    {
+        for (Component component : pane.getComponents())
+        {
+            if (component instanceof DarkScrollableTabViewport)
+            {
+                DarkScrollableTabViewport viewport = (DarkScrollableTabViewport) component;
+                for (MouseListener mouseListener : viewport.getMouseListeners())
+                    if (mouseListener instanceof DarkScrollTabbedPaneHandler)
+                        return (DarkScrollTabbedPaneHandler) mouseListener;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Create our own listener that redirects events back to darklaf.
+     */
+    private class TabMouseListener extends MouseAdapter
+    {
+        @Override
+        public void mouseClicked(MouseEvent e)
+        {
+            e = convert(e);
+            if (e == null)
+                return;
+
+            Objects.requireNonNull(getHandler()).mouseClicked(e);
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e)
+        {
+            if (e.getButton() == MouseEvent.BUTTON2)
+            {
+                closePane();
+                return;
+            }
+
+            e = convert(e);
+            if (e == null)
+                return;
+
+            Objects.requireNonNull(getHandler()).mousePressed(e);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e)
+        {
+            e = convert(e);
+            if (e == null)
+                return;
+
+            Objects.requireNonNull(getHandler()).mouseEntered(e);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e)
+        {
+            e = convert(e);
+            if (e == null)
+                return;
+
+            Objects.requireNonNull(getHandler()).mouseExited(e);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e)
+        {
+            e = convert(e);
+            if (e == null)
+                return;
+
+            Objects.requireNonNull(getHandler()).mouseReleased(e);
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e)
+        {
+            e = convert(e);
+            if (e == null)
+                return;
+
+            Objects.requireNonNull(getHandler()).mouseDragged(e);
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e)
+        {
+            e = convert(e);
+            if (e == null)
+                return;
+
+            Objects.requireNonNull(getHandler()).mouseMoved(e);
+        }
+
+        private MouseEvent convert(MouseEvent e)
+        {
+            ScrollableTabPanel tabPanel = getTabPanel();
+            if (tabPanel == null || tabPanel.getMousePosition() == null)
+                return null;
+
+            int x = tabPanel.getMousePosition().x;
+            int y = tabPanel.getMousePosition().y;
+            return new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiersEx(), x, y,
+                e.getClickCount(), e.isPopupTrigger());
+        }
     }
 
 }
