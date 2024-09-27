@@ -338,11 +338,13 @@ public class SettingsSerializer
             BytecodeViewer.viewer.refreshOnChange.setSelected(asBoolean(84));
 
             boolean bool = Boolean.parseBoolean(asString(85));
+
             if (bool)
             {
                 BytecodeViewer.viewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 BytecodeViewer.viewer.isMaximized = true;
             }
+
             //86 is deprecated
             //87 is deprecated
             Configuration.lastOpenDirectory = asString(88);
@@ -388,6 +390,7 @@ public class SettingsSerializer
             //line 130 is used for preload
             if (Configuration.language != Language.ENGLISH)
                 Configuration.language.setLanguageTranslations(); //load language translations
+
             Settings.hasSetLanguageAsSystemLanguage = true;
 
             BytecodeViewer.viewer.viewPane1.setPaneEditable(asBoolean(131));

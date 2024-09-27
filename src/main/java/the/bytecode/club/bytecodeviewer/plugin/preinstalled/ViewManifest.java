@@ -39,6 +39,7 @@ public class ViewManifest extends Plugin
 
         //TODO android APKs may have AndroidManifests that can be viewed normally, this should be checked
         byte[] encodedAndroidManifest = activeContainer.getFileContents("AndroidManifest.xml");
+
         if (encodedAndroidManifest != null)
         {
             frame.appendText("Android APK Manifest:\r");
@@ -50,6 +51,7 @@ public class ViewManifest extends Plugin
         }
 
         byte[] jarManifest = activeContainer.getFileContents("META-INF/MANIFEST.MF");
+
         if (jarManifest != null)
         {
             if (!frame.getTextArea().getText().isEmpty())

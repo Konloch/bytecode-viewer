@@ -50,12 +50,8 @@ public class WindowStateChangeAdapter extends WindowAdapter
         }*/
 
         if ((oldState & Frame.MAXIMIZED_BOTH) == 0 && (newState & Frame.MAXIMIZED_BOTH) != 0)
-        {
             mainViewerGUI.isMaximized = true;
-        }
         else if ((oldState & Frame.MAXIMIZED_BOTH) != 0 && (newState & Frame.MAXIMIZED_BOTH) == 0)
-        {
             mainViewerGUI.isMaximized = false;
-        }
     }
 }

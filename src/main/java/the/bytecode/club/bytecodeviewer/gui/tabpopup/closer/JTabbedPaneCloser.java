@@ -84,14 +84,11 @@ public class JTabbedPaneCloser
         do
         {
             Component c = this.tabbedPane.getComponentAt(i);
+
             if (c != component)
-            {
                 removeTabs.add(c);
-            }
             else
-            {
                 break;
-            }
         } while (i++ < count);
 
         for (Component c : removeTabs)

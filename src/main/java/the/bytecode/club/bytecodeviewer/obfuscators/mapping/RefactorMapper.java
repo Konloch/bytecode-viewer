@@ -47,6 +47,7 @@ public class RefactorMapper extends Remapper
         sortedFields = new HashMap<>();
         mappingList = new ArrayList<>();
         builder = new StringBuilder();
+
         for (MappingData hook : hookMap.getClasses())
         {
             if (hook.getObfuscatedName().contains("$"))
@@ -56,6 +57,7 @@ public class RefactorMapper extends Remapper
             sortedClasses.put(obfuscatedName, hook);
             sortedClasses.put(refactoredName, hook);
         }
+
         for (MethodMappingData hook : hookMap.getMethods())
         {
             String obfuscatedName = hook.getMethodName().getObfuscatedName();
@@ -63,6 +65,7 @@ public class RefactorMapper extends Remapper
             String obfuscatedCname = hook.getMethodOwner();
             sortedMethods.put(obfuscatedCname + "$$$$" + obfuscatedName + "$$$$" + obfuscatedDesc, hook);
         }
+
         for (FieldMappingData hook : hookMap.getFields())
         {
             String obfuscatedName = hook.getName().getObfuscatedName();
@@ -83,6 +86,7 @@ public class RefactorMapper extends Remapper
 
             return sortedClasses.get(type).getRefactoredName();
         }
+
         return type;
     }
 
@@ -90,6 +94,7 @@ public class RefactorMapper extends Remapper
     public String mapFieldName(String owner, String name, String desc)
     {
         String obfKey = owner + "$$$$" + name + "$$$$" + desc;
+
         if (sortedFields.containsKey(obfKey))
         {
             String map = owner + "." + name + " --> " + owner + sortedFields.get(obfKey).getName().getRefactoredName() + "\n";
@@ -97,6 +102,7 @@ public class RefactorMapper extends Remapper
                 mappingList.add(map);
             name = sortedFields.get(obfKey).getName().getRefactoredName();
         }
+
         return name;
     }
 
@@ -104,6 +110,7 @@ public class RefactorMapper extends Remapper
     public String mapMethodName(String owner, String name, String desc)
     {
         String obfKey = owner + "$$$$" + name + "$$$$" + desc;
+
         if (sortedMethods.containsKey(obfKey))
         {
             String map = owner + "." + name + " --> " + owner + sortedMethods.get(obfKey).getMethodName().getRefactoredName() + "\n";
@@ -111,6 +118,7 @@ public class RefactorMapper extends Remapper
                 mappingList.add(map);
             name = sortedMethods.get(obfKey).getMethodName().getRefactoredName();
         }
+
         return name;
     }
 
@@ -120,6 +128,7 @@ public class RefactorMapper extends Remapper
         {
             builder.append(map);
         }
+
         System.out.println(builder.toString());
     }
 }

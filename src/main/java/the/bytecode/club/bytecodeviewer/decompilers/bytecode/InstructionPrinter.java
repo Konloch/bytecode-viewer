@@ -61,8 +61,6 @@ public class InstructionPrinter implements Opcodes
         mNode = m;
         labels = new HashMap<>();
         precalculateLabelIndexes(m);
-        // matchedInsns = new ArrayList<AbstractInsnNode>(); // ingnored because
-        // match = false
         match = false;
     }
 
@@ -125,97 +123,39 @@ public class InstructionPrinter implements Opcodes
     {
         String line = "";
         if (ain instanceof VarInsnNode)
-        {
             line = printVarInsnNode((VarInsnNode) ain);
-        }
         else if (ain instanceof IntInsnNode)
-        {
             line = printIntInsnNode((IntInsnNode) ain);
-        }
         else if (ain instanceof FieldInsnNode)
-        {
             line = printFieldInsnNode((FieldInsnNode) ain);
-        }
         else if (ain instanceof MethodInsnNode)
-        {
             line = printMethodInsnNode((MethodInsnNode) ain);
-        }
         else if (ain instanceof LdcInsnNode)
-        {
             line = printLdcInsnNode((LdcInsnNode) ain);
-        }
         else if (ain instanceof InsnNode)
-        {
             line = printInsnNode((InsnNode) ain);
-        }
         else if (ain instanceof JumpInsnNode)
-        {
             line = printJumpInsnNode((JumpInsnNode) ain);
-        }
         else if (ain instanceof LineNumberNode)
-        {
             line = printLineNumberNode((LineNumberNode) ain);
-        }
         else if (ain instanceof LabelNode)
-        {
-            if (firstLabel && BytecodeViewer.viewer.appendBracketsToLabels.isSelected())
-                info.add("}");
-
-            LabelNode label = (LabelNode) ain;
-            if (mNode.tryCatchBlocks != null)
-            {
-                List<TryCatchBlockNode> tcbs = mNode.tryCatchBlocks;
-                String starting = tcbs.stream().filter(tcb -> tcb.start == label).map(tcb -> "start TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
-                String ending = tcbs.stream().filter(tcb -> tcb.end == label).map(tcb -> "end TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
-                String handlers = tcbs.stream().filter(tcb -> tcb.handler == label).map(tcb -> "handle TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
-                if (!ending.isEmpty())
-                    info.add("// " + ending);
-                if (!starting.isEmpty())
-                    info.add("// " + starting);
-                if (!handlers.isEmpty())
-                    info.add("// " + handlers);
-            }
             line = printLabelNode((LabelNode) ain);
-
-            if (BytecodeViewer.viewer.appendBracketsToLabels.isSelected())
-            {
-                if (!firstLabel)
-                    firstLabel = true;
-                line += " {";
-            }
-        }
         else if (ain instanceof TypeInsnNode)
-        {
             line = printTypeInsnNode((TypeInsnNode) ain);
-        }
         else if (ain instanceof FrameNode)
-        {
             line = printFrameNode((FrameNode) ain);
-        }
         else if (ain instanceof IincInsnNode)
-        {
             line = printIincInsnNode((IincInsnNode) ain);
-        }
         else if (ain instanceof TableSwitchInsnNode)
-        {
             line = printTableSwitchInsnNode((TableSwitchInsnNode) ain);
-        }
         else if (ain instanceof LookupSwitchInsnNode)
-        {
             line = printLookupSwitchInsnNode((LookupSwitchInsnNode) ain);
-        }
         else if (ain instanceof InvokeDynamicInsnNode)
-        {
             line = printInvokeDynamicInsNode((InvokeDynamicInsnNode) ain);
-        }
         else if (ain instanceof MultiANewArrayInsnNode)
-        {
             line = printMultiANewArrayInsNode((MultiANewArrayInsnNode) ain);
-        }
         else
-        {
             line += "UNADDED OPCODE: " + nameOpcode(ain.getOpcode()) + " " + ain;
-        }
 
         return line;
     }
@@ -312,9 +252,42 @@ public class InstructionPrinter implements Opcodes
         return "";
     }
 
-    protected String printLabelNode(LabelNode label)
+    protected String printOnlyLabelNode(LabelNode label)
     {
         return "L" + resolveLabel(label);
+    }
+
+    protected String printLabelNode(LabelNode label)
+    {
+        if (firstLabel && BytecodeViewer.viewer.appendBracketsToLabels.isSelected())
+            info.add("}");
+
+        String line = "";
+
+        if (mNode.tryCatchBlocks != null)
+        {
+            List<TryCatchBlockNode> tcbs = mNode.tryCatchBlocks;
+            String starting = tcbs.stream().filter(tcb -> tcb.start == label).map(tcb -> "start TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
+            String ending = tcbs.stream().filter(tcb -> tcb.end == label).map(tcb -> "end TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
+            String handlers = tcbs.stream().filter(tcb -> tcb.handler == label).map(tcb -> "handle TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
+            if (!ending.isEmpty())
+                info.add("// " + ending);
+            if (!starting.isEmpty())
+                info.add("// " + starting);
+            if (!handlers.isEmpty())
+                info.add("// " + handlers);
+        }
+
+        line = printOnlyLabelNode(label);
+
+        if (BytecodeViewer.viewer.appendBracketsToLabels.isSelected())
+        {
+            if (!firstLabel)
+                firstLabel = true;
+            line += " {";
+        }
+
+        return line;
     }
 
     protected String printTypeInsnNode(TypeInsnNode tin)
@@ -403,6 +376,7 @@ public class InstructionPrinter implements Opcodes
     {
         StringBuilder sb = new StringBuilder();
         sb.append(nameFrameType(frame.type)).append(" ");
+
         sb.append("(Locals");
         if (frame.local != null && !frame.local.isEmpty())
         {
@@ -490,15 +464,13 @@ public class InstructionPrinter implements Opcodes
     protected int resolveLabel(LabelNode label)
     {
         if (labels.containsKey(label))
-        {
             return labels.get(label);
-        }
         else
         {
-            /*int newLabelIndex = labels.size() + 1;
+            //NOTE: Should NEVER enter this state, but if it ever does, here's the fall-back solution
+            int newLabelIndex = labels.size() + 1;
             labels.put(label, newLabelIndex);
-            return newLabelIndex;*/
-            throw new IllegalStateException("LabelNode index not found. (Label not in InsnList?)");
+            return newLabelIndex;
         }
     }
 

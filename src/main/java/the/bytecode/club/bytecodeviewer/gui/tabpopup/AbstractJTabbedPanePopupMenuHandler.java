@@ -32,6 +32,7 @@ public abstract class AbstractJTabbedPanePopupMenuHandler extends JTabbedPanePop
     public AbstractJTabbedPanePopupMenuHandler(JTabbedPane tabbedPane)
     {
         super(tabbedPane);
+
         registerPopupEventListener(this);
     }
 
@@ -39,6 +40,7 @@ public abstract class AbstractJTabbedPanePopupMenuHandler extends JTabbedPanePop
     public void onTabPopupEvent(JTabbedPane tabbedPane, int index, TabPopupEvent e)
     {
         JPopupMenu popupMenu = toBuildTabPopupMenu(tabbedPane, e.getPopupOnTab());
+
         popupTabMenuWithEvent(popupMenu, e);
     }
 

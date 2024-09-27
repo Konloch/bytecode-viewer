@@ -45,6 +45,7 @@ public class FileChooser extends JFileChooser
         Set<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
 
         setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
         try
         {
             setSelectedFile(file);

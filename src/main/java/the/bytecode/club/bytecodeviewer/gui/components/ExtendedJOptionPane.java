@@ -151,6 +151,7 @@ public class ExtendedJOptionPane
     private static JDialog createNewJDialog(Component parentComponent, JOptionPane pane, String title, int style, OnCreate onCreate)
     {
         JDialog dialog = pane.createDialog(parentComponent, title);
+
         if (JDialog.isDefaultLookAndFeelDecorated())
         {
             boolean supportsWindowDecorations = UIManager.getLookAndFeel().getSupportsWindowDecorations();

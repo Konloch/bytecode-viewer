@@ -51,16 +51,19 @@ public class KrakatauAssembler extends InternalCompiler
         if (!ExternalResources.getSingleton().hasSetPython2Command())
             return null;
 
-        File tempD = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
-        tempD.mkdir();
-
-        File tempJ = new File(tempD.getAbsolutePath() + FS + fullyQualifiedName + ".j");
-        DiskWriter.replaceFile(tempJ.getAbsolutePath(), contents, true);
-
-        final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
-        tempDirectory.mkdir();
-
+        final File tempDirectory1 = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
+        final File tempDirectory2 = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
+        final File javaFile = new File(tempDirectory1.getAbsolutePath() + FS + fullyQualifiedName + ".j");
         final File tempJar = new File(Constants.TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(32) + ".jar");
+
+        //create the temp directories
+        tempDirectory1.mkdir();
+        tempDirectory2.mkdir();
+
+        //write the file we're assembling to disk
+        DiskWriter.replaceFile(javaFile.getAbsolutePath(), contents, true);
+
+        //write the entire temporary classpath to disk
         JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 
         StringBuilder log = new StringBuilder();
@@ -72,7 +75,7 @@ public class KrakatauAssembler extends InternalCompiler
                 pythonCommands = ArrayUtils.addAll(pythonCommands, "-2");
 
             ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(pythonCommands, "-O", //love you storyyeller <3
-                krakatauWorkingDirectory + FS + "assemble.py", "-out", tempDirectory.getAbsolutePath(), tempJ.getAbsolutePath()));
+                krakatauWorkingDirectory + FS + "assemble.py", "-out", tempDirectory2.getAbsolutePath(), javaFile.getAbsolutePath()));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
@@ -101,10 +104,15 @@ public class KrakatauAssembler extends InternalCompiler
             log.append(NL).append(NL).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
             System.err.println(log);
 
-            byte[] b = FileUtils.readFileToByteArray(Objects.requireNonNull(ExternalResources.getSingleton().findFile(tempDirectory, ".class")));
-            tempDirectory.delete();
+            //read the assembled bytes from disk
+            byte[] assembledBytes = FileUtils.readFileToByteArray(Objects.requireNonNull(ExternalResources.getSingleton().findFile(tempDirectory2, ".class")));
+
+            //cleanup
+            tempDirectory2.delete();
             tempJar.delete();
-            return b;
+
+            //return the assembled file
+            return assembledBytes;
         }
         catch (Exception e)
         {

@@ -56,22 +56,26 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper
     public String mapDesc(String desc)
     {
         Type t = Type.getType(desc);
+
         switch (t.getSort())
         {
             case Type.ARRAY:
                 StringBuilder s = new StringBuilder(mapDesc(t.getElementType().getDescriptor()));
+
                 for (int i = 0; i < t.getDimensions(); ++i)
                 {
                     s.insert(0, '[');
                 }
+
                 return s.toString();
+
             case Type.OBJECT:
                 String newType = map(t.getInternalName());
+
                 if (newType != null)
-                {
                     return 'L' + newType + ';';
-                }
         }
+
         return desc;
     }
 
@@ -81,17 +85,22 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper
         {
             case Type.ARRAY:
                 StringBuilder s = new StringBuilder(mapDesc(t.getElementType().getDescriptor()));
+
                 for (int i = 0; i < t.getDimensions(); ++i)
                 {
                     s.insert(0, '[');
                 }
+
                 return Type.getType(s.toString());
+
             case Type.OBJECT:
                 s = new StringBuilder(map(t.getInternalName()));
                 return Type.getObjectType(s.toString());
+
             case Type.METHOD:
                 return Type.getMethodType(mapMethodDesc(t.getDescriptor()));
         }
+
         return t;
     }
 
@@ -99,9 +108,8 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper
     public String mapType(String type)
     {
         if (type == null)
-        {
             return null;
-        }
+
         return mapType(Type.getObjectType(type)).getInternalName();
     }
 
@@ -110,24 +118,26 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper
     {
         String[] newTypes = null;
         boolean needMapping = false;
+
         for (int i = 0; i < types.length; i++)
         {
             String type = types[i];
             String newType = map(type);
+
             if (newType != null && newTypes == null)
             {
                 newTypes = new String[types.length];
+
                 if (i > 0)
-                {
                     System.arraycopy(types, 0, newTypes, 0, i);
-                }
+
                 needMapping = true;
             }
+
             if (needMapping)
-            {
                 newTypes[i] = newType == null ? type : newType;
-            }
         }
+
         return needMapping ? newTypes : types;
     }
 
@@ -135,22 +145,24 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper
     public String mapMethodDesc(String desc)
     {
         if ("()V".equals(desc))
-        {
             return desc;
-        }
 
         Type[] args = Type.getArgumentTypes(desc);
         StringBuilder sb = new StringBuilder("(");
+
         for (Type arg : args)
         {
             sb.append(mapDesc(arg.getDescriptor()));
         }
+
         Type returnType = Type.getReturnType(desc);
+
         if (returnType == Type.VOID_TYPE)
         {
             sb.append(")V");
             return sb.toString();
         }
+
         sb.append(')').append(mapDesc(returnType.getDescriptor()));
         return sb.toString();
     }
@@ -159,14 +171,14 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper
     public Object mapValue(Object value)
     {
         if (value instanceof Type)
-        {
             return mapType((Type) value);
-        }
+
         if (value instanceof Handle)
         {
             Handle h = (Handle) value;
             return new Handle(h.getTag(), mapType(h.getOwner()), mapMethodName(h.getOwner(), h.getName(), h.getDesc()), mapMethodDesc(h.getDesc()), h.getTag() == Opcodes.H_INVOKEINTERFACE);
         }
+
         return value;
     }
 
@@ -179,20 +191,17 @@ public abstract class Remapper extends org.objectweb.asm.commons.Remapper
     public String mapSignature(String signature, boolean typeSignature)
     {
         if (signature == null)
-        {
             return null;
-        }
+
         SignatureReader r = new SignatureReader(signature);
         SignatureWriter w = new SignatureWriter();
         SignatureVisitor a = createSignatureRemapper(w);
+
         if (typeSignature)
-        {
             r.acceptType(a);
-        }
         else
-        {
             r.accept(a);
-        }
+
         return w.toString();
     }
 

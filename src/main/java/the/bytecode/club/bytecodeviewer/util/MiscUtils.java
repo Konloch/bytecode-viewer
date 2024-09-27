@@ -56,8 +56,10 @@ public class MiscUtils
     public static String randomString(int len)
     {
         StringBuilder sb = new StringBuilder(len);
+
         for (int i = 0; i < len; i++)
             sb.append(AB.charAt(RND.nextInt(AB.length())));
+
         return sb.toString();
     }
 
@@ -70,9 +72,11 @@ public class MiscUtils
     {
         boolean generated = false;
         String name = "";
+
         while (!generated)
         {
             String randomizedName = MiscUtils.randomString(25);
+
             if (!CREATED_RANDOMIZED_NAMES.contains(randomizedName))
             {
                 CREATED_RANDOMIZED_NAMES.add(randomizedName);
@@ -80,6 +84,7 @@ public class MiscUtils
                 generated = true;
             }
         }
+
         return name;
     }
 
@@ -87,7 +92,8 @@ public class MiscUtils
     {
         //Read out dir output
         try (InputStream is = process.getInputStream();
-             InputStreamReader isr = new InputStreamReader(is); BufferedReader br = new BufferedReader(isr))
+             InputStreamReader isr = new InputStreamReader(is);
+             BufferedReader br = new BufferedReader(isr))
         {
             String line;
             while ((line = br.readLine()) != null)
@@ -117,8 +123,10 @@ public class MiscUtils
     public static String randomStringNum(int len)
     {
         StringBuilder sb = new StringBuilder(len);
+
         for (int i = 0; i < len; i++)
             sb.append(AN.charAt(RND.nextInt(AN.length())));
+
         return sb.toString();
     }
 
@@ -135,10 +143,12 @@ public class MiscUtils
         boolean b = true;
         File f;
         String m;
+
         while (b)
         {
             m = MiscUtils.randomString(32);
             f = new File(start + m + ext);
+
             if (!f.exists())
             {
                 s = start + m;
@@ -159,14 +169,17 @@ public class MiscUtils
     {
         boolean b = true;
         int i = 0;
+
         while (b)
         {
             File tempF = new File(start + i + ext);
+
             if (!tempF.exists())
                 b = false;
             else
                 i++;
         }
+
         return i;
     }
 
@@ -186,14 +199,17 @@ public class MiscUtils
     public static String append(File file, String extension)
     {
         String path = file.getAbsolutePath();
+
         if (!path.endsWith(extension))
             path += extension;
+
         return path;
     }
 
     public static int fileContainersHash(List<ResourceContainer> resourceContainers)
     {
         StringBuilder block = new StringBuilder();
+
         for (ResourceContainer container : resourceContainers)
         {
             block.append(container.name);
@@ -246,6 +262,7 @@ public class MiscUtils
     public static void deduplicateAndTrim(List<String> list, int maxLength)
     {
         List<String> temporaryList = new ArrayList<>();
+
         for (String s : list)
             if (!s.isEmpty() && !temporaryList.contains(s))
                 temporaryList.add(s);
@@ -265,6 +282,7 @@ public class MiscUtils
     {
         double ascii = 0;
         double other = 0;
+
         for (byte b : data)
         {
             if (b == 0x09 || b == 0x0A || b == 0x0C || b == 0x0D || (b >= 0x20 && b <= 0x7E))
@@ -272,6 +290,7 @@ public class MiscUtils
             else
                 other++;
         }
+
         return other != 0 && other / (ascii + other) > 0.25;
     }
 
@@ -345,9 +364,9 @@ public class MiscUtils
     {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
         {
-
             byte[] buffer = new byte[1024];
             int a;
+
             while ((a = is.read(buffer)) != -1)
                 baos.write(buffer, 0, a);
 
@@ -359,9 +378,11 @@ public class MiscUtils
     {
         if (file == null)
             return new File[0];
+
         File[] list = file.listFiles();
         if (list != null)
             return list;
+
         return new File[0];
     }
 

@@ -48,6 +48,7 @@ public class MethodsRenderer extends JLabel implements ListCellRenderer<Object>
         MethodParser methods;
         List<MethodParser> methodParsers = bytecodeViewPanelUpdater.viewer.methods;
         BytecodeViewPanel bytecodeViewPanel = bytecodeViewPanelUpdater.bytecodeViewPanel;
+
         try
         {
             methods = methodParsers.get(bytecodeViewPanel.decompiler.ordinal());
@@ -56,8 +57,10 @@ public class MethodsRenderer extends JLabel implements ListCellRenderer<Object>
         {
             methods = methodParsers.get(bytecodeViewPanel.panelIndex);
         }
+
         MethodParser.Method method = methods.getMethod(methodIndex);
         setText(method.toString());
+
         return this;
     }
 }

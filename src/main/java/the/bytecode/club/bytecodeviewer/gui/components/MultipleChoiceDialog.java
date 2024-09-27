@@ -47,6 +47,7 @@ public class MultipleChoiceDialog
         dialog.setVisible(true);
         Object obj = pane.getValue();
         int result = -1;
+
         for (int k = 0; k < options.length; k++)
             if (options[k].equals(obj))
                 result = k;

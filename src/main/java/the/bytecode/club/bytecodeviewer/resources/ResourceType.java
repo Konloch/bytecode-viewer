@@ -38,18 +38,18 @@ public enum ResourceType
     ZIP_ARCHIVE(IconResources.zipIcon, "zip"),
     ANDROID_ARCHIVE(IconResources.androidIcon, "apk", "wapk", "dex", "xapk"),
     IMAGE_FILE(IconResources.imageIcon, "png", "jpg", "jpeg", "bmp", "wbmp", "gif", "tif", "webp"),
-    CONFIG_TEXT_FILE(IconResources.configIcon, "properties", "xml", "jsp", "mf", "config", "csv", "yml", "yaml", "ini", "json", "sql", "gradle", "dockerfile", "htaccess", "plugin", "attachprovider", "transportservice", "connector"),
+    CONFIG_TEXT_FILE(IconResources.configIcon, "properties", "xml", "jsp", "mf", "config", "csv", "yml", "yaml", "ini",
+        "json", "sql", "gradle", "dockerfile", "htaccess", "plugin", "attachprovider", "transportservice", "connector"),
     JAVA_FILE(IconResources.javaIcon, "java"),
     TEXT_FILE(IconResources.textIcon, "txt", "md", "log", "html", "css"),
     CPP_FILE(IconResources.cplusplusIcon, "c", "cpp", "h"),
     CSHARP_FILE(IconResources.csharpIcon, "cs"),
     BAT_FILE(IconResources.batIcon, "bat", "batch"),
-    SH_FILE(IconResources.shIcon, "sh", "bash"),
-    ;
+    SH_FILE(IconResources.shIcon, "sh", "bash");
 
-    public static final Map<String, ResourceType> extensionMap = new HashMap<>();
-    public static final Map<String, ResourceType> imageExtensionMap = new HashMap<>();
-    public static final Map<String, ResourceType> supportedBCVExtensionMap = new HashMap<>();
+    public static final Map<String, ResourceType> EXTENSION_MAP = new HashMap<>();
+    public static final Map<String, ResourceType> IMAGE_EXTENSION_MAP = new HashMap<>();
+    public static final Map<String, ResourceType> SUPPORTED_BCV_EXTENSION_MAP = new HashMap<>();
 
     private final Icon icon;
     private final String[] extensions;
@@ -60,21 +60,21 @@ public enum ResourceType
         //add all extensions
         for (ResourceType t : values())
             for (String extension : t.extensions)
-                extensionMap.put(extension, t);
+                EXTENSION_MAP.put(extension, t);
 
         //add image extensions
         for (String extension : IMAGE_FILE.extensions)
-            imageExtensionMap.put(extension, IMAGE_FILE);
+            IMAGE_EXTENSION_MAP.put(extension, IMAGE_FILE);
 
         //add extensions BCV can be opened with
         for (String extension : CLASS_FILE.extensions)
-            supportedBCVExtensionMap.put(extension, CLASS_FILE);
+            SUPPORTED_BCV_EXTENSION_MAP.put(extension, CLASS_FILE);
         for (String extension : JAVA_ARCHIVE.extensions)
-            supportedBCVExtensionMap.put(extension, JAVA_ARCHIVE);
+            SUPPORTED_BCV_EXTENSION_MAP.put(extension, JAVA_ARCHIVE);
         for (String extension : ZIP_ARCHIVE.extensions)
-            supportedBCVExtensionMap.put(extension, ZIP_ARCHIVE);
+            SUPPORTED_BCV_EXTENSION_MAP.put(extension, ZIP_ARCHIVE);
         for (String extension : ANDROID_ARCHIVE.extensions)
-            supportedBCVExtensionMap.put(extension, ANDROID_ARCHIVE);
+            SUPPORTED_BCV_EXTENSION_MAP.put(extension, ANDROID_ARCHIVE);
     }
 
     ResourceType(Icon icon, String... extensions)

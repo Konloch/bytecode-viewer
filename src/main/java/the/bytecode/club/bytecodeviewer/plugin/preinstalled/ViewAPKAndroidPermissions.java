@@ -38,6 +38,7 @@ public class ViewAPKAndroidPermissions extends Plugin
         frame.setVisible(true);
 
         byte[] encodedAndroidManifest = activeContainer.getFileContents("AndroidManifest.xml");
+
         if (encodedAndroidManifest == null)
         {
             frame.appendText("This plugin only works on valid Android APKs");
@@ -45,6 +46,7 @@ public class ViewAPKAndroidPermissions extends Plugin
         }
 
         byte[] decodedAndroidManifest = activeContainer.getFileContents("Decoded Resources/AndroidManifest.xml");
+
         if (decodedAndroidManifest != null)
         {
             String manifest = new String(decodedAndroidManifest, StandardCharsets.UTF_8);

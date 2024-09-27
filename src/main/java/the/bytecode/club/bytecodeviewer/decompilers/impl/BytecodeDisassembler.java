@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class BytecodeDisassembler extends InternalDecompiler
 {
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b)
+    public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         return ClassNodeDecompiler.decompile(new PrefixedStringBuilder(), new ArrayList<>(), cn).toString();
     }

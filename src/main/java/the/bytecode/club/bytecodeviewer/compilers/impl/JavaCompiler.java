@@ -43,20 +43,23 @@ public class JavaCompiler extends InternalCompiler
     @Override
     public byte[] compile(String contents, String fullyQualifiedName)
     {
-        String fileStart = TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(12) + FS;
-        String fileStart2 = TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(12) + FS;
-        File java = new File(fileStart + FS + fullyQualifiedName + ".java");
-        File clazz = new File(fileStart2 + FS + fullyQualifiedName + ".class");
-        File cp = new File(TEMP_DIRECTORY + FS + "cpath_" + MiscUtils.randomString(12) + ".jar");
-        File tempD = new File(fileStart + FS + fullyQualifiedName.substring(0, fullyQualifiedName.length() -
+        final String fileStart = TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(12) + FS;
+        final String fileStart2 = TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(12) + FS;
+
+        final File javaFile = new File(fileStart + FS + fullyQualifiedName + ".java");
+        final File classFile = new File(fileStart2 + FS + fullyQualifiedName + ".class");
+        final File classPath = new File(TEMP_DIRECTORY + FS + "cpath_" + MiscUtils.randomString(12) + ".jar");
+        final File tempDirectory = new File(fileStart + FS + fullyQualifiedName.substring(0, fullyQualifiedName.length() -
             fullyQualifiedName.split("/")[fullyQualifiedName.split("/").length - 1].length()));
 
-        tempD.mkdirs();
+        //create the temp directories
+        tempDirectory.mkdirs();
         new File(fileStart2).mkdirs();
 
         if (Configuration.javac.isEmpty() || !new File(Configuration.javac).exists())
         {
-            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + NL + "(C:/Program Files/Java/JDK_xx/bin/javac.exe)");
+            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded."
+                + NL + "(C:/Program Files/Java/JDK_xx/bin/javac.exe)");
             ExternalResources.getSingleton().selectJavac();
         }
 
@@ -66,8 +69,11 @@ public class JavaCompiler extends InternalCompiler
             return null;
         }
 
-        DiskWriter.replaceFile(java.getAbsolutePath(), contents, false);
-        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), cp.getAbsolutePath());
+        //write the file we're assembling to disk
+        DiskWriter.replaceFile(javaFile.getAbsolutePath(), contents, false);
+
+        //write the entire temporary classpath to disk
+        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), classPath.getAbsolutePath());
 
         boolean cont = true;
         try
@@ -77,10 +83,10 @@ public class JavaCompiler extends InternalCompiler
 
             if (Configuration.library.isEmpty())
                 pb = new ProcessBuilder(Configuration.javac, "-d", fileStart2,
-                    "-classpath", cp.getAbsolutePath(), java.getAbsolutePath());
+                    "-classpath", classPath.getAbsolutePath(), javaFile.getAbsolutePath());
             else
                 pb = new ProcessBuilder(Configuration.javac, "-d", fileStart2,
-                    "-classpath", cp.getAbsolutePath() + System.getProperty("path.separator") + Configuration.library, java.getAbsolutePath());
+                    "-classpath", classPath.getAbsolutePath() + System.getProperty("path.separator") + Configuration.library, javaFile.getAbsolutePath());
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
@@ -111,6 +117,7 @@ public class JavaCompiler extends InternalCompiler
             }
 
             log.append(NL).append(NL).append(TranslatedStrings.ERROR2).append(NL).append(NL);
+
             try (InputStream is = process.getErrorStream();
                  InputStreamReader isr = new InputStreamReader(is);
                  BufferedReader br = new BufferedReader(isr))
@@ -123,7 +130,7 @@ public class JavaCompiler extends InternalCompiler
             log.append(NL).append(NL).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
             System.out.println(log);
 
-            if (!clazz.exists())
+            if (!classFile.exists())
                 throw new Exception(log.toString());
         }
         catch (Exception e)
@@ -132,12 +139,12 @@ public class JavaCompiler extends InternalCompiler
             e.printStackTrace();
         }
 
-        cp.delete();
+        classPath.delete();
 
         if (cont)
             try
             {
-                return org.apache.commons.io.FileUtils.readFileToByteArray(clazz);
+                return org.apache.commons.io.FileUtils.readFileToByteArray(classFile);
             }
             catch (IOException e)
             {

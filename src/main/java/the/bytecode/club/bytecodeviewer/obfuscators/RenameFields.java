@@ -38,6 +38,7 @@ public class RenameFields extends JavaObfuscator
         int stringLength = getStringLength();
 
         System.out.println("Obfuscating fields names...");
+
         for (ClassNode c : BytecodeViewer.getLoadedClasses())
         {
             for (Object o : c.fields.toArray())

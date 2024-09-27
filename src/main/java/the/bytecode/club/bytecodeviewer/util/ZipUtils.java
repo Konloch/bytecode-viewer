@@ -44,12 +44,14 @@ public final class ZipUtils
     public static void unzipFilesToPath(String jarPath, String destinationDir) throws IOException
     {
         String canonicalDestDir = new File(destinationDir).getCanonicalPath();
+
         if (!canonicalDestDir.endsWith(File.separator))
         {
             canonicalDestDir += File.separator;
         }
 
         File file = new File(jarPath);
+
         try (JarFile jar = new JarFile(file))
         {
 
@@ -82,6 +84,7 @@ public final class ZipUtils
                 }
 
                 File parent = f.getParentFile();
+
                 if (!parent.exists())
                 {
                     parent.mkdirs();
@@ -110,6 +113,7 @@ public final class ZipUtils
         {
             ZipEntry ze = new ZipEntry(inputFile.getName());
             zos.putNextEntry(ze);
+
             try (FileInputStream in = new FileInputStream(inputFile))
             {
                 int len;
@@ -156,14 +160,18 @@ public final class ZipUtils
         {
             byte[] buf = new byte[1024];
             int len;
+
             try (FileInputStream in = new FileInputStream(srcFile))
             {
                 ZipEntry entry;
+
                 if (ignore == null)
                     entry = new ZipEntry(path + "/" + folder.getName());
                 else
                     entry = new ZipEntry(path.replace(ignore, "BCV_Krakatau") + "/" + folder.getName());
+
                 zip.putNextEntry(entry);
+
                 while ((len = in.read(buf)) > 0)
                 {
                     zip.write(buf, 0, len);
@@ -194,6 +202,7 @@ public final class ZipUtils
         {
             byte[] buf = new byte[1024];
             int len;
+
             try (FileInputStream in = new FileInputStream(srcFile))
             {
                 ZipEntry entry;
@@ -216,13 +225,9 @@ public final class ZipUtils
         for (String fileName : Objects.requireNonNull(folder.list()))
         {
             if (path.isEmpty())
-            {
                 addFileToZip(folder.getName(), srcFolder + "/" + fileName, zip, ignore);
-            }
             else
-            {
                 addFileToZip(path + "/" + folder.getName(), srcFolder + "/" + fileName, zip, ignore);
-            }
         }
     }
 
@@ -233,13 +238,9 @@ public final class ZipUtils
         for (String fileName : Objects.requireNonNull(folder.list()))
         {
             if (path.isEmpty())
-            {
                 addFileToZipAPKTool(folder.getName(), srcFolder + "/" + fileName, zip);
-            }
             else
-            {
                 addFileToZipAPKTool(path + "/" + folder.getName(), srcFolder + "/" + fileName, zip);
-            }
         }
     }
 }

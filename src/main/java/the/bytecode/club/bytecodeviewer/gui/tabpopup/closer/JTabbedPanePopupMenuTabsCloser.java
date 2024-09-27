@@ -54,6 +54,7 @@ public class JTabbedPanePopupMenuTabsCloser extends AbstractJTabbedPanePopupMenu
     public JPopupMenu toBuildTabPopupMenu(JTabbedPane tabbedPane, Component popupOnTab)
     {
         JPopupMenu popUpMenu = new JPopupMenu();
+
         if (closeConfiguration.isClose())
             addItemCloseTab(popUpMenu, popupOnTab);
 

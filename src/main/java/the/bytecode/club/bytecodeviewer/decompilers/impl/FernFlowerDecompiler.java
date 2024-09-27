@@ -65,7 +65,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
     }
 
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b)
+    public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         String start = TEMP_DIRECTORY + FS + MiscUtils.getUniqueName("", ".class");
 
@@ -74,7 +74,7 @@ public class FernFlowerDecompiler extends InternalDecompiler
         String exception = "";
         try (FileOutputStream fos = new FileOutputStream(tempClass))
         {
-            fos.write(b);
+            fos.write(bytes);
         }
         catch (IOException e)
         {
@@ -154,7 +154,26 @@ public class FernFlowerDecompiler extends InternalDecompiler
 
     private String[] generateMainMethod(String className, String folder)
     {
-        return new String[]{"-rbr=" + r(BytecodeViewer.viewer.rbr.isSelected()), "-rsy=" + r(BytecodeViewer.viewer.rsy.isSelected()), "-din=" + r(BytecodeViewer.viewer.din.isSelected()), "-dc4=" + r(BytecodeViewer.viewer.dc4.isSelected()), "-das=" + r(BytecodeViewer.viewer.das.isSelected()), "-hes=" + r(BytecodeViewer.viewer.hes.isSelected()), "-hdc=" + r(BytecodeViewer.viewer.hdc.isSelected()), "-dgs=" + r(BytecodeViewer.viewer.dgs.isSelected()), "-ner=" + r(BytecodeViewer.viewer.ner.isSelected()), "-den=" + r(BytecodeViewer.viewer.den.isSelected()), "-rgn=" + r(BytecodeViewer.viewer.rgn.isSelected()), "-bto=" + r(BytecodeViewer.viewer.bto.isSelected()), "-nns=" + r(BytecodeViewer.viewer.nns.isSelected()), "-uto=" + r(BytecodeViewer.viewer.uto.isSelected()), "-udv=" + r(BytecodeViewer.viewer.udv.isSelected()), "-rer=" + r(BytecodeViewer.viewer.rer.isSelected()), "-fdi=" + r(BytecodeViewer.viewer.fdi.isSelected()), "-asc=" + r(BytecodeViewer.viewer.asc.isSelected()), "-ren=" + r(BytecodeViewer.viewer.ren.isSelected()), className, folder};
+        return new String[]{"-rbr=" + r(BytecodeViewer.viewer.rbr.isSelected()),
+            "-rsy=" + r(BytecodeViewer.viewer.rsy.isSelected()),
+            "-din=" + r(BytecodeViewer.viewer.din.isSelected()),
+            "-dc4=" + r(BytecodeViewer.viewer.dc4.isSelected()),
+            "-das=" + r(BytecodeViewer.viewer.das.isSelected()),
+            "-hes=" + r(BytecodeViewer.viewer.hes.isSelected()),
+            "-hdc=" + r(BytecodeViewer.viewer.hdc.isSelected()),
+            "-dgs=" + r(BytecodeViewer.viewer.dgs.isSelected()),
+            "-ner=" + r(BytecodeViewer.viewer.ner.isSelected()),
+            "-den=" + r(BytecodeViewer.viewer.den.isSelected()),
+            "-rgn=" + r(BytecodeViewer.viewer.rgn.isSelected()),
+            "-bto=" + r(BytecodeViewer.viewer.bto.isSelected()),
+            "-nns=" + r(BytecodeViewer.viewer.nns.isSelected()),
+            "-uto=" + r(BytecodeViewer.viewer.uto.isSelected()),
+            "-udv=" + r(BytecodeViewer.viewer.udv.isSelected()),
+            "-rer=" + r(BytecodeViewer.viewer.rer.isSelected()),
+            "-fdi=" + r(BytecodeViewer.viewer.fdi.isSelected()),
+            "-asc=" + r(BytecodeViewer.viewer.asc.isSelected()),
+            "-ren=" + r(BytecodeViewer.viewer.ren.isSelected()),
+            className, folder};
     }
 
     private String r(boolean b)

@@ -127,32 +127,38 @@ public class Settings
     {
         //build recent files
         BytecodeViewer.viewer.recentFilesSecondaryMenu.removeAll();
+
         for (String s : recentFiles)
         {
             if (!s.isEmpty())
             {
                 JMenuItem m = new JMenuItem(s);
+
                 m.addActionListener(e ->
                 {
                     JMenuItem m12 = (JMenuItem) e.getSource();
                     BytecodeViewer.openFiles(new File[]{new File(m12.getText())}, true);
                 });
+
                 BytecodeViewer.viewer.recentFilesSecondaryMenu.add(m);
             }
         }
 
         //build recent plugins
         BytecodeViewer.viewer.recentPluginsSecondaryMenu.removeAll();
+
         for (String s : recentPlugins)
         {
             if (!s.isEmpty())
             {
                 JMenuItem m = new JMenuItem(s);
+
                 m.addActionListener(e ->
                 {
                     JMenuItem m1 = (JMenuItem) e.getSource();
                     BytecodeViewer.startPlugin(new File(m1.getText()));
                 });
+
                 BytecodeViewer.viewer.recentPluginsSecondaryMenu.add(m);
             }
         }

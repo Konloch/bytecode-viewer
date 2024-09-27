@@ -27,7 +27,7 @@ import org.objectweb.asm.tree.ClassNode;
  */
 public abstract class InternalDecompiler
 {
-    public abstract String decompileClassNode(ClassNode cn, byte[] b);
+    public abstract String decompileClassNode(ClassNode cn, byte[] bytes);
 
     public abstract void decompileToZip(String sourceJar, String zipName);
 }

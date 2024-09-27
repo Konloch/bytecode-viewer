@@ -36,7 +36,6 @@ public class InstructionSearcher implements Opcodes
 
     protected InsnList insns;
     protected InstructionPattern pattern;
-
     protected List<AbstractInsnNode[]> matches;
 
     public InstructionSearcher(InsnList insns, int[] opcodes)
@@ -62,6 +61,7 @@ public class InstructionSearcher implements Opcodes
         {
             if (ain instanceof LineNumberNode || ain instanceof FrameNode)
                 continue;
+
             if (pattern.accept(ain))
             {
                 matches.add(pattern.getLastMatch());

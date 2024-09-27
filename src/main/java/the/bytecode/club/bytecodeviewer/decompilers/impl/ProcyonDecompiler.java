@@ -75,18 +75,17 @@ public class ProcyonDecompiler extends InternalDecompiler
     }
 
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b)
+    public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         String exception;
         try
         {
-            String fileStart = TEMP_DIRECTORY + FS + "temp";
-
+            final String fileStart = TEMP_DIRECTORY + FS + "temp";
             final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
 
             try (FileOutputStream fos = new FileOutputStream(tempClass))
             {
-                fos.write(b);
+                fos.write(bytes);
             }
             catch (IOException e)
             {
@@ -104,6 +103,7 @@ public class ProcyonDecompiler extends InternalDecompiler
             decompilationOptions.setFullDecompilation(true);
 
             TypeDefinition resolvedType;
+
             if (type == null || ((resolvedType = type.resolve()) == null))
                 throw new Exception("Unable to resolve type.");
 
@@ -142,7 +142,10 @@ public class ProcyonDecompiler extends InternalDecompiler
      */
     private void doSaveJarDecompiled(File inFile, File outFile) throws Exception
     {
-        try (JarFile jfile = new JarFile(inFile); FileOutputStream dest = new FileOutputStream(outFile); BufferedOutputStream buffDest = new BufferedOutputStream(dest); ZipOutputStream out = new ZipOutputStream(buffDest))
+        try (JarFile jfile = new JarFile(inFile);
+             FileOutputStream dest = new FileOutputStream(outFile);
+             BufferedOutputStream buffDest = new BufferedOutputStream(dest);
+             ZipOutputStream out = new ZipOutputStream(buffDest))
         {
             byte[] data = new byte[1024];
             DecompilerSettings settings = getDecompilerSettings();
@@ -157,24 +160,30 @@ public class ProcyonDecompiler extends InternalDecompiler
 
             Enumeration<JarEntry> ent = jfile.entries();
             Set<JarEntry> history = new HashSet<>();
+
             while (ent.hasMoreElements())
             {
                 JarEntry entry = ent.nextElement();
+
                 if (entry.getName().endsWith(".class"))
                 {
                     JarEntry etn = new JarEntry(entry.getName().replace(".class", ".java"));
+
                     if (history.add(etn))
                     {
                         out.putNextEntry(etn);
+
                         try
                         {
                             String internalName = StringUtilities.removeRight(entry.getName(), ".class");
                             TypeReference type = metadataSystem.lookupType(internalName);
                             TypeDefinition resolvedType;
+
                             if ((type == null) || ((resolvedType = type.resolve()) == null))
                             {
                                 throw new Exception("Unable to resolve type.");
                             }
+
                             Writer writer = new OutputStreamWriter(out);
                             settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(writer), decompilationOptions);
                             writer.flush();
@@ -190,10 +199,13 @@ public class ProcyonDecompiler extends InternalDecompiler
                     try
                     {
                         JarEntry etn = new JarEntry(entry.getName());
+
                         if (history.add(etn))
                             continue;
+
                         history.add(etn);
                         out.putNextEntry(etn);
+
                         try (InputStream in = jfile.getInputStream(entry))
                         {
                             if (in != null)
@@ -214,9 +226,7 @@ public class ProcyonDecompiler extends InternalDecompiler
                     {
                         // some jars contain duplicate pom.xml entries: ignore it
                         if (!ze.getMessage().contains("duplicate"))
-                        {
                             throw ze;
-                        }
                     }
                 }
             }
@@ -229,28 +239,26 @@ public class ProcyonDecompiler extends InternalDecompiler
     public static final class LuytenTypeLoader implements ITypeLoader
     {
 
-        private final List<ITypeLoader> _typeLoaders;
+        private final List<ITypeLoader> typeLoaders;
 
         public LuytenTypeLoader()
         {
-            _typeLoaders = new ArrayList<>();
-            _typeLoaders.add(new InputTypeLoader());
+            typeLoaders = new ArrayList<>();
+            typeLoaders.add(new InputTypeLoader());
         }
 
         public List<ITypeLoader> getTypeLoaders()
         {
-            return _typeLoaders;
+            return typeLoaders;
         }
 
         @Override
         public boolean tryLoadType(String internalName, Buffer buffer)
         {
-            for (ITypeLoader typeLoader : _typeLoaders)
+            for (ITypeLoader typeLoader : typeLoaders)
             {
                 if (typeLoader.tryLoadType(internalName, buffer))
-                {
                     return true;
-                }
 
                 buffer.reset();
             }

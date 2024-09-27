@@ -45,12 +45,12 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 public class KrakatauDisassembler extends InternalDecompiler
 {
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b)
+    public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         if (!ExternalResources.getSingleton().hasSetPython2Command())
             return TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH.toString();
 
-        String s = ExceptionUI.SEND_STACKTRACE_TO_NL;
+        String returnString = ExceptionUI.SEND_STACKTRACE_TO_NL;
 
         final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
         tempDirectory.mkdir();
@@ -98,19 +98,20 @@ public class KrakatauDisassembler extends InternalDecompiler
 
             int exitValue = process.waitFor();
             log.append(NL).append(NL).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
-            s = log.toString();
+            returnString = log.toString();
 
-            // if the motherfucker failed this'll fail, aka won't set.
-            s = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + FS + cn.name + ".j");
+            // update the string on a successful disassemble
+            returnString = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + FS + cn.name + ".j");
         }
         catch (Exception e)
         {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
-            s += NL + ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
+            returnString += NL + ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
-        return s;
+
+        return returnString;
     }
 
     @Override
@@ -132,7 +133,8 @@ public class KrakatauDisassembler extends InternalDecompiler
                 pythonCommands = ArrayUtils.addAll(pythonCommands, "-2");
 
             ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(pythonCommands, "-O", //love you storyyeller <3
-                krakatauWorkingDirectory + FS + "disassemble.py", "-path", Configuration.rt + ";" + tempJar.getAbsolutePath(), "-out", tempDirectory.getAbsolutePath(), tempJar.getAbsolutePath()));
+                krakatauWorkingDirectory + FS + "disassemble.py", "-path", Configuration.rt + ";" + tempJar.getAbsolutePath(),
+                "-out", tempDirectory.getAbsolutePath(), tempJar.getAbsolutePath()));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);

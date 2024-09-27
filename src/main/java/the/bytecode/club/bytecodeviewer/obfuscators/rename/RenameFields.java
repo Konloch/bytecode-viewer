@@ -42,7 +42,9 @@ public class RenameFields extends JavaObfuscator
             BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish.");
             return;
         }
+
         new RenameFields().start();
+
         BytecodeViewer.viewer.workPane.refreshClass.doClick();
         BytecodeViewer.viewer.resourcePane.tree.updateUI();
     }

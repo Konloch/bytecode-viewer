@@ -57,11 +57,13 @@ public class ExportJar extends JFrame
         btnNewButton.addActionListener(arg0 ->
         {
             BytecodeViewer.updateBusyStatus(true);
+
             Thread t = new Thread(() ->
             {
                 JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), jarPath, manifest.getText());
                 BytecodeViewer.updateBusyStatus(false);
             }, "Jar Export");
+
             t.start();
             dispose();
         });
