@@ -175,8 +175,6 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                     ResolvedType resolvedType = n.getSymbolResolver().calculateType(thisExpr);
                     String qualifiedName = resolvedType.asReferenceType().getQualifiedName();
                     String className = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1);
-                    String packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.'));
-                    this.classFileContainer.putClassReference(className, new ClassReferenceLocation(getOwner(), packageName.replace('.', '/'), fieldName, "reference", line, columnStart, columnEnd + 1));
                     this.classFileContainer.putField(fieldName, new ClassFieldLocation(className, "reference", line, columnStart, columnEnd + 1));
                 }
             }
