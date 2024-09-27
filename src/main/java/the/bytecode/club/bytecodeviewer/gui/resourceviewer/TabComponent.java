@@ -202,6 +202,9 @@ public class TabComponent extends JPanel
         public void mouseClicked(MouseEvent e)
         {
             e = convert(e);
+            if (e == null)
+                return;
+
             Objects.requireNonNull(getHandler()).mouseClicked(e);
         }
 
@@ -215,6 +218,9 @@ public class TabComponent extends JPanel
             }
 
             e = convert(e);
+            if (e == null)
+                return;
+
             Objects.requireNonNull(getHandler()).mousePressed(e);
         }
 
@@ -222,6 +228,9 @@ public class TabComponent extends JPanel
         public void mouseEntered(MouseEvent e)
         {
             e = convert(e);
+            if (e == null)
+                return;
+
             Objects.requireNonNull(getHandler()).mouseEntered(e);
         }
 
@@ -229,6 +238,9 @@ public class TabComponent extends JPanel
         public void mouseExited(MouseEvent e)
         {
             e = convert(e);
+            if (e == null)
+                return;
+
             Objects.requireNonNull(getHandler()).mouseExited(e);
         }
 
@@ -236,6 +248,9 @@ public class TabComponent extends JPanel
         public void mouseReleased(MouseEvent e)
         {
             e = convert(e);
+            if (e == null)
+                return;
+
             Objects.requireNonNull(getHandler()).mouseReleased(e);
         }
 
@@ -243,6 +258,9 @@ public class TabComponent extends JPanel
         public void mouseDragged(MouseEvent e)
         {
             e = convert(e);
+            if (e == null)
+                return;
+
             Objects.requireNonNull(getHandler()).mouseDragged(e);
         }
 
@@ -250,10 +268,11 @@ public class TabComponent extends JPanel
         public void mouseMoved(MouseEvent e)
         {
             e = convert(e);
+            if (e == null)
+                return;
+
             Objects.requireNonNull(getHandler()).mouseMoved(e);
         }
-
-
 
         private MouseEvent convert(MouseEvent e)
         {
