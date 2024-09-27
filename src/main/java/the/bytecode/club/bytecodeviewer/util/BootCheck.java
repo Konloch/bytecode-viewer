@@ -19,7 +19,8 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.CommandLineInput;
+import the.bytecode.club.bytecodeviewer.cli.CLIAction;
+import the.bytecode.club.bytecodeviewer.cli.CommandLineInput;
 import the.bytecode.club.bytecodeviewer.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.bootloader.loader.ILoader;
 import the.bytecode.club.bytecodeviewer.bootloader.resource.external.EmptyExternalResource;
@@ -109,10 +110,9 @@ public class BootCheck implements Runnable
 
             Boot.hide();
 
-            int CLI = CommandLineInput.parseCommandLine(BytecodeViewer.launchArgs);
+            CLIAction CLI = CommandLineInput.parseCommandLine(BytecodeViewer.launchArgs);
 
-
-            if (CLI == CommandLineInput.GUI)
+            if (CLI == CLIAction.GUI)
                 BytecodeViewer.boot(false);
             else
             {

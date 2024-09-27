@@ -68,7 +68,7 @@ public class Constants
 
     public static final String FS = System.getProperty("file.separator");
     public static final String NL = System.getProperty("line.separator");
-    public static final String[] SUPPORTED_FILE_EXTENSIONS = ResourceType.supportedBCVExtensionMap.keySet().toArray(new String[0]);
+    public static final String[] SUPPORTED_FILE_EXTENSIONS = ResourceType.SUPPORTED_BCV_EXTENSION_MAP.keySet().toArray(new String[0]);
     public static final int ASM_VERSION = Opcodes.ASM9;
 
     public static final File BCVDir = resolveBCVRoot();

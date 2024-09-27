@@ -52,11 +52,13 @@ public class ZStringArrayDecrypter extends Plugin
         if (dialog.promptChoice() == 0)
         {
             boolean needsWarning = false;
+
             for (Class<?> cn : Objects.requireNonNull(BCV.loadClassesIntoClassLoader()))
             {
                 try
                 {
                     Field[] fields = cn.getDeclaredFields();
+
                     for (Field field : fields)
                     {
                         if (field.getName().equals("z"))
@@ -81,9 +83,8 @@ public class ZStringArrayDecrypter extends Plugin
             }
 
             if (needsWarning)
-            {
-                BytecodeViewer.showMessage("Some classes failed to decrypt, if you'd like to decrypt all of them" + NL + "makes sure you include ALL the libraries it requires.");
-            }
+                BytecodeViewer.showMessage("Some classes failed to decrypt, if you'd like to decrypt all of them"
+                    + NL + "makes sure you include ALL the libraries it requires.");
 
             gui.setText(out.toString());
             gui.setVisible(true);

@@ -56,13 +56,9 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy
             if (Objects.equals(cn.superName, PLUGIN_CLASS_NAME))
             {
                 if (pdata == null)
-                {
                     pdata = d;
-                }
                 else
-                {
                     throw new RuntimeException("Multiple plugin subclasses.");
-                }
             }
         }
 
@@ -92,9 +88,11 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy
                 try
                 {
                     String name = entry.getName();
+
                     if (name.endsWith(".class"))
                     {
                         byte[] bytes = MiscUtils.getBytes(jis);
+
                         if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER))
                         {
                             try
@@ -174,20 +172,20 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy
     public static class LoadingClassLoader extends ClassLoader
     {
         private final LoadedNodeData data;
-        private final Map<String, LoadedNodeData> cache;
-        private final Map<String, Class<?>> ccache;
+        private final Map<String, LoadedNodeData> nodeCache;
+        private final Map<String, Class<?>> classCache;
         private final Class<? extends Plugin> pluginKlass;
 
         public LoadingClassLoader(LoadedNodeData data, Set<LoadedNodeData> set) throws Throwable
         {
             this.data = data;
 
-            cache = new HashMap<>();
-            ccache = new HashMap<>();
+            nodeCache = new HashMap<>();
+            classCache = new HashMap<>();
 
             for (LoadedNodeData d : set)
             {
-                cache.put(d.node.name, d);
+                nodeCache.put(d.node.name, d);
             }
 
             @SuppressWarnings("unchecked") Class<? extends Plugin> pluginKlass = (Class<? extends Plugin>) loadClass(data.node.name.replace("/", "."));
@@ -205,15 +203,16 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy
 
             System.out.println("finding " + name);
 
-            if (ccache.containsKey(name))
-                return ccache.get(name);
+            if (classCache.containsKey(name))
+                return classCache.get(name);
 
-            LoadedNodeData data = cache.get(name);
+            LoadedNodeData data = nodeCache.get(name);
+
             if (data != null)
             {
                 byte[] bytes = data.bytes;
                 Class<?> klass = defineClass(data.node.name.replace("/", "."), bytes, 0, bytes.length);
-                ccache.put(name, klass);
+                classCache.put(name, klass);
                 return klass;
             }
 

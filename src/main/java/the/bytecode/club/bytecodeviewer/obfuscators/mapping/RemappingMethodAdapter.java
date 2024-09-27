@@ -106,9 +106,11 @@ public class RemappingMethodAdapter extends LocalVariablesSorter
                     Object t = entries[i];
                     newEntries[i++] = t instanceof String ? remapper.mapType((String) t) : t;
                 } while (i < n);
+
                 return newEntries;
             }
         }
+
         return entries;
     }
 
@@ -127,6 +129,7 @@ public class RemappingMethodAdapter extends LocalVariablesSorter
             super.visitMethodInsn(opcode, owner, name, desc);
             return;
         }
+
         doVisitMethodInsn(opcode, owner, name, desc, opcode == Opcodes.INVOKEINTERFACE);
     }
 
@@ -138,6 +141,7 @@ public class RemappingMethodAdapter extends LocalVariablesSorter
             super.visitMethodInsn(opcode, owner, name, desc, itf);
             return;
         }
+
         doVisitMethodInsn(opcode, owner, name, desc, itf);
     }
 
@@ -150,9 +154,7 @@ public class RemappingMethodAdapter extends LocalVariablesSorter
         // IMPORTANT: THIS ASSUMES THAT visitMethodInsn IS NOT OVERRIDDEN IN
         // LocalVariableSorter.
         if (mv != null)
-        {
             mv.visitMethodInsn(opcode, remapper.mapType(owner), remapper.mapMethodName(owner, name, desc), remapper.mapMethodDesc(desc), itf);
-        }
     }
 
     @Override
@@ -162,6 +164,7 @@ public class RemappingMethodAdapter extends LocalVariablesSorter
         {
             bsmArgs[i] = remapper.mapValue(bsmArgs[i]);
         }
+
         super.visitInvokeDynamicInsn(remapper.mapInvokeDynamicMethodName(name, desc), remapper.mapMethodDesc(desc), (Handle) remapper.mapValue(bsm), bsmArgs);
     }
 

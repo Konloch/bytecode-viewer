@@ -40,14 +40,17 @@ public class MethodNodeDecompiler
     public static PrefixedStringBuilder decompile(PrefixedStringBuilder sb, MethodNode m, ClassNode cn)
     {
         String className;
+
         if (cn.name.contains("/"))
             className = cn.name.substring(cn.name.lastIndexOf("/") + 1);
         else
             className = cn.name;
 
         String s = getAccessString(m.access);
+
         sb.append("     ");
         sb.append(s);
+
         if (s.length() > 0)
             sb.append(" ");
 
@@ -73,7 +76,6 @@ public class MethodNodeDecompiler
             for (int i = 0; i < argTypes.length; i++)
             {
                 final Type type = argTypes[i];
-
                 final TypeAndName tan = new TypeAndName();
                 final String argName = "arg" + i;
 
@@ -89,10 +91,12 @@ public class MethodNodeDecompiler
         }
 
         int amountOfThrows = m.exceptions.size();
+
         if (amountOfThrows > 0)
         {
             sb.append(" throws ");
             sb.append(m.exceptions.get(0));// exceptions is list<string>
+
             for (int i = 1; i < amountOfThrows; i++)
             {
                 sb.append(", ");
@@ -109,7 +113,6 @@ public class MethodNodeDecompiler
         }
         else
         {
-
             sb.append(" {");
 
             if (BytecodeViewer.viewer.debugHelpers.isSelected())
@@ -161,10 +164,12 @@ public class MethodNodeDecompiler
                 sb.append(" handled by L");
                 sb.append(insnPrinter.resolveLabel(o.handler));
                 sb.append(": ");
+
                 if (o.type != null)
                     sb.append(o.type);
                 else
                     sb.append("Type is null.");
+
                 sb.append(NL);
             }
 
@@ -174,8 +179,10 @@ public class MethodNodeDecompiler
                 sb.append(insn);
                 sb.append(NL);
             }
+
             sb.append("     }" + NL);
         }
+
         return sb;
     }
 
@@ -194,6 +201,7 @@ public class MethodNodeDecompiler
                 sb.append(">");
                 sb.append(NL);
             }
+
             sb.append(NL);
         }
     }
@@ -203,7 +211,8 @@ public class MethodNodeDecompiler
         if (o instanceof LocalVariableNode)
         {
             LocalVariableNode lvn = (LocalVariableNode) o;
-            return "index=" + lvn.index + " , name=" + lvn.name + " , desc=" + lvn.desc + ", sig=" + lvn.signature + ", start=L" + insnPrinter.resolveLabel(lvn.start) + ", end=L" + insnPrinter.resolveLabel(lvn.end);
+            return "index=" + lvn.index + " , name=" + lvn.name + " , desc=" + lvn.desc + ", sig=" + lvn.signature
+                + ", start=L" + insnPrinter.resolveLabel(lvn.start) + ", end=L" + insnPrinter.resolveLabel(lvn.end);
         }
         else if (o instanceof AnnotationNode)
         {
@@ -212,6 +221,7 @@ public class MethodNodeDecompiler
             sb.append("desc = ");
             sb.append(an.desc);
             sb.append(" , values = ");
+
             if (an.values != null)
             {
                 sb.append(Arrays.toString(an.values.toArray()));
@@ -220,10 +230,13 @@ public class MethodNodeDecompiler
             {
                 sb.append("[]");
             }
+
             return sb.toString();
         }
+
         if (o == null)
             return "";
+
         return o.toString();
     }
 
@@ -258,6 +271,7 @@ public class MethodNodeDecompiler
             tokens.add("varargs");
         if (tokens.isEmpty())
             return "";
+
         // hackery delimeters
         StringBuilder sb = new StringBuilder(tokens.get(0));
         for (int i = 1; i < tokens.size(); i++)
@@ -265,6 +279,7 @@ public class MethodNodeDecompiler
             sb.append(" ");
             sb.append(tokens.get(i));
         }
+
         return sb.toString();
     }
 }

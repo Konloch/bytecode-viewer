@@ -44,21 +44,20 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 public class SmaliDisassembler extends InternalDecompiler
 {
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b)
+    public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
-        String exception = "";
-        String fileStart = TEMP_DIRECTORY + FS + "temp";
-
-        String start = MiscUtils.getUniqueName(fileStart, ".class");
-
+        final String fileStart = TEMP_DIRECTORY + FS + "temp";
+        final String start = MiscUtils.getUniqueName(fileStart, ".class");
         final File tempClass = new File(start + ".class");
         final File tempDex = new File(start + ".dex");
         final File tempDexOut = new File(start + "-out");
         final File tempSmali = new File(start + "-smali"); //output directory
 
+        String exception = "";
+
         try (FileOutputStream fos = new FileOutputStream(tempClass))
         {
-            fos.write(b);
+            fos.write(bytes);
         }
         catch (IOException e)
         {

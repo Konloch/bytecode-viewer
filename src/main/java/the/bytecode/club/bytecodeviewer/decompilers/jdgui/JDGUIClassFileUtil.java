@@ -40,7 +40,9 @@ public class JDGUIClassFileUtil
     {
         String directoryPath;
 
-        try (FileInputStream fis = new FileInputStream(pathToClass); BufferedInputStream bis = new BufferedInputStream(fis); DataInputStream dis = new DataInputStream(bis))
+        try (FileInputStream fis = new FileInputStream(pathToClass);
+             BufferedInputStream bis = new BufferedInputStream(fis);
+             DataInputStream dis = new DataInputStream(bis))
         {
             int magic = dis.readInt();
             if (magic != ClassFileReader.JAVA_MAGIC_NUMBER)

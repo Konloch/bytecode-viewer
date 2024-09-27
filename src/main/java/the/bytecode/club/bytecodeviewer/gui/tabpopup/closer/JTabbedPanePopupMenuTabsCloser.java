@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.uikit.tabpopup.closer;
+package the.bytecode.club.bytecodeviewer.gui.tabpopup.closer;
 
-import the.bytecode.club.uikit.tabpopup.AbstractJTabbedPanePopupMenuHandler;
+import the.bytecode.club.bytecodeviewer.gui.tabpopup.AbstractJTabbedPanePopupMenuHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,6 +54,7 @@ public class JTabbedPanePopupMenuTabsCloser extends AbstractJTabbedPanePopupMenu
     public JPopupMenu toBuildTabPopupMenu(JTabbedPane tabbedPane, Component popupOnTab)
     {
         JPopupMenu popUpMenu = new JPopupMenu();
+
         if (closeConfiguration.isClose())
             addItemCloseTab(popUpMenu, popupOnTab);
 
@@ -79,8 +80,7 @@ public class JTabbedPanePopupMenuTabsCloser extends AbstractJTabbedPanePopupMenu
 
     protected void addItemCloseOtherTabs(JPopupMenu popUpMenu, Component popupOnTab)
     {
-        addMenuItem(popUpMenu, "Close Others", e ->
-        {tabbedPaneCloser.removeOtherComponents(popupOnTab);});
+        addMenuItem(popUpMenu, "Close Others", e -> tabbedPaneCloser.removeOtherComponents(popupOnTab));
     }
 
     protected void addItemCloseAllTabs(JPopupMenu popUpMenu)

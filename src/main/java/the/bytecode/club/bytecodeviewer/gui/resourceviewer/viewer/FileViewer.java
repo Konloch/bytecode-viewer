@@ -82,7 +82,7 @@ public class FileViewer extends ResourceViewer
             //      (If none selected, try Pane2, Pane3, default to Procyon)
 
             //check by file extension to display image
-            if (!onlyName.contains(":") && ResourceType.imageExtensionMap.containsKey(FilenameUtils.getExtension(onlyName)) && !hexViewerOnly)
+            if (!onlyName.contains(":") && ResourceType.IMAGE_EXTENSION_MAP.containsKey(FilenameUtils.getExtension(onlyName)) && !hexViewerOnly)
             {
                 canRefresh = true;
 

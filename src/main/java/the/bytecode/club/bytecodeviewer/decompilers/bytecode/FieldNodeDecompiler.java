@@ -37,11 +37,14 @@ public class FieldNodeDecompiler
     {
         String s = getAccessString(f.access);
         sb.append(s);
+
         if (s.length() > 0)
             sb.append(" ");
+
         sb.append(Type.getType(f.desc).getClassName());
         sb.append(" ");
         sb.append(f.name);
+
         if (f.value != null)
         {
             sb.append(" = ");
@@ -59,13 +62,16 @@ public class FieldNodeDecompiler
                 sb.append(")");
             }
         }
+
         sb.append(";");
+
         return sb;
     }
 
     private static String getAccessString(int access)
     {
         List<String> tokens = new ArrayList<>();
+
         if ((access & Opcodes.ACC_PUBLIC) != 0)
             tokens.add("public");
         if ((access & Opcodes.ACC_PRIVATE) != 0)
@@ -84,6 +90,7 @@ public class FieldNodeDecompiler
             tokens.add("volatile");
         if (tokens.size() == 0)
             return "";
+
         // hackery delimeters
         StringBuilder sb = new StringBuilder(tokens.get(0));
         for (int i = 1; i < tokens.size(); i++)
@@ -91,6 +98,7 @@ public class FieldNodeDecompiler
             sb.append(" ");
             sb.append(tokens.get(i));
         }
+
         return sb.toString();
     }
 }

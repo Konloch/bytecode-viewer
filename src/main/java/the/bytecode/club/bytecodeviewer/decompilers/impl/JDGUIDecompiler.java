@@ -50,9 +50,10 @@ public class JDGUIDecompiler extends InternalDecompiler
 {
 
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b)
+    public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         String exception;
+
         try
         {
             final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
@@ -75,13 +76,12 @@ public class JDGUIDecompiler extends InternalDecompiler
 
             try (FileOutputStream fos = new FileOutputStream(tempClass))
             {
-                fos.write(b);
+                fos.write(bytes);
             }
             catch (IOException e)
             {
                 BytecodeViewer.handleException(e);
             }
-
 
             String pathToClass = tempClass.getAbsolutePath().replace('/', File.separatorChar).replace('\\', File.separatorChar);
             String directoryPath = JDGUIClassFileUtil.ExtractDirectoryPath(pathToClass);
@@ -104,8 +104,6 @@ public class JDGUIDecompiler extends InternalDecompiler
 
             DirectoryLoader loader = new DirectoryLoader(new File(directoryPath));
 
-            //PrintStream ps = new PrintStream("test.html");
-            //HtmlPrinter printer = new HtmlPrinter(ps);
             org.jd.core.v1.api.Decompiler decompiler = new ClassFileToJavaSourceDecompiler();
 
             try (PrintStream ps = new PrintStream(tempJava.getAbsolutePath()); PlainTextPrinter printer = new PlainTextPrinter(preferences, ps))
@@ -130,5 +128,6 @@ public class JDGUIDecompiler extends InternalDecompiler
     @Override
     public void decompileToZip(String sourceJar, String zipName)
     {
+        //TODO
     }
 }

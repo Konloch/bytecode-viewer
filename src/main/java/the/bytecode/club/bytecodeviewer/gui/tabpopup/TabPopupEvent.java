@@ -16,16 +16,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.uikit.tabpopup;
+package the.bytecode.club.bytecodeviewer.gui.tabpopup;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class TabPopupEvent extends MouseEvent
 {
-    /**
-     *
-     */
     private static final long serialVersionUID = 2510164400674753411L;
 
     private final Component popupOnTab;

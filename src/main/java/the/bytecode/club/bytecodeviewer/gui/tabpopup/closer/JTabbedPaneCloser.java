@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.uikit.tabpopup.closer;
+package the.bytecode.club.bytecodeviewer.gui.tabpopup.closer;
 
-import the.bytecode.club.uikit.tabpopup.ITabZeroComponentEventListener;
+import the.bytecode.club.bytecodeviewer.gui.tabpopup.ITabZeroComponentEventListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,17 +61,15 @@ public class JTabbedPaneCloser
     protected void removeOtherComponents(Component component, boolean equalStop)
     {
         int i = this.tabbedPane.getTabCount();
+
         while (i-- > 0)
         {
             Component c = this.tabbedPane.getComponentAt(i);
+
             if (c != component)
-            {
                 this.tabbedPane.remove(i);
-            }
             else if (equalStop)
-            {
                 break;
-            }
         }
 
         tryTriggerTabZeroComponentEvent();
@@ -82,17 +80,15 @@ public class JTabbedPaneCloser
         int count = this.tabbedPane.getTabCount();
         int i = 0;
         List<Component> removeTabs = new ArrayList<>();
+
         do
         {
             Component c = this.tabbedPane.getComponentAt(i);
+
             if (c != component)
-            {
                 removeTabs.add(c);
-            }
             else
-            {
                 break;
-            }
         } while (i++ < count);
 
         for (Component c : removeTabs)
@@ -117,8 +113,6 @@ public class JTabbedPaneCloser
     private void tryTriggerTabZeroComponentEvent()
     {
         if (this.tabbedPane.getTabCount() == 0 && tabZeroComponentEventListener != null)
-        {
             tabZeroComponentEventListener.onTabZeroComponent(this.tabbedPane);
-        }
     }
 }

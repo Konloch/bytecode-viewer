@@ -72,6 +72,7 @@ public class RSyntaxTextAreaHighlighterEx extends RSyntaxTextAreaHighlighter
         {
             int start = info.getStartOffset();
             int end = info.getEndOffset() + 1; // HACK
+
             if (start <= end)
             {
                 // Occasionally a Marked Occurrence can have a lost end offset
@@ -116,6 +117,7 @@ public class RSyntaxTextAreaHighlighterEx extends RSyntaxTextAreaHighlighter
             if (notice != null)
             {
                 color = notice.getColor();
+
                 if (color == null)
                     color = DEFAULT_PARSER_NOTICE_COLOR;
             }

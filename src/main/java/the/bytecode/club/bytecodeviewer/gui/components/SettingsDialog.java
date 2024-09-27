@@ -49,6 +49,7 @@ public class SettingsDialog extends JScrollPane
             return;
 
         List<JMenuItem> options = new ArrayList<>();
+
         for (Component child : menu.getMenuComponents())
         {
             if (!(child instanceof JMenuItem))
@@ -83,6 +84,7 @@ public class SettingsDialog extends JScrollPane
     private void buildPanel()
     {
         display.setLayout(new BoxLayout(display, BoxLayout.Y_AXIS));
+
         for (JMenuItem menuItem : options)
             display.add(menuItem);
     }

@@ -75,6 +75,7 @@ public class ReplaceStrings extends Plugin
             if (v instanceof String)
             {
                 String s = (String) v;
+
                 if (contains)
                 {
                     if (s.contains(originalLDC))
@@ -92,6 +93,7 @@ public class ReplaceStrings extends Plugin
                 for (int i = 0; i < ((String[]) v).length; i++)
                 {
                     String s = ((String[]) v)[i];
+
                     if (contains)
                     {
                         if (s.contains(originalLDC))
@@ -118,6 +120,7 @@ public class ReplaceStrings extends Plugin
         {
             MethodNode m = (MethodNode) o;
             InsnList iList = m.instructions;
+
             for (AbstractInsnNode a : iList.toArray())
             {
                 if (a instanceof LdcInsnNode)
@@ -125,6 +128,7 @@ public class ReplaceStrings extends Plugin
                     if (((LdcInsnNode) a).cst instanceof String)
                     {
                         final String s = (String) ((LdcInsnNode) a).cst;
+
                         if (contains)
                         {
                             if (s.contains(originalLDC))

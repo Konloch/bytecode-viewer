@@ -59,6 +59,7 @@ public class DecompilerViewComponent
     {
         if (type == JAVA || type == JAVA_NON_EDITABLE || type == JAVA_AND_BYTECODE)
             menu.add(java);
+
         if (type == BYTECODE || type == JAVA_AND_BYTECODE || type == BYTECODE_NON_EDITABLE)
             menu.add(bytecode);
 
@@ -75,6 +76,7 @@ public class DecompilerViewComponent
     {
         if (type == JAVA || type == JAVA_NON_EDITABLE || type == JAVA_AND_BYTECODE)
             group.add(java);
+
         if (type == BYTECODE || type == JAVA_AND_BYTECODE || type == BYTECODE_NON_EDITABLE)
             group.add(bytecode);
     }

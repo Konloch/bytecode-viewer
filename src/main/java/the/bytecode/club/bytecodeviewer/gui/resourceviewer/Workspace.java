@@ -29,8 +29,8 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedComponents;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedJButton;
 import the.bytecode.club.bytecodeviewer.translation.components.TranslatedVisibleComponent;
-import the.bytecode.club.uikit.tabpopup.closer.JTabbedPanePopupMenuTabsCloser;
-import the.bytecode.club.uikit.tabpopup.closer.PopupMenuTabsCloseConfiguration;
+import the.bytecode.club.bytecodeviewer.gui.tabpopup.closer.JTabbedPanePopupMenuTabsCloser;
+import the.bytecode.club.bytecodeviewer.gui.tabpopup.closer.PopupMenuTabsCloseConfiguration;
 
 import javax.swing.*;
 import java.awt.*;

@@ -90,7 +90,9 @@ public class FieldMappingData
             return false;
         if (getClass() != obj.getClass())
             return false;
+
         FieldMappingData other = (FieldMappingData) obj;
+
         if (desc == null)
         {
             if (other.desc != null)
@@ -98,6 +100,7 @@ public class FieldMappingData
         }
         else if (!desc.equals(other.desc))
             return false;
+
         if (fieldOwner == null)
         {
             if (other.fieldOwner != null)
@@ -105,10 +108,9 @@ public class FieldMappingData
         }
         else if (!fieldOwner.equals(other.fieldOwner))
             return false;
+
         if (name == null)
-        {
             return other.name == null;
-        }
         else
             return name.equals(other.name);
     }

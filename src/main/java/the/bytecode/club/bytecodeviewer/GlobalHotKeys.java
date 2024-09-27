@@ -106,6 +106,7 @@ public class GlobalHotKeys
                 JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(), "Select Zip Export", "Zip Archives", "zip");
 
                 int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
+
                 if (returnVal == JFileChooser.APPROVE_OPTION)
                 {
                     Configuration.setLastSaveDirectory(fc.getSelectedFile());
@@ -124,6 +125,7 @@ public class GlobalHotKeys
                     jarExport.start();
                 }
             }, "Resource Export");
+
             resourceExport.start();
         }
 

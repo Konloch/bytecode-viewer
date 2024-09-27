@@ -59,9 +59,9 @@ public class CFRDecompiler extends InternalDecompiler
     private static final String CLASS_SUFFIX = ".class";
 
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] content)
+    public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
-        return decompile(cn, cn.name, content);
+        return decompile(cn, cn.name, bytes);
     }
 
     private String decompile(ClassNode cn, String name, byte[] content)
@@ -93,7 +93,10 @@ public class CFRDecompiler extends InternalDecompiler
     @Override
     public void decompileToZip(String sourceJar, String outJar)
     {
-        try (JarFile jfile = new JarFile(new File(sourceJar)); FileOutputStream dest = new FileOutputStream(outJar); BufferedOutputStream buffDest = new BufferedOutputStream(dest); ZipOutputStream out = new ZipOutputStream(buffDest))
+        try (JarFile jfile = new JarFile(new File(sourceJar));
+             FileOutputStream dest = new FileOutputStream(outJar);
+             BufferedOutputStream buffDest = new BufferedOutputStream(dest);
+             ZipOutputStream out = new ZipOutputStream(buffDest))
         {
             byte[] data = new byte[1024];
 
@@ -105,6 +108,7 @@ public class CFRDecompiler extends InternalDecompiler
                 if (entry.getName().endsWith(CLASS_SUFFIX))
                 {
                     JarEntry etn = new JarEntry(entry.getName().replace(CLASS_SUFFIX, ".java"));
+
                     if (history.add(etn))
                     {
                         out.putNextEntry(etn);
@@ -203,6 +207,7 @@ public class CFRDecompiler extends InternalDecompiler
         options.put("recovertypehints", String.valueOf(BytecodeViewer.viewer.recoveryTypehInts.isSelected()));
         options.put("forcereturningifs", String.valueOf(BytecodeViewer.viewer.forceTurningIFs.isSelected()));
         options.put("forloopaggcapture", String.valueOf(BytecodeViewer.viewer.forLoopAGGCapture.isSelected()));
+
         return new OptionsImpl(options);
     }
 
@@ -226,11 +231,15 @@ public class CFRDecompiler extends InternalDecompiler
         {
             if (classFilePath.equals(this.classFilePath) && content != null)
                 return Pair.make(content, classFilePath);
+
             if (container == null)
                 return super.getClassFileContent(classFilePath);
+
             byte[] data = container.resourceClassBytes.get(classFilePath);
+
             if (data == null)
                 return super.getClassFileContent(classFilePath);
+
             return Pair.make(data, classFilePath);
         }
 
@@ -259,6 +268,7 @@ public class CFRDecompiler extends InternalDecompiler
             {
                 return x -> dumpDecompiled.accept((SinkReturns.Decompiled) x);
             }
+
             return ignore ->
             {
             };

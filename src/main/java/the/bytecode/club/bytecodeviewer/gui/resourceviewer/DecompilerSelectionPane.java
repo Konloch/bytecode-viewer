@@ -107,6 +107,7 @@ public class DecompilerSelectionPane
         //build the action commands
         none.setActionCommand(Decompiler.NONE.name());
         hexcode.setActionCommand(Decompiler.HEXCODE_VIEWER.name());
+
         for (DecompilerViewComponent component : components)
         {
             for (Decompiler decompiler : component.getDecompilers())
@@ -123,6 +124,7 @@ public class DecompilerSelectionPane
 
         //auto-save on decompiler change
         Enumeration<AbstractButton> it = group.getElements();
+
         while (it.hasMoreElements())
         {
             AbstractButton button = it.nextElement();
@@ -140,14 +142,18 @@ public class DecompilerSelectionPane
         menu.add(new JSeparator());
         menu.add(procyon.getMenu());
         menu.add(CFR.getMenu());
+
         if (!Configuration.jadxGroupedWithSmali)
             menu.add(JADX.getMenu());
+
         menu.add(JD.getMenu());
         menu.add(fern.getMenu());
         menu.add(krakatau.getMenu());
         menu.add(new JSeparator());
+
         if (Configuration.jadxGroupedWithSmali)
             menu.add(JADX.getMenu());
+
         menu.add(smali.getMenu());
         menu.add(new JSeparator());
         menu.add(bytecode.getMenu());
@@ -166,6 +172,7 @@ public class DecompilerSelectionPane
     public void setSelectedDecompiler(Decompiler decompiler)
     {
         Enumeration<AbstractButton> it = group.getElements();
+
         while (it.hasMoreElements())
         {
             AbstractButton button = it.nextElement();

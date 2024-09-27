@@ -219,14 +219,13 @@ public class AllatoriStringDecrypter extends Plugin
             if (i instanceof MethodInsnNode)
             {
                 MethodInsnNode methodi = ((MethodInsnNode) i);
+
                 if ("currentThread".equals(methodi.name)) // find code form this instruction
                 {
                     insn = i;
                     break;
                 }
-
             }
-
         }
 
         if (insn == null)
@@ -241,6 +240,7 @@ public class AllatoriStringDecrypter extends Plugin
                 if ("hashCode".equals(methodi.name)) // to this instruction
                     break;
             }
+
             removeInsn = insn;
             insn = insn.getNext();
             iList.remove(removeInsn); // and remove it

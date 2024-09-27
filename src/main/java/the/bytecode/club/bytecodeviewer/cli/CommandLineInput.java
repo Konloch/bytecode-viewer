@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.bytecodeviewer;
+package the.bytecode.club.bytecodeviewer.cli;
 
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.cli.CommandLine;
@@ -25,6 +25,9 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.translation.Language;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
@@ -32,6 +35,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.File;
 
+import static the.bytecode.club.bytecodeviewer.cli.CLIAction.*;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 /**
@@ -45,11 +49,6 @@ public class CommandLineInput
 
     private static final Options OPTIONS = new Options();
     private static final CommandLineParser PARSER = new DefaultParser();
-
-    /*BECAUSE WHO DOESN'T LOVE MAGIC NUMBERS*/
-    public static final int STOP = -1;
-    public static final int GUI = 0;
-    public static final int CLI = 1;
 
     static
     {
@@ -92,7 +91,7 @@ public class CommandLineInput
         return false;
     }
 
-    public static int parseCommandLine(String[] args)
+    public static CLIAction parseCommandLine(String[] args)
     {
         if (!containsCommand(args))
             return GUI;
