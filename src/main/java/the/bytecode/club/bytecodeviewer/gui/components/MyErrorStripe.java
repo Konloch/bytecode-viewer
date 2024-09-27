@@ -71,6 +71,7 @@ public class MyErrorStripe extends JPanel
         float lineCount = textArea.getLineCount();
         int lineHeight = textArea.getLineHeight();
         int linesPerVisibleRect = h / lineHeight;
+
         return Math.round((h - 1) * line / Math.max(lineCount, linesPerVisibleRect));
     }
 
@@ -81,6 +82,7 @@ public class MyErrorStripe extends JPanel
         int lineHeight = textArea.getLineHeight();
         int linesPerVisibleRect = h / lineHeight;
         int lineCount = textArea.getLineCount();
+
         if (y < h)
         {
             float at = y / (float) h;
@@ -119,6 +121,7 @@ public class MyErrorStripe extends JPanel
         for (DocumentRange range : occurrences)
         {
             int line;
+
             try
             {
                 line = textArea.getLineOfOffset(range.getStartOffset());
@@ -131,6 +134,7 @@ public class MyErrorStripe extends JPanel
             ParserNotice notice = new MarkedOccurrenceNotice(range, color);
             Integer key = line;
             Marker m = markerMap.get(key);
+
             if (m == null)
             {
                 m = new Marker(notice);
@@ -201,6 +205,7 @@ public class MyErrorStripe extends JPanel
         public void mouseClicked(@NotNull MouseEvent e)
         {
             Component source = (Component) e.getSource();
+
             if (source instanceof MyErrorStripe.Marker)
             {
                 Marker m = (Marker) source;
@@ -209,6 +214,7 @@ public class MyErrorStripe extends JPanel
             }
 
             int line = yToLine(e.getY());
+
             if (line > -1)
             {
                 try
@@ -353,6 +359,7 @@ public class MyErrorStripe extends JPanel
         protected void paintComponent(Graphics g)
         {
             final ParserNotice notice = getHighestPriorityNotice();
+
             if (notice != null)
                 paintParserNoticeMarker((Graphics2D) g, notice, getWidth(), getHeight());
         }
@@ -362,6 +369,7 @@ public class MyErrorStripe extends JPanel
             ParserNotice pn = notices.get(0);
             int offs = pn.getOffset();
             int len = pn.getLength();
+
             if (offs > -1 && len > -1) // These values are optional
             {
                 DocumentRange range = new DocumentRange(offs, offs + len);
@@ -370,6 +378,7 @@ public class MyErrorStripe extends JPanel
             else
             {
                 int line = pn.getLine();
+
                 try
                 {
                     offs = textArea.getLineStartOffset(line);

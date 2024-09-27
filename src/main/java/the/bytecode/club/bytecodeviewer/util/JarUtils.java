@@ -64,7 +64,8 @@ public class JarUtils
         ResourceContainer container = new ResourceContainer(jarFile);
         Map<String, byte[]> files = new LinkedHashMap<>();
 
-        try (FileInputStream fis = new FileInputStream(jarFile); ZipInputStream jis = new ZipInputStream(fis))
+        try (FileInputStream fis = new FileInputStream(jarFile);
+             ZipInputStream jis = new ZipInputStream(fis))
         {
             ZipEntry entry;
             while ((entry = jis.getNextEntry()) != null)
@@ -184,7 +185,8 @@ public class JarUtils
     public static List<ClassNode> loadClasses(File jarFile) throws IOException
     {
         List<ClassNode> classes = new ArrayList<>();
-        try (FileInputStream fis = new FileInputStream(jarFile); ZipInputStream jis = new ZipInputStream(fis))
+        try (FileInputStream fis = new FileInputStream(jarFile);
+             ZipInputStream jis = new ZipInputStream(fis))
         {
             ZipEntry entry;
             while ((entry = jis.getNextEntry()) != null)
@@ -405,7 +407,8 @@ public class JarUtils
      */
     public static void saveAsJar(List<ClassNode> nodeList, String path)
     {
-        try (FileOutputStream fos = new FileOutputStream(path); JarOutputStream out = new JarOutputStream(fos))
+        try (FileOutputStream fos = new FileOutputStream(path);
+             JarOutputStream out = new JarOutputStream(fos))
         {
             List<String> noDupe = new ArrayList<>();
             for (ClassNode cn : nodeList)

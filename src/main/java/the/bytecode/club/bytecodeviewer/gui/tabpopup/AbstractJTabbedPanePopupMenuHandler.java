@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.uikit.tabpopup;
+package the.bytecode.club.bytecodeviewer.gui.tabpopup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,6 +32,7 @@ public abstract class AbstractJTabbedPanePopupMenuHandler extends JTabbedPanePop
     public AbstractJTabbedPanePopupMenuHandler(JTabbedPane tabbedPane)
     {
         super(tabbedPane);
+
         registerPopupEventListener(this);
     }
 
@@ -39,6 +40,7 @@ public abstract class AbstractJTabbedPanePopupMenuHandler extends JTabbedPanePop
     public void onTabPopupEvent(JTabbedPane tabbedPane, int index, TabPopupEvent e)
     {
         JPopupMenu popupMenu = toBuildTabPopupMenu(tabbedPane, e.getPopupOnTab());
+
         popupTabMenuWithEvent(popupMenu, e);
     }
 

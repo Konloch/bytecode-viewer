@@ -63,7 +63,7 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
             boolean iconSet = false;
 
             //guess file type based on extension
-            ResourceType knownResourceType = onlyName.contains(":") ? null : ResourceType.extensionMap.get(FilenameUtils.getExtension(onlyName).toLowerCase());
+            ResourceType knownResourceType = onlyName.contains(":") ? null : ResourceType.EXTENSION_MAP.get(FilenameUtils.getExtension(onlyName).toLowerCase());
 
             //set the icon to a known file type
             if (knownResourceType != null

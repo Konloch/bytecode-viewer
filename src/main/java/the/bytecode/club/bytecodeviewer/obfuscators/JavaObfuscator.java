@@ -34,12 +34,18 @@ import java.util.List;
 public abstract class JavaObfuscator extends Thread
 {
 
+    public static int MAX_STRING_LENGTH = 25;
+    public static int MIN_STRING_LENGTH = 5;
+    private final List<String> names = new ArrayList<>();
+
     @Override
     public void run()
     {
         BytecodeViewer.updateBusyStatus(true);
         Configuration.runningObfuscation = true;
+
         obfuscate();
+
         BytecodeViewer.refactorer.run();
         Configuration.runningObfuscation = false;
         BytecodeViewer.updateBusyStatus(false);
@@ -48,24 +54,16 @@ public abstract class JavaObfuscator extends Thread
     public int getStringLength()
     {
         if (BytecodeViewer.viewer.obfuscatorGroup.isSelected(BytecodeViewer.viewer.strongObf.getModel()))
-        {
             return MAX_STRING_LENGTH;
-        }
-        else
-        { // if(BytecodeViewer.viewer.obfuscatorGroup.isSelected(BytecodeViewer.viewer.lightObf.getModel()))
-            // {
+        else // if(BytecodeViewer.viewer.obfuscatorGroup.isSelected(BytecodeViewer.viewer.lightObf.getModel()))
             return MIN_STRING_LENGTH;
-        }
     }
-
-    public static int MAX_STRING_LENGTH = 25;
-    public static int MIN_STRING_LENGTH = 5;
-    private final List<String> names = new ArrayList<>();
 
     protected String generateUniqueName(int length)
     {
         boolean found = false;
         String name = "";
+
         while (!found)
         {
             String nameTry = MiscUtils.randomString(1) + MiscUtils.randomStringNum(length - 1);
@@ -79,6 +77,7 @@ public abstract class JavaObfuscator extends Thread
                 found = true;
             }
         }
+
         return name;
     }
 

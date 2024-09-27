@@ -76,7 +76,9 @@ public class MappingData
             return false;
         if (getClass() != obj.getClass())
             return false;
+
         MappingData other = (MappingData) obj;
+
         if (obfuscatedName == null)
         {
             if (other.obfuscatedName != null)
@@ -84,10 +86,9 @@ public class MappingData
         }
         else if (!obfuscatedName.equals(other.obfuscatedName))
             return false;
+
         if (refactoredName == null)
-        {
             return other.refactoredName == null;
-        }
         else
             return refactoredName.equals(other.refactoredName);
     }

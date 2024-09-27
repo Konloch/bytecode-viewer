@@ -42,10 +42,8 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.JAD
  */
 public class JADXDecompiler extends InternalDecompiler
 {
-    private final Random r = new Random();
-
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b)
+    public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         String fileStart = TEMP_DIRECTORY + FS;
 
@@ -54,23 +52,23 @@ public class JADXDecompiler extends InternalDecompiler
 
         try (FileOutputStream fos = new FileOutputStream(tempClass))
         {
-            fos.write(b);
+            fos.write(bytes);
         }
         catch (IOException e)
         {
             BytecodeViewer.handleException(e);
         }
 
-        File fuckery = new File(fuckery(fileStart));
-        fuckery.mkdirs();
+        File freeDirectory = new File(findUnusedFile(fileStart));
+        freeDirectory.mkdirs();
 
         try
         {
             JadxArgs args = new JadxArgs();
             args.setInputFile(tempClass);
-            args.setOutDir(fuckery);
-            args.setOutDirSrc(fuckery);
-            args.setOutDirRes(fuckery);
+            args.setOutDir(freeDirectory);
+            args.setOutDirSrc(freeDirectory);
+            args.setOutDirRes(freeDirectory);
 
             JadxDecompiler jadx = new JadxDecompiler(args);
             jadx.load();
@@ -86,8 +84,8 @@ public class JADXDecompiler extends InternalDecompiler
 
         tempClass.delete();
 
-        if (fuckery.exists())
-            return findFile(MiscUtils.listFiles(fuckery));
+        if (freeDirectory.exists())
+            return findFile(MiscUtils.listFiles(freeDirectory));
 
         if (exception.isEmpty())
             exception = "Decompiled source file not found!";
@@ -95,29 +93,29 @@ public class JADXDecompiler extends InternalDecompiler
         return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
-    //TODO remove
-    public String fuckery(String start)
+    public String findUnusedFile(String start)
     {
-        int failSafe = 0;
-        while (failSafe++ <= 42069)
+        long index = 0;
+
+        while (true)
         {
-            File f = new File(start + r.nextInt(Integer.MAX_VALUE));
+            File f = new File(start + index);
+
             if (!f.exists())
                 return f.toString();
         }
-
-        return null;
     }
 
-    public String findFile(File[] fA)
+    public String findFile(File[] fileArray)
     {
-        for (File f : fA)
+        for (File f : fileArray)
         {
             if (f.isDirectory())
                 return findFile(MiscUtils.listFiles(f));
             else
             {
                 String s;
+
                 try
                 {
                     s = DiskReader.loadAsString(f.getAbsolutePath());
@@ -131,6 +129,7 @@ public class JADXDecompiler extends InternalDecompiler
 
                     return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
                 }
+
                 return s;
             }
         }
@@ -141,5 +140,6 @@ public class JADXDecompiler extends InternalDecompiler
     @Override
     public void decompileToZip(String sourceJar, String zipName)
     {
+        //TODO
     }
 }

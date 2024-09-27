@@ -64,12 +64,14 @@ public class KrakatauDecompiler extends InternalDecompiler
         return ";" + Arrays.stream(files).filter(File::isFile).map(File::getAbsolutePath).collect(Collectors.joining(";"));
     }
 
-    public String decompileClassNode(File krakatauTempJar, File krakatauTempDir, ClassNode cn)
+    @Override
+    public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         if (!ExternalResources.getSingleton().hasSetPython2Command())
             return TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH.toString();
 
         ExternalResources.getSingleton().rtCheck();
+
         if (Configuration.rt.isEmpty())
         {
             BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
@@ -82,73 +84,22 @@ public class KrakatauDecompiler extends InternalDecompiler
             return TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + " " + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B;
         }
 
-        String s = ExceptionUI.SEND_STACKTRACE_TO_NL;
+        final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
+        final File tempJar = new File(Constants.TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(32) + ".jar");
 
-        try
-        {
-            String[] pythonCommands = new String[]{Configuration.python2};
-            if (Configuration.python2Extra)
-                pythonCommands = ArrayUtils.addAll(pythonCommands, "-2");
+        tempDirectory.mkdir();
 
-            ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(pythonCommands, "-O", //love you storyyeller <3
-                krakatauWorkingDirectory + FS + "decompile.py", "-skip", //love you storyyeller <3
-                "-nauto", "-path", Configuration.rt + ";" + krakatauTempJar.getAbsolutePath() + buildCLIArguments(), "-out", krakatauTempDir.getAbsolutePath(), cn.name + ".class"));
+        JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
 
-            Process process = pb.start();
-            BytecodeViewer.createdProcesses.add(process);
-
-            StringBuilder log = new StringBuilder(TranslatedStrings.PROCESS2 + NL + NL);
-
-            //Read out dir output
-            try (InputStream is = process.getInputStream();
-                 InputStreamReader isr = new InputStreamReader(is);
-                 BufferedReader br = new BufferedReader(isr))
-            {
-                String line;
-                while ((line = br.readLine()) != null)
-                {
-                    log.append(NL).append(line);
-                }
-            }
-
-            log.append(NL).append(NL).append(TranslatedStrings.ERROR2).append(NL).append(NL);
-
-            try (InputStream is = process.getErrorStream();
-                 InputStreamReader isr = new InputStreamReader(is);
-                 BufferedReader br = new BufferedReader(isr))
-            {
-                String line;
-                while ((line = br.readLine()) != null)
-                {
-                    log.append(NL).append(line);
-                }
-            }
-
-            int exitValue = process.waitFor();
-            log.append(NL).append(NL).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
-            s = log.toString();
-
-            //if the motherfucker failed this'll fail, aka wont set.
-            s = DiskReader.loadAsString(krakatauTempDir.getAbsolutePath() + FS + cn.name + ".java");
-        }
-        catch (Exception e)
-        {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
-            e.printStackTrace();
-            s += NL + ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
-        }
-
-        return s;
+        return decompileClassNode(tempJar, tempDirectory, cn);
     }
 
-    @Override
-    public String decompileClassNode(ClassNode cn, byte[] b)
+    public String decompileClassNode(File tempJar, File tempDir, ClassNode cn)
     {
-        //TODO look into transforming through krakatau as a zip rather than direct classfile
-
         if (!ExternalResources.getSingleton().hasSetPython2Command())
             return TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH.toString();
+
+        ExternalResources.getSingleton().rtCheck();
 
         if (Configuration.rt.isEmpty())
         {
@@ -158,17 +109,11 @@ public class KrakatauDecompiler extends InternalDecompiler
 
         if (Configuration.rt.isEmpty())
         {
-            BytecodeViewer.showMessage("You need to set RT.jar!");
-            return "Set your paths";
+            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
+            return TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + " " + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B;
         }
 
-        String s = ExceptionUI.SEND_STACKTRACE_TO_NL;
-
-        final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
-        tempDirectory.mkdir();
-        final File tempJar = new File(Constants.TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(32) + ".jar");
-
-        JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
+        String returnString = ExceptionUI.SEND_STACKTRACE_TO_NL;
 
         try
         {
@@ -178,7 +123,8 @@ public class KrakatauDecompiler extends InternalDecompiler
 
             ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(pythonCommands, "-O", //love you storyyeller <3
                 krakatauWorkingDirectory + FS + "decompile.py", "-skip", //love you storyyeller <3
-                "-nauto", "-path", Configuration.rt + ";" + tempJar.getAbsolutePath() + buildCLIArguments(), "-out", tempDirectory.getAbsolutePath(), cn.name + ".class"));
+                "-nauto", "-path", Configuration.rt + ";" + tempJar.getAbsolutePath() + buildCLIArguments(),
+                "-out", tempDir.getAbsolutePath(), cn.name + ".class"));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
@@ -212,22 +158,20 @@ public class KrakatauDecompiler extends InternalDecompiler
 
             int exitValue = process.waitFor();
             log.append(NL).append(NL).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
-            s = log.toString();
+            returnString = log.toString();
 
-            //if the motherfucker failed this'll fail, aka wont set.
-            s = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + FS + cn.name + ".java");
-            tempDirectory.delete();
-            tempJar.delete();
+            // update the string on a successful disassemble
+            returnString = DiskReader.loadAsString(tempDir.getAbsolutePath() + FS + cn.name + ".java");
         }
         catch (Exception e)
         {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             e.printStackTrace();
-            s += NL + ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
+            returnString += NL + ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
 
-        return s;
+        return returnString;
     }
 
     @Override
@@ -237,17 +181,18 @@ public class KrakatauDecompiler extends InternalDecompiler
             return;
 
         ExternalResources.getSingleton().rtCheck();
+
         if (Configuration.rt.isEmpty())
         {
             BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
             ExternalResources.getSingleton().selectJRERTLibrary();
         }
 
-        String ran = MiscUtils.randomString(32);
+        final String ran = MiscUtils.randomString(32);
         final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + ran + FS);
-        tempDirectory.mkdir();
-
         final File tempJar = new File(sourceJar);
+
+        tempDirectory.mkdir();
 
         try
         {

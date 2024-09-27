@@ -90,7 +90,9 @@ public class MethodMappingData
             return false;
         if (getClass() != obj.getClass())
             return false;
+
         MethodMappingData other = (MethodMappingData) obj;
+
         if (methodDesc == null)
         {
             if (other.methodDesc != null)
@@ -98,6 +100,7 @@ public class MethodMappingData
         }
         else if (!methodDesc.equals(other.methodDesc))
             return false;
+
         if (methodName == null)
         {
             if (other.methodName != null)
@@ -105,10 +108,9 @@ public class MethodMappingData
         }
         else if (!methodName.equals(other.methodName))
             return false;
+
         if (methodOwner == null)
-        {
             return other.methodOwner == null;
-        }
         else
             return methodOwner.equals(other.methodOwner);
     }

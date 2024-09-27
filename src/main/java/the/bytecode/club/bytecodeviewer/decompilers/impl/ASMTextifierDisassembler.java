@@ -34,7 +34,7 @@ import java.io.StringWriter;
 public class ASMTextifierDisassembler extends InternalDecompiler
 {
     @Override
-    public String decompileClassNode(ClassNode cn, byte[] b)
+    public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         StringWriter writer = new StringWriter();
         cn.accept(new TraceClassVisitor(null, new Textifier(), new PrintWriter(writer)));

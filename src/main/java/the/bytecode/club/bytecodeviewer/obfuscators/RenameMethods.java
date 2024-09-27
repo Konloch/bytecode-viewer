@@ -39,6 +39,7 @@ public class RenameMethods extends JavaObfuscator
         int stringLength = getStringLength();
 
         System.out.println("Obfuscating method names...");
+
         for (ClassNode c : BytecodeViewer.getLoadedClasses())
         {
             for (Object o : c.methods.toArray())

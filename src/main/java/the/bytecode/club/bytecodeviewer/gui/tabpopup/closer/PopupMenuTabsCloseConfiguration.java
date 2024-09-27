@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.uikit.tabpopup.closer;
+package the.bytecode.club.bytecodeviewer.gui.tabpopup.closer;
 
 /**
  * PopupMenu items configuration of close tabs

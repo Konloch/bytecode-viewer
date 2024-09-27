@@ -38,10 +38,9 @@ public class TabComponent extends JPanel
     public TabComponent(JTabbedPane pane)
     {
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
+
         if (pane == null)
-        {
             throw new NullPointerException("TabbedPane is null");
-        }
 
         this.pane = pane;
 
@@ -52,9 +51,7 @@ public class TabComponent extends JPanel
             {
                 int i = pane.indexOfTabComponent(TabComponent.this);
                 if (i != -1)
-                {
                     return pane.getTitleAt(i);
-                }
 
                 return null;
             }
@@ -101,13 +98,9 @@ public class TabComponent extends JPanel
                     return;
 
                 if (pane.indexOfTabComponent(TabComponent.this) != 0)
-                {
                     removeTab(0);
-                }
                 else
-                {
                     removeTab(1);
-                }
             }
         });
 

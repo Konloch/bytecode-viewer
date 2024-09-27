@@ -44,19 +44,21 @@ public class SmaliAssembler extends InternalCompiler
     @Override
     public byte[] compile(String contents, String fullyQualifiedName)
     {
-        String fileStart = TEMP_DIRECTORY + FS + "temp";
-        int fileNumber = MiscUtils.getClassNumber(fileStart, ".dex");
-
+        final String fileStart = TEMP_DIRECTORY + FS + "temp";
+        final int fileNumber = MiscUtils.getClassNumber(fileStart, ".dex");
         final File tempSmaliFolder = new File(fileStart + fileNumber + "-smalifolder" + FS);
-        tempSmaliFolder.mkdir();
 
-        File tempSmali = new File(tempSmaliFolder.getAbsolutePath() + FS + fileNumber + ".smali");
-        File tempDex = new File("./out.dex");
-        File tempJar = new File(fileStart + fileNumber + ".jar");
-        File tempJarFolder = new File(fileStart + fileNumber + "-jar" + FS);
+        final File tempSmali = new File(tempSmaliFolder.getAbsolutePath() + FS + fileNumber + ".smali");
+        final File tempDex = new File("./out.dex");
+        final File tempJar = new File(fileStart + fileNumber + ".jar");
+        final File tempJarFolder = new File(fileStart + fileNumber + "-jar" + FS);
+
+        //create the temp directory
+        tempSmaliFolder.mkdir();
 
         try
         {
+            //write the file we're assembling to disk
             DiskWriter.replaceFile(tempSmali.getAbsolutePath(), contents, false);
         }
         catch (Exception e)
@@ -107,6 +109,7 @@ public class SmaliAssembler extends InternalCompiler
 
                 System.out.println("Saved as: " + outputClass.getAbsolutePath());
 
+                //return the assembled file
                 return FileUtils.readFileToByteArray(outputClass);
             }
             catch (java.lang.NullPointerException ignored)

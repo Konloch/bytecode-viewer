@@ -111,6 +111,7 @@ public class RunOptions extends JFrame
         printToCommandLine.setBounds(6, 315, 232, 23);
         getContentPane().add(printToCommandLine);
         this.setLocationRelativeTo(null);
+
         btnNewButton.addActionListener(arg0 ->
         {
             PluginManager.runPlugin(new EZInjection(accessModifiers.isSelected(), injectHooks.isSelected(), debugMethodCalls.isSelected(), invokeMethod.isSelected(), mainMethodFQN.getText(), false, false, debugClasses.getText(), this.socksProxy.getText(), forceProxy.isSelected(), launchReflectionKit.isSelected(), console.isSelected(), printToCommandLine.isSelected()));

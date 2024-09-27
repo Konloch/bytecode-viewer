@@ -41,11 +41,14 @@ public class NewlineOutputStream extends FilterOutputStream
     public NewlineOutputStream(OutputStream os)
     {
         super(os);
+
         if (newline == null)
         {
             String s = Constants.NL;
+
             if (s == null || s.length() <= 0)
                 s = "\n";
+
             newline = s.getBytes(StandardCharsets.ISO_8859_1);    // really us-ascii
         }
     }
@@ -66,6 +69,7 @@ public class NewlineOutputStream extends FilterOutputStream
         {
             out.write(b);
         }
+
         lastByte = b;
     }
 

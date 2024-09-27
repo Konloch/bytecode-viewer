@@ -35,7 +35,9 @@ public class WaitBusyIcon extends JMenuItemIcon
     public WaitBusyIcon()
     {
         super(new RotatableIcon(IconResources.busyIcon));
+
         animator = new RotatableIconAnimator(8, (RotatableIcon) getIcon(), this);
+
         addHierarchyListener(e ->
         {
             if ((e.getChangeFlags() & HierarchyEvent.PARENT_CHANGED) != 0)

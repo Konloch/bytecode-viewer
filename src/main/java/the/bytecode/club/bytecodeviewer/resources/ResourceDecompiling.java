@@ -70,7 +70,8 @@ public class ResourceDecompiling
             if (!BytecodeViewer.autoCompileSuccessful())
                 return;
 
-            final JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(), "Select Zip Export", "Zip Archives", "zip");
+            final JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(),
+                "Select Zip Export", "Zip Archives", "zip");
 
             //if the user doesn't select a file then we should stop while we're ahead
             if (fc.showSaveDialog(BytecodeViewer.viewer) != JFileChooser.APPROVE_OPTION)
@@ -87,7 +88,8 @@ public class ResourceDecompiling
                 return;
 
             //this temporary jar file will be used to store the classes while BCV performs decompilation
-            File temporaryTargetJar = MiscUtils.deleteExistingFile(new File(TEMP_DIRECTORY + FS + "temp_" + MiscUtils.getRandomizedName() + ".jar"));
+            File temporaryTargetJar = MiscUtils.deleteExistingFile(new File(TEMP_DIRECTORY + FS
+                + "temp_" + MiscUtils.getRandomizedName() + ".jar"));
 
             //extract all the loaded classes imported into BCV to the temporary target jar
             JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), temporaryTargetJar.getAbsolutePath());
@@ -254,7 +256,8 @@ public class ResourceDecompiling
         BytecodeViewer.updateBusyStatus(true);
 
         //decompile all opened classes to zip
-        decompiler.getDecompiler().decompileToZip(targetJar.getAbsolutePath(), saveAll ? MiscUtils.append(outputZip, "-" + decompiler.getDecompilerNameProgrammic() + ".zip") : outputZip.getAbsolutePath());
+        decompiler.getDecompiler().decompileToZip(targetJar.getAbsolutePath(), saveAll ? MiscUtils.append(outputZip,
+            "-" + decompiler.getDecompilerNameProgrammic() + ".zip") : outputZip.getAbsolutePath());
 
         //signal to the user that BCV is finished performing that action
         BytecodeViewer.updateBusyStatus(false);
@@ -266,7 +269,8 @@ public class ResourceDecompiling
         BytecodeViewer.updateBusyStatus(true);
 
         //decompile the currently opened resource and save it to the specified file
-        DiskWriter.replaceFile(saveAll ? MiscUtils.append(outputFile, "-" + decompiler.getDecompilerNameProgrammic() + ".java") : outputFile.getAbsolutePath(), BCV.decompileCurrentlyOpenedClassNode(decompiler), false);
+        DiskWriter.replaceFile(saveAll ? MiscUtils.append(outputFile,
+            "-" + decompiler.getDecompilerNameProgrammic() + ".java") : outputFile.getAbsolutePath(), BCV.decompileCurrentlyOpenedClassNode(decompiler), false);
 
         //signal to the user that BCV is finished performing that action
         BytecodeViewer.updateBusyStatus(false);

@@ -36,15 +36,11 @@ public class PrefixedStringBuilder
     public PrefixedStringBuilder append(String s)
     {
         sb.append(s);
-        if (s.contains("\n") && (prefix != null) && (prefix.length() > 0))// insert
-            // the
-            // prefix
-            // at
-            // every
-            // new
-            // line,
-            // overridable
+
+        // insert the prefix at every new line, overridable
+        if (s.contains("\n") && (prefix != null) && (prefix.length() > 0))
             sb.append(prefix);
+
         return this;
     }
 

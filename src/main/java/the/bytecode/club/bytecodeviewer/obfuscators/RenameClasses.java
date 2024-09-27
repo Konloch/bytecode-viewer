@@ -37,6 +37,7 @@ public class RenameClasses extends JavaObfuscator
         int stringLength = getStringLength();
 
         System.out.println("Obfuscating class names...");
+
         for (ClassNode c : BytecodeViewer.getLoadedClasses())
         {
             String newName = generateUniqueName(stringLength);

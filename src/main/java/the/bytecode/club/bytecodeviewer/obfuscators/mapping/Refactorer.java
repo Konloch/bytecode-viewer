@@ -60,9 +60,11 @@ public class Refactorer
             cr.accept(cn, 0);
             //refactored.put(oldName, cn);
         }
+
         /*for (Map.Entry<String, ClassNode> factor : refactored.entrySet()) {
             BytecodeViewer.relocate(factor.getKey(), factor.getValue());
         }*/
+
         mapper.printMap();
     }
 

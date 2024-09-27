@@ -27,7 +27,11 @@ import the.bytecode.club.bytecodeviewer.searching.impl.*;
  */
 public enum SearchType
 {
-    Strings(new LDCSearch()), Regex(new RegexSearch()), MethodCall(new MethodCallSearch()), FieldCall(new FieldCallSearch()), MemberWithAnnotation(new MemberWithAnnotationSearch());
+    Strings(new LDCSearch()),
+    Regex(new RegexSearch()),
+    MethodCall(new MethodCallSearch()),
+    FieldCall(new FieldCallSearch()),
+    MemberWithAnnotation(new MemberWithAnnotationSearch());
 
     public final SearchPanel panel;
 

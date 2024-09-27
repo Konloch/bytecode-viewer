@@ -42,7 +42,9 @@ public class TextAreaSearchPanel extends JPanel
     public TextAreaSearchPanel(JTextArea textArea)
     {
         super(new BorderLayout());
+
         this.textArea = textArea;
+
         setup();
         setVisible(true);
     }
