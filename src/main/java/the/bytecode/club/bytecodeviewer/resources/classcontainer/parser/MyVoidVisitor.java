@@ -2,6 +2,7 @@ package the.bytecode.club.bytecodeviewer.resources.classcontainer.parser;
 
 import com.github.javaparser.Range;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
@@ -204,6 +205,16 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             int columnEnd = range.end.column;
             this.classFileContainer.putParameter(parameterName, new ClassParameterLocation(getOwner(), n.getDeclarationAsString(false, false), "declaration", line, columnStart, columnEnd + 1));
         });
+
+        if (n.getParentNode().get() instanceof ObjectCreationExpr)
+        {
+            ObjectCreationExpr objectCreationExpr = (ObjectCreationExpr) n.getParentNode().get();
+            NodeList<BodyDeclaration<?>> bodyDeclarations = objectCreationExpr.getAnonymousClassBody().get();
+            if (bodyDeclarations.getFirst().get().equals(n))
+            {
+                return;
+            }
+        }
 
         ResolvedConstructorDeclaration resolve = n.resolve();
         String signature = resolve.getQualifiedSignature();
