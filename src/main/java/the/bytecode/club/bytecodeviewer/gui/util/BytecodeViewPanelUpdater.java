@@ -510,7 +510,6 @@ public class BytecodeViewPanelUpdater implements Runnable
             if (token == null)
             {
                 highlighterEx.clearMarkOccurrencesHighlights();
-                errorStripe.refreshMarkers();
                 return;
             }
         }
@@ -519,7 +518,6 @@ public class BytecodeViewPanelUpdater implements Runnable
         if (token == null)
         {
             highlighterEx.clearMarkOccurrencesHighlights();
-            errorStripe.refreshMarkers();
             return;
         }
 
@@ -620,7 +618,7 @@ public class BytecodeViewPanelUpdater implements Runnable
      * @param finalToken         the token
      * @param highlighterEx      the highlighter
      */
-    private static void markMethodParameter(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    private void markMethodParameter(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
         classFileContainer.methodParameterMembers.values().forEach(parameters -> parameters.forEach(parameter ->
         {
@@ -637,7 +635,6 @@ public class BytecodeViewPanelUpdater implements Runnable
                         {
                             int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);
                             int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
-
                             highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                         }
                     }
@@ -660,7 +657,7 @@ public class BytecodeViewPanelUpdater implements Runnable
      * @param finalToken         the token
      * @param highlighterEx      the highlighter
      */
-    private static void markMethodLocalVariable(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    private void markMethodLocalVariable(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
         classFileContainer.methodLocalMembers.values().forEach(localVariables -> localVariables.forEach(localVariable ->
         {
@@ -677,7 +674,6 @@ public class BytecodeViewPanelUpdater implements Runnable
                         {
                             int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);
                             int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
-
                             highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                         }
                     }
