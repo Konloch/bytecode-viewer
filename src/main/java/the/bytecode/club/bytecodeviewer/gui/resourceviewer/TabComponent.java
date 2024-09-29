@@ -107,20 +107,6 @@ public class TabComponent extends JPanel
         setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
     }
 
-    public void selectPane()
-    {
-        if (pane.indexOfTabComponent(TabComponent.this) != -1)
-        {
-            int i = pane.indexOfTabComponent(TabComponent.this);
-            selectTab(i);
-        }
-    }
-
-    private void selectTab(int index)
-    {
-        BytecodeViewer.viewer.workPane.tabs.setSelectedIndex(index);
-    }
-
     public void closePane()
     {
         if (pane.indexOfTabComponent(TabComponent.this) != -1)
