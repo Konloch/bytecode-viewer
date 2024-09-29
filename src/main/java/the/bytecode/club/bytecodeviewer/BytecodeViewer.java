@@ -350,7 +350,15 @@ public class BytecodeViewer
      */
     public static ClassNode getCurrentlyOpenedClassNode()
     {
-        return getActiveResource().resource.getResourceClassNode();
+        return getActiveClass().resource.getResourceClassNode();
+    }
+
+    /**
+     * Returns the currently opened & viewed resource
+     */
+    public static ResourceViewer getActiveClass()
+    {
+        return BytecodeViewer.viewer.workPane.getLastActiveClass();
     }
 
     /**

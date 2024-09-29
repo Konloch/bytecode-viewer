@@ -54,12 +54,21 @@ public class Workspace extends TranslatedVisibleComponent
     public final JButton refreshClass;
     public final Set<String> openedTabs = new HashSet<>();
     public HashMap<String, ClassFileContainer> classFiles = new HashMap<>();
+    private ResourceViewer lastActiveClassViewer;
 
     public Workspace()
     {
         super("Workspace", TranslatedComponents.WORK_SPACE);
 
         this.tabs = new DraggableTabbedPane();
+
+        tabs.addChangeListener(e ->
+        {
+            ResourceViewer viewer = (ResourceViewer) tabs.getSelectedComponent();
+
+            if(viewer instanceof ClassViewer)
+                lastActiveClassViewer = viewer;
+        });
 
         // configure popup menu of close tabs
         JTabbedPanePopupMenuTabsCloser popupMenuTabsCloser = new JTabbedPanePopupMenuTabsCloser(this.tabs);
@@ -171,6 +180,11 @@ public class Workspace extends TranslatedVisibleComponent
     public ResourceViewer getActiveResource()
     {
         return (ResourceViewer) tabs.getSelectedComponent();
+    }
+
+    public ResourceViewer getLastActiveClass()
+    {
+        return lastActiveClassViewer;
     }
 
     public Component[] getLoadedViewers()
