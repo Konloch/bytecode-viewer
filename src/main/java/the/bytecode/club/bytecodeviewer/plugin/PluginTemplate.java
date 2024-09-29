@@ -30,8 +30,8 @@ import java.io.IOException;
  */
 public enum PluginTemplate
 {
-    JAVA("/templates/Template_Plugin.java"), JAVASCRIPT("/templates/Template_Plugin.js"),
-    ;
+    JAVA("/templates/Template_Plugin.java"),
+    JAVASCRIPT("/templates/Template_Plugin.js");
 
     private final String resourcePath;
     private final String extension;
