@@ -39,6 +39,7 @@ import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.PluginTemplate;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.*;
+import the.bytecode.club.bytecodeviewer.plugin.strategies.JavascriptPluginLaunchStrategy;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.resources.IconResources;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
@@ -676,7 +677,10 @@ public class MainViewerGUI extends JFrame
         pluginsMainMenu.add(recentPluginsSecondaryMenu);
         pluginsMainMenu.add(new JSeparator());
         pluginsMainMenu.add(newJavaPlugin);
-        pluginsMainMenu.add(newJavascriptPlugin);
+
+        if(JavascriptPluginLaunchStrategy.IS_JS_ENGINE_IN_CLASSPATH)
+            pluginsMainMenu.add(newJavascriptPlugin);
+
         pluginsMainMenu.add(new JSeparator()); //android specific plugins first
         pluginsMainMenu.add(viewAPKAndroidPermissions);
         pluginsMainMenu.add(new JSeparator());
