@@ -124,7 +124,7 @@
     "SUGGESTED_FIX_COMPILER_ERROR": "Suggested Fix: Try View>Pane>Krakatau>Bytecode and enable Editable.",
     "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "WARNING: No decompiler is currently selected. Try View>Pane and choose a decompiler.",
     "COMPILER_TIP": "Keep in mind most decompilers cannot produce compilable classes",
-    "FIRST_OPEN_A_RESOURCE": "First open a resource inside of BCV (class, jar, zip or apk file)",
+    "FIRST_OPEN_A_RESOURCE": "Drag or open a file into BCV (class, jar, zip or apk file)",
     "FIRST_OPEN_A_CLASS": "First open a classfile resource inside of BCV (jar, zip, apk, dex)",
     "FIRST_VIEW_A_CLASS": "First view a class file inside of a tab.",
     "DRAG_CLASS_JAR": "Drag class/jar/zip/APK/DEX here",
