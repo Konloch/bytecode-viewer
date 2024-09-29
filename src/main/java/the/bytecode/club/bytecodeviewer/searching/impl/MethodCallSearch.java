@@ -59,6 +59,12 @@ public class MethodCallSearch implements SearchPanel
         LAFTheme.registerThemeUpdate(mOwner, mName, mDesc);
     }
 
+    @Override
+    public String toString()
+    {
+        return "Method Call Search";
+    }
+
     public JPanel getPanel()
     {
         if (myPanel == null)

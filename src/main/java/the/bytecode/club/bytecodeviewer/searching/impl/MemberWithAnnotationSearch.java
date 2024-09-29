@@ -54,6 +54,12 @@ public class MemberWithAnnotationSearch implements SearchPanel
     }
 
     @Override
+    public String toString()
+    {
+        return "Members With Annotation Search";
+    }
+
+    @Override
     public JPanel getPanel()
     {
         if (myPanel == null)

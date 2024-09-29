@@ -24,6 +24,19 @@ package the.bytecode.club.bytecodeviewer.gui.resourcesearch;
  */
 public enum SearchRadius
 {
-    All_Classes,
-    Current_Class
+    ALL_CLASSES("All Classes"),
+    CURRENT_CLASS("Current Class");
+
+    private final String name;
+
+    SearchRadius(String name)
+    {
+        this.name = name;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

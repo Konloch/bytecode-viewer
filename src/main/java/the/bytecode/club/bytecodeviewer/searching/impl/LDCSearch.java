@@ -53,6 +53,12 @@ public class LDCSearch implements SearchPanel
     }
 
     @Override
+    public String toString()
+    {
+        return "LDC Search";
+    }
+
+    @Override
     public JPanel getPanel()
     {
         if (myPanel == null)

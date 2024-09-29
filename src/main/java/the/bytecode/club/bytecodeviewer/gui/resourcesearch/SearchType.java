@@ -27,16 +27,22 @@ import the.bytecode.club.bytecodeviewer.searching.impl.*;
  */
 public enum SearchType
 {
-    Strings(new LDCSearch()),
-    Regex(new RegexSearch()),
-    MethodCall(new MethodCallSearch()),
-    FieldCall(new FieldCallSearch()),
-    MemberWithAnnotation(new MemberWithAnnotationSearch());
+    STRINGS(new LDCSearch()),
+    REGEX(new RegexSearch()),
+    METHOD_CALL(new MethodCallSearch()),
+    FIELD_CALL(new FieldCallSearch()),
+    MEMBER_WITH_ANNOTATION(new MemberWithAnnotationSearch());
 
     public final SearchPanel panel;
 
     SearchType(SearchPanel panel)
     {
         this.panel = panel;
+    }
+
+    @Override
+    public String toString()
+    {
+        return panel.toString();
     }
 }

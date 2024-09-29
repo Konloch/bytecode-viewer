@@ -33,6 +33,12 @@ import java.util.Iterator;
 public class FieldCallSearch extends MethodCallSearch
 {
     @Override
+    public String toString()
+    {
+        return "Field Call Search";
+    }
+
+    @Override
     public void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean exact)
     {
         final Iterator<MethodNode> methods = node.methods.iterator();

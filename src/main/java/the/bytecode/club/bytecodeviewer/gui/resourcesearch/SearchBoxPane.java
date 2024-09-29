@@ -98,7 +98,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
 
         typeBox.addItemListener(il);
 
-        typeBox.setSelectedItem(SearchType.Strings);
+        typeBox.setSelectedItem(SearchType.STRINGS);
         il.itemStateChanged(null);
 
         searchOpts.add(typeBox);
@@ -178,7 +178,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
         searchType = (SearchType) typeBox.getSelectedItem();
         final SearchRadius radius = (SearchRadius) searchRadiusBox.getSelectedItem();
 
-        if (radius == SearchRadius.All_Classes)
+        if (radius == SearchRadius.ALL_CLASSES)
         {
             if (performSearchThread == null || performSearchThread.finished)
             {
@@ -193,7 +193,7 @@ public class SearchBoxPane extends TranslatedVisibleComponent
                 BytecodeViewer.showMessage("You currently have a search performing in the background, please wait for that to finish.");
             }
         }
-        else if (radius == SearchRadius.Current_Class)
+        else if (radius == SearchRadius.CURRENT_CLASS)
         {
             final ResourceViewer cv = BytecodeViewer.getActiveResource();
 

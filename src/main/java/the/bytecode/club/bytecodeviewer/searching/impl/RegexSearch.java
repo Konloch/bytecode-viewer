@@ -59,6 +59,12 @@ public class RegexSearch implements SearchPanel
     }
 
     @Override
+    public String toString()
+    {
+        return "Regex Search";
+    }
+
+    @Override
     public JPanel getPanel()
     {
         if (myPanel == null)
