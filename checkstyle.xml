@@ -16,6 +16,11 @@
 -->
 
 <module name="Checker">
+
+  <module name="SuppressionFilter">
+    <property name="file" value="checkstyle_suppression.xml" />
+  </module>
+
   <property name="severity" value="error"/>
   <property name="fileExtensions" value="java, properties, xml"/>
 
