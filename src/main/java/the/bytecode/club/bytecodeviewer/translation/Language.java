@@ -38,13 +38,49 @@ import java.util.*;
  */
 public enum Language
 {
-    ENGLISH("/translations/english.json", "English", "English", "en"), ARABIC("/translations/arabic.json", "عربى", "English", "ar"), CROATIAN("/translations/croatian.json", "hrvatski", "English", "hr"), CZECH("/translations/czech.json", "čeština", "English", "cs"), BULGARIAN("/translations/bulgarian.json", "български", "English", "bg"), DANISH("/translations/danish.json", "dansk", "English", "da"), ESTONIAN("/translations/estonian.json", "Eesti", "English", "et"), FARSI("/translations/farsi.json", "فارسی ", "English", "fa"), FINNISH("/translations/finnish.json", "Suomen Kieli", "English", "fi"), FRENCH("/translations/french.json", "Français", "English", "fr"), GERMAN("/translations/german.json", "Deutsch", "German", "de"), GEORGIAN("/translations/georgian.json", "ქართული ენა", "English", "ka"), GREEK("/translations/greek.json", "ελληνικά", "English", "el"), HAUSA("/translations/hausa.json", "Hausa", "English", "ha"), HEBREW("/translations/hebrew.json", "עִבְרִית\u200E", "English", "iw", "he"), //HINDI("/translations/hindi.json", "हिंदी", "English", "hi"),
-//BENGALI("/translations/bengali.json", "বাংলা", "English", "bn"),
-HUNGARIAN("/translations/hungarian.json", "Magyar Nyelv", "English", "hu"), INDONESIAN("/translations/indonesian.json", "bahasa Indonesia", "English", "id"), ITALIAN("/translations/italian.json", "Italiano", "English", "it"), JAPANESE("/translations/japanese.json", "日本語", "English", "ja"), LATIVAN("/translations/lativan.json", "Lativan", "English", "lv"), LITHUANIAN("/translations/lithuanian.json", "Lietuvių", "English", "lt"), //JAVANESE("/translations/javanese.json", "ꦧꦱꦗꦮ", "English", "jw", "jv"),
-//KOREAN("/translations/korean.json", "Korean", "English", "ko"),
-MALAY("/translations/malay.json", "Bahasa Melayu", "English", "ms"), MANDARIN("/translations/mandarin.json", "普通话", "Mandarin", "zh-CN", "zh_cn", "zh"), NEDERLANDS("/translations/nederlands.json", "Nederlands", "English", "nl"), //dutch
-    NORWEGIAN("/translations/norwegian.json", "Norsk", "English", "no"), POLISH("/translations/polish.json", "Polski", "English", "pl"), PORTUGUESE("/translations/portuguese.json", "Português", "English", "pt"), ROMANIAN("/translations/romanian.json", "Română", "English", "ro"), RUSSIAN("/translations/russian.json", "русский", "English", "ru"), SLOVAK("/translations/slovak.json", "Slovensky", "English", "sk"), SLOVENIAN("/translations/slovenian.json", "Slovenščina", "English", "sl"), SPANISH("/translations/spanish.json", "Español", "English", "es"), SERBIAN("/translations/serbian.json", "српски језик", "English", "sr"), SWAHILI("/translations/swahili.json", "Kiswahili", "English", "sw"), SWEDISH("/translations/swedish.json", "svenska", "English", "sv"), //THAI("/translations/thai.json", "ภาษาไทย", "English", "th"),
-TURKISH("/translations/turkish.json", "Türkçe", "English", "tr"), UKRAINIAN("/translations/ukrainian.json", "украї́нська мо́ва", "English", "uk"), VIETNAMESE("/translations/vietnamese.json", "Tiếng Việt", "English", "vi"),
+    ENGLISH("/translations/english.json", "English", "English", "en"),
+    ARABIC("/translations/arabic.json", "عربى", "English", "ar"),
+    CROATIAN("/translations/croatian.json", "hrvatski", "English", "hr"),
+    CZECH("/translations/czech.json", "čeština", "English", "cs"),
+    BULGARIAN("/translations/bulgarian.json", "български", "English", "bg"),
+    DANISH("/translations/danish.json", "dansk", "English", "da"),
+    ESTONIAN("/translations/estonian.json", "Eesti", "English", "et"),
+    FARSI("/translations/farsi.json", "فارسی ", "English", "fa"),
+    FINNISH("/translations/finnish.json", "Suomen Kieli", "English", "fi"),
+    FRENCH("/translations/french.json", "Français", "English", "fr"),
+    GERMAN("/translations/german.json", "Deutsch", "German", "de"),
+    GEORGIAN("/translations/georgian.json", "ქართული ენა", "English", "ka"),
+    GREEK("/translations/greek.json", "ελληνικά", "English", "el"),
+    HAUSA("/translations/hausa.json", "Hausa", "English", "ha"),
+    HEBREW("/translations/hebrew.json", "עִבְרִית\u200E", "English", "iw", "he"),
+    //HINDI("/translations/hindi.json", "हिंदी", "English", "hi"),
+    //BENGALI("/translations/bengali.json", "বাংলা", "English", "bn"),
+    HUNGARIAN("/translations/hungarian.json", "Magyar Nyelv", "English", "hu"),
+    INDONESIAN("/translations/indonesian.json", "bahasa Indonesia", "English", "id"),
+    ITALIAN("/translations/italian.json", "Italiano", "English", "it"),
+    JAPANESE("/translations/japanese.json", "日本語", "English", "ja"),
+    LATIVAN("/translations/lativan.json", "Lativan", "English", "lv"),
+    LITHUANIAN("/translations/lithuanian.json", "Lietuvių", "English", "lt"),
+    //JAVANESE("/translations/javanese.json", "ꦧꦱꦗꦮ", "English", "jw", "jv"),
+    //KOREAN("/translations/korean.json", "Korean", "English", "ko"),
+    MALAY("/translations/malay.json", "Bahasa Melayu", "English", "ms"),
+    MANDARIN("/translations/mandarin.json", "普通话", "Mandarin", "zh-CN", "zh_cn", "zh"),
+    NEDERLANDS("/translations/nederlands.json", "Nederlands", "English", "nl"), //dutch
+    NORWEGIAN("/translations/norwegian.json", "Norsk", "English", "no"),
+    POLISH("/translations/polish.json", "Polski", "English", "pl"),
+    PORTUGUESE("/translations/portuguese.json", "Português", "English", "pt"),
+    ROMANIAN("/translations/romanian.json", "Română", "English", "ro"),
+    RUSSIAN("/translations/russian.json", "русский", "English", "ru"),
+    SLOVAK("/translations/slovak.json", "Slovensky", "English", "sk"),
+    SLOVENIAN("/translations/slovenian.json", "Slovenščina", "English", "sl"),
+    SPANISH("/translations/spanish.json", "Español", "English", "es"),
+    SERBIAN("/translations/serbian.json", "српски језик", "English", "sr"),
+    SWAHILI("/translations/swahili.json", "Kiswahili", "English", "sw"),
+    SWEDISH("/translations/swedish.json", "svenska", "English", "sv"),
+    //THAI("/translations/thai.json", "ภาษาไทย", "English", "th"),
+    TURKISH("/translations/turkish.json", "Türkçe", "English", "tr"),
+    UKRAINIAN("/translations/ukrainian.json", "украї́нська мо́ва", "English", "uk"),
+    VIETNAMESE("/translations/vietnamese.json", "Tiếng Việt", "English", "vi"),
     ;
 
     private static final Map<String, Language> languageCodeLookup;
@@ -52,8 +88,9 @@ TURKISH("/translations/turkish.json", "Türkçe", "English", "tr"), UKRAINIAN("/
     static
     {
         languageCodeLookup = new LinkedHashMap<>();
-        for (Language l : values())
-            l.languageCode.forEach((langCode) -> languageCodeLookup.put(langCode, l));
+        for(Language l : values())
+            l.languageCode.forEach((langCode)->
+                languageCodeLookup.put(langCode, l));
     }
 
     private final String resourcePath;
@@ -76,12 +113,12 @@ TURKISH("/translations/turkish.json", "Türkçe", "English", "tr"), UKRAINIAN("/
 
         Map<String, String> translationMap = getTranslation();
 
-        for (TranslatedComponents translatedComponents : TranslatedComponents.values())
+        for(TranslatedComponents translatedComponents : TranslatedComponents.values())
         {
             TranslatedComponentReference text = translatedComponents.getTranslatedComponentReference();
 
             //skip translating if the language config is missing the translation key
-            if (!translationMap.containsKey(text.key))
+            if(!translationMap.containsKey(text.key))
             {
                 BCV.logE(true, resourcePath + " -> " + text.key + " - Missing Translation Key");
                 continue;
@@ -91,18 +128,14 @@ TURKISH("/translations/turkish.json", "Türkçe", "English", "tr"), UKRAINIAN("/
             text.value = translationMap.get(text.key);
 
             //translate constant strings
-            try
-            {
+            try {
                 TranslatedStrings str = TranslatedStrings.valueOf(text.key);
                 str.setText(text.value);
-            }
-            catch (IllegalArgumentException ignored)
-            {
-            }
+            } catch (IllegalArgumentException ignored) { }
 
             //check if translation key has been assigned to a component,
             //on fail print an error alerting the devs
-            if (translatedComponents.getTranslatedComponentReference().runOnUpdate.isEmpty())
+            if(translatedComponents.getTranslatedComponentReference().runOnUpdate.isEmpty())
             //&& TranslatedStrings.nameSet.contains(translation.name()))
             {
                 BCV.logE(true, "TranslatedComponents:" + translatedComponents.name() + " is missing component attachment, skipping...");
@@ -116,9 +149,11 @@ TURKISH("/translations/turkish.json", "Türkçe", "English", "tr"), UKRAINIAN("/
 
     public Map<String, String> getTranslation() throws IOException
     {
-        if (translationMap == null)
+        if(translationMap == null)
         {
-            translationMap = BytecodeViewer.gson.fromJson(Resource.loadResourceAsString(resourcePath), new TypeToken<HashMap<String, String>>() {}.getType());
+            translationMap = BytecodeViewer.gson.fromJson(
+                Resource.loadResourceAsString(resourcePath),
+                new TypeToken<HashMap<String, String>>() {}.getType());
         }
 
         return translationMap;
@@ -133,17 +168,19 @@ TURKISH("/translations/turkish.json", "Türkçe", "English", "tr"), UKRAINIAN("/
     // 4) add the translation key to the rest of the translation files
     public void printMissingLanguageKeys() throws IOException
     {
-        if (this != ENGLISH)
+        if(this != ENGLISH)
             return;
 
-        LinkedMap<String, String> translationMap = BytecodeViewer.gson.fromJson(Resource.loadResourceAsString(resourcePath), new TypeToken<LinkedMap<String, String>>() {}.getType());
+        LinkedMap<String, String> translationMap = BytecodeViewer.gson.fromJson(
+            Resource.loadResourceAsString(resourcePath),
+            new TypeToken<LinkedMap<String, String>>(){}.getType());
 
         Set<String> existingKeys = new HashSet<>();
-        for (TranslatedComponents t : TranslatedComponents.values())
+        for(TranslatedComponents t : TranslatedComponents.values())
             existingKeys.add(t.name());
 
-        for (String key : translationMap.keySet())
-            if (!existingKeys.contains(key))
+        for(String key : translationMap.keySet())
+            if(!existingKeys.contains(key))
                 BCV.logE(true, key + ",");
     }
 
@@ -164,7 +201,7 @@ TURKISH("/translations/turkish.json", "Türkçe", "English", "tr"), UKRAINIAN("/
 
     public String getHTMLPath(String identifier)
     {
-        return "translations/html/" + identifier + "." + htmlIdentifier + ".html";
+        return "translations/html/" + identifier + "." + htmlIdentifier +  ".html";
     }
 
     public static Map<String, Language> getLanguageCodeLookup()
