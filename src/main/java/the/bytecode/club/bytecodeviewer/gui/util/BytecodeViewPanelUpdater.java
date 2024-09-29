@@ -118,9 +118,9 @@ public class BytecodeViewPanelUpdater implements Runnable
 
                     if (!BytecodeViewer.viewer.workPane.classFiles.containsKey(workingDecompilerName))
                     {
-                        container.parse();
+                        boolean parsed = container.parse();
                         BytecodeViewer.viewer.workPane.classFiles.put(workingDecompilerName, container);
-                        container.hasBeenParsed = true;
+                        container.hasBeenParsed = parsed;
                     }
 
                     //set the swing components on the swing thread
@@ -449,24 +449,27 @@ public class BytecodeViewPanelUpdater implements Runnable
             @Override
             public void mouseMoved(MouseEvent e)
             {
-                if (e.isControlDown())
+                if (classFileContainer.hasBeenParsed)
                 {
-                    RSyntaxTextArea textArea = (RSyntaxTextArea) e.getSource();
-                    Token token = textArea.viewToToken(e.getPoint());
-                    if (token != null)
+                    if (e.isControlDown())
                     {
-                        String lexeme = token.getLexeme();
-                        if (classFileContainer.fieldMembers.containsKey(lexeme) || classFileContainer.methodMembers.containsKey(lexeme) || classFileContainer.methodLocalMembers.containsKey(lexeme) || classFileContainer.methodParameterMembers.containsKey(lexeme) || classFileContainer.classReferences.containsKey(lexeme))
+                        RSyntaxTextArea textArea = (RSyntaxTextArea) e.getSource();
+                        Token token = textArea.viewToToken(e.getPoint());
+                        if (token != null)
                         {
-                            textArea.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                            String lexeme = token.getLexeme();
+                            if (classFileContainer.fieldMembers.containsKey(lexeme) || classFileContainer.methodMembers.containsKey(lexeme) || classFileContainer.methodLocalMembers.containsKey(lexeme) || classFileContainer.methodParameterMembers.containsKey(lexeme) || classFileContainer.classReferences.containsKey(lexeme))
+                            {
+                                textArea.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                            }
                         }
                     }
-                }
-                else
-                {
-                    if (bytecodeViewPanel.textArea.getCursor().getType() != Cursor.TEXT_CURSOR)
+                    else
                     {
-                        bytecodeViewPanel.textArea.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+                        if (bytecodeViewPanel.textArea.getCursor().getType() != Cursor.TEXT_CURSOR)
+                        {
+                            bytecodeViewPanel.textArea.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+                        }
                     }
                 }
             }
@@ -477,10 +480,13 @@ public class BytecodeViewPanelUpdater implements Runnable
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                if (e.isControlDown())
+                if (classFileContainer.hasBeenParsed)
                 {
-                    RSyntaxTextArea textArea = (RSyntaxTextArea) e.getSource();
-                    textArea.getActionMap().get("goToAction").actionPerformed(new ActionEvent(textArea, ActionEvent.ACTION_PERFORMED, "goToAction"));
+                    if (e.isControlDown())
+                    {
+                        RSyntaxTextArea textArea = (RSyntaxTextArea) e.getSource();
+                        textArea.getActionMap().get("goToAction").actionPerformed(new ActionEvent(textArea, ActionEvent.ACTION_PERFORMED, "goToAction"));
+                    }
                 }
             }
         });
@@ -504,7 +510,6 @@ public class BytecodeViewPanelUpdater implements Runnable
             if (token == null)
             {
                 highlighterEx.clearMarkOccurrencesHighlights();
-                errorStripe.refreshMarkers();
                 return;
             }
         }
@@ -513,7 +518,6 @@ public class BytecodeViewPanelUpdater implements Runnable
         if (token == null)
         {
             highlighterEx.clearMarkOccurrencesHighlights();
-            errorStripe.refreshMarkers();
             return;
         }
 
@@ -614,7 +618,7 @@ public class BytecodeViewPanelUpdater implements Runnable
      * @param finalToken         the token
      * @param highlighterEx      the highlighter
      */
-    private static void markMethodParameter(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    private void markMethodParameter(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
         classFileContainer.methodParameterMembers.values().forEach(parameters -> parameters.forEach(parameter ->
         {
@@ -631,7 +635,6 @@ public class BytecodeViewPanelUpdater implements Runnable
                         {
                             int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);
                             int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
-
                             highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                         }
                     }
@@ -654,7 +657,7 @@ public class BytecodeViewPanelUpdater implements Runnable
      * @param finalToken         the token
      * @param highlighterEx      the highlighter
      */
-    private static void markMethodLocalVariable(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    private void markMethodLocalVariable(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
         classFileContainer.methodLocalMembers.values().forEach(localVariables -> localVariables.forEach(localVariable ->
         {
@@ -671,7 +674,6 @@ public class BytecodeViewPanelUpdater implements Runnable
                         {
                             int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);
                             int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
-
                             highlighterEx.addMarkedOccurrenceHighlight(startOffset, endOffset, new SmartHighlightPainter());
                         }
                     }
