@@ -39,6 +39,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static the.bytecode.club.bytecodeviewer.Constants.FS;
 import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
@@ -170,7 +171,11 @@ public class PluginWriter extends JFrame
         try
         {
             //write to temporary file location
-            Files.copy(savePath, tempFile);
+            if(savePath != null)
+                Files.copy(savePath, tempFile);
+            else
+                Files.write(area.getText().getBytes(StandardCharsets.UTF_8), tempFile);
+
             //run plugin from that location
             PluginManager.runPlugin(tempFile);
         }
