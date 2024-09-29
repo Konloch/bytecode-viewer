@@ -11,6 +11,9 @@ insert_final_newline = true
 
 [*.java]
 max_line_length = 120
+ij_java_class_brace_style = next_line
+ij_java_method_brace_style = next_line
+ij_java_block_brace_style = next_line
 
 [*.xml]
 indent_size = 2
