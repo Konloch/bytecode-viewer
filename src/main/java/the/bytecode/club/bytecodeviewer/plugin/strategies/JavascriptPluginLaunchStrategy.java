@@ -37,20 +37,24 @@ import java.util.List;
 public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
 {
     //attempt to use nashorn
-    public static final String firstPickEngine = "nashorn";
+    public static final String FIRST_PICK_ENGINE = "nashorn";
+
     //fallback to graal.js
-    public static final String fallBackEngine = "graal.js";
+    public static final String FALL_BACK_ENGINE = "graal.js";
+
+    //can we use the JS engine
+    public static final boolean IS_JS_ENGINE_IN_CLASSPATH = isJSEngineInClassPath();
 
     @Override
     public Plugin run(File file) throws Throwable
     {
         ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName(firstPickEngine);
+        ScriptEngine engine = manager.getEngineByName(FIRST_PICK_ENGINE);
 
         //nashorn compatability with graal
         if (engine == null)
         {
-            engine = manager.getEngineByName(fallBackEngine);
+            engine = manager.getEngineByName(FALL_BACK_ENGINE);
 
             if (engine == null)
                 throw new Exception("Cannot find Javascript script engine! Please contact Konloch.");
@@ -85,5 +89,21 @@ public class JavascriptPluginLaunchStrategy implements PluginLaunchStrategy
                 }
             }
         };
+    }
+
+    public static boolean isJSEngineInClassPath()
+    {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName(FIRST_PICK_ENGINE);
+
+        //check fallback
+        if (engine == null)
+        {
+            engine = manager.getEngineByName(FALL_BACK_ENGINE);
+
+            return engine != null;
+        }
+
+        return true;
     }
 }
