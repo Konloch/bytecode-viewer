@@ -27,13 +27,10 @@ package the.bytecode.club.bytecodeviewer.bootloader.resource.jar;
 public enum JarType
 {
 
-    /**
-     * Local file
-     **/
+    //Local file
     FILE("file:"),
-    /**
-     * External URL
-     **/
+
+    //External URL
     WEB("");
 
     private final String prefix;

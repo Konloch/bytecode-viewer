@@ -26,12 +26,18 @@ import java.util.HashMap;
  * @author Konloch
  * @since 6/26/2021
  */
+
 public enum Import
 {
-    DIRECTORY(new DirectoryResourceImporter()), FILE(new FileResourceImporter()), //TODO ear needs to import the same as XAPK
-//TODO war needs to add the /libs correctly similar to XAPK
-ZIP(new ZipResourceImporter(), "zip", "jar", "war", "ear"), CLASS(new ClassResourceImporter(), "class"), XAPK(new XAPKResourceImporter(), "xapk"), APK(new APKResourceImporter(), "apk"), DEX(new DEXResourceImporter(), "dex"),
-    ;
+    DIRECTORY(new DirectoryResourceImporter()),
+    FILE(new FileResourceImporter()),
+    //TODO ear needs to import the same as XAPK
+    //TODO war needs to add the /libs correctly similar to XAPK
+    ZIP(new ZipResourceImporter(), "zip", "jar", "war", "ear"),
+    CLASS(new ClassResourceImporter(), "class"),
+    XAPK(new XAPKResourceImporter(), "xapk"),
+    APK(new APKResourceImporter(), "apk"),
+    DEX(new DEXResourceImporter(), "dex");
 
     public static final HashMap<String, Import> extensionMap = new HashMap<>();
 
@@ -40,14 +46,12 @@ ZIP(new ZipResourceImporter(), "zip", "jar", "war", "ear"), CLASS(new ClassResou
 
     static
     {
-        for (Import i : values())
-            for (String s : i.extensions)
+        for(Import i : values())
+            for(String s : i.extensions)
                 extensionMap.put(s, i);
     }
 
-    Import(Importer importer, String... extensions)
-    {
-        this.importer = importer;
+    Import(Importer importer, String... extensions) {this.importer = importer;
         this.extensions = extensions;
     }
 

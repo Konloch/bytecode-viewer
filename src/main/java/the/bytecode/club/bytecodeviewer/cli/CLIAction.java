@@ -8,5 +8,5 @@ public enum CLIAction
 {
     STOP,
     GUI,
-    CLI
+    CLI;
 }

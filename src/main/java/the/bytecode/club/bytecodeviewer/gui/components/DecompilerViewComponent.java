@@ -113,6 +113,10 @@ public class DecompilerViewComponent
 
     public enum DecompilerComponentType
     {
-        JAVA, JAVA_NON_EDITABLE, BYTECODE, BYTECODE_NON_EDITABLE, JAVA_AND_BYTECODE
+        JAVA,
+        JAVA_NON_EDITABLE,
+        BYTECODE,
+        BYTECODE_NON_EDITABLE,
+        JAVA_AND_BYTECODE;
     }
 }

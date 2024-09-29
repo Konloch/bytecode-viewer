@@ -24,5 +24,9 @@ package the.bytecode.club.bytecodeviewer.gui.contextmenu;
  */
 public enum ContextMenuType
 {
-    RESOURCE_LIST, RESOURCE, DIRECTORY, CONTAINER, SEARCH_BOX_RESULT,
+    RESOURCE_LIST,
+    RESOURCE,
+    DIRECTORY,
+    CONTAINER,
+    SEARCH_BOX_RESULT;
 }

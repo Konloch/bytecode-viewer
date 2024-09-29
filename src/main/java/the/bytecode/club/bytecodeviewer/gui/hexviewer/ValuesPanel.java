@@ -757,7 +757,22 @@ public class ValuesPanel extends javax.swing.JPanel
 
     public enum ValuesPanelField
     {
-        BINARY0, BINARY1, BINARY2, BINARY3, BINARY4, BINARY5, BINARY6, BINARY7, BYTE, WORD, INTEGER, LONG, FLOAT, DOUBLE, CHARACTER, STRING
+        BINARY0,
+        BINARY1,
+        BINARY2,
+        BINARY3,
+        BINARY4,
+        BINARY5,
+        BINARY6,
+        BINARY7,
+        BYTE,
+        WORD,
+        INTEGER,
+        LONG,
+        FLOAT,
+        DOUBLE,
+        CHARACTER,
+        STRING
     }
 
     @ParametersAreNonnullByDefault

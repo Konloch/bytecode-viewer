@@ -166,6 +166,8 @@ public class New extends ContextMenuItem
 
     public enum FileType
     {
-        CLASS, FILE, DIRECTORY,
+        CLASS,
+        FILE,
+        DIRECTORY;
     }
 }
