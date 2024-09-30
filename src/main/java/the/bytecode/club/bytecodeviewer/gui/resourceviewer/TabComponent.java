@@ -130,9 +130,14 @@ public class TabComponent extends JPanel
      */
     private ScrollableTabPanel getTabPanel()
     {
-        for (Component component : Objects.requireNonNull(viewport()).getComponents())
-            if (component instanceof ScrollableTabPanel)
-                return (ScrollableTabPanel) component;
+        DarkScrollableTabViewport viewport = viewport();
+
+        if(viewport != null)
+        {
+            for (Component component : viewport.getComponents())
+                if (component instanceof ScrollableTabPanel)
+                    return (ScrollableTabPanel) component;
+        }
 
         return null;
     }
