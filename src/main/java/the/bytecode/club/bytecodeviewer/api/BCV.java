@@ -18,6 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.api;
 
+import com.konloch.taskmanager.TaskManager;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -162,6 +163,16 @@ public class BCV
     {
         loader.clear();
         loader = new ClassNodeLoader();
+    }
+
+    /**
+     * Returns the background Task Manager
+     *
+     * @return the global BCV background task manager
+     */
+    public static TaskManager getTaskManager()
+    {
+        return BytecodeViewer.getTaskManager();
     }
 
     /**

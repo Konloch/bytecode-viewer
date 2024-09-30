@@ -20,6 +20,7 @@ package the.bytecode.club.bytecodeviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.konloch.taskmanager.TaskManager;
 import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
@@ -150,6 +151,7 @@ public class BytecodeViewer
     private static final Thread PING_BACK = new Thread(new PingBack(), "Pingback");
     private static final Thread INSTALL_FAT_JAR = new Thread(new InstallFatJar(), "Install Fat-Jar");
     private static final Thread BOOT_CHECK = new Thread(new BootCheck(), "Boot Check");
+    private static final TaskManager TASK_MANAGER = new TaskManager();
 
     /**
      * Main startup
@@ -256,6 +258,9 @@ public class BytecodeViewer
             SettingsSerializer.saveSettings();
             cleanup();
         }, "Shutdown Hook"));
+
+        //start the background task manager
+        TASK_MANAGER.start();
 
         //setup the viewer
         viewer.calledAfterLoad();
@@ -578,6 +583,16 @@ public class BytecodeViewer
         }
 
         Settings.addRecentPlugin(file);
+    }
+
+    /**
+     * Returns the Task Manager
+     *
+     * @return the global task manager object
+     */
+    public static TaskManager getTaskManager()
+    {
+        return TASK_MANAGER;
     }
 
     /**
