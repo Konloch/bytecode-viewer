@@ -19,6 +19,8 @@
 package the.bytecode.club.bytecodeviewer.plugin;
 
 import com.google.common.io.Files;
+import com.konloch.taskmanager.Task;
+import com.konloch.taskmanager.TaskRunnable;
 import me.konloch.kontainer.io.DiskReader;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.compress.utils.FileNameUtils;
@@ -36,9 +38,12 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -66,6 +71,7 @@ public class PluginWriter extends JFrame
     {
         this.content = template.getContents();
         this.pluginName = "Template." + template.getExtension();
+
         buildGUI();
     }
 
@@ -73,6 +79,7 @@ public class PluginWriter extends JFrame
     {
         this.content = content;
         this.pluginName = pluginName;
+
         buildGUI();
     }
 
@@ -86,8 +93,12 @@ public class PluginWriter extends JFrame
         area.setOnCtrlS(this::save);
         area.setText(content);
         area.setCaretPosition(0);
+        DefaultCaret caret = (DefaultCaret)area.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
         SyntaxLanguage.setLanguage(area, pluginName);
         content = null;
+
+        lastModifiedPluginWriterPane = System.currentTimeMillis();
 
         area.addKeyListener(new KeyAdapter()
         {
@@ -96,6 +107,19 @@ public class PluginWriter extends JFrame
             {
                 lastModifiedPluginWriterPane = System.currentTimeMillis();
             }
+        });
+
+        //TODO this could be replaced with a file watch service
+        // I'll probably come back and fix this in the future, but if anyone needs to replace it:
+        //          - https://github.com/Konloch/GitWatch4J/ has a base you can use
+
+        //every 1 second, read the file timestamps and if the file has changed throw trigger an update
+        BytecodeViewer.getTaskManager().delayLoop(1_000, task ->
+        {
+            if(!area.isValid())
+                task.stop();
+            else
+                updateUIFromDiskChanges(null);
         });
 
         JButton run = new JButton("Run");
@@ -182,42 +206,8 @@ public class PluginWriter extends JFrame
 
         try
         {
-            if(savePath != null) //opened a plugin from (Plugins>Open Plugin or Plugins>Recent Plugins)
-            {
-                //original save path should be overwritten
-                if(savePath.lastModified() <= lastModifiedPluginWriterPane)
-                {
-                    Files.write(area.getText().getBytes(StandardCharsets.UTF_8), savePath); //overwrite original plugin location with new data
-                    Files.write(area.getText().getBytes(StandardCharsets.UTF_8), tempFile); //write to temporary file location
-                }
-                else
-                {
-                    Files.copy(savePath, tempFile); //write to temporary file location
-
-                    //update content from latest disk data
-                    content = DiskReader.loadAsString(savePath.getAbsolutePath());
-
-                    //update plugin writer UI on disk update
-                    SwingUtilities.invokeLater(()->
-                    {
-                        try
-                        {
-                            int caretPosition = area.getCaretPosition();
-
-                            area.setText(content);
-                            area.setCaretPosition(caretPosition);
-                        }
-                        catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-            }
-            else //temp plugin editing (Plugins>New Java Plugin>Run)
-            {
-                Files.write(area.getText().getBytes(StandardCharsets.UTF_8), tempFile); //write to temporary file location
-            }
+            //update the UI from disk changes / write to disk if plugin writer input has been modified
+            updateUIFromDiskChanges(tempFile);
 
             //run plugin from that location
             PluginManager.runPlugin(tempFile);
@@ -286,6 +276,58 @@ public class PluginWriter extends JFrame
         menuSaveAs.updateUI();
         menuSave.updateUI();
         savePath = file;
+
         setPluginName(file.getName());
+    }
+
+    public synchronized void updateUIFromDiskChanges(File tempFile)
+    {
+        try
+        {
+            //opened a plugin from (Plugins>Open Plugin or Plugins>Recent Plugins)
+            if (savePath != null)
+            {
+                if(savePath.lastModified() <= lastModifiedPluginWriterPane)
+                {
+                    if(tempFile != null) //when user clicks 'Run' instead of running every second
+                    {
+                        //original save path should be overwritten
+                        Files.write(area.getText().getBytes(StandardCharsets.UTF_8), savePath); //overwrite original plugin location with new data
+                        Files.write(area.getText().getBytes(StandardCharsets.UTF_8), tempFile); //write to temporary file location
+                    }
+                }
+                else
+                {
+                    //update content from latest disk data
+                    content = DiskReader.loadAsString(savePath.getAbsolutePath());
+
+                    //update plugin writer UI on disk update
+                    SwingUtilities.invokeLater(() ->
+                    {
+                        try
+                        {
+                            area.setText(content);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    });
+
+                    lastModifiedPluginWriterPane = System.currentTimeMillis();
+
+                    if(tempFile != null)
+                        Files.write(content.getBytes(StandardCharsets.UTF_8), tempFile); //write to temporary file location
+                }
+            }
+            else if(tempFile != null)//temp plugin editing (Plugins>New Java Plugin>Run)
+            {
+                Files.write(area.getText().getBytes(StandardCharsets.UTF_8), tempFile); //write to temporary file location
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
