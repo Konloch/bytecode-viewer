@@ -29,6 +29,11 @@ public class ClassParser extends Plugin
     @Override
     public void execute(List<ClassNode> list)
     {
+        if(!BytecodeViewer.isActiveClassActive())
+        {
+            BytecodeViewer.showMessage("Open A Classfile First");
+            return;
+        }
 
         ClassNode c = BytecodeViewer.getCurrentlyOpenedClassNode();
 
