@@ -3,6 +3,7 @@
 Bytecode Viewer - a lightweight user-friendly Java/Android Bytecode Viewer, Decompiler & More.
 
 #### New Features
++ Jump to Declaration
 * Draggable tabs
 * Patched [CVE-2022-21675](https://github.com/Konloch/bytecode-viewer/security/advisories/GHSA-3wq9-j4fc-4wmc) (Make sure to upgrade to v2.11.X)
 * Dark mode by default with multiple themes
