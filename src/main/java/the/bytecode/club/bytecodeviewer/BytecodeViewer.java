@@ -354,11 +354,19 @@ public class BytecodeViewer
     }
 
     /**
-     * Returns the currently opened & viewed resource
+     * Returns the last opened resource class
      */
     public static ResourceViewer getActiveClass()
     {
         return BytecodeViewer.viewer.workPane.getLastActiveClass();
+    }
+
+    /**
+     * Returns true if the active class is not null
+     */
+    public static boolean isActiveClassActive()
+    {
+        return getActiveClass() != null;
     }
 
     /**
