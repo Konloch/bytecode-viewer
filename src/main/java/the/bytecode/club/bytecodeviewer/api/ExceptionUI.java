@@ -141,7 +141,9 @@ public class ExceptionUI extends JFrameConsole
 
         return TranslatedStrings.PLEASE_SEND_THIS_ERROR_LOG_TO + " " + author + "\n"
             + TranslatedStrings.PLEASE_SEND_RESOURCES
-            + "\nBytecode Viewer Version: " + VERSION + fatJar + ", OS: " + System.getProperty("os.name") + ", Java: " + System.getProperty("java.version");
+            + "\nBytecode Viewer Version: " + VERSION + fatJar
+            + ", OS: " + System.getProperty("os.name")
+            + ", Java: " + System.getProperty("java.version");
     }
 
     private static final long serialVersionUID = -5230501978224926296L;

@@ -331,7 +331,8 @@ public class Boot
             while (temp.exists())
                 temp.delete();
 
-            try (InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("Krakatau-" + krakatauVersion + ".zip"); FileOutputStream baos = new FileOutputStream(temp))
+            try (InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("Krakatau-" + krakatauVersion + ".zip");
+                 FileOutputStream baos = new FileOutputStream(temp))
             {
                 int r;
                 byte[] buffer = new byte[8192];
@@ -368,7 +369,8 @@ public class Boot
             while (temp.exists())
                 temp.delete();
 
-            try (InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("enjarify-" + Constants.enjarifyVersion + ".zip"); FileOutputStream baos = new FileOutputStream(temp))
+            try (InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("enjarify-" + Constants.enjarifyVersion + ".zip");
+                 FileOutputStream baos = new FileOutputStream(temp))
             {
                 int r;
                 byte[] buffer = new byte[8192];
@@ -405,7 +407,8 @@ public class Boot
                     setState("Bytecode Viewer Boot Screen - Downloading " + fileName + "...");
                     System.out.println("Downloading " + fileName);
 
-                    try (InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName).openConnection().getInputStream(); FileOutputStream fos = new FileOutputStream(file))
+                    try (InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName).openConnection().getInputStream();
+                         FileOutputStream fos = new FileOutputStream(file))
                     {
                         System.out.println("Downloading from " + s);
                         byte[] buffer = new byte[8192];

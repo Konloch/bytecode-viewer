@@ -59,7 +59,7 @@ public class HTMLPane extends JEditorPane
         text = text.replace("{fatJar}", String.valueOf(FAT_JAR));
         text = text.replace("{java}", Configuration.java);
         text = text.replace("{javac}", Configuration.javac);
-        text = text.replace("{bcvDir}", BCVDir.getAbsolutePath());
+        text = text.replace("{bcvDir}", BCV_DIR.getAbsolutePath());
         text = text.replace("{python}", Configuration.python2 + " " + (Configuration.python2Extra ? "-2" : ""));
         text = text.replace("{python3}", Configuration.python3 + " " + (Configuration.python3Extra ? "-3" : ""));
         text = text.replace("{rt}", Configuration.rt);

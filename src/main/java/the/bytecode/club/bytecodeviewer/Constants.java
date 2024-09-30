@@ -60,8 +60,11 @@ public class Constants
 
     //version is set via maven
     public static final String VERSION = getVersion(BytecodeViewer.class.getPackage().getImplementationVersion());
+
+    //CHECKSTYLE:OFF
     //dev mode is just a check for running via IDE
     public static boolean DEV_MODE;
+    //CHECKSTYLE:ON
 
     //if true the version checker will prompt and ask how you would like to proceed
     public static final boolean FORCE_VERSION_CHECKER_PROMPT = false;
@@ -71,7 +74,7 @@ public class Constants
     public static final String[] SUPPORTED_FILE_EXTENSIONS = ResourceType.SUPPORTED_BCV_EXTENSION_MAP.keySet().toArray(new String[0]);
     public static final int ASM_VERSION = Opcodes.ASM9;
 
-    public static final File BCVDir = resolveBCVRoot();
+    public static final File BCV_DIR = resolveBCVRoot();
     public static final File RT_JAR = new File(System.getProperty("java.home") + FS + "lib" + FS + "rt.jar");
     public static final File JAVA_BINARY = new File(System.getProperty("java.home") + FS + "bin" + FS + "java.exe");
     public static final File JAVA_BINARY_NIX = new File(System.getProperty("java.home") + FS + "bin" + FS + "java");
@@ -119,18 +122,18 @@ public class Constants
      */
     public static String getBCVDirectory()
     {
-        while (!BCVDir.exists())
-            BCVDir.mkdirs();
+        while (!BCV_DIR.exists())
+            BCV_DIR.mkdirs();
 
         //hides the BCV directory
-        if (isWindows() && !BCVDir.isHidden())
+        if (isWindows() && !BCV_DIR.isHidden())
         {
             new Thread(() ->
             {
                 try
                 {
                     // Hide file by running attrib system command (on Windows)
-                    Process p = new ProcessBuilder("attrib", "+H", BCVDir.getAbsolutePath()).start();
+                    Process p = new ProcessBuilder("attrib", "+H", BCV_DIR.getAbsolutePath()).start();
                 }
                 catch (Exception e)
                 {
@@ -139,7 +142,7 @@ public class Constants
             }, "Hide BCV Dir").start();
         }
 
-        return BCVDir.getAbsolutePath();
+        return BCV_DIR.getAbsolutePath();
     }
 
     /**

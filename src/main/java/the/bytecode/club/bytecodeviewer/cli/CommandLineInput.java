@@ -178,7 +178,15 @@ public class CommandLineInput
                 //if its zip/jar/apk/dex attempt unzip as whole zip
                 //if its just class allow any
 
-                if (decompiler != null && !decompiler.equalsIgnoreCase("procyon") && !decompiler.equalsIgnoreCase("cfr") && !decompiler.equalsIgnoreCase("fernflower") && !decompiler.equalsIgnoreCase("krakatau") && !decompiler.equalsIgnoreCase("krakatau-bytecode") && !decompiler.equalsIgnoreCase("jd-gui") && !decompiler.equalsIgnoreCase("smali") && !decompiler.equalsIgnoreCase("asmifier"))
+                if (decompiler != null
+                    && !decompiler.equalsIgnoreCase("procyon")
+                    && !decompiler.equalsIgnoreCase("cfr")
+                    && !decompiler.equalsIgnoreCase("fernflower")
+                    && !decompiler.equalsIgnoreCase("krakatau")
+                    && !decompiler.equalsIgnoreCase("krakatau-bytecode")
+                    && !decompiler.equalsIgnoreCase("jd-gui")
+                    && !decompiler.equalsIgnoreCase("smali")
+                    && !decompiler.equalsIgnoreCase("asmifier"))
                 {
                     System.out.println("Error, no decompiler called '" + decompiler + "' found. Type -list" + " for the list");
                 }

@@ -81,11 +81,14 @@ public class DexExport implements Exporter
 
                         BytecodeViewer.updateBusyStatus(false);
                     }, "Process DEX");
+
                     saveAsDex.start();
                 }, "Jar Export");
+
                 saveAsJar.start();
             }
         }, "Resource Export");
+
         exportThread.start();
     }
 }

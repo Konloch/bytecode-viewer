@@ -45,9 +45,9 @@ import java.util.*;
 
 public final class PluginManager
 {
-    private static final Map<String, PluginLaunchStrategy> launchStrategies = new HashMap<>();
-    private static final PluginFileFilter filter = new PluginFileFilter();
-    private static final List<Plugin> pluginInstances = new ArrayList<>();
+    private static final Map<String, PluginLaunchStrategy> LAUNCH_STRATEGIES = new HashMap<>();
+    private static final PluginFileFilter FILTER = new PluginFileFilter();
+    private static final List<Plugin> PLUGIN_INSTANCES = new ArrayList<>();
 
     //TODO this system needs to be redone, currently it will conflict if more than one plugin is ran at the same time
     // the solution is to tie the plugin object into the plugin console,
@@ -63,21 +63,21 @@ public final class PluginManager
 
     static
     {
-        launchStrategies.put("jar", new CompiledJavaPluginLaunchStrategy());
-        launchStrategies.put("java", new JavaPluginLaunchStrategy());
-        launchStrategies.put("js", new JavascriptPluginLaunchStrategy());
+        LAUNCH_STRATEGIES.put("jar", new CompiledJavaPluginLaunchStrategy());
+        LAUNCH_STRATEGIES.put("java", new JavaPluginLaunchStrategy());
+        LAUNCH_STRATEGIES.put("js", new JavascriptPluginLaunchStrategy());
 
         GroovyPluginLaunchStrategy groovy = new GroovyPluginLaunchStrategy();
-        launchStrategies.put("gy", groovy);
-        launchStrategies.put("groovy", groovy);
+        LAUNCH_STRATEGIES.put("gy", groovy);
+        LAUNCH_STRATEGIES.put("groovy", groovy);
 
         PythonPluginLaunchStrategy python = new PythonPluginLaunchStrategy();
-        launchStrategies.put("py", python);
-        launchStrategies.put("python", python);
+        LAUNCH_STRATEGIES.put("py", python);
+        LAUNCH_STRATEGIES.put("python", python);
 
         RubyPluginLaunchStrategy ruby = new RubyPluginLaunchStrategy();
-        launchStrategies.put("rb", ruby);
-        launchStrategies.put("ruby", ruby);
+        LAUNCH_STRATEGIES.put("rb", ruby);
+        LAUNCH_STRATEGIES.put("ruby", ruby);
     }
 
     /**
@@ -106,10 +106,10 @@ public final class PluginManager
         activePlugin = newPluginInstance;
 
         //clean the plugin list from dead threads
-        pluginInstances.removeIf(Plugin::isFinished);
+        PLUGIN_INSTANCES.removeIf(Plugin::isFinished);
 
         //add to the list of running instances
-        pluginInstances.add(newPluginInstance);
+        PLUGIN_INSTANCES.add(newPluginInstance);
 
         //start the plugin thread
         newPluginInstance.start();
@@ -124,10 +124,11 @@ public final class PluginManager
     public static void runPlugin(File f) throws Throwable
     {
         String ext = f.getName().substring(f.getName().lastIndexOf('.') + 1);
-        PluginLaunchStrategy strategy = launchStrategies.get(ext);
+        PluginLaunchStrategy strategy = LAUNCH_STRATEGIES.get(ext);
 
         if (strategy == null)
-            throw new RuntimeException(String.format("No launch strategy for extension %s (%s)", ext, f.getAbsolutePath()));
+            throw new RuntimeException(String.format("No launch strategy for extension %s (%s)",
+                ext, f.getAbsolutePath()));
 
         Plugin p = strategy.run(f);
 
@@ -147,7 +148,9 @@ public final class PluginManager
             return;
         }
 
-        final String name = activePlugin.activeContainer == null ? "#" + (activeTabbedException.getTabbedPane().getTabCount() + 1) : activePlugin.activeContainer.name;
+        final String name = activePlugin.activeContainer == null
+            ? "#" + (activeTabbedException.getTabbedPane().getTabCount() + 1)
+            : activePlugin.activeContainer.name;
 
         ExceptionUI existingUI = exceptionTabs.get(name);
 
@@ -198,22 +201,22 @@ public final class PluginManager
 
     public static void register(String name, PluginLaunchStrategy strat)
     {
-        launchStrategies.put(name, strat);
+        LAUNCH_STRATEGIES.put(name, strat);
     }
 
     public static Set<String> pluginExtensions()
     {
-        return launchStrategies.keySet();
+        return LAUNCH_STRATEGIES.keySet();
     }
 
     public static Map<String, PluginLaunchStrategy> getLaunchStrategies()
     {
-        return launchStrategies;
+        return LAUNCH_STRATEGIES;
     }
 
     public static FileFilter fileFilter()
     {
-        return filter;
+        return FILTER;
     }
 
     public static class PluginFileFilter extends FileFilter

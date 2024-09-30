@@ -69,6 +69,7 @@ public class InstructionPrinter implements Opcodes
         this(m, args);
         InstructionSearcher searcher = new InstructionSearcher(m.instructions, pattern);
         match = searcher.search();
+
         if (match)
         {
             for (AbstractInsnNode[] ains : searcher.getMatches())
@@ -102,6 +103,7 @@ public class InstructionPrinter implements Opcodes
     {
         firstLabel = false;
         info.clear();
+
         for (AbstractInsnNode ain : mNode.instructions)
         {
             String line = printInstruction(ain);
@@ -114,8 +116,10 @@ public class InstructionPrinter implements Opcodes
                 info.add(line);
             }
         }
+
         if (firstLabel && BytecodeViewer.viewer.appendBracketsToLabels.isSelected())
             info.add("}");
+
         return info;
     }
 
@@ -169,16 +173,12 @@ public class InstructionPrinter implements Opcodes
         if (BytecodeViewer.viewer.debugHelpers.isSelected())
         {
             if (vin.var == 0 && !Modifier.isStatic(mNode.access))
-            {
                 sb.append(" // reference to self");
-            }
             else
             {
                 final int refIndex = vin.var - (Modifier.isStatic(mNode.access) ? 0 : 1);
                 if (refIndex >= 0 && refIndex < args.length - 1)
-                {
                     sb.append(" // reference to ").append(args[refIndex].name);
-                }
             }
         }
 
@@ -229,9 +229,11 @@ public class InstructionPrinter implements Opcodes
     protected String printLdcInsnNode(LdcInsnNode ldc)
     {
         if (ldc.cst instanceof String)
-            return nameOpcode(ldc.getOpcode()) + " \"" + StringEscapeUtils.escapeJava(ldc.cst.toString()) + "\" (" + ldc.cst.getClass().getCanonicalName() + ")";
+            return nameOpcode(ldc.getOpcode()) + " \"" + StringEscapeUtils.escapeJava(ldc.cst.toString())
+                + "\" (" + ldc.cst.getClass().getCanonicalName() + ")";
 
-        return nameOpcode(ldc.getOpcode()) + " " + StringEscapeUtils.escapeJava(ldc.cst.toString()) + " (" + ldc.cst.getClass().getCanonicalName() + ")";
+        return nameOpcode(ldc.getOpcode()) + " " + StringEscapeUtils.escapeJava(ldc.cst.toString())
+            + " (" + ldc.cst.getClass().getCanonicalName() + ")";
     }
 
     protected String printInsnNode(InsnNode in)
@@ -270,6 +272,7 @@ public class InstructionPrinter implements Opcodes
             String starting = tcbs.stream().filter(tcb -> tcb.start == label).map(tcb -> "start TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
             String ending = tcbs.stream().filter(tcb -> tcb.end == label).map(tcb -> "end TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
             String handlers = tcbs.stream().filter(tcb -> tcb.handler == label).map(tcb -> "handle TCB" + tcbs.indexOf(tcb)).collect(Collectors.joining(", "));
+
             if (!ending.isEmpty())
                 info.add("// " + ending);
             if (!starting.isEmpty())
@@ -325,10 +328,12 @@ public class InstructionPrinter implements Opcodes
         StringBuilder line = new StringBuilder(nameOpcode(tin.getOpcode()) + " \n");
         List<?> labels = tin.labels;
         int count = 0;
+
         for (int i = tin.min; i < tin.max + 1; i++)
         {
             line.append("                val: ").append(i).append(" -> ").append("L").append(resolveLabel((LabelNode) labels.get(count++))).append("\n");
         }
+
         line.append("                default" + " -> L").append(resolveLabel(tin.dflt));
         return line.toString();
     }
@@ -408,6 +413,7 @@ public class InstructionPrinter implements Opcodes
     {
         if (obj instanceof LabelNode)
             return "label [L" + resolveLabel((LabelNode) obj) + "]";
+
         if (obj instanceof Integer)
         {
             switch ((int) obj)
@@ -430,8 +436,10 @@ public class InstructionPrinter implements Opcodes
                     return "unknown";
             }
         }
+
         if (obj instanceof String)
             return obj.toString();
+
         return "unknown [" + obj.toString() + "]";
     }
 

@@ -13,6 +13,17 @@ public class TokenUtil
     public static Token getToken(final RSyntaxTextArea textArea, final @NotNull Token token)
     {
         String lexeme = token.getLexeme();
-        return lexeme.isEmpty() || lexeme.equals(".") || lexeme.equals("(") || lexeme.equals(")") || lexeme.equals("[") || lexeme.equals("~") || lexeme.equals("-") || lexeme.equals("+") || lexeme.equals(" ") || lexeme.equals(";") || lexeme.equals(",") || lexeme.equals(">") ? textArea.modelToToken(textArea.getCaretPosition() - 1) : token;
+        return lexeme.isEmpty()
+            || lexeme.equals(".")
+            || lexeme.equals("(")
+            || lexeme.equals(")")
+            || lexeme.equals("[")
+            || lexeme.equals("~")
+            || lexeme.equals("-")
+            || lexeme.equals("+")
+            || lexeme.equals(" ")
+            || lexeme.equals(";")
+            || lexeme.equals(",")
+            || lexeme.equals(">") ? textArea.modelToToken(textArea.getCaretPosition() - 1) : token;
     }
 }

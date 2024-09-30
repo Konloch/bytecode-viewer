@@ -42,7 +42,11 @@ public class Configuration
     public static boolean python3Extra = false;
     public static String rt = "";
     public static String library = "";
-    public static String java = Constants.JAVA_BINARY.exists() ? Constants.JAVA_BINARY.getAbsolutePath() : Constants.JAVA_BINARY_NIX.exists() ? Constants.JAVA_BINARY_NIX.getAbsolutePath() : "";
+    public static String java = Constants.JAVA_BINARY.exists()
+        ? Constants.JAVA_BINARY.getAbsolutePath()
+        : Constants.JAVA_BINARY_NIX.exists()
+        ? Constants.JAVA_BINARY_NIX.getAbsolutePath()
+        : "";
     public static String javac = "";
     public static String javaTools = "";
     public static File krakatauTempDir;

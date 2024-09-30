@@ -44,6 +44,5 @@ public class ASMTextifierDisassembler extends InternalDecompiler
     @Override
     public void decompileToZip(String sourceJar, String zipName)
     {
-
     }
 }

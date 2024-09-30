@@ -120,7 +120,7 @@ public class SecurityMan extends SecurityManager
         //can only write into BCV dir, so anything executing from here has probably been dropped
         try
         {
-            if (normalizedPath.startsWith(Constants.BCVDir.getCanonicalPath().toLowerCase()))
+            if (normalizedPath.startsWith(Constants.BCV_DIR.getCanonicalPath().toLowerCase()))
                 blocked = true;
         }
         catch (IOException e)
@@ -373,7 +373,7 @@ public class SecurityMan extends SecurityManager
                 return;
 
             //can only write into BCV dir
-            if (file.startsWith(Constants.BCVDir.getCanonicalPath()))
+            if (file.startsWith(Constants.BCV_DIR.getCanonicalPath()))
                 return;
 
             //can only write into system temp

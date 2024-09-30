@@ -45,7 +45,8 @@ public class RenameFields extends JavaObfuscator
             {
                 FieldNode f = (FieldNode) o;
                 String newName = generateUniqueName(stringLength);
-                ASMResourceUtil.renameFieldNode(c.name, f.name, f.desc, null, newName, null);
+                ASMResourceUtil.renameFieldNode(c.name, f.name, f.desc,
+                    null, newName, null);
                 f.name = newName;
             }
         }

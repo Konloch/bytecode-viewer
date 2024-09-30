@@ -64,9 +64,6 @@ public class RenameFields extends JavaObfuscator
                 String newName = generateUniqueName(stringLength);
 
                 BytecodeViewer.refactorer.getHooks().addField(new FieldMappingData(c.name, new MappingData(f.name, newName), f.desc));
-
-				/*ASMUtil_OLD.renameFieldNode(c.name, f.name, f.desc, null, newName, null);
-				f.name = newName;*/
             }
         }
 

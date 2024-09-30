@@ -49,8 +49,7 @@ public enum LAFTheme
     SOLARIZED_DARK("Solarized Dark Theme", RSTATheme.THEME_MATCH, TranslatedComponents.SOLARIZED_DARK_THEME),
     SOLARIZED_LIGHT("Solarized Light Theme", RSTATheme.THEME_MATCH, TranslatedComponents.SOLARIZED_LIGHT_THEME),
     HIGH_CONTRAST_DARK("High Contrast Dark Theme", RSTATheme.THEME_MATCH, TranslatedComponents.HIGH_CONTRAST_DARK_THEME),
-    HIGH_CONTRAST_LIGHT("High Contrast Light Theme", RSTATheme.THEME_MATCH, TranslatedComponents.HIGH_CONTRAST_LIGHT_THEME),
-    ;
+    HIGH_CONTRAST_LIGHT("High Contrast Light Theme", RSTATheme.THEME_MATCH, TranslatedComponents.HIGH_CONTRAST_LIGHT_THEME);
 
     private final String readableName;
     private final RSTATheme rstaTheme;

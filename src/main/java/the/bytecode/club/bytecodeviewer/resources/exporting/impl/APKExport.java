@@ -72,7 +72,8 @@ public class APKExport implements Exporter
             //if theres only one file in the container don't bother asking
             if (validContainers.size() >= 2)
             {
-                MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - Select APK", "Which file would you like to export as an APK?", validContainersNames.toArray(new String[0]));
+                MultipleChoiceDialog dialog = new MultipleChoiceDialog("Bytecode Viewer - Select APK",
+                    "Which file would you like to export as an APK?", validContainersNames.toArray(new String[0]));
 
                 //TODO may be off by one
                 container = (ResourceContainer) containers.stream().skip(dialog.promptChoice());
@@ -80,7 +81,8 @@ public class APKExport implements Exporter
         }
         else
         {
-            BytecodeViewer.showMessage("You can only export as APK from a valid APK file. Make sure Settings>Decode Resources is ticked on." + "\n\nTip: Try exporting as DEX, it doesn't rely on decoded APK resources");
+            BytecodeViewer.showMessage("You can only export as APK from a valid APK file. Make sure Settings>Decode Resources is ticked on."
+                + "\n\nTip: Try exporting as DEX, it doesn't rely on decoded APK resources");
             return;
         }
 
@@ -114,11 +116,14 @@ public class APKExport implements Exporter
                         APKTool.buildAPK(new File(input), file, finalContainer);
                         BytecodeViewer.updateBusyStatus(false);
                     }, "Process APK");
+
                     buildAPKThread.start();
                 }, "Jar Export");
+
                 saveThread.start();
             }
         }, "Resource Export");
+
         exportThread.start();
     }
 }

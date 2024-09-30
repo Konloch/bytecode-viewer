@@ -38,7 +38,12 @@ public enum RSTATheme
     THEME_MATCH("Theme Match (Recommended)", null, TranslatedComponents.THEME_MATCH), //uses the default theme from RSyntaxTextArea
     DEFAULT("Default (Recommended Light)", "/org/fife/ui/rsyntaxtextarea/themes/default.xml", TranslatedComponents.DEFAULT_RECOMMENDED_LIGHT), //uses the default dark theme from RSyntaxTextArea
     DARK("Dark (Recommended Dark)", "/org/fife/ui/rsyntaxtextarea/themes/dark.xml", TranslatedComponents.DARK),
-    DEFAULT_ALT("Default-Alt", "/org/fife/ui/rsyntaxtextarea/themes/default-alt.xml", TranslatedComponents.DEFAULT_ALT), ECLIPSE("Eclipse", "/org/fife/ui/rsyntaxtextarea/themes/eclipse.xml", TranslatedComponents.ECLIPSE), IDEA("IntelliJ", "/org/fife/ui/rsyntaxtextarea/themes/idea.xml", TranslatedComponents.INTELLIJ), VS("Visual Studio", "/org/fife/ui/rsyntaxtextarea/themes/vs.xml", TranslatedComponents.VISUAL_STUDIO), DRUID("Druid (Dark)", "/org/fife/ui/rsyntaxtextarea/themes/druid.xml", TranslatedComponents.DRUID_DARK), MONOKAI("Monokai (Dark)", "/org/fife/ui/rsyntaxtextarea/themes/monokai.xml", TranslatedComponents.MONOKAI_DARK);
+    DEFAULT_ALT("Default-Alt", "/org/fife/ui/rsyntaxtextarea/themes/default-alt.xml", TranslatedComponents.DEFAULT_ALT),
+    ECLIPSE("Eclipse", "/org/fife/ui/rsyntaxtextarea/themes/eclipse.xml", TranslatedComponents.ECLIPSE),
+    IDEA("IntelliJ", "/org/fife/ui/rsyntaxtextarea/themes/idea.xml", TranslatedComponents.INTELLIJ),
+    VS("Visual Studio", "/org/fife/ui/rsyntaxtextarea/themes/vs.xml", TranslatedComponents.VISUAL_STUDIO),
+    DRUID("Druid (Dark)", "/org/fife/ui/rsyntaxtextarea/themes/druid.xml", TranslatedComponents.DRUID_DARK),
+    MONOKAI("Monokai (Dark)", "/org/fife/ui/rsyntaxtextarea/themes/monokai.xml", TranslatedComponents.MONOKAI_DARK);
 
     private final String readableName;
     private final String file;

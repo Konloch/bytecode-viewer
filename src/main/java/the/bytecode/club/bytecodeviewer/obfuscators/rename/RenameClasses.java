@@ -39,7 +39,7 @@ public class RenameClasses extends JavaObfuscator
     {
         if (Configuration.runningObfuscation)
         {
-            BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish" + ".");
+            BytecodeViewer.showMessage("You're currently running an obfuscation task, wait for this to finish.");
             return;
         }
 
@@ -75,9 +75,6 @@ public class RenameClasses extends JavaObfuscator
             String newName = generateUniqueName(stringLength);
 
             BytecodeViewer.refactorer.getHooks().addClass(new MappingData(c.name, newName));
-
-			/*ASMUtil_OLD.renameClassNode(c.name, newName);
-			c.name = newName;*/
         }
 
         System.out.println("Obfuscated class names.");

@@ -50,7 +50,8 @@ public class RenameMethods extends JavaObfuscator
                     if (!m.name.equals("main") && !m.name.equals("<init>") && !m.name.equals("<clinit>"))
                     {
                         String newName = generateUniqueName(stringLength);
-                        ASMResourceUtil.renameMethodNode(c.name, m.name, m.desc, null, newName, null);
+                        ASMResourceUtil.renameMethodNode(c.name, m.name, m.desc,
+                            null, newName, null);
                     }
                 }
             }
