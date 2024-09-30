@@ -51,6 +51,7 @@
         <treelayout.version>1.0.3</treelayout.version>
         <webp-imageio.version>a8f700b</webp-imageio.version>
         <xpp3.version>1.1.4c</xpp3.version>
+        <taskmanager.version>1.0.1</taskmanager.version>
     </properties>
 
     <repositories>
@@ -381,6 +382,11 @@
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-symbol-solver-core</artifactId>
             <version>3.26.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.konloch</groupId>
+            <artifactId>TaskManager</artifactId>
+          <version>${taskmanager.version}</version>
         </dependency>
 
         <!-- TODO Re-add for Graal.JS support -->
