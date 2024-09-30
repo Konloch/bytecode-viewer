@@ -180,7 +180,7 @@ public class ClassParser extends Plugin
         JAVA_27(71, 0),
         JAVA_28(72, 0),
         JAVA_29(73, 0),
-        JAVA_30(74, 0),
+        JAVA_30(74, 0);
 
         public final int major;
         public final int minor;
