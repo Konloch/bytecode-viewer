@@ -129,7 +129,7 @@ public class GlobalHotKeys
                 }
                 catch (Exception ex)
                 {
-                    ex.printStackTrace();
+                    BytecodeViewer.handleException(ex);
                 }
             }, "Resource Export");
 

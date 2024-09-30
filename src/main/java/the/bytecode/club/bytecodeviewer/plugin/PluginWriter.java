@@ -265,7 +265,7 @@ public class PluginWriter extends JFrame
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    BytecodeViewer.handleException(e);
                 }
             }
 
