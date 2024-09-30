@@ -37,6 +37,8 @@ import the.bytecode.club.bytecodeviewer.util.SyntaxLanguage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -58,6 +60,7 @@ public class PluginWriter extends JFrame
     private String content;
     private String pluginName;
     private File savePath;
+    private long lastModifiedPluginWriterPane = 0;
 
     public PluginWriter(PluginTemplate template) throws IOException
     {
@@ -85,6 +88,15 @@ public class PluginWriter extends JFrame
         area.setCaretPosition(0);
         SyntaxLanguage.setLanguage(area, pluginName);
         content = null;
+
+        area.addKeyListener(new KeyAdapter()
+        {
+            @Override
+            public void keyTyped(KeyEvent e)
+            {
+                lastModifiedPluginWriterPane = System.currentTimeMillis();
+            }
+        });
 
         JButton run = new JButton("Run");
 
@@ -170,11 +182,42 @@ public class PluginWriter extends JFrame
 
         try
         {
-            //write to temporary file location
-            if(savePath != null)
-                Files.copy(savePath, tempFile);
-            else
-                Files.write(area.getText().getBytes(StandardCharsets.UTF_8), tempFile);
+            if(savePath != null) //opened a plugin from (Plugins>Open Plugin or Plugins>Recent Plugins)
+            {
+                //original save path should be overwritten
+                if(savePath.lastModified() <= lastModifiedPluginWriterPane)
+                {
+                    Files.write(area.getText().getBytes(StandardCharsets.UTF_8), savePath); //overwrite original plugin location with new data
+                    Files.write(area.getText().getBytes(StandardCharsets.UTF_8), tempFile); //write to temporary file location
+                }
+                else
+                {
+                    Files.copy(savePath, tempFile); //write to temporary file location
+
+                    //update content from latest disk data
+                    content = DiskReader.loadAsString(savePath.getAbsolutePath());
+
+                    //update plugin writer UI on disk update
+                    SwingUtilities.invokeLater(()->
+                    {
+                        try
+                        {
+                            int caretPosition = area.getCaretPosition();
+
+                            area.setText(content);
+                            area.setCaretPosition(caretPosition);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            }
+            else //temp plugin editing (Plugins>New Java Plugin>Run)
+            {
+                Files.write(area.getText().getBytes(StandardCharsets.UTF_8), tempFile); //write to temporary file location
+            }
 
             //run plugin from that location
             PluginManager.runPlugin(tempFile);
@@ -232,6 +275,7 @@ public class PluginWriter extends JFrame
             DiskWriter.replaceFile(savePath.getAbsolutePath(), area.getText(), false);
             addRecentPlugin(savePath);
         }, "Plugin Editor Save");
+
         exportThread.start();
     }
 
