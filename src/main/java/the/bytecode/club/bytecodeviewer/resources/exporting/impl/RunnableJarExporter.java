@@ -42,29 +42,37 @@ public class RunnableJarExporter implements Exporter
 
         Thread exportThread = new Thread(() ->
         {
-            if (!BytecodeViewer.autoCompileSuccessful())
-                return;
-
-            JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(), "Select Jar Export", "Jar Archives", "jar");
-
-            int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-            if (returnVal == JFileChooser.APPROVE_OPTION)
+            try
             {
-                Configuration.setLastSaveDirectory(fc.getSelectedFile());
-
-                File file = fc.getSelectedFile();
-                String path = file.getAbsolutePath();
-
-                //auto append .jar
-                if (!path.endsWith(".jar"))
-                    path += ".jar";
-
-                if (!DialogUtils.canOverwriteFile(path))
+                if (!BytecodeViewer.autoCompileSuccessful())
                     return;
 
-                new ExportJar(path).setVisible(true);
+                JFileChooser fc = FileChooser.create(Configuration.getLastSaveDirectory(), "Select Jar Export", "Jar Archives", "jar");
+
+                int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
+                if (returnVal == JFileChooser.APPROVE_OPTION)
+                {
+                    Configuration.setLastSaveDirectory(fc.getSelectedFile());
+
+                    File file = fc.getSelectedFile();
+                    String path = file.getAbsolutePath();
+
+                    //auto append .jar
+                    if (!path.endsWith(".jar"))
+                        path += ".jar";
+
+                    if (!DialogUtils.canOverwriteFile(path))
+                        return;
+
+                    new ExportJar(path).setVisible(true);
+                }
+            }
+            catch (Exception e)
+            {
+                BytecodeViewer.handleException(e);
             }
         }, "Runnable Jar Export");
+
         exportThread.start();
     }
 }

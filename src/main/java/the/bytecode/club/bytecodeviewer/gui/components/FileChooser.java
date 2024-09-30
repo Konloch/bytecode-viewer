@@ -26,40 +26,48 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 /**
  * @author Konloch
  * @since 6/25/2021
  */
-public class FileChooser extends JFileChooser
+public class FileChooser
 {
+    public static final FutureTask<JFileChooser> SINGLETON = new FutureTask<>(JFileChooser::new);
     public static final String EVERYTHING = "everything";
 
-    public FileChooser(File file, String title, String description, String... extensions)
+    public static JFileChooser create(File file, String title, String description, String... extensions) throws ExecutionException, InterruptedException
     {
-        this(false, file, title, description, extensions);
+        return create(false, file, title, description, extensions);
     }
 
-    public FileChooser(boolean skipFileFilter, File file, String title, String description, String... extensions)
+    public static JFileChooser create(boolean skipFileFilter, File file, String title, String description, String... extensions) throws ExecutionException, InterruptedException
     {
+        JFileChooser chooser = SINGLETON.get();
+
         Set<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
 
-        setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
         try
         {
-            setSelectedFile(file);
+            chooser.setSelectedFile(file);
         }
         catch (Exception ignored)
         {
         }
 
-        setDialogTitle(title);
-        setFileHidingEnabled(false);
-        setAcceptAllFileFilterUsed(false);
+        chooser.setDialogTitle(title);
+        chooser.setFileHidingEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        chooser.resetChoosableFileFilters();
+
         if (!skipFileFilter)
         {
-            addChoosableFileFilter(new FileFilter()
+            chooser.addChoosableFileFilter(new FileFilter()
             {
                 @Override
                 public boolean accept(File f)
@@ -80,5 +88,7 @@ public class FileChooser extends JFileChooser
                 }
             });
         }
+
+        return chooser;
     }
 }

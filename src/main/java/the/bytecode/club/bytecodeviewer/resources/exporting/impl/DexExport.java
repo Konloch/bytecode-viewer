@@ -48,44 +48,51 @@ public class DexExport implements Exporter
 
         Thread exportThread = new Thread(() ->
         {
-            if (!BytecodeViewer.autoCompileSuccessful())
-                return;
-
-            JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(), "Select DEX Export", "Android DEX Files", "dex");
-
-            int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-            if (returnVal == JFileChooser.APPROVE_OPTION)
+            try
             {
-                Configuration.setLastSaveDirectory(fc.getSelectedFile());
-
-                final File file = fc.getSelectedFile();
-                String output = file.getAbsolutePath();
-
-                //auto append .dex
-                if (!output.endsWith(".dex"))
-                    output += ".dex";
-
-                File outputPath = new File(output);
-                if (!DialogUtils.canOverwriteFile(outputPath))
+                if (!BytecodeViewer.autoCompileSuccessful())
                     return;
 
-                Thread saveAsJar = new Thread(() ->
+                JFileChooser fc = FileChooser.create(Configuration.getLastSaveDirectory(), "Select DEX Export", "Android DEX Files", "dex");
+
+                int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
+                if (returnVal == JFileChooser.APPROVE_OPTION)
                 {
-                    BytecodeViewer.updateBusyStatus(true);
-                    final String input = TEMP_DIRECTORY + FS + MiscUtils.getRandomizedName() + ".jar";
-                    JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
+                    Configuration.setLastSaveDirectory(fc.getSelectedFile());
 
-                    Thread saveAsDex = new Thread(() ->
+                    final File file = fc.getSelectedFile();
+                    String output = file.getAbsolutePath();
+
+                    //auto append .dex
+                    if (!output.endsWith(".dex"))
+                        output += ".dex";
+
+                    File outputPath = new File(output);
+                    if (!DialogUtils.canOverwriteFile(outputPath))
+                        return;
+
+                    Thread saveAsJar = new Thread(() ->
                     {
-                        Dex2Jar.saveAsDex(new File(input), outputPath);
+                        BytecodeViewer.updateBusyStatus(true);
+                        final String input = TEMP_DIRECTORY + FS + MiscUtils.getRandomizedName() + ".jar";
+                        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 
-                        BytecodeViewer.updateBusyStatus(false);
-                    }, "Process DEX");
+                        Thread saveAsDex = new Thread(() ->
+                        {
+                            Dex2Jar.saveAsDex(new File(input), outputPath);
 
-                    saveAsDex.start();
-                }, "Jar Export");
+                            BytecodeViewer.updateBusyStatus(false);
+                        }, "Process DEX");
 
-                saveAsJar.start();
+                        saveAsDex.start();
+                    }, "Jar Export");
+
+                    saveAsJar.start();
+                }
+            }
+            catch (Exception e)
+            {
+                BytecodeViewer.handleException(e);
             }
         }, "Resource Export");
 

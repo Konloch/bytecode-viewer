@@ -61,6 +61,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.useNewSettingsDialog;
 import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
@@ -835,6 +837,10 @@ public class MainViewerGUI extends JFrame
     public void calledAfterLoad()
     {
         deleteForeignOutdatedLibs.setSelected(Configuration.deleteForeignLibraries);
+
+        //preload the jFileChooser to fix https://stackoverflow.com/a/59165208
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(FileChooser.SINGLETON);
     }
 
     public int getFontSize()

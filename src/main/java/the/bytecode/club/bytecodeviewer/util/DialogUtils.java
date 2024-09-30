@@ -92,46 +92,49 @@ public class DialogUtils
      */
     public static File fileChooser(String title, String description, File directory, FileFilter filter, OnOpenEvent onOpen, String... extensions)
     {
-        Set<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
+        try
+        {
+            Set<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
 
-        final JFileChooser fc = new FileChooser(true, directory, title, description, extensions);
+            final JFileChooser fc = FileChooser.create(true, directory, title, description, extensions);
 
-        if (filter != null)
-            fc.addChoosableFileFilter(filter);
-        else
-            fc.addChoosableFileFilter(new FileFilter()
-            {
-                @Override
-                public boolean accept(File f)
+            if (filter != null)
+                fc.addChoosableFileFilter(filter);
+            else
+                fc.addChoosableFileFilter(new FileFilter()
                 {
-                    if (f.isDirectory())
-                        return true;
+                    @Override
+                    public boolean accept(File f)
+                    {
+                        if (f.isDirectory())
+                            return true;
 
-                    if (extensions[0].equals(EVERYTHING))
-                        return true;
+                        if (extensions[0].equals(EVERYTHING))
+                            return true;
 
-                    return extensionSet.contains(MiscUtils.extension(f.getAbsolutePath()));
-                }
+                        return extensionSet.contains(MiscUtils.extension(f.getAbsolutePath()));
+                    }
 
-                @Override
-                public String getDescription()
-                {
-                    return description;
-                }
-            });
+                    @Override
+                    public String getDescription()
+                    {
+                        return description;
+                    }
+                });
 
-        int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-            try
+            int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
+            if (returnVal == JFileChooser.APPROVE_OPTION)
             {
+
                 File file = fc.getSelectedFile();
                 onOpen.onOpen(file);
                 return file;
             }
-            catch (Exception e1)
-            {
-                BytecodeViewer.handleException(e1);
-            }
+        }
+        catch (Exception e)
+        {
+            BytecodeViewer.handleException(e);
+        }
 
         return null;
     }

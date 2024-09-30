@@ -235,30 +235,37 @@ public class PluginWriter extends JFrame
 
             if (savePath == null)
             {
-                final String ext = FileNameUtils.getExtension(pluginName);
-                JFileChooser fc = new FileChooser(Configuration.getLastPluginDirectory(), "Save Plugin", "BCV Plugin", ext);
-
-                int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-                if (returnVal == JFileChooser.APPROVE_OPTION)
+                try
                 {
-                    Configuration.setLastPluginDirectory(fc.getSelectedFile());
+                    final String ext = FileNameUtils.getExtension(pluginName);
+                    JFileChooser fc = FileChooser.create(Configuration.getLastPluginDirectory(), "Save Plugin", "BCV Plugin", ext);
 
-                    File file = fc.getSelectedFile();
-                    String path = file.getAbsolutePath();
+                    int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
+                    if (returnVal == JFileChooser.APPROVE_OPTION)
+                    {
+                        Configuration.setLastPluginDirectory(fc.getSelectedFile());
 
-                    //auto append extension
-                    if (!path.endsWith("." + ext))
-                        path += "." + ext;
+                        File file = fc.getSelectedFile();
+                        String path = file.getAbsolutePath();
 
-                    if (!DialogUtils.canOverwriteFile(path))
+                        //auto append extension
+                        if (!path.endsWith("." + ext))
+                            path += "." + ext;
+
+                        if (!DialogUtils.canOverwriteFile(path))
+                            return;
+
+                        //swap from save-as to having a defined path each save
+                        setSourceFile(new File(path));
+                    }
+                    else
+                    {
                         return;
-
-                    //swap from save-as to having a defined path each save
-                    setSourceFile(new File(path));
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    return;
+                    e.printStackTrace();
                 }
             }
 

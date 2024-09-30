@@ -90,37 +90,44 @@ public class APKExport implements Exporter
 
         Thread exportThread = new Thread(() ->
         {
-            if (!BytecodeViewer.autoCompileSuccessful())
-                return;
-
-            JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(), "Select APK Export", "Android APK", "apk");
-
-            int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-            if (returnVal == JFileChooser.APPROVE_OPTION)
+            try
             {
-                Configuration.setLastSaveDirectory(fc.getSelectedFile());
-
-                final File file = MiscUtils.autoAppendFileExtension(".apk", fc.getSelectedFile());
-
-                if (!DialogUtils.canOverwriteFile(file))
+                if (!BytecodeViewer.autoCompileSuccessful())
                     return;
 
-                Thread saveThread = new Thread(() ->
+                JFileChooser fc = FileChooser.create(Configuration.getLastSaveDirectory(), "Select APK Export", "Android APK", "apk");
+
+                int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
+                if (returnVal == JFileChooser.APPROVE_OPTION)
                 {
-                    BytecodeViewer.updateBusyStatus(true);
-                    final String input = TEMP_DIRECTORY + FS + MiscUtils.getRandomizedName() + ".jar";
-                    JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
+                    Configuration.setLastSaveDirectory(fc.getSelectedFile());
 
-                    Thread buildAPKThread = new Thread(() ->
+                    final File file = MiscUtils.autoAppendFileExtension(".apk", fc.getSelectedFile());
+
+                    if (!DialogUtils.canOverwriteFile(file))
+                        return;
+
+                    Thread saveThread = new Thread(() ->
                     {
-                        APKTool.buildAPK(new File(input), file, finalContainer);
-                        BytecodeViewer.updateBusyStatus(false);
-                    }, "Process APK");
+                        BytecodeViewer.updateBusyStatus(true);
+                        final String input = TEMP_DIRECTORY + FS + MiscUtils.getRandomizedName() + ".jar";
+                        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 
-                    buildAPKThread.start();
-                }, "Jar Export");
+                        Thread buildAPKThread = new Thread(() ->
+                        {
+                            APKTool.buildAPK(new File(input), file, finalContainer);
+                            BytecodeViewer.updateBusyStatus(false);
+                        }, "Process APK");
 
-                saveThread.start();
+                        buildAPKThread.start();
+                    }, "Jar Export");
+
+                    saveThread.start();
+                }
+            }
+            catch (Exception e)
+            {
+                BytecodeViewer.handleException(e);
             }
         }, "Resource Export");
 

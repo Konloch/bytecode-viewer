@@ -46,27 +46,38 @@ public class ZipExport implements Exporter
             if (!BytecodeViewer.autoCompileSuccessful())
                 return;
 
-            JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(), "Select Zip Export", "Zip Archives", "zip");
-
-            int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-            if (returnVal == JFileChooser.APPROVE_OPTION)
+            try
             {
-                Configuration.setLastSaveDirectory(fc.getSelectedFile());
+                JFileChooser fc = FileChooser.create(Configuration.getLastSaveDirectory(),
+                    "Select Zip Export", "Zip Archives", "zip");
 
-                final File file = MiscUtils.autoAppendFileExtension(".zip", fc.getSelectedFile()); //auto append .zip extension
-
-                if (!DialogUtils.canOverwriteFile(file))
-                    return;
-
-                BytecodeViewer.updateBusyStatus(true);
-                Thread saveThread = new Thread(() ->
+                int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
+                if (returnVal == JFileChooser.APPROVE_OPTION)
                 {
-                    JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file.getAbsolutePath());
-                    BytecodeViewer.updateBusyStatus(false);
-                }, "Jar Export");
-                saveThread.start();
+                    Configuration.setLastSaveDirectory(fc.getSelectedFile());
+
+                    final File file = MiscUtils.autoAppendFileExtension(".zip", fc.getSelectedFile()); //auto append .zip extension
+
+                    if (!DialogUtils.canOverwriteFile(file))
+                        return;
+
+                    BytecodeViewer.updateBusyStatus(true);
+
+                    Thread saveThread = new Thread(() ->
+                    {
+                        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file.getAbsolutePath());
+                        BytecodeViewer.updateBusyStatus(false);
+                    }, "Jar Export");
+
+                    saveThread.start();
+                }
+            }
+            catch (Exception e)
+            {
+                BytecodeViewer.handleException(e);
             }
         }, "Resource Export");
+
         exportThread.start();
     }
 }

@@ -53,6 +53,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
@@ -263,7 +265,8 @@ public class BytecodeViewer
         TASK_MANAGER.start();
 
         //setup the viewer
-        viewer.calledAfterLoad();
+        if(!cli)
+            viewer.calledAfterLoad();
 
         //setup the recent files
         Settings.resetRecentFilesMenu();

@@ -32,6 +32,7 @@ import java.awt.*;
 import java.io.*;
 import java.net.URI;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
 import static the.bytecode.club.bytecodeviewer.Constants.NL;
@@ -145,9 +146,9 @@ public class UpdateCheck implements Runnable
         }
     }
 
-    public static File promptFileSave(String description, String extension) throws IOException
+    public static File promptFileSave(String description, String extension) throws IOException, ExecutionException, InterruptedException
     {
-        JFileChooser fc = new FileChooser(new File("./").getCanonicalFile(), "Select Save File", description, extension);
+        JFileChooser fc = FileChooser.create(new File("./").getCanonicalFile(), "Select Save File", description, extension);
 
         int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
         File file = null;

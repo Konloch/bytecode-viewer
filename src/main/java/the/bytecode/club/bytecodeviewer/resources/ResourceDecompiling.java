@@ -63,42 +63,42 @@ public class ResourceDecompiling
 
         MiscUtils.createNewThread("Decompile Save-All Thread", () ->
         {
-            //signal to the user that BCV is performing an action in the background
-            BytecodeViewer.updateBusyStatus(true);
-
-            //auto compile before decompilation
-            if (!BytecodeViewer.autoCompileSuccessful())
-                return;
-
-            final JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(),
-                "Select Zip Export", "Zip Archives", "zip");
-
-            //if the user doesn't select a file then we should stop while we're ahead
-            if (fc.showSaveDialog(BytecodeViewer.viewer) != JFileChooser.APPROVE_OPTION)
-                return;
-
-            //set the last touched save directory for BCV
-            Configuration.setLastSaveDirectory(fc.getSelectedFile());
-
-            //get the save file and auto append zip extension
-            final File outputZip = MiscUtils.autoAppendFileExtension(".zip", fc.getSelectedFile());
-
-            //prompt the user for a dialogue override-this-file option if the file already exists
-            if (!DialogUtils.canOverwriteFile(outputZip))
-                return;
-
-            //this temporary jar file will be used to store the classes while BCV performs decompilation
-            File temporaryTargetJar = MiscUtils.deleteExistingFile(new File(TEMP_DIRECTORY + FS
-                + "temp_" + MiscUtils.getRandomizedName() + ".jar"));
-
-            //extract all the loaded classes imported into BCV to the temporary target jar
-            JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), temporaryTargetJar.getAbsolutePath());
-
-            //signal to the user that BCV is finished performing that action
-            BytecodeViewer.updateBusyStatus(false);
-
             try
             {
+                //signal to the user that BCV is performing an action in the background
+                BytecodeViewer.updateBusyStatus(true);
+
+                //auto compile before decompilation
+                if (!BytecodeViewer.autoCompileSuccessful())
+                    return;
+
+                final JFileChooser fc = FileChooser.create(Configuration.getLastSaveDirectory(),
+                    "Select Zip Export", "Zip Archives", "zip");
+
+                //if the user doesn't select a file then we should stop while we're ahead
+                if (fc.showSaveDialog(BytecodeViewer.viewer) != JFileChooser.APPROVE_OPTION)
+                    return;
+
+                //set the last touched save directory for BCV
+                Configuration.setLastSaveDirectory(fc.getSelectedFile());
+
+                //get the save file and auto append zip extension
+                final File outputZip = MiscUtils.autoAppendFileExtension(".zip", fc.getSelectedFile());
+
+                //prompt the user for a dialogue override-this-file option if the file already exists
+                if (!DialogUtils.canOverwriteFile(outputZip))
+                    return;
+
+                //this temporary jar file will be used to store the classes while BCV performs decompilation
+                File temporaryTargetJar = MiscUtils.deleteExistingFile(new File(TEMP_DIRECTORY + FS
+                    + "temp_" + MiscUtils.getRandomizedName() + ".jar"));
+
+                //extract all the loaded classes imported into BCV to the temporary target jar
+                JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), temporaryTargetJar.getAbsolutePath());
+
+                //signal to the user that BCV is finished performing that action
+                BytecodeViewer.updateBusyStatus(false);
+
                 //handle the result of the user selection
                 switch (promptDecompilerUserSelect() + DECOMPILE_SAVE_ALL)
                 {
@@ -159,34 +159,35 @@ public class ResourceDecompiling
 
         MiscUtils.createNewThread("Decompile Save Opened Resource", () ->
         {
-            //signal to the user that BCV is performing an action in the background
-            BytecodeViewer.updateBusyStatus(true);
-
-            //auto compile before decompilation
-            if (!BytecodeViewer.autoCompileSuccessful())
-                return;
-
-            JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(), "Select Java Files", "Java Source Files", "java");
-
-            //if the user doesn't select a file then we should stop while we're ahead
-            if (fc.showSaveDialog(BytecodeViewer.viewer) != JFileChooser.APPROVE_OPTION)
-                return;
-
-            //set the last touched save directory for BCV
-            Configuration.setLastSaveDirectory(fc.getSelectedFile());
-
-            //get the save file and auto append java extension
-            File file = MiscUtils.autoAppendFileExtension(".java", fc.getSelectedFile());
-
-            //prompt the user for a dialogue override-this-file option if the file already exists
-            if (!DialogUtils.canOverwriteFile(file))
-                return;
-
-            //signal to the user that BCV is finished performing that action
-            BytecodeViewer.updateBusyStatus(false);
-
             try
             {
+                //signal to the user that BCV is performing an action in the background
+                BytecodeViewer.updateBusyStatus(true);
+
+                //auto compile before decompilation
+                if (!BytecodeViewer.autoCompileSuccessful())
+                    return;
+
+                JFileChooser fc = FileChooser.create(Configuration.getLastSaveDirectory(),
+                    "Select Java Files", "Java Source Files", "java");
+
+                //if the user doesn't select a file then we should stop while we're ahead
+                if (fc.showSaveDialog(BytecodeViewer.viewer) != JFileChooser.APPROVE_OPTION)
+                    return;
+
+                //set the last touched save directory for BCV
+                Configuration.setLastSaveDirectory(fc.getSelectedFile());
+
+                //get the save file and auto append java extension
+                File file = MiscUtils.autoAppendFileExtension(".java", fc.getSelectedFile());
+
+                //prompt the user for a dialogue override-this-file option if the file already exists
+                if (!DialogUtils.canOverwriteFile(file))
+                    return;
+
+                //signal to the user that BCV is finished performing that action
+                BytecodeViewer.updateBusyStatus(false);
+
                 //handle the result of the user selection
                 switch (promptDecompilerUserSelect() + DECOMPILE_OPENED_ONLY_ALL)
                 {

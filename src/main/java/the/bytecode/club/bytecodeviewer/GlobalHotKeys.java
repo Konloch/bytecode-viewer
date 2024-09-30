@@ -103,26 +103,33 @@ public class GlobalHotKeys
                 if (!BytecodeViewer.autoCompileSuccessful())
                     return;
 
-                JFileChooser fc = new FileChooser(Configuration.getLastSaveDirectory(), "Select Zip Export", "Zip Archives", "zip");
-
-                int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
-
-                if (returnVal == JFileChooser.APPROVE_OPTION)
+                try
                 {
-                    Configuration.setLastSaveDirectory(fc.getSelectedFile());
+                    JFileChooser fc = FileChooser.create(Configuration.getLastSaveDirectory(), "Select Zip Export", "Zip Archives", "zip");
 
-                    File file = MiscUtils.autoAppendFileExtension(".zip", fc.getSelectedFile());
+                    int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);
 
-                    if (!DialogUtils.canOverwriteFile(file))
-                        return;
-
-                    BytecodeViewer.updateBusyStatus(true);
-                    Thread jarExport = new Thread(() ->
+                    if (returnVal == JFileChooser.APPROVE_OPTION)
                     {
-                        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file.getAbsolutePath());
-                        BytecodeViewer.updateBusyStatus(false);
-                    }, "Jar Export");
-                    jarExport.start();
+                        Configuration.setLastSaveDirectory(fc.getSelectedFile());
+
+                        File file = MiscUtils.autoAppendFileExtension(".zip", fc.getSelectedFile());
+
+                        if (!DialogUtils.canOverwriteFile(file))
+                            return;
+
+                        BytecodeViewer.updateBusyStatus(true);
+                        Thread jarExport = new Thread(() ->
+                        {
+                            JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file.getAbsolutePath());
+                            BytecodeViewer.updateBusyStatus(false);
+                        }, "Jar Export");
+                        jarExport.start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
                 }
             }, "Resource Export");
 
