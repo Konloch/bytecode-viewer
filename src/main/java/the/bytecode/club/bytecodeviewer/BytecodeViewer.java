@@ -693,7 +693,10 @@ public class BytecodeViewer
      */
     public static void handleException(Throwable t, String author)
     {
-        new ExceptionUI(t, author);
+        if(CLI.isCLI())
+            t.printStackTrace();
+        else
+            new ExceptionUI(t, author);
     }
 
     /**

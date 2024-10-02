@@ -69,18 +69,13 @@ public class BCVCommandLine
         {
             CommandLine cmd = PARSER.parse(OPTIONS, args);
 
-            if(cmd.hasOption("language"))
-                System.out.println("OK: " + cmd.getOptionValue("language"));
-
             //TODO this is a backwards way of searching and will cause collisions
             // I'm sure the Apache CLI has a better way of navigating this
 
             for(CLICommand command : COMMANDS)
             {
-                System.out.println("OK: " + command.name);
                 if(cmd.hasOption(command.name))
                 {
-                    System.out.println("ON: " + command.name);
                     command.runCommand(cmd);
                     return;
                 }
@@ -115,9 +110,11 @@ public class BCVCommandLine
             return;
         }
 
+        //wait 5 seconds to allow time for reading
         if (!cmd.hasOption("nowait"))
            SleepUtil.sleep(5 * 1000);
 
+        //decompiler configuration
         File input = new File(cmd.getOptionValue("i"));
         File output = new File(cmd.getOptionValue("o"));
         String decompiler = cmd.getOptionValue("decompiler");
