@@ -130,7 +130,7 @@ public class FernFlowerDecompiler extends AbstractDecompiler
             else
                 exception = "BCV Error: " + tempOutputJavaFile.getAbsolutePath() + " does not exist.";
         }
-        catch (Exception e)
+        catch (Throwable e)
         {
             StringWriter exceptionWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(exceptionWriter));
