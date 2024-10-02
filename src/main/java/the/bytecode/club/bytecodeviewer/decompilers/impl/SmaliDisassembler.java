@@ -52,7 +52,7 @@ public class SmaliDisassembler extends AbstractDecompiler
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         final String fileStart = TEMP_DIRECTORY + FS + "temp";
-        final String start = MiscUtils.getUniqueName(fileStart, ".class");
+        final String start = MiscUtils.getUniqueNameBroken(fileStart, ".class");
         final File tempClass = new File(start + ".class");
         final File tempDex = new File(start + ".dex");
         final File tempDexOut = new File(start + "-out");

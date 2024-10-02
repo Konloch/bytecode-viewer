@@ -72,7 +72,7 @@ public class FernFlowerDecompiler extends AbstractDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
-        String start = TEMP_DIRECTORY + FS + MiscUtils.getUniqueName("", ".class");
+        String start = TEMP_DIRECTORY + FS + MiscUtils.getUniqueNameBroken("", ".class");
 
         final File tempClass = new File(start + ".class");
 

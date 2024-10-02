@@ -52,7 +52,7 @@ public class JADXDecompiler extends AbstractDecompiler
         String fileStart = TEMP_DIRECTORY + FS;
 
         String exception = "";
-        final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
+        final File tempClass = new File(MiscUtils.getUniqueNameBroken(fileStart, ".class") + ".class");
 
         try (FileOutputStream fos = new FileOutputStream(tempClass))
         {
