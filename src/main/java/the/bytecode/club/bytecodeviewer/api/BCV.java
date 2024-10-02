@@ -23,7 +23,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.compilers.Compiler;
-import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
+import the.bytecode.club.bytecodeviewer.compilers.AbstractCompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.EZInjection;
@@ -439,7 +439,7 @@ public class BCV
      *
      * @return The wrapped Java Compiler instance
      */
-    public static InternalCompiler getJavaCompiler()
+    public static AbstractCompiler getJavaCompiler()
     {
         return Compiler.JAVA_COMPILER.getCompiler();
     }
@@ -449,7 +449,7 @@ public class BCV
      *
      * @return The wrapped Krakatau Assembler instance
      */
-    public static InternalCompiler getKrakatauCompiler()
+    public static AbstractCompiler getKrakatauCompiler()
     {
         return Compiler.KRAKATAU_ASSEMBLER.getCompiler();
     }
@@ -459,7 +459,7 @@ public class BCV
      *
      * @return The wrapped Smali Assembler instance
      */
-    public static InternalCompiler getSmaliCompiler()
+    public static AbstractCompiler getSmaliCompiler()
     {
         return Compiler.SMALI_ASSEMBLER.getCompiler();
     }

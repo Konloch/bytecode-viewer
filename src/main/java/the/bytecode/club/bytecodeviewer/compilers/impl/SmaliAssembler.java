@@ -21,7 +21,7 @@ package the.bytecode.club.bytecodeviewer.compilers.impl;
 import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
+import the.bytecode.club.bytecodeviewer.compilers.AbstractCompiler;
 import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.util.Enjarify;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -39,7 +39,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
  * @author Konloch
  */
 
-public class SmaliAssembler extends InternalCompiler
+public class SmaliAssembler extends AbstractCompiler
 {
     @Override
     public byte[] compile(String contents, String fullyQualifiedName)

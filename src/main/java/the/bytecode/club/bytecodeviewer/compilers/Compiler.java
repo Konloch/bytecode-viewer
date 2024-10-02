@@ -33,14 +33,14 @@ public enum Compiler
     SMALI_ASSEMBLER(new SmaliAssembler()),
     JAVA_COMPILER(new JavaCompiler());
 
-    private final InternalCompiler compiler;
+    private final AbstractCompiler compiler;
 
-    Compiler(InternalCompiler compiler)
+    Compiler(AbstractCompiler compiler)
     {
         this.compiler = compiler;
     }
 
-    public InternalCompiler getCompiler()
+    public AbstractCompiler getCompiler()
     {
         return compiler;
     }

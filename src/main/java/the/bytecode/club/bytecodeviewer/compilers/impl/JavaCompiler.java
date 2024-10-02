@@ -21,7 +21,7 @@ package the.bytecode.club.bytecodeviewer.compilers.impl;
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.compilers.InternalCompiler;
+import the.bytecode.club.bytecodeviewer.compilers.AbstractCompiler;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
@@ -38,7 +38,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
  * @author Konloch
  */
 
-public class JavaCompiler extends InternalCompiler
+public class JavaCompiler extends AbstractCompiler
 {
     @Override
     public byte[] compile(String contents, String fullyQualifiedName)

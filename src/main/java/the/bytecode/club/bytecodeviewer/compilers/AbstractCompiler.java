@@ -24,7 +24,7 @@ package the.bytecode.club.bytecodeviewer.compilers;
  * @author Konloch
  */
 
-public abstract class InternalCompiler
+public abstract class AbstractCompiler
 {
     public abstract byte[] compile(String contents, String fullyQualifiedName);
 }
