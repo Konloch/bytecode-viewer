@@ -30,6 +30,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.jdgui.DirectoryLoader;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.JDGUIClassFileUtil;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.PlainTextPrinter;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+import the.bytecode.club.bytecodeviewer.util.ExceptionUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.TempFile;
 
@@ -121,11 +122,7 @@ public class JDGUIDecompiler extends AbstractDecompiler
         }
         catch (Throwable e)
         {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
-            e.printStackTrace();
-
-            exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
+            exception = NL + NL + ExceptionUtils.exceptionToString(e);
         }
         finally
         {
