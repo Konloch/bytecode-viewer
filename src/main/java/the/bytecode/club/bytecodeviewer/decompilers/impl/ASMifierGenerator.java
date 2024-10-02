@@ -22,6 +22,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.util.ASMifier;
 import org.objectweb.asm.util.TraceClassVisitor;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
+import the.bytecode.club.bytecodeviewer.util.JavaFormatterUtils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -43,7 +44,7 @@ public class ASMifierGenerator extends AbstractDecompiler
     {
         StringWriter writer = new StringWriter();
         cn.accept(new TraceClassVisitor(null, new ASMifier(), new PrintWriter(writer)));
-        return writer.toString();
+        return JavaFormatterUtils.formatJavaCode(writer.toString());
     }
 
     @Override
