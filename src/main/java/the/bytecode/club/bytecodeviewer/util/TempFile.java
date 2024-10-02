@@ -11,16 +11,16 @@ import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
  */
 public class TempFile
 {
-    private final File parent;
+    private File parent;
     private final File file;
-    private final String filePath;
+    private final String uniqueName;
     private final HashSet<String> createdFilePaths = new HashSet<>();
 
-    public TempFile(File file)
+    public TempFile(File file, String uniqueName)
     {
         this.parent = file.getParentFile();
         this.file = file;
-        this.filePath = file.getAbsolutePath();
+        this.uniqueName = uniqueName;
         this.createdFilePaths.add(file.getAbsolutePath());
     }
 
@@ -34,9 +34,14 @@ public class TempFile
         return file;
     }
 
-    public String getFilePath()
+    public String getUniqueName()
     {
-        return filePath;
+        return uniqueName;
+    }
+
+    public void setParent(File parent)
+    {
+        this.parent = parent;
     }
 
     public void delete()
@@ -58,11 +63,21 @@ public class TempFile
 
     public File createFileFromExtension(String extension)
     {
+        return createFileFromExtension(true, false, extension);
+    }
+
+    public File createFileFromExtension(boolean newUniqueName, boolean canExist, String extension)
+    {
         File file;
 
+        String uniqueName = newUniqueName ? MiscUtils.getUniqueName("", extension) : this.uniqueName + extension;
+        //String uniqueName = this.uniqueName + extension;
+
         //generate a new name until the directory no longer exists
-        while((file = new File(parent, MiscUtils.getUniqueName("", extension))).exists())
+        while((file = new File(parent, uniqueName)).exists())
         {
+            if(canExist)
+                break;
         }
 
         this.createdFilePaths.add(file.getAbsolutePath());
@@ -75,23 +90,23 @@ public class TempFile
         //generate a new temporary parent directory
         File parent = newDirectory ? createTempDirectory() : new File(TEMP_DIRECTORY);
 
-        return new TempFile(createTempFile(parent, extension));
-    }
-
-    private static File createTempFile(File parent, String extension)
-    {
         //make the parent directories
         parent.mkdirs();
 
-        //return the temporary file
-        File file;
+        //create the temporary variables
+        String uniqueName;
+        File file = null;
 
         //generate a new name until the directory no longer exists
-        while((file = new File(parent, MiscUtils.getUniqueName("", extension))).exists())
+        while((uniqueName = MiscUtils.getUniqueName("", extension)) != null &&
+                (file = new File(parent, uniqueName)).exists())
         {
         }
 
-        return file;
+        if(uniqueName != null)
+            uniqueName = uniqueName.substring(0, uniqueName.length() - extension.length());
+
+        return new TempFile(file, uniqueName);
     }
 
     private static File createTempDirectory()
