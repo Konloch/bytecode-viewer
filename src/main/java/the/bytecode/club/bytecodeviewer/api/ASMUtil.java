@@ -22,6 +22,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
+import the.bytecode.club.bytecodeviewer.util.SleepUtil;
 
 /**
  * @author Konloch
@@ -61,14 +62,10 @@ public class ASMUtil
         catch (Exception e)
         {
             e.printStackTrace();
-            try
-            {
-                Thread.sleep(200);
-                cn.accept(cw);
-            }
-            catch (InterruptedException ignored)
-            {
-            }
+
+            SleepUtil.sleep(200);
+
+            cn.accept(cw);
         }
 
         return cw.toByteArray();

@@ -28,6 +28,7 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.BytecodeViewPanel;
 import the.bytecode.club.bytecodeviewer.resources.Resource;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
+import the.bytecode.club.bytecodeviewer.util.SleepUtil;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -102,17 +103,10 @@ public class ClassViewer extends ResourceViewer
         {
             BytecodeViewer.updateBusyStatus(true);
 
+            //wait until it's not dumping
             while (Configuration.currentlyDumping)
             {
-                //wait until it's not dumping
-                try
-                {
-                    Thread.sleep(100);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
+                SleepUtil.sleep(100);
             }
 
             BytecodeViewer.updateBusyStatus(false);

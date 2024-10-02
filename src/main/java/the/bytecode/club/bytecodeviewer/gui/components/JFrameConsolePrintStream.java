@@ -19,6 +19,7 @@
 package the.bytecode.club.bytecodeviewer.gui.components;
 
 import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.util.SleepUtil;
 
 import javax.swing.*;
 import java.io.PrintStream;
@@ -68,13 +69,7 @@ public class JFrameConsolePrintStream extends JFrameConsole
                 {
                     update();
 
-                    try
-                    {
-                        Thread.sleep(10);
-                    }
-                    catch (InterruptedException ignored)
-                    {
-                    }
+                    SleepUtil.sleep(10);
                 }
 
                 lastUpdate = 0;

@@ -223,14 +223,10 @@ public class BCV
         catch (Exception e)
         {
             e.printStackTrace();
-            try
-            {
-                Thread.sleep(200);
-                Objects.requireNonNull(cn).accept(cw);
-            }
-            catch (InterruptedException ignored)
-            {
-            }
+
+            SleepUtil.sleep(200);
+
+            Objects.requireNonNull(cn).accept(cw);
         }
 
         return cw.toByteArray();

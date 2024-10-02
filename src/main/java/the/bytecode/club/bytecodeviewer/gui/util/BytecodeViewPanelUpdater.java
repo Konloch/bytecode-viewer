@@ -37,6 +37,7 @@ import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContai
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.*;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.TokenUtil;
 import the.bytecode.club.bytecodeviewer.util.MethodParser;
+import the.bytecode.club.bytecodeviewer.util.SleepUtil;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
@@ -133,13 +134,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                     //hold this thread until the swing thread has finished attaching the components
                     while (waitingFor)
                     {
-                        try
-                        {
-                            Thread.sleep(1);
-                        }
-                        catch (Exception ignored)
-                        {
-                        }
+                        SleepUtil.sleep(1);
                     }
                 }
             }

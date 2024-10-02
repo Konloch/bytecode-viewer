@@ -82,20 +82,14 @@ public class Enjarify
                     if (output.length() > 0)
                         holdThread.set(false);
 
-                    try
-                    {
-                        Thread.sleep(500);
-                    }
-                    catch (InterruptedException ignored)
-                    {
-                    }
+                    SleepUtil.sleep(500);
                 }
             }, "Enjarify Fail Safe Thread").start();
 
             //hold thread while enjarify is processing
             while (holdThread.get())
             {
-                Thread.sleep(100);
+                SleepUtil.sleep(100);
             }
 
             //kill the python3 process if it's still alive
