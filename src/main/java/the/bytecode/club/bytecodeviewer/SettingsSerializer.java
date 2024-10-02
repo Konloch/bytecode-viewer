@@ -43,8 +43,7 @@ public class SettingsSerializer
 
     public static void saveSettingsAsync()
     {
-        Thread saveThread = new Thread(SettingsSerializer::saveSettings, "Save Settings");
-        saveThread.start();
+        BytecodeViewer.getTaskManager().doOnce(task -> saveSettings());
     }
 
     public static synchronized void saveSettings()
