@@ -41,7 +41,12 @@ public class ChangeClassFileVersions extends Plugin
     {
         //prompt dialog for version number
         // TODO: include a little diagram of what JDK is which number
-        int newVersion = Integer.parseInt(BytecodeViewer.showInput("Class Version Number: (52 = JDK 8)"));
+        String input = BytecodeViewer.showInput("Class Version Number: (52 = JDK 8)");
+
+        if(input == null)
+            return;
+
+        int newVersion = Integer.parseInt(input);
 
         //update the ClassFile version
         classNodeList.forEach(classNode -> classNode.version = newVersion);
