@@ -72,7 +72,7 @@ public class ASMifierGenerator extends AbstractDecompiler
             exception = ExceptionUtils.exceptionToString(e);
         }
 
-        return "ASMifier " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+        return getDecompilerName() + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
             + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
