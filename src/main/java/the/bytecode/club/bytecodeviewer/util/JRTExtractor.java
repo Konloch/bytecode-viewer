@@ -24,20 +24,23 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * @author Robert Grosse (Storyyeller)
+ * @since 10/01/2017
+ */
 public class JRTExtractor
 {
     public static void extractRT(String path) throws Throwable
     {
         FileSystem fs = FileSystems.getFileSystem(URI.create("jrt:/"));
 
-        try (ZipOutputStream zipStream = new ZipOutputStream(Files.newOutputStream(Paths.get(path))); Stream<Path> stream = Files.walk(fs.getPath("/")))
+        try (ZipOutputStream zipStream = new ZipOutputStream(Files.newOutputStream(Paths.get(path)));
+             Stream<Path> stream = Files.walk(fs.getPath("/")))
         {
             stream.forEach(p ->
             {
                 if (!Files.isRegularFile(p))
-                {
                     return;
-                }
 
                 try
                 {
@@ -48,9 +51,7 @@ public class JRTExtractor
                     assert list.remove(0).equals("modules");
 
                     if (!list.get(list.size() - 1).equals("module-info.class"))
-                    {
                         list.remove(0);
-                    }
 
                     list.remove(0);
                     String outPath = String.join("/", list);
