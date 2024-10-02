@@ -33,7 +33,8 @@ public class DiskReader
                 if (!file.exists()) // doesn't exist, return empty
                     return array;
 
-                try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr))
+                try (FileReader fr = new FileReader(file);
+                     BufferedReader reader = new BufferedReader(fr))
                 {
                     String add;
 
@@ -66,7 +67,8 @@ public class DiskReader
     {
         StringBuilder s = new StringBuilder();
 
-        try (FileReader fr = new FileReader(fileName); BufferedReader reader = new BufferedReader(fr))
+        try (FileReader fr = new FileReader(fileName);
+             BufferedReader reader = new BufferedReader(fr))
         {
             for (String add = reader.readLine(); add != null; add = reader.readLine())
             {
@@ -89,7 +91,8 @@ public class DiskReader
             array = new ArrayList<>();
             File file = new File(fileName);
 
-            try (FileReader fr = new FileReader(file); BufferedReader reader = new BufferedReader(fr))
+            try (FileReader fr = new FileReader(file);
+                 BufferedReader reader = new BufferedReader(fr))
             {
                 String add;
 
