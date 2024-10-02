@@ -56,6 +56,9 @@ public class ProcessUtils
                         out.append(NL).append(line);
                     }
                 }
+                catch (IOException ignore)
+                {
+                }
                 catch (Exception e)
                 {
                     e.printStackTrace();
@@ -80,6 +83,9 @@ public class ProcessUtils
                     {
                         err.append(NL).append(line);
                     }
+                }
+                catch (IOException ignore)
+                {
                 }
                 catch (Exception e)
                 {
