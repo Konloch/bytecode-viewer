@@ -78,7 +78,7 @@ public class FernFlowerDecompiler extends AbstractDecompiler
         try
         {
             tempFile = TempFile.createTemporaryFile(true, ".class");
-            File tempClassFile = tempFile.createFileFromExtension(false, false, ".class");
+            File tempClassFile = tempFile.getFile();
 
             //load java source from temp directory
             tempFile.setParent(new File(TEMP_DIRECTORY));
