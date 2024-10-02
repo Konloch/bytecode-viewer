@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import java.io.File;
+import java.util.HashSet;
 
 import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 
@@ -13,12 +14,19 @@ public class TempFile
     private final File parent;
     private final File file;
     private final String filePath;
+    private final HashSet<String> createdFilePaths = new HashSet<>();
 
     public TempFile(File file)
     {
         this.parent = file.getParentFile();
         this.file = file;
         this.filePath = file.getAbsolutePath();
+        this.createdFilePaths.add(file.getAbsolutePath());
+    }
+
+    public File getParent()
+    {
+        return parent;
     }
 
     public File getFile()
@@ -31,6 +39,23 @@ public class TempFile
         return filePath;
     }
 
+    public void delete()
+    {
+        //delete all the items
+        for(String path : createdFilePaths)
+        {
+            File toDelete = new File(path);
+
+            toDelete.delete();
+        }
+
+        //delete parent if it's not the main temp directory
+        if(!getParent().getAbsolutePath().equalsIgnoreCase(new File(TEMP_DIRECTORY).getAbsolutePath()))
+        {
+            getParent().delete();
+        }
+    }
+
     public File createFileFromExtension(String extension)
     {
         File file;
@@ -39,6 +64,8 @@ public class TempFile
         while((file = new File(parent, MiscUtils.getUniqueName("", extension))).exists())
         {
         }
+
+        this.createdFilePaths.add(file.getAbsolutePath());
 
         return file;
     }
