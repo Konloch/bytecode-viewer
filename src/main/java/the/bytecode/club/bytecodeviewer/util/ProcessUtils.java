@@ -18,14 +18,14 @@ public class ProcessUtils
 {
     public static StringBuilder mergeLogs(StringBuilder out, StringBuilder err, int exitCode)
     {
-        StringBuilder logs = new StringBuilder(NL + NL);
+        StringBuilder logs = new StringBuilder();
 
         if(out.toString().trim().length() >= 1)
-            logs.append(TranslatedStrings.PROCESS2).append(" out:").append(NL).append(NL)
+            logs.append(TranslatedStrings.PROCESS2).append(" out:")
                 .append(out).append(NL).append(NL);
 
         if(err.toString().trim().length() >= 1)
-            logs.append(TranslatedStrings.PROCESS2).append(" err:").append(NL).append(NL)
+            logs.append(TranslatedStrings.PROCESS2).append(" err:")
                 .append(err).append(NL).append(NL);
 
         logs.append(TranslatedStrings.ERROR2).append(NL).append(NL);
@@ -37,12 +37,43 @@ public class ProcessUtils
 
     public static void readProcessToStringBuilder(Process process, StringBuilder out, StringBuilder err) throws IOException
     {
-
+        //Read out dir output
         try (InputStream is = process.getInputStream();
              InputStreamReader isr = new InputStreamReader(is);
              BufferedReader br = new BufferedReader(isr))
         {
-            BytecodeViewer.getTaskManager().delayLoop(100, task ->
+            String line;
+            while ((line = br.readLine()) != null)
+            {
+                out.append(NL).append(line);
+            }
+        }
+        catch (IOException ignore)
+        {
+        }
+
+        try (InputStream is = process.getErrorStream();
+             InputStreamReader isr = new InputStreamReader(is);
+             BufferedReader br = new BufferedReader(isr))
+        {
+            String line;
+            while ((line = br.readLine()) != null)
+            {
+                err.append(NL).append(line);
+            }
+        }
+        catch (IOException ignore)
+        {
+        }
+    }
+
+    public static void readProcessToStringBuilderAsync(Process process, StringBuilder out, StringBuilder err) throws IOException
+    {
+        try (InputStream is = process.getInputStream();
+             InputStreamReader isr = new InputStreamReader(is);
+             BufferedReader br = new BufferedReader(isr))
+        {
+            BytecodeViewer.getTaskManager().delayLoop(25, task ->
             {
                 if(!process.isAlive())
                     task.stop();
@@ -70,7 +101,7 @@ public class ProcessUtils
              InputStreamReader isr = new InputStreamReader(is);
              BufferedReader br = new BufferedReader(isr))
         {
-            BytecodeViewer.getTaskManager().delayLoop(100, task ->
+            BytecodeViewer.getTaskManager().delayLoop(25, task ->
             {
                 if(!process.isAlive())
                     task.stop();
