@@ -255,9 +255,7 @@ public class SecurityMan extends SecurityManager
     public void checkExit(int status)
     {
         if (!Configuration.canExit)
-        {
             throw new SecurityException("BCV is awesome, blocking System.exit(" + status + ");");
-        }
     }
 
     @Override

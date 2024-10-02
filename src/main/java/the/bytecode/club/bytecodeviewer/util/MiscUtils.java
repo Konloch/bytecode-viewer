@@ -133,54 +133,55 @@ public class MiscUtils
     /**
      * Checks the file system to ensure it's a unique name
      *
-     * @param start directory it'll be in
-     * @param ext   the file extension it'll use
+     * @param stringStart directory it'll be in
+     * @param fileExtension   the file extension it'll use
      * @return the unique name
      */
-    public static String getUniqueName(String start, String ext)
+    public static String getUniqueName(String stringStart, String fileExtension)
     {
-        String s = null;
-        boolean b = true;
-        File f;
-        String m;
+        String uniqueName = null;
+        boolean searching = true;
+        File tempFile;
+        String randomString;
 
-        while (b)
+        while (searching)
         {
-            m = MiscUtils.randomString(32);
-            f = new File(start + m + ext);
+            randomString = MiscUtils.randomString(32);
+            tempFile = new File(stringStart + randomString + fileExtension);
 
-            if (!f.exists())
+            if (!tempFile.exists())
             {
-                s = start + m;
-                b = false;
+                uniqueName = stringStart + randomString;
+                searching = false;
             }
         }
-        return s;
+
+        return uniqueName;
     }
 
     /**
      * Checks the file system to ensure it's a unique number
      *
-     * @param start directory it'll be in
-     * @param ext   the file extension it'll use
+     * @param stringStart directory it'll be in
+     * @param fileExtension   the file extension it'll use
      * @return the unique number
      */
-    public static int getClassNumber(String start, String ext)
+    public static int getClassNumber(String stringStart, String fileExtension)
     {
-        boolean b = true;
-        int i = 0;
+        boolean searching = true;
+        int index = 0;
 
-        while (b)
+        while (searching)
         {
-            File tempF = new File(start + i + ext);
+            File tempF = new File(stringStart + index + fileExtension);
 
             if (!tempF.exists())
-                b = false;
+                searching = false;
             else
-                i++;
+                index++;
         }
 
-        return i;
+        return index;
     }
 
     public static File autoAppendFileExtension(String extension, File file)
@@ -213,6 +214,7 @@ public class MiscUtils
         for (ResourceContainer container : resourceContainers)
         {
             block.append(container.name);
+
             for (ClassNode node : container.resourceClasses.values())
             {
                 block.append(node.name);
@@ -278,12 +280,12 @@ public class MiscUtils
      * Returns whether the bytes most likely represent binary data.
      * Based on https://stackoverflow.com/a/13533390/5894824
      */
-    public static boolean guessIfBinary(byte[] data)
+    public static boolean guessIfBinary(byte[] bytes)
     {
         double ascii = 0;
         double other = 0;
 
-        for (byte b : data)
+        for (byte b : bytes)
         {
             if (b == 0x09 || b == 0x0A || b == 0x0C || b == 0x0D || (b >= 0x20 && b <= 0x7E))
                 ascii++;

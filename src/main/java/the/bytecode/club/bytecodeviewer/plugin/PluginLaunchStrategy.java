@@ -28,6 +28,5 @@ import java.io.File;
  */
 public interface PluginLaunchStrategy
 {
-
     Plugin run(File file) throws Throwable;
 }

@@ -122,15 +122,14 @@ public enum TranslatedStrings
     FIRST_OPEN_A_CLASS,
     FIRST_VIEW_A_CLASS,
     SUGGESTED_FIX_NO_DECOMPILER_WARNING,
-    DRAG_CLASS_JAR,
-    ;
+    DRAG_CLASS_JAR;
 
-    public static final Set<String> nameSet = new HashSet<>();
+    public static final Set<String> NAME_SET = new HashSet<>();
 
     static
     {
         for(TranslatedStrings s : values())
-            nameSet.add(s.name());
+            NAME_SET.add(s.name());
     }
 
     private final String TEXT_ERROR = "FAILED_TO_LOAD";
@@ -168,8 +167,7 @@ public enum TranslatedStrings
             .replace("{PRODUCT-NAME}", PRODUCT_H_NAME.toString())
             .replace("{PRODUCT}", PRODUCT.toString())
             .replace("{TBC}", TBC.toString())
-            .replace("{WEBSITE}", WEBSITE.toString())
-        ;
+            .replace("{WEBSITE}", WEBSITE.toString());
 
         this.text = text;
     }

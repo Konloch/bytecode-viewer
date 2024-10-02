@@ -97,7 +97,6 @@ public class Enjarify
                 process.destroy();
 
             MiscUtils.printProcess(process);
-
         }
         catch (Exception e)
         {

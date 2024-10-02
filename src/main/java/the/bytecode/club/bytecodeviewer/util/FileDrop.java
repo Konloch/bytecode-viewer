@@ -45,8 +45,8 @@ import java.io.*;
  * {
  * // handle file drop
  * ...
- * }   // end filesDropped
- * }); // end FileDrop.Listener
+ * }
+ * });
  * <p>
  * You can specify the border that will appear when files are being dragged by
  * calling the constructor with a <tt>Border</tt>. Only
@@ -87,18 +87,18 @@ public class FileDrop
      * elements contained within as drop targets, though only the top level
      * container will change borders.
      *
-     * @param c        Component on which files will be dropped.
+     * @param dropTarget        Component on which files will be dropped.
      * @param listener Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(Component c, Listener listener)
+    public FileDrop(Component dropTarget, Listener listener)
     {
         this(null, // Logging stream
-            c, // Drop target
+            dropTarget, // Drop target
             BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), // Drag border
             true, // Recursive
             listener);
-    } // end constructor
+    }
 
     /**
      * Constructor with a default border and the option to recursively set drop
@@ -106,19 +106,19 @@ public class FileDrop
      * its children components will also listen for drops, though only the
      * parent will change borders.
      *
-     * @param c         Component on which files will be dropped.
+     * @param dropTarget         Component on which files will be dropped.
      * @param recursive Recursively set children as drop targets.
      * @param listener  Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(Component c, boolean recursive, Listener listener)
+    public FileDrop(Component dropTarget, boolean recursive, Listener listener)
     {
         this(null, // Logging stream
-            c, // Drop target
+            dropTarget, // Drop target
             BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), // Drag border
             recursive, // Recursive
             listener);
-    } // end constructor
+    }
 
     /**
      * Constructor with a default border and debugging optionally turned on.
@@ -127,18 +127,18 @@ public class FileDrop
      * <tt>System.out</tt> or <tt>System.err</tt>. A <tt>null</tt> value for the
      * parameter <tt>out</tt> will result in no debugging output.
      *
-     * @param out      PrintStream to record debugging info or null for no debugging.
-     * @param c        Component on which files will be dropped.
+     * @param loggingStream      PrintStream to record debugging info or null for no debugging.
+     * @param dropTarget        Component on which files will be dropped.
      * @param listener Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(PrintStream out, Component c, Listener listener)
+    public FileDrop(PrintStream loggingStream, Component dropTarget, Listener listener)
     {
-        this(out, // Logging stream
-            c, // Drop target
+        this(loggingStream, // Logging stream
+            dropTarget, // Drop target
             BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), false, // Recursive
             listener);
-    } // end constructor
+    }
 
     /**
      * Constructor with a default border, debugging optionally turned on and the
@@ -150,37 +150,37 @@ public class FileDrop
      * <tt>System.out</tt> or <tt>System.err</tt>. A <tt>null</tt> value for the
      * parameter <tt>out</tt> will result in no debugging output.
      *
-     * @param out       PrintStream to record debugging info or null for no debugging.
-     * @param c         Component on which files will be dropped.
+     * @param loggingStream       PrintStream to record debugging info or null for no debugging.
+     * @param dropTarget         Component on which files will be dropped.
      * @param recursive Recursively set children as drop targets.
      * @param listener  Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(PrintStream out, Component c, boolean recursive, Listener listener)
+    public FileDrop(PrintStream loggingStream, Component dropTarget, boolean recursive, Listener listener)
     {
-        this(out, // Logging stream
-            c, // Drop target
+        this(loggingStream, // Logging stream
+            dropTarget, // Drop target
             BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), // Drag border
             recursive, // Recursive
             listener);
-    } // end constructor
+    }
 
     /**
      * Constructor with a specified border
      *
-     * @param c          Component on which files will be dropped.
+     * @param dropTarget          Component on which files will be dropped.
      * @param dragBorder Border to use on <tt>JComponent</tt> when dragging occurs.
      * @param listener   Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(Component c, Border dragBorder, Listener listener)
+    public FileDrop(Component dropTarget, Border dragBorder, Listener listener)
     {
         this(null, // Logging stream
-            c, // Drop target
+            dropTarget, // Drop target
             dragBorder, // Drag border
             false, // Recursive
             listener);
-    } // end constructor
+    }
 
     /**
      * Constructor with a specified border and the option to recursively set
@@ -188,15 +188,15 @@ public class FileDrop
      * each of its children components will also listen for drops, though only
      * the parent will change borders.
      *
-     * @param c          Component on which files will be dropped.
+     * @param dropTarget          Component on which files will be dropped.
      * @param dragBorder Border to use on <tt>JComponent</tt> when dragging occurs.
      * @param recursive  Recursively set children as drop targets.
      * @param listener   Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(Component c, Border dragBorder, boolean recursive, Listener listener)
+    public FileDrop(Component dropTarget, Border dragBorder, boolean recursive, Listener listener)
     {
-        this(null, c, dragBorder, recursive, listener);
+        this(null, dropTarget, dragBorder, recursive, listener);
     } // end constructor
 
     /**
@@ -206,20 +206,20 @@ public class FileDrop
      * <tt>System.out</tt> or <tt>System.err</tt>. A <tt>null</tt> value for the
      * parameter <tt>out</tt> will result in no debugging output.
      *
-     * @param out        PrintStream to record debugging info or null for no debugging.
-     * @param c          Component on which files will be dropped.
+     * @param loggingStream        PrintStream to record debugging info or null for no debugging.
+     * @param dropTarget          Component on which files will be dropped.
      * @param dragBorder Border to use on <tt>JComponent</tt> when dragging occurs.
      * @param listener   Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(PrintStream out, Component c, Border dragBorder, Listener listener)
+    public FileDrop(PrintStream loggingStream, Component dropTarget, Border dragBorder, Listener listener)
     {
-        this(out, // Logging stream
-            c, // Drop target
+        this(loggingStream, // Logging stream
+            dropTarget, // Drop target
             dragBorder, // Drag border
             false, // Recursive
             listener);
-    } // end constructor
+    }
 
     /**
      * Full constructor with a specified border and debugging optionally turned
@@ -228,73 +228,60 @@ public class FileDrop
      * <tt>System.out</tt> or <tt>System.err</tt>. A <tt>null</tt> value for the
      * parameter <tt>out</tt> will result in no debugging output.
      *
-     * @param out        PrintStream to record debugging info or null for no debugging.
-     * @param c          Component on which files will be dropped.
+     * @param loggingStream        PrintStream to record debugging info or null for no debugging.
+     * @param dropTarget          Component on which files will be dropped.
      * @param dragBorder Border to use on <tt>JComponent</tt> when dragging occurs.
      * @param recursive  Recursively set children as drop targets.
      * @param listener   Listens for <tt>filesDropped</tt>.
      * @since 1.0
      */
-    public FileDrop(PrintStream out, Component c, Border dragBorder, boolean recursive, Listener listener)
+    public FileDrop(PrintStream loggingStream, Component dropTarget, Border dragBorder, boolean recursive, Listener listener)
     {
-
+        // Make a drop listener
         if (supportsDnD())
-        { // Make a drop listener
+        {
             dropListener = new DropTargetListener()
             {
                 @Override
                 public void dragEnter(DropTargetDragEvent evt)
                 {
-                    log(out, "FileDrop: dragEnter event.");
+                    log(loggingStream, "FileDrop: dragEnter event.");
 
                     // Is this an acceptable drag event?
-                    if (isDragOk(out, evt))
+                    if (isDragOk(loggingStream, evt))
                     {
                         // If it's a Swing component, set its border
-                        if (c instanceof JComponent)
+                        if (dropTarget instanceof JComponent)
                         {
-                            final JComponent jc = (JComponent) c;
+                            final JComponent jc = (JComponent) dropTarget;
                             normalBorder = jc.getBorder();
-                            log(out, "FileDrop: normal border saved.");
+                            log(loggingStream, "FileDrop: normal border saved.");
                             jc.setBorder(dragBorder);
-                            log(out, "FileDrop: drag border set.");
-                        } // end if: JComponent
+                            log(loggingStream, "FileDrop: drag border set.");
+                        }
 
                         // Acknowledge that it's okay to enter
-                        // evt.acceptDrag(
-                        // DnDConstants.ACTION_COPY_OR_MOVE );
+                        //evt.acceptDrag(DnDConstants.ACTION_COPY_OR_MOVE);
                         evt.acceptDrag(DnDConstants.ACTION_COPY);
-                        log(out, "FileDrop: event accepted.");
-                    } // end if: drag ok
+                        log(loggingStream, "FileDrop: event accepted.");
+                    }
                     else
-                    { // Reject the drag event
+                    {
+                        // Reject the drag event
                         evt.rejectDrag();
-                        log(out, "FileDrop: event rejected.");
-                    } // end else: drag not ok
-                } // end dragEnter
+                        log(loggingStream, "FileDrop: event rejected.");
+                    }
+                }
 
                 @Override
                 public void dragOver(DropTargetDragEvent evt)
-                { // This
-                    // is
-                    // called
-                    // continually
-                    // as
-                    // long
-                    // as
-                    // the
-                    // mouse
-                    // is
-                    // over
-                    // the
-                    // drag
-                    // target.
-                } // end dragOver
+                { // This is called continually as long as the mouse is over the drag target.
+                }
 
                 @Override
                 public void drop(DropTargetDropEvent evt)
                 {
-                    log(out, "FileDrop: drop event.");
+                    log(loggingStream, "FileDrop: drop event.");
                     try
                     { // Get whatever was dropped
                         final Transferable tr = evt.getTransferable();
@@ -302,11 +289,9 @@ public class FileDrop
                         // Is it a file list?
                         if (tr.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
                         {
-                            // Say we'll take it.
-                            // evt.acceptDrop (
-                            // DnDConstants.ACTION_COPY_OR_MOVE );
+                            // Say we'll take it. evt.acceptDrop (DnDConstants.ACTION_COPY_OR_MOVE);
                             evt.acceptDrop(DnDConstants.ACTION_COPY);
-                            log(out, "FileDrop: file list accepted.");
+                            log(loggingStream, "FileDrop: file list accepted.");
 
                             // Get a useful list
                             final java.util.List fileList = (java.util.List) tr.getTransferData(DataFlavor.javaFileListFlavor);
@@ -318,143 +303,135 @@ public class FileDrop
 
                             // Alert listener to drop.
                             if (listener != null)
-                            {
                                 listener.filesDropped(filesTemp);
-                            }
 
                             // Mark that drop is completed.
                             evt.getDropTargetContext().dropComplete(true);
-                            log(out, "FileDrop: drop complete.");
-                        } // end if: file list
-                        else // this section will check for a reader flavor.
+                            log(loggingStream, "FileDrop: drop complete.");
+                        }
+                        else
                         {
-                            // Thanks, Nathan!
-                            // BEGIN 2007-09-12 Nathan Blomquist -- Linux
-                            // (KDE/Gnome) support added.
                             final DataFlavor[] flavors = tr.getTransferDataFlavors();
                             boolean handled = false;
+
                             for (DataFlavor flavor : flavors)
                             {
                                 if (flavor.isRepresentationClassReader())
                                 {
-                                    // Say we'll take it.
-                                    // evt.acceptDrop (
-                                    // DnDConstants.ACTION_COPY_OR_MOVE
-                                    // );
+                                    // Say we'll take it. evt.acceptDrop (DnDConstants.ACTION_COPY_OR_MOVE);
                                     evt.acceptDrop(DnDConstants.ACTION_COPY);
-                                    log(out, "FileDrop: reader accepted.");
+                                    log(loggingStream, "FileDrop: reader accepted.");
 
                                     final Reader reader = flavor.getReaderForText(tr);
 
                                     final BufferedReader br = new BufferedReader(reader);
 
                                     if (listener != null)
-                                    {
-                                        listener.filesDropped(createFileArray(br, out));
-                                    }
+                                        listener.filesDropped(createFileArray(br, loggingStream));
 
                                     // Mark that drop is completed.
                                     evt.getDropTargetContext().dropComplete(true);
-                                    log(out, "FileDrop: drop complete.");
+                                    log(loggingStream, "FileDrop: drop complete.");
                                     handled = true;
                                     break;
                                 }
                             }
+
                             if (!handled)
                             {
-                                log(out, "FileDrop: not a file list or reader - abort.");
+                                log(loggingStream, "FileDrop: not a file list or reader - abort.");
                                 evt.rejectDrop();
                             }
-                            // END 2007-09-12 Nathan Blomquist -- Linux
-                            // (KDE/Gnome) support added.
-                        } // end else: not a file list
-                    } // end try
+                        }
+                    }
                     catch (IOException io)
                     {
-                        log(out, "FileDrop: IOException - abort:");
+                        log(loggingStream, "FileDrop: IOException - abort:");
                         BytecodeViewer.handleException(io);
                         evt.rejectDrop();
-                    } // end catch IOException
+                    }
                     catch (UnsupportedFlavorException ufe)
                     {
-                        log(out, "FileDrop: UnsupportedFlavorException - abort:");
+                        log(loggingStream, "FileDrop: UnsupportedFlavorException - abort:");
                         BytecodeViewer.handleException(ufe);
                         evt.rejectDrop();
-                    } // end catch: UnsupportedFlavorException
+                    }
                     finally
                     {
                         // If it's a Swing component, reset its border
-                        if (c instanceof JComponent)
+                        if (dropTarget instanceof JComponent)
                         {
-                            final JComponent jc = (JComponent) c;
+                            final JComponent jc = (JComponent) dropTarget;
                             jc.setBorder(normalBorder);
-                            log(out, "FileDrop: normal border restored.");
-                        } // end if: JComponent
-                    } // end finally
-                } // end drop
+                            log(loggingStream, "FileDrop: normal border restored.");
+                        }
+                    }
+                }
 
                 @Override
                 public void dragExit(DropTargetEvent evt)
                 {
-                    log(out, "FileDrop: dragExit event.");
+                    log(loggingStream, "FileDrop: dragExit event.");
+
                     // If it's a Swing component, reset its border
-                    if (c instanceof JComponent)
+                    if (dropTarget instanceof JComponent)
                     {
-                        final JComponent jc = (JComponent) c;
+                        final JComponent jc = (JComponent) dropTarget;
                         jc.setBorder(normalBorder);
-                        log(out, "FileDrop: normal border restored.");
-                    } // end if: JComponent
-                } // end dragExit
+                        log(loggingStream, "FileDrop: normal border restored.");
+                    }
+                }
 
                 @Override
                 public void dropActionChanged(final DropTargetDragEvent evt)
                 {
-                    log(out, "FileDrop: dropActionChanged event.");
+                    log(loggingStream, "FileDrop: dropActionChanged event.");
+
                     // Is this an acceptable drag event?
-                    if (isDragOk(out, evt))
-                    { // evt.acceptDrag(
-                        // DnDConstants.ACTION_COPY_OR_MOVE
-                        // );
+                    if (isDragOk(loggingStream, evt))
+                    {
+                        //evt.acceptDrag(DnDConstants.ACTION_COPY_OR_MOVE);
                         evt.acceptDrag(DnDConstants.ACTION_COPY);
-                        log(out, "FileDrop: event accepted.");
-                    } // end if: drag ok
+                        log(loggingStream, "FileDrop: event accepted.");
+                    }
                     else
                     {
                         evt.rejectDrag();
-                        log(out, "FileDrop: event rejected.");
-                    } // end else: drag not ok
-                } // end dropActionChanged
-            }; // end DropTargetListener
+                        log(loggingStream, "FileDrop: event rejected.");
+                    }
+                }
+            };
 
             // Make the component (and possibly children) drop targets
-            makeDropTarget(out, c, recursive);
-        } // end if: supports dnd
+            makeDropTarget(loggingStream, dropTarget, recursive);
+        }
         else
         {
-            log(out, "FileDrop: Drag and drop is not supported with this JVM");
-        } // end else: does not support DnD
-    } // end constructor
+            log(loggingStream, "FileDrop: Drag and drop is not supported with this JVM");
+        }
+    }
 
     private static boolean supportsDnD()
-    { // Static Boolean
+    {
         if (supportsDnD == null)
         {
             boolean support;
+
             try
             {
                 final Class arbitraryDndClass = Class.forName("java.awt.dnd.DnDConstants");
                 support = true;
-            } // end try
+            }
             catch (Throwable t)
             {
                 support = false;
-            } // end catch
-            supportsDnD = support;
-        } // end if: first time through
-        return supportsDnD;
-    } // end supportsDnD
+            }
 
-    // BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
+            supportsDnD = support;
+        }
+        return supportsDnD;
+    }
+
     private static final String ZERO_CHAR_STRING = "" + (char) 0;
 
     private static File[] createFileArray(BufferedReader bReader, PrintStream out)
@@ -469,9 +446,7 @@ public class FileDrop
                 {
                     // kde seems to append a 0 char to the end of the reader
                     if (ZERO_CHAR_STRING.equals(line))
-                    {
                         continue;
-                    }
 
                     final File file = new File(new java.net.URI(line));
                     list.add(file);
@@ -491,44 +466,40 @@ public class FileDrop
         return new File[0];
     }
 
-    // END 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
-
     private void makeDropTarget(PrintStream out, Component c, boolean recursive)
     {
-        // Make drop target
         final DropTarget dt = new DropTarget();
+
         try
         {
             dt.addDropTargetListener(dropListener);
-        } // end try
+        }
         catch (java.util.TooManyListenersException e)
         {
             BytecodeViewer.handleException(e);
             log(out, "FileDrop: Drop will not work due to previous error. Do you have another listener attached?");
-        } // end catch
+        }
 
-        // Listen for hierarchy changes and remove the drop target when the
-        // parent gets cleared out.
-        // end hierarchyChanged
+        // Listen for hierarchy changes and remove the drop target when the parent gets cleared out.
         c.addHierarchyListener(evt ->
         {
             log(out, "FileDrop: Hierarchy changed.");
             final Component parent = c.getParent();
+
             if (parent == null)
             {
                 c.setDropTarget(null);
                 log(out, "FileDrop: Drop target cleared from component.");
-            } // end if: null parent
+            }
             else
             {
                 new DropTarget(c, dropListener);
                 log(out, "FileDrop: Drop target added to component.");
-            } // end else: parent not null
-        }); // end hierarchy listener
+            }
+        });
+
         if (c.getParent() != null)
-        {
             new DropTarget(c, dropListener);
-        }
 
         if (recursive && (c instanceof Container))
         {
@@ -543,8 +514,8 @@ public class FileDrop
             {
                 makeDropTarget(out, comp, true);
             }
-        } // end if: recursively set components as listener
-    } // end dropListener
+        }
+    }
 
     /**
      * Determine if the dragged data is a file list.
@@ -560,48 +531,38 @@ public class FileDrop
         int i = 0;
         while (!ok && i < flavors.length)
         {
-            // BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support
-            // added.
             // Is the flavor a file list?
             final DataFlavor curFlavor = flavors[i];
+
             if (curFlavor.equals(DataFlavor.javaFileListFlavor) || curFlavor.isRepresentationClassReader())
-            {
                 ok = true;
-            }
-            // END 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support
-            // added.
             i++;
-        } // end while: through flavors
+        }
 
         // If logging is enabled, show data flavors
         if (out != null)
         {
             if (flavors.length == 0)
-            {
                 log(out, "FileDrop: no data flavors.");
-            }
+
             for (i = 0; i < flavors.length; i++)
             {
                 log(out, flavors[i].toString());
             }
-        } // end if: logging enabled
+        }
 
         return ok;
-    } // end isDragOk
+    }
 
     /**
      * Outputs <tt>message</tt> to <tt>out</tt> if it's not null.
      */
     private static void log(PrintStream out, String message)
-    { // Log
-        // message
-        // if
-        // requested
+    {
+        // Log message if requested
         if (out != null)
-        {
             out.println(message);
-        }
-    } // end log
+    }
 
     /**
      * Removes the drag-and-drop hooks from the component and optionally from
@@ -616,7 +577,7 @@ public class FileDrop
     public static boolean remove(Component c)
     {
         return remove(null, c, true);
-    } // end remove
+    }
 
     /**
      * Removes the drag-and-drop hooks from the component and optionally from
@@ -630,29 +591,30 @@ public class FileDrop
      * @since 1.0
      */
     public static boolean remove(PrintStream out, Component c, boolean recursive)
-    { // Make sure
-        // we
-        // support
-        //
+    {
+        // Make sure we support
         if (supportsDnD())
         {
             log(out, "FileDrop: Removing drag-and-drop hooks.");
             c.setDropTarget(null);
+
             if (recursive && (c instanceof Container))
             {
                 final Component[] comps = ((Container) c).getComponents();
+
                 for (Component comp : comps)
                 {
                     remove(out, comp, true);
                 }
+
                 return true;
-            } // end if: recursive
+            }
             else
                 return false;
-        } // end if: supports DnD
+        }
         else
             return false;
-    } // end remove
+    }
 
     /* ******** I N N E R I N T E R F A C E L I S T E N E R ******** */
 
@@ -664,7 +626,7 @@ public class FileDrop
      *      public void filesDropped( File[] files )
      *      {
      *          ...
-     *      }   // end filesDropped
+     *      }
      *      ...
      * </pre></code>
      *
@@ -681,7 +643,7 @@ public class FileDrop
          */
         void filesDropped(File[] files);
 
-    } // end inner-interface Listener
+    }
 
     /* ******** I N N E R C L A S S ******** */
 
@@ -717,7 +679,7 @@ public class FileDrop
         {
             super(source);
             this.files = files;
-        } // end constructor
+        }
 
         /**
          * Returns an array of files that were dropped on a registered drop
@@ -729,9 +691,9 @@ public class FileDrop
         public File[] getFiles()
         {
             return files;
-        } // end getFiles
+        }
 
-    } // end inner class Event
+    }
 
     /* ******** I N N E R C L A S S ******** */
 
@@ -762,7 +724,7 @@ public class FileDrop
      *
      *      TransferableObject.Fetcher fetcher = new TransferableObject.Fetcher()
      *      {   public Object getObject(){ return myObj; }
-     *      }; // end fetcher
+     *      };
      *
      *      Transferable xfer = new TransferableObject( fetcher );
      *      ...
@@ -823,7 +785,7 @@ public class FileDrop
         {
             this.data = data;
             this.customFlavor = new DataFlavor(data.getClass(), MIME_TYPE);
-        } // end constructor
+        }
 
         /**
          * Creates a new {@link TransferableObject} that will return the object
@@ -837,7 +799,7 @@ public class FileDrop
         public TransferableObject(Fetcher fetcher)
         {
             this.fetcher = fetcher;
-        } // end constructor
+        }
 
         /**
          * Creates a new {@link TransferableObject} that will return the object
@@ -857,7 +819,7 @@ public class FileDrop
         {
             this.fetcher = fetcher;
             this.customFlavor = new DataFlavor(dataClass, MIME_TYPE);
-        } // end constructor
+        }
 
         /**
          * Returns the custom {@link DataFlavor}
@@ -871,7 +833,7 @@ public class FileDrop
         public DataFlavor getCustomDataFlavor()
         {
             return customFlavor;
-        } // end getCustomDataFlavor
+        }
 
         /* ******** T R A N S F E R A B L E M E T H O D S ******** */
 
@@ -889,14 +851,10 @@ public class FileDrop
         public DataFlavor[] getTransferDataFlavors()
         {
             if (customFlavor != null)
-                return new DataFlavor[]{customFlavor, DATA_FLAVOR, DataFlavor.stringFlavor}; // end
-                // flavors
-                // array
+                return new DataFlavor[]{customFlavor, DATA_FLAVOR, DataFlavor.stringFlavor}; // end flavors array
             else
-                return new DataFlavor[]{DATA_FLAVOR, DataFlavor.stringFlavor}; // end
-            // flavors
-            // array
-        } // end getTransferDataFlavors
+                return new DataFlavor[]{DATA_FLAVOR, DataFlavor.stringFlavor}; // end flavors array
+        }
 
         /**
          * Returns the data encapsulated in this {@link TransferableObject}. If
@@ -922,7 +880,7 @@ public class FileDrop
 
             // We can't do anything else
             throw new UnsupportedFlavorException(flavor);
-        } // end getTransferData
+        }
 
         /**
          * Returns <tt>true</tt> if <var>flavor</var> is one of the supported
@@ -944,7 +902,7 @@ public class FileDrop
             return flavor.equals(DataFlavor.stringFlavor);
 
             // We can't do anything else
-        } // end isDataFlavorSupported
+        }
 
         /* ******** I N N E R I N T E R F A C E F E T C H E R ******** */
 
@@ -972,8 +930,6 @@ public class FileDrop
              * @since 1.1
              */
             Object getObject();
-        } // end inner interface Fetcher
-
-    } // end class TransferableObject
-
-} // end class FileDrop
+        }
+    }
+}
