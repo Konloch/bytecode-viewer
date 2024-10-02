@@ -39,6 +39,11 @@ public class TempFile
         return uniqueName;
     }
 
+    public void newTemporaryParent()
+    {
+        setParent(createTempDirectory());
+    }
+
     public void setParent(File parent)
     {
         this.parent = parent;
@@ -98,7 +103,6 @@ public class TempFile
         File file;
 
         String uniqueName = newUniqueName ? MiscUtils.getUniqueName("", extension) : this.uniqueName + extension;
-        //String uniqueName = this.uniqueName + extension;
 
         //generate a new name until the directory no longer exists
         while((file = new File(parent, uniqueName)).exists())
