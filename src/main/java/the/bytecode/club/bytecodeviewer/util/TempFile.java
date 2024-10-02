@@ -13,7 +13,7 @@ public class TempFile
 {
     private File parent;
     private final File file;
-    private final String uniqueName;
+    private String uniqueName;
     private final HashSet<String> createdFilePaths = new HashSet<>();
 
     public TempFile(File file, String uniqueName)
@@ -42,6 +42,11 @@ public class TempFile
     public void setParent(File parent)
     {
         this.parent = parent;
+    }
+
+    public void setUniqueName(String uniqueName)
+    {
+        this.uniqueName = uniqueName;
     }
 
     public void markAsCreatedFile(File file)
