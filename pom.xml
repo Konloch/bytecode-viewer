@@ -52,6 +52,8 @@
         <webp-imageio.version>a8f700b</webp-imageio.version>
         <xpp3.version>1.1.4c</xpp3.version>
         <taskmanager.version>1.0.1</taskmanager.version>
+        <spotless.version>2.45.0</spotless.version>
+        <google-java-format.version>1.1</google-java-format.version>
     </properties>
 
     <repositories>
@@ -386,7 +388,12 @@
         <dependency>
             <groupId>com.konloch</groupId>
             <artifactId>TaskManager</artifactId>
-          <version>${taskmanager.version}</version>
+            <version>${taskmanager.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.googlejavaformat</groupId>
+            <artifactId>google-java-format</artifactId>
+            <version>${google-java-format.version}</version>
         </dependency>
 
         <!-- TODO Re-add for Graal.JS support -->
