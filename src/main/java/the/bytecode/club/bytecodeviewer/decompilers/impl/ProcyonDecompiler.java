@@ -82,12 +82,13 @@ public class ProcyonDecompiler extends AbstractDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
+        TempFile tempFile = null;
         String exception;
 
         try
         {
-            final TempFile tempFile = TempFile.createTemporaryFile(false, ".class");
-            final File tempClassFile = tempFile.getFile();
+            tempFile = TempFile.createTemporaryFile(false, ".class");
+            File tempClassFile = tempFile.getFile();
 
             //write the ClassNode bytes to the temp file
             try (FileOutputStream fos = new FileOutputStream(tempClassFile))
@@ -127,6 +128,10 @@ public class ProcyonDecompiler extends AbstractDecompiler
 
             exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
+
+        //delete all temporary files
+        if(tempFile != null)
+            tempFile.delete();
 
         return PROCYON + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
             + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
