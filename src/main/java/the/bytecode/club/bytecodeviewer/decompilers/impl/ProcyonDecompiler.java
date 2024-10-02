@@ -31,8 +31,7 @@ import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-import the.bytecode.club.bytecodeviewer.util.TempFiles;
+import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.*;
 import java.util.*;
@@ -86,17 +85,16 @@ public class ProcyonDecompiler extends AbstractDecompiler
         String exception;
         try
         {
-            final File tempClass = TempFiles.createTemporaryFile(false, ".class");
+            final TempFile tempFile = TempFile.createTemporaryFile(false, ".class");
+            final File tempClass = tempFile.createFileFromExtension(".class");
 
+            //write the ClassNode bytes to the temp file
             try (FileOutputStream fos = new FileOutputStream(tempClass))
             {
                 fos.write(bytes);
             }
-            catch (IOException e)
-            {
-                BytecodeViewer.handleException(e);
-            }
 
+            //setup proycon decompiler settings
             DecompilerSettings settings = getDecompilerSettings();
 
             LuytenTypeLoader typeLoader = new LuytenTypeLoader();
@@ -126,7 +124,8 @@ public class ProcyonDecompiler extends AbstractDecompiler
             exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
 
-        return PROCYON + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
+        return PROCYON + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+            + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     @Override
