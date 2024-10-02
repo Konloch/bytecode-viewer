@@ -27,6 +27,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsolePrintStream;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+import the.bytecode.club.bytecodeviewer.util.ExceptionUtils;
 import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.File;
@@ -118,11 +119,7 @@ public class JavapDisassembler extends AbstractDecompiler
         }
         catch (Throwable e)
         {
-            StringWriter exceptionWriter = new StringWriter();
-            e.printStackTrace(new PrintWriter(exceptionWriter));
-            e.printStackTrace();
-
-            exception += NL + NL + exceptionWriter;
+            exception = NL + NL + ExceptionUtils.exceptionToString(e);
         }
         finally
         {
