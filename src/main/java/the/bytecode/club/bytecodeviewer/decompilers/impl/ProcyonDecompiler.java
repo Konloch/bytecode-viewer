@@ -83,10 +83,11 @@ public class ProcyonDecompiler extends AbstractDecompiler
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         String exception;
+
         try
         {
             final TempFile tempFile = TempFile.createTemporaryFile(false, ".class");
-            final File tempClassFile = tempFile.createFileFromExtension(".class");
+            final File tempClassFile = tempFile.getFile();
 
             //write the ClassNode bytes to the temp file
             try (FileOutputStream fos = new FileOutputStream(tempClassFile))
@@ -118,7 +119,7 @@ public class ProcyonDecompiler extends AbstractDecompiler
 
             return EncodeUtils.unicodeToString(stringwriter.toString());
         }
-        catch (StackOverflowError | Exception e)
+        catch (Throwable e)
         {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
