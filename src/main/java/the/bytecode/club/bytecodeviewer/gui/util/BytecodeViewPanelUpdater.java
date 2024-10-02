@@ -141,7 +141,7 @@ public class BytecodeViewPanelUpdater implements Runnable
         }
         catch (IndexOutOfBoundsException | NullPointerException e)
         {
-            //ignore
+            e.printStackTrace();
         }
         catch (Exception e)
         {
@@ -447,16 +447,21 @@ public class BytecodeViewPanelUpdater implements Runnable
             @Override
             public void mouseMoved(MouseEvent e)
             {
-                if (classFileContainer.hasBeenParsed)
+                if (classFileContainer != null && classFileContainer.hasBeenParsed)
                 {
                     if (e.isControlDown())
                     {
                         RSyntaxTextArea textArea = (RSyntaxTextArea) e.getSource();
                         Token token = textArea.viewToToken(e.getPoint());
+
                         if (token != null)
                         {
                             String lexeme = token.getLexeme();
-                            if (classFileContainer.fieldMembers.containsKey(lexeme) || classFileContainer.methodMembers.containsKey(lexeme) || classFileContainer.methodLocalMembers.containsKey(lexeme) || classFileContainer.methodParameterMembers.containsKey(lexeme) || classFileContainer.classReferences.containsKey(lexeme))
+                            if (classFileContainer.fieldMembers.containsKey(lexeme)
+                                || classFileContainer.methodMembers.containsKey(lexeme)
+                                || classFileContainer.methodLocalMembers.containsKey(lexeme)
+                                || classFileContainer.methodParameterMembers.containsKey(lexeme)
+                                || classFileContainer.classReferences.containsKey(lexeme))
                             {
                                 textArea.setCursor(new Cursor(Cursor.HAND_CURSOR));
                             }
@@ -465,9 +470,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                     else
                     {
                         if (bytecodeViewPanel.textArea.getCursor().getType() != Cursor.TEXT_CURSOR)
-                        {
                             bytecodeViewPanel.textArea.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-                        }
                     }
                 }
             }
@@ -478,7 +481,8 @@ public class BytecodeViewPanelUpdater implements Runnable
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                if (classFileContainer.hasBeenParsed)
+                if (classFileContainer != null
+                    && classFileContainer.hasBeenParsed)
                 {
                     if (e.isControlDown())
                     {
