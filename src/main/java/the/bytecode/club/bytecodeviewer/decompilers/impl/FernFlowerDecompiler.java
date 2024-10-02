@@ -134,7 +134,7 @@ public class FernFlowerDecompiler extends AbstractDecompiler
         }
         catch (Throwable e)
         {
-            exception = NL + NL + ExceptionUtils.exceptionToString(e);
+            exception = ExceptionUtils.exceptionToString(e);
         }
         finally
         {
