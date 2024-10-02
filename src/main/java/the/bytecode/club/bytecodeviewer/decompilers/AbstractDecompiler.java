@@ -45,6 +45,9 @@ public abstract class AbstractDecompiler
         return decompilerName;
     }
 
+    /**
+     * Used for the compressed exports (Zip / Jar)
+     */
     public String getDecompilerNameProgrammatic()
     {
         return decompilerNameProgrammatic;
