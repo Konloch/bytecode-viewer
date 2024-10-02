@@ -462,7 +462,7 @@ public class CommandLineInput
                     {
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
-                        String contents = Decompiler.ASMIFIER_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
+                        String contents = Decompiler.ASMIFIER_DISASSEMBLER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
                         DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
                     }
                     catch (Exception e)

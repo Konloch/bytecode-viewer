@@ -45,22 +45,25 @@ public class DecompilerSelectionPane
     private final JMenu menu;
     private final ButtonGroup group = new ButtonGroup();
     private final JRadioButtonMenuItem none = new TranslatedJRadioButtonMenuItem("None", TranslatedComponents.NONE);
-    private final JRadioButtonMenuItem hexcode = new TranslatedJRadioButtonMenuItem("Hexcode", TranslatedComponents.HEXCODE);
-    private final DecompilerViewComponent procyon = new DecompilerViewComponent("Procyon", JAVA, Decompiler.PROCYON_DECOMPILER);
-    private final DecompilerViewComponent CFR = new DecompilerViewComponent("CFR", JAVA, Decompiler.CFR_DECOMPILER);
-    private final DecompilerViewComponent JADX = new DecompilerViewComponent("JADX", JAVA, Decompiler.JADX_DECOMPILER);
-    private final DecompilerViewComponent JD = new DecompilerViewComponent("JD-GUI", JAVA, Decompiler.JD_DECOMPILER);
-    private final DecompilerViewComponent fern = new DecompilerViewComponent("FernFlower", JAVA, Decompiler.FERNFLOWER_DECOMPILER);
-    private final DecompilerViewComponent krakatau = new DecompilerViewComponent("Krakatau", JAVA_AND_BYTECODE, Decompiler.KRAKATAU_DECOMPILER, Decompiler.KRAKATAU_DISASSEMBLER);
-    private final DecompilerViewComponent smali = new DecompilerViewComponent("Smali", BYTECODE, Decompiler.SMALI_DISASSEMBLER);
-    private final DecompilerViewComponent bytecode = new DecompilerViewComponent("Bytecode", BYTECODE_NON_EDITABLE, Decompiler.BYTECODE_DISASSEMBLER);
-    private final DecompilerViewComponent asmTextify = new DecompilerViewComponent("ASM Textify", BYTECODE_NON_EDITABLE, Decompiler.ASM_TEXTIFY_DISASSEMBLER);
-    private final DecompilerViewComponent asmifier = new DecompilerViewComponent("ASMifier", JAVA_NON_EDITABLE, Decompiler.ASMIFIER_DECOMPILER);
-    private final DecompilerViewComponent javap = new DecompilerViewComponent("Javap", BYTECODE_NON_EDITABLE, Decompiler.JAVAP_DISASSEMBLER);
+    private final JRadioButtonMenuItem hexcodeViewer = new TranslatedJRadioButtonMenuItem("Hexcode", TranslatedComponents.HEXCODE);
+    //decompilers
+    private final DecompilerViewComponent procyonDecompiler = new DecompilerViewComponent("Procyon", JAVA, Decompiler.PROCYON_DECOMPILER);
+    private final DecompilerViewComponent CFRDecompiler = new DecompilerViewComponent("CFR", JAVA, Decompiler.CFR_DECOMPILER);
+    private final DecompilerViewComponent JADXDecompiler = new DecompilerViewComponent("JADX", JAVA, Decompiler.JADX_DECOMPILER);
+    private final DecompilerViewComponent JDCoreDecompiler = new DecompilerViewComponent("JD-GUI", JAVA, Decompiler.JD_DECOMPILER);
+    private final DecompilerViewComponent fernFlowerDecompiler = new DecompilerViewComponent("FernFlower", JAVA, Decompiler.FERNFLOWER_DECOMPILER);
+    //disassemblers
+    private final DecompilerViewComponent krakatauDecompiler = new DecompilerViewComponent("Krakatau", JAVA_AND_BYTECODE, Decompiler.KRAKATAU_DECOMPILER, Decompiler.KRAKATAU_DISASSEMBLER);
+    private final DecompilerViewComponent smaliDisassembler = new DecompilerViewComponent("Smali", BYTECODE, Decompiler.SMALI_DISASSEMBLER);
+    private final DecompilerViewComponent bytecodeViewer = new DecompilerViewComponent("Bytecode", BYTECODE_NON_EDITABLE, Decompiler.BYTECODE_DISASSEMBLER);
+    private final DecompilerViewComponent asmifier = new DecompilerViewComponent("ASMifier", JAVA_NON_EDITABLE, Decompiler.ASMIFIER_DISASSEMBLER);
+    private final DecompilerViewComponent javapDisassembler = new DecompilerViewComponent("Javap", BYTECODE_NON_EDITABLE, Decompiler.JAVAP_DISASSEMBLER);
+    //code-gen
+    private final DecompilerViewComponent asmDisassembler = new DecompilerViewComponent("ASM Disassembler", BYTECODE_NON_EDITABLE, Decompiler.ASM_DISASSEMBLER);
 
     //TODO when adding new decompilers insert the DecompilerViewComponent object into here
     // also in the group, then finally the build menu
-    public List<DecompilerViewComponent> components = new ArrayList<>(Arrays.asList(procyon, CFR, JADX, JD, fern, krakatau, smali, bytecode, asmTextify, asmifier, javap));
+    public List<DecompilerViewComponent> components = new ArrayList<>(Arrays.asList(procyonDecompiler, CFRDecompiler, JADXDecompiler, JDCoreDecompiler, fernFlowerDecompiler, krakatauDecompiler, smaliDisassembler, bytecodeViewer, asmDisassembler, asmifier, javapDisassembler));
 
     public DecompilerSelectionPane(int paneID)
     {
@@ -83,10 +86,10 @@ public class DecompilerSelectionPane
         switch (paneID)
         {
             case 1:
-                group.setSelected(fern.getJava().getModel(), true);
+                group.setSelected(fernFlowerDecompiler.getJava().getModel(), true);
                 break;
             case 2:
-                group.setSelected(bytecode.getBytecode().getModel(), true);
+                group.setSelected(bytecodeViewer.getBytecode().getModel(), true);
                 break;
             case 3:
                 group.setSelected(none.getModel(), true);
@@ -101,12 +104,12 @@ public class DecompilerSelectionPane
     {
         //build the radiobutton group
         group.add(none);
-        group.add(hexcode);
+        group.add(hexcodeViewer);
         components.forEach(decompilerViewComponent -> decompilerViewComponent.addToGroup(group));
 
         //build the action commands
         none.setActionCommand(Decompiler.NONE.name());
-        hexcode.setActionCommand(Decompiler.HEXCODE_VIEWER.name());
+        hexcodeViewer.setActionCommand(Decompiler.HEXCODE_VIEWER.name());
 
         for (DecompilerViewComponent component : components)
         {
@@ -140,28 +143,28 @@ public class DecompilerSelectionPane
         //build the menu
         menu.add(none);
         menu.add(new JSeparator());
-        menu.add(procyon.getMenu());
-        menu.add(CFR.getMenu());
+        menu.add(procyonDecompiler.getMenu());
+        menu.add(CFRDecompiler.getMenu());
 
         if (!Configuration.jadxGroupedWithSmali)
-            menu.add(JADX.getMenu());
+            menu.add(JADXDecompiler.getMenu());
 
-        menu.add(JD.getMenu());
-        menu.add(fern.getMenu());
-        menu.add(krakatau.getMenu());
+        menu.add(JDCoreDecompiler.getMenu());
+        menu.add(fernFlowerDecompiler.getMenu());
+        menu.add(krakatauDecompiler.getMenu());
         menu.add(new JSeparator());
 
         if (Configuration.jadxGroupedWithSmali)
-            menu.add(JADX.getMenu());
+            menu.add(JADXDecompiler.getMenu());
 
-        menu.add(smali.getMenu());
+        menu.add(smaliDisassembler.getMenu());
         menu.add(new JSeparator());
-        menu.add(bytecode.getMenu());
-        menu.add(javap.getMenu());
-        menu.add(asmTextify.getMenu());
+        menu.add(bytecodeViewer.getMenu());
+        menu.add(javapDisassembler.getMenu());
+        menu.add(asmDisassembler.getMenu());
         menu.add(asmifier.getMenu());
         menu.add(new JSeparator());
-        menu.add(hexcode);
+        menu.add(hexcodeViewer);
     }
 
     public Decompiler getSelectedDecompiler()

@@ -90,7 +90,7 @@
     "SMALI_DEX": "Smali",
     "HEXCODE": "Heksakoodi",
     "BYTECODE": "Bytekoodi",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Bytekoodin purkuohjelma",
     "DEBUG_HELPERS": "Vianmäärityksen apuohjelmat",
     "APPEND_BRACKETS_TO_LABEL": "Liitä hakasulkeet etikettiin",
