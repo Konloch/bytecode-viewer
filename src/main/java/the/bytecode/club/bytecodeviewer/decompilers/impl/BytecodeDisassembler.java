@@ -19,11 +19,19 @@
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.bytecode.ClassNodeDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.bytecode.PrefixedStringBuilder;
+import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+import the.bytecode.club.bytecodeviewer.util.ExceptionUtils;
 
 import java.util.ArrayList;
+
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.DEV_MODE_SIMULATED_ERROR;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
 
 /**
  * @author Konloch
@@ -39,11 +47,29 @@ public class BytecodeDisassembler extends AbstractDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
-        return ClassNodeDecompiler.decompile(new PrefixedStringBuilder(), new ArrayList<>(), cn).toString();
+        String exception;
+
+        try
+        {
+            //handle simulated errors
+            if(Constants.DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS)
+                throw new RuntimeException(DEV_MODE_SIMULATED_ERROR.toString());
+
+            //parse class-file
+            return ClassNodeDecompiler.decompile(new PrefixedStringBuilder(), new ArrayList<>(), cn).toString();
+        }
+        catch (Throwable e)
+        {
+            exception = ExceptionUtils.exceptionToString(e);
+        }
+
+        return getDecompilerName() + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+            + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     @Override
     public void decompileToZip(String sourceJar, String zipName)
     {
+        decompileToZipFallBack(sourceJar, zipName);
     }
 }
