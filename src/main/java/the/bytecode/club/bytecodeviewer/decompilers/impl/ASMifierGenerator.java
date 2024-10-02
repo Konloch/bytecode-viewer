@@ -54,7 +54,10 @@ public class ASMifierGenerator extends AbstractDecompiler
 
         try
         {
+            //create writer
             StringWriter writer = new StringWriter();
+
+            //initialize ASMifier & parse class-file
             cn.accept(new TraceClassVisitor(null, new ASMifier(), new PrintWriter(writer)));
 
             //handle simulated errors
