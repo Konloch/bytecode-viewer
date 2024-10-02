@@ -87,6 +87,7 @@ public class Constants
     public static final String LIBS_DIRECTORY = getBCVDirectory() + FS + "libs" + FS;
     public static String krakatauWorkingDirectory = getBCVDirectory() + FS + "krakatau_" + krakatauVersion;
     public static String enjarifyWorkingDirectory = getBCVDirectory() + FS + "enjarify_" + enjarifyVersion;
+    public static final boolean DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS = DEV_MODE && true; //enable true / false to disable
 
     public static final PrintStream ERR = System.err;
     public static final PrintStream OUT = System.out;
