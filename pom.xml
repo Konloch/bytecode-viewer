@@ -54,7 +54,7 @@
         <java-parser.version>3.26.1</java-parser.version>
         <taskmanager.version>1.0.1</taskmanager.version>
         <spotless.version>2.45.0</spotless.version>
-        <google-java-format.version>1.1</google-java-format.version>
+        <google-java-format.version>1.9</google-java-format.version>
     </properties>
 
     <repositories>
