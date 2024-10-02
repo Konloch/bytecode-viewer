@@ -49,6 +49,11 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.JDG
 public class JDGUIDecompiler extends AbstractDecompiler
 {
 
+    public JDGUIDecompiler()
+    {
+        super("JD-GUI Decompiler", "jdgui");
+    }
+
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {

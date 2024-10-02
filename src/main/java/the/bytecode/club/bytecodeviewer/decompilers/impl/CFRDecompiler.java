@@ -58,6 +58,11 @@ public class CFRDecompiler extends AbstractDecompiler
 
     private static final String CLASS_SUFFIX = ".class";
 
+    public CFRDecompiler()
+    {
+        super("CFR Decompiler", "cfr");
+    }
+
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {

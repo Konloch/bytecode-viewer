@@ -33,6 +33,11 @@ import java.io.StringWriter;
  */
 public class ASMifierGenerator extends AbstractDecompiler
 {
+    public ASMifierGenerator()
+    {
+        super("ASMifier Generator", "asmifier");
+    }
+
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {

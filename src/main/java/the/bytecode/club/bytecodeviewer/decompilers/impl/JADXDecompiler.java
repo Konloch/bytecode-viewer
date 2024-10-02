@@ -41,6 +41,11 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.JAD
  */
 public class JADXDecompiler extends AbstractDecompiler
 {
+    public JADXDecompiler()
+    {
+        super("JADX Decompiler", "jadx");
+    }
+
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {

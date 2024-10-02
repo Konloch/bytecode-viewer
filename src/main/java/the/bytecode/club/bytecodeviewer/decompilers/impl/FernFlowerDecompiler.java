@@ -41,6 +41,11 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.FER
  */
 public class FernFlowerDecompiler extends AbstractDecompiler
 {
+    public FernFlowerDecompiler()
+    {
+        super("FernFlower Decompiler", "fernflower");
+    }
+
     @Override
     public void decompileToZip(String sourceJar, String zipName)
     {

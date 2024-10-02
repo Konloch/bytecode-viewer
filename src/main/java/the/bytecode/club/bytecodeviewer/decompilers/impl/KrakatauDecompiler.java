@@ -46,6 +46,11 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 public class KrakatauDecompiler extends AbstractDecompiler
 {
+    public KrakatauDecompiler()
+    {
+        super("Krakatau Decompiler", "krakatau");
+    }
+
     public String buildCLIArguments()
     {
         if (Configuration.library.isEmpty())

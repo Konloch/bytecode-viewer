@@ -43,6 +43,11 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 public class SmaliDisassembler extends AbstractDecompiler
 {
+    public SmaliDisassembler()
+    {
+        super("Smali Disassembler", "smali");
+    }
+
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {

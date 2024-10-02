@@ -33,6 +33,11 @@ import java.io.StringWriter;
  */
 public class ASMTextifierDisassembler extends AbstractDecompiler
 {
+    public ASMTextifierDisassembler()
+    {
+        super("ASM Disassembler", "asm");
+    }
+
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {

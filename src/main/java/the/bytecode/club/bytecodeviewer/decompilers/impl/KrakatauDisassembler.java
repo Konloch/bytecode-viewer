@@ -44,6 +44,11 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 
 public class KrakatauDisassembler extends AbstractDecompiler
 {
+    public KrakatauDisassembler()
+    {
+        super("Krakatau Disassembler", "krakataud");
+    }
+
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {

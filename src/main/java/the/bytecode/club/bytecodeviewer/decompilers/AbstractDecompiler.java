@@ -27,7 +27,26 @@ import org.objectweb.asm.tree.ClassNode;
  */
 public abstract class AbstractDecompiler
 {
+    private final String decompilerName;
+    private final String decompilerNameProgrammatic;
+
+    protected AbstractDecompiler(String decompilerName, String decompilerNameProgrammatic)
+    {
+        this.decompilerName = decompilerName;
+        this.decompilerNameProgrammatic = decompilerNameProgrammatic;
+    }
+
     public abstract String decompileClassNode(ClassNode cn, byte[] bytes);
 
     public abstract void decompileToZip(String sourceJar, String zipName);
+
+    public String getDecompilerName()
+    {
+        return decompilerName;
+    }
+
+    public String getDecompilerNameProgrammatic()
+    {
+        return decompilerNameProgrammatic;
+    }
 }

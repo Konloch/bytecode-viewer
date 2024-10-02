@@ -48,6 +48,11 @@ import static the.bytecode.club.bytecodeviewer.api.ExceptionUI.SEND_STACKTRACE_T
 
 public class JavapDisassembler extends AbstractDecompiler
 {
+    public JavapDisassembler()
+    {
+        super("Javap Disassembler", "javap");
+    }
+
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {

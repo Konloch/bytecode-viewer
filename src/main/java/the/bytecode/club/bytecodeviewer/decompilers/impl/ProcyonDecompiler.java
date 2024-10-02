@@ -53,6 +53,11 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.PRO
 public class ProcyonDecompiler extends AbstractDecompiler
 {
 
+    public ProcyonDecompiler()
+    {
+        super("Procyon Decompiler", "proycon");
+    }
+
     public DecompilerSettings getDecompilerSettings()
     {
         DecompilerSettings settings = new DecompilerSettings();

@@ -31,6 +31,11 @@ import java.util.ArrayList;
  */
 public class BytecodeDisassembler extends AbstractDecompiler
 {
+    public BytecodeDisassembler()
+    {
+        super("Bytecode Disassembler", "bcvbd");
+    }
+
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
