@@ -24,7 +24,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.*;
 
@@ -72,124 +72,116 @@ public class FernFlowerDecompiler extends AbstractDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
-        String start = TEMP_DIRECTORY + FS + MiscUtils.getUniqueNameBroken("", ".class");
+        String exception = "This decompiler didn't throw an exception - this is probably a BCV logical bug";
 
-        final File tempClass = new File(start + ".class");
-
-        String exception = "";
-        try (FileOutputStream fos = new FileOutputStream(tempClass))
+        try
         {
-            fos.write(bytes);
+            final TempFile tempFile = TempFile.createTemporaryFile(true, ".class");
+            final File tempClassFile = tempFile.createFileFromExtension(false, false, ".class");
+            tempFile.setParent(new File(TEMP_DIRECTORY));
+            File tempOutputJavaFile = tempFile.createFileFromExtension(false, true, ".java");
+            //File tempOutputJavaFile = new File(TEMP_DIRECTORY, tempClassFile.getName().substring(0, tempClassFile.getName().length()-6) + ".java");
+
+            try (FileOutputStream fos = new FileOutputStream(tempClassFile))
+            {
+                fos.write(bytes);
+            }
+
+            if (LAUNCH_DECOMPILERS_IN_NEW_PROCESS)
+            {
+                /*try
+                {
+                    BytecodeViewer.sm.pauseBlocking();
+                    ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
+                            new String[]{ExternalResources.getSingleton().getJavaCommand(true), "-jar", ExternalResources.getSingleton().findLibrary("fernflower")},
+                            generateMainMethod(tempClass.getAbsolutePath(),
+                                    new File(tempDirectory).getAbsolutePath())
+                    ));
+                    Process p = pb.start();
+                    BytecodeViewer.createdProcesses.add(p);
+                    p.waitFor();
+                } catch (Exception e) {
+                    BytecodeViewer.handleException(e);
+                } finally {
+                    BytecodeViewer.sm.resumeBlocking();
+                }*/
+            }
+            else
+            {
+                org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClassFile.getAbsolutePath(), new File(TEMP_DIRECTORY).getAbsolutePath()));
+            }
+
+            tempClassFile.delete();
+
+            //if rename is enabled the file name will be the actual class name
+            if (BytecodeViewer.viewer.ren.isSelected())
+            {
+                int indexOfLastPackage = cn.name.lastIndexOf('/');
+                String classNameNoPackages = indexOfLastPackage < 0 ? cn.name : cn.name.substring(indexOfLastPackage);
+                tempOutputJavaFile = new File(tempFile.getParent(), classNameNoPackages + ".java");
+                tempFile.markAsCreatedFile(tempOutputJavaFile);
+            }
+
+            //if the output file is found, read it
+            if (tempOutputJavaFile.exists())
+            {
+                String s = DiskReader.loadAsString(tempOutputJavaFile.getAbsolutePath());
+
+                //cleanup temp files
+                tempFile.delete();
+
+                return s;
+            }
+            else
+            {
+                exception = "BCV Error: " + tempOutputJavaFile.getAbsolutePath() + " does not exist.";
+            }
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             StringWriter exceptionWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(exceptionWriter));
             e.printStackTrace();
-            exception = exceptionWriter.toString();
+
+            exception += NL + NL + exceptionWriter;
         }
 
-
-        if (LAUNCH_DECOMPILERS_IN_NEW_PROCESS)
-        {
-            /*try
-            {
-                BytecodeViewer.sm.pauseBlocking();
-                ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
-                        new String[]{ExternalResources.getSingleton().getJavaCommand(true), "-jar", ExternalResources.getSingleton().findLibrary("fernflower")},
-                        generateMainMethod(tempClass.getAbsolutePath(),
-                                new File(tempDirectory).getAbsolutePath())
-                ));
-                Process p = pb.start();
-                BytecodeViewer.createdProcesses.add(p);
-                p.waitFor();
-            } catch (Exception e) {
-                BytecodeViewer.handleException(e);
-            } finally {
-                BytecodeViewer.sm.resumeBlocking();
-            }*/
-        }
-        else
-        {
-            try
-            {
-                org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClass.getAbsolutePath(), new File(TEMP_DIRECTORY).getAbsolutePath()));
-            }
-            catch (Throwable e)
-            {
-                StringWriter exceptionWriter = new StringWriter();
-                e.printStackTrace(new PrintWriter(exceptionWriter));
-                e.printStackTrace();
-                exception = exceptionWriter.toString();
-            }
-        }
-
-        tempClass.delete();
-
-        String javaDir = start;
-        if (BytecodeViewer.viewer.ren.isSelected())
-        {
-            javaDir = TEMP_DIRECTORY + "class_0";
-        }
-
-        final File outputJava = new File(javaDir + ".java");
-        if (outputJava.exists())
-        {
-            String s;
-            try
-            {
-                s = DiskReader.loadAsString(outputJava.getAbsolutePath());
-
-                outputJava.delete();
-
-                return s;
-            }
-            catch (Exception e)
-            {
-                StringWriter exceptionWriter = new StringWriter();
-                e.printStackTrace(new PrintWriter(exceptionWriter));
-                e.printStackTrace();
-
-                exception += NL + NL + exceptionWriter;
-            }
-        }
-
-        return FERNFLOWER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
+        return FERNFLOWER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+            + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     private String[] generateMainMethod(String className, String folder)
     {
-        return new String[]{"-rbr=" + r(BytecodeViewer.viewer.rbr.isSelected()),
-            "-rsy=" + r(BytecodeViewer.viewer.rsy.isSelected()),
-            "-din=" + r(BytecodeViewer.viewer.din.isSelected()),
-            "-dc4=" + r(BytecodeViewer.viewer.dc4.isSelected()),
-            "-das=" + r(BytecodeViewer.viewer.das.isSelected()),
-            "-hes=" + r(BytecodeViewer.viewer.hes.isSelected()),
-            "-hdc=" + r(BytecodeViewer.viewer.hdc.isSelected()),
-            "-dgs=" + r(BytecodeViewer.viewer.dgs.isSelected()),
-            "-ner=" + r(BytecodeViewer.viewer.ner.isSelected()),
-            "-den=" + r(BytecodeViewer.viewer.den.isSelected()),
-            "-rgn=" + r(BytecodeViewer.viewer.rgn.isSelected()),
-            "-bto=" + r(BytecodeViewer.viewer.bto.isSelected()),
-            "-nns=" + r(BytecodeViewer.viewer.nns.isSelected()),
-            "-uto=" + r(BytecodeViewer.viewer.uto.isSelected()),
-            "-udv=" + r(BytecodeViewer.viewer.udv.isSelected()),
-            "-rer=" + r(BytecodeViewer.viewer.rer.isSelected()),
-            "-fdi=" + r(BytecodeViewer.viewer.fdi.isSelected()),
-            "-asc=" + r(BytecodeViewer.viewer.asc.isSelected()),
-            "-ren=" + r(BytecodeViewer.viewer.ren.isSelected()),
-            className, folder};
+        return new String[]
+        {
+            "-rbr=" + ffOnValue(BytecodeViewer.viewer.rbr.isSelected()),
+            "-rsy=" + ffOnValue(BytecodeViewer.viewer.rsy.isSelected()),
+            "-din=" + ffOnValue(BytecodeViewer.viewer.din.isSelected()),
+            "-dc4=" + ffOnValue(BytecodeViewer.viewer.dc4.isSelected()),
+            "-das=" + ffOnValue(BytecodeViewer.viewer.das.isSelected()),
+            "-hes=" + ffOnValue(BytecodeViewer.viewer.hes.isSelected()),
+            "-hdc=" + ffOnValue(BytecodeViewer.viewer.hdc.isSelected()),
+            "-dgs=" + ffOnValue(BytecodeViewer.viewer.dgs.isSelected()),
+            "-ner=" + ffOnValue(BytecodeViewer.viewer.ner.isSelected()),
+            "-den=" + ffOnValue(BytecodeViewer.viewer.den.isSelected()),
+            "-rgn=" + ffOnValue(BytecodeViewer.viewer.rgn.isSelected()),
+            "-bto=" + ffOnValue(BytecodeViewer.viewer.bto.isSelected()),
+            "-nns=" + ffOnValue(BytecodeViewer.viewer.nns.isSelected()),
+            "-uto=" + ffOnValue(BytecodeViewer.viewer.uto.isSelected()),
+            "-udv=" + ffOnValue(BytecodeViewer.viewer.udv.isSelected()),
+            "-rer=" + ffOnValue(BytecodeViewer.viewer.rer.isSelected()),
+            "-fdi=" + ffOnValue(BytecodeViewer.viewer.fdi.isSelected()),
+            "-asc=" + ffOnValue(BytecodeViewer.viewer.asc.isSelected()),
+            "-ren=" + ffOnValue(BytecodeViewer.viewer.ren.isSelected()),
+            className, folder
+        };
     }
 
-    private String r(boolean b)
+    private String ffOnValue(boolean b)
     {
         if (b)
-        {
             return "1";
-        }
         else
-        {
             return "0";
-        }
     }
 }
