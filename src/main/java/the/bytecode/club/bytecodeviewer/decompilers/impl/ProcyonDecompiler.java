@@ -31,6 +31,7 @@ import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
+import the.bytecode.club.bytecodeviewer.util.ExceptionUtils;
 import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.*;
@@ -99,11 +100,7 @@ public class ProcyonDecompiler extends AbstractDecompiler
         }
         catch (Throwable e)
         {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
-            e.printStackTrace();
-
-            exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
+            exception = NL + NL + ExceptionUtils.exceptionToString(e);
         }
         finally
         {
