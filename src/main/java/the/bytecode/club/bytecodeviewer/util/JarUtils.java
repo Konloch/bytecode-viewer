@@ -356,7 +356,7 @@ public class JarUtils
 
                     String name = cn.name + ".class";
 
-                    if (!fileCollisionPrevention.add(name))
+                    if (fileCollisionPrevention.add(name))
                     {
                         out.putNextEntry(new ZipEntry(name));
                         out.write(cw.toByteArray());
