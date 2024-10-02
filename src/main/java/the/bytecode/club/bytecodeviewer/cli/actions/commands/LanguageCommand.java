@@ -4,6 +4,9 @@ import org.apache.commons.cli.CommandLine;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.cli.CLICommand;
 import the.bytecode.club.bytecodeviewer.translation.Language;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+
+import javax.swing.*;
 
 /**
  * @author Konloch
@@ -102,7 +105,8 @@ public class LanguageCommand extends CLICommand
         {
             System.out.println("Changing language to: " + language);
 
-            Configuration.language = language;
+            Language finalLanguage = language;
+            SwingUtilities.invokeLater(()-> MiscUtils.setLanguage(finalLanguage));
         }
         else
         {
