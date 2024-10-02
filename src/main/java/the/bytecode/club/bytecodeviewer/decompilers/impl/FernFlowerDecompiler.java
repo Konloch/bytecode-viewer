@@ -24,6 +24,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+import the.bytecode.club.bytecodeviewer.util.ExceptionUtils;
 import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.*;
@@ -73,7 +74,7 @@ public class FernFlowerDecompiler extends AbstractDecompiler
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         TempFile tempFile = null;
-        String exception = "This decompiler didn't throw an exception - this is probably a BCV logical bug";
+        String exception;
 
         try
         {
@@ -129,15 +130,11 @@ public class FernFlowerDecompiler extends AbstractDecompiler
             if (tempOutputJavaFile.exists())
                 return DiskReader.loadAsString(tempOutputJavaFile.getAbsolutePath());
             else
-                exception = "BCV Error: " + tempOutputJavaFile.getAbsolutePath() + " does not exist.";
+                exception = FERNFLOWER + " " + ERROR + "! " + tempOutputJavaFile.getAbsolutePath() + " does not exist.";
         }
         catch (Throwable e)
         {
-            StringWriter exceptionWriter = new StringWriter();
-            e.printStackTrace(new PrintWriter(exceptionWriter));
-            e.printStackTrace();
-
-            exception += NL + NL + exceptionWriter;
+            exception = NL + NL + ExceptionUtils.exceptionToString(e);
         }
         finally
         {
