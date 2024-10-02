@@ -72,21 +72,25 @@ public class FernFlowerDecompiler extends AbstractDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
+        TempFile tempFile = null;
         String exception = "This decompiler didn't throw an exception - this is probably a BCV logical bug";
 
         try
         {
-            final TempFile tempFile = TempFile.createTemporaryFile(true, ".class");
-            final File tempClassFile = tempFile.createFileFromExtension(false, false, ".class");
+            tempFile = TempFile.createTemporaryFile(true, ".class");
+            File tempClassFile = tempFile.createFileFromExtension(false, false, ".class");
+
+            //load java source from temp directory
             tempFile.setParent(new File(TEMP_DIRECTORY));
             File tempOutputJavaFile = tempFile.createFileFromExtension(false, true, ".java");
-            //File tempOutputJavaFile = new File(TEMP_DIRECTORY, tempClassFile.getName().substring(0, tempClassFile.getName().length()-6) + ".java");
 
+            //write the class-file with bytes
             try (FileOutputStream fos = new FileOutputStream(tempClassFile))
             {
                 fos.write(bytes);
             }
 
+            //decompile the class-file
             if (LAUNCH_DECOMPILERS_IN_NEW_PROCESS)
             {
                 /*try
@@ -111,8 +115,6 @@ public class FernFlowerDecompiler extends AbstractDecompiler
                 org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClassFile.getAbsolutePath(), new File(TEMP_DIRECTORY).getAbsolutePath()));
             }
 
-            tempClassFile.delete();
-
             //if rename is enabled the file name will be the actual class name
             if (BytecodeViewer.viewer.ren.isSelected())
             {
@@ -125,12 +127,12 @@ public class FernFlowerDecompiler extends AbstractDecompiler
             //if the output file is found, read it
             if (tempOutputJavaFile.exists())
             {
-                String s = DiskReader.loadAsString(tempOutputJavaFile.getAbsolutePath());
+                String javaSource = DiskReader.loadAsString(tempOutputJavaFile.getAbsolutePath());
 
                 //cleanup temp files
                 tempFile.delete();
 
-                return s;
+                return javaSource;
             }
             else
             {
@@ -145,6 +147,10 @@ public class FernFlowerDecompiler extends AbstractDecompiler
 
             exception += NL + NL + exceptionWriter;
         }
+
+        //cleanup temp files
+        if(tempFile != null)
+            tempFile.delete();
 
         return FERNFLOWER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
             + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
