@@ -247,19 +247,22 @@ public class BytecodeViewPanelUpdater implements Runnable
 
             if (BytecodeViewer.viewer.synchronizedViewing.isSelected())
             {
-                if (updateUpdaterTextArea.isShowing() && (updateUpdaterTextArea.hasFocus() || updateUpdaterTextArea.getMousePosition() != null))
+                if (updateUpdaterTextArea.isShowing()
+                    && (updateUpdaterTextArea.hasFocus() || updateUpdaterTextArea.getMousePosition() != null))
                 {
                     int caretLine = updateUpdaterTextArea.getCaretLineNumber();
                     int maxViewLine = ClassViewer.getMaxViewLine(updateUpdaterTextArea);
                     int activeViewLine = ClassViewer.getViewLine(updateUpdaterTextArea);
                     int activeLine = (activeViewLine == maxViewLine && caretLine > maxViewLine) ? caretLine : activeViewLine;
                     int activeLineDelta = -1;
+
                     MethodParser.Method activeMethod = null;
                     MethodParser activeMethods = viewer.methods.get(bytecodeViewPanel.panelIndex);
 
                     if (activeMethods != null)
                     {
                         int activeMethodLine = activeMethods.findActiveMethod(activeLine);
+
                         if (activeMethodLine != -1)
                         {
                             activeLineDelta = activeLine - activeMethodLine;
@@ -299,10 +302,9 @@ public class BytecodeViewPanelUpdater implements Runnable
                                         if (methodLine != -1)
                                         {
                                             int viewLine = ClassViewer.getViewLine(area);
+
                                             if (activeLineDelta != viewLine - methodLine)
-                                            {
                                                 setLine = methodLine + activeLineDelta;
-                                            }
                                         }
                                     }
                                 }
@@ -312,9 +314,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                                 }
 
                                 if (setLine >= 0)
-                                {
                                     ClassViewer.setViewLine(area, setLine);
-                                }
                             }
                         }
                     }
@@ -341,6 +341,7 @@ public class BytecodeViewPanelUpdater implements Runnable
         {
             String lineText = updateUpdaterTextArea.getLineText(i);
             Matcher regexMatcher = MethodParser.REGEX.matcher(lineText);
+
             if (regexMatcher.find())
             {
                 String methodName = regexMatcher.group("name");
@@ -370,9 +371,11 @@ public class BytecodeViewPanelUpdater implements Runnable
                         case 0:
                             area = viewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
                             break;
+
                         case 1:
                             area = viewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
                             break;
+
                         case 2:
                             area = viewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
                             break;
@@ -507,6 +510,7 @@ public class BytecodeViewPanelUpdater implements Runnable
         if (token == null)
         {
             token = textArea.modelToToken(textArea.getCaretPosition() - 1);
+
             if (token == null)
             {
                 highlighterEx.clearMarkOccurrencesHighlights();
@@ -553,7 +557,8 @@ public class BytecodeViewPanelUpdater implements Runnable
         errorStripe.refreshMarkers();
     }
 
-    private void markField(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    private void markField(RSyntaxTextArea textArea, ClassFileContainer classFileContainer,
+                           int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
         classFileContainer.fieldMembers.values().forEach(fields -> fields.forEach(field ->
         {
@@ -562,6 +567,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                 try
                 {
                     Element root = textArea.getDocument().getDefaultRootElement();
+
                     for (ClassFieldLocation location : classFileContainer.getFieldLocationsFor(finalToken.getLexeme()))
                     {
                         int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);
@@ -577,22 +583,27 @@ public class BytecodeViewPanelUpdater implements Runnable
         }));
     }
 
-    private void markMethod(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    private void markMethod(RSyntaxTextArea textArea, ClassFileContainer classFileContainer,
+                            int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
         classFileContainer.methodMembers.values().forEach(methods -> methods.forEach(method ->
         {
             String owner;
             String parameters;
-            if (method.line == line && method.columnStart - 1 <= column && method.columnEnd >= column)
+
+            if (method.line == line && method.columnStart - 1 <= column
+                && method.columnEnd >= column)
             {
                 owner = method.owner;
                 parameters = method.methodParameterTypes;
                 Element root = textArea.getDocument().getDefaultRootElement();
+
                 for (ClassMethodLocation location : classFileContainer.getMethodLocationsFor(finalToken.getLexeme()))
                 {
                     try
                     {
-                        if (Objects.equals(owner, location.owner) && Objects.equals(parameters, location.methodParameterTypes))
+                        if (Objects.equals(owner, location.owner)
+                            && Objects.equals(parameters, location.methodParameterTypes))
                         {
                             int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);
                             int endOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnEnd - 1);
@@ -618,7 +629,8 @@ public class BytecodeViewPanelUpdater implements Runnable
      * @param finalToken         the token
      * @param highlighterEx      the highlighter
      */
-    private void markMethodParameter(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    private void markMethodParameter(RSyntaxTextArea textArea, ClassFileContainer classFileContainer,
+                                     int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
         classFileContainer.methodParameterMembers.values().forEach(parameters -> parameters.forEach(parameter ->
         {
@@ -629,6 +641,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                 try
                 {
                     Element root = textArea.getDocument().getDefaultRootElement();
+
                     for (ClassParameterLocation location : classFileContainer.getParameterLocationsFor(finalToken.getLexeme()))
                     {
                         if (Objects.equals(method, location.method))
@@ -657,17 +670,21 @@ public class BytecodeViewPanelUpdater implements Runnable
      * @param finalToken         the token
      * @param highlighterEx      the highlighter
      */
-    private void markMethodLocalVariable(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    private void markMethodLocalVariable(RSyntaxTextArea textArea, ClassFileContainer classFileContainer,
+                                         int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
         classFileContainer.methodLocalMembers.values().forEach(localVariables -> localVariables.forEach(localVariable ->
         {
             String method;
-            if (localVariable.line == line && localVariable.columnStart - 1 <= column && localVariable.columnEnd >= column)
+            if (localVariable.line == line
+                && localVariable.columnStart - 1 <= column
+                && localVariable.columnEnd >= column)
             {
                 method = localVariable.method;
                 try
                 {
                     Element root = textArea.getDocument().getDefaultRootElement();
+
                     for (ClassLocalVariableLocation location : classFileContainer.getLocalLocationsFor(finalToken.getLexeme()))
                     {
                         if (Objects.equals(method, location.method))
@@ -686,7 +703,8 @@ public class BytecodeViewPanelUpdater implements Runnable
         }));
     }
 
-    private void markClasses(RSyntaxTextArea textArea, ClassFileContainer classFileContainer, int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
+    private void markClasses(RSyntaxTextArea textArea, ClassFileContainer classFileContainer,
+                             int line, int column, Token finalToken, RSyntaxTextAreaHighlighterEx highlighterEx)
     {
         classFileContainer.classReferences.values().forEach(classes -> classes.forEach(clazz ->
         {
@@ -695,6 +713,7 @@ public class BytecodeViewPanelUpdater implements Runnable
                 try
                 {
                     Element root = textArea.getDocument().getDefaultRootElement();
+
                     for (ClassReferenceLocation location : classFileContainer.getClassReferenceLocationsFor(finalToken.getLexeme()))
                     {
                         int startOffset = root.getElement(location.line - 1).getStartOffset() + (location.columnStart - 1);

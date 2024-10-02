@@ -76,7 +76,8 @@ public class SearchableJTextArea extends JTextArea
 
         addKeyListener(new PressKeyListener(keyEvent ->
         {
-            if ((keyEvent.getKeyCode() == KeyEvent.VK_F) && ((keyEvent.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
+            if ((keyEvent.getKeyCode() == KeyEvent.VK_F)
+                && ((keyEvent.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                 searchInput.requestFocus();
 
             GlobalHotKeys.keyPressed(keyEvent);

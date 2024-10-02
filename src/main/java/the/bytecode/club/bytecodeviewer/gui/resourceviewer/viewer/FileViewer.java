@@ -82,17 +82,21 @@ public class FileViewer extends ResourceViewer
             //      (If none selected, try Pane2, Pane3, default to Procyon)
 
             //check by file extension to display image
-            if (!onlyName.contains(":") && ResourceType.IMAGE_EXTENSION_MAP.containsKey(FilenameUtils.getExtension(onlyName)) && !hexViewerOnly)
+            if (!onlyName.contains(":")
+                && ResourceType.IMAGE_EXTENSION_MAP.containsKey(FilenameUtils.getExtension(onlyName))
+                && !hexViewerOnly)
             {
                 canRefresh = true;
 
                 image = MiscUtils.loadImage(image, contents);
+
                 if (image == null)
                 {
                     HexViewer hex = new HexViewer(contents);
                     mainPanel.add(hex);
                     return;
                 }
+
                 originalImage = image;
 
                 mainPanel.add(new ImageJLabel(image), BorderLayout.CENTER);
@@ -103,16 +107,10 @@ public class FileViewer extends ResourceViewer
                     int height = originalImage.getHeight();
                     int oldZoomSteps = zoomSteps;
 
-                    if (notches < 0)
-                    {
-                        //zoom in
+                    if (notches < 0) //zoom in
                         zoomSteps++;
-                    }
-                    else
-                    {
-                        //zoom out
+                    else //zoom out
                         zoomSteps--;
-                    }
 
                     try
                     {
@@ -132,6 +130,7 @@ public class FileViewer extends ResourceViewer
                 });
                 return;
             }
+
             //hex viewer
             else if (BytecodeViewer.viewer.forcePureAsciiAsText.isSelected() || hexViewerOnly)
             {

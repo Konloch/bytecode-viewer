@@ -148,19 +148,12 @@ public class ValuesPanel extends javax.swing.JPanel
         binaryLabel.setText("Binary");
 
         binaryCheckBox0.addActionListener(this::binaryCheckBox0ActionPerformed);
-
         binaryCheckBox1.addActionListener(this::binaryCheckBox1ActionPerformed);
-
         binaryCheckBox2.addActionListener(this::binaryCheckBox2ActionPerformed);
-
         binaryCheckBox3.addActionListener(this::binaryCheckBox3ActionPerformed);
-
         binaryCheckBox4.addActionListener(this::binaryCheckBox4ActionPerformed);
-
         binaryCheckBox5.addActionListener(this::binaryCheckBox5ActionPerformed);
-
         binaryCheckBox6.addActionListener(this::binaryCheckBox6ActionPerformed);
-
         binaryCheckBox7.addActionListener(this::binaryCheckBox7ActionPerformed);
 
         byteLabel.setText("Byte");
@@ -303,7 +296,8 @@ public class ValuesPanel extends javax.swing.JPanel
 
     private void binaryCheckBox0ActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_binaryCheckBox0ActionPerformed
-        if (!valuesUpdater.isUpdateInProgress() && ((valuesCache[0] & 0x80) > 0 != binaryCheckBox0.isSelected()))
+        if (!valuesUpdater.isUpdateInProgress()
+            && ((valuesCache[0] & 0x80) > 0 != binaryCheckBox0.isSelected()))
         {
             valuesCache[0] = (byte) (valuesCache[0] ^ 0x80);
             modifyValues(1);
@@ -312,7 +306,8 @@ public class ValuesPanel extends javax.swing.JPanel
 
     private void binaryCheckBox1ActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_binaryCheckBox1ActionPerformed
-        if (!valuesUpdater.isUpdateInProgress() && ((valuesCache[0] & 0x40) > 0 != binaryCheckBox1.isSelected()))
+        if (!valuesUpdater.isUpdateInProgress()
+            && ((valuesCache[0] & 0x40) > 0 != binaryCheckBox1.isSelected()))
         {
             valuesCache[0] = (byte) (valuesCache[0] ^ 0x40);
             modifyValues(1);
@@ -321,7 +316,8 @@ public class ValuesPanel extends javax.swing.JPanel
 
     private void binaryCheckBox2ActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_binaryCheckBox2ActionPerformed
-        if (!valuesUpdater.isUpdateInProgress() && ((valuesCache[0] & 0x20) > 0 != binaryCheckBox2.isSelected()))
+        if (!valuesUpdater.isUpdateInProgress()
+            && ((valuesCache[0] & 0x20) > 0 != binaryCheckBox2.isSelected()))
         {
             valuesCache[0] = (byte) (valuesCache[0] ^ 0x20);
             modifyValues(1);
@@ -330,7 +326,8 @@ public class ValuesPanel extends javax.swing.JPanel
 
     private void binaryCheckBox3ActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_binaryCheckBox3ActionPerformed
-        if (!valuesUpdater.isUpdateInProgress() && ((valuesCache[0] & 0x10) > 0 != binaryCheckBox3.isSelected()))
+        if (!valuesUpdater.isUpdateInProgress()
+            && ((valuesCache[0] & 0x10) > 0 != binaryCheckBox3.isSelected()))
         {
             valuesCache[0] = (byte) (valuesCache[0] ^ 0x10);
             modifyValues(1);
@@ -339,7 +336,8 @@ public class ValuesPanel extends javax.swing.JPanel
 
     private void binaryCheckBox4ActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_binaryCheckBox4ActionPerformed
-        if (!valuesUpdater.isUpdateInProgress() && ((valuesCache[0] & 0x8) > 0 != binaryCheckBox4.isSelected()))
+        if (!valuesUpdater.isUpdateInProgress()
+            && ((valuesCache[0] & 0x8) > 0 != binaryCheckBox4.isSelected()))
         {
             valuesCache[0] = (byte) (valuesCache[0] ^ 0x8);
             modifyValues(1);
@@ -348,7 +346,8 @@ public class ValuesPanel extends javax.swing.JPanel
 
     private void binaryCheckBox5ActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_binaryCheckBox5ActionPerformed
-        if (!valuesUpdater.isUpdateInProgress() && ((valuesCache[0] & 0x4) > 0 != binaryCheckBox5.isSelected()))
+        if (!valuesUpdater.isUpdateInProgress()
+            && ((valuesCache[0] & 0x4) > 0 != binaryCheckBox5.isSelected()))
         {
             valuesCache[0] = (byte) (valuesCache[0] ^ 0x4);
             modifyValues(1);
@@ -357,7 +356,8 @@ public class ValuesPanel extends javax.swing.JPanel
 
     private void binaryCheckBox6ActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_binaryCheckBox6ActionPerformed
-        if (!valuesUpdater.isUpdateInProgress() && ((valuesCache[0] & 0x2) > 0 != binaryCheckBox6.isSelected()))
+        if (!valuesUpdater.isUpdateInProgress()
+            && ((valuesCache[0] & 0x2) > 0 != binaryCheckBox6.isSelected()))
         {
             valuesCache[0] = (byte) (valuesCache[0] ^ 0x2);
             modifyValues(1);
@@ -366,7 +366,8 @@ public class ValuesPanel extends javax.swing.JPanel
 
     private void binaryCheckBox7ActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_binaryCheckBox7ActionPerformed
-        if (!valuesUpdater.isUpdateInProgress() && ((valuesCache[0] & 0x1) > 0 != binaryCheckBox7.isSelected()))
+        if (!valuesUpdater.isUpdateInProgress()
+            && ((valuesCache[0] & 0x1) > 0 != binaryCheckBox7.isSelected()))
         {
             valuesCache[0] = (byte) (valuesCache[0] ^ 0x1);
             modifyValues(1);
@@ -383,16 +384,12 @@ public class ValuesPanel extends javax.swing.JPanel
                 if (isSigned())
                 {
                     if (intValue < Byte.MIN_VALUE || intValue > Byte.MAX_VALUE)
-                    {
                         throw new NumberFormatException(VALUE_OUT_OF_RANGE);
-                    }
                 }
                 else
                 {
                     if (intValue < 0 || intValue > UBYTE_MAX_VALUE)
-                    {
                         throw new NumberFormatException(VALUE_OUT_OF_RANGE);
-                    }
                 }
 
                 valuesCache[0] = (byte) intValue;
@@ -416,16 +413,12 @@ public class ValuesPanel extends javax.swing.JPanel
                 if (isSigned())
                 {
                     if (intValue < SWORD_MIN_VALUE || intValue > SWORD_MAX_VALUE)
-                    {
                         throw new NumberFormatException(VALUE_OUT_OF_RANGE);
-                    }
                 }
                 else
                 {
                     if (intValue < 0 || intValue > UWORD_MAX_VALUE)
-                    {
                         throw new NumberFormatException(VALUE_OUT_OF_RANGE);
-                    }
                 }
 
                 if (getByteOrder() == ByteOrder.LITTLE_ENDIAN)
@@ -438,6 +431,7 @@ public class ValuesPanel extends javax.swing.JPanel
                     valuesCache[0] = (byte) ((intValue >> 8) & 0xff);
                     valuesCache[1] = (byte) (intValue & 0xff);
                 }
+
                 modifyValues(2);
                 updateValues();
             }
@@ -458,16 +452,12 @@ public class ValuesPanel extends javax.swing.JPanel
                 if (isSigned())
                 {
                     if (longValue < Integer.MIN_VALUE || longValue > Integer.MAX_VALUE)
-                    {
                         throw new NumberFormatException(VALUE_OUT_OF_RANGE);
-                    }
                 }
                 else
                 {
                     if (longValue < 0 || longValue > UINT_MAX_VALUE)
-                    {
                         throw new NumberFormatException(VALUE_OUT_OF_RANGE);
-                    }
                 }
 
                 if (getByteOrder() == ByteOrder.LITTLE_ENDIAN)
@@ -484,6 +474,7 @@ public class ValuesPanel extends javax.swing.JPanel
                     valuesCache[2] = (byte) ((longValue >> 8) & 0xff);
                     valuesCache[3] = (byte) (longValue & 0xff);
                 }
+
                 modifyValues(4);
                 updateValues();
             }
@@ -507,9 +498,7 @@ public class ValuesPanel extends javax.swing.JPanel
 
                     byteBuffer.rewind();
                     if (byteBuffer.order() != byteOrder)
-                    {
                         byteBuffer.order(byteOrder);
-                    }
 
                     byteBuffer.putLong(longValue);
                 }
@@ -517,9 +506,7 @@ public class ValuesPanel extends javax.swing.JPanel
                 {
                     BigInteger bigInteger = new BigInteger(longTextField.getText());
                     if (bigInteger.signum() == -1 || bigInteger.compareTo(ULONG_MAX_VALUE) > 0)
-                    {
                         throw new NumberFormatException(VALUE_OUT_OF_RANGE);
-                    }
 
                     if (byteOrder == ByteOrder.LITTLE_ENDIAN)
                     {
@@ -561,10 +548,9 @@ public class ValuesPanel extends javax.swing.JPanel
                 float floatValue = Float.parseFloat(floatTextField.getText());
 
                 byteBuffer.rewind();
+
                 if (byteBuffer.order() != byteOrder)
-                {
                     byteBuffer.order(byteOrder);
-                }
 
                 byteBuffer.putFloat(floatValue);
 
@@ -588,10 +574,9 @@ public class ValuesPanel extends javax.swing.JPanel
                 double doubleValue = Double.parseDouble(doubleTextField.getText());
 
                 byteBuffer.rewind();
+
                 if (byteBuffer.order() != byteOrder)
-                {
                     byteBuffer.order(byteOrder);
-                }
 
                 byteBuffer.putDouble(doubleValue);
 
@@ -612,15 +597,12 @@ public class ValuesPanel extends javax.swing.JPanel
             try
             {
                 String characterText = characterTextField.getText();
+
                 if (characterText.length() == 0)
-                {
                     throw new InputMismatchException("Empty value not valid");
-                }
 
                 if (characterText.length() > 1)
-                {
                     throw new InputMismatchException("Only single character allowed");
-                }
 
                 byte[] bytes = characterText.getBytes(codeArea.getCharset());
                 System.arraycopy(bytes, 0, valuesCache, 0, bytes.length);
@@ -642,16 +624,15 @@ public class ValuesPanel extends javax.swing.JPanel
             try
             {
                 String characterText = stringTextField.getText();
+
                 if (characterText.length() == 0)
-                {
                     throw new InputMismatchException("Empty value not valid");
-                }
 
                 byte[] bytes = characterText.getBytes(codeArea.getCharset());
+
                 if (bytes.length > CACHE_SIZE)
-                {
                     throw new InputMismatchException("String is too long");
-                }
+
                 System.arraycopy(bytes, 0, valuesCache, 0, bytes.length);
 
                 modifyValues(bytes.length);
@@ -676,9 +657,11 @@ public class ValuesPanel extends javax.swing.JPanel
             updateEditMode();
             updateValues();
         };
+
         codeArea.addDataChangedListener(dataChangedListener);
         caretMovedListener = (CodeAreaCaretPosition caretPosition) -> updateValues();
         codeArea.addCaretMovedListener(caretMovedListener);
+
         updateEditMode();
         updateValues();
     }
@@ -692,6 +675,7 @@ public class ValuesPanel extends javax.swing.JPanel
     public void updateEditMode()
     {
         boolean editable = isEditable();
+
         binaryCheckBox0.setEnabled(editable);
         binaryCheckBox1.setEnabled(editable);
         binaryCheckBox2.setEnabled(editable);
@@ -721,10 +705,9 @@ public class ValuesPanel extends javax.swing.JPanel
             int availableData = dataSize - dataPosition >= CACHE_SIZE ? CACHE_SIZE : (int) (dataSize - dataPosition);
             BinaryData contentData = Objects.requireNonNull(codeArea.getContentData());
             contentData.copyToArray(dataPosition, valuesCache, 0, availableData);
+
             if (availableData < CACHE_SIZE)
-            {
                 Arrays.fill(valuesCache, availableData, CACHE_SIZE, (byte) 0);
-            }
         }
 
         valuesUpdater.schedule();
@@ -791,9 +774,8 @@ public class ValuesPanel extends javax.swing.JPanel
         private synchronized void schedule()
         {
             if (updateInProgress)
-            {
                 updateTerminated = true;
-            }
+
             if (!scheduleUpdate)
             {
                 scheduleUpdate = true;
@@ -816,15 +798,16 @@ public class ValuesPanel extends javax.swing.JPanel
             if (valuesPanelField.ordinal() == 0)
             {
                 long dataSize = codeArea.getDataSize();
+
                 clearFields = dataPosition >= dataSize;
                 byteOrder = littleEndianRadioButton.isSelected() ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN;
                 byteOrder = getByteOrder();
                 signed = isSigned();
                 values = valuesCache;
+
                 if (clearFields)
-                {
                     values[0] = 0;
-                }
+
                 updateStarted();
             }
 
@@ -835,20 +818,15 @@ public class ValuesPanel extends javax.swing.JPanel
             }
 
             if (clearFields)
-            {
                 clearField(valuesPanelField);
-            }
             else
-            {
                 updateField(valuesPanelField);
-            }
 
             final ValuesPanelField[] panelFields = ValuesPanelField.values();
             ValuesPanelField lastValue = panelFields[panelFields.length - 1];
+
             if (valuesPanelField == lastValue)
-            {
                 stopUpdate();
-            }
             else
             {
                 SwingUtilities.invokeLater(() ->
@@ -868,67 +846,77 @@ public class ValuesPanel extends javax.swing.JPanel
                     binaryCheckBox0.setSelected((values[0] & 0x80) > 0);
                     break;
                 }
+
                 case BINARY1:
                 {
                     binaryCheckBox1.setSelected((values[0] & 0x40) > 0);
                     break;
                 }
+
                 case BINARY2:
                 {
                     binaryCheckBox2.setSelected((values[0] & 0x20) > 0);
                     break;
                 }
+
                 case BINARY3:
                 {
                     binaryCheckBox3.setSelected((values[0] & 0x10) > 0);
                     break;
                 }
+
                 case BINARY4:
                 {
                     binaryCheckBox4.setSelected((values[0] & 0x8) > 0);
                     break;
                 }
+
                 case BINARY5:
                 {
                     binaryCheckBox5.setSelected((values[0] & 0x4) > 0);
                     break;
                 }
+
                 case BINARY6:
                 {
                     binaryCheckBox6.setSelected((values[0] & 0x2) > 0);
                     break;
                 }
+
                 case BINARY7:
                 {
                     binaryCheckBox7.setSelected((values[0] & 0x1) > 0);
                     break;
                 }
+
                 case BYTE:
                 {
                     byteTextField.setText(String.valueOf(signed ? values[0] : values[0] & 0xff));
                     break;
                 }
+
                 case WORD:
                 {
                     int wordValue = signed ? (byteOrder == ByteOrder.LITTLE_ENDIAN ? (values[0] & 0xff) | (values[1] << 8) : (values[1] & 0xff) | (values[0] << 8)) : (byteOrder == ByteOrder.LITTLE_ENDIAN ? (values[0] & 0xff) | ((values[1] & 0xff) << 8) : (values[1] & 0xff) | ((values[0] & 0xff) << 8));
                     wordTextField.setText(String.valueOf(wordValue));
                     break;
                 }
+
                 case INTEGER:
                 {
                     long intValue = signed ? (byteOrder == ByteOrder.LITTLE_ENDIAN ? (values[0] & 0xffL) | ((values[1] & 0xffL) << 8) | ((values[2] & 0xffL) << 16) | (values[3] << 24) : (values[3] & 0xffL) | ((values[2] & 0xffL) << 8) | ((values[1] & 0xffL) << 16) | (values[0] << 24)) : (byteOrder == ByteOrder.LITTLE_ENDIAN ? (values[0] & 0xffL) | ((values[1] & 0xffL) << 8) | ((values[2] & 0xffL) << 16) | ((values[3] & 0xffL) << 24) : (values[3] & 0xffL) | ((values[2] & 0xffL) << 8) | ((values[1] & 0xffL) << 16) | ((values[0] & 0xffL) << 24));
                     intTextField.setText(String.valueOf(intValue));
                     break;
                 }
+
                 case LONG:
                 {
                     if (signed)
                     {
                         byteBuffer.rewind();
+
                         if (byteBuffer.order() != byteOrder)
-                        {
                             byteBuffer.order(byteOrder);
-                        }
 
                         longTextField.setText(String.valueOf(byteBuffer.getLong()));
                     }
@@ -942,53 +930,54 @@ public class ValuesPanel extends javax.swing.JPanel
                     }
                     break;
                 }
+
                 case FLOAT:
                 {
                     byteBuffer.rewind();
+
                     if (byteBuffer.order() != byteOrder)
-                    {
                         byteBuffer.order(byteOrder);
-                    }
 
                     floatTextField.setText(String.valueOf(byteBuffer.getFloat()));
                     break;
                 }
+
                 case DOUBLE:
                 {
                     byteBuffer.rewind();
+
                     if (byteBuffer.order() != byteOrder)
-                    {
                         byteBuffer.order(byteOrder);
-                    }
 
                     doubleTextField.setText(String.valueOf(byteBuffer.getDouble()));
                     break;
                 }
+
                 case CHARACTER:
                 {
                     String strValue = new String(values, codeArea.getCharset());
+
                     if (strValue.length() > 0)
-                    {
                         characterTextField.setText(strValue.substring(0, 1));
-                    }
                     else
-                    {
                         characterTextField.setText("");
-                    }
                     break;
                 }
+
                 case STRING:
                 {
                     String strValue = new String(values, codeArea.getCharset());
                     for (int i = 0; i < strValue.length(); i++)
                     {
                         char charAt = strValue.charAt(i);
+
                         if (charAt == '\r' || charAt == '\n' || charAt == 0)
                         {
                             strValue = strValue.substring(0, i);
                             break;
                         }
                     }
+
                     stringTextField.setText(strValue);
                     stringTextField.setCaretPosition(0);
                     break;
@@ -1005,76 +994,91 @@ public class ValuesPanel extends javax.swing.JPanel
                     binaryCheckBox0.setSelected(false);
                     break;
                 }
+
                 case BINARY1:
                 {
                     binaryCheckBox1.setSelected(false);
                     break;
                 }
+
                 case BINARY2:
                 {
                     binaryCheckBox2.setSelected(false);
                     break;
                 }
+
                 case BINARY3:
                 {
                     binaryCheckBox3.setSelected(false);
                     break;
                 }
+
                 case BINARY4:
                 {
                     binaryCheckBox4.setSelected(false);
                     break;
                 }
+
                 case BINARY5:
                 {
                     binaryCheckBox5.setSelected(false);
                     break;
                 }
+
                 case BINARY6:
                 {
                     binaryCheckBox6.setSelected(false);
                     break;
                 }
+
                 case BINARY7:
                 {
                     binaryCheckBox7.setSelected(false);
                     break;
                 }
+
                 case BYTE:
                 {
                     byteTextField.setText("");
                     break;
                 }
+
                 case WORD:
                 {
                     wordTextField.setText("");
                     break;
                 }
+
                 case INTEGER:
                 {
                     intTextField.setText("");
                     break;
                 }
+
                 case LONG:
                 {
                     longTextField.setText("");
                     break;
                 }
+
                 case FLOAT:
                 {
                     floatTextField.setText("");
                     break;
                 }
+
                 case DOUBLE:
                 {
                     doubleTextField.setText("");
                     break;
                 }
+
                 case CHARACTER:
                 {
                     characterTextField.setText("");
                     break;
                 }
+
                 case STRING:
                 {
                     stringTextField.setText("");

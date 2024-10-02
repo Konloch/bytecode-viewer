@@ -62,7 +62,9 @@ public final class ASMResourceUtil
                     {
                         FieldInsnNode field = (FieldInsnNode) i;
 
-                        if (field.owner.equals(originalParentName) && field.name.equals(originalFieldName) && field.desc.equals(originalFieldDesc))
+                        if (field.owner.equals(originalParentName)
+                            && field.name.equals(originalFieldName)
+                            && field.desc.equals(originalFieldDesc))
                         {
                             if (newFieldParent != null)
                                 field.owner = newFieldParent;
@@ -90,12 +92,16 @@ public final class ASMResourceUtil
                     if (i instanceof MethodInsnNode)
                     {
                         MethodInsnNode mi = (MethodInsnNode) i;
-                        if (mi.owner.equals(originalParentName) && mi.name.equals(originalMethodName) && mi.desc.equals(originalMethodDesc))
+                        if (mi.owner.equals(originalParentName)
+                            && mi.name.equals(originalMethodName)
+                            && mi.desc.equals(originalMethodDesc))
                         {
                             if (newParent != null)
                                 mi.owner = newParent;
+
                             if (newName != null)
                                 mi.name = newName;
+
                             if (newDesc != null)
                                 mi.desc = newDesc;
                         }
@@ -108,14 +114,18 @@ public final class ASMResourceUtil
                 {
                     if (newName != null)
                         m.signature = m.signature.replace(originalMethodName, newName);
+
                     if (newParent != null)
                         m.signature = m.signature.replace(originalParentName, newParent);
                 }
 
-                if (m.name.equals(originalMethodName) && m.desc.equals(originalMethodDesc) && c.name.equals(originalParentName))
+                if (m.name.equals(originalMethodName)
+                    && m.desc.equals(originalMethodDesc)
+                    && c.name.equals(originalParentName))
                 {
                     if (newName != null)
                         m.name = newName;
+
                     if (newDesc != null)
                         m.desc = newDesc;
                 }

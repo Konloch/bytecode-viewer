@@ -44,9 +44,12 @@ public class GoToAction extends AbstractAction
 
         container.fieldMembers.values().forEach(fields -> fields.forEach(field ->
         {
-            if (field.line == line && field.columnStart - 1 <= column && field.columnEnd >= column)
+            if (field.line == line
+                && field.columnStart - 1 <= column
+                && field.columnEnd >= column)
             {
                 Element root = textArea.getDocument().getDefaultRootElement();
+
                 // Open the class that is associated with the field's owner.
                 if (!field.owner.equals(container.getName()))
                 {
@@ -353,6 +356,7 @@ public class GoToAction extends AbstractAction
                 Element root = panel.textArea.getDocument().getDefaultRootElement();
                 int startOffset = root.getElement(line - 1).getStartOffset() + (columnStart - 1);
                 panel.textArea.setCaretPosition(startOffset);
+
                 for (CaretListener caretListener : panel.textArea.getCaretListeners())
                 {
                     if (caretListener instanceof BytecodeViewPanelUpdater.MarkerCaretListener)

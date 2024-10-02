@@ -171,6 +171,7 @@ public class MethodParser
         if (!methods.isEmpty())
         {
             Map.Entry<Integer, Method> low = methods.floorEntry(line);
+
             if (low != null)
                 return low.getKey();
         }
@@ -183,9 +184,7 @@ public class MethodParser
         if (!methods.isEmpty())
         {
             if (methods.size() == 1)
-            {
                 return methods.firstKey();
-            }
             else
             {
                 Map.Entry<Integer, Method> low = methods.floorEntry(line);

@@ -57,12 +57,11 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
     private void recursiveSort(ResourceTreeNode node)
     {
         node.children.sort(nodeComparator);
+
         for (TreeNode nextNode : (Iterable<TreeNode>) node.children)
         {
             if (nextNode.getChildCount() > 0)
-            {
                 recursiveSort((ResourceTreeNode) nextNode);
-            }
         }
     }
 
@@ -76,13 +75,9 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
     private void addToMap(ResourceTreeNode newChild)
     {
         if (userObjectToChildMap != null)
-        {
             userObjectToChildMap.put(newChild.getUserObject(), newChild);
-        }
         else if (getChildCount() == CHILD_MAP_BUILD_THRESHOLD)
-        {
             buildMap();
-        }
     }
 
     private void buildMap()
@@ -112,9 +107,7 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
     public void remove(MutableTreeNode aChild)
     {
         if (userObjectToChildMap != null && aChild != null)
-        {
             userObjectToChildMap.remove(((ResourceTreeNode) aChild).getUserObject());
-        }
 
         super.remove(aChild);
     }
@@ -123,9 +116,7 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
     public void removeAllChildren()
     {
         if (userObjectToChildMap != null)
-        {
             userObjectToChildMap.clear();
-        }
 
         super.removeAllChildren();
     }
@@ -133,17 +124,14 @@ public class ResourceTreeNode extends DefaultMutableTreeNode
     public ResourceTreeNode getChildByUserObject(Object userObject)
     {
         if (userObjectToChildMap != null)
-        {
             return userObjectToChildMap.get(userObject);
-        }
 
         for (int i = 0, childCount = getChildCount(); i < childCount; i++)
         {
             ResourceTreeNode child = (ResourceTreeNode) getChildAt(i);
+
             if (child.getUserObject().equals(userObject))
-            {
                 return child;
-            }
         }
 
         return null;
