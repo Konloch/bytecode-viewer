@@ -55,15 +55,16 @@ public class DecompilerSelectionPane
     //disassemblers
     private final DecompilerViewComponent bytecodeViewer = new DecompilerViewComponent("Bytecode", BYTECODE_NON_EDITABLE, Decompiler.BYTECODE_DISASSEMBLER);
     private final DecompilerViewComponent javapDisassembler = new DecompilerViewComponent("Javap", BYTECODE_NON_EDITABLE, Decompiler.JAVAP_DISASSEMBLER);
-    private final DecompilerViewComponent asmDisassembler = new DecompilerViewComponent("ASM Disassembler", BYTECODE_NON_EDITABLE, Decompiler.ASM_DISASSEMBLER);
     private final DecompilerViewComponent krakatauDecompiler = new DecompilerViewComponent("Krakatau", JAVA_AND_BYTECODE, Decompiler.KRAKATAU_DECOMPILER, Decompiler.KRAKATAU_DISASSEMBLER);
     private final DecompilerViewComponent smaliDisassembler = new DecompilerViewComponent("Smali", BYTECODE, Decompiler.SMALI_DISASSEMBLER);
-    //code-gen
-    private final DecompilerViewComponent asmifierCodeGen = new DecompilerViewComponent("ASMifier", JAVA_NON_EDITABLE, Decompiler.ASMIFIER_CODE_GEN);
+    //code-gen / etc
+    private final DecompilerViewComponent asmifierCodeGen = new DecompilerViewComponent("ASMifier", JAVA_AND_BYTECODE_NON_EDITABLE, Decompiler.ASMIFIER_CODE_GEN, Decompiler.ASM_DISASSEMBLER);
 
     //TODO when adding new decompilers insert the DecompilerViewComponent object into here
     // also in the group, then finally the build menu
-    public List<DecompilerViewComponent> components = new ArrayList<>(Arrays.asList(procyonDecompiler, CFRDecompiler, JADXDecompiler, JDCoreDecompiler, fernFlowerDecompiler, krakatauDecompiler, smaliDisassembler, bytecodeViewer, asmDisassembler, asmifierCodeGen, javapDisassembler));
+    public List<DecompilerViewComponent> components = new ArrayList<>(Arrays.asList(
+        procyonDecompiler, CFRDecompiler, JADXDecompiler, JDCoreDecompiler, fernFlowerDecompiler,
+        krakatauDecompiler, smaliDisassembler, bytecodeViewer, asmifierCodeGen, javapDisassembler));
 
     public DecompilerSelectionPane(int paneID)
     {
@@ -118,9 +119,9 @@ public class DecompilerSelectionPane
                 String cmd = decompiler.name();
 
                 //TODO this is pretty janky and will break if a decompiler doesn't end with _DECOMPILER suffix
-                if (cmd.endsWith("DECOMPILER"))
+                if (cmd.endsWith("_DECOMPILER") || cmd.endsWith("_CODE_GEN"))
                     component.getJava().setActionCommand(cmd);
-                else// if(cmd.endsWith("DISASSEMBLER"))
+                else// if(cmd.endsWith("_DISASSEMBLER"))
                     component.getBytecode().setActionCommand(cmd);
             }
         }
@@ -161,7 +162,6 @@ public class DecompilerSelectionPane
         menu.add(new JSeparator());
         menu.add(bytecodeViewer.getMenu());
         menu.add(javapDisassembler.getMenu());
-        menu.add(asmDisassembler.getMenu());
         menu.add(asmifierCodeGen.getMenu());
         menu.add(new JSeparator());
         menu.add(hexcodeViewer);
@@ -179,6 +179,7 @@ public class DecompilerSelectionPane
         while (it.hasMoreElements())
         {
             AbstractButton button = it.nextElement();
+
             if (button.getActionCommand().equals(decompiler.name()))
             {
                 group.setSelected(button.getModel(), true);
