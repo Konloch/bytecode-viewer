@@ -48,6 +48,9 @@ public class SettingsSerializer
 
     public static synchronized void saveSettings()
     {
+        if(BytecodeViewer.CLI.isCLI()) //do not save settings on CLI
+            return;
+
         try
         {
             DiskWriter.replaceFile(SETTINGS_NAME, "BCV: " + VERSION, false);
@@ -242,10 +245,14 @@ public class SettingsSerializer
     //utilizes the Disk Reader's caching system.
     public static void loadSettings()
     {
+        //do not load settings on CLI
         if (!settingsFileExists)
             return;
 
         Settings.firstBoot = false;
+
+        if(BytecodeViewer.CLI.isCLI())
+            return;
 
         try
         {

@@ -59,15 +59,14 @@ public class Boot
     private static final List<String> LIBS_FILE_LIST = new ArrayList<>();
     private static final List<String> URL_LIST = new ArrayList<>();
 
-    public static void boot(String[] args, boolean isCLI) throws Exception
+    public static void boot(String[] args) throws Exception
     {
         bootstrap();
         ILoader<?> loader = findLoader();
 
         screen = new InitialBootScreen();
 
-        if (!isCLI)
-            SwingUtilities.invokeLater(() -> screen.setVisible(true));
+        SwingUtilities.invokeLater(() -> screen.setVisible(true));
 
         create(loader, args.length <= 0 || Boolean.parseBoolean(args[0]));
 

@@ -111,15 +111,8 @@ public class BootCheck implements Runnable
 
             Boot.hide();
 
-            CLIAction CLI = CommandLineInput.parseCommandLine(BytecodeViewer.launchArgs);
-
-            if (CLI == CLIAction.GUI)
-                BytecodeViewer.boot(false);
-            else
-            {
-                BytecodeViewer.boot(true);
-                CommandLineInput.executeCommandLine(BytecodeViewer.launchArgs);
-            }
+            //Boot directly into GUI
+            BytecodeViewer.boot();
         }
     }
 }

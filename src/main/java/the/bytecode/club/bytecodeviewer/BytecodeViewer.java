@@ -30,8 +30,7 @@ import the.bytecode.club.bytecodeviewer.bootloader.Boot;
 import the.bytecode.club.bytecodeviewer.bootloader.BootState;
 import the.bytecode.club.bytecodeviewer.bootloader.InstallFatJar;
 import the.bytecode.club.bytecodeviewer.bootloader.UpdateCheck;
-import the.bytecode.club.bytecodeviewer.cli.CLIAction;
-import the.bytecode.club.bytecodeviewer.cli.CommandLineInput;
+import the.bytecode.club.bytecodeviewer.cli.BCVCommandLine;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.components.ExtendedJOptionPane;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
@@ -53,8 +52,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 import static the.bytecode.club.bytecodeviewer.Constants.*;
@@ -148,6 +145,9 @@ public class BytecodeViewer
     //GSON Reference
     public static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+    //BCV CLI
+    public static final BCVCommandLine CLI = new BCVCommandLine();
+
     //Threads
     private static final Thread VERSION_CHECKER = new Thread(new UpdateCheck(), "Version Checker");
     private static final Thread PING_BACK = new Thread(new PingBack(), "Pingback");
@@ -184,20 +184,27 @@ public class BytecodeViewer
             System.err.println("Either deal with it or allow it using the -Djava.security.manager=allow parameter.");
         }
 
+        //init the CLI
+        CLI.init(launchArgs);
+
         try
         {
             //precache settings file
             SettingsSerializer.preloadSettingsFile();
 
             //setup look and feel
-            Configuration.lafTheme.setLAF();
+            if(!CLI.isCLI())
+                Configuration.lafTheme.setLAF();
 
             //set swing specific system properties
             System.setProperty("swing.aatext", "true");
 
             //setup swing components
-            viewer = new MainViewerGUI();
-            //SwingUtilities.updateComponentTreeUI(viewer);
+            if(!CLI.isCLI())
+            {
+                viewer = new MainViewerGUI();
+                //SwingUtilities.updateComponentTreeUI(viewer);
+            }
 
             //load settings and set swing components state
             SettingsSerializer.loadSettings();
@@ -207,11 +214,6 @@ public class BytecodeViewer
             if (!Settings.hasSetLanguageAsSystemLanguage)
                 MiscUtils.setLanguage(MiscUtils.guessLanguage());
 
-            //handle CLI
-            CLIAction isCLI = CommandLineInput.parseCommandLine(args);
-            if (isCLI == CLIAction.STOP)
-                return;
-
             //load with shaded libraries
             if (FAT_JAR)
             {
@@ -220,19 +222,14 @@ public class BytecodeViewer
             else //load through bootloader
             {
                 BOOT_CHECK.start();
-                Boot.boot(args, isCLI != CLIAction.GUI);
+                Boot.boot(args);
             }
 
             //CLI arguments say spawn the GUI
-            if (isCLI == CLIAction.GUI)
+            if(!CLI.isCLI())
             {
-                BytecodeViewer.boot(false);
+                BytecodeViewer.boot();
                 Configuration.bootState = BootState.GUI_SHOWING;
-            }
-            else //CLI arguments say keep it CLI
-            {
-                BytecodeViewer.boot(true);
-                CommandLineInput.executeCommandLine(args);
             }
         }
         catch (Exception e)
@@ -243,10 +240,8 @@ public class BytecodeViewer
 
     /**
      * Boot after all of the libraries have been loaded
-     *
-     * @param cli is it running CLI mode or not
      */
-    public static void boot(boolean cli)
+    public static void boot()
     {
         //delete files in the temp folder
         cleanupAsync();
@@ -265,8 +260,7 @@ public class BytecodeViewer
         TASK_MANAGER.start();
 
         //setup the viewer
-        if(!cli)
-            viewer.calledAfterLoad();
+        viewer.calledAfterLoad();
 
         //setup the recent files
         Settings.resetRecentFilesMenu();
@@ -283,18 +277,16 @@ public class BytecodeViewer
             VERSION_CHECKER.start();
 
         //show the main UI
-        if (!cli)
-            viewer.setVisible(true);
+        viewer.setVisible(true);
 
         //print startup time
         System.out.println("Start up took " + ((System.currentTimeMillis() - Configuration.BOOT_TIMESTAMP) / 1000) + " seconds");
 
         //request focus on GUI for hotkeys on start
-        if (!cli)
-            viewer.requestFocus();
+        viewer.requestFocus();
 
         //open files from launch args
-        if (!cli && launchArgs.length >= 1)
+        if (launchArgs.length >= 1)
             for (String s : launchArgs)
                 openFiles(new File[]{new File(s)}, true);
     }
