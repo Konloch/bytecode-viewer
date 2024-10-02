@@ -32,6 +32,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.TempFiles;
 
 import java.io.*;
 import java.util.*;
@@ -85,8 +86,7 @@ public class ProcyonDecompiler extends AbstractDecompiler
         String exception;
         try
         {
-            final String fileStart = TEMP_DIRECTORY + FS + "temp";
-            final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
+            final File tempClass = TempFiles.createTemporaryFile(false, ".class");
 
             try (FileOutputStream fos = new FileOutputStream(tempClass))
             {
