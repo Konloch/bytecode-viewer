@@ -94,9 +94,6 @@ public class ProcyonDecompiler extends AbstractDecompiler
             StringWriter stringwriter = new StringWriter();
             settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(stringwriter), decompilationOptions);
 
-            //delete all temporary files
-            tempFile.delete();
-
             return EncodeUtils.unicodeToString(stringwriter.toString());
         }
         catch (Throwable e)
@@ -107,10 +104,12 @@ public class ProcyonDecompiler extends AbstractDecompiler
 
             exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
-
-        //delete all temporary files
-        if(tempFile != null)
-            tempFile.delete();
+        finally
+        {
+            //delete all temporary files
+            if(tempFile != null)
+                tempFile.delete();
+        }
 
         return PROCYON + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
             + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
