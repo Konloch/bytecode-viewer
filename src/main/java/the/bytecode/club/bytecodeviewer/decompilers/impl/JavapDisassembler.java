@@ -65,7 +65,7 @@ public class JavapDisassembler extends AbstractDecompiler
         return disassembleJavaP(cn, bytes);
     }
 
-    private synchronized String disassembleJavaP(ClassNode cn, byte[] b)
+    private synchronized String disassembleJavaP(ClassNode cn, byte[] bytes)
     {
         TempFile tempFile = null;
         String exception = "This decompiler didn't throw an exception - this is probably a BCV logical bug";
@@ -74,10 +74,12 @@ public class JavapDisassembler extends AbstractDecompiler
 
         try
         {
+            //create the temporary files
             tempFile = TempFile.createTemporaryFile(true, ".class");
             File tempClassFile = tempFile.getFile();
 
-            DiskWriter.replaceFileBytes(tempClassFile.getAbsolutePath(), b, false);
+            //write the bytes to the class-file
+            DiskWriter.replaceFileBytes(tempClassFile.getAbsolutePath(), bytes, false);
 
             //load java tools into a temporary classloader
             URLClassLoader child = new URLClassLoader(new URL[]{new File(Configuration.javaTools).toURI().toURL()}, this.getClass().getClassLoader());
@@ -103,7 +105,7 @@ public class JavapDisassembler extends AbstractDecompiler
             }
             catch (InvocationTargetException e)
             {
-                //expected warning behaviour on modern JDKs (17+)
+                //expected warning behaviour on JDK-15
             }
 
             //return output
