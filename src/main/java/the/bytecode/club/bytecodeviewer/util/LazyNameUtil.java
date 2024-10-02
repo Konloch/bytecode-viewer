@@ -51,9 +51,7 @@ public class LazyNameUtil
             return FilenameUtils.removeExtension(name) + "#" + seqAndCount.getSeq() + "." + FilenameUtils.getExtension(name);
         }
         else
-        {
             NAME_MAP.put(name, SeqAndCount.init());
-        }
 
         return name;
     }

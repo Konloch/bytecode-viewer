@@ -48,7 +48,9 @@ public class Dex2Jar
     {
         try
         {
-            Dex2jar d2Jar = Dex2jar.from(input).computeFrames(true).withExceptionHandler(new DexExceptionHandler()
+            Dex2jar d2Jar = Dex2jar.from(input)
+                .computeFrames(true)
+                .withExceptionHandler(new DexExceptionHandler()
             {
                 public void handleFileException(Exception e)
                 {
@@ -60,6 +62,7 @@ public class Dex2Jar
                     e.printStackTrace();
                 }
             });
+
             d2Jar.to(output.toPath());
         }
         catch (DexException e)
@@ -87,7 +90,10 @@ public class Dex2Jar
     {
         try
         {
-            Jar2Dex.main(input.getAbsolutePath(), "-f", "-o", output.getAbsolutePath(), "-s", BytecodeViewer.viewer.getMinSdkVersion() + "");
+            Jar2Dex.main(input.getAbsolutePath(), "-f",
+                "-o", output.getAbsolutePath(),
+                "-s", String.valueOf(BytecodeViewer.viewer.getMinSdkVersion()));
+
             if (delete)
                 input.delete();
         }
@@ -96,5 +102,4 @@ public class Dex2Jar
             BytecodeViewer.handleException(e);
         }
     }
-
 }

@@ -125,7 +125,6 @@ public class DialogUtils
             int returnVal = fc.showOpenDialog(BytecodeViewer.viewer);
             if (returnVal == JFileChooser.APPROVE_OPTION)
             {
-
                 File file = fc.getSelectedFile();
                 onOpen.onOpen(file);
                 return file;

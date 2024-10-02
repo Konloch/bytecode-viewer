@@ -72,9 +72,7 @@ public class JTextAreaUtils
                     }
 
                     if (currentLine == startLine)
-                    {
                         canSearch = true;
-                    }
                     else if (s.contains(search))
                     {
                         if (canSearch)
@@ -93,13 +91,12 @@ public class JTextAreaUtils
                 }
 
                 if (!found && firstPos != -1)
-                {
                     textArea.setCaretPosition(textArea.getDocument().getDefaultRootElement().getElement(firstPos - 1).getStartOffset());
-                }
             }
             else
             {
                 canSearch = true;
+
                 for (String s : test)
                 {
                     if (!caseSensitiveSearch)
@@ -123,9 +120,7 @@ public class JTextAreaUtils
                 }
 
                 if (lastGoodLine != -1 && textArea.getDocument().getDefaultRootElement().getElementIndex(textArea.getCaretPosition()) + 1 == startLine)
-                {
                     textArea.setCaretPosition(textArea.getDocument().getDefaultRootElement().getElement(lastGoodLine - 1).getStartOffset());
-                }
             }
 
             highlight(textArea, search, caseSensitiveSearch);
@@ -161,8 +156,7 @@ public class JTextAreaUtils
             // Search for pattern
             while ((pos = text.indexOf(pattern, pos)) >= 0)
             {
-                // Create highlighter using private painter and apply around
-                // pattern
+                // Create highlighter using private painter and apply around pattern
                 highlighter.addHighlight(pos, pos + pattern.length(), PAINTER);
                 pos += pattern.length();
             }

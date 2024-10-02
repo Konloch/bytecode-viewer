@@ -45,14 +45,17 @@ public class EncodeUtils
             {
                 out.append("\\u");
                 String str = Integer.toHexString(bytes[i + 1] & 0xff);
+
                 for (int j = str.length(); j < 2; j++)
                 {
                     out.append("0");
                 }
+
                 String str1 = Integer.toHexString(bytes[i] & 0xff);
                 out.append(str1);
                 out.append(str);
             }
+
             return out.toString();
         }
         catch (UnsupportedEncodingException e)
@@ -68,6 +71,7 @@ public class EncodeUtils
         Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
         Matcher matcher = pattern.matcher(str);
         char ch;
+
         while (matcher.find())
         {
             String group = matcher.group(2);
@@ -75,15 +79,15 @@ public class EncodeUtils
             String group1 = matcher.group(1);
             str = str.replace(group1, ch + "");
         }
+
         return str;
     }
 
     public static String convertStringToUTF8(String s)
     {
         if (s == null || StringUtils.EMPTY.equals(s))
-        {
             return null;
-        }
+
         StringBuilder sb = new StringBuilder();
         try
         {
@@ -91,14 +95,13 @@ public class EncodeUtils
             for (int i = 0; i < s.length(); i++)
             {
                 c = s.charAt(i);
+
                 if (c <= 255)
-                {
                     sb.append(c);
-                }
                 else
                 {
-                    byte[] b;
-                    b = Character.toString(c).getBytes(StandardCharsets.UTF_8);
+                    byte[] b = Character.toString(c).getBytes(StandardCharsets.UTF_8);
+
                     for (int value : b)
                     {
                         int k = value;
@@ -112,19 +115,21 @@ public class EncodeUtils
         {
             e.printStackTrace();
         }
+
         return sb.toString();
     }
 
     public static String convertUTF8ToString(String s)
     {
         if (s == null || StringUtils.EMPTY.equals(s))
-        {
             return null;
-        }
+
         s = s.toUpperCase();
+
         int total = s.length() / 2;
         int pos = 0;
         byte[] buffer = new byte[total];
+
         for (int i = 0; i < total; i++)
         {
             int start = i * 2;

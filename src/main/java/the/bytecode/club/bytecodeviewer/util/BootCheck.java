@@ -63,6 +63,7 @@ public class BootCheck implements Runnable
         {
             File libsDir = Boot.libsDir();
             File[] listFiles = libsDir.listFiles();
+            List<String> libsFileList = new ArrayList<>();
 
             //first boot failed to download libraries
             if (listFiles == null || listFiles.length <= 0)
@@ -74,7 +75,6 @@ public class BootCheck implements Runnable
             Boot.setState("Bytecode Viewer Boot Screen (OFFLINE MODE) - Unable to connect to github, force booting...");
             System.out.println("Unable to connect to github, force booting...");
 
-            List<String> libsFileList = new ArrayList<>();
             for (File f : listFiles)
                 libsFileList.add(f.getAbsolutePath());
 
@@ -84,6 +84,7 @@ public class BootCheck implements Runnable
                 if (s.endsWith(".jar"))
                 {
                     File f = new File(s);
+
                     if (f.exists())
                     {
                         Boot.setState("Bytecode Viewer Boot Screen (OFFLINE MODE) - Force Loading Library " + f.getName());

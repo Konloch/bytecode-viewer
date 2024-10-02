@@ -42,7 +42,12 @@ public class APKTool
 
             File tempAPKPath = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(12));
             tempAPKPath.mkdirs();
-            brut.apktool.Main.main(new String[]{"r", "--frame-path", tempAPKPath.getAbsolutePath(), "d", input.getAbsolutePath(), "-o", dir.getAbsolutePath(), "-f"});
+
+            brut.apktool.Main.main(new String[]{"r",
+                "--frame-path", tempAPKPath.getAbsolutePath(),
+                "d", input.getAbsolutePath(),
+                "-o", dir.getAbsolutePath(),
+                "-f"});
 
             File zip = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(12) + ".zip");
             ZipUtils.zipFolderAPKTool(dir.getAbsolutePath(), zip.getAbsolutePath());
@@ -65,7 +70,6 @@ public class APKTool
         File tempDir = new File(temp + FS + MiscUtils.getRandomizedName() + FS);
         tempDir.mkdirs();
 
-
         File tempAPKPath = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(12));
         tempAPKPath.mkdirs();
 
@@ -74,10 +78,13 @@ public class APKTool
             File smaliFolder = new File(container.APKToolContents.getAbsolutePath() + FS + "smali");
             FileUtils.deleteDirectory(smaliFolder);
 
-
             //save entire jar as smali files
             System.out.println("Building!");
-            brut.apktool.Main.main(new String[]{"b", container.APKToolContents.getAbsolutePath(), "--frame-path", tempAPKPath.getAbsolutePath(), "-o", output.getAbsolutePath()});
+            brut.apktool.Main.main(new String[]{"b", container.APKToolContents.getAbsolutePath(),
+                "--frame-path", tempAPKPath.getAbsolutePath(),
+                "-o", output.getAbsolutePath()});
+
+            //cleanup
             tempAPKPath.delete();
         }
         catch (Exception e)

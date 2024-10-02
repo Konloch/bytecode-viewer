@@ -34,7 +34,8 @@ public class ClassFileUtils
      */
     public static byte[] getClassFileBytes(Class<?> clazz) throws IOException
     {
-        try (InputStream is = clazz.getResourceAsStream("/" + clazz.getName().replace('.', '/') + ".class"); ByteArrayOutputStream baos = new ByteArrayOutputStream())
+        try (InputStream is = clazz.getResourceAsStream("/" + clazz.getName().replace('.', '/') + ".class");
+             ByteArrayOutputStream baos = new ByteArrayOutputStream())
         {
             int r;
             byte[] buffer = new byte[8192];
