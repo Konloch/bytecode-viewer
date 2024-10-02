@@ -10,6 +10,7 @@ public abstract class CLICommand
 {
 
     public final String name;
+    public final String nameFormatted;
     public final String description;
     public final boolean hasArgs;
     public final boolean isCLI;
@@ -17,6 +18,7 @@ public abstract class CLICommand
     protected CLICommand(String name, String description, boolean hasArgs, boolean isCLI)
     {
         this.name = name;
+        this.nameFormatted = "-" + name;
         this.description = description;
         this.hasArgs = hasArgs;
         this.isCLI = isCLI;

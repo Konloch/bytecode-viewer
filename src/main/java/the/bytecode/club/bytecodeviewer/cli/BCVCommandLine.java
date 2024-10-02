@@ -2,7 +2,7 @@ package the.bytecode.club.bytecodeviewer.cli;
 
 import org.apache.commons.cli.*;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.cli.actions.commands.HelpCommand;
+import the.bytecode.club.bytecodeviewer.cli.actions.commands.*;
 import the.bytecode.club.bytecodeviewer.util.SleepUtil;
 
 import java.io.File;
@@ -27,15 +27,19 @@ public class BCVCommandLine
         OPTIONS.addOption("t", true, "sets the target class to decompile, append all to decomp all as zip.");
         OPTIONS.addOption("nowait", true, "won't wait the 5 seconds to allow the user to read the CLI.");
 
+        COMMANDS.add(new CleanCommand());
+        COMMANDS.add(new CleanBootCommand());
+        COMMANDS.add(new DecompilerCommand());
+        COMMANDS.add(new LanguageCommand());
         COMMANDS.add(new HelpCommand());
+        COMMANDS.add(new ListCommand());
 
         for(CLICommand command : COMMANDS)
             OPTIONS.addOption(command.name, command.hasArgs, command.description);
 
         isCLI = containsCLICommand(args);
 
-        if(isCLI)
-            parseCommandLine(args);
+        parseCommandLine(args);
     }
 
     private boolean containsCLICommand(String[] args)
@@ -65,19 +69,25 @@ public class BCVCommandLine
         {
             CommandLine cmd = PARSER.parse(OPTIONS, args);
 
+            if(cmd.hasOption("language"))
+                System.out.println("OK: " + cmd.getOptionValue("language"));
+
             //TODO this is a backwards way of searching and will cause collisions
             // I'm sure the Apache CLI has a better way of navigating this
 
             for(CLICommand command : COMMANDS)
             {
+                System.out.println("OK: " + command.name);
                 if(cmd.hasOption(command.name))
                 {
+                    System.out.println("ON: " + command.name);
                     command.runCommand(cmd);
                     return;
                 }
             }
 
-            handleCLIDecompilation(cmd);
+            if(isCLI)
+                handleCLIDecompilation(cmd);
         }
         catch (Exception e)
         {
@@ -142,6 +152,16 @@ public class BCVCommandLine
         }
 
         //TODO decompiling happens here
+    }
+
+    public CLICommand getCommand(String name)
+    {
+        for(CLICommand command : COMMANDS)
+            if(command.name.equals(name)
+                || command.nameFormatted.equals(name))
+                return command;
+
+        return null;
     }
 
     public boolean isCLI()
