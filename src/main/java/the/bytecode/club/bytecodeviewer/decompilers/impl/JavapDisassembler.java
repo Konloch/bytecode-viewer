@@ -22,24 +22,27 @@ import me.konloch.kontainer.io.DiskWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
-import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsolePrintStream;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import static the.bytecode.club.bytecodeviewer.Constants.FS;
-import static the.bytecode.club.bytecodeviewer.api.ExceptionUI.SEND_STACKTRACE_TO;
+import static the.bytecode.club.bytecodeviewer.Constants.NL;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
 
 /**
  * Javap disassembler
- * <p>
+ *
  * https://github.com/Konloch/bytecode-viewer/issues/93
  *
  * @author Konloch
@@ -59,21 +62,23 @@ public class JavapDisassembler extends AbstractDecompiler
         if (!ExternalResources.getSingleton().hasJavaToolsSet())
             return "Set Java Tools Path!";
 
-        return synchronizedDecompilation(cn, bytes);
+        return disassembleJavaP(cn, bytes);
     }
 
-    private synchronized String synchronizedDecompilation(ClassNode cn, byte[] b)
+    private synchronized String disassembleJavaP(ClassNode cn, byte[] b)
     {
-        final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
-        final File tempClass = new File(Constants.TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(32) + ".class");
-
-        tempDirectory.mkdir();
-
-        DiskWriter.replaceFileBytes(tempClass.getAbsolutePath(), b, false);
+        TempFile tempFile = null;
+        String exception = "This decompiler didn't throw an exception - this is probably a BCV logical bug";
 
         JFrameConsolePrintStream sysOutBuffer = null;
+
         try
         {
+            tempFile = TempFile.createTemporaryFile(true, ".class");
+            File tempClassFile = tempFile.getFile();
+
+            DiskWriter.replaceFileBytes(tempClassFile.getAbsolutePath(), b, false);
+
             //load java tools into a temporary classloader
             URLClassLoader child = new URLClassLoader(new URL[]{new File(Configuration.javaTools).toURI().toURL()}, this.getClass().getClassLoader());
 
@@ -88,33 +93,45 @@ public class JavapDisassembler extends AbstractDecompiler
             BytecodeViewer.sm.silenceExec(true);
 
             //invoke Javap
-            main.invoke(null, (Object) new String[]{"-p", //Shows all classes and members
-                "-c", //Prints out disassembled code
-                //"-l", //Prints out line and local variable tables
-                "-constants", //Shows static final constants
-                tempClass.getAbsolutePath()});
+            try
+            {
+                main.invoke(null, (Object) new String[]{"-p", //Shows all classes and members
+                    "-c", //Prints out disassembled code
+                    //"-l", //Prints out line and local variable tables
+                    "-constants", //Shows static final constants
+                    tempClassFile.getAbsolutePath()});
+            }
+            catch (InvocationTargetException e)
+            {
+                //expected warning behaviour on modern JDKs (17+)
+            }
+
+            //return output
+            sysOutBuffer.finished();
+            return sysOutBuffer.getTextAreaOutputStreamOut().getBuffer().toString();
         }
         catch (IllegalAccessException e)
         {
             return TranslatedStrings.ILLEGAL_ACCESS_ERROR.toString();
         }
-        catch (Exception e)
+        catch (Throwable e)
         {
+            StringWriter exceptionWriter = new StringWriter();
+            e.printStackTrace(new PrintWriter(exceptionWriter));
             e.printStackTrace();
+
+            exception += NL + NL + exceptionWriter;
         }
         finally
         {
             BytecodeViewer.sm.silenceExec(false);
-            tempClass.delete();
+
+            if(tempFile != null)
+                tempFile.delete();
         }
 
-        if (sysOutBuffer != null)
-        {
-            sysOutBuffer.finished();
-            return sysOutBuffer.getTextAreaOutputStreamOut().getBuffer().toString();
-        }
-
-        return SEND_STACKTRACE_TO;
+        return "JavaP " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+            + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     @Override
