@@ -16,9 +16,9 @@ ij_java_method_brace_style = next_line
 ij_java_block_brace_style = next_line
 
 [*.xml]
-indent_size = 2
-tab_width = 2
+indent_size = 4
+tab_width = 4
 
 [*.properties]
-indent_size = 2
-tab_width = 2
+indent_size = 4
+tab_width = 4
