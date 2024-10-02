@@ -63,7 +63,10 @@ public enum Decompiler
         return getDecompiler().getDecompilerName();
     }
 
-    public String getDecompilerNameProgrammic()
+    /**
+     * Used for the compressed exports (Zip / Jar)
+     */
+    public String getDecompilerNameProgrammatic()
     {
         if(decompiler == null)
             return "";

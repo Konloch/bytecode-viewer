@@ -258,7 +258,7 @@ public class ResourceDecompiling
 
         //decompile all opened classes to zip
         decompiler.getDecompiler().decompileToZip(targetJar.getAbsolutePath(), saveAll ? MiscUtils.append(outputZip,
-            "-" + decompiler.getDecompilerNameProgrammic() + ".zip") : outputZip.getAbsolutePath());
+            "-" + decompiler.getDecompilerNameProgrammatic() + ".zip") : outputZip.getAbsolutePath());
 
         //signal to the user that BCV is finished performing that action
         BytecodeViewer.updateBusyStatus(false);
@@ -271,7 +271,7 @@ public class ResourceDecompiling
 
         //decompile the currently opened resource and save it to the specified file
         DiskWriter.replaceFile(saveAll ? MiscUtils.append(outputFile,
-            "-" + decompiler.getDecompilerNameProgrammic() + ".java") : outputFile.getAbsolutePath(), BCV.decompileCurrentlyOpenedClassNode(decompiler), false);
+            "-" + decompiler.getDecompilerNameProgrammatic() + ".java") : outputFile.getAbsolutePath(), BCV.decompileCurrentlyOpenedClassNode(decompiler), false);
 
         //signal to the user that BCV is finished performing that action
         BytecodeViewer.updateBusyStatus(false);
