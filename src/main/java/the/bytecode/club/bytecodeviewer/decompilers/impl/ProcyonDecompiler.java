@@ -28,7 +28,7 @@ import com.strobel.decompiler.languages.java.JavaFormattingOptions;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -50,7 +50,7 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.PRO
  * @author Konloch
  * @author DeathMarine
  */
-public class ProcyonDecompiler extends InternalDecompiler
+public class ProcyonDecompiler extends AbstractDecompiler
 {
 
     public DecompilerSettings getDecompilerSettings()

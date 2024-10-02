@@ -21,7 +21,7 @@ package the.bytecode.club.bytecodeviewer.decompilers.impl;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.util.TraceClassVisitor;
-import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -31,7 +31,7 @@ import java.io.StringWriter;
  *
  * @author Thiakil
  */
-public class ASMTextifierDisassembler extends InternalDecompiler
+public class ASMTextifierDisassembler extends AbstractDecompiler
 {
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)

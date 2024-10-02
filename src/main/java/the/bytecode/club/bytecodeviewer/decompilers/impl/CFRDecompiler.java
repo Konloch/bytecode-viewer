@@ -30,7 +30,7 @@ import org.benf.cfr.reader.util.getopt.OptionsImpl;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 
@@ -53,7 +53,7 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERR
  * @author GraxCode
  * Taken mostly out of Threadtear.
  */
-public class CFRDecompiler extends InternalDecompiler
+public class CFRDecompiler extends AbstractDecompiler
 {
 
     private static final String CLASS_SUFFIX = ".class";

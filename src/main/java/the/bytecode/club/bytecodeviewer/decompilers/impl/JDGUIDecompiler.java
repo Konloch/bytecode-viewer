@@ -24,7 +24,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.CommonPreferences;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.DirectoryLoader;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.JDGUIClassFileUtil;
@@ -46,7 +46,7 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.JDG
  * @author JD-Core developers
  */
 
-public class JDGUIDecompiler extends InternalDecompiler
+public class JDGUIDecompiler extends AbstractDecompiler
 {
 
     @Override

@@ -25,7 +25,7 @@ import org.objectweb.asm.tree.ClassNode;
  *
  * @author Konloch
  */
-public abstract class InternalDecompiler
+public abstract class AbstractDecompiler
 {
     public abstract String decompileClassNode(ClassNode cn, byte[] bytes);
 

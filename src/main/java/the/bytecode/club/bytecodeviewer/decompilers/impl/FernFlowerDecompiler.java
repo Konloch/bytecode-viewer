@@ -22,7 +22,7 @@ import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
@@ -39,7 +39,7 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.FER
  * @author WaterWolf
  * @since 09/26/2011
  */
-public class FernFlowerDecompiler extends InternalDecompiler
+public class FernFlowerDecompiler extends AbstractDecompiler
 {
     @Override
     public void decompileToZip(String sourceJar, String zipName)

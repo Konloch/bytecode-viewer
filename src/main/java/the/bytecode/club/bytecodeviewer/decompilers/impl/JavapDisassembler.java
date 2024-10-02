@@ -23,7 +23,7 @@ import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.Constants;
-import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsolePrintStream;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
@@ -46,7 +46,7 @@ import static the.bytecode.club.bytecodeviewer.api.ExceptionUI.SEND_STACKTRACE_T
  * @since 07/11/2021
  */
 
-public class JavapDisassembler extends InternalDecompiler
+public class JavapDisassembler extends AbstractDecompiler
 {
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)

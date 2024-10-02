@@ -49,9 +49,9 @@ public enum Decompiler
 
     private final String decompilerName;
     private final String decompilerNameProgrammic;
-    private final InternalDecompiler decompiler;
+    private final AbstractDecompiler decompiler;
 
-    Decompiler(String decompilerName, String decompilerNameProgrammic, InternalDecompiler decompiler)
+    Decompiler(String decompilerName, String decompilerNameProgrammic, AbstractDecompiler decompiler)
     {
         this.decompilerName = decompilerName;
         this.decompilerNameProgrammic = decompilerNameProgrammic;
@@ -68,7 +68,7 @@ public enum Decompiler
         return decompilerNameProgrammic;
     }
 
-    public InternalDecompiler getDecompiler()
+    public AbstractDecompiler getDecompiler()
     {
         return decompiler;
     }

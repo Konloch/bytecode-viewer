@@ -24,12 +24,11 @@ import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.*;
-import java.util.Random;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
@@ -40,7 +39,7 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.JAD
  *
  * @author Konloch
  */
-public class JADXDecompiler extends InternalDecompiler
+public class JADXDecompiler extends AbstractDecompiler
 {
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)

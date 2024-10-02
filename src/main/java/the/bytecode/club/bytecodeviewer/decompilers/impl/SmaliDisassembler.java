@@ -24,7 +24,7 @@ import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
-import the.bytecode.club.bytecodeviewer.decompilers.InternalDecompiler;
+import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -41,7 +41,7 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
  * @author Konloch
  */
 
-public class SmaliDisassembler extends InternalDecompiler
+public class SmaliDisassembler extends AbstractDecompiler
 {
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
