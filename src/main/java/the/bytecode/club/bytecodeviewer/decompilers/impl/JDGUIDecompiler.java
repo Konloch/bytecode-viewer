@@ -31,6 +31,7 @@ import the.bytecode.club.bytecodeviewer.decompilers.jdgui.JDGUIClassFileUtil;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.PlainTextPrinter;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.*;
 
@@ -57,20 +58,23 @@ public class JDGUIDecompiler extends AbstractDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
+        TempFile tempFile = null;
         String exception;
 
         try
         {
-            final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
-            tempDirectory.mkdir();
+            //create the temporary files
+            tempFile = TempFile.createTemporaryFile(true, ".class");
+            tempFile.setUniqueName(cn.name);
+            File tempClassFile = tempFile.createFileFromExtension(false, false, ".class");
+            File tempJavaFile = tempFile.createFileFromExtension(false, false, ".java");
 
-            final File tempClass = new File(tempDirectory.getAbsolutePath() + FS + cn.name + ".class");
-            final File tempJava = new File(tempDirectory.getAbsolutePath() + FS + cn.name + ".java");
-
+            //make any folders for the packages
             if (cn.name.contains("/"))
             {
                 String[] raw = cn.name.split("/");
-                String path = tempDirectory.getAbsolutePath() + FS;
+                String path = tempFile.getParent().getAbsolutePath() + FS;
+
                 for (int i = 0; i < raw.length - 1; i++)
                 {
                     path += raw[i] + FS;
@@ -79,16 +83,12 @@ public class JDGUIDecompiler extends AbstractDecompiler
                 }
             }
 
-            try (FileOutputStream fos = new FileOutputStream(tempClass))
+            try (FileOutputStream fos = new FileOutputStream(tempClassFile))
             {
                 fos.write(bytes);
             }
-            catch (IOException e)
-            {
-                BytecodeViewer.handleException(e);
-            }
 
-            String pathToClass = tempClass.getAbsolutePath().replace('/', File.separatorChar).replace('\\', File.separatorChar);
+            String pathToClass = tempClassFile.getAbsolutePath().replace('/', File.separatorChar).replace('\\', File.separatorChar);
             String directoryPath = JDGUIClassFileUtil.ExtractDirectoryPath(pathToClass);
             String internalPath = JDGUIClassFileUtil.ExtractInternalPath(directoryPath, pathToClass);
 
@@ -111,14 +111,15 @@ public class JDGUIDecompiler extends AbstractDecompiler
 
             org.jd.core.v1.api.Decompiler decompiler = new ClassFileToJavaSourceDecompiler();
 
-            try (PrintStream ps = new PrintStream(tempJava.getAbsolutePath()); PlainTextPrinter printer = new PlainTextPrinter(preferences, ps))
+            try (PrintStream ps = new PrintStream(tempJavaFile.getAbsolutePath());
+                 PlainTextPrinter printer = new PlainTextPrinter(preferences, ps))
             {
                 decompiler.decompile(loader, printer, internalPath, preferences.getPreferences());
             }
 
-            return DiskReader.loadAsString(tempJava.getAbsolutePath());
+            return DiskReader.loadAsString(tempJavaFile.getAbsolutePath());
         }
-        catch (Exception e)
+        catch (Throwable e)
         {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
@@ -126,8 +127,14 @@ public class JDGUIDecompiler extends AbstractDecompiler
 
             exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
+        finally
+        {
+            if(tempFile != null)
+                tempFile.delete();
+        }
 
-        return JDGUI + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
+        return JDGUI + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+            + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     @Override
