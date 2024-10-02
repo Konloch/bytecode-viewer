@@ -86,10 +86,10 @@ public class ProcyonDecompiler extends AbstractDecompiler
         try
         {
             final TempFile tempFile = TempFile.createTemporaryFile(false, ".class");
-            final File tempClass = tempFile.createFileFromExtension(".class");
+            final File tempClassFile = tempFile.createFileFromExtension(".class");
 
             //write the ClassNode bytes to the temp file
-            try (FileOutputStream fos = new FileOutputStream(tempClass))
+            try (FileOutputStream fos = new FileOutputStream(tempClassFile))
             {
                 fos.write(bytes);
             }
@@ -99,7 +99,7 @@ public class ProcyonDecompiler extends AbstractDecompiler
 
             LuytenTypeLoader typeLoader = new LuytenTypeLoader();
             MetadataSystem metadataSystem = new MetadataSystem(typeLoader);
-            TypeReference type = metadataSystem.lookupType(tempClass.getCanonicalPath());
+            TypeReference type = metadataSystem.lookupType(tempClassFile.getCanonicalPath());
 
             DecompilationOptions decompilationOptions = new DecompilationOptions();
             decompilationOptions.setSettings(settings);
@@ -112,6 +112,9 @@ public class ProcyonDecompiler extends AbstractDecompiler
 
             StringWriter stringwriter = new StringWriter();
             settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(stringwriter), decompilationOptions);
+
+            //delete all temporary files
+            tempFile.delete();
 
             return EncodeUtils.unicodeToString(stringwriter.toString());
         }
