@@ -45,7 +45,7 @@ public enum Decompiler
     JADX_DECOMPILER(new JADXDecompiler()),                      //java decompiler
 
     ASM_DISASSEMBLER(new ASMDisassembler()),                    //bytecode disassembler
-    ASMIFIER_DISASSEMBLER(new ASMifierGenerator()),             //bytecode disassembler / code gen
+    ASMIFIER_CODE_GEN(new ASMifierGenerator()),                 //bytecode disassembler / code gen
     JAVAP_DISASSEMBLER(new JavapDisassembler());                //bytecode disassembler
 
     private final AbstractDecompiler decompiler;

@@ -83,7 +83,7 @@ public class ClassFileContainer
             && !getDecompiler().equals(Decompiler.JAVAP_DISASSEMBLER.getDecompilerName())
             && !getDecompiler().equals(Decompiler.SMALI_DISASSEMBLER.getDecompilerName())
             && !getDecompiler().equals(Decompiler.ASM_DISASSEMBLER.getDecompilerName())
-            && !getDecompiler().equals(Decompiler.ASMIFIER_DISASSEMBLER.getDecompilerName());
+            && !getDecompiler().equals(Decompiler.ASMIFIER_CODE_GEN.getDecompilerName());
     }
 
     public String getName()
