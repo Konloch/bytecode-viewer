@@ -66,6 +66,7 @@ public class ProcyonDecompiler extends AbstractDecompiler
 
         try
         {
+            //create the temporary files
             tempFile = TempFile.createTemporaryFile(false, ".class");
             File tempClassFile = tempFile.getFile();
 
