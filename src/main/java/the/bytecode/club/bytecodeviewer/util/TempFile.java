@@ -44,6 +44,11 @@ public class TempFile
         this.parent = parent;
     }
 
+    public void markAsCreatedFile(File file)
+    {
+        createdFilePaths.add(file.getAbsolutePath());
+    }
+
     public void delete()
     {
         //delete all the items
@@ -52,6 +57,11 @@ public class TempFile
             File toDelete = new File(path);
 
             toDelete.delete();
+
+            if(!toDelete.getParentFile().getAbsolutePath().equalsIgnoreCase(new File(TEMP_DIRECTORY).getAbsolutePath()))
+            {
+                toDelete.getParentFile().delete();
+            }
         }
 
         //delete parent if it's not the main temp directory
