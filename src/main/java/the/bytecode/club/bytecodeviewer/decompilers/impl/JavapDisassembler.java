@@ -70,7 +70,7 @@ public class JavapDisassembler extends AbstractDecompiler
         TempFile tempFile = null;
         String exception = "This decompiler didn't throw an exception - this is probably a BCV logical bug";
 
-        JFrameConsolePrintStream sysOutBuffer = null;
+        JFrameConsolePrintStream sysOutBuffer;
 
         try
         {
