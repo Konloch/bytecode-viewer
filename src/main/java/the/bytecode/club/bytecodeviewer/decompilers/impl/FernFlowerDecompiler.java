@@ -126,18 +126,9 @@ public class FernFlowerDecompiler extends AbstractDecompiler
 
             //if the output file is found, read it
             if (tempOutputJavaFile.exists())
-            {
-                String javaSource = DiskReader.loadAsString(tempOutputJavaFile.getAbsolutePath());
-
-                //cleanup temp files
-                tempFile.delete();
-
-                return javaSource;
-            }
+                return DiskReader.loadAsString(tempOutputJavaFile.getAbsolutePath());
             else
-            {
                 exception = "BCV Error: " + tempOutputJavaFile.getAbsolutePath() + " does not exist.";
-            }
         }
         catch (Exception e)
         {
@@ -147,10 +138,12 @@ public class FernFlowerDecompiler extends AbstractDecompiler
 
             exception += NL + NL + exceptionWriter;
         }
-
-        //cleanup temp files
-        if(tempFile != null)
-            tempFile.delete();
+        finally
+        {
+            //cleanup temp files
+            if(tempFile != null)
+                tempFile.delete();
+        }
 
         return FERNFLOWER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
             + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
