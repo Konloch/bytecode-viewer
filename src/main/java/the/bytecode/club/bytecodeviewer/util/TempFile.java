@@ -64,16 +64,28 @@ public class TempFile
             toDelete.delete();
 
             if(!toDelete.getParentFile().getAbsolutePath().equalsIgnoreCase(new File(TEMP_DIRECTORY).getAbsolutePath()))
-            {
-                toDelete.getParentFile().delete();
-            }
+                deleteFolder(toDelete.getParentFile());
         }
 
         //delete parent if it's not the main temp directory
         if(!getParent().getAbsolutePath().equalsIgnoreCase(new File(TEMP_DIRECTORY).getAbsolutePath()))
+            deleteFolder(getParent());
+    }
+
+    private void deleteFolder(File file)
+    {
+        File[] files = file.listFiles();
+
+        if(files != null)
         {
-            getParent().delete();
+            for(File subFile : files)
+            {
+                if(subFile.isDirectory())
+                    deleteFolder(subFile);
+            }
         }
+
+        file.delete();
     }
 
     public File createFileFromExtension(String extension)
