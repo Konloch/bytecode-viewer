@@ -157,8 +157,7 @@ public class BCVCommandLine
     public CLICommand getCommand(String name)
     {
         for(CLICommand command : COMMANDS)
-            if(command.name.equals(name)
-                || command.nameFormatted.equals(name))
+            if(command.nameFormatted.equals(name))
                 return command;
 
         return null;
