@@ -31,6 +31,7 @@ import the.bytecode.club.bytecodeviewer.bootloader.BootState;
 import the.bytecode.club.bytecodeviewer.bootloader.InstallFatJar;
 import the.bytecode.club.bytecodeviewer.bootloader.UpdateCheck;
 import the.bytecode.club.bytecodeviewer.cli.BCVCommandLine;
+import the.bytecode.club.bytecodeviewer.cli.CLICommand;
 import the.bytecode.club.bytecodeviewer.gui.MainViewerGUI;
 import the.bytecode.club.bytecodeviewer.gui.components.ExtendedJOptionPane;
 import the.bytecode.club.bytecodeviewer.gui.components.MultipleChoiceDialog;
@@ -286,9 +287,28 @@ public class BytecodeViewer
         viewer.requestFocus();
 
         //open files from launch args
-        if (launchArgs.length >= 1)
-            for (String s : launchArgs)
-                openFiles(new File[]{new File(s)}, true);
+        openFilesFromLaunchArguments();
+    }
+
+    private static void openFilesFromLaunchArguments()
+    {
+        if(launchArgs.length < 1)
+            return;
+
+        //parse input for commands
+        for (int i = 0; i < launchArgs.length; i++)
+        {
+            String fileInput = launchArgs[i];
+            CLICommand command = CLI.getCommand(fileInput);
+
+            if (command != null)
+            {
+                if(command.hasArgs)
+                    i++;
+            }
+            else
+                openFiles(new File[]{new File(fileInput)}, true);
+        }
     }
 
     /**
