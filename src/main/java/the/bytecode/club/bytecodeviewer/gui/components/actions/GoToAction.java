@@ -127,7 +127,7 @@ public class GoToAction extends AbstractAction
                 }
                 else
                 {
-                    methods.stream().filter(classMethodLocation -> classMethodLocation.owner.equals(method.owner)).forEach(classMethodLocation ->
+                    methods.stream().filter(classMethodLocation -> classMethodLocation.signature.equals(method.signature)).forEach(classMethodLocation ->
                     {
                         if (classMethodLocation.decRef.equalsIgnoreCase("declaration"))
                         {
