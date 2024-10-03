@@ -19,19 +19,23 @@
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
 import me.konloch.kontainer.io.DiskReader;
+import org.apache.commons.lang3.ArrayUtils;
+import org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
+import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.ExceptionUtils;
+import the.bytecode.club.bytecodeviewer.util.ProcessUtils;
 import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.FERNFLOWER;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /**
  * A FernFlower wrapper with all the options (except 2)
@@ -48,29 +52,6 @@ public class FernFlowerDecompiler extends AbstractDecompiler
     }
 
     @Override
-    public void decompileToZip(String sourceJar, String zipName)
-    {
-        File tempZip = new File(sourceJar);
-
-        File f = new File(TEMP_DIRECTORY + FS + "temp" + FS);
-        f.mkdir();
-
-        try
-        {
-            org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempZip.getAbsolutePath(), TEMP_DIRECTORY + "./temp/"));
-        }
-        catch (StackOverflowError | Exception ignored)
-        {
-        }
-
-        File tempZip2 = new File(TEMP_DIRECTORY + FS + "temp" + FS + tempZip.getName());
-        if (tempZip2.exists())
-            tempZip2.renameTo(new File(zipName));
-
-        f.delete();
-    }
-
-    @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         TempFile tempFile = null;
@@ -80,14 +61,14 @@ public class FernFlowerDecompiler extends AbstractDecompiler
         {
             //create the temporary files
             tempFile = TempFile.createTemporaryFile(true, ".class");
-            File tempClassFile = tempFile.getFile();
+            File tempInputClassFile = tempFile.getFile();
 
             //load java source from temp directory
             tempFile.setParent(new File(TEMP_DIRECTORY));
             File tempOutputJavaFile = tempFile.createFileFromExtension(false, true, ".java");
 
             //write the class-file with bytes
-            try (FileOutputStream fos = new FileOutputStream(tempClassFile))
+            try (FileOutputStream fos = new FileOutputStream(tempInputClassFile))
             {
                 fos.write(bytes);
             }
@@ -95,26 +76,16 @@ public class FernFlowerDecompiler extends AbstractDecompiler
             //decompile the class-file
             if (LAUNCH_DECOMPILERS_IN_NEW_PROCESS)
             {
-                /*try
-                {
-                    BytecodeViewer.sm.pauseBlocking();
-                    ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
-                            new String[]{ExternalResources.getSingleton().getJavaCommand(true), "-jar", ExternalResources.getSingleton().findLibrary("fernflower")},
-                            generateMainMethod(tempClass.getAbsolutePath(),
-                                    new File(tempDirectory).getAbsolutePath())
-                    ));
-                    Process p = pb.start();
-                    BytecodeViewer.createdProcesses.add(p);
-                    p.waitFor();
-                } catch (Exception e) {
-                    BytecodeViewer.handleException(e);
-                } finally {
-                    BytecodeViewer.sm.resumeBlocking();
-                }*/
+                ProcessUtils.runDecompilerExternal(ArrayUtils.addAll(new String[]
+                    {
+                        ExternalResources.getSingleton().getJavaCommand(true),
+                        "-jar", ExternalResources.getSingleton().findLibrary("fernflower")
+                    }, generateMainMethod(tempInputClassFile.getAbsolutePath(), tempFile.getParent().getAbsolutePath())
+                ), false);
             }
             else
             {
-                org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempClassFile.getAbsolutePath(), new File(TEMP_DIRECTORY).getAbsolutePath()));
+                org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempInputClassFile.getAbsolutePath(), new File(TEMP_DIRECTORY).getAbsolutePath()));
             }
 
             //if rename is enabled the file name will be the actual class name
@@ -127,7 +98,7 @@ public class FernFlowerDecompiler extends AbstractDecompiler
             }
 
             //if the output file is found, read it
-            if (tempOutputJavaFile.exists())
+            if (tempOutputJavaFile.exists() && !Constants.DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS)
                 return DiskReader.loadAsString(tempOutputJavaFile.getAbsolutePath());
             else
                 exception = FERNFLOWER + " " + ERROR + "! " + tempOutputJavaFile.getAbsolutePath() + " does not exist.";
@@ -145,6 +116,25 @@ public class FernFlowerDecompiler extends AbstractDecompiler
 
         return FERNFLOWER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
             + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
+    }
+
+    @Override
+    public void decompileToZip(String sourceJar, String zipName)
+    {
+        File tempInputJarFile = new File(sourceJar);
+        File tempOutputJar = new File(TEMP_DIRECTORY + FS + "temp" + FS + tempInputJarFile.getName());
+
+        try
+        {
+            ConsoleDecompiler.main(generateMainMethod(tempInputJarFile.getAbsolutePath(), TEMP_DIRECTORY + "./temp/"));
+        }
+        catch (StackOverflowError | Exception ignored)
+        {
+        }
+
+        if (tempOutputJar.exists())
+            tempOutputJar.renameTo(new File(zipName));
+
     }
 
     private String[] generateMainMethod(String className, String folder)
