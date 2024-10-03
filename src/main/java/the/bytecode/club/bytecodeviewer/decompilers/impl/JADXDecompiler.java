@@ -22,17 +22,19 @@ import jadx.api.JadxArgs;
 import jadx.api.JadxDecompiler;
 import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.Settings;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
+import the.bytecode.club.bytecodeviewer.util.ExceptionUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.JADX;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /**
  * JADX Java Wrapper
@@ -49,96 +51,80 @@ public class JADXDecompiler extends AbstractDecompiler
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
-        String fileStart = TEMP_DIRECTORY + FS;
-
-        String exception = "";
-        final File tempClass = new File(MiscUtils.getUniqueNameBroken(fileStart, ".class") + ".class");
-
-        try (FileOutputStream fos = new FileOutputStream(tempClass))
-        {
-            fos.write(bytes);
-        }
-        catch (IOException e)
-        {
-            BytecodeViewer.handleException(e);
-        }
-
-        File freeDirectory = new File(findUnusedFile(fileStart));
-        freeDirectory.mkdirs();
+        TempFile tempFile = null;
+        String exception;
 
         try
         {
-            JadxArgs args = new JadxArgs();
-            args.setInputFile(tempClass);
-            args.setOutDir(freeDirectory);
-            args.setOutDirSrc(freeDirectory);
-            args.setOutDirRes(freeDirectory);
+            //create the temporary files
+            tempFile = TempFile.createTemporaryFile(true, ".class");
+            File tempDirectory = tempFile.getParent();
+            File tempClassFile = tempFile.getFile();
 
-            JadxDecompiler jadx = new JadxDecompiler(args);
-            jadx.load();
-            jadx.saveSources();
-        }
-        catch (StackOverflowError | Exception e)
-        {
-            StringWriter exceptionWriter = new StringWriter();
-            e.printStackTrace(new PrintWriter(exceptionWriter));
-            e.printStackTrace();
-            exception = exceptionWriter.toString();
-        }
-
-        tempClass.delete();
-
-        if (freeDirectory.exists())
-            return findFile(MiscUtils.listFiles(freeDirectory));
-
-        if (exception.isEmpty())
-            exception = "Decompiled source file not found!";
-
-        return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
-    }
-
-    public String findUnusedFile(String start)
-    {
-        long index = 0;
-
-        while (true)
-        {
-            File f = new File(start + index);
-
-            if (!f.exists())
-                return f.toString();
-        }
-    }
-
-    public String findFile(File[] fileArray)
-    {
-        for (File f : fileArray)
-        {
-            if (f.isDirectory())
-                return findFile(MiscUtils.listFiles(f));
-            else
+            //write the class-file with bytes
+            try (FileOutputStream fos = new FileOutputStream(tempClassFile))
             {
-                String s;
+                fos.write(bytes);
+            }
 
-                try
-                {
-                    s = DiskReader.loadAsString(f.getAbsolutePath());
-                }
-                catch (Exception e)
-                {
-                    StringWriter sw = new StringWriter();
-                    e.printStackTrace(new PrintWriter(sw));
-                    e.printStackTrace();
-                    String exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
+            //setup JADX Args
+            JadxArgs args = new JadxArgs();
+            args.setInputFile(tempClassFile);
+            args.setOutDir(tempDirectory);
+            args.setOutDirSrc(tempDirectory);
+            args.setOutDirRes(tempDirectory);
 
-                    return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
-                }
+            //init jadx decompiler
+            JadxDecompiler jadx = new JadxDecompiler(args);
 
-                return s;
+            //load jadx
+            jadx.load();
+
+            //decompile
+            jadx.saveSources();
+
+            //handle simulated errors
+            if(Constants.DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS)
+                throw new RuntimeException(DEV_MODE_SIMULATED_ERROR.toString());
+
+            return searchForJavaFile(MiscUtils.listFiles(tempDirectory));
+        }
+        catch (Throwable e)
+        {
+            exception = ExceptionUtils.exceptionToString(e);
+        }
+        finally
+        {
+            //cleanup temp files
+            if(tempFile != null)
+                tempFile.cleanup();
+        }
+
+        return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+            + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
+    }
+
+    public String searchForJavaFile(File[] files) throws Exception
+    {
+        for (File file : files)
+        {
+            if (file.isDirectory())
+                return searchForJavaFile(MiscUtils.listFiles(file));
+            else if(file.getName().toLowerCase().endsWith(".java"))
+            {
+                String contents = DiskReader.loadAsString(file.getAbsolutePath());
+
+                //cleanup
+                if(Settings.DECOMPILERS_AUTOMATICALLY_CLEANUP)
+                    file.delete();
+
+                return contents;
             }
         }
 
-        return "JADX error!" + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR;
+        return JADX + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+            + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL
+            + "JADX failed to produce any Java files from the provided source.";
     }
 
     @Override
