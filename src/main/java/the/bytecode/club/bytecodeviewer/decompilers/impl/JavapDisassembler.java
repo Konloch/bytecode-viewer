@@ -22,6 +22,7 @@ import me.konloch.kontainer.io.DiskWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.gui.components.JFrameConsolePrintStream;
@@ -37,6 +38,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import static the.bytecode.club.bytecodeviewer.Constants.NL;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.DEV_MODE_SIMULATED_ERROR;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
 
 /**
@@ -107,8 +109,14 @@ public class JavapDisassembler extends AbstractDecompiler
                 //expected warning behaviour on JDK-15
             }
 
-            //return output
+            //signal finished
             sysOutBuffer.finished();
+
+            //handle simulated errors
+            if(Constants.DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS)
+                throw new RuntimeException(DEV_MODE_SIMULATED_ERROR.toString());
+
+            //return output
             return sysOutBuffer.getTextAreaOutputStreamOut().getBuffer().toString();
         }
         catch (IllegalAccessException e)
