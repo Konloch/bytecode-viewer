@@ -125,4 +125,22 @@ public class ProcessUtils
             });
         }
     }
+
+    public static void runDecompilerExternal(String[] args, boolean exceptionToGUI) throws IOException, InterruptedException
+    {
+        try
+        {
+            ProcessBuilder pb = new ProcessBuilder(args);
+            Process p = pb.start();
+            BytecodeViewer.createdProcesses.add(p);
+            p.waitFor();
+        }
+        catch (Exception e)
+        {
+            if(exceptionToGUI)
+                BytecodeViewer.handleException(e);
+            else
+                throw e;
+        }
+    }
 }
