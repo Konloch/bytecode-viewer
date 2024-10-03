@@ -35,6 +35,7 @@ import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 import java.io.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.DEV_MODE_SIMULATED_ERROR;
 
 /**
  * Krakatau Java Disassembler Wrapper, requires Python 2.7
@@ -104,6 +105,10 @@ public class KrakatauDisassembler extends AbstractDecompiler
             int exitValue = process.waitFor();
             log.append(NL).append(NL).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
             returnString = log.toString();
+
+            //handle simulated errors
+            if(Constants.DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS)
+                throw new RuntimeException(DEV_MODE_SIMULATED_ERROR.toString());
 
             // update the string on a successful disassemble
             returnString = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + FS + cn.name + ".j");
