@@ -28,15 +28,14 @@ import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.util.JarUtils;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
-import the.bytecode.club.bytecodeviewer.util.ZipUtils;
+import the.bytecode.club.bytecodeviewer.util.*;
 
 import java.io.*;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /**
  * Krakatau Java Decompiler Wrapper, requires Python 2.7
@@ -51,24 +50,6 @@ public class KrakatauDecompiler extends AbstractDecompiler
         super("Krakatau Decompiler", "krakatau");
     }
 
-    public String buildCLIArguments()
-    {
-        if (Configuration.library.isEmpty())
-            return "";
-
-        File dir = new File(Configuration.library);
-        if (!dir.exists())
-            return "";
-        if (!dir.isDirectory())
-            return ";" + Configuration.library;
-
-        File[] files = dir.listFiles();
-        if (files == null || files.length == 0)
-            return "";
-
-        return ";" + Arrays.stream(files).filter(File::isFile).map(File::getAbsolutePath).collect(Collectors.joining(";"));
-    }
-
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
@@ -79,104 +60,104 @@ public class KrakatauDecompiler extends AbstractDecompiler
 
         if (Configuration.rt.isEmpty())
         {
-            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
+            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A
+                + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
             ExternalResources.getSingleton().selectJRERTLibrary();
         }
 
         if (Configuration.rt.isEmpty())
         {
-            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
-            return TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + " " + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B;
+            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A
+                + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
+
+            return TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A
+                + " " + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B;
         }
 
-        final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
-        final File tempJar = new File(Constants.TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(32) + ".jar");
-
-        tempDirectory.mkdir();
-
-        JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
-
-        return decompileClassNode(tempJar, tempDirectory, cn);
-    }
-
-    public String decompileClassNode(File tempJar, File tempDir, ClassNode cn)
-    {
-        if (!ExternalResources.getSingleton().hasSetPython2Command())
-            return TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH.toString();
-
-        ExternalResources.getSingleton().rtCheck();
-
-        if (Configuration.rt.isEmpty())
-        {
-            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
-            ExternalResources.getSingleton().selectJRERTLibrary();
-        }
-
-        if (Configuration.rt.isEmpty())
-        {
-            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
-            return TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + " " + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B;
-        }
-
-        String returnString = ExceptionUI.SEND_STACKTRACE_TO_NL;
+        StringBuilder processOut = new StringBuilder(NL + NL);
+        StringBuilder processErr = new StringBuilder(NL + NL);
+        int exitCode = Integer.MAX_VALUE;
+        TempFile tempFile = null;
+        String exception;
 
         try
         {
+            //create the temporary files
+            tempFile = TempFile.createTemporaryFile(false, ".jar");
+            tempFile.newTemporaryParent();
+            File tempInputJarFile = tempFile.getFile();
+            File tempDir = tempFile.createFileFromExtension(true, false, ".txt").getParentFile();
+            File tempOutputJavaFile = new File(tempDir.getAbsolutePath() + FS + cn.name + ".java");
+
+            //create out dir
+            tempDir.mkdirs();
+            tempOutputJavaFile.getParentFile().mkdirs();
+
+            //final File tempDirectory = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
+            //javaFile = new File(Constants.TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(32) + ".jar");
+
+            JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempInputJarFile.getAbsolutePath());
+
+            if (!ExternalResources.getSingleton().hasSetPython2Command())
+                return TranslatedStrings.YOU_NEED_TO_SET_YOUR_PYTHON_2_PATH.toString();
+
+            ExternalResources.getSingleton().rtCheck();
+
+            if (Configuration.rt.isEmpty())
+            {
+                BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
+                ExternalResources.getSingleton().selectJRERTLibrary();
+            }
+
+            if (Configuration.rt.isEmpty())
+            {
+                BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
+                return TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + " " + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B;
+            }
+
             String[] pythonCommands = new String[]{Configuration.python2};
             if (Configuration.python2Extra)
                 pythonCommands = ArrayUtils.addAll(pythonCommands, "-2");
 
             ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(pythonCommands, "-O", //love you storyyeller <3
-                krakatauWorkingDirectory + FS + "decompile.py", "-skip", //love you storyyeller <3
-                "-nauto", "-path", Configuration.rt + ";" + tempJar.getAbsolutePath() + buildCLIArguments(),
-                "-out", tempDir.getAbsolutePath(), cn.name + ".class"));
+                krakatauWorkingDirectory + FS + "decompile.py",
+                "-skip", //love you storyyeller <3
+                "-nauto",
+                "-path", Configuration.rt + ";" + tempInputJarFile.getAbsolutePath() + buildCLIArguments(),
+                "-out", tempDir.getAbsolutePath(),
+                cn.name + ".class"));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
 
-            StringBuilder log = new StringBuilder(TranslatedStrings.PROCESS2 + NL + NL);
-
             //Read out dir output
-            try (InputStream is = process.getInputStream();
-                 InputStreamReader isr = new InputStreamReader(is);
-                 BufferedReader br = new BufferedReader(isr))
-            {
-                String line;
-                while ((line = br.readLine()) != null)
-                {
-                    log.append(NL).append(line);
-                }
-            }
+            //ProcessUtils.readProcessToStringBuilderAsync(process, processOut, processErr);
+            ProcessUtils.readProcessToStringBuilder(process, processOut, processErr);
 
-            log.append(NL).append(NL).append(TranslatedStrings.ERROR2).append(NL).append(NL);
+            //wait for process to exit
+            exitCode = process.waitFor();
 
-            try (InputStream is = process.getErrorStream();
-                 InputStreamReader isr = new InputStreamReader(is);
-                 BufferedReader br = new BufferedReader(isr))
-            {
-                String line;
-                while ((line = br.readLine()) != null)
-                {
-                    log.append(NL).append(line);
-                }
-            }
+            //handle simulated errors
+            if(Constants.DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS)
+                throw new RuntimeException(DEV_MODE_SIMULATED_ERROR.toString());
 
-            int exitValue = process.waitFor();
-            log.append(NL).append(NL).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
-            returnString = log.toString();
-
-            // update the string on a successful disassemble
-            returnString = DiskReader.loadAsString(tempDir.getAbsolutePath() + FS + cn.name + ".java");
+            // read the java file on a successful disassemble
+            return DiskReader.loadAsString(tempOutputJavaFile.getAbsolutePath());
         }
-        catch (Exception e)
+        catch (Throwable e)
         {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
-            e.printStackTrace();
-            returnString += NL + ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
+            exception = ProcessUtils.mergeLogs(processOut, processErr, exitCode)
+                + ExceptionUtils.exceptionToString(e);
+        }
+        finally
+        {
+            //delete all temporary files
+            if(tempFile != null)
+                tempFile.cleanup();
         }
 
-        return returnString;
+        return KRAKATAU + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+            + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     @Override
@@ -189,7 +170,8 @@ public class KrakatauDecompiler extends AbstractDecompiler
 
         if (Configuration.rt.isEmpty())
         {
-            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + "\r\n" + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
+            BytecodeViewer.showMessage(TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_A + "\r\n"
+                + TranslatedStrings.YOU_NEED_TO_SET_YOUR_JAVA_RT_PATH_B);
             ExternalResources.getSingleton().selectJRERTLibrary();
         }
 
@@ -207,7 +189,8 @@ public class KrakatauDecompiler extends AbstractDecompiler
 
             ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(pythonCommands, "-O", //love you storyyeller <3
                 krakatauWorkingDirectory + FS + "decompile.py", "-skip", //love you storyyeller <3
-                "-nauto", "-path", Configuration.rt + ";" + tempJar.getAbsolutePath(), "-out", tempDirectory.getAbsolutePath(), tempJar.getAbsolutePath()));
+                "-nauto", "-path", Configuration.rt + ";" + tempJar.getAbsolutePath(),
+                "-out", tempDirectory.getAbsolutePath(), tempJar.getAbsolutePath()));
 
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
@@ -220,5 +203,26 @@ public class KrakatauDecompiler extends AbstractDecompiler
         {
             BytecodeViewer.handleException(e);
         }
+    }
+
+    public String buildCLIArguments()
+    {
+        if (Configuration.library.isEmpty())
+            return "";
+
+        File dir = new File(Configuration.library);
+
+        if (!dir.exists())
+            return "";
+
+        if (!dir.isDirectory())
+            return ";" + Configuration.library;
+
+        File[] files = dir.listFiles();
+        if (files == null || files.length == 0)
+            return "";
+
+        return ";" + Arrays.stream(files).filter(File::isFile)
+            .map(File::getAbsolutePath).collect(Collectors.joining(";"));
     }
 }
