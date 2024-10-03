@@ -47,7 +47,8 @@ public class Constants
     //      + You can control the java arguments (more memory & stack)
     //the cons to this are:
     //      + If you could keep it in memory, now you need to write to disk (windows limitations)
-    public static final boolean LAUNCH_DECOMPILERS_IN_NEW_PROCESS = false; //TODO
+    public static final boolean LAUNCH_DECOMPILERS_IN_NEW_PROCESS = false;  //TODO - work in progress
+                                                                            // FernFlower is added
 
     //could be automatic by checking if it's loaded a class named whatever for a library
     //maybe it could be automatic with some maven plugin?
@@ -91,7 +92,10 @@ public class Constants
     //DEV_FLAG_* are used for enabling tooling / systems reserved for development.
     //As a precaution, all variables in here MUST ensure we are working in DEV_MODE only.
     //Nothing here is meant for user level production, only development level production.
-    public static final boolean DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS = DEV_MODE && true; //enable true / false to disable
+    public static final boolean DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS = DEV_MODE && false; //enable true / false to disable
+
+    //decompilers will automatically delete their temp files, useful to turn off if you want to quickly debug a decompilers results
+    public static boolean DECOMPILERS_AUTOMATICALLY_CLEANUP = true;
 
     public static final PrintStream ERR = System.err;
     public static final PrintStream OUT = System.out;
