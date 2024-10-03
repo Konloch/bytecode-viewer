@@ -327,4 +327,5 @@ public class XposedGenerator extends Plugin
         String QUOTE = "'";
         return QUOTE + aText + QUOTE;
     }
+
 }

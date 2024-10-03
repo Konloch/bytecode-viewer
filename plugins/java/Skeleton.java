@@ -8,12 +8,15 @@ import the.bytecode.club.bytecodeviewer.api.*;
  ** @author [Your Name Goes Here]
  **/
 
-public class Skeleton extends Plugin {
+public class Skeleton extends Plugin
+{
 
     @Override
-    public void execute(List<ClassNode> classNodesList) {
+    public void execute(List<ClassNode> classNodesList)
+    {
         PluginConsole gui = new PluginConsole("Skeleton Title");
         gui.setVisible(true);
         gui.appendText("executed skeleton example");
     }
+
 }
