@@ -46,11 +46,17 @@ public class XposedGenerator extends Plugin
         String className = viewer.getName();
         ClassNode classnode = BytecodeViewer.getCurrentlyOpenedClassNode();
 
+        if (classnode == null)
+        {
+            BytecodeViewer.showMessage("Open A Classfile First");
+            return;
+        }
+
         //Call XposedGenerator class
-        ParseChosenFileContent(className, classnode);
+        parseChosenFileContent(className, classnode);
     }
 
-    public static void ParseChosenFileContent(String classname, ClassNode classNode)
+    public static void parseChosenFileContent(String classname, ClassNode classNode)
     {
         try
         {
@@ -64,7 +70,9 @@ public class XposedGenerator extends Plugin
             //Decompile using Fern
             String decomp = decompilefern.decompileClassNode(classNode, cont);
             String[] xposedTemplateTypes = {"Empty", "Parameters", "Helper"};
-            @SuppressWarnings({"unchecked", "rawtypes"}) JComboBox xposedTemplateList = new JComboBox(xposedTemplateTypes);
+            @SuppressWarnings({"unchecked", "rawtypes"})
+            JComboBox xposedTemplateList = new JComboBox(xposedTemplateTypes);
+
             //Set results of parsed methods into a list
             List<String> methodsExtracted = ProcessContentExtractedClass(decomp);
             String packgExtracted = ProcessContentExtractedPackage(decomp);
@@ -86,6 +94,7 @@ public class XposedGenerator extends Plugin
 
                 //output methods to pane box
                 int result = JOptionPane.showConfirmDialog(null, myPanel, "Choose Template and Method for Xposed Module", JOptionPane.OK_CANCEL_OPTION);
+                myPanel.remove();
 
                 if (result == JOptionPane.OK_OPTION)
                 {
@@ -129,13 +138,6 @@ public class XposedGenerator extends Plugin
         {
             try
             {
-                //TODO: Prompt save dialog
-                File file = new File("./XposedClassTest.java");
-
-                // if file doesn't exist, then create it
-                if (!file.exists())
-                    file.createNewFile();
-
                 //Extract the package name only
                 String packageNameOnly = packageName.substring(8, packageName.length() - 2).trim();
                 String classToHookNameOnly = classToHook;
@@ -151,18 +153,35 @@ public class XposedGenerator extends Plugin
                 String onlyFunction = CleanUpFunction(functionSplitValues);
 
                 //Write Xposed Class
-                String XposedClassText = "package androidpentesting.com.xposedmodule;" + "\r\n" + "import de.robv.android.xposed.IXposedHookLoadPackage;" + "\r\n" + "\r\n" + "import de.robv.android.xposed.XC_MethodHook;" + "\r\n" + "import de.robv.android.xposed.XposedBridge;" + "\r\n" + "import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;" + "\r\n" + "import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;" + "\r\n" + "\r\n" + "public class XposedClassTest implements IXposedHookLoadPackage {" + "\r\n" + "\r\n" + "   public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {" + "\r\n" + "\r\n" + "		String classToHook = " + "\"" + packageNameOnly + "." + onlyClass + "\";" + "\r\n" + "		String functionToHook = " + "\"" + onlyFunction + "\";" + "\r\n" + "		if (lpparam.packageName.equals(" + "\"" + packageNameOnly + "\"" + ")){" + "\r" + "\n" + "			XposedBridge.log(" + "\" Loaded app: \" " + " + lpparam.packageName);" + "\r\n" + "\r\n" + "			findAndHookMethod(" + "\"" + onlyClass + "\"" + ", lpparam.classLoader, " + " \"" + onlyFunction + "\"" + ", int.class," + "\r\n" + "			new XC_MethodHook() {" + "\r\n" + "			    @Override" + "\r\n" + "		        protected void beforeHookedMethod(MethodHookParam param) throws " + "Throwable {" + "\r\n" + "		            //TO BE FILLED BY ANALYST" + "\r\n" + "			    }" + "\r\n" + "		    });" + "\r\n" + "	    }" + "\r\n" + "   }" + "\r\n" + "}" + "\r\n";
-                FileWriter fw = new FileWriter(file.getAbsoluteFile());
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(XposedClassText);
-                bw.write("\r\n");
-                bw.close();
+                String XposedClassText = "package androidpentesting.com.xposedmodule;" + "\r\n"
+                    + "import de.robv.android.xposed.IXposedHookLoadPackage;" + "\r\n" + "\r\n"
+                    + "import de.robv.android.xposed.XC_MethodHook;" + "\r\n"
+                    + "import de.robv.android.xposed.XposedBridge;" + "\r\n"
+                    + "import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;" + "\r\n"
+                    + "import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;" + "\r\n" + "\r\n"
+                    + "public class XposedClassTest implements IXposedHookLoadPackage {" + "\r\n" + "\r\n"
+                    + "   public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {" + "\r\n" + "\r\n"
+                    + "		String classToHook = " + "\"" + packageNameOnly + "." + onlyClass + "\";" + "\r\n"
+                    + "		String functionToHook = " + "\"" + onlyFunction + "\";" + "\r\n" + "\r\n"
+                    + "		if (lpparam.packageName.equals(" + "\"" + packageNameOnly + "\"" + ")){" + "\r\n"
+                    + "			XposedBridge.log(" + "\" Loaded app: \" " + " + lpparam.packageName);" + "\r\n" + "\r\n"
+                    + "			findAndHookMethod(" + "\"" + onlyClass + "\"" + ", lpparam.classLoader, " + " \"" + onlyFunction + "\"" + ", int.class," + "\r\n"
+                    + "			new XC_MethodHook() {" + "\r\n"
+                    + "			    @Override" + "\r\n"
+                    + "		        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {" + "\r\n"
+                    + "		            //TO BE FILLED BY ANALYST" + "\r\n"
+                    + "			    }" + "\r\n"
+                    + "		    });" + "\r\n"
+                    + "	    }" + "\r\n"
+                    + "   }" + "\r\n"
+                    + "}" + "\r\n";
 
-                JOptionPane.showMessageDialog(null, "Xposed Module Generated");
+                PluginConsole gui = new PluginConsole("Xposed Code Generation");
+                gui.appendText(XposedClassText);
+                gui.setVisible(true);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                JOptionPane.showMessageDialog(null, "Error" + e);
                 e.printStackTrace();
             }
         }
