@@ -121,6 +121,7 @@ public class FernFlowerDecompiler extends AbstractDecompiler
     @Override
     public void decompileToZip(String sourceJar, String zipName)
     {
+        final File destination = new File(zipName);
         File tempInputJarFile = new File(sourceJar);
         File tempOutputJar = new File(TEMP_DIRECTORY + FS + "temp" + FS + tempInputJarFile.getName());
 
@@ -133,7 +134,9 @@ public class FernFlowerDecompiler extends AbstractDecompiler
         }
 
         if (tempOutputJar.exists())
-            tempOutputJar.renameTo(new File(zipName));
+            tempOutputJar.renameTo(destination);
+        else //attempt to decompile using fallback
+            decompileToZipFallBack(tempInputJarFile.getAbsolutePath(), destination.getAbsolutePath());
 
     }
 
