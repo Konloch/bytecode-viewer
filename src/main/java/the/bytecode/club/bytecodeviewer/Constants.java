@@ -94,9 +94,6 @@ public class Constants
     //Nothing here is meant for user level production, only development level production.
     public static final boolean DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS = DEV_MODE && false; //enable true / false to disable
 
-    //decompilers will automatically delete their temp files, useful to turn off if you want to quickly debug a decompilers results
-    public static boolean DECOMPILERS_AUTOMATICALLY_CLEANUP = true;
-
     public static final PrintStream ERR = System.err;
     public static final PrintStream OUT = System.out;
 

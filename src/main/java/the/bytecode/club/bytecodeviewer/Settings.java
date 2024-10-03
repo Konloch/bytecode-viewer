@@ -43,6 +43,10 @@ public class Settings
     private static List<String> recentPlugins;
     private static List<String> recentFiles;
 
+    //decompilers will automatically delete their temp files, useful to turn off if you want to quickly debug a decompilers results
+    public static boolean DECOMPILERS_AUTOMATICALLY_CLEANUP = true;
+    public static boolean DECOMPILERS_UNIFORM_SYNTAX_FORMATTING = false; //TODO
+
     static
     {
         try

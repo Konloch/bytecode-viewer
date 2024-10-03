@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import the.bytecode.club.bytecodeviewer.Constants;
+import the.bytecode.club.bytecodeviewer.Settings;
 
 import java.io.File;
 import java.util.HashSet;
@@ -63,7 +64,7 @@ public class TempFile
 
     public void cleanup()
     {
-        if(!Constants.DECOMPILERS_AUTOMATICALLY_CLEANUP)
+        if(!Settings.DECOMPILERS_AUTOMATICALLY_CLEANUP)
             return;
 
         //delete all the items
