@@ -1,6 +1,6 @@
 package the.bytecode.club.bytecodeviewer.resources.classcontainer;
 
-import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.*;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.resolution.TypeSolver;
 import com.github.javaparser.symbolsolver.JavaSymbolSolver;
@@ -10,7 +10,7 @@ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeS
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.*;
-import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.MyVoidVisitor;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.visitors.MyVoidVisitor;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,8 +57,20 @@ public class ClassFileContainer
             if (shouldParse())
             {
                 TypeSolver typeSolver = new CombinedTypeSolver(new ReflectionTypeSolver(false), new JarTypeSolver(path));
-                StaticJavaParser.getParserConfiguration().setSymbolResolver(new JavaSymbolSolver(typeSolver));
-                CompilationUnit compilationUnit = StaticJavaParser.parse(this.content);
+                JavaParser parser = new JavaParser();
+                parser.getParserConfiguration().setSymbolResolver(new JavaSymbolSolver(typeSolver));
+                ParseResult<CompilationUnit> parse = parser.parse(this.content);
+                if (!parse.isSuccessful())
+                {
+                    System.err.println("Failed to parse: " + this.getName());
+                    parse.getProblems().forEach(System.out::println);
+                    return false;
+                }
+
+                CompilationUnit compilationUnit = parse.getResult().orElse(null);
+                if (compilationUnit == null)
+                    return false;
+
                 compilationUnit.accept(new MyVoidVisitor(this, compilationUnit), null);
                 return true;
             }
@@ -66,11 +78,6 @@ public class ClassFileContainer
         catch (IOException e)
         {
             throw new RuntimeException(e);
-        }
-        catch (Exception e)
-        {
-            System.err.println("Parsing error: " + className);
-            e.printStackTrace();
         }
 
         return false;
