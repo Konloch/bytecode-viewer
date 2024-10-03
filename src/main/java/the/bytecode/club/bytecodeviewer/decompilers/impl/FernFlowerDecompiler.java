@@ -111,7 +111,7 @@ public class FernFlowerDecompiler extends AbstractDecompiler
         {
             //cleanup temp files
             if(tempFile != null)
-                tempFile.delete();
+                tempFile.cleanup();
         }
 
         return FERNFLOWER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL

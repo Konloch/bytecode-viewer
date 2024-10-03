@@ -1,5 +1,7 @@
 package the.bytecode.club.bytecodeviewer.util;
 
+import the.bytecode.club.bytecodeviewer.Constants;
+
 import java.io.File;
 import java.util.HashSet;
 
@@ -59,8 +61,11 @@ public class TempFile
         createdFilePaths.add(file.getAbsolutePath());
     }
 
-    public void delete()
+    public void cleanup()
     {
+        if(!Constants.DECOMPILERS_AUTOMATICALLY_CLEANUP)
+            return;
+
         //delete all the items
         for(String path : createdFilePaths)
         {
