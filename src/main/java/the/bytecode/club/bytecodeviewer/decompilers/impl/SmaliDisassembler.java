@@ -69,8 +69,6 @@ public class SmaliDisassembler extends AbstractDecompiler
             BytecodeViewer.handleException(e);
         }
 
-        //ZipUtils.zipFile(tempClass, tempZip);
-
         Dex2Jar.saveAsDex(tempClass, tempDex, true);
 
         try
@@ -106,6 +104,7 @@ public class SmaliDisassembler extends AbstractDecompiler
         while (!found)
         {
             File f = Objects.requireNonNull(current.listFiles())[0];
+
             if (f.isDirectory())
                 current = f;
             else
@@ -113,7 +112,6 @@ public class SmaliDisassembler extends AbstractDecompiler
                 outputSmali = f;
                 found = true;
             }
-
         }
         try
         {
