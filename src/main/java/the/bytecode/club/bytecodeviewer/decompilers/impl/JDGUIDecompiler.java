@@ -21,7 +21,6 @@ package the.bytecode.club.bytecodeviewer.decompilers.impl;
 import me.konloch.kontainer.io.DiskReader;
 import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.objectweb.asm.tree.ClassNode;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
@@ -31,15 +30,13 @@ import the.bytecode.club.bytecodeviewer.decompilers.jdgui.JDGUIClassFileUtil;
 import the.bytecode.club.bytecodeviewer.decompilers.jdgui.PlainTextPrinter;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.ExceptionUtils;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.FS;
 import static the.bytecode.club.bytecodeviewer.Constants.NL;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.JDGUI;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /**
  * JD-Core Decompiler Wrapper
@@ -71,18 +68,7 @@ public class JDGUIDecompiler extends AbstractDecompiler
             File tempJavaFile = tempFile.createFileFromExtension(false, false, ".java");
 
             //make any folders for the packages
-            if (cn.name.contains("/"))
-            {
-                String[] raw = cn.name.split("/");
-                String path = tempFile.getParent().getAbsolutePath() + FS;
-
-                for (int i = 0; i < raw.length - 1; i++)
-                {
-                    path += raw[i] + FS;
-                    File f = new File(path);
-                    f.mkdir();
-                }
-            }
+            makeFolders(tempFile, cn);
 
             try (FileOutputStream fos = new FileOutputStream(tempClassFile))
             {
@@ -118,16 +104,21 @@ public class JDGUIDecompiler extends AbstractDecompiler
                 decompiler.decompile(loader, printer, internalPath, preferences.getPreferences());
             }
 
+            //handle simulated errors
+            if(Constants.DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS)
+                throw new RuntimeException(DEV_MODE_SIMULATED_ERROR.toString());
+
+            //read the java file
             return DiskReader.loadAsString(tempJavaFile.getAbsolutePath());
         }
         catch (Throwable e)
         {
-            exception = NL + NL + ExceptionUtils.exceptionToString(e);
+            exception = ExceptionUtils.exceptionToString(e);
         }
         finally
         {
             if(tempFile != null)
-                tempFile.delete();
+                tempFile.cleanup();
         }
 
         return JDGUI + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
@@ -137,6 +128,22 @@ public class JDGUIDecompiler extends AbstractDecompiler
     @Override
     public void decompileToZip(String sourceJar, String zipName)
     {
-        //TODO
+        decompileToZipFallBack(sourceJar, zipName);
+    }
+
+    private void makeFolders(TempFile tempFile, ClassNode cn)
+    {
+        if (cn.name.contains("/"))
+        {
+            String[] raw = cn.name.split("/");
+            String path = tempFile.getParent().getAbsolutePath() + FS;
+
+            for (int i = 0; i < raw.length - 1; i++)
+            {
+                path += raw[i] + FS;
+                File f = new File(path);
+                f.mkdir();
+            }
+        }
     }
 }
