@@ -31,8 +31,6 @@ import the.bytecode.club.bytecodeviewer.util.ExceptionUtils;
 import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -69,7 +67,7 @@ public class JavapDisassembler extends AbstractDecompiler
     private synchronized String disassembleJavaP(ClassNode cn, byte[] bytes)
     {
         TempFile tempFile = null;
-        String exception = "This decompiler didn't throw an exception - this is probably a BCV logical bug";
+        String exception;
 
         JFrameConsolePrintStream sysOutBuffer;
 
@@ -115,26 +113,29 @@ public class JavapDisassembler extends AbstractDecompiler
         }
         catch (IllegalAccessException e)
         {
+            //TODO fallback using CLI (External Process API)
+
             return TranslatedStrings.ILLEGAL_ACCESS_ERROR.toString();
         }
         catch (Throwable e)
         {
-            exception = NL + NL + ExceptionUtils.exceptionToString(e);
+            exception = ExceptionUtils.exceptionToString(e);
         }
         finally
         {
             BytecodeViewer.sm.silenceExec(false);
 
             if(tempFile != null)
-                tempFile.delete();
+                tempFile.cleanup();
         }
 
-        return "JavaP " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+        return getDecompilerName() + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
             + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     @Override
     public void decompileToZip(String sourceJar, String zipName)
     {
+        decompileToZipFallBack(sourceJar, zipName);
     }
 }
