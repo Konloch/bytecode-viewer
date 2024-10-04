@@ -339,7 +339,10 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 return;
 
             String qualifiedName = referenceType.getQualifiedName();
-            String packagePath = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
+            String packagePath = "";
+            if (qualifiedName.contains("."))
+                packagePath = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
+
             this.classFileContainer.putClassReference(classValue.name,
                     new ClassReferenceLocation(getOwner(classFileContainer),
                             packagePath, "", "reference", classValue.line, classValue.columnStart, classValue.columnEnd + 1));

@@ -95,7 +95,10 @@ public class ClassFileContainer
 
     public String getName()
     {
-        return this.className.substring(this.className.lastIndexOf('/') + 1, this.className.lastIndexOf('.'));
+        if (this.className.contains("/"))
+            return this.className.substring(this.className.lastIndexOf('/') + 1, this.className.lastIndexOf('.'));
+        else
+            return this.className.substring(0, this.className.lastIndexOf('.'));
     }
 
     public String getDecompiler()

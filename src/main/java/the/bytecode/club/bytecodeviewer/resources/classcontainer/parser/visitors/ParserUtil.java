@@ -127,8 +127,7 @@ class ParserUtil
      * @param scopeValue  The scope value
      * @param fieldValue  The field value
      */
-    static void putClassResolvedValues(ClassFileContainer container, Expression visitedExpr,
-                                       Expression resolveExpr,
+    static void putClassResolvedValues(ClassFileContainer container, Expression visitedExpr, Expression resolveExpr,
                                        Value scopeValue, Value fieldValue)
     {
         ResolvedType resolvedType = visitedExpr.getSymbolResolver().calculateType(resolveExpr);
@@ -137,10 +136,12 @@ class ParserUtil
 
         String qualifiedName = resolvedType.asReferenceType().getQualifiedName();
         String className = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1);
-        String packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.'));
-        container.putClassReference(className, new ClassReferenceLocation(ParserUtil.getOwner(container),
-            packageName.replace('.', '/'), fieldValue.name, "reference", scopeValue.line, scopeValue.columnStart,
-            scopeValue.columnEnd + 1));
+        String packageName = "";
+        if (qualifiedName.contains("."))
+            packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
+
+        container.putClassReference(className, new ClassReferenceLocation(ParserUtil.getOwner(container), packageName
+            , fieldValue.name, "reference", scopeValue.line, scopeValue.columnStart, scopeValue.columnEnd + 1));
         container.putField(fieldValue.name, new ClassFieldLocation(scopeValue.name, "reference", fieldValue.line,
             fieldValue.columnStart, fieldValue.columnEnd + 1));
     }
@@ -166,10 +167,12 @@ class ParserUtil
 
         String qualifiedName = referenceType.getQualifiedName();
         String className = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1);
-        String packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.'));
-        container.putClassReference(className, new ClassReferenceLocation(ParserUtil.getOwner(container),
-            packageName.replace('.', '/'), "", "reference", scopeValue.line, scopeValue.columnStart,
-            scopeValue.columnEnd + 1));
+        String packageName = "";
+        if (qualifiedName.contains("."))
+            packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
+
+        container.putClassReference(className, new ClassReferenceLocation(ParserUtil.getOwner(container), packageName
+            , "", "reference", scopeValue.line, scopeValue.columnStart, scopeValue.columnEnd + 1));
     }
 
     /**
