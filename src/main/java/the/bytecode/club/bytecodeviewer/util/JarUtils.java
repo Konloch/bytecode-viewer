@@ -405,7 +405,7 @@ public class JarUtils
      * @param nodeList The loaded ClassNodes
      * @param path     the exact jar output path
      */
-    public static void saveAsJar(List<ClassNode> nodeList, String path)
+    public static void saveAsJar(List<ClassNode> nodeList, String path) throws IOException
     {
         try (FileOutputStream fos = new FileOutputStream(path);
              JarOutputStream out = new JarOutputStream(fos))
@@ -447,10 +447,6 @@ public class JarUtils
             }
 
             fileCollisionPrevention .clear();
-        }
-        catch (IOException e)
-        {
-            BytecodeViewer.handleException(e);
         }
     }
 }
