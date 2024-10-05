@@ -40,6 +40,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.SETTINGS_NAME;
 
 public class SettingsSerializer
 {
+    private static final String DEPRECATED = "deprecated";
     private static boolean settingsFileExists;
     private static String[] settings;
 
@@ -134,39 +135,39 @@ public class SettingsSerializer
             save(BytecodeViewer.viewer.excludeNestedTypes.isSelected());
             save(BytecodeViewer.viewer.appendBracketsToLabels.isSelected());
             save(BytecodeViewer.viewer.debugHelpers.isSelected());
-            save("deprecated");
+            save(DEPRECATED);
             save(BytecodeViewer.viewer.updateCheck.isSelected());
             save(BytecodeViewer.viewer.viewPane1.getSelectedDecompiler().ordinal());
             save(BytecodeViewer.viewer.viewPane2.getSelectedDecompiler().ordinal());
             save(BytecodeViewer.viewer.viewPane3.getSelectedDecompiler().ordinal());
             save(BytecodeViewer.viewer.refreshOnChange.isSelected());
             save(BytecodeViewer.viewer.isMaximized);
-            save("deprecated");
-            save("deprecated");
+            save(DEPRECATED);
+            save(DEPRECATED);
             save(Configuration.lastOpenDirectory);
             save(Configuration.python2);
             save(Configuration.rt);
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
             save(BytecodeViewer.viewer.decodeAPKResources.isSelected());
             save(Configuration.library);
             save(Configuration.pingback);
-            save("deprecated");
-            save("deprecated");
-            save("deprecated");
+            save(DEPRECATED);
+            save(DEPRECATED);
+            save(DEPRECATED);
             save(BytecodeViewer.viewer.getFontSize());
             save(Configuration.deleteForeignLibraries);
 
@@ -186,7 +187,7 @@ public class SettingsSerializer
             save(BytecodeViewer.viewer.synchronizedViewing.isSelected());
             save(BytecodeViewer.viewer.showClassMethods.isSelected());
             save(BytecodeViewer.viewer.ren.isSelected());
-            save("deprecated");
+            save(DEPRECATED);
 
             save(Configuration.lafTheme.name());
             save(Configuration.rstaTheme.name());
@@ -198,8 +199,8 @@ public class SettingsSerializer
             save(BytecodeViewer.viewer.viewPane3.isPaneEditable());
 
             save(Configuration.javaTools);
-            save("deprecated");
-            save("deprecated");
+            save(DEPRECATED);
+            save(DEPRECATED);
             save(Configuration.lastSaveDirectory);
             save(Configuration.lastPluginDirectory);
             save(Configuration.python2Extra);
