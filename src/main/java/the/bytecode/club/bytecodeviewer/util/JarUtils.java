@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.util;
 
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskWriter;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FilenameUtils;
@@ -390,7 +390,7 @@ public class JarUtils
                 File f = new File(name);
                 f.mkdirs();
 
-                DiskWriter.replaceFileBytes(name, cw.toByteArray(), false);
+                DiskWriter.write(name, cw.toByteArray());
             }
         }
         catch (Exception e)

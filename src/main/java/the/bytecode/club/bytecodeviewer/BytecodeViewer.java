@@ -20,8 +20,8 @@ package the.bytecode.club.bytecodeviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.konloch.disklib.DiskReader;
 import com.konloch.taskmanager.TaskManager;
-import me.konloch.kontainer.io.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.api.BCV;
@@ -588,7 +588,7 @@ public class BytecodeViewer
 
         try
         {
-            PluginWriter writer = new PluginWriter(DiskReader.loadAsString(file.getAbsolutePath()), file.getName());
+            PluginWriter writer = new PluginWriter(DiskReader.readString(file.getAbsolutePath()), file.getName());
             writer.setSourceFile(file);
             writer.setVisible(true);
         }

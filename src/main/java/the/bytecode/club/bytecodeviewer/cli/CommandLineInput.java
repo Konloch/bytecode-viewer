@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.cli;
 
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskWriter;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -250,7 +250,7 @@ public class CommandLineInput
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.PROCYON_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
-                        DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
+                        DiskWriter.write(output.getAbsolutePath(), contents);
                     }
                     catch (Exception e)
                     {
@@ -276,7 +276,7 @@ public class CommandLineInput
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.CFR_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
-                        DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
+                        DiskWriter.write(output.getAbsolutePath(), contents);
                     }
                     catch (Exception e)
                     {
@@ -302,7 +302,7 @@ public class CommandLineInput
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.FERNFLOWER_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
-                        DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
+                        DiskWriter.write(output.getAbsolutePath(), contents);
                     }
                     catch (Exception e)
                     {
@@ -328,7 +328,7 @@ public class CommandLineInput
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.KRAKATAU_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
-                        DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
+                        DiskWriter.write(output.getAbsolutePath(), contents);
                     }
                     catch (Exception e)
                     {
@@ -355,7 +355,7 @@ public class CommandLineInput
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.KRAKATAU_DISASSEMBLER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
-                        DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
+                        DiskWriter.write(output.getAbsolutePath(), contents);
                     }
                     catch (Exception e)
                     {
@@ -382,7 +382,7 @@ public class CommandLineInput
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.JD_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
-                        DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
+                        DiskWriter.write(output.getAbsolutePath(), contents);
                     }
                     catch (Exception e)
                     {
@@ -409,7 +409,7 @@ public class CommandLineInput
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.SMALI_DISASSEMBLER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
-                        DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
+                        DiskWriter.write(output.getAbsolutePath(), contents);
                     }
                     catch (Exception e)
                     {
@@ -436,7 +436,7 @@ public class CommandLineInput
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.JADX_DECOMPILER.getDecompiler().decompileClassNode(cn, cw.toByteArray());
-                        DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
+                        DiskWriter.write(output.getAbsolutePath(), contents);
                     }
                     catch (Exception e)
                     {
@@ -463,7 +463,7 @@ public class CommandLineInput
                         ClassNode cn = BytecodeViewer.blindlySearchForClassNode(target);
                         final ClassWriter cw = accept(cn);
                         String contents = Decompiler.ASMIFIER_CODE_GEN.getDecompiler().decompileClassNode(cn, cw.toByteArray());
-                        DiskWriter.replaceFile(output.getAbsolutePath(), contents, false);
+                        DiskWriter.write(output.getAbsolutePath(), contents);
                     }
                     catch (Exception e)
                     {

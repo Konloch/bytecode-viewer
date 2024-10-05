@@ -19,10 +19,8 @@
 package the.bytecode.club.bytecodeviewer.plugin;
 
 import com.google.common.io.Files;
-import com.konloch.taskmanager.Task;
-import com.konloch.taskmanager.TaskRunnable;
-import me.konloch.kontainer.io.DiskReader;
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskReader;
+import com.konloch.disklib.DiskWriter;
 import org.apache.commons.compress.utils.FileNameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -188,7 +186,7 @@ public class PluginWriter extends JFrame
 
         try
         {
-            area.setText(DiskReader.loadAsString(file.getAbsolutePath()));
+            area.setText(DiskReader.readString(file.getAbsolutePath()));
             area.setCaretPosition(0);
         }
         catch (Exception e)
@@ -269,7 +267,15 @@ public class PluginWriter extends JFrame
                 }
             }
 
-            DiskWriter.replaceFile(savePath.getAbsolutePath(), area.getText(), false);
+            try
+            {
+                DiskWriter.write(savePath.getAbsolutePath(), area.getText());
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
             addRecentPlugin(savePath);
         }, "Plugin Editor Save");
 
@@ -306,7 +312,7 @@ public class PluginWriter extends JFrame
                 else
                 {
                     //update content from latest disk data
-                    content = DiskReader.loadAsString(savePath.getAbsolutePath());
+                    content = DiskReader.readString(savePath.getAbsolutePath());
 
                     //update plugin writer UI on disk update
                     SwingUtilities.invokeLater(() ->

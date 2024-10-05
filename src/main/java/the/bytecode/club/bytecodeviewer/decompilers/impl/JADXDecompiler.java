@@ -18,9 +18,9 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
+import com.konloch.disklib.DiskReader;
 import jadx.api.JadxArgs;
 import jadx.api.JadxDecompiler;
-import me.konloch.kontainer.io.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.Settings;
@@ -112,7 +112,7 @@ public class JADXDecompiler extends AbstractDecompiler
                 return searchForJavaFile(MiscUtils.listFiles(file));
             else if(file.getName().toLowerCase().endsWith(".java"))
             {
-                String contents = DiskReader.loadAsString(file.getAbsolutePath());
+                String contents = DiskReader.readString(file.getAbsolutePath());
 
                 //cleanup
                 if(Settings.DECOMPILERS_AUTOMATICALLY_CLEANUP)

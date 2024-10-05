@@ -19,13 +19,15 @@
 package the.bytecode.club.bytecodeviewer;
 
 import com.google.gson.reflect.TypeToken;
-import me.konloch.kontainer.io.DiskReader;
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskReader;
+import com.konloch.disklib.DiskWriter;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static the.bytecode.club.bytecodeviewer.BytecodeViewer.gson;
@@ -52,14 +54,14 @@ public class Settings
         try
         {
             if (new File(FILES_NAME).exists())
-                recentFiles = gson.fromJson(DiskReader.loadAsString(FILES_NAME), new TypeToken<ArrayList<String>>() {}.getType());
+                recentFiles = gson.fromJson(DiskReader.readString(FILES_NAME), new TypeToken<ArrayList<String>>() {}.getType());
             else
-                recentFiles = DiskReader.loadArrayList(getBCVDirectory() + FS + "recentfiles.bcv", false);
+                recentFiles = Arrays.asList(DiskReader.readArray(getBCVDirectory() + FS + "recentfiles.bcv"));
 
             if (new File(PLUGINS_NAME).exists())
-                recentPlugins = gson.fromJson(DiskReader.loadAsString(PLUGINS_NAME), new TypeToken<ArrayList<String>>() {}.getType());
+                recentPlugins = gson.fromJson(DiskReader.readString(PLUGINS_NAME), new TypeToken<ArrayList<String>>() {}.getType());
             else
-                recentPlugins = DiskReader.loadArrayList(getBCVDirectory() + FS + "recentplugins.bcv", false);
+                recentPlugins = Arrays.asList(DiskReader.readArray(getBCVDirectory() + FS + "recentplugins.bcv"));
 
             MiscUtils.deduplicateAndTrim(recentFiles, maxRecentFiles);
             MiscUtils.deduplicateAndTrim(recentPlugins, maxRecentFiles);
@@ -80,7 +82,7 @@ public class Settings
         recentFiles.remove(f.getAbsolutePath()); // already added on the list
         recentFiles.add(0, f.getAbsolutePath());
         MiscUtils.deduplicateAndTrim(recentFiles, maxRecentFiles);
-        DiskWriter.replaceFile(FILES_NAME, MiscUtils.listToString(recentFiles), false);
+        saveRecentFiles();
         resetRecentFilesMenu();
     }
 
@@ -88,8 +90,20 @@ public class Settings
     {
         if (recentFiles.remove(f.getAbsolutePath()))
         {
-            DiskWriter.replaceFile(FILES_NAME, MiscUtils.listToString(recentFiles), false);
+            saveRecentFiles();
             resetRecentFilesMenu();
+        }
+    }
+
+    private static void saveRecentFiles()
+    {
+        try
+        {
+            DiskWriter.write(FILES_NAME, MiscUtils.listToString(recentFiles));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -111,7 +125,7 @@ public class Settings
         recentPlugins.remove(f.getAbsolutePath()); // already added on the list
         recentPlugins.add(0, f.getAbsolutePath());
         MiscUtils.deduplicateAndTrim(recentPlugins, maxRecentFiles);
-        DiskWriter.replaceFile(PLUGINS_NAME, MiscUtils.listToString(recentPlugins), false);
+        saveRecentPlugins();
         resetRecentFilesMenu();
     }
 
@@ -119,8 +133,20 @@ public class Settings
     {
         if (recentPlugins.remove(f.getAbsolutePath()))
         {
-            DiskWriter.replaceFile(PLUGINS_NAME, MiscUtils.listToString(recentPlugins), false);
+            saveRecentPlugins();
             resetRecentFilesMenu();
+        }
+    }
+
+    private static void saveRecentPlugins()
+    {
+        try
+        {
+            DiskWriter.write(PLUGINS_NAME, MiscUtils.listToString(recentPlugins));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 

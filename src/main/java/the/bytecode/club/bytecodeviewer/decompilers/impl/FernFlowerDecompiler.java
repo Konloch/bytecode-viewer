@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import me.konloch.kontainer.io.DiskReader;
+import com.konloch.disklib.DiskReader;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler;
 import org.objectweb.asm.tree.ClassNode;
@@ -99,7 +99,7 @@ public class FernFlowerDecompiler extends AbstractDecompiler
 
             //if the output file is found, read it
             if (tempOutputJavaFile.exists() && !Constants.DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS)
-                return DiskReader.loadAsString(tempOutputJavaFile.getAbsolutePath());
+                return DiskReader.readString(tempOutputJavaFile.getAbsolutePath());
             else
                 exception = FERNFLOWER + " " + ERROR + "! " + tempOutputJavaFile.getAbsolutePath() + " does not exist.";
         }

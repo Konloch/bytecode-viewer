@@ -18,8 +18,8 @@
 
 package the.bytecode.club.bytecodeviewer;
 
-import me.konloch.kontainer.io.DiskReader;
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskReader;
+import com.konloch.disklib.DiskWriter;
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
@@ -27,6 +27,7 @@ import the.bytecode.club.bytecodeviewer.translation.Language;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 
 import static the.bytecode.club.bytecodeviewer.Constants.VERSION;
 import static the.bytecode.club.bytecodeviewer.Constants.SETTINGS_NAME;
@@ -40,6 +41,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.SETTINGS_NAME;
 public class SettingsSerializer
 {
     private static boolean settingsFileExists;
+    private static String[] settings;
 
     public static void saveSettingsAsync()
     {
@@ -53,7 +55,7 @@ public class SettingsSerializer
 
         try
         {
-            DiskWriter.replaceFile(SETTINGS_NAME, "BCV: " + VERSION, false);
+            DiskWriter.write(SETTINGS_NAME, "BCV: " + VERSION, true);
             save(BytecodeViewer.viewer.rbr.isSelected());
             save(BytecodeViewer.viewer.rsy.isSelected());
             save(BytecodeViewer.viewer.din.isSelected());
@@ -169,9 +171,9 @@ public class SettingsSerializer
             save(Configuration.deleteForeignLibraries);
 
             if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
-                DiskWriter.writeNewLine(SETTINGS_NAME, "0");
+                DiskWriter.append(SETTINGS_NAME, "0", true);
             else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
-                DiskWriter.writeNewLine(SETTINGS_NAME, "1");
+                DiskWriter.append(SETTINGS_NAME, "1", true);
 
             save(Configuration.python3);
             save(Configuration.javac);
@@ -224,7 +226,7 @@ public class SettingsSerializer
                 return;
 
             //precache the file
-            DiskReader.loadString(SETTINGS_NAME, 0, true);
+            settings = DiskReader.readArray(SETTINGS_NAME);
 
             //process the cached file
             Configuration.lafTheme = LAFTheme.valueOf(asString(127));
@@ -425,21 +427,28 @@ public class SettingsSerializer
 
     public static void save(Object o)
     {
-        DiskWriter.writeNewLine(SETTINGS_NAME, String.valueOf(o), false);
+        try
+        {
+            DiskWriter.append(SETTINGS_NAME, String.valueOf(o), true);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public static String asString(int lineNumber) throws Exception
+    public static String asString(int lineNumber)
     {
-        return DiskReader.loadString(SETTINGS_NAME, lineNumber, false);
+        return settings[lineNumber];
     }
 
-    public static boolean asBoolean(int lineNumber) throws Exception
+    public static boolean asBoolean(int lineNumber)
     {
-        return Boolean.parseBoolean(DiskReader.loadString(SETTINGS_NAME, lineNumber, false));
+        return Boolean.parseBoolean(settings[lineNumber]);
     }
 
-    public static int asInt(int lineNumber) throws Exception
+    public static int asInt(int lineNumber)
     {
-        return Integer.parseInt(DiskReader.loadString(SETTINGS_NAME, lineNumber, false));
+        return Integer.parseInt(settings[lineNumber]);
     }
 }

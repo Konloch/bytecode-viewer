@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import me.konloch.kontainer.io.DiskReader;
+import com.konloch.disklib.DiskReader;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
@@ -75,7 +75,7 @@ public class BlankDecompilerBase extends AbstractDecompiler
 
             //if the output file is found, read it
             if (tempOutputJavaFile.exists())
-                return DiskReader.loadAsString(tempOutputJavaFile.getAbsolutePath());
+                return DiskReader.readString(tempOutputJavaFile.getAbsolutePath());
             else
                 exception = getDecompilerName() + " " + ERROR + "! " + tempOutputJavaFile.getAbsolutePath() + " does not exist.";
         }

@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import me.konloch.kontainer.io.DiskReader;
+import com.konloch.disklib.DiskReader;
 import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.Constants;
@@ -109,7 +109,7 @@ public class JDGUIDecompiler extends AbstractDecompiler
                 throw new RuntimeException(DEV_MODE_SIMULATED_ERROR.toString());
 
             //read the java file
-            return DiskReader.loadAsString(tempJavaFile.getAbsolutePath());
+            return DiskReader.readString(tempJavaFile.getAbsolutePath());
         }
         catch (Throwable e)
         {

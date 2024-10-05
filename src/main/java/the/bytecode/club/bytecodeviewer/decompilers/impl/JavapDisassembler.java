@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -80,7 +80,7 @@ public class JavapDisassembler extends AbstractDecompiler
             File tempClassFile = tempFile.getFile();
 
             //write the bytes to the class-file
-            DiskWriter.replaceFileBytes(tempClassFile.getAbsolutePath(), bytes, false);
+            DiskWriter.write(tempClassFile.getAbsolutePath(), bytes);
 
             //load java tools into a temporary classloader
             URLClassLoader child = new URLClassLoader(new URL[]{new File(Configuration.javaTools).toURI().toURL()}, this.getClass().getClassLoader());

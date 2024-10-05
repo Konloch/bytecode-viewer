@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import me.konloch.kontainer.io.DiskReader;
+import com.konloch.disklib.DiskReader;
 import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -111,7 +111,7 @@ public class KrakatauDisassembler extends AbstractDecompiler
                 throw new RuntimeException(DEV_MODE_SIMULATED_ERROR.toString());
 
             // update the string on a successful disassemble
-            returnString = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + FS + cn.name + ".j");
+            returnString = DiskReader.readString(tempDirectory.getAbsolutePath() + FS + cn.name + ".j");
         }
         catch (Exception e)
         {

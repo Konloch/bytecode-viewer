@@ -19,7 +19,7 @@
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
 import com.googlecode.d2j.smali.BaksmaliCmd;
-import me.konloch.kontainer.io.DiskReader;
+import com.konloch.disklib.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -115,7 +115,7 @@ public class SmaliDisassembler extends AbstractDecompiler
         }
         try
         {
-            return DiskReader.loadAsString(outputSmali.getAbsolutePath());
+            return DiskReader.readString(outputSmali.getAbsolutePath());
         }
         catch (Exception e)
         {

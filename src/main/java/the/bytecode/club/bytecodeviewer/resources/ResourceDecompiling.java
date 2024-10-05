@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.resources;
 
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.api.BCV;
@@ -31,6 +31,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 
 import static the.bytecode.club.bytecodeviewer.Constants.FS;
 import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
@@ -264,14 +265,14 @@ public class ResourceDecompiling
         BytecodeViewer.updateBusyStatus(false);
     }
 
-    public static void decompileCurrentlyOpenedResource(Decompiler decompiler, File outputFile, boolean saveAll)
+    public static void decompileCurrentlyOpenedResource(Decompiler decompiler, File outputFile, boolean saveAll) throws IOException
     {
         //signal to the user that BCV is performing an action in the background
         BytecodeViewer.updateBusyStatus(true);
 
         //decompile the currently opened resource and save it to the specified file
-        DiskWriter.replaceFile(saveAll ? MiscUtils.append(outputFile,
-            "-" + decompiler.getDecompilerNameProgrammatic() + ".java") : outputFile.getAbsolutePath(), BCV.decompileCurrentlyOpenedClassNode(decompiler), false);
+        DiskWriter.write(saveAll ? MiscUtils.append(outputFile,
+            "-" + decompiler.getDecompilerNameProgrammatic() + ".java") : outputFile.getAbsolutePath(), BCV.decompileCurrentlyOpenedClassNode(decompiler));
 
         //signal to the user that BCV is finished performing that action
         BytecodeViewer.updateBusyStatus(false);
