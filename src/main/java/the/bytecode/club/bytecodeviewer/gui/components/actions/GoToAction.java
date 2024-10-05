@@ -211,7 +211,9 @@ public class GoToAction extends AbstractAction
             if (packagePath.startsWith("java") || packagePath.startsWith("javax") || packagePath.startsWith("com.sun"))
                 return null;
 
-            String resourceName = packagePath + "/" + classMethodLocation.owner;
+            String resourceName = classMethodLocation.owner;
+            if (!packagePath.isEmpty())
+                resourceName = packagePath + "/" + classMethodLocation.owner;
 
             if (resourceContainer.resourceClasses.containsKey(resourceName))
             {
@@ -229,7 +231,11 @@ public class GoToAction extends AbstractAction
             if (packagePath.startsWith("java") || packagePath.startsWith("javax") || packagePath.startsWith("com.sun"))
                 return null;
 
-            String resourceName = packagePath + "/" + lexeme;
+            String resourceName = lexeme;
+            if (!packagePath.isEmpty())
+            {
+                resourceName = packagePath + "/" + lexeme;
+            }
 
             if (resourceContainer.resourceClasses.containsKey(resourceName))
             {
