@@ -347,7 +347,7 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                     new ClassReferenceLocation(getOwner(classFileContainer),
                             packagePath, "", "reference", classValue.line, classValue.columnStart, classValue.columnEnd + 1));
         }
-        catch (ClassCastException | UnsupportedOperationException | IllegalArgumentException e)
+        catch (Exception e)
         {
             printException(n, e);
         }
@@ -401,7 +401,7 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             if (node instanceof ObjectCreationExpr)
             {
                 NodeList<BodyDeclaration<?>> bodyDeclarations =
-                        ((ObjectCreationExpr) node).getAnonymousClassBody().orElse(null);
+                    ((ObjectCreationExpr) node).getAnonymousClassBody().orElse(null);
                 if (bodyDeclarations != null)
                 {
                     if (Objects.requireNonNull(bodyDeclarations.getFirst().orElse(null)).equals(n))
@@ -421,10 +421,10 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
 
             Value constructor = new Value(n.getName(), range);
             this.classFileContainer.putMethod(constructor.name, new ClassMethodLocation(resolve.getClassName(),
-                    signature, parameters, "declaration", constructor.line, constructor.columnStart,
-                    constructor.columnEnd + 1));
+                signature, parameters, "declaration", constructor.line, constructor.columnStart,
+                constructor.columnEnd + 1));
         }
-        catch (RuntimeException e)
+        catch (Exception e)
         {
             printException(n, e);
         }
@@ -566,7 +566,7 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             Value field = new Value(variableDeclarator.getName(), range);
 
             this.classFileContainer.putField(field.name, new ClassFieldLocation(getOwner(classFileContainer),
-                    "declaration", field.line, field.columnStart, field.columnEnd + 1));
+                "declaration", field.line, field.columnStart, field.columnEnd + 1));
         });
     }
 
@@ -828,8 +828,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
 
             Value methodCall = new Value(n.getName(), methodRange);
             this.classFileContainer.putMethod(methodCall.name,
-                    new ClassMethodLocation(resolve.getClassName(), signature, parameters, "reference", methodCall.line,
-                            methodCall.columnStart, methodCall.columnEnd + 1));
+                new ClassMethodLocation(resolve.getClassName(), signature, parameters, "reference", methodCall.line,
+                    methodCall.columnStart, methodCall.columnEnd + 1));
 
             if (method != null)
             {
@@ -875,7 +875,7 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
 
             Value method = new Value(n.getName(), methodRange);
             this.classFileContainer.putMethod(method.name, new ClassMethodLocation(resolve.getClassName(), signature,
-                    parameters, "declaration", method.line, method.columnStart, method.columnEnd + 1));
+                parameters, "declaration", method.line, method.columnStart, method.columnEnd + 1));
         }
         catch (Exception e)
         {
