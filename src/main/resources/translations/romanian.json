@@ -90,7 +90,7 @@
     "SMALI_DEX": "Smali",
     "HEXCODE": "Codul hexagonal",
     "BYTECODE": "Bytecode",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Descompilator de Bytecode",
     "DEBUG_HELPERS": "Ajutoare de depanare",
     "APPEND_BRACKETS_TO_LABEL": "Adăugați paranteze la etichetă",

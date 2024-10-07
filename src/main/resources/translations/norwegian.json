@@ -95,7 +95,7 @@
   "SMALI_DEX": "Smali / Dex",
   "HEXCODE": "Hexcode",
   "BYTECODE": "Bytecode",
-  "ASM_TEXTIFY": "ASM Textify",
+  "ASM_TEXTIFY": "ASM Disassembler",
 
   "BYTECODE_DECOMPILER": "Bytecode Decompiler",
   "DEBUG_HELPERS": "Feilsøkingshjelpere",

@@ -147,6 +147,36 @@ public class MiscUtils
         while (searching)
         {
             randomString = MiscUtils.randomString(32);
+            uniqueName = stringStart + randomString + fileExtension;
+            tempFile = new File(stringStart + randomString + fileExtension);
+
+            if (!tempFile.exists())
+                searching = false;
+        }
+
+        return uniqueName;
+    }
+
+    /**
+     * Checks the file system to ensure it's a unique name
+     *
+     * @param stringStart directory it'll be in
+     * @param fileExtension   the file extension it'll use
+     * @return the unique name
+     */
+    //TODO anything using this should be updated:
+    // The + ".class" needs to be removed
+    @Deprecated
+    public static String getUniqueNameBroken(String stringStart, String fileExtension)
+    {
+        String uniqueName = null;
+        boolean searching = true;
+        File tempFile;
+        String randomString;
+
+        while (searching)
+        {
+            randomString = MiscUtils.randomString(32);
             tempFile = new File(stringStart + randomString + fileExtension);
 
             if (!tempFile.exists())

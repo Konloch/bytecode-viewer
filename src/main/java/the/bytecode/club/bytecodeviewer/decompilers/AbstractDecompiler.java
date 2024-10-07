@@ -40,11 +40,19 @@ public abstract class AbstractDecompiler
 
     public abstract void decompileToZip(String sourceJar, String zipName);
 
+    public void decompileToZipFallBack(String sourceJar, String zipName)
+    {
+        //TODO
+    }
+
     public String getDecompilerName()
     {
         return decompilerName;
     }
 
+    /**
+     * Used for the compressed exports (Zip / Jar)
+     */
     public String getDecompilerNameProgrammatic()
     {
         return decompilerNameProgrammatic;

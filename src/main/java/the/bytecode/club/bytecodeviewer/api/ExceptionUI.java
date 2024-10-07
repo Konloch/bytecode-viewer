@@ -41,7 +41,7 @@ import static the.bytecode.club.bytecodeviewer.Constants.*;
 public class ExceptionUI extends JFrameConsole
 {
     public static final String KONLOCH = "https://github.com/Konloch/bytecode-viewer/issues" +
-        "or Konloch at https://the.bytecode.club or konloch@gmail.com";
+        " or Konloch at https://the.bytecode.club or konloch@gmail.com";
     public static final String SEND_STACKTRACE_TO = buildErrorLogHeader(KONLOCH);
     public static final String SEND_STACKTRACE_TO_NL = SEND_STACKTRACE_TO + NL + NL;
 

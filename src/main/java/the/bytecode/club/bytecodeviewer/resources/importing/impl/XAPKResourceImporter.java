@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskWriter;
 import org.apache.commons.io.IOUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -27,10 +27,7 @@ import the.bytecode.club.bytecodeviewer.resources.importing.Import;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -96,10 +93,10 @@ public class XAPKResourceImporter implements Importer
         BytecodeViewer.addResourceContainer(container); //add the resource container to BCV's total loaded files
     }
 
-    public File exportTo(File original, String extension, byte[] bytes)
+    public File exportTo(File original, String extension, byte[] bytes) throws IOException
     {
         File file = new File(original.getAbsolutePath() + extension);
-        DiskWriter.replaceFileBytes(file.getAbsolutePath(), bytes, false);
+        DiskWriter.write(file.getAbsolutePath(), bytes);
         return file;
     }
 }

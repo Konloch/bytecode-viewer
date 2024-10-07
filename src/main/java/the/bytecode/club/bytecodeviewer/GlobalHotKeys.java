@@ -27,6 +27,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Whenever a key is pressed on the swing UI it should get logged here
@@ -121,8 +122,18 @@ public class GlobalHotKeys
                         BytecodeViewer.updateBusyStatus(true);
                         Thread jarExport = new Thread(() ->
                         {
-                            JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file.getAbsolutePath());
-                            BytecodeViewer.updateBusyStatus(false);
+                            try
+                            {
+                                JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file.getAbsolutePath());
+                            }
+                            catch (IOException ex)
+                            {
+                                BytecodeViewer.handleException(ex);
+                            }
+                            finally
+                            {
+                                BytecodeViewer.updateBusyStatus(false);
+                            }
                         }, "Jar Export");
                         jarExport.start();
                     }

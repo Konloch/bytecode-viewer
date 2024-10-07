@@ -51,6 +51,7 @@ public class BytecodeViewPanel extends JPanel
     public BytecodeViewPanel(int panelIndex, ClassViewer viewer)
     {
         super(new BorderLayout());
+
         this.panelIndex = panelIndex;
         this.viewer = viewer;
     }
@@ -63,7 +64,7 @@ public class BytecodeViewPanel extends JPanel
         if (viewer.resource == null)
             add(new JLabel("ERROR: Resource Viewer Missing Resource"));
 
-            //TODO remove when bcel support is added
+        //TODO remove when bcel support is added
         else if (viewer.resource.getResourceClassNode() == null)
             add(new JLabel("ERROR: Resource Viewer Missing ClassNode"));
     }

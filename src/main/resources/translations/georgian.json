@@ -90,7 +90,7 @@
     "SMALI_DEX": "სმალი / დექსი",
     "HEXCODE": "ჰექსკოდი",
     "BYTECODE": "ბიტეკოდი",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Bytecode დეკომპილერი",
     "DEBUG_HELPERS": "Debug Helpers",
     "APPEND_BRACKETS_TO_LABEL": "დაამატეთ ფრჩხილები ლეიბლზე",

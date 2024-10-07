@@ -90,7 +90,7 @@
     "SMALI_DEX": "סמאלי / דקס",
     "HEXCODE": "הקסקוד",
     "BYTECODE": "Bytecode",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Decompiler Bytecode",
     "DEBUG_HELPERS": "עוזרי איתור באגים",
     "APPEND_BRACKETS_TO_LABEL": "הוסף סוגריים לתווית",

@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.gui.resourcelist;
 
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskWriter;
 import org.apache.commons.io.FilenameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
@@ -382,10 +382,10 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 File tempFile = new File(TEMP_DIRECTORY + FS + hash + FS + name + "." + extension);
                 if (!tempFile.exists())
                 {
-                    DiskWriter.replaceFileBytes(tempFile.getAbsolutePath(), content, false);
-
                     try
                     {
+                        DiskWriter.write(tempFile.getAbsolutePath(), content);
+
                         imp.getImporter().open(tempFile);
                     }
                     catch (Exception e)

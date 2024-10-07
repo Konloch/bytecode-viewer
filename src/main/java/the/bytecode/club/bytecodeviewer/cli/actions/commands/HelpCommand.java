@@ -28,10 +28,10 @@ public class HelpCommand extends CLICommand
             "-o <output file>              Selects the output file",
             "-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile all as zip",
             "-nowait                       Doesn't wait for the user to read the CLI messages",
-
+            "",
             "==BCV GUI Commands==",
             "-cleanboot                    Deletes the BCV directory and continues to boot into the GUI",
-            "-english                      Forces English language translations"
+            "-language <language>          Sets specific language translations"
         })
             System.out.println(s);
     }

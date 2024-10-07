@@ -90,7 +90,7 @@
     "SMALI_DEX": "สมาลี/เด็กซ์",
     "HEXCODE": "รหัสเลขฐานสิบหก",
     "BYTECODE": "Bytecode",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Bytecode Decompiler",
     "DEBUG_HELPERS": "ตัวช่วยดีบัก",
     "APPEND_BRACKETS_TO_LABEL": "ต่อท้ายวงเล็บเพื่อติดป้ายกำกับ",

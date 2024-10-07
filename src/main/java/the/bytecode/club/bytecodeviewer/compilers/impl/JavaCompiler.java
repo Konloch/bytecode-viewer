@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.compilers.impl;
 
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.compilers.AbstractCompiler;
@@ -69,15 +69,15 @@ public class JavaCompiler extends AbstractCompiler
             return null;
         }
 
-        //write the file we're assembling to disk
-        DiskWriter.replaceFile(javaFile.getAbsolutePath(), contents, false);
-
-        //write the entire temporary classpath to disk
-        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), classPath.getAbsolutePath());
-
         boolean cont = true;
         try
         {
+            //write the file we're assembling to disk
+            DiskWriter.write(javaFile.getAbsolutePath(), contents);
+
+            //write the entire temporary classpath to disk
+            JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), classPath.getAbsolutePath());
+
             StringBuilder log = new StringBuilder();
             ProcessBuilder pb;
 
