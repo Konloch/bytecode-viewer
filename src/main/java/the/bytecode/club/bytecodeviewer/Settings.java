@@ -42,8 +42,8 @@ public class Settings
 {
     public static boolean firstBoot = true; //stays true after settings load on first boot
     public static boolean hasSetLanguageAsSystemLanguage = false;
-    private static List<String> recentPlugins;
-    private static List<String> recentFiles;
+    private static List<String> recentPlugins = new ArrayList<>();
+    private static List<String> recentFiles = new ArrayList<>();
 
     //decompilers will automatically delete their temp files, useful to turn off if you want to quickly debug a decompilers results
     public static boolean DECOMPILERS_AUTOMATICALLY_CLEANUP = true;
@@ -53,15 +53,18 @@ public class Settings
     {
         try
         {
+            File filesFile = new File(getBCVDirectory() + FS + "recentfiles.bcv");
+            File pluginsFile = new File(getBCVDirectory() + FS + "recentplugins.bcv");
+
             if (new File(FILES_NAME).exists())
                 recentFiles = gson.fromJson(DiskReader.readString(FILES_NAME), new TypeToken<ArrayList<String>>() {}.getType());
-            else
-                recentFiles = Arrays.asList(DiskReader.readArray(getBCVDirectory() + FS + "recentfiles.bcv"));
+            else if (filesFile.exists())
+                recentFiles = Arrays.asList(DiskReader.readArray(filesFile));
 
             if (new File(PLUGINS_NAME).exists())
                 recentPlugins = gson.fromJson(DiskReader.readString(PLUGINS_NAME), new TypeToken<ArrayList<String>>() {}.getType());
-            else
-                recentPlugins = Arrays.asList(DiskReader.readArray(getBCVDirectory() + FS + "recentplugins.bcv"));
+            else if (pluginsFile.exists())
+                recentPlugins = Arrays.asList(DiskReader.readArray(pluginsFile));
 
             MiscUtils.deduplicateAndTrim(recentFiles, maxRecentFiles);
             MiscUtils.deduplicateAndTrim(recentPlugins, maxRecentFiles);
