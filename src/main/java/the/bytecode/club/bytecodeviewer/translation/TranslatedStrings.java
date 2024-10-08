@@ -41,6 +41,7 @@ public enum TranslatedStrings
     PRODUCT_H_NAME("Bytecode-Viewer"),
     WEBSITE("https://bytecodeviewer.com"),
     TBC("https://the.bytecode.club"),
+    DEV_MODE_SIMULATED_ERROR("Developer-Mode: Simulated Error"),
 
     EDITABLE,
     JAVA,

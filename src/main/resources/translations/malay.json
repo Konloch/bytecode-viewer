@@ -90,7 +90,7 @@
     "SMALI_DEX": "Smali / Dex",
     "HEXCODE": "Kod Hex",
     "BYTECODE": "Kod byk",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Pengurai Bytecode",
     "DEBUG_HELPERS": "Pembantu Debug",
     "APPEND_BRACKETS_TO_LABEL": "Lampirkan Kurungan ke Label",

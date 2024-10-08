@@ -90,7 +90,7 @@
     "SMALI_DEX": "Smali",
     "HEXCODE": "Šestmestna koda",
     "BYTECODE": "Bajtokoda",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Dekompiliator bajtkode",
     "DEBUG_HELPERS": "Pomočniki za odpravljanje napak",
     "APPEND_BRACKETS_TO_LABEL": "Dodajanje oklepajev k oznaki",

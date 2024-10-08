@@ -90,7 +90,7 @@
     "SMALI_DEX": "Smali",
     "HEXCODE": "Hexkód",
     "BYTECODE": "Bytecode",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Bytecode dekompiláló",
     "DEBUG_HELPERS": "Hibakeresési segédprogramok",
     "APPEND_BRACKETS_TO_LABEL": "Zárójelek hozzáadása a címkéhez",

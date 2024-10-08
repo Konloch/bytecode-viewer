@@ -19,38 +19,31 @@
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
 import com.konloch.disklib.DiskReader;
-import org.jd.core.v1.ClassFileToJavaSourceDecompiler;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
-import the.bytecode.club.bytecodeviewer.decompilers.jdgui.CommonPreferences;
-import the.bytecode.club.bytecodeviewer.decompilers.jdgui.DirectoryLoader;
-import the.bytecode.club.bytecodeviewer.decompilers.jdgui.JDGUIClassFileUtil;
-import the.bytecode.club.bytecodeviewer.decompilers.jdgui.PlainTextPrinter;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.ExceptionUtils;
 import the.bytecode.club.bytecodeviewer.util.TempFile;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
 
-import static the.bytecode.club.bytecodeviewer.Constants.FS;
-import static the.bytecode.club.bytecodeviewer.Constants.NL;
+import static the.bytecode.club.bytecodeviewer.Constants.*;
 import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /**
- * JD-Core Decompiler Wrapper
+ * This is an unused class. This is meant to act as a blank decompiler template to aid in developers creating new decompilers / disassemblers.
  *
  * @author Konloch
- * @author JD-Core developers
+ * @since 10/02/2024
  */
-
-public class JDGUIDecompiler extends AbstractDecompiler
+public class BlankDecompilerBase extends AbstractDecompiler
 {
-
-    public JDGUIDecompiler()
+    public BlankDecompilerBase()
     {
-        super("JD-GUI Decompiler", "jdgui");
+        super("[Your] Decompiler", "yourdecompiler");
     }
 
     @Override
@@ -63,53 +56,28 @@ public class JDGUIDecompiler extends AbstractDecompiler
         {
             //create the temporary files
             tempFile = TempFile.createTemporaryFile(true, ".class");
-            tempFile.setUniqueName(cn.name);
-            File tempClassFile = tempFile.createFileFromExtension(false, false, ".class");
-            File tempJavaFile = tempFile.createFileFromExtension(false, false, ".java");
+            File tempInputClassFile = tempFile.getFile();
+            File tempOutputJavaFile = tempFile.createFileFromExtension(false, true, ".java");
 
-            //make any folders for the packages
-            makeFolders(tempFile, cn);
-
-            try (FileOutputStream fos = new FileOutputStream(tempClassFile))
+            //write the class-file with bytes
+            try (FileOutputStream fos = new FileOutputStream(tempInputClassFile))
             {
                 fos.write(bytes);
             }
 
-            String pathToClass = tempClassFile.getAbsolutePath().replace('/', File.separatorChar).replace('\\', File.separatorChar);
-            String directoryPath = JDGUIClassFileUtil.ExtractDirectoryPath(pathToClass);
-            String internalPath = JDGUIClassFileUtil.ExtractInternalPath(directoryPath, pathToClass);
-
-            CommonPreferences preferences = new CommonPreferences()
-            {
-                @Override
-                public boolean isShowLineNumbers()
-                {
-                    return false;
-                }
-
-                @Override
-                public boolean isMergeEmptyLines()
-                {
-                    return true;
-                }
-            };
-
-            DirectoryLoader loader = new DirectoryLoader(new File(directoryPath));
-
-            org.jd.core.v1.api.Decompiler decompiler = new ClassFileToJavaSourceDecompiler();
-
-            try (PrintStream ps = new PrintStream(tempJavaFile.getAbsolutePath());
-                 PlainTextPrinter printer = new PlainTextPrinter(preferences, ps))
-            {
-                decompiler.decompile(loader, printer, internalPath, preferences.getPreferences());
-            }
+            //decompile the class-file
+            //TODO this is where you would call your decompiler api
+            //  such as YourDecompiler.decompile(tempClassFile, tempOutputJavaFile);
 
             //handle simulated errors
             if(Constants.DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS)
                 throw new RuntimeException(DEV_MODE_SIMULATED_ERROR.toString());
 
-            //read the java file
-            return DiskReader.readString(tempJavaFile.getAbsolutePath());
+            //if the output file is found, read it
+            if (tempOutputJavaFile.exists())
+                return DiskReader.readString(tempOutputJavaFile.getAbsolutePath());
+            else
+                exception = getDecompilerName() + " " + ERROR + "! " + tempOutputJavaFile.getAbsolutePath() + " does not exist.";
         }
         catch (Throwable e)
         {
@@ -117,11 +85,12 @@ public class JDGUIDecompiler extends AbstractDecompiler
         }
         finally
         {
+            //cleanup temp files
             if(tempFile != null)
                 tempFile.cleanup();
         }
 
-        return JDGUI + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+        return getDecompilerName() + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
             + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
@@ -129,21 +98,5 @@ public class JDGUIDecompiler extends AbstractDecompiler
     public void decompileToZip(String sourceJar, String zipName)
     {
         decompileToZipFallBack(sourceJar, zipName);
-    }
-
-    private void makeFolders(TempFile tempFile, ClassNode cn)
-    {
-        if (cn.name.contains("/"))
-        {
-            String[] raw = cn.name.split("/");
-            String path = tempFile.getParent().getAbsolutePath() + FS;
-
-            for (int i = 0; i < raw.length - 1; i++)
-            {
-                path += raw[i] + FS;
-                File f = new File(path);
-                f.mkdir();
-            }
-        }
     }
 }

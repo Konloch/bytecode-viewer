@@ -90,7 +90,7 @@
     "SMALI_DEX": "Smali",
     "HEXCODE": "Código Hexcode",
     "BYTECODE": "Bytecode",
-    "ASM_TEXTIFY": "ASM Textificar",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Descompilador de Bytecode",
     "DEBUG_HELPERS": "Ajudantes de Depuração",
     "APPEND_BRACKETS_TO_LABEL": "Anexar parênteses ao rótulo",

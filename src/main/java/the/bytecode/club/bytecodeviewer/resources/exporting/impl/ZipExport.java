@@ -28,6 +28,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author Konloch
@@ -65,8 +66,18 @@ public class ZipExport implements Exporter
 
                     Thread saveThread = new Thread(() ->
                     {
-                        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file.getAbsolutePath());
-                        BytecodeViewer.updateBusyStatus(false);
+                        try
+                        {
+                            JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), file.getAbsolutePath());
+                        }
+                        catch (IOException ex)
+                        {
+                            BytecodeViewer.handleException(ex);
+                        }
+                        finally
+                        {
+                            BytecodeViewer.updateBusyStatus(false);
+                        }
                     }, "Jar Export");
 
                     saveThread.start();

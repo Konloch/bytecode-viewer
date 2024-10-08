@@ -89,8 +89,8 @@ public class ClassFileContainer
             && !getDecompiler().equals(Decompiler.KRAKATAU_DISASSEMBLER.getDecompilerName())
             && !getDecompiler().equals(Decompiler.JAVAP_DISASSEMBLER.getDecompilerName())
             && !getDecompiler().equals(Decompiler.SMALI_DISASSEMBLER.getDecompilerName())
-            && !getDecompiler().equals(Decompiler.ASM_TEXTIFY_DISASSEMBLER.getDecompilerName())
-            && !getDecompiler().equals(Decompiler.ASMIFIER_DECOMPILER.getDecompilerName());
+            && !getDecompiler().equals(Decompiler.ASM_DISASSEMBLER.getDecompilerName())
+            && !getDecompiler().equals(Decompiler.ASMIFIER_CODE_GEN.getDecompilerName());
     }
 
     public String getName()

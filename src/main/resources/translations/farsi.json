@@ -90,7 +90,7 @@
     "SMALI_DEX": "اسمالی / دکس",
     "HEXCODE": "کد هگز",
     "BYTECODE": "کد Bytecode",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "رمزگشایی Bytecode",
     "DEBUG_HELPERS": "راهنمای اشکال زدایی",
     "APPEND_BRACKETS_TO_LABEL": "براکت ها را به برچسب اضافه کنید",

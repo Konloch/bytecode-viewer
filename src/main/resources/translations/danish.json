@@ -90,7 +90,7 @@
     "SMALI_DEX": "Smali",
     "HEXCODE": "Hexkode",
     "BYTECODE": "Bytekode",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Bytecode-dekompilering",
     "DEBUG_HELPERS": "Hjælpemidler til fejlfinding",
     "APPEND_BRACKETS_TO_LABEL": "Tilføj parenteser til etiketten",

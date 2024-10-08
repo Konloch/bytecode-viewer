@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
-import me.konloch.kontainer.io.DiskReader;
+import com.konloch.disklib.DiskReader;
 import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -35,6 +35,7 @@ import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 import java.io.*;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.DEV_MODE_SIMULATED_ERROR;
 
 /**
  * Krakatau Java Disassembler Wrapper, requires Python 2.7
@@ -105,8 +106,12 @@ public class KrakatauDisassembler extends AbstractDecompiler
             log.append(NL).append(NL).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
             returnString = log.toString();
 
+            //handle simulated errors
+            if(Constants.DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS)
+                throw new RuntimeException(DEV_MODE_SIMULATED_ERROR.toString());
+
             // update the string on a successful disassemble
-            returnString = DiskReader.loadAsString(tempDirectory.getAbsolutePath() + FS + cn.name + ".j");
+            returnString = DiskReader.readString(tempDirectory.getAbsolutePath() + FS + cn.name + ".j");
         }
         catch (Exception e)
         {

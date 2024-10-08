@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.compilers.impl;
 
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskWriter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -55,21 +55,20 @@ public class KrakatauAssembler extends AbstractCompiler
         final File tempDirectory2 = new File(Constants.TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS);
         final File javaFile = new File(tempDirectory1.getAbsolutePath() + FS + fullyQualifiedName + ".j");
         final File tempJar = new File(Constants.TEMP_DIRECTORY + FS + "temp" + MiscUtils.randomString(32) + ".jar");
+        final StringBuilder log = new StringBuilder();
 
         //create the temp directories
         tempDirectory1.mkdir();
         tempDirectory2.mkdir();
 
-        //write the file we're assembling to disk
-        DiskWriter.replaceFile(javaFile.getAbsolutePath(), contents, true);
-
-        //write the entire temporary classpath to disk
-        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
-
-        StringBuilder log = new StringBuilder();
-
         try
         {
+            //write the file we're assembling to disk
+            DiskWriter.write(javaFile.getAbsolutePath(), contents);
+
+            //write the entire temporary classpath to disk
+            JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), tempJar.getAbsolutePath());
+
             String[] pythonCommands = new String[]{Configuration.python2};
             if (Configuration.python2Extra)
                 pythonCommands = ArrayUtils.addAll(pythonCommands, "-2");

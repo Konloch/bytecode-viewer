@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.util;
 
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskWriter;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FilenameUtils;
@@ -356,7 +356,7 @@ public class JarUtils
 
                     String name = cn.name + ".class";
 
-                    if (!fileCollisionPrevention.add(name))
+                    if (fileCollisionPrevention.add(name))
                     {
                         out.putNextEntry(new ZipEntry(name));
                         out.write(cw.toByteArray());
@@ -390,7 +390,7 @@ public class JarUtils
                 File f = new File(name);
                 f.mkdirs();
 
-                DiskWriter.replaceFileBytes(name, cw.toByteArray(), false);
+                DiskWriter.write(name, cw.toByteArray());
             }
         }
         catch (Exception e)
@@ -405,7 +405,7 @@ public class JarUtils
      * @param nodeList The loaded ClassNodes
      * @param path     the exact jar output path
      */
-    public static void saveAsJar(List<ClassNode> nodeList, String path)
+    public static void saveAsJar(List<ClassNode> nodeList, String path) throws IOException
     {
         try (FileOutputStream fos = new FileOutputStream(path);
              JarOutputStream out = new JarOutputStream(fos))
@@ -447,10 +447,6 @@ public class JarUtils
             }
 
             fileCollisionPrevention .clear();
-        }
-        catch (IOException e)
-        {
-            BytecodeViewer.handleException(e);
         }
     }
 }

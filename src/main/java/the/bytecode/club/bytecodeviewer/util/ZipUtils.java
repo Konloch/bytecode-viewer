@@ -46,53 +46,33 @@ public final class ZipUtils
         String canonicalDestDir = new File(destinationDir).getCanonicalPath();
 
         if (!canonicalDestDir.endsWith(File.separator))
-        {
             canonicalDestDir += File.separator;
-        }
 
-        File file = new File(jarPath);
-
-        try (JarFile jar = new JarFile(file))
+        try (JarFile jarFile = new JarFile(new File(jarPath)))
         {
-
-            // fist get all directories,
-            // then make those directory on the destination Path
-            /*for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements(); ) {
-                JarEntry entry = (JarEntry) enums.nextElement();
-
-                String fileName = destinationDir + File.separator + entry.getName();
-                File f = new File(fileName);
-
-                if (fileName.endsWith("/")) {
-                    f.mkdirs();
-                }
-
-            }*/
-
             //now create all files
-            for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements(); )
+            for (Enumeration<JarEntry> enums = jarFile.entries();
+                 enums.hasMoreElements(); )
             {
                 JarEntry entry = enums.nextElement();
 
                 String fileName = destinationDir + File.separator + entry.getName();
-                File f = new File(fileName);
+                File file = new File(fileName);
 
-                if (!f.getCanonicalPath().startsWith(canonicalDestDir))
+                if (!file.getCanonicalPath().startsWith(canonicalDestDir))
                 {
                     System.out.println("Zip Slip exploit detected. Skipping entry " + entry.getName());
                     continue;
                 }
 
-                File parent = f.getParentFile();
+                File parent = file.getParentFile();
 
                 if (!parent.exists())
-                {
                     parent.mkdirs();
-                }
 
                 if (!fileName.endsWith("/"))
                 {
-                    try (InputStream is = jar.getInputStream(entry); FileOutputStream fos = new FileOutputStream(f))
+                    try (InputStream is = jarFile.getInputStream(entry); FileOutputStream fos = new FileOutputStream(file))
                     {
                         // write contents of 'is' to 'fos'
                         while (is.available() > 0)
@@ -117,6 +97,7 @@ public final class ZipUtils
             try (FileInputStream in = new FileInputStream(inputFile))
             {
                 int len;
+
                 while ((len = in.read(buffer)) > 0)
                 {
                     zos.write(buffer, 0, len);
@@ -153,9 +134,7 @@ public final class ZipUtils
 
         File folder = new File(srcFile);
         if (folder.isDirectory())
-        {
             addFolderToZip(path, srcFile, zip, ignore);
-        }
         else
         {
             byte[] buf = new byte[1024];
@@ -185,10 +164,11 @@ public final class ZipUtils
         File folder = new File(srcFile);
 
         String check = path.toLowerCase();
+
         //if(check.startsWith("decoded unknown") || check.startsWith("decoded lib") || check.startsWith("decoded
         // assets") || check.startsWith("decoded original") || check.startsWith("decoded smali") || check.startsWith
         // ("decoded apktool.yml"))
-        if (check.startsWith("decoded original") || check.startsWith("decoded smali") || check.startsWith("decoded " + "apktool.yml"))
+        if (check.startsWith("decoded original") || check.startsWith("decoded smali") || check.startsWith("decoded apktool.yml"))
             return;
 
         //if(path.equals("original") || path.equals("classes.dex") || path.equals("apktool.yml"))

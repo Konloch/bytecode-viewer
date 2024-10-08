@@ -18,7 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.compilers.impl;
 
-import me.konloch.kontainer.io.DiskWriter;
+import com.konloch.disklib.DiskWriter;
 import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.compilers.AbstractCompiler;
@@ -59,7 +59,7 @@ public class SmaliAssembler extends AbstractCompiler
         try
         {
             //write the file we're assembling to disk
-            DiskWriter.replaceFile(tempSmali.getAbsolutePath(), contents, false);
+            DiskWriter.write(tempSmali.getAbsolutePath(), contents);
         }
         catch (Exception e)
         {

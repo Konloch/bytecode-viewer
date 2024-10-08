@@ -90,7 +90,7 @@
     "SMALI_DEX": "Smali/Dex",
     "HEXCODE": "Hexcode",
     "BYTECODE": "Bytecode",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Dekompilator bajtkoda",
     "DEBUG_HELPERS": "Pomoćnici za ispravljanje pogrešaka",
     "APPEND_BRACKETS_TO_LABEL": "Dodaj zagrade na oznaku",

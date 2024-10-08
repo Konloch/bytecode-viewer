@@ -90,7 +90,7 @@
     "SMALI_DEX": "Smali",
     "HEXCODE": "Шестнайсетичен код",
     "BYTECODE": "Байткод",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Декомпилатор на байткод",
     "DEBUG_HELPERS": "Помощници за отстраняване на грешки",
     "APPEND_BRACKETS_TO_LABEL": "Прилагане на скоби към етикета",

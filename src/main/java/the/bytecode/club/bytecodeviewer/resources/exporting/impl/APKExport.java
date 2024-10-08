@@ -31,6 +31,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -109,17 +110,26 @@ public class APKExport implements Exporter
 
                     Thread saveThread = new Thread(() ->
                     {
-                        BytecodeViewer.updateBusyStatus(true);
-                        final String input = TEMP_DIRECTORY + FS + MiscUtils.getRandomizedName() + ".jar";
-                        JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
-
-                        Thread buildAPKThread = new Thread(() ->
+                        try
                         {
-                            APKTool.buildAPK(new File(input), file, finalContainer);
-                            BytecodeViewer.updateBusyStatus(false);
-                        }, "Process APK");
+                            BytecodeViewer.updateBusyStatus(true);
+                            final String input = TEMP_DIRECTORY + FS + MiscUtils.getRandomizedName() + ".jar";
 
-                        buildAPKThread.start();
+                            JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
+
+                            Thread buildAPKThread = new Thread(() ->
+                            {
+                                APKTool.buildAPK(new File(input), file, finalContainer);
+                                BytecodeViewer.updateBusyStatus(false);
+                            }, "Process APK");
+
+                            buildAPKThread.start();
+                        }
+                        catch (IOException ex)
+                        {
+                            BytecodeViewer.updateBusyStatus(false);
+                            BytecodeViewer.handleException(ex);
+                        }
                     }, "Jar Export");
 
                     saveThread.start();

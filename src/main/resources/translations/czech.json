@@ -90,7 +90,7 @@
     "SMALI_DEX": "Smali",
     "HEXCODE": "Hexcode",
     "BYTECODE": "Bytový kód",
-    "ASM_TEXTIFY": "ASM Textify",
+    "ASM_TEXTIFY": "ASM Disassembler",
     "BYTECODE_DECOMPILER": "Dekompilátor bajtového kódu",
     "DEBUG_HELPERS": "Pomocníci pro ladění",
     "APPEND_BRACKETS_TO_LABEL": "Připojení závorek ke štítku",

@@ -19,7 +19,7 @@
 package the.bytecode.club.bytecodeviewer.decompilers.impl;
 
 import com.googlecode.d2j.smali.BaksmaliCmd;
-import me.konloch.kontainer.io.DiskReader;
+import com.konloch.disklib.DiskReader;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -52,7 +52,7 @@ public class SmaliDisassembler extends AbstractDecompiler
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
         final String fileStart = TEMP_DIRECTORY + FS + "temp";
-        final String start = MiscUtils.getUniqueName(fileStart, ".class");
+        final String start = MiscUtils.getUniqueNameBroken(fileStart, ".class");
         final File tempClass = new File(start + ".class");
         final File tempDex = new File(start + ".dex");
         final File tempDexOut = new File(start + "-out");
@@ -68,8 +68,6 @@ public class SmaliDisassembler extends AbstractDecompiler
         {
             BytecodeViewer.handleException(e);
         }
-
-        //ZipUtils.zipFile(tempClass, tempZip);
 
         Dex2Jar.saveAsDex(tempClass, tempDex, true);
 
@@ -106,6 +104,7 @@ public class SmaliDisassembler extends AbstractDecompiler
         while (!found)
         {
             File f = Objects.requireNonNull(current.listFiles())[0];
+
             if (f.isDirectory())
                 current = f;
             else
@@ -113,11 +112,10 @@ public class SmaliDisassembler extends AbstractDecompiler
                 outputSmali = f;
                 found = true;
             }
-
         }
         try
         {
-            return DiskReader.loadAsString(outputSmali.getAbsolutePath());
+            return DiskReader.readString(outputSmali.getAbsolutePath());
         }
         catch (Exception e)
         {
@@ -128,7 +126,8 @@ public class SmaliDisassembler extends AbstractDecompiler
             exception += ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
         }
 
-        return SMALI + " " + DISASSEMBLER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
+        return SMALI + " " + DISASSEMBLER + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+            + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
     }
 
     @Override

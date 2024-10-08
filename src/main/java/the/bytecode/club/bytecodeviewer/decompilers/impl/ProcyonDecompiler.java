@@ -27,11 +27,13 @@ import com.strobel.decompiler.PlainTextOutput;
 import com.strobel.decompiler.languages.java.JavaFormattingOptions;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import the.bytecode.club.bytecodeviewer.util.EncodeUtils;
-import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.ExceptionUtils;
+import the.bytecode.club.bytecodeviewer.util.TempFile;
 
 import java.io.*;
 import java.util.*;
@@ -41,8 +43,7 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 
 import static the.bytecode.club.bytecodeviewer.Constants.*;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.ERROR;
-import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.PROCYON;
+import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.*;
 
 /**
  * Procyon Java Decompiler Wrapper
@@ -50,12 +51,182 @@ import static the.bytecode.club.bytecodeviewer.translation.TranslatedStrings.PRO
  * @author Konloch
  * @author DeathMarine
  */
+
 public class ProcyonDecompiler extends AbstractDecompiler
 {
 
     public ProcyonDecompiler()
     {
-        super("Procyon Decompiler", "proycon");
+        super("Procyon Decompiler", "procyon");
+    }
+
+    @Override
+    public String decompileClassNode(ClassNode cn, byte[] bytes)
+    {
+        TempFile tempFile = null;
+        String exception;
+
+        try
+        {
+            //create the temporary files
+            tempFile = TempFile.createTemporaryFile(false, ".class");
+            File tempInputClassFile = tempFile.getFile();
+
+            //write the ClassNode bytes to the temp file
+            try (FileOutputStream fos = new FileOutputStream(tempInputClassFile))
+            {
+                fos.write(bytes);
+            }
+
+            //initialize procyon
+            DecompilerSettings settings = getDecompilerSettings();
+            LuytenTypeLoader typeLoader = new LuytenTypeLoader();
+            MetadataSystem metadataSystem = new MetadataSystem(typeLoader);
+            DecompilationOptions decompilationOptions = new DecompilationOptions();
+            StringWriter writer = new StringWriter();
+
+            //lookup the class-file
+            TypeReference type = metadataSystem.lookupType(tempInputClassFile.getCanonicalPath());
+
+            //configure procyon
+            decompilationOptions.setSettings(settings);
+            decompilationOptions.setFullDecompilation(true);
+
+            //parse class-file
+            TypeDefinition resolvedType;
+
+            if (type == null || ((resolvedType = type.resolve()) == null))
+                throw new Exception("Unable to resolve class-filetype.");
+
+            //decompile the class-file
+            settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(writer), decompilationOptions);
+
+            //handle simulated errors
+            if(Constants.DEV_FLAG_DECOMPILERS_SIMULATED_ERRORS)
+                throw new RuntimeException(DEV_MODE_SIMULATED_ERROR.toString());
+
+            //return the writer contents
+            return EncodeUtils.unicodeToString(writer.toString());
+        }
+        catch (Throwable e)
+        {
+            exception = ExceptionUtils.exceptionToString(e);
+        }
+        finally
+        {
+            //delete all temporary files
+            if(tempFile != null)
+                tempFile.cleanup();
+        }
+
+        return PROCYON + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL
+            + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
+    }
+
+    @Override
+    public void decompileToZip(String sourceJar, String zipName)
+    {
+        try
+        {
+            try (JarFile jarFile = new JarFile(sourceJar);
+                 FileOutputStream destination = new FileOutputStream(zipName);
+                 BufferedOutputStream buffer = new BufferedOutputStream(destination);
+                 ZipOutputStream zip = new ZipOutputStream(buffer))
+            {
+                byte[] data = new byte[1024];
+
+                //initialize procyon
+                DecompilerSettings settings = getDecompilerSettings();
+                LuytenTypeLoader typeLoader = new LuytenTypeLoader();
+                MetadataSystem metadataSystem = new MetadataSystem(typeLoader);
+                ITypeLoader jarLoader = new JarTypeLoader(jarFile);
+
+                //lookup the jar-file
+                typeLoader.getTypeLoaders().add(jarLoader);
+
+                //configure procyon
+                DecompilationOptions decompilationOptions = new DecompilationOptions();
+                decompilationOptions.setSettings(settings);
+                decompilationOptions.setFullDecompilation(true);
+
+                //setup jar output
+                Enumeration<JarEntry> ent = jarFile.entries();
+                Set<JarEntry> history = new HashSet<>();
+
+                while (ent.hasMoreElements())
+                {
+                    JarEntry entry = ent.nextElement();
+
+                    if (entry.getName().endsWith(".class"))
+                    {
+                        JarEntry etn = new JarEntry(entry.getName().replace(".class", ".java"));
+
+                        if (history.add(etn))
+                        {
+                            zip.putNextEntry(etn);
+
+                            try
+                            {
+                                String internalName = StringUtilities.removeRight(entry.getName(), ".class");
+                                TypeReference type = metadataSystem.lookupType(internalName);
+                                TypeDefinition resolvedType;
+
+                                if ((type == null) || ((resolvedType = type.resolve()) == null))
+                                    throw new Exception("Unable to resolve type.");
+
+                                Writer writer = new OutputStreamWriter(zip);
+                                settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(writer), decompilationOptions);
+                                writer.flush();
+                            }
+                            finally
+                            {
+                                zip.closeEntry();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            JarEntry etn = new JarEntry(entry.getName());
+
+                            if (history.add(etn))
+                                continue;
+
+                            history.add(etn);
+                            zip.putNextEntry(etn);
+
+                            try (InputStream in = jarFile.getInputStream(entry))
+                            {
+                                if (in != null)
+                                {
+                                    int count;
+
+                                    while ((count = in.read(data, 0, 1024)) != -1)
+                                    {
+                                        zip.write(data, 0, count);
+                                    }
+                                }
+                            }
+                            finally
+                            {
+                                zip.closeEntry();
+                            }
+                        }
+                        catch (ZipException ze)
+                        {
+                            // some jars contain duplicate pom.xml entries: ignore it
+                            if (!ze.getMessage().contains("duplicate"))
+                                throw ze;
+                        }
+                    }
+                }
+            }
+        }
+        catch (StackOverflowError | Exception e)
+        {
+            BytecodeViewer.handleException(e);
+        }
     }
 
     public DecompilerSettings getDecompilerSettings()
@@ -77,165 +248,6 @@ public class ProcyonDecompiler extends AbstractDecompiler
         settings.setUnicodeOutputEnabled(BytecodeViewer.viewer.unicodeOutputEnabled.isSelected());
         settings.setJavaFormattingOptions(JavaFormattingOptions.createDefault());
         return settings;
-    }
-
-    @Override
-    public String decompileClassNode(ClassNode cn, byte[] bytes)
-    {
-        String exception;
-        try
-        {
-            final String fileStart = TEMP_DIRECTORY + FS + "temp";
-            final File tempClass = new File(MiscUtils.getUniqueName(fileStart, ".class") + ".class");
-
-            try (FileOutputStream fos = new FileOutputStream(tempClass))
-            {
-                fos.write(bytes);
-            }
-            catch (IOException e)
-            {
-                BytecodeViewer.handleException(e);
-            }
-
-            DecompilerSettings settings = getDecompilerSettings();
-
-            LuytenTypeLoader typeLoader = new LuytenTypeLoader();
-            MetadataSystem metadataSystem = new MetadataSystem(typeLoader);
-            TypeReference type = metadataSystem.lookupType(tempClass.getCanonicalPath());
-
-            DecompilationOptions decompilationOptions = new DecompilationOptions();
-            decompilationOptions.setSettings(settings);
-            decompilationOptions.setFullDecompilation(true);
-
-            TypeDefinition resolvedType;
-
-            if (type == null || ((resolvedType = type.resolve()) == null))
-                throw new Exception("Unable to resolve type.");
-
-            StringWriter stringwriter = new StringWriter();
-            settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(stringwriter), decompilationOptions);
-
-            return EncodeUtils.unicodeToString(stringwriter.toString());
-        }
-        catch (StackOverflowError | Exception e)
-        {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
-            e.printStackTrace();
-
-            exception = ExceptionUI.SEND_STACKTRACE_TO_NL + sw;
-        }
-
-        return PROCYON + " " + ERROR + "! " + ExceptionUI.SEND_STACKTRACE_TO + NL + NL + TranslatedStrings.SUGGESTED_FIX_DECOMPILER_ERROR + NL + NL + exception;
-    }
-
-    @Override
-    public void decompileToZip(String sourceJar, String zipName)
-    {
-        try
-        {
-            doSaveJarDecompiled(new File(sourceJar), new File(zipName));
-        }
-        catch (StackOverflowError | Exception e)
-        {
-            BytecodeViewer.handleException(e);
-        }
-    }
-
-    /**
-     * @author DeathMarine
-     */
-    private void doSaveJarDecompiled(File inFile, File outFile) throws Exception
-    {
-        try (JarFile jfile = new JarFile(inFile);
-             FileOutputStream dest = new FileOutputStream(outFile);
-             BufferedOutputStream buffDest = new BufferedOutputStream(dest);
-             ZipOutputStream out = new ZipOutputStream(buffDest))
-        {
-            byte[] data = new byte[1024];
-            DecompilerSettings settings = getDecompilerSettings();
-            LuytenTypeLoader typeLoader = new LuytenTypeLoader();
-            MetadataSystem metadataSystem = new MetadataSystem(typeLoader);
-            ITypeLoader jarLoader = new JarTypeLoader(jfile);
-            typeLoader.getTypeLoaders().add(jarLoader);
-
-            DecompilationOptions decompilationOptions = new DecompilationOptions();
-            decompilationOptions.setSettings(settings);
-            decompilationOptions.setFullDecompilation(true);
-
-            Enumeration<JarEntry> ent = jfile.entries();
-            Set<JarEntry> history = new HashSet<>();
-
-            while (ent.hasMoreElements())
-            {
-                JarEntry entry = ent.nextElement();
-
-                if (entry.getName().endsWith(".class"))
-                {
-                    JarEntry etn = new JarEntry(entry.getName().replace(".class", ".java"));
-
-                    if (history.add(etn))
-                    {
-                        out.putNextEntry(etn);
-
-                        try
-                        {
-                            String internalName = StringUtilities.removeRight(entry.getName(), ".class");
-                            TypeReference type = metadataSystem.lookupType(internalName);
-                            TypeDefinition resolvedType;
-
-                            if ((type == null) || ((resolvedType = type.resolve()) == null))
-                            {
-                                throw new Exception("Unable to resolve type.");
-                            }
-
-                            Writer writer = new OutputStreamWriter(out);
-                            settings.getLanguage().decompileType(resolvedType, new PlainTextOutput(writer), decompilationOptions);
-                            writer.flush();
-                        }
-                        finally
-                        {
-                            out.closeEntry();
-                        }
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        JarEntry etn = new JarEntry(entry.getName());
-
-                        if (history.add(etn))
-                            continue;
-
-                        history.add(etn);
-                        out.putNextEntry(etn);
-
-                        try (InputStream in = jfile.getInputStream(entry))
-                        {
-                            if (in != null)
-                            {
-                                int count;
-                                while ((count = in.read(data, 0, 1024)) != -1)
-                                {
-                                    out.write(data, 0, count);
-                                }
-                            }
-                        }
-                        finally
-                        {
-                            out.closeEntry();
-                        }
-                    }
-                    catch (ZipException ze)
-                    {
-                        // some jars contain duplicate pom.xml entries: ignore it
-                        if (!ze.getMessage().contains("duplicate"))
-                            throw ze;
-                    }
-                }
-            }
-        }
     }
 
     /**
