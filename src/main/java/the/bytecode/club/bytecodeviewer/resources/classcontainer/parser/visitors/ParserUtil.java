@@ -56,27 +56,30 @@ class ParserUtil
      * @param resolveExpr The {@code NameExpr}
      * @param value       The value
      */
-    static void putResolvedValues(ClassFileContainer container, String decRef, CallableDeclaration<?> method,
-                                  NameExpr resolveExpr, Value value)
+    static boolean putResolvedValues(ClassFileContainer container, String decRef, CallableDeclaration<?> method,
+                                     NameExpr resolveExpr, Value value)
     {
         ResolvedValueDeclaration vd = resolveExpr.resolve();
         if (vd.isField())
         {
             container.putField(value.name, new ClassFieldLocation(getOwner(container), decRef,
                 value.line, value.columnStart, value.columnEnd + 1));
+            return true;
         }
         else if (vd.isVariable())
         {
-            container.putLocalVariable(value.name, new ClassLocalVariableLocation(getOwner(container)
-                , getMethod(method), decRef, value.line, value.columnStart,
-                value.columnEnd + 1));
+            container.putLocalVariable(value.name, new ClassLocalVariableLocation(getOwner(container),
+                getMethod(method), decRef, value.line, value.columnStart, value.columnEnd + 1));
+            return true;
         }
         else if (vd.isParameter())
         {
-            container.putParameter(value.name, new ClassParameterLocation(getOwner(container),
-                getMethod(method), decRef, value.line, value.columnStart,
-                value.columnEnd + 1));
+            container.putParameter(value.name, new ClassParameterLocation(getOwner(container), getMethod(method),
+                decRef, value.line, value.columnStart, value.columnEnd + 1));
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -96,8 +99,8 @@ class ParserUtil
         }
         else if (vd.isVariable())
         {
-            container.putLocalVariable(value.name, new ClassLocalVariableLocation(getOwner(container)
-                , "static", decRef, value.line, value.columnStart, value.columnEnd + 1));
+            container.putLocalVariable(value.name, new ClassLocalVariableLocation(getOwner(container), "static",
+                decRef, value.line, value.columnStart, value.columnEnd + 1));
         }
         else if (vd.isParameter())
         {

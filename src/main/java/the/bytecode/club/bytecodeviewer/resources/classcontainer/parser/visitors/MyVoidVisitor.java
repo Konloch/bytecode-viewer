@@ -532,10 +532,13 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         try
         {
             InitializerDeclaration initializer = findInitializerForExpression(n, this.compilationUnit);
+            CallableDeclaration<?> method = findMethodForExpression(n, this.compilationUnit);
+            if (method == null)
+                method = findConstructorForExpression(n, this.compilationUnit);
 
-            if (initializer == null)
-                FieldAccessParser.parse(classFileContainer, n);
-            else
+            if (method != null)
+                FieldAccessParser.parse(classFileContainer, n, method);
+            else if (initializer != null)
                 FieldAccessParser.parseStatic(classFileContainer, n);
         }
         catch (Exception e)

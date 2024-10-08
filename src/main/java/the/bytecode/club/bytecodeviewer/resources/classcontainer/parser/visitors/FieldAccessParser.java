@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.visitors;
 
 import com.github.javaparser.Range;
+import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContainer;
@@ -16,7 +17,7 @@ import static the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.v
 class FieldAccessParser
 {
 
-    static void parse(ClassFileContainer container, FieldAccessExpr expr)
+    static void parse(ClassFileContainer container, FieldAccessExpr expr, CallableDeclaration<?> method)
     {
         Range fieldRange = Objects.requireNonNull(expr.getTokenRange().orElse(null)).getEnd().getRange().orElse(null);
         if (fieldRange == null)
@@ -26,7 +27,7 @@ class FieldAccessParser
 
         Expression scope = expr.getScope();
 
-        // Ex. Clazz.field -> Clazz
+        // Ex. Clazz.field -> Clazz or c.field -> c
         if (scope instanceof NameExpr)
         {
             NameExpr nameExpr = (NameExpr) scope;
@@ -38,7 +39,11 @@ class FieldAccessParser
 
             try
             {
-                putClassResolvedValues(container, expr, nameExpr, scopeValue, fieldValue);
+                // Scope
+                putResolvedValues(container, "reference", method, nameExpr, scopeValue);
+
+                // Field
+                putFieldResolvedValues(container, expr, nameExpr, fieldValue);
             }
             catch (UnsolvedSymbolException ignore)
             {
@@ -58,7 +63,8 @@ class FieldAccessParser
             try
             {
                 putFieldResolvedValues(container, expr, thisExpr, fieldValue);
-            } catch (UnsolvedSymbolException e)
+            }
+            catch (UnsolvedSymbolException e)
             {
                 printException(expr, e);
             }
@@ -69,7 +75,8 @@ class FieldAccessParser
             try
             {
                 putFieldResolvedValues(container, expr, enclosedExpr, fieldValue);
-            } catch (UnsolvedSymbolException e)
+            }
+            catch (UnsolvedSymbolException e)
             {
                 printException(expr, e);
             }
@@ -104,7 +111,9 @@ class FieldAccessParser
                 try
                 {
                     putClassResolvedValues(container, expr, nameExpr, scopeValue, fieldValue);
-                } catch (UnsolvedSymbolException e) {
+                }
+                catch (UnsolvedSymbolException e)
+                {
                     printException(expr, e);
                 }
             }
@@ -112,9 +121,12 @@ class FieldAccessParser
         else if (scope instanceof ThisExpr)
         {
             ThisExpr thisExpr = (ThisExpr) scope;
-            try {
+            try
+            {
                 putFieldResolvedValues(container, expr, thisExpr, fieldValue);
-            } catch (UnsolvedSymbolException e) {
+            }
+            catch (UnsolvedSymbolException e)
+            {
                 printException(expr, e);
             }
         }

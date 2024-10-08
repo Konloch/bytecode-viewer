@@ -185,10 +185,34 @@ public class GoToAction extends AbstractAction
         if (field)
         {
             String className = container.getClassForField(lexeme);
-            BytecodeViewer.viewer.workPane.addClassResource(resourceContainer, className + ".class");
-            ClassViewer activeResource = (ClassViewer) BytecodeViewer.viewer.workPane.getActiveResource();
-            HashMap<String, ClassFileContainer> classFiles = BytecodeViewer.viewer.workPane.classFiles;
-            return wait(classFiles, activeResource);
+
+            // If the field we want to go to wasn't an expression like Class.field. For example param.field or
+            // variable.field
+            if (className.isEmpty())
+            {
+                ClassFieldLocation classFieldLocation = container.getFieldLocationsFor(lexeme).get(0);
+                className = classFieldLocation.owner;
+                ClassReferenceLocation classReferenceLocation =
+                    container.getClassReferenceLocationsFor(className).get(0);
+                if (classReferenceLocation == null)
+                    return null;
+
+                String packagePath = classReferenceLocation.packagePath;
+
+                if (packagePath.startsWith("java") || packagePath.startsWith("javax") || packagePath.startsWith("com.sun"))
+                    return null;
+
+                if (!packagePath.isEmpty())
+                    className = packagePath + "/" + className;
+            }
+
+            if (resourceContainer.resourceClasses.containsKey(className))
+            {
+                BytecodeViewer.viewer.workPane.addClassResource(resourceContainer, className + ".class");
+                ClassViewer activeResource = (ClassViewer) BytecodeViewer.viewer.workPane.getActiveResource();
+                HashMap<String, ClassFileContainer> classFiles = BytecodeViewer.viewer.workPane.classFiles;
+                return wait(classFiles, activeResource);
+            }
         }
         else if (method)
         {
@@ -354,6 +378,16 @@ public class GoToAction extends AbstractAction
 
     private void moveCursor(int line, int columnStart)
     {
+        // Wait for 100ms so we make sure there is enough time between loading the class and registering cursor movement
+        try
+        {
+            Thread.sleep(100);
+        }
+        catch (InterruptedException e)
+        {
+            throw new RuntimeException(e);
+        }
+
         for (int i = 0; i < 3; i++)
         {
             BytecodeViewPanel panel = ((ClassViewer) BytecodeViewer.viewer.workPane.getActiveResource()).getPanel(i);
