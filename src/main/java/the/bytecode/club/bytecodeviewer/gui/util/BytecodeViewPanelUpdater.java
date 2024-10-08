@@ -513,6 +513,7 @@ public class BytecodeViewPanelUpdater implements Runnable
             if (token == null)
             {
                 highlighterEx.clearMarkOccurrencesHighlights();
+                errorStripe.refreshMarkers();
                 return;
             }
         }

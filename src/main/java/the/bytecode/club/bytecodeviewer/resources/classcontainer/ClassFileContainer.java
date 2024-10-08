@@ -56,7 +56,7 @@ public class ClassFileContainer
         {
             if (shouldParse())
             {
-                TypeSolver typeSolver = new CombinedTypeSolver(new ReflectionTypeSolver(false), new JarTypeSolver(path));
+                TypeSolver typeSolver = new CombinedTypeSolver(new ReflectionTypeSolver(true), new JarTypeSolver(path));
                 JavaParser parser = new JavaParser();
                 parser.getParserConfiguration().setSymbolResolver(new JavaSymbolSolver(typeSolver));
                 ParseResult<CompilationUnit> parse = parser.parse(this.content);
