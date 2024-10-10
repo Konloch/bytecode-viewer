@@ -294,8 +294,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
 
             ResolvedReferenceTypeDeclaration resolve = n.resolve();
             this.classFileContainer.putClassReference(resolve.getName(),
-                    new ClassReferenceLocation(getOwner(classFileContainer),
-                            resolve.getPackageName(), "", "declaration", value.line, value.columnStart, value.columnEnd + 1));
+                new ClassReferenceLocation(getOwner(classFileContainer),
+                    resolve.getPackageName(), "", "declaration", value.line, value.columnStart, value.columnEnd + 1));
         }
         catch (Exception e)
         {
@@ -344,8 +344,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 packagePath = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
 
             this.classFileContainer.putClassReference(classValue.name,
-                    new ClassReferenceLocation(getOwner(classFileContainer),
-                            packagePath, "", "reference", classValue.line, classValue.columnStart, classValue.columnEnd + 1));
+                new ClassReferenceLocation(getOwner(classFileContainer),
+                    packagePath, "", "reference", classValue.line, classValue.columnStart, classValue.columnEnd + 1));
         }
         catch (Exception e)
         {
@@ -470,7 +470,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             int line = range.begin.line;
             int columnStart = range.begin.column;
             int columnEnd = range.end.column;
-            this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(classFileContainer), "declaration", line, columnStart, columnEnd + 1));
+            this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(classFileContainer), "declaration"
+                , line, columnStart, columnEnd + 1));
         });
     }
 
@@ -899,7 +900,29 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     public void visit(MethodReferenceExpr n, Object arg)
     {
         super.visit(n, arg);
-        if (DEBUG) System.err.println("MethodReferenceExpr");
+        try
+        {
+            ResolvedMethodDeclaration resolve = n.resolve();
+            String signature = resolve.getQualifiedSignature();
+            String parameters = "";
+            if (resolve.getNumberOfParams() != 0)
+                parameters = signature.substring(signature.indexOf('(') + 1, signature.lastIndexOf(')'));
+
+            Range methodRange =
+                Objects.requireNonNull(n.getTokenRange().orElse(null)).getEnd().getRange().orElse(null);
+            if (methodRange == null)
+                return;
+
+            String methodName = n.getIdentifier();
+
+            String className = resolve.getClassName();
+            classFileContainer.putMethod(methodName, new ClassMethodLocation(className, signature, parameters,
+                "reference", methodRange.begin.line, methodRange.begin.column, methodRange.end.column + 1));
+        }
+        catch (Exception e)
+        {
+            printException(n, e);
+        }
     }
 
 

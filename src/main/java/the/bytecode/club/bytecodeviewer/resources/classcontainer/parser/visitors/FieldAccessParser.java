@@ -4,7 +4,10 @@ import com.github.javaparser.Range;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
+import com.github.javaparser.resolution.types.ResolvedType;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContainer;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassFieldLocation;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassReferenceLocation;
 
 import java.util.Objects;
 
@@ -77,6 +80,36 @@ class FieldAccessParser
                 putFieldResolvedValues(container, expr, enclosedExpr, fieldValue);
             }
             catch (UnsolvedSymbolException e)
+            {
+                printException(expr, e);
+            }
+        }
+        else
+        {
+            try
+            {
+                // If the scope is something like 'this.field1' and similar
+                ResolvedType resolvedType = expr.getScope().calculateResolvedType();
+                if (!resolvedType.isReferenceType())
+                    return;
+
+                String qualifiedName = resolvedType.asReferenceType().getQualifiedName();
+                String className = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1);
+                // If the class is not registered as a reference yet
+                if (container.getClassReferenceLocationsFor(className) == null)
+                {
+                    String packageName = "";
+                    if (qualifiedName.contains("."))
+                        packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
+
+                    // For this purpose, we do not care about its line, columnStart or columnEnd
+                    container.putClassReference(className, new ClassReferenceLocation(getOwner(container), packageName,
+                        fieldValue.name, "reference", -1, -1, -1));
+                }
+
+                container.putField(fieldValue.name, new ClassFieldLocation(className, "reference", fieldValue.line, fieldValue.columnStart, fieldValue.columnEnd + 1));
+            }
+            catch (Exception e)
             {
                 printException(expr, e);
             }
