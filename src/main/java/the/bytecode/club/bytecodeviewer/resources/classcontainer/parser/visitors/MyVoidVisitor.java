@@ -12,6 +12,7 @@ import com.github.javaparser.ast.type.IntersectionType;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.resolution.declarations.ResolvedConstructorDeclaration;
+import com.github.javaparser.resolution.declarations.ResolvedEnumDeclaration;
 import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
 import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclaration;
 import com.github.javaparser.resolution.types.ResolvedReferenceType;
@@ -294,7 +295,7 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
 
             ResolvedReferenceTypeDeclaration resolve = n.resolve();
             this.classFileContainer.putClassReference(resolve.getName(),
-                new ClassReferenceLocation(getOwner(classFileContainer),
+                new ClassReferenceLocation(resolve.getName(),
                     resolve.getPackageName(), "", "declaration", value.line, value.columnStart, value.columnEnd + 1));
         }
         catch (Exception e)
@@ -343,9 +344,22 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             if (qualifiedName.contains("."))
                 packagePath = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
 
-            this.classFileContainer.putClassReference(classValue.name,
-                new ClassReferenceLocation(getOwner(classFileContainer),
-                    packagePath, "", "reference", classValue.line, classValue.columnStart, classValue.columnEnd + 1));
+            ClassOrInterfaceType classScope = n.getScope().orElse(null);
+            if (classScope == null)
+            {
+                this.classFileContainer.putClassReference(classValue.name,
+                    new ClassReferenceLocation(classValue.name,
+                        packagePath, "", "reference", classValue.line, classValue.columnStart,
+                        classValue.columnEnd + 1));
+            }
+            else
+            {
+                packagePath = packagePath.substring(0, packagePath.lastIndexOf("/"));
+
+                this.classFileContainer.putClassReference(classValue.name,
+                    new ClassReferenceLocation(classScope.getNameAsString(), packagePath, "", "reference",
+                        classValue.line, classValue.columnStart, classValue.columnEnd + 1));
+            }
         }
         catch (Exception e)
         {
@@ -459,6 +473,19 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     public void visit(EnumDeclaration n, Object arg)
     {
         super.visit(n, arg);
+
+        ResolvedEnumDeclaration resolve = n.resolve();
+
+        Range enumClassNameRange = n.getName().getRange().orElse(null);
+        if (enumClassNameRange == null)
+            return;
+
+        Value enumClassValue = new Value(n.getName(), enumClassNameRange);
+
+        this.classFileContainer.putClassReference(enumClassValue.name,
+            new ClassReferenceLocation(getOwner(classFileContainer), resolve.getPackageName(), "", "declaration",
+                enumClassValue.line, enumClassValue.columnStart, enumClassValue.columnEnd + 1));
+
         n.getEntries().forEach(entry ->
         {
             SimpleName simpleName = entry.getName();

@@ -103,7 +103,7 @@ class FieldAccessParser
                         packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
 
                     // For this purpose, we do not care about its line, columnStart or columnEnd
-                    container.putClassReference(className, new ClassReferenceLocation(getOwner(container), packageName,
+                    container.putClassReference(className, new ClassReferenceLocation(className, packageName,
                         fieldValue.name, "reference", -1, -1, -1));
                 }
 

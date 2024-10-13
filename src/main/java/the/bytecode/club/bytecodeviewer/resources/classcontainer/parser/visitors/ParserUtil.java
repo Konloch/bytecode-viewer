@@ -14,6 +14,7 @@ import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.TryStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclaration;
 import com.github.javaparser.resolution.declarations.ResolvedValueDeclaration;
 import com.github.javaparser.resolution.types.ResolvedReferenceType;
 import com.github.javaparser.resolution.types.ResolvedType;
@@ -143,9 +144,14 @@ class ParserUtil
         if (qualifiedName.contains("."))
             packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
 
-        container.putClassReference(className, new ClassReferenceLocation(ParserUtil.getOwner(container), packageName
+        ResolvedReferenceTypeDeclaration resolvedReferenceTypeDeclaration = resolvedType.asReferenceType().getTypeDeclaration().orElse(null);
+        assert resolvedReferenceTypeDeclaration != null;
+        if (resolvedReferenceTypeDeclaration.getClassName().contains("."))
+            packageName = packageName.substring(0, packageName.lastIndexOf('/'));
+
+        container.putClassReference(className, new ClassReferenceLocation(className, packageName
             , fieldValue.name, "reference", scopeValue.line, scopeValue.columnStart, scopeValue.columnEnd + 1));
-        container.putField(fieldValue.name, new ClassFieldLocation(scopeValue.name, "reference", fieldValue.line,
+        container.putField(fieldValue.name, new ClassFieldLocation(className, "reference", fieldValue.line,
             fieldValue.columnStart, fieldValue.columnEnd + 1));
     }
 
@@ -174,7 +180,7 @@ class ParserUtil
         if (qualifiedName.contains("."))
             packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
 
-        container.putClassReference(className, new ClassReferenceLocation(ParserUtil.getOwner(container), packageName
+        container.putClassReference(className, new ClassReferenceLocation(className, packageName
             , "", "reference", scopeValue.line, scopeValue.columnStart, scopeValue.columnEnd + 1));
     }
 
