@@ -53,7 +53,7 @@ public class GoToAction extends AbstractAction
                 // Open the class that is associated with the field's owner.
                 if (!field.owner.equals(container.getName()))
                 {
-                    open(textArea, false, true, false);
+                    find(textArea, false, true, false);
                     return;
                 }
 
@@ -136,7 +136,7 @@ public class GoToAction extends AbstractAction
                         }
                     });
 
-                    open(textArea, false, false, true);
+                    find(textArea, false, false, true);
                 }
             }
         }));
@@ -166,7 +166,7 @@ public class GoToAction extends AbstractAction
                     });
 
                     // Should not really do anything when the class is already open
-                    open(textArea, true, false, false);
+                    find(textArea, true, false, false);
                 }
             }
         }));
@@ -184,7 +184,9 @@ public class GoToAction extends AbstractAction
 
         if (field)
         {
+            ClassFieldLocation fieldLocation = container.getFieldLocationsFor(lexeme).get(0);
             String className = container.getClassForField(lexeme);
+            ClassReferenceLocation referenceLocation = container.getClassReferenceLocationsFor(fieldLocation.owner).get(0);
 
             // If the field we want to go to wasn't an expression like Class.field. For example param.field or
             // variable.field
@@ -203,7 +205,12 @@ public class GoToAction extends AbstractAction
                     return null;
 
                 if (!packagePath.isEmpty())
-                    className = packagePath + "/" + className;
+                    className = packagePath + "/" + className.substring(className.lastIndexOf('/') + 1);
+            }
+
+            if (!fieldLocation.owner.equals(referenceLocation.owner))
+            {
+                className = referenceLocation.packagePath + "/" + referenceLocation.owner;
             }
 
             if (resourceContainer.resourceClasses.containsKey(className))
@@ -261,6 +268,11 @@ public class GoToAction extends AbstractAction
                 resourceName = packagePath + "/" + lexeme;
             }
 
+            if (!classReferenceLocation.owner.equals(container.getName()))
+            {
+                resourceName = packagePath + "/" + classReferenceLocation.owner;
+            }
+
             if (resourceContainer.resourceClasses.containsKey(resourceName))
             {
                 BytecodeViewer.viewer.workPane.addClassResource(resourceContainer, resourceName + ".class");
@@ -273,7 +285,7 @@ public class GoToAction extends AbstractAction
         return null;
     }
 
-    private void open(RSyntaxTextArea textArea, boolean isClass, boolean isField, boolean isMethod)
+    private void find(RSyntaxTextArea textArea, boolean isClass, boolean isField, boolean isMethod)
     {
         Thread thread = new Thread(() ->
         {
