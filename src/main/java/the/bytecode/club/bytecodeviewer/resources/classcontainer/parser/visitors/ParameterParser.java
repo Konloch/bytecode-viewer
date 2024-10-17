@@ -2,7 +2,9 @@ package the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.visitor
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.SimpleName;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContainer;
 
@@ -23,14 +25,21 @@ public class ParameterParser
 
         String methodName = findMethodOwnerFor(compilationUnit, node);
         if (methodName == null) {
-            System.err.println("Parameter - Method not found");
-            return;
+            ClassOrInterfaceDeclaration classOrInterfaceForExpression = findClassOrInterfaceForExpression((Expression) node, compilationUnit);
+            if (classOrInterfaceForExpression == null)
+            {
+                System.err.println("Parameter - Method not found");
+                return;
+            }
+
+            methodName = classOrInterfaceForExpression.getNameAsString();
         }
 
         SimpleName name = p.getName();
+        String finalMethodName = methodName;
         name.getRange().ifPresent(range -> {
             Value parameter = new Value(name, range);
-            putParameter(container, parameter, methodName, "declaration");
+            putParameter(container, parameter, finalMethodName, "declaration");
         });
     }
 }

@@ -4,9 +4,12 @@ import com.github.javaparser.Range;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
+import com.github.javaparser.resolution.declarations.ResolvedValueDeclaration;
 import com.github.javaparser.resolution.types.ResolvedType;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.ClassFileContainer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassFieldLocation;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassLocalVariableLocation;
+import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassParameterLocation;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.ClassReferenceLocation;
 
 import java.util.Objects;
@@ -19,6 +22,58 @@ import static the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.v
  */
 class FieldAccessParser
 {
+
+    /**
+     * Solve a field that is accessed through a lambda and not within a method or constructor
+     *
+     * @param container The {@link ClassFileContainer}
+     * @param expr The {@link FieldAccessExpr}
+     * @param className The class name of the class that is accessing the field
+     */
+    static void parse(ClassFileContainer container, FieldAccessExpr expr, String className)
+    {
+        Range fieldRange = Objects.requireNonNull(expr.getTokenRange().orElse(null)).getEnd().getRange().orElse(null);
+        if (fieldRange == null)
+            return;
+
+        Value fieldValue = new Value(expr.getName(), fieldRange);
+
+        Expression scope = expr.getScope();
+        if (scope instanceof NameExpr)
+        {
+            NameExpr nameExpr = (NameExpr) scope;
+            Range scopeRange = nameExpr.getRange().orElse(null);
+            if (scopeRange == null)
+                return;
+
+            Value scopeValue = new Value(nameExpr.getName(), scopeRange);
+            try
+            {
+                ResolvedValueDeclaration vd = nameExpr.resolve();
+                if (vd.isField())
+                {
+                    container.putField(scopeValue.name, new ClassFieldLocation(getOwner(container), "reference",
+                        scopeValue.line, scopeValue.columnStart, scopeValue.columnEnd + 1));
+                }
+                else if (vd.isVariable())
+                {
+                    container.putLocalVariable(scopeValue.name, new ClassLocalVariableLocation(getOwner(container),
+                        className, "reference", scopeValue.line, scopeValue.columnStart, scopeValue.columnEnd + 1));
+                }
+                else if (vd.isParameter())
+                {
+                    container.putParameter(scopeValue.name, new ClassParameterLocation(getOwner(container), className,
+                        "reference", scopeValue.line, scopeValue.columnStart, scopeValue.columnEnd + 1));
+                }
+
+                putFieldResolvedValues(container, expr, nameExpr, fieldValue);
+            }
+            catch (Exception e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     static void parse(ClassFileContainer container, FieldAccessExpr expr, CallableDeclaration<?> method)
     {
@@ -107,7 +162,8 @@ class FieldAccessParser
                         fieldValue.name, "reference", -1, -1, -1));
                 }
 
-                container.putField(fieldValue.name, new ClassFieldLocation(className, "reference", fieldValue.line, fieldValue.columnStart, fieldValue.columnEnd + 1));
+                container.putField(fieldValue.name, new ClassFieldLocation(className, "reference", fieldValue.line,
+                    fieldValue.columnStart, fieldValue.columnEnd + 1));
             }
             catch (Exception e)
             {

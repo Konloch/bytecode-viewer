@@ -3,10 +3,7 @@ package the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.visitor
 import com.github.javaparser.Range;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.CallableDeclaration;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
-import com.github.javaparser.ast.body.InitializerDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.SimpleName;
@@ -196,8 +193,16 @@ class ParserUtil
                                        Expression resolveExpr, Value fieldValue)
     {
         ResolvedType resolvedType = visitedExpr.getSymbolResolver().calculateType(resolveExpr);
+        if (resolvedType.isConstraint())
+        {
+            resolvedType = resolvedType.asConstraintType().getBound();
+        }
+
         if (!resolvedType.isReferenceType())
+        {
             return;
+        }
+
 
         String qualifiedName = resolvedType.asReferenceType().getQualifiedName();
         String className = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1);
@@ -520,6 +525,35 @@ class ParserUtil
         {
             return initializerDeclaration[0];
         }
+
+        return null;
+    }
+
+    static ClassOrInterfaceDeclaration findClassOrInterfaceForExpression(Expression expression, CompilationUnit cu)
+    {
+        final boolean[] contains = {false};
+        final ClassOrInterfaceDeclaration[] classOrInterfaceDeclaration = {null};
+        cu.accept(new VoidVisitorAdapter<Void>()
+        {
+            @Override
+            public void visit(ClassOrInterfaceDeclaration n, Void arg)
+            {
+                super.visit(n, arg);
+                if (contains[0])
+                    return;
+
+                n.getMembers().forEach(member -> {
+                    if (member.containsWithinRange(expression))
+                    {
+                        contains[0] = true;
+                        classOrInterfaceDeclaration[0] = n;
+                    }
+                });
+            }
+        }, null);
+
+        if (contains[0])
+            return classOrInterfaceDeclaration[0];
 
         return null;
     }

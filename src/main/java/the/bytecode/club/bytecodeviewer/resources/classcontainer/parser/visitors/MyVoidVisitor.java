@@ -560,6 +560,7 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         try
         {
             InitializerDeclaration initializer = findInitializerForExpression(n, this.compilationUnit);
+            ClassOrInterfaceDeclaration classOrInterfaceDeclaration = findClassOrInterfaceForExpression(n, this.compilationUnit);
             CallableDeclaration<?> method = findMethodForExpression(n, this.compilationUnit);
             if (method == null)
                 method = findConstructorForExpression(n, this.compilationUnit);
@@ -568,6 +569,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 FieldAccessParser.parse(classFileContainer, n, method);
             else if (initializer != null)
                 FieldAccessParser.parseStatic(classFileContainer, n);
+            else if (classOrInterfaceDeclaration != null)
+                FieldAccessParser.parse(classFileContainer, n, classOrInterfaceDeclaration.getNameAsString());
         }
         catch (Exception e)
         {
@@ -836,12 +839,17 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         {
             CallableDeclaration<?> method = findMethodForExpression(n, this.compilationUnit);
             InitializerDeclaration staticInitializer = null;
+            ClassOrInterfaceDeclaration classOrInterfaceDeclaration = null;
             if (method == null)
             {
                 method = findConstructorForExpression(n, this.compilationUnit);
                 if (method == null)
                 {
                     staticInitializer = findInitializerForExpression(n, this.compilationUnit);
+                    if (staticInitializer == null)
+                    {
+                        classOrInterfaceDeclaration = findClassOrInterfaceForExpression(n, this.compilationUnit);
+                    }
                 }
             }
 
@@ -869,6 +877,10 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             else if (staticInitializer != null)
             {
                 MethodCallParser.parseStatic(classFileContainer, n);
+            }
+            else if (classOrInterfaceDeclaration != null)
+            {
+                MethodCallParser.parse(classFileContainer, n, null);
             }
         }
         catch (Exception e)
