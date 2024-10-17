@@ -30,6 +30,8 @@ public class FileHeaderUtils
 
     public static boolean doesFileHeaderMatch(byte[] bytes, int fileHeader)
     {
+        if (bytes.length < 4) return false;
+
         int bytesHeader = ((bytes[0] & 0xFF) << 24)
             | ((bytes[1] & 0xFF) << 16)
             | ((bytes[2] & 0xFF) << 8)
