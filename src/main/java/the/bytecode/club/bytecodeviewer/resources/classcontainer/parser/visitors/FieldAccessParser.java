@@ -70,7 +70,7 @@ class FieldAccessParser
             }
             catch (Exception e)
             {
-                throw new RuntimeException(e);
+                printException(expr, e);
             }
         }
     }
