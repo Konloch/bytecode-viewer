@@ -59,7 +59,6 @@ public class JDGUIDecompiler extends AbstractDecompiler
         super("JD-GUI Decompiler", "jdgui");
     }
 
-    private String[] inners;
     @Override
     public String decompileClassNode(ClassNode cn, byte[] bytes)
     {
@@ -67,9 +66,12 @@ public class JDGUIDecompiler extends AbstractDecompiler
         String exception;
 
         List<InnerClassNode> innerClasses = cn.innerClasses;
-        inners = new String[innerClasses.size()];
+        String[] inners = new String[innerClasses.size()];
         for (int i = 0; i < innerClasses.size(); i++)
         {
+            if (innerClasses.get(i).name.equals(cn.name))
+                break;
+
             if (innerClasses.get(i).outerName != null && innerClasses.get(i).outerName.equals(cn.name))
             {
                 inners[i] = innerClasses.get(i).name;
@@ -79,9 +81,7 @@ public class JDGUIDecompiler extends AbstractDecompiler
                 String name = innerClasses.get(i).name;
                 name = name.substring(name.lastIndexOf('/') + 1);
                 if (name.contains(cn.name.substring(cn.name.lastIndexOf('/') + 1)))
-                {
                     inners[i] = innerClasses.get(i).name;
-                }
             }
         }
 
