@@ -75,9 +75,9 @@ public class ClassFileContainer
                 return true;
             }
         }
-        catch (IOException e)
+        catch (Throwable e)
         {
-            throw new RuntimeException(e);
+            System.err.println("Failed to parse " + this.getName() + ": " + e.getMessage());
         }
 
         return false;

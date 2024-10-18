@@ -12,6 +12,7 @@ import com.github.javaparser.ast.type.IntersectionType;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.resolution.declarations.ResolvedConstructorDeclaration;
+import com.github.javaparser.resolution.declarations.ResolvedEnumDeclaration;
 import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
 import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclaration;
 import com.github.javaparser.resolution.types.ResolvedReferenceType;
@@ -294,8 +295,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
 
             ResolvedReferenceTypeDeclaration resolve = n.resolve();
             this.classFileContainer.putClassReference(resolve.getName(),
-                    new ClassReferenceLocation(getOwner(classFileContainer),
-                            resolve.getPackageName(), "", "declaration", value.line, value.columnStart, value.columnEnd + 1));
+                new ClassReferenceLocation(resolve.getName(),
+                    resolve.getPackageName(), "", "declaration", value.line, value.columnStart, value.columnEnd + 1));
         }
         catch (Exception e)
         {
@@ -343,9 +344,22 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             if (qualifiedName.contains("."))
                 packagePath = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
 
-            this.classFileContainer.putClassReference(classValue.name,
-                    new ClassReferenceLocation(getOwner(classFileContainer),
-                            packagePath, "", "reference", classValue.line, classValue.columnStart, classValue.columnEnd + 1));
+            ClassOrInterfaceType classScope = n.getScope().orElse(null);
+            if (classScope == null)
+            {
+                this.classFileContainer.putClassReference(classValue.name,
+                    new ClassReferenceLocation(classValue.name,
+                        packagePath, "", "reference", classValue.line, classValue.columnStart,
+                        classValue.columnEnd + 1));
+            }
+            else
+            {
+                packagePath = packagePath.substring(0, packagePath.lastIndexOf("/"));
+
+                this.classFileContainer.putClassReference(classValue.name,
+                    new ClassReferenceLocation(classScope.getNameAsString(), packagePath, "", "reference",
+                        classValue.line, classValue.columnStart, classValue.columnEnd + 1));
+            }
         }
         catch (Exception e)
         {
@@ -459,6 +473,19 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     public void visit(EnumDeclaration n, Object arg)
     {
         super.visit(n, arg);
+
+        ResolvedEnumDeclaration resolve = n.resolve();
+
+        Range enumClassNameRange = n.getName().getRange().orElse(null);
+        if (enumClassNameRange == null)
+            return;
+
+        Value enumClassValue = new Value(n.getName(), enumClassNameRange);
+
+        this.classFileContainer.putClassReference(enumClassValue.name,
+            new ClassReferenceLocation(getOwner(classFileContainer), resolve.getPackageName(), "", "declaration",
+                enumClassValue.line, enumClassValue.columnStart, enumClassValue.columnEnd + 1));
+
         n.getEntries().forEach(entry ->
         {
             SimpleName simpleName = entry.getName();
@@ -470,7 +497,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             int line = range.begin.line;
             int columnStart = range.begin.column;
             int columnEnd = range.end.column;
-            this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(classFileContainer), "declaration", line, columnStart, columnEnd + 1));
+            this.classFileContainer.putField(name, new ClassFieldLocation(getOwner(classFileContainer), "declaration"
+                , line, columnStart, columnEnd + 1));
         });
     }
 
@@ -532,11 +560,17 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         try
         {
             InitializerDeclaration initializer = findInitializerForExpression(n, this.compilationUnit);
+            ClassOrInterfaceDeclaration classOrInterfaceDeclaration = findClassOrInterfaceForExpression(n, this.compilationUnit);
+            CallableDeclaration<?> method = findMethodForExpression(n, this.compilationUnit);
+            if (method == null)
+                method = findConstructorForExpression(n, this.compilationUnit);
 
-            if (initializer == null)
-                FieldAccessParser.parse(classFileContainer, n);
-            else
+            if (method != null)
+                FieldAccessParser.parse(classFileContainer, n, method);
+            else if (initializer != null)
                 FieldAccessParser.parseStatic(classFileContainer, n);
+            else if (classOrInterfaceDeclaration != null)
+                FieldAccessParser.parse(classFileContainer, n, classOrInterfaceDeclaration.getNameAsString());
         }
         catch (Exception e)
         {
@@ -805,12 +839,17 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         {
             CallableDeclaration<?> method = findMethodForExpression(n, this.compilationUnit);
             InitializerDeclaration staticInitializer = null;
+            ClassOrInterfaceDeclaration classOrInterfaceDeclaration = null;
             if (method == null)
             {
                 method = findConstructorForExpression(n, this.compilationUnit);
                 if (method == null)
                 {
                     staticInitializer = findInitializerForExpression(n, this.compilationUnit);
+                    if (staticInitializer == null)
+                    {
+                        classOrInterfaceDeclaration = findClassOrInterfaceForExpression(n, this.compilationUnit);
+                    }
                 }
             }
 
@@ -838,6 +877,10 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             else if (staticInitializer != null)
             {
                 MethodCallParser.parseStatic(classFileContainer, n);
+            }
+            else if (classOrInterfaceDeclaration != null)
+            {
+                MethodCallParser.parse(classFileContainer, n, null);
             }
         }
         catch (Exception e)
@@ -896,7 +939,29 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     public void visit(MethodReferenceExpr n, Object arg)
     {
         super.visit(n, arg);
-        if (DEBUG) System.err.println("MethodReferenceExpr");
+        try
+        {
+            ResolvedMethodDeclaration resolve = n.resolve();
+            String signature = resolve.getQualifiedSignature();
+            String parameters = "";
+            if (resolve.getNumberOfParams() != 0)
+                parameters = signature.substring(signature.indexOf('(') + 1, signature.lastIndexOf(')'));
+
+            Range methodRange =
+                Objects.requireNonNull(n.getTokenRange().orElse(null)).getEnd().getRange().orElse(null);
+            if (methodRange == null)
+                return;
+
+            String methodName = n.getIdentifier();
+
+            String className = resolve.getClassName();
+            classFileContainer.putMethod(methodName, new ClassMethodLocation(className, signature, parameters,
+                "reference", methodRange.begin.line, methodRange.begin.column, methodRange.end.column + 1));
+        }
+        catch (Exception e)
+        {
+            printException(n, e);
+        }
     }
 
 

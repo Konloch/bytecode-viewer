@@ -86,7 +86,7 @@ public class MyErrorStripe extends JPanel
         if (y < h)
         {
             float at = y / (float) h;
-            line = Math.round((Math.max(lineCount, linesPerVisibleRect) - 1) * at);
+            line = Math.round((float) (Math.max(lineCount, linesPerVisibleRect) - 1) * at);
         }
 
         return line;
@@ -199,7 +199,6 @@ public class MyErrorStripe extends JPanel
 
     private class Listener extends MouseAdapter
     {
-        private final Rectangle r = new Rectangle();
 
         @Override
         public void mouseClicked(@NotNull MouseEvent e)
@@ -219,7 +218,7 @@ public class MyErrorStripe extends JPanel
             {
                 try
                 {
-                    int offset = textArea.getLineOfOffset(line);
+                    int offset = textArea.getLineStartOffset(line);
                     textArea.setCaretPosition(offset);
                     RSyntaxUtilities.selectAndPossiblyCenter(textArea, new DocumentRange(offset, offset), false);
                 }

@@ -3,10 +3,7 @@ package the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.visitor
 import com.github.javaparser.Range;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.CallableDeclaration;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
-import com.github.javaparser.ast.body.InitializerDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.SimpleName;
@@ -14,6 +11,7 @@ import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.TryStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclaration;
 import com.github.javaparser.resolution.declarations.ResolvedValueDeclaration;
 import com.github.javaparser.resolution.types.ResolvedReferenceType;
 import com.github.javaparser.resolution.types.ResolvedType;
@@ -56,27 +54,30 @@ class ParserUtil
      * @param resolveExpr The {@code NameExpr}
      * @param value       The value
      */
-    static void putResolvedValues(ClassFileContainer container, String decRef, CallableDeclaration<?> method,
-                                  NameExpr resolveExpr, Value value)
+    static boolean putResolvedValues(ClassFileContainer container, String decRef, CallableDeclaration<?> method,
+                                     NameExpr resolveExpr, Value value)
     {
         ResolvedValueDeclaration vd = resolveExpr.resolve();
         if (vd.isField())
         {
             container.putField(value.name, new ClassFieldLocation(getOwner(container), decRef,
                 value.line, value.columnStart, value.columnEnd + 1));
+            return true;
         }
         else if (vd.isVariable())
         {
-            container.putLocalVariable(value.name, new ClassLocalVariableLocation(getOwner(container)
-                , getMethod(method), decRef, value.line, value.columnStart,
-                value.columnEnd + 1));
+            container.putLocalVariable(value.name, new ClassLocalVariableLocation(getOwner(container),
+                getMethod(method), decRef, value.line, value.columnStart, value.columnEnd + 1));
+            return true;
         }
         else if (vd.isParameter())
         {
-            container.putParameter(value.name, new ClassParameterLocation(getOwner(container),
-                getMethod(method), decRef, value.line, value.columnStart,
-                value.columnEnd + 1));
+            container.putParameter(value.name, new ClassParameterLocation(getOwner(container), getMethod(method),
+                decRef, value.line, value.columnStart, value.columnEnd + 1));
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -96,8 +97,8 @@ class ParserUtil
         }
         else if (vd.isVariable())
         {
-            container.putLocalVariable(value.name, new ClassLocalVariableLocation(getOwner(container)
-                , "static", decRef, value.line, value.columnStart, value.columnEnd + 1));
+            container.putLocalVariable(value.name, new ClassLocalVariableLocation(getOwner(container), "static",
+                decRef, value.line, value.columnStart, value.columnEnd + 1));
         }
         else if (vd.isParameter())
         {
@@ -140,9 +141,14 @@ class ParserUtil
         if (qualifiedName.contains("."))
             packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
 
-        container.putClassReference(className, new ClassReferenceLocation(ParserUtil.getOwner(container), packageName
+        ResolvedReferenceTypeDeclaration resolvedReferenceTypeDeclaration = resolvedType.asReferenceType().getTypeDeclaration().orElse(null);
+        assert resolvedReferenceTypeDeclaration != null;
+        if (resolvedReferenceTypeDeclaration.getClassName().contains("."))
+            packageName = packageName.substring(0, packageName.lastIndexOf('/'));
+
+        container.putClassReference(className, new ClassReferenceLocation(className, packageName
             , fieldValue.name, "reference", scopeValue.line, scopeValue.columnStart, scopeValue.columnEnd + 1));
-        container.putField(fieldValue.name, new ClassFieldLocation(scopeValue.name, "reference", fieldValue.line,
+        container.putField(fieldValue.name, new ClassFieldLocation(className, "reference", fieldValue.line,
             fieldValue.columnStart, fieldValue.columnEnd + 1));
     }
 
@@ -171,7 +177,7 @@ class ParserUtil
         if (qualifiedName.contains("."))
             packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
 
-        container.putClassReference(className, new ClassReferenceLocation(ParserUtil.getOwner(container), packageName
+        container.putClassReference(className, new ClassReferenceLocation(className, packageName
             , "", "reference", scopeValue.line, scopeValue.columnStart, scopeValue.columnEnd + 1));
     }
 
@@ -187,8 +193,16 @@ class ParserUtil
                                        Expression resolveExpr, Value fieldValue)
     {
         ResolvedType resolvedType = visitedExpr.getSymbolResolver().calculateType(resolveExpr);
+        if (resolvedType.isConstraint())
+        {
+            resolvedType = resolvedType.asConstraintType().getBound();
+        }
+
         if (!resolvedType.isReferenceType())
+        {
             return;
+        }
+
 
         String qualifiedName = resolvedType.asReferenceType().getQualifiedName();
         String className = qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1);
@@ -511,6 +525,35 @@ class ParserUtil
         {
             return initializerDeclaration[0];
         }
+
+        return null;
+    }
+
+    static ClassOrInterfaceDeclaration findClassOrInterfaceForExpression(Expression expression, CompilationUnit cu)
+    {
+        final boolean[] contains = {false};
+        final ClassOrInterfaceDeclaration[] classOrInterfaceDeclaration = {null};
+        cu.accept(new VoidVisitorAdapter<Void>()
+        {
+            @Override
+            public void visit(ClassOrInterfaceDeclaration n, Void arg)
+            {
+                super.visit(n, arg);
+                if (contains[0])
+                    return;
+
+                n.getMembers().forEach(member -> {
+                    if (member.containsWithinRange(expression))
+                    {
+                        contains[0] = true;
+                        classOrInterfaceDeclaration[0] = n;
+                    }
+                });
+            }
+        }, null);
+
+        if (contains[0])
+            return classOrInterfaceDeclaration[0];
 
         return null;
     }

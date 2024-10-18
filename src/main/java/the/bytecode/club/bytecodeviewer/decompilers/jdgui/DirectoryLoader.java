@@ -46,6 +46,9 @@ public class DirectoryLoader implements Loader
     @Override
     public byte[] load(String internalPath) throws LoaderException
     {
+        if (!internalPath.endsWith(".class"))
+            internalPath = internalPath + ".class";
+
         File file = new File(this.codebase, internalPath);
 
         try (FileInputStream fis = new FileInputStream(file); BufferedInputStream bis = new BufferedInputStream(fis))
@@ -61,7 +64,7 @@ public class DirectoryLoader implements Loader
     @Override
     public boolean canLoad(String internalPath)
     {
-        File file = new File(this.codebase, internalPath);
+        File file = new File(this.codebase, internalPath + ".class");
         return file.exists() && file.isFile();
     }
 }
