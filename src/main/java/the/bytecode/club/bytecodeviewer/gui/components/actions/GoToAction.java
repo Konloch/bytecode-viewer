@@ -201,9 +201,6 @@ public class GoToAction extends AbstractAction
 
                 String packagePath = classReferenceLocation.packagePath;
 
-                if (packagePath.startsWith("java") || packagePath.startsWith("javax") || packagePath.startsWith("com.sun"))
-                    return null;
-
                 if (!packagePath.isEmpty())
                     className = packagePath + "/" + className.substring(className.lastIndexOf('/') + 1);
             }
@@ -239,9 +236,6 @@ public class GoToAction extends AbstractAction
 
             String packagePath = classReferenceLocation.packagePath;
 
-            if (packagePath.startsWith("java") || packagePath.startsWith("javax") || packagePath.startsWith("com.sun"))
-                return null;
-
             String resourceName = classMethodLocation.owner;
             if (!packagePath.isEmpty())
                 resourceName = packagePath + "/" + classMethodLocation.owner;
@@ -258,9 +252,6 @@ public class GoToAction extends AbstractAction
         {
             ClassReferenceLocation classReferenceLocation = container.getClassReferenceLocationsFor(lexeme).get(0);
             String packagePath = classReferenceLocation.packagePath;
-
-            if (packagePath.startsWith("java") || packagePath.startsWith("javax") || packagePath.startsWith("com.sun"))
-                return null;
 
             String resourceName = lexeme;
             if (!packagePath.isEmpty())
