@@ -204,11 +204,12 @@ public class FernFlowerDecompiler extends AbstractDecompiler
     {
         final File destination = new File(zipName);
         File tempInputJarFile = new File(sourceJar);
-        File tempOutputJar = new File(TEMP_DIRECTORY + FS + "temp" + FS + tempInputJarFile.getName());
+        File tempOutputJar = new File(TEMP_DIRECTORY + "temp" + FS + tempInputJarFile.getName());
+        tempOutputJar.getParentFile().mkdirs();
 
         try
         {
-            ConsoleDecompiler.main(generateMainMethod(tempInputJarFile.getAbsolutePath(), TEMP_DIRECTORY + "./temp/"));
+            ConsoleDecompiler.main(generateMainMethod(tempInputJarFile.getAbsolutePath(), TEMP_DIRECTORY + "temp"));
         }
         catch (StackOverflowError | Exception ignored)
         {
