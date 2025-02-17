@@ -166,6 +166,7 @@ public class MainViewerGUI extends JFrame
     public final JCheckBoxMenuItem decodeAPKResources = new TranslatedJCheckBoxMenuItem("Decode APK Resources", TranslatedComponents.DECODE_APK_RESOURCES);
     public final JCheckBoxMenuItem synchronizedViewing = new TranslatedJCheckBoxMenuItem("Synchronized Viewing", TranslatedComponents.SYNCHRONIZED_VIEWING);
     public final JCheckBoxMenuItem showClassMethods = new TranslatedJCheckBoxMenuItem("Show Class Methods", TranslatedComponents.SHOW_CLASS_METHODS);
+    public final JCheckBoxMenuItem disableReloadConfirmation = new TranslatedJCheckBoxMenuItem("Disable Reload Confirmation", TranslatedComponents.DISABLE_RELOAD_CONFIRMATION);
 
     //apk conversion settings
     public final JMenu apkConversionSecondaryMenu = new TranslatedJMenu("APK Conversion/Decoding", TranslatedComponents.APK_CONVERSION_DECODING);
@@ -405,6 +406,7 @@ public class MainViewerGUI extends JFrame
         settingsMainMenu.add(compileOnSave);
         settingsMainMenu.add(autoCompileOnRefresh);
         settingsMainMenu.add(refreshOnChange);
+        settingsMainMenu.add(disableReloadConfirmation);
 
         settingsMainMenu.add(new JSeparator());
         settingsMainMenu.add(updateCheck);
@@ -747,6 +749,7 @@ public class MainViewerGUI extends JFrame
     {
         compileOnSave.setSelected(false);
         autoCompileOnRefresh.setSelected(true);
+        disableReloadConfirmation.setSelected(false);
         decodeAPKResources.setSelected(true);
         updateCheck.setSelected(true);
         forcePureAsciiAsText.setSelected(true);
@@ -908,9 +911,14 @@ public class MainViewerGUI extends JFrame
 
     public void reloadResources()
     {
-        MultipleChoiceDialog dialog = new MultipleChoiceDialog(TranslatedStrings.RELOAD_RESOURCES_TITLE.toString(), TranslatedStrings.RELOAD_RESOURCES_CONFIRM.toString(), new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
+        boolean doRefresh = disableReloadConfirmation.isSelected();
+        if (!doRefresh)
+        {
+            MultipleChoiceDialog dialog = new MultipleChoiceDialog(TranslatedStrings.RELOAD_RESOURCES_TITLE.toString(), TranslatedStrings.RELOAD_RESOURCES_CONFIRM.toString(), new String[]{TranslatedStrings.YES.toString(), TranslatedStrings.NO.toString()});
+            doRefresh = dialog.promptChoice() == 0;
+        }
 
-        if (dialog.promptChoice() == 0)
+        if (doRefresh)
         {
             LazyNameUtil.reset();
             List<File> reopen = new ArrayList<>();
