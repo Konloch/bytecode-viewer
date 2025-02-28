@@ -20,12 +20,10 @@ package the.bytecode.club.bytecodeviewer.compilers.impl;
 
 import com.konloch.disklib.DiskWriter;
 import org.apache.commons.io.FileUtils;
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.compilers.AbstractCompiler;
-import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
-import the.bytecode.club.bytecodeviewer.util.Enjarify;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
+import the.bytecode.club.bytecodeviewer.util.apk2Jar.Apk2Jar;
 
 import java.io.File;
 import java.util.Objects;
@@ -77,22 +75,14 @@ public class SmaliAssembler extends AbstractCompiler
             //BytecodeViewer.handleException(e);
         }
 
-
-        if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
-            Dex2Jar.dex2Jar(tempDex, tempJar);
-        else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
-            Enjarify.apk2Jar(tempDex, tempJar);
+        File current = Apk2Jar.obtainImpl().apk2Folder(tempDex);
 
         System.out.println("Temporary dex: " + tempDex.getAbsolutePath());
 
         try
         {
-            System.out.println("Unzipping to " + tempJarFolder.getAbsolutePath());
-            ZipUtils.unzipFilesToPath(tempJar.getAbsolutePath(), tempJarFolder.getAbsolutePath());
-
             File outputClass = null;
             boolean found = false;
-            File current = tempJarFolder;
             try
             {
                 while (!found)

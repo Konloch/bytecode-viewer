@@ -22,7 +22,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
 import the.bytecode.club.bytecodeviewer.resources.exporting.Exporter;
-import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
+import the.bytecode.club.bytecodeviewer.util.apk2Jar.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.util.DialogUtils;
 import the.bytecode.club.bytecodeviewer.util.JarUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -78,7 +78,7 @@ public class DexExport implements Exporter
                         {
                             BytecodeViewer.updateBusyStatus(true);
                             final String input = TEMP_DIRECTORY + FS + MiscUtils.getRandomizedName() + ".jar";
-                            
+
                             JarUtils.saveAsJar(BytecodeViewer.getLoadedClasses(), input);
 
                             Thread saveAsDex = new Thread(() ->

@@ -21,11 +21,9 @@ package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainerImporter;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
-import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
-import the.bytecode.club.bytecodeviewer.util.Enjarify;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.apk2Jar.Apk2Jar;
 
 import java.io.File;
 
@@ -47,16 +45,8 @@ public class DEXResourceImporter implements Importer
 
         ResourceContainer container = new ResourceContainer(tempCopy, file.getName());
 
-        String name = MiscUtils.getRandomizedName() + ".jar";
-        File output = new File(TEMP_DIRECTORY + FS + name);
-
-        if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
-            Dex2Jar.dex2Jar(tempCopy, output);
-        else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
-            Enjarify.apk2Jar(tempCopy, output);
-
         //create a new resource importer and copy the contents from it
-        container.copy(new ResourceContainerImporter(new ResourceContainer(output)).importAsZip().getContainer());
+        container.copy(Apk2Jar.obtainImpl().resourceContainerFromApk(tempCopy));
 
         BytecodeViewer.addResourceContainer(container);
     }

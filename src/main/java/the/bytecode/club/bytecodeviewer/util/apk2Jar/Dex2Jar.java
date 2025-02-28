@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.bytecodeviewer.util;
+package the.bytecode.club.bytecodeviewer.util.apk2Jar;
 
 import com.googlecode.d2j.DexException;
 import com.googlecode.d2j.Method;
@@ -26,8 +26,10 @@ import com.googlecode.d2j.node.DexMethodNode;
 import com.googlecode.dex2jar.tools.Jar2Dex;
 import org.objectweb.asm.MethodVisitor;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * A simple wrapper for Dex2Jar.
@@ -35,16 +37,36 @@ import java.io.File;
  * @author Konloch
  */
 
-public class Dex2Jar
+public class Dex2Jar extends Apk2Jar
 {
+
+    @Override
+    protected ResourceContainer resourceContainerFromApkImpl(File inputApk) throws IOException
+    {
+        File tempFolder = createTempFolder();
+        dex2File(inputApk, tempFolder);
+        return createResourceContainerFromFolder(tempFolder);
+    }
+
+    @Override
+    public void apk2JarImpl(File input, File output)
+    {
+        dex2File(input, output);
+    }
+
+    @Override
+    protected void apk2FolderImpl(File input, File output)
+    {
+        dex2File(input, output);
+    }
 
     /**
      * Converts a .apk or .dex to .jar
      *
      * @param input  the input .apk or .dex file
-     * @param output the output .jar file
+     * @param output the output .jar file or folder
      */
-    public static synchronized void dex2Jar(File input, File output)
+    private static void dex2File(File input, File output)
     {
         try
         {

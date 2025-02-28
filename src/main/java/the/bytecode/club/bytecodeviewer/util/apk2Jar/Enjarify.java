@@ -16,13 +16,18 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-package the.bytecode.club.bytecodeviewer.util;
+package the.bytecode.club.bytecodeviewer.util.apk2Jar;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
+import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.SleepUtil;
+import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static the.bytecode.club.bytecodeviewer.Constants.enjarifyWorkingDirectory;
@@ -33,8 +38,37 @@ import static the.bytecode.club.bytecodeviewer.Constants.enjarifyWorkingDirector
  * @author Konloch
  */
 
-public class Enjarify
+public class Enjarify extends Apk2Jar
 {
+
+    @Override
+    protected ResourceContainer resourceContainerFromApkImpl(File inputApk) throws IOException
+    {
+        return createResourceContainerFromJar(apk2Jar(inputApk));
+    }
+
+    @Override
+    protected void apk2JarImpl(File input, File output)
+    {
+        enjarify(input, output);
+    }
+
+    @Override
+    protected void apk2FolderImpl(File input, File output)
+    {
+        File tempJarFile = createTempJarFile();
+        enjarify(input, tempJarFile);
+        try
+        {
+            ZipUtils.unzipFilesToPath(tempJarFile.getAbsolutePath(), output.getAbsolutePath());
+        } catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        } finally
+        {
+            tempJarFile.delete();
+        }
+    }
 
     /**
      * Converts a .apk or .dex to .jar
@@ -42,7 +76,7 @@ public class Enjarify
      * @param input  the input .apk or .dex file
      * @param output the output .jar file
      */
-    public static synchronized void apk2Jar(File input, File output)
+    private static void enjarify(File input, File output)
     {
         if (!ExternalResources.getSingleton().hasSetPython3Command())
             return;
