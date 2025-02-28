@@ -32,28 +32,28 @@ import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
  */
 public class APKTool
 {
+    public static final String DECODED_RESOURCES = "Decoded Resources";
 
-    public static synchronized void decodeResources(File input, File output, ResourceContainer container)
+
+    public static synchronized void decodeResources(File input, ResourceContainer container)
     {
         try
         {
-            File dir = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS + "Decoded Resources");
+            File dir = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS + DECODED_RESOURCES);
             dir.mkdirs();
 
             File tempAPKPath = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(12));
             tempAPKPath.mkdirs();
 
-            brut.apktool.Main.main(new String[]{"r",
+            brut.apktool.Main.main(new String[] {
+                "r",
                 "--frame-path", tempAPKPath.getAbsolutePath(),
                 "d", input.getAbsolutePath(),
                 "-o", dir.getAbsolutePath(),
-                "-f"});
-
-            File zip = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(12) + ".zip");
-            ZipUtils.zipFolderAPKTool(dir.getAbsolutePath(), zip.getAbsolutePath());
-
-            if (zip.exists())
-                zip.renameTo(output);
+                "-f",
+                "-jobs",
+                String.valueOf(Runtime.getRuntime().availableProcessors())
+            });
 
             container.APKToolContents = dir;
             tempAPKPath.delete();
