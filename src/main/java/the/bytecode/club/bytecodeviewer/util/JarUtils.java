@@ -233,6 +233,49 @@ public class JarUtils
     /**
      * Loads resources only, just for .APK
      *
+     * @param resourcesFolder the input resources folder
+     * @throws IOException
+     */
+    public static Map<String, byte[]> loadResourcesFromFolder(String pathPrefix, File resourcesFolder) throws IOException
+    {
+        if (!resourcesFolder.exists())
+            return new LinkedHashMap<>(); // just ignore (don't return null for null-safety!)
+
+        Map<String, byte[]> files = new LinkedHashMap<>();
+
+        String rootPath = resourcesFolder.getAbsolutePath();
+        loadResourcesFromFolderImpl(rootPath, pathPrefix, files, resourcesFolder);
+
+        return files;
+    }
+
+    private static void loadResourcesFromFolderImpl(String rootPath, String pathPrefix, Map<String, byte[]> files, File folder) throws IOException
+    {
+        for (File file : folder.listFiles())
+        {
+            if (file.isDirectory())
+                loadResourcesFromFolderImpl(rootPath, pathPrefix, files, file);
+            else
+            {
+                final String name = file.getName();
+                if (!name.endsWith(".class") && !name.endsWith(".dex"))
+                {
+                    String relativePath = pathPrefix + file.getAbsolutePath().substring(rootPath.length());
+                    try (InputStream in = new FileInputStream(file))
+                    {
+                        files.put(relativePath, MiscUtils.getBytes(in));
+                    } catch (Exception e)
+                    {
+                        BytecodeViewer.handleException(e);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Loads resources only, just for .APK
+     *
      * @param zipFile the input zip file
      * @throws IOException
      */

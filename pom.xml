@@ -14,7 +14,7 @@
 
         <!-- Dependency versions -->
         <annotations.version>24.1.0</annotations.version>
-        <apktool.version>2.9.3</apktool.version>
+        <apktool.version>2.11.0</apktool.version>
         <asm.version>9.7</asm.version>
         <bined.version>0.2.1</bined.version>
         <byteanalysis.version>1.0bcv</byteanalysis.version>

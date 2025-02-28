@@ -48,9 +48,8 @@ public class APKResourceImporter implements Importer
         // APK Resource Decoding Here
         if (BytecodeViewer.viewer.decodeAPKResources.isSelected())
         {
-            File decodedResources = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + ".apk");
-            APKTool.decodeResources(tempCopy, decodedResources, container);
-            container.resourceFiles = JarUtils.loadResources(decodedResources);
+            APKTool.decodeResources(tempCopy, container);
+            container.resourceFiles = JarUtils.loadResourcesFromFolder(APKTool.DECODED_RESOURCES, container.APKToolContents);
         }
 
         container.resourceFiles.putAll(JarUtils.loadResources(tempCopy)); // copy and rename
