@@ -207,6 +207,7 @@ public class SettingsSerializer
             save(Configuration.python3Extra);
             save(BytecodeViewer.viewer.getMinSdkVersion());
             save(BytecodeViewer.viewer.printLineNumbers.isSelected());
+            save(BytecodeViewer.viewer.disableReloadConfirmation.isSelected());
         }
         catch (Exception e)
         {
@@ -415,6 +416,7 @@ public class SettingsSerializer
             Configuration.python3Extra = asBoolean(140);
             BytecodeViewer.viewer.minSdkVersionSpinner.setValue(asInt(141));
             BytecodeViewer.viewer.printLineNumbers.setSelected(asBoolean(142));
+            BytecodeViewer.viewer.disableReloadConfirmation.setSelected(asBoolean(143));
         }
         catch (IndexOutOfBoundsException e)
         {
