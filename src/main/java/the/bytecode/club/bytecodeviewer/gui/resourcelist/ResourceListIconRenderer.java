@@ -26,10 +26,8 @@ import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author http://stackoverflow.com/questions/14968005
@@ -89,7 +87,7 @@ public class ResourceListIconRenderer extends DefaultTreeCellRenderer
             if (node.getChildCount() > 0)
             {
                 List<TreeNode> nodes = new ArrayList<>();
-                List<TreeNode> totalNodes = new ArrayList<>();
+                HashSet<TreeNode> totalNodes = new HashSet<>();
 
                 nodes.add(node);
                 totalNodes.add(node);
