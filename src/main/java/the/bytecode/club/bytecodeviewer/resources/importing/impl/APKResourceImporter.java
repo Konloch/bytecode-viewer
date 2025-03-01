@@ -21,9 +21,9 @@ package the.bytecode.club.bytecodeviewer.resources.importing.impl;
 import org.apache.commons.io.FileUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
-import the.bytecode.club.bytecodeviewer.resources.ResourceContainerImporter;
 import the.bytecode.club.bytecodeviewer.resources.importing.Importer;
 import the.bytecode.club.bytecodeviewer.util.*;
+import the.bytecode.club.bytecodeviewer.util.apk2Jar.Apk2Jar;
 
 import java.io.File;
 
@@ -55,16 +55,8 @@ public class APKResourceImporter implements Importer
         container.resourceFiles.putAll(JarUtils.loadResources(tempCopy)); // copy and rename
         // to prevent unicode filenames
 
-        String name = MiscUtils.getRandomizedName() + ".jar";
-        File output = new File(TEMP_DIRECTORY + FS + name);
-
-        if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
-            Dex2Jar.dex2Jar(tempCopy, output);
-        else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
-            Enjarify.apk2Jar(tempCopy, output);
-
         // create a new resource importer and copy the contents from it
-        container.copy(new ResourceContainerImporter(new ResourceContainer(output)).importAsZip().getContainer());
+        container.copy(Apk2Jar.obtainImpl().resourceContainerFromApk(tempCopy));
 
         BytecodeViewer.addResourceContainer(container);
     }

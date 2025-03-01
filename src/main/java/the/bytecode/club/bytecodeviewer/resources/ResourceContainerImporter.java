@@ -26,6 +26,7 @@ import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,14 +66,49 @@ public class ResourceContainerImporter
         }
     }
 
+    private void clearContainerResources()
+    {
+        container.resourceClasses.clear();
+        container.resourceClassBytes.clear();
+        container.resourceFiles.clear();
+    }
+
+    public ResourceContainerImporter importAsFolder() throws IOException
+    {
+        clearContainerResources();
+
+        File folder = container.file;
+        String folderPath = folder.getAbsolutePath() + File.separator;
+        importFolder(folderPath, container.file, true);
+
+        return this;
+    }
+
+    private void importFolder(String rootPath, File folder, boolean classesOnly) throws IOException
+    {
+
+        for (File file : folder.listFiles())
+        {
+            if (file.isDirectory())
+            {
+                importFolder(rootPath, file, classesOnly);
+            } else
+            {
+                try (FileInputStream fis = new FileInputStream(file))
+                {
+                    String name = file.getAbsolutePath().substring(rootPath.length());
+                    addUnknownFile(name, fis, classesOnly);
+                }
+            }
+        }
+    }
+
     /**
      * Start importing the container file as a zip archive
      */
     public ResourceContainerImporter importAsZip() throws IOException
     {
-        container.resourceClasses.clear();
-        container.resourceClassBytes.clear();
-        container.resourceFiles.clear();
+        clearContainerResources();
 
         try
         {

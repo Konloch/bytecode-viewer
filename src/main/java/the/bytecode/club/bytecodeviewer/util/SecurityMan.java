@@ -25,6 +25,7 @@ import the.bytecode.club.bytecodeviewer.compilers.impl.JavaCompiler;
 import the.bytecode.club.bytecodeviewer.compilers.impl.KrakatauAssembler;
 import the.bytecode.club.bytecodeviewer.decompilers.impl.*;
 import the.bytecode.club.bytecodeviewer.resources.ExternalResources;
+import the.bytecode.club.bytecodeviewer.util.apk2Jar.Enjarify;
 
 import java.io.File;
 import java.io.FileDescriptor;

@@ -26,7 +26,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.api.ExceptionUI;
 import the.bytecode.club.bytecodeviewer.decompilers.AbstractDecompiler;
 import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
-import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
+import the.bytecode.club.bytecodeviewer.util.apk2Jar.Dex2Jar;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.*;
