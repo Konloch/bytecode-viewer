@@ -110,12 +110,18 @@ public class BytecodeViewPanelUpdater implements Runnable
                 else
                 {
                     final Decompiler decompiler = bytecodeViewPanel.decompiler;
-                    final String workingDecompilerName = viewer.resource.workingName + "-" + decompiler.getDecompilerName();
+                    String decompilerName = decompiler.getDecompilerName();
+                    final String workingDecompilerName = viewer.resource.workingName + "-" + decompilerName;
 
                     //perform decompiling inside of this thread
                     final String decompiledSource = decompiler.getDecompiler().decompileClassNode(viewer.resource.getResourceClassNode(), classBytes);
 
-                    ClassFileContainer container = new ClassFileContainer(workingDecompilerName, decompiledSource, viewer.resource.container);
+                    ClassFileContainer container = new ClassFileContainer(
+                        viewer.resource.workingName,
+                        decompilerName,
+                        decompiledSource,
+                        viewer.resource.container
+                    );
 
                     if (!BytecodeViewer.viewer.workPane.classFiles.containsKey(workingDecompilerName))
                     {

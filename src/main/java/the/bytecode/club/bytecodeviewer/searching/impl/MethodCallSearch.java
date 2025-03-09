@@ -91,8 +91,6 @@ public class MethodCallSearch implements SearchPanel
     @Override
     public void search(ResourceContainer container, String resourceWorkingName, ClassNode node, boolean exact)
     {
-        final Iterator<MethodNode> methods = node.methods.iterator();
-
         String searchOwner = mOwner.getText();
         if (searchOwner.isEmpty())
             searchOwner = null;
@@ -105,6 +103,11 @@ public class MethodCallSearch implements SearchPanel
         if (searchDesc.isEmpty())
             searchDesc = null;
 
+        if (searchName == null && searchOwner == null && searchDesc == null)
+            return;
+
+        final Iterator<MethodNode> methods = node.methods.iterator();
+
         while (methods.hasNext())
         {
             final MethodNode method = methods.next();
@@ -115,9 +118,6 @@ public class MethodCallSearch implements SearchPanel
                 if (insnNode instanceof MethodInsnNode)
                 {
                     final MethodInsnNode min = (MethodInsnNode) insnNode;
-
-                    if (searchName == null && searchOwner == null && searchDesc == null)
-                        continue;
 
                     if (exact)
                     {

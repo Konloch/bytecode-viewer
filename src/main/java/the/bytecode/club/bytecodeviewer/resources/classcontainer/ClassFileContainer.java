@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.resources.classcontainer;
 
-import com.github.javaparser.*;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.resolution.TypeSolver;
 import com.github.javaparser.symbolsolver.JavaSymbolSolver;
@@ -12,7 +13,6 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.*;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.visitors.MyVoidVisitor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableMap;
@@ -27,6 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class ClassFileContainer
 {
+
     public transient NavigableMap<String, ArrayList<ClassFieldLocation>> fieldMembers = new TreeMap<>();
     public transient NavigableMap<String, ArrayList<ClassParameterLocation>> methodParameterMembers = new TreeMap<>();
     public transient NavigableMap<String, ArrayList<ClassLocalVariableLocation>> methodLocalMembers = new TreeMap<>();
@@ -35,13 +36,15 @@ public class ClassFileContainer
 
     public boolean hasBeenParsed = false;
     public final String className;
+    public final String decompiler;
     private final String content;
     private final String parentContainer;
     private final String path;
 
-    public ClassFileContainer(String className, String content, ResourceContainer resourceContainer)
+    public ClassFileContainer(String className, String decompiler, String content, ResourceContainer resourceContainer)
     {
         this.className = className;
+        this.decompiler = decompiler;
         this.content = content;
         this.parentContainer = resourceContainer.name;
         this.path = resourceContainer.file.getAbsolutePath();
@@ -95,15 +98,19 @@ public class ClassFileContainer
 
     public String getName()
     {
-        if (this.className.contains("/"))
-            return this.className.substring(this.className.lastIndexOf('/') + 1, this.className.lastIndexOf('.'));
-        else
-            return this.className.substring(0, this.className.lastIndexOf('.'));
+        int from = className.lastIndexOf('/') + 1;
+
+        int until = className.lastIndexOf('.');
+        if (until == -1 || until < from) {
+            until = className.length();
+        }
+
+        return className.substring(from, until);
     }
 
     public String getDecompiler()
     {
-        return this.className.substring(this.className.lastIndexOf('-') + 1);
+        return decompiler;
     }
 
     public String getParentContainer()

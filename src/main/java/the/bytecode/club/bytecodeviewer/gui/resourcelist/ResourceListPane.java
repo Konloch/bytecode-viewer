@@ -356,7 +356,7 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
                 }
 
                 //display via name
-                BytecodeViewer.viewer.workPane.addClassResource(container, name);
+                BytecodeViewer.viewer.workPane.addClassResource(container, name.substring(0, name.length() - ".class".length()));
             }
             catch (Exception e)
             {
