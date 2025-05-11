@@ -119,7 +119,7 @@
     "DISASSEMBLER": "Дизассемблер",
     "ERROR": "Ошибка",
     "NEW_JAVA_PLUGIN": "Новый плагин на Java",
-    "NEW_JAVASCRIPT_PLUGIN": "Новы плагин на Javascript",
+    "NEW_JAVASCRIPT_PLUGIN": "Новый плагин на Javascript",
     "SUGGESTED_FIX_DECOMPILER_ERROR": "Рекомендация: Нажмите \"обновить класс\", либо выберите другой декомпилятор.",
     "SUGGESTED_FIX_COMPILER_ERROR": "Рекомендация: Посетите Вид>Панель>Krakatau>Байткод и включите возможность редактировать.",
     "SUGGESTED_FIX_NO_DECOMPILER_WARNING": "ВНИМАНИЕ: Не выбран декомпилятор. Выберите его в  Вид>Панель.",
