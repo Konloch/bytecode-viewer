@@ -19,7 +19,6 @@
 package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
 import org.exbin.auxiliary.binary_data.BinaryData;
-import org.exbin.bined.CaretMovedListener;
 import org.exbin.bined.CodeAreaCaretPosition;
 import org.exbin.bined.DataChangedListener;
 import org.exbin.bined.swing.basic.CodeArea;
@@ -28,11 +27,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.math.BigInteger;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Objects;
+import org.exbin.bined.CodeAreaCaretListener;
 
 /**
  * Values side panel.
@@ -56,7 +57,7 @@ public class ValuesPanel extends javax.swing.JPanel
     private CodeArea codeArea;
     private long dataPosition;
     private DataChangedListener dataChangedListener;
-    private CaretMovedListener caretMovedListener;
+    private CodeAreaCaretListener caretMovedListener;
 
     private final byte[] valuesCache = new byte[CACHE_SIZE];
     private final ByteBuffer byteBuffer = ByteBuffer.wrap(valuesCache);
@@ -496,7 +497,7 @@ public class ValuesPanel extends javax.swing.JPanel
                 {
                     long longValue = Long.parseLong(longTextField.getText());
 
-                    byteBuffer.rewind();
+                    ((Buffer) byteBuffer).rewind();
                     if (byteBuffer.order() != byteOrder)
                         byteBuffer.order(byteOrder);
 
@@ -547,7 +548,7 @@ public class ValuesPanel extends javax.swing.JPanel
                 ByteOrder byteOrder = getByteOrder();
                 float floatValue = Float.parseFloat(floatTextField.getText());
 
-                byteBuffer.rewind();
+                ((Buffer) byteBuffer).rewind();
 
                 if (byteBuffer.order() != byteOrder)
                     byteBuffer.order(byteOrder);
@@ -573,7 +574,7 @@ public class ValuesPanel extends javax.swing.JPanel
                 ByteOrder byteOrder = getByteOrder();
                 double doubleValue = Double.parseDouble(doubleTextField.getText());
 
-                byteBuffer.rewind();
+                ((Buffer) byteBuffer).rewind();
 
                 if (byteBuffer.order() != byteOrder)
                     byteBuffer.order(byteOrder);
@@ -696,7 +697,7 @@ public class ValuesPanel extends javax.swing.JPanel
 
     public void updateValues()
     {
-        CodeAreaCaretPosition caretPosition = codeArea.getCaretPosition();
+        CodeAreaCaretPosition caretPosition = codeArea.getActiveCaretPosition();
         dataPosition = caretPosition.getDataPosition();
         long dataSize = codeArea.getDataSize();
 
@@ -800,7 +801,6 @@ public class ValuesPanel extends javax.swing.JPanel
                 long dataSize = codeArea.getDataSize();
 
                 clearFields = dataPosition >= dataSize;
-                byteOrder = littleEndianRadioButton.isSelected() ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN;
                 byteOrder = getByteOrder();
                 signed = isSigned();
                 values = valuesCache;
@@ -913,7 +913,7 @@ public class ValuesPanel extends javax.swing.JPanel
                 {
                     if (signed)
                     {
-                        byteBuffer.rewind();
+                        ((Buffer) byteBuffer).rewind();
 
                         if (byteBuffer.order() != byteOrder)
                             byteBuffer.order(byteOrder);
@@ -933,7 +933,7 @@ public class ValuesPanel extends javax.swing.JPanel
 
                 case FLOAT:
                 {
-                    byteBuffer.rewind();
+                    ((Buffer) byteBuffer).rewind();
 
                     if (byteBuffer.order() != byteOrder)
                         byteBuffer.order(byteOrder);
@@ -944,7 +944,7 @@ public class ValuesPanel extends javax.swing.JPanel
 
                 case DOUBLE:
                 {
-                    byteBuffer.rewind();
+                    ((Buffer) byteBuffer).rewind();
 
                     if (byteBuffer.order() != byteOrder)
                         byteBuffer.order(byteOrder);

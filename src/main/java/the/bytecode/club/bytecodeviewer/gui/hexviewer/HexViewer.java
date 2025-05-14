@@ -18,12 +18,11 @@
 
 package the.bytecode.club.bytecodeviewer.gui.hexviewer;
 
-import org.exbin.auxiliary.binary_data.ByteArrayData;
+import org.exbin.auxiliary.binary_data.array.ByteArrayData;
 import org.exbin.bined.CodeAreaCaretPosition;
 import org.exbin.bined.CodeType;
 import org.exbin.bined.EditMode;
 import org.exbin.bined.RowWrappingMode;
-import org.exbin.bined.highlight.swing.HighlightNonAsciiCodeAreaPainter;
 import org.exbin.bined.swing.basic.CodeArea;
 
 import javax.annotation.Nonnull;
@@ -31,6 +30,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import org.exbin.bined.highlight.swing.NonAsciiCodeAreaColorAssessor;
+import org.exbin.bined.swing.basic.DefaultCodeAreaPainter;
 
 /**
  * Binary/hexadecimal viewer based on BinEd library.
@@ -57,9 +58,10 @@ public class HexViewer extends JPanel
     {
         super(new BorderLayout());
         codeArea = new CodeArea();
-        codeArea.setFocusTraversalKeysEnabled(false);
-        codeArea.setPainter(new HighlightNonAsciiCodeAreaPainter(codeArea));
+        DefaultCodeAreaPainter painter = (DefaultCodeAreaPainter) codeArea.getPainter();
+        painter.setColorAssessor(new NonAsciiCodeAreaColorAssessor(painter.getColorAssessor()));
         toolBar = new JToolBar();
+        toolBar.setFloatable(false);
         statusPanel = new BinaryStatusPanel()
         {
             @Override
@@ -91,7 +93,7 @@ public class HexViewer extends JPanel
             public void actionPerformed(ActionEvent e)
             {
                 final GoToBinaryPanel goToPanel = new GoToBinaryPanel();
-                goToPanel.setCursorPosition(codeArea.getCaret().getCaretPosition().getDataPosition());
+                goToPanel.setCursorPosition(codeArea.getActiveCaretPosition().getDataPosition());
                 goToPanel.setMaxPosition(codeArea.getDataSize());
                 final JDialog dialog = new JDialog((JFrame) SwingUtilities.getRoot(HexViewer.this), Dialog.ModalityType.APPLICATION_MODAL);
                 OkCancelPanel okCancelPanel = new OkCancelPanel()
@@ -100,7 +102,7 @@ public class HexViewer extends JPanel
                     protected void okAction()
                     {
                         goToPanel.acceptInput();
-                        codeArea.setCaretPosition(goToPanel.getTargetPosition());
+                        codeArea.setActiveCaretPosition(goToPanel.getTargetPosition());
                         codeArea.revealCursor();
                         dialog.setVisible(false);
                         dialog.dispose();
@@ -348,10 +350,12 @@ public class HexViewer extends JPanel
         });
         viewMenu.add(showValuesPanelMenuItem);
         JCheckBoxMenuItem codeColorizationMenuItem = new JCheckBoxMenuItem("Code Colorization");
-        codeColorizationMenuItem.setSelected(((HighlightNonAsciiCodeAreaPainter) codeArea.getPainter()).isNonAsciiHighlightingEnabled());
+        DefaultCodeAreaPainter painter = (DefaultCodeAreaPainter) codeArea.getPainter();
+        NonAsciiCodeAreaColorAssessor colorAssessor = (NonAsciiCodeAreaColorAssessor) painter.getColorAssessor();
+        codeColorizationMenuItem.setSelected(colorAssessor.isNonAsciiHighlightingEnabled());
         codeColorizationMenuItem.addActionListener((event) ->
         {
-            ((HighlightNonAsciiCodeAreaPainter) codeArea.getPainter()).setNonAsciiHighlightingEnabled(codeColorizationMenuItem.isSelected());
+            colorAssessor.setNonAsciiHighlightingEnabled(codeColorizationMenuItem.isSelected());
             menu.setVisible(false);
         });
         viewMenu.add(codeColorizationMenuItem);
