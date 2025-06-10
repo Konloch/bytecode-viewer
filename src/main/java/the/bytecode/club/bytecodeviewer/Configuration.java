@@ -73,7 +73,6 @@ public class Configuration
     public static boolean currentlyDumping = false;
     public static boolean needsReDump = true;
     public static boolean warnForEditing = false;
-    public static boolean runningObfuscation = false;
     public static final long BOOT_TIMESTAMP = System.currentTimeMillis();
     public static String lastOpenDirectory = ".";
     public static String lastSaveDirectory = ".";
