@@ -33,9 +33,6 @@ import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
 import the.bytecode.club.bytecodeviewer.gui.theme.LAFTheme;
 import the.bytecode.club.bytecodeviewer.gui.theme.RSTATheme;
-import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameClasses;
-import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameFields;
-import the.bytecode.club.bytecodeviewer.obfuscators.rename.RenameMethods;
 import the.bytecode.club.bytecodeviewer.plugin.PluginManager;
 import the.bytecode.club.bytecodeviewer.plugin.PluginTemplate;
 import the.bytecode.club.bytecodeviewer.plugin.preinstalled.*;
@@ -280,17 +277,6 @@ public class MainViewerGUI extends JFrame
     public final JMenu minSdkVersionMenu = new TranslatedJMenu("Minimum SDK version", TranslatedComponents.MIN_SDK_VERSION);
     public final JSpinner minSdkVersionSpinner = new JSpinner();
 
-    //obfuscation
-    public final JMenu obfuscate = new JMenu("Obfuscate");
-    public final JMenuItem renameFields = new JMenuItem("Rename Fields");
-    public final JMenuItem renameMethods = new JMenuItem("Rename Methods");
-    public final JMenuItem moveAllClassesIntoRoot = new JMenuItem("Move All Classes Into Root Package");
-    public final JMenuItem controlFlow = new JMenuItem("Control Flow");
-    public final JMenuItem junkCode = new JMenuItem("Junk Code");
-    public final ButtonGroup obfuscatorGroup = new ButtonGroup();
-    public final JRadioButtonMenuItem strongObf = new JRadioButtonMenuItem("Strong Obfuscation");
-    public final JRadioButtonMenuItem lightObf = new JRadioButtonMenuItem("Light Obfuscation");
-    public final JMenuItem renameClasses = new JMenuItem("Rename Classes");
 
     public MainViewerGUI()
     {
@@ -307,7 +293,6 @@ public class MainViewerGUI extends JFrame
         buildViewMenu();
         buildSettingsMenu();
         buildPluginMenu();
-        buildObfuscateMenu();
         defaultSettings();
 
         setTitle("Bytecode Viewer " + VERSION + " - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
@@ -720,31 +705,6 @@ public class MainViewerGUI extends JFrame
         changeClassFileVersions.addActionListener(arg0 -> PluginManager.runPlugin(new ChangeClassFileVersions()));
     }
 
-    public void buildObfuscateMenu()
-    {
-        //hide obfuscation menu since it's currently not being used
-        obfuscate.setVisible(false);
-
-        rootMenu.add(obfuscate);
-        obfuscate.add(strongObf);
-        obfuscate.add(lightObf);
-        obfuscate.add(new JSeparator());
-        obfuscate.add(moveAllClassesIntoRoot);
-        obfuscate.add(renameFields);
-        obfuscate.add(renameMethods);
-        obfuscate.add(renameClasses);
-        obfuscate.add(controlFlow);
-        obfuscate.add(junkCode);
-
-        obfuscatorGroup.add(strongObf);
-        obfuscatorGroup.add(lightObf);
-        obfuscatorGroup.setSelected(strongObf.getModel(), true);
-
-        renameFields.addActionListener(arg0 -> RenameFields.open());
-        renameClasses.addActionListener(arg0 -> RenameClasses.open());
-        renameMethods.addActionListener(arg0 -> RenameMethods.open());
-    }
-
     public void defaultSettings()
     {
         compileOnSave.setSelected(false);
@@ -759,10 +719,6 @@ public class MainViewerGUI extends JFrame
         showClassMethods.setSelected(false);
 
         simplifyNameInTabTitle.setEnabled(true);
-
-        moveAllClassesIntoRoot.setEnabled(false);
-        controlFlow.setEnabled(false);
-        junkCode.setEnabled(false);
 
         // cfr
         decodeEnumSwitch.setSelected(true);
