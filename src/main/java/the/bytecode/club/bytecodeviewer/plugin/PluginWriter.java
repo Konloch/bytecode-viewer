@@ -91,8 +91,6 @@ public class PluginWriter extends JFrame
         area.setOnCtrlS(this::save);
         area.setText(content);
         area.setCaretPosition(0);
-        DefaultCaret caret = (DefaultCaret)area.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
         SyntaxLanguage.setLanguage(area, pluginName);
         content = null;
 
