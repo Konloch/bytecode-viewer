@@ -119,7 +119,7 @@ public class APKExport implements Exporter
 
                             Thread buildAPKThread = new Thread(() ->
                             {
-                                APKTool.buildAPK(new File(input), file, finalContainer);
+                                APKTool.buildAPK(file, finalContainer);
                                 BytecodeViewer.updateBusyStatus(false);
                             }, "Process APK");
 
