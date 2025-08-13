@@ -37,7 +37,8 @@ public enum Import
     CLASS(new ClassResourceImporter(), "class"),
     XAPK(new XAPKResourceImporter(), "xapk"),
     APK(new APKResourceImporter(), "apk"),
-    DEX(new DEXResourceImporter(), "dex");
+    DEX(new DEXResourceImporter(), "dex"),
+    AAB(new AABResourceImporter(), "aab");
 
     public static final HashMap<String, Import> extensionMap = new HashMap<>();
 
