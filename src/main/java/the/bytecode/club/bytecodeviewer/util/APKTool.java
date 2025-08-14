@@ -64,7 +64,7 @@ public class APKTool
         }
     }
 
-    public static synchronized void buildAPK(File input, File output, ResourceContainer container)
+    public static synchronized void buildAPK(File output, ResourceContainer container)
     {
         String temp = TEMP_DIRECTORY + FS;
         File tempDir = new File(temp + FS + MiscUtils.getRandomizedName() + FS);

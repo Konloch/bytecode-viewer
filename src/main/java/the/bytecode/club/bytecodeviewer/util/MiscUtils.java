@@ -30,6 +30,10 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Field;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 import static the.bytecode.club.bytecodeviewer.BytecodeViewer.gson;
@@ -424,5 +428,13 @@ public class MiscUtils
             file.delete();
 
         return file;
+    }
+
+    public static void extractFileFromZip(Path zipFile, String fileName, Path outputFile) throws IOException
+    {
+        try (FileSystem fileSystem = FileSystems.newFileSystem(zipFile, (ClassLoader) null)) {
+            Path fileToExtract = fileSystem.getPath(fileName);
+            Files.copy(fileToExtract, outputFile);
+        }
     }
 }

@@ -43,22 +43,25 @@ public class APKResourceImporter implements Importer
         File tempCopy = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + ".apk");
         FileUtils.copyFile(file, tempCopy);
 
-        ResourceContainer container = new ResourceContainer(tempCopy, file.getName());
+        openImpl(tempCopy, file.getName());
+    }
+
+    static void openImpl(File apkFile, String importName) throws Exception {
+        ResourceContainer container = new ResourceContainer(apkFile, importName);
 
         // APK Resource Decoding Here
         if (BytecodeViewer.viewer.decodeAPKResources.isSelected())
         {
-            APKTool.decodeResources(tempCopy, container);
+            APKTool.decodeResources(apkFile, container);
             container.resourceFiles = JarUtils.loadResourcesFromFolder(APKTool.DECODED_RESOURCES, container.APKToolContents);
         }
 
-        container.resourceFiles.putAll(JarUtils.loadResources(tempCopy)); // copy and rename
+        container.resourceFiles.putAll(JarUtils.loadResources(apkFile)); // copy and rename
         // to prevent unicode filenames
 
         // create a new resource importer and copy the contents from it
-        container.copy(Apk2Jar.obtainImpl().resourceContainerFromApk(tempCopy));
+        container.copy(Apk2Jar.obtainImpl().resourceContainerFromApk(apkFile));
 
         BytecodeViewer.addResourceContainer(container);
     }
-
 }
