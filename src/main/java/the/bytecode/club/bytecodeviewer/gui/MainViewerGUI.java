@@ -682,6 +682,56 @@ public class MainViewerGUI extends JFrame
         pluginsMainMenu.add(stackFramesRemover);
         pluginsMainMenu.add(changeClassFileVersions);
 
+        // Deobfuscator integration
+        JMenuItem deobfuscateClasses = new JMenuItem("Deobfuscate Classes");
+        pluginsMainMenu.add(deobfuscateClasses);
+
+        JMenuItem previewDeobfuscation = new JMenuItem("Preview Deobfuscation Mapping");
+        pluginsMainMenu.add(previewDeobfuscation);
+
+        JMenuItem undoDeobfuscation = new JMenuItem("Undo Deobfuscation");
+        pluginsMainMenu.add(undoDeobfuscation);
+
+        // Store last mapping for undo
+        final the.bytecode.club.bytecodeviewer.deobfuscator.Deobfuscator[] lastDeobfuscator = new the.bytecode.club.bytecodeviewer.deobfuscator.Deobfuscator[1];
+
+        deobfuscateClasses.addActionListener(e -> {
+            the.bytecode.club.bytecodeviewer.deobfuscator.Deobfuscator deobfuscator = new the.bytecode.club.bytecodeviewer.deobfuscator.Deobfuscator();
+            deobfuscator.run();
+            lastDeobfuscator[0] = deobfuscator;
+            JOptionPane.showMessageDialog(this, "Deobfuscation complete.", "Deobfuscator", JOptionPane.INFORMATION_MESSAGE);
+            BytecodeViewer.refreshAllTabs();
+        });
+
+        previewDeobfuscation.addActionListener(e -> {
+            the.bytecode.club.bytecodeviewer.deobfuscator.Deobfuscator deobfuscator = new the.bytecode.club.bytecodeviewer.deobfuscator.Deobfuscator();
+            // Generate mapping without renaming
+            StringBuilder sb = new StringBuilder();
+            for (org.objectweb.asm.tree.ClassNode cn : the.bytecode.club.bytecodeviewer.BytecodeViewer.getLoadedClasses()) {
+                String newName = deobfuscator.generateNewName(cn);
+                sb.append(cn.name).append(" -> ").append(newName).append("\n");
+            }
+            JTextArea textArea = new JTextArea(sb.toString());
+            textArea.setEditable(false);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(500, 400));
+            JOptionPane.showMessageDialog(this, scrollPane, "Preview Deobfuscation Mapping", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        undoDeobfuscation.addActionListener(e -> {
+            if (lastDeobfuscator[0] == null) {
+                JOptionPane.showMessageDialog(this, "No deobfuscation to undo.", "Undo Deobfuscation", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            // Reverse mapping
+            for (java.util.Map.Entry<String, String> entry : lastDeobfuscator[0].getNameMapping().entrySet()) {
+                the.bytecode.club.bytecodeviewer.api.ASMResourceUtil.renameClassNode(entry.getValue(), entry.getKey());
+            }
+            lastDeobfuscator[0] = null;
+            JOptionPane.showMessageDialog(this, "Deobfuscation undone.", "Undo Deobfuscation", JOptionPane.INFORMATION_MESSAGE);
+            BytecodeViewer.refreshAllTabs();
+        });
+
         //allatori is disabled since they are just placeholders
         //ZKM and ZStringArray decrypter are disabled until deobfuscation has been extended
         //mnNewMenu_1.add(mntmNewMenuItem_2);
