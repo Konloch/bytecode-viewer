@@ -231,10 +231,9 @@ public class TabComponent extends JPanel
         @Override
         public void mouseReleased(MouseEvent e)
         {
-            e = convert(e);
-            if (e == null)
-                return;
-
+            MouseEvent converted = convert(e);
+            if (converted != null)
+                e = converted;
             Objects.requireNonNull(getHandler()).mouseReleased(e);
         }
 
