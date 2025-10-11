@@ -7,7 +7,7 @@
 
     <properties>
         <!-- Project settings -->
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -55,7 +55,129 @@
         <taskmanager.version>1.0.1</taskmanager.version>
         <google-java-format.version>1.7</google-java-format.version> <!-- Newer versions require Java 11+ -->
         <disk-lib.version>1.2.0</disk-lib.version>
+        <aapt-version>8.12.0-13700139</aapt-version>
+        <maven-dependency-plugin>3.6.1</maven-dependency-plugin>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>unpack-aapt2-linux</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                    <name>linux</name>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>unpack-linux-aapt2</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.android.tools.build</groupId>
+                                            <artifactId>aapt2</artifactId>
+                                            <version>${aapt-version}</version>
+                                            <classifier>linux</classifier>
+                                            <type>jar</type>
+                                            <outputDirectory>${project.build.outputDirectory}/linux</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>unpack-aapt2-windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>unpack-windows-aapt2</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.android.tools.build</groupId>
+                                            <artifactId>aapt2</artifactId>
+                                            <version>${aapt-version}</version>
+                                            <classifier>windows</classifier>
+                                            <type>jar</type>
+                                            <outputDirectory>${project.build.outputDirectory}/windows</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>unpack-aapt2-macos</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>unpack-macos-aapt2</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.android.tools.build</groupId>
+                                            <artifactId>aapt2</artifactId>
+                                            <version>${aapt-version}</version>
+                                            <classifier>osx</classifier>
+                                            <type>jar</type>
+                                            <outputDirectory>${project.build.outputDirectory}/macos</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>
@@ -402,6 +524,24 @@
             <version>${disk-lib.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.android.tools.build</groupId>
+            <artifactId>bundletool</artifactId>
+            <version>1.18.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.android.tools.build</groupId>
+            <artifactId>aapt2-proto</artifactId>
+            <version>${aapt-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>4.31.1</version>
+        </dependency>
+
         <!-- TODO Re-add for Graal.JS support -->
         <!--<dependency>
             <groupId>org.graalvm.js</groupId>
@@ -505,6 +645,92 @@
                         <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                     </transformers>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>unpack-aapt2-windows</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.android.tools.build</groupId>
+                                    <artifactId>aapt2</artifactId>
+                                    <version>${aapt-version}</version>
+                                    <classifier>windows</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/unpacked-aapt2/windows</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-aapt2-macos</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.android.tools.build</groupId>
+                                    <artifactId>aapt2</artifactId>
+                                    <version>${aapt-version}</version>
+                                    <classifier>osx</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/unpacked-aapt2/macos</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-aapt2-linux</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.android.tools.build</groupId>
+                                    <artifactId>aapt2</artifactId>
+                                    <version>${aapt-version}</version>
+                                    <classifier>linux</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/unpacked-aapt2/linux</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-unpacked-aapt2</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}/unpacked-aapt2</directory>
+                                    <!-- This will create windows/, macos/, linux/ inside the classes dir -->
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
