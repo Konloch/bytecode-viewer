@@ -46,6 +46,11 @@ public class FileChooser
     public static JFileChooser create(boolean skipFileFilter, File file, String title, String description, String... extensions) throws ExecutionException, InterruptedException
     {
         JFileChooser chooser = SINGLETON.get();
+        if (chooser == null) {
+            System.err.println("Error: JFileChooser not initialized properly — skipping export.");
+            return null;
+        }
+
 
         Set<String> extensionSet = new HashSet<>(Arrays.asList(extensions));
 
