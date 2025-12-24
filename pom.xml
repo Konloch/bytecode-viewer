@@ -420,7 +420,7 @@
 	        <plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-checkstyle-plugin</artifactId>
-		        <version>3.5.0</version>
+		        <version>3.6.0</version>
             <configuration>
               <configLocation>checkstyle.xml</configLocation>
             </configuration>
@@ -428,7 +428,7 @@
 	        <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.14.1</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -438,7 +438,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.10.0</version>
+                <version>3.12.0</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                 </configuration>
@@ -446,7 +446,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
