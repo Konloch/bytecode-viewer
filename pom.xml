@@ -13,48 +13,48 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependency versions -->
-        <annotations.version>24.1.0</annotations.version>
-        <apktool.version>2.11.0</apktool.version>
-        <asm.version>9.9</asm.version>
+        <annotations.version>26.0.2-1</annotations.version>
+        <apktool.version>2.12.1</apktool.version>
+        <asm.version>9.9.1</asm.version>
         <bined.version>0.2.2</bined.version>
         <byteanalysis.version>1.0bcv</byteanalysis.version>
         <cfr.version>0.152</cfr.version>
         <cloning.version>1.9.12</cloning.version>
-        <commons-cli.version>1.9.0</commons-cli.version>
-        <commons-codec.version>1.17.1</commons-codec.version>
+        <commons-cli.version>1.11.0</commons-cli.version>
+        <commons-codec.version>1.20.0</commons-codec.version>
         <commons-compiler.version>3.1.12</commons-compiler.version>
-        <commons-compress.version>1.27.1</commons-compress.version>
-        <commons-io.version>2.16.1</commons-io.version>
-        <commons-lang3.version>3.17.0</commons-lang3.version>
-        <commons-text.version>1.12.0</commons-text.version>
-        <darklaf.version>3.0.2</darklaf.version>
+        <commons-compress.version>1.28.0</commons-compress.version>
+        <commons-io.version>2.21.0</commons-io.version>
+        <commons-lang3.version>3.20.0</commons-lang3.version>
+        <commons-text.version>1.15.0</commons-text.version>
+        <darklaf.version>3.0.2</darklaf.version> <!-- Newer versions require Java 17+ -->
         <darklaf-extensions-rsta.version>0.4.1</darklaf-extensions-rsta.version>
         <decompiler-fernflower.version>6.3.9.Final</decompiler-fernflower.version>
-        <dex2jar.version>2.4.22</dex2jar.version>
+        <dex2jar.version>2.4.34</dex2jar.version>
+        <disk-lib.version>1.2.0</disk-lib.version>
         <fernflower.version>e0d44f4</fernflower.version>
-        <gson.version>2.11.0</gson.version>
-        <guava.version>33.3.0-jre</guava.version>
+        <google-java-format.version>1.7</google-java-format.version> <!-- Newer versions require Java 11+ -->
+        <gson.version>2.13.2</gson.version>
+        <guava.version>33.5.0-jre</guava.version>
         <httprequest.version>2.2.0</httprequest.version>
         <imgscalr-lib.version>4.2</imgscalr-lib.version>
         <jadx.version>1.4.7</jadx.version> <!-- Newer versions require Java 11+ -->
+        <java-parser.version>3.27.1</java-parser.version>
         <jd-gui.version>1.6.6bcv</jd-gui.version>
         <jgraphx.version>3.4.1.3</jgraphx.version>
         <js.version>21.2.0</js.version>
         <objenesis.version>3.4</objenesis.version>
         <binary-data.version>0.2.2</binary-data.version>
         <procyon.version>0.6.0</procyon.version>
-        <rsyntaxtextarea.version>3.5.2</rsyntaxtextarea.version> <!-- Upcoming 4.0 release will require Java 11+ -->
+        <rsyntaxtextarea.version>3.6.0</rsyntaxtextarea.version> <!-- Upcoming 4.0 release will require Java 11+ -->
         <semantic-version.version>2.1.1</semantic-version.version>
-        <slf4j.version>2.0.16</slf4j.version>
-        <smali.version>3.0.8</smali.version>
+        <slf4j.version>2.0.17</slf4j.version>
+        <smali.version>3.0.9</smali.version>
         <safeyaml.version>1.34.1</safeyaml.version>
-        <treelayout.version>1.0.3</treelayout.version>
-        <webp-imageio.version>a8f700b</webp-imageio.version>
-        <xpp3.version>1.1.4c</xpp3.version>
-        <java-parser.version>3.26.2</java-parser.version>
         <taskmanager.version>1.0.1</taskmanager.version>
-        <google-java-format.version>1.7</google-java-format.version> <!-- Newer versions require Java 11+ -->
-        <disk-lib.version>1.2.0</disk-lib.version>
+        <treelayout.version>1.0.3</treelayout.version>
+        <webp-imageio.version>901abbd</webp-imageio.version>
+        <xpp3.version>1.1.4c</xpp3.version>
     </properties>
 
     <repositories>
