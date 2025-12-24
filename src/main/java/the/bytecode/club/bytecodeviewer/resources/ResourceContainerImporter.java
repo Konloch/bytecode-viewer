@@ -224,7 +224,7 @@ public class ResourceContainerImporter
      */
     private ResourceContainerImporter importApacheZipFile(boolean classesOnly) throws IOException
     {
-        try (ZipFile zipFile = new ZipFile(container.file))
+        try (ZipFile zipFile = ZipFile.builder().setFile(container.file).get())
         {
             Enumeration<? extends ZipArchiveEntry> entries = zipFile.getEntries();
             while (entries.hasMoreElements())
