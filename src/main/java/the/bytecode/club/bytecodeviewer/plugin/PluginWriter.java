@@ -21,7 +21,7 @@ package the.bytecode.club.bytecodeviewer.plugin;
 import com.google.common.io.Files;
 import com.konloch.disklib.DiskReader;
 import com.konloch.disklib.DiskWriter;
-import org.apache.commons.compress.utils.FileNameUtils;
+import org.apache.commons.io.FilenameUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.Configuration;
 import the.bytecode.club.bytecodeviewer.gui.components.FileChooser;
@@ -233,7 +233,7 @@ public class PluginWriter extends JFrame
             {
                 try
                 {
-                    final String ext = FileNameUtils.getExtension(pluginName);
+                    final String ext = FilenameUtils.getExtension(pluginName);
                     JFileChooser fc = FileChooser.create(Configuration.getLastPluginDirectory(), "Save Plugin", "BCV Plugin", ext);
 
                     int returnVal = fc.showSaveDialog(BytecodeViewer.viewer);

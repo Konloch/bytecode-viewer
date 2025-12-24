@@ -63,6 +63,7 @@
     "COMPILE_ON_SAVE": "Compile On Save",
     "COMPILE_ON_REFRESH": "Compile On Refresh",
     "REFRESH_ON_VIEW_CHANGE": "Refresh On View Change",
+    "DISABLE_RELOAD_CONFIRMATION": "Disable Reload Confirmation",
     "DECODE_APK_RESOURCES": "Decode APK Resources",
     "APK_CONVERSION": "APK Conversion",
     "APK_CONVERSION_DECODING": "APK Conversion/Decoding",
