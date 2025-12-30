@@ -82,6 +82,13 @@
             <artifactId>HTTPRequest</artifactId>
             <version>${httprequest.version}</version>
         </dependency>
+        <!-- JUnit for unit testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
