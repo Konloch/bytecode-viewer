@@ -59,7 +59,9 @@ public class MethodsRenderer extends JLabel implements ListCellRenderer<Object>
         }
 
         MethodParser.Method method = methods.getMethod(methodIndex);
-        setText(method.toString());
+
+        if(method != null)
+            setText(method.toString());
 
         return this;
     }
