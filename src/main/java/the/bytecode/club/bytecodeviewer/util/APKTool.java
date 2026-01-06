@@ -37,30 +37,39 @@ public class APKTool
 
     public static synchronized void decodeResources(File input, ResourceContainer container)
     {
+        File dir = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS + DECODED_RESOURCES);
+        File tempAPKPath = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(12));
+
+        // Create temp directories as needed
+        dir.mkdirs();
+        tempAPKPath.mkdirs();
+
         try
         {
-            File dir = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(32) + FS + DECODED_RESOURCES);
-            dir.mkdirs();
-
-            File tempAPKPath = new File(TEMP_DIRECTORY + FS + MiscUtils.randomString(12));
-            tempAPKPath.mkdirs();
-
-            brut.apktool.Main.main(new String[] {
-                "r",
+            brut.apktool.Main.main(new String[]
+            {
+                "decode", // MODE
+                input.getAbsolutePath(), // INPUT
+                // OPTIONS
                 "--frame-path", tempAPKPath.getAbsolutePath(),
-                "d", input.getAbsolutePath(),
                 "-o", dir.getAbsolutePath(),
-                "-f",
-                "-jobs",
-                String.valueOf(Runtime.getRuntime().availableProcessors())
+                "-f", // Force Delete
+                "-jobs", String.valueOf(Runtime.getRuntime().availableProcessors()) // Use Maximum Threads
             });
-
-            container.APKToolContents = dir;
-            tempAPKPath.delete();
+        }
+        catch (SecurityException e)
+        {
+            // Generally we can safely ignore this, as it's expected behavior due to the sandboxing (Assuming it's enabled)
+            e.printStackTrace();
         }
         catch (Exception e)
         {
             BytecodeViewer.handleException(e);
+        }
+        finally
+        {
+            container.APKToolContents = dir;
+            tempAPKPath.delete();
         }
     }
 
@@ -80,7 +89,11 @@ public class APKTool
 
             //save entire jar as smali files
             System.out.println("Building!");
-            brut.apktool.Main.main(new String[]{"b", container.APKToolContents.getAbsolutePath(),
+            brut.apktool.Main.main(new String[]{
+                "build", // MODE
+                container.APKToolContents.getAbsolutePath(), // INPUT
+
+                // OPTIONS
                 "--frame-path", tempAPKPath.getAbsolutePath(),
                 "-o", output.getAbsolutePath()});
 
