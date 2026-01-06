@@ -22,6 +22,7 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.util.FileHeaderUtils;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
@@ -92,7 +93,8 @@ public class ResourceContainerImporter
             if (file.isDirectory())
             {
                 importFolder(rootPath, file, classesOnly);
-            } else
+            }
+            else
             {
                 try (FileInputStream fis = new FileInputStream(file))
                 {
@@ -136,6 +138,10 @@ public class ResourceContainerImporter
      */
     public ResourceContainerImporter addUnknownFile(String name, InputStream stream, boolean classesOnly) throws IOException
     {
+        // Fix incorrect paths in BCV GUI
+        if(Constants.isWindows())
+            name = name.replace('\\', '/');
+
         //TODO remove this .class check and just look for cafebabe
         if (name.endsWith(".class"))
             return addClassResource(name, stream);
