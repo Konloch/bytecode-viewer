@@ -32,7 +32,7 @@ Bytecode Viewer - a lightweight user-friendly Java/Android Bytecode Viewer, Deco
 
 #### Key Features
 * Simply drag and drop to decompile and search Java Jars & Android APKs
-* File format support for: Class, Jar, XAPK, APK, DEX, WAR, JSP, Image Resources, Text Resources & More
+* File format support for: Class, Jar, APK, DEX, XAPK, APKM, WAR, JSP, Image Resources, Text Resources & More
 * 6 Built-in Java decompilers: Krakatau, CFR, Procyon, FernFlower, JADX, JD-GUI
 * 3 Built-in Bytecode disassemblers, including 2 assemblers: Krakatau and Smali/BakSmali
 * APK/DEX Support from Dex2Jar and Enjarify
@@ -75,7 +75,7 @@ Download the latest version from https://github.com/konloch/bytecode-viewer/rele
 You may need to execute it via command line ```java -jar Bytecode-Viewer-2.10.x.jar``` (replace the X with the current minor version)
 
 ## How can I use BCV?
-* Starting with a Jar, Zip, ClassFile or Android file (APK, DEX, XAPK, etc) drag it into BCV. It will start the decoding process automatically.
+* Starting with a Jar, Zip, ClassFile or Android file (APK, DEX, XAPK, APKM, etc) drag it into BCV. It will start the decoding process automatically.
 * From here you can select the decompilers you would like to use by selecting the View Pane>View 1, View 2, View 3, etc.
 * The view panes are-used to display up to 3 decompilers side by side, you can also toggle edibility here.
 * Select the resource you would like to open by navigating using the resource list, BCV will do its best to display it (Decompiling, Disassembling, etc).

@@ -36,7 +36,7 @@ public enum ResourceType
     CLASS_FILE(IconResources.classIcon, "class"),
     JAVA_ARCHIVE(IconResources.jarIcon, "jar", "war", "ear"),
     ZIP_ARCHIVE(IconResources.zipIcon, "zip"),
-    ANDROID_ARCHIVE(IconResources.androidIcon, "apk", "wapk", "dex", "xapk"),
+    ANDROID_ARCHIVE(IconResources.androidIcon, "apk", "wapk", "dex", "xapk", "apkm"),
     IMAGE_FILE(IconResources.imageIcon, "png", "jpg", "jpeg", "bmp", "wbmp", "gif", "tif", "webp"),
     CONFIG_TEXT_FILE(IconResources.configIcon, "properties", "xml", "jsp", "mf", "config", "csv", "yml", "yaml", "ini",
         "json", "sql", "gradle", "dockerfile", "htaccess", "plugin", "attachprovider", "transportservice", "connector"),

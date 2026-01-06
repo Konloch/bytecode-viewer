@@ -35,7 +35,7 @@ public enum Import
     //TODO war needs to add the /libs correctly similar to XAPK
     ZIP(new ZipResourceImporter(), "zip", "jar", "war", "ear"),
     CLASS(new ClassResourceImporter(), "class"),
-    XAPK(new XAPKResourceImporter(), "xapk"),
+    XAPK(new XAPKResourceImporter(), "xapk", "apkm"),
     APK(new APKResourceImporter(), "apk"),
     DEX(new DEXResourceImporter(), "dex");
 
