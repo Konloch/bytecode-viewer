@@ -25,6 +25,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Constants;
 import the.bytecode.club.bytecodeviewer.api.ASMUtil;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 
@@ -261,10 +262,16 @@ public class JarUtils
                 if (!name.endsWith(".class") && !name.endsWith(".dex"))
                 {
                     String relativePath = pathPrefix + file.getAbsolutePath().substring(rootPath.length());
+
+                    // Fix incorrect paths in BCV GUI
+                    if(Constants.isWindows())
+                        relativePath = relativePath.replace('\\', '/');
+
                     try (InputStream in = new FileInputStream(file))
                     {
                         files.put(relativePath, MiscUtils.getBytes(in));
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         BytecodeViewer.handleException(e);
                     }

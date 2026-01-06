@@ -156,7 +156,7 @@ public class Constants
      *
      * @return true if the os.name property contains 'win'
      */
-    private static boolean isWindows()
+    public static boolean isWindows()
     {
         return System.getProperty("os.name").toLowerCase().contains("win");
     }
@@ -166,7 +166,7 @@ public class Constants
      *
      * @return true if the os.name property contains 'nix', 'nux', or 'bsd'
      */
-    private static boolean isNix()
+    public static boolean isNix()
     {
         String os = System.getProperty("os.name").toLowerCase();
         return os.contains("nix") || os.contains("nux") || os.contains("bsd");
