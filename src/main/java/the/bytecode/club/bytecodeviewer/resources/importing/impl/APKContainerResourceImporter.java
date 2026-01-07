@@ -38,12 +38,12 @@ import static the.bytecode.club.bytecodeviewer.Constants.FS;
 import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 
 /**
- * Compressed APKs (XAPK)
+ * APK Containers (.AAB, .XAPK, .APKM, .APKS)
  *
  * @author Konloch
  * @since 6/26/2021
  */
-public class XAPKResourceImporter implements Importer
+public class APKContainerResourceImporter implements Importer
 {
     @Override
     public void open(File file) throws Exception
