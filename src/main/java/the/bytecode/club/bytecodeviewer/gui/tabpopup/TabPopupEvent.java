@@ -20,9 +20,11 @@ package the.bytecode.club.bytecodeviewer.gui.tabpopup;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.Serial;
 
 public class TabPopupEvent extends MouseEvent
 {
+    @Serial
     private static final long serialVersionUID = 2510164400674753411L;
 
     private final Component popupOnTab;

@@ -44,7 +44,7 @@ public class ImportResource implements Runnable
             for (File file : files)
             {
                 final String fn = file.getName();
-                System.out.println("Opening..." + file.getAbsolutePath());
+                IO.println("Opening..." + file.getAbsolutePath());
 
                 //check if file exists
                 if (!file.exists())

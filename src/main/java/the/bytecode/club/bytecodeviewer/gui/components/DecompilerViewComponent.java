@@ -118,6 +118,6 @@ public class DecompilerViewComponent
         BYTECODE,
         BYTECODE_NON_EDITABLE,
         JAVA_AND_BYTECODE,
-        JAVA_AND_BYTECODE_NON_EDITABLE;
+        JAVA_AND_BYTECODE_NON_EDITABLE
     }
 }

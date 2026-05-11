@@ -159,7 +159,7 @@ public class SecurityMan extends SecurityManager
             int index = 0;
             for (StackTraceElement stackTraceElements : Thread.currentThread().getStackTrace())
             {
-                System.out.println(index++ + ":" + stackTraceElements.getClassName());
+                IO.println(index++ + ":" + stackTraceElements.getClassName());
             }
         }
 
@@ -233,7 +233,7 @@ public class SecurityMan extends SecurityManager
     public void checkConnect(String host, int port)
     {
         if (printing)
-            System.out.println("Connecting to: " + host + ":" + port);
+            IO.println("Connecting to: " + host + ":" + port);
     }
 
     @Override
@@ -250,7 +250,7 @@ public class SecurityMan extends SecurityManager
     public void checkDelete(String file)
     {
         if (printing)
-            System.out.println("Deleting: " + file);
+            IO.println("Deleting: " + file);
     }
 
     @Override
@@ -264,7 +264,7 @@ public class SecurityMan extends SecurityManager
     public void checkLink(String lib)
     {
         if (printing)
-            System.out.println("Linking: " + lib);
+            IO.println("Linking: " + lib);
     }
 
     @SuppressWarnings("deprecation")
@@ -285,7 +285,7 @@ public class SecurityMan extends SecurityManager
     public void checkPackageAccess(String pkg)
     {
         if (printingPackage)
-            System.out.println("Accessing: " + pkg);
+            IO.println("Accessing: " + pkg);
     }
 
     @Override
@@ -317,7 +317,7 @@ public class SecurityMan extends SecurityManager
     public void checkRead(String file)
     {
         if (printing)
-            System.out.println("Reading: " + file);
+            IO.println("Reading: " + file);
     }
 
     @Override
@@ -349,7 +349,7 @@ public class SecurityMan extends SecurityManager
     public void checkWrite(String file)
     {
         if (printing)
-            System.out.println("Writing: " + file);
+            IO.println("Writing: " + file);
 
         //This was disabled on 02-13-2022, at some point in the future I will fix the compatibility issues and re-enable it.
         if (DISABLE_DISK_WRITE_SANDBOX)

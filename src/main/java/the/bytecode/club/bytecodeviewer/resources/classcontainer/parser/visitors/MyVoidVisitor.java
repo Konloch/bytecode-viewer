@@ -199,9 +199,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             if (method != null)
             {
                 Expression leftExpr = n.getLeft();
-                if (leftExpr instanceof NameExpr)
+                if (leftExpr instanceof NameExpr nameExpr)
                 {
-                    NameExpr nameExpr = (NameExpr) leftExpr;
                     Range range = nameExpr.getName().getRange().orElse(null);
                     if (range == null)
                         return;
@@ -211,9 +210,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 }
 
                 Expression rightExpr = n.getRight();
-                if (rightExpr instanceof NameExpr)
+                if (rightExpr instanceof NameExpr nameExpr)
                 {
-                    NameExpr nameExpr = (NameExpr) rightExpr;
                     Range range = nameExpr.getName().getRange().orElse(null);
                     if (range == null)
                         return;
@@ -253,9 +251,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             if (method != null)
             {
                 Expression expression = n.getExpression();
-                if (expression instanceof NameExpr)
+                if (expression instanceof NameExpr nameExpr)
                 {
-                    NameExpr nameExpr = (NameExpr) expression;
                     Range range = nameExpr.getName().getRange().orElse(null);
                     if (range == null)
                         return;
@@ -412,10 +409,10 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 return;
             }
 
-            if (node instanceof ObjectCreationExpr)
+            if (node instanceof ObjectCreationExpr expr)
             {
                 NodeList<BodyDeclaration<?>> bodyDeclarations =
-                    ((ObjectCreationExpr) node).getAnonymousClassBody().orElse(null);
+                    expr.getAnonymousClassBody().orElse(null);
                 if (bodyDeclarations != null)
                 {
                     if (Objects.requireNonNull(bodyDeclarations.getFirst().orElse(null)).equals(n))
@@ -524,9 +521,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             {
                 n.getArguments().forEach(argument ->
                 {
-                    if (argument instanceof NameExpr)
+                    if (argument instanceof NameExpr nameExpr)
                     {
-                        NameExpr nameExpr = (NameExpr) argument;
                         Range range = nameExpr.getName().getRange().orElse(null);
                         if (range == null)
                             return;
@@ -620,9 +616,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         try
         {
             Expression iterable = n.getIterable();
-            if (iterable instanceof NameExpr)
+            if (iterable instanceof NameExpr nameExpr)
             {
-                NameExpr nameExpr = (NameExpr) iterable;
                 CallableDeclaration<?> method = findMethodForStatement(n, this.compilationUnit);
                 if (method == null)
                 {
@@ -662,9 +657,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         try
         {
             Expression condition = n.getCondition();
-            if (condition instanceof NameExpr)
+            if (condition instanceof NameExpr nameExpr)
             {
-                NameExpr nameExpr = (NameExpr) condition;
                 CallableDeclaration<?> method = findMethodForStatement(n, this.compilationUnit);
                 InitializerDeclaration staticInitializer = null;
                 if (method == null)
@@ -726,9 +720,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             if (method != null)
             {
                 Expression expression = n.getExpression();
-                if (expression instanceof NameExpr)
+                if (expression instanceof NameExpr nameExpr)
                 {
-                    NameExpr nameExpr = (NameExpr) expression;
                     Range range = nameExpr.getName().getRange().orElse(null);
                     if (range == null)
                         return;
@@ -998,9 +991,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
                 CallableDeclaration<?> finalMethod = method;
                 n.getArguments().forEach(argument ->
                 {
-                    if (argument instanceof NameExpr)
+                    if (argument instanceof NameExpr nameExpr)
                     {
-                        NameExpr nameExpr = (NameExpr) argument;
                         Range range = nameExpr.getName().getRange().orElse(null);
                         if (range == null)
                         {
@@ -1051,9 +1043,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         try
         {
             Expression expression = n.getExpression().orElse(null);
-            if (expression instanceof NameExpr)
+            if (expression instanceof NameExpr nameExpr)
             {
-                NameExpr nameExpr = (NameExpr) expression;
                 CallableDeclaration<?> method = findMethodForStatement(n, this.compilationUnit);
                 if (method == null)
                 {
@@ -1100,9 +1091,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         try
         {
             Expression expression = n.getExpression();
-            if (expression instanceof NameExpr)
+            if (expression instanceof NameExpr nameExpr)
             {
-                NameExpr nameExpr = (NameExpr) expression;
                 CallableDeclaration<?> method = findMethodForStatement(n, this.compilationUnit);
                 if (method == null)
                 {
@@ -1163,9 +1153,8 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
         try
         {
             Expression expression = n.getExpression();
-            if (expression instanceof NameExpr)
+            if (expression instanceof NameExpr nameExpr)
             {
-                NameExpr nameExpr = (NameExpr) expression;
                 CallableDeclaration<?> method = findMethodForExpression(n, this.compilationUnit);
                 if (method == null)
                 {

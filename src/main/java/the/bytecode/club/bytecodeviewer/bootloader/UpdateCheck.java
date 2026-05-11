@@ -106,7 +106,7 @@ public class UpdateCheck implements Runnable
                 if (Version.compare(localVersion, version) > 0)
                     return;
             }
-            catch (Exception ignored)
+            catch (Exception _)
             {
             }
 
@@ -207,7 +207,7 @@ public class UpdateCheck implements Runnable
                 }
 
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException _)
             {
                 //ignore 404s
             }
@@ -256,7 +256,7 @@ public class UpdateCheck implements Runnable
                 if (mbs % 5 == 0 && mbs != 0)
                 {
                     if (!flag)
-                        System.out.println("Downloaded " + mbs + "MBs so far");
+                        IO.println("Downloaded " + mbs + "MBs so far");
                     flag = true;
                 }
                 else

@@ -466,13 +466,13 @@ public class ResourceListPane extends TranslatedVisibleComponent implements File
             }
         });
 
-        this.open.addActionListener(e ->
+        this.open.addActionListener(_ ->
         {
             final TreeNode root = (TreeNode) tree.getModel().getRoot();
             expandAll(tree, new TreePath(root), true);
         });
 
-        this.close.addActionListener(e ->
+        this.close.addActionListener(_ ->
         {
             final TreeNode root = (TreeNode) tree.getModel().getRoot();
             final TreePath path = new TreePath(root);

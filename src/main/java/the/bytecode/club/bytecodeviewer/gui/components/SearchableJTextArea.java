@@ -65,8 +65,8 @@ public class SearchableJTextArea extends JTextArea
         searchPanel.add(searchInput, BorderLayout.CENTER);
         searchPanel.add(caseSensitiveSearch, BorderLayout.EAST);
 
-        searchNext.addActionListener(arg0 -> search(searchInput.getText(), true, caseSensitiveSearch.isSelected()));
-        searchPrev.addActionListener(arg0 -> search(searchInput.getText(), false, caseSensitiveSearch.isSelected()));
+        searchNext.addActionListener(_ -> search(searchInput.getText(), true, caseSensitiveSearch.isSelected()));
+        searchPrev.addActionListener(_ -> search(searchInput.getText(), false, caseSensitiveSearch.isSelected()));
 
         searchInput.addKeyListener(new ReleaseKeyListener(keyEvent ->
         {

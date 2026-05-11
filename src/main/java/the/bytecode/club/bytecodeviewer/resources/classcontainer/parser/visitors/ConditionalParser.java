@@ -28,9 +28,8 @@ class ConditionalParser
             return;
 
         Expression elseExpr = expr.getElseExpr();
-        if (elseExpr instanceof NameExpr)
+        if (elseExpr instanceof NameExpr nameExpr)
         {
-            NameExpr nameExpr = (NameExpr) elseExpr;
             Range range = nameExpr.getName().getRange().orElse(null);
             if (range == null)
                 return;
@@ -40,9 +39,8 @@ class ConditionalParser
         }
 
         Expression thenExpr = expr.getThenExpr();
-        if (thenExpr instanceof NameExpr)
+        if (thenExpr instanceof NameExpr nameExpr)
         {
-            NameExpr nameExpr = (NameExpr) thenExpr;
             Range range = nameExpr.getName().getRange().orElse(null);
             if (range == null)
                 return;

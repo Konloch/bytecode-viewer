@@ -95,7 +95,7 @@ public class SearchKeyAdapter extends KeyAdapter
                         continue pathLoop;
                     }
                 }
-                System.out.println("Could not find " + pathName);
+                IO.println("Could not find " + pathName);
                 break;
             }
         }

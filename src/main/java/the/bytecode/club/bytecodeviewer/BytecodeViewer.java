@@ -163,19 +163,19 @@ public class BytecodeViewer
         launchArgs = args;
 
         //CLI startup banner
-        System.out.print("Bytecode Viewer " + VERSION);
+        IO.print("Bytecode Viewer " + VERSION);
 
         if (FAT_JAR)
-            System.out.print(" [Fat Jar]");
+            IO.print(" [Fat Jar]");
 
-        System.out.println(" - https://bytecodeviewer.com\r\nCreated by @Konloch - https://konloch.com\r\nPresented by https://the.bytecode.club");
+        IO.println(" - https://bytecodeviewer.com\r\nCreated by @Konloch - https://konloch.com\r\nPresented by https://the.bytecode.club");
 
         // Set the security manager
         try
         {
             System.setSecurityManager(sm);
         }
-        catch (Throwable t)
+        catch (Throwable _)
         {
             System.err.println("Cannot set security manager! Are you on Java 18+ and have not enabled support for it?");
             System.err.println("Because of this, you may be susceptible to some exploits!");
@@ -281,7 +281,7 @@ public class BytecodeViewer
         viewer.setVisible(true);
 
         //print startup time
-        System.out.println("Start up took " + ((System.currentTimeMillis() - Configuration.BOOT_TIMESTAMP) / 1000) + " seconds");
+        IO.println("Start up took " + ((System.currentTimeMillis() - Configuration.BOOT_TIMESTAMP) / 1000) + " seconds");
 
         //request focus on GUI for hotkeys on start
         viewer.requestFocus();
@@ -492,7 +492,7 @@ public class BytecodeViewer
         {
             return compile(false, false);
         }
-        catch (NullPointerException ignored)
+        catch (NullPointerException _)
         {
             return false;
         }
@@ -512,9 +512,8 @@ public class BytecodeViewer
 
         for (java.awt.Component c : BytecodeViewer.viewer.workPane.getLoadedViewers())
         {
-            if (c instanceof ClassViewer)
+            if (c instanceof ClassViewer cv)
             {
-                ClassViewer cv = (ClassViewer) c;
 
                 if (noErrors && !cv.bytecodeViewPanel1.compile())
                     noErrors = false;
@@ -792,7 +791,7 @@ public class BytecodeViewer
         {
             FileUtils.deleteDirectory(tempF);
         }
-        catch (Exception ignored)
+        catch (Exception _)
         {
         }
 

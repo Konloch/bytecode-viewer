@@ -110,7 +110,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy
                         }
                         else
                         {
-                            System.out.println(jarFile + ">" + name + ": Header does not start with CAFEBABE, ignoring.");
+                            IO.println(jarFile + ">" + name + ": Header does not start with CAFEBABE, ignoring.");
                         }
                     }
                 }
@@ -201,7 +201,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy
         {
             name = name.replace(".", "/");
 
-            System.out.println("finding " + name);
+            IO.println("finding " + name);
 
             if (classCache.containsKey(name))
                 return classCache.get(name);

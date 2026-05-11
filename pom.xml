@@ -304,6 +304,12 @@
             <artifactId>xpp3</artifactId>
             <version>${xpp3.version}</version>
         </dependency>
+    <dependency>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <version>1.3.5</version>
+      <scope>provided</scope>
+    </dependency>
         <dependency>
             <groupId>io.github.skylot</groupId>
             <artifactId>jadx-core</artifactId>
@@ -428,11 +434,10 @@
 	        <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.1</version>
+                <version>3.15.0</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
                     <showDeprecation>true</showDeprecation>
+          <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>

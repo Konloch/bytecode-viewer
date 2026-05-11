@@ -84,7 +84,7 @@ public class ExtendedJOptionPane
         pane.setComponentOrientation(((parentComponent == null) ? getRootFrame() : parentComponent).getComponentOrientation());
 
         int style = styleFromMessageType(messageType);
-        JDialog dialog = createNewJDialog(parentComponent, pane, title, style, (d) -> pane.selectInitialValue());
+        JDialog dialog = createNewJDialog(parentComponent, pane, title, style, _ -> pane.selectInitialValue());
 
         pane.selectInitialValue();
 
@@ -95,8 +95,8 @@ public class ExtendedJOptionPane
 
         if (options == null)
         {
-            if (selectedValue instanceof Integer)
-                return (Integer) selectedValue;
+            if (selectedValue instanceof Integer integer)
+                return integer;
             return CLOSED_OPTION;
         }
 
@@ -119,7 +119,7 @@ public class ExtendedJOptionPane
         pane.setComponentOrientation(((parentComponent == null) ? getRootFrame() : parentComponent).getComponentOrientation());
 
         int style = styleFromMessageType(messageType);
-        JDialog dialog = createNewJDialog(parentComponent, pane, title, style, (d) -> pane.selectInitialValue());
+        JDialog dialog = createNewJDialog(parentComponent, pane, title, style, _ -> pane.selectInitialValue());
 
         pane.selectInitialValue();
 

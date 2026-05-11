@@ -293,7 +293,7 @@ public class RegexInsnFinder
             if (regexMatcher.find())
                 return makeResult(regexMatcher.start(), regexMatcher.end());
         }
-        catch (PatternSyntaxException ex)
+        catch (PatternSyntaxException _)
         {
             //ignore, they fucked up regex
         }

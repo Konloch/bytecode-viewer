@@ -39,7 +39,7 @@ public class PingBack implements Runnable
         {
             new HTTPRequest(new URI("https://bytecodeviewer.com/add.php").toURL()).read();
         }
-        catch (Exception e)
+        catch (Exception _)
         {
             Configuration.pingback = false;
         }
