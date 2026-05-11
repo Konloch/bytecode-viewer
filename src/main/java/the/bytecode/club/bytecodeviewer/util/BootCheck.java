@@ -73,7 +73,7 @@ public class BootCheck implements Runnable
             }
 
             Boot.setState("Bytecode Viewer Boot Screen (OFFLINE MODE) - Unable to connect to github, force booting...");
-            System.out.println("Unable to connect to github, force booting...");
+            IO.println("Unable to connect to github, force booting...");
 
             for (File f : listFiles)
                 libsFileList.add(f.getAbsolutePath());
@@ -88,13 +88,13 @@ public class BootCheck implements Runnable
                     if (f.exists())
                     {
                         Boot.setState("Bytecode Viewer Boot Screen (OFFLINE MODE) - Force Loading Library " + f.getName());
-                        System.out.println("Force loading library " + f.getName());
+                        IO.println("Force loading library " + f.getName());
 
                         try
                         {
                             ExternalResource res = new EmptyExternalResource<>(f.toURI().toURL());
                             loader.bind(res);
-                            System.out.println("Successfully loaded " + f.getName());
+                            IO.println("Successfully loaded " + f.getName());
                         }
                         catch (Exception e)
                         {

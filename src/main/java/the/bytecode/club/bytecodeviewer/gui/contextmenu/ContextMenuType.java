@@ -28,5 +28,5 @@ public enum ContextMenuType
     RESOURCE,
     DIRECTORY,
     CONTAINER,
-    SEARCH_BOX_RESULT;
+    SEARCH_BOX_RESULT
 }

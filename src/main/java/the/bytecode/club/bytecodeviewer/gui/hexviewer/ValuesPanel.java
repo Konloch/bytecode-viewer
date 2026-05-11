@@ -660,7 +660,7 @@ public class ValuesPanel extends javax.swing.JPanel
         };
 
         codeArea.addDataChangedListener(dataChangedListener);
-        caretMovedListener = (CodeAreaCaretPosition caretPosition) -> updateValues();
+        caretMovedListener = (CodeAreaCaretPosition _) -> updateValues();
         codeArea.addCaretMovedListener(caretMovedListener);
 
         updateEditMode();

@@ -33,6 +33,6 @@ public class HelpCommand extends CLICommand
             "-cleanboot                    Deletes the BCV directory and continues to boot into the GUI",
             "-language <language>          Sets specific language translations"
         })
-            System.out.println(s);
+            IO.println(s);
     }
 }

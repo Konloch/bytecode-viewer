@@ -46,7 +46,7 @@ public class SettingsSerializer
 
     public static void saveSettingsAsync()
     {
-        BytecodeViewer.getTaskManager().doOnce(task -> saveSettings());
+        BytecodeViewer.getTaskManager().doOnce(_ -> saveSettings());
     }
 
     public static synchronized void saveSettings()
@@ -236,7 +236,7 @@ public class SettingsSerializer
             //line 129 is used normal loading
             Configuration.language = Language.valueOf(asString(130));
         }
-        catch (IndexOutOfBoundsException e)
+        catch (IndexOutOfBoundsException _)
         {
             //ignore because errors are expected, first start up and outdated settings.
         }
@@ -418,7 +418,7 @@ public class SettingsSerializer
             BytecodeViewer.viewer.printLineNumbers.setSelected(asBoolean(142));
             BytecodeViewer.viewer.disableReloadConfirmation.setSelected(asBoolean(143));
         }
-        catch (IndexOutOfBoundsException e)
+        catch (IndexOutOfBoundsException _)
         {
             //ignore because errors are expected, first start up and outdated settings.
         }

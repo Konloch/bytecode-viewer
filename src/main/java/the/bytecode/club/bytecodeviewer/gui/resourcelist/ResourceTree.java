@@ -24,6 +24,7 @@ import the.bytecode.club.bytecodeviewer.translation.TranslatedStrings;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
+import java.io.Serial;
 
 /**
  * @author Konloch
@@ -31,6 +32,7 @@ import java.awt.*;
  */
 public class ResourceTree extends JTree
 {
+    @Serial
     private static final long serialVersionUID = -2355167326094772096L;
     DefaultMutableTreeNode treeRoot;
 
@@ -63,7 +65,7 @@ public class ResourceTree extends JTree
                 g.drawString(s, ((int) ((getWidth() / 2) - (m.getWidth(s) / 2))), getHeight() / 2);
             }
         }
-        catch (InternalError | NullPointerException | ClassCastException ignored)
+        catch (InternalError | NullPointerException | ClassCastException _)
         {
         }
     }

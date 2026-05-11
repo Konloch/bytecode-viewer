@@ -50,7 +50,7 @@ public class StackFramesRemover extends Plugin
             }
         }
 
-        frame.appendText(String.format("Removed %s stackframes.", counter));
+        frame.appendText("Removed %s stackframes.".formatted(counter));
         frame.setVisible(true);
     }
 }

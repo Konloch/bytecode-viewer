@@ -25,6 +25,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 
 import static the.bytecode.club.bytecodeviewer.Constants.TEMP_DIRECTORY;
 
@@ -161,5 +162,6 @@ public class JFrameConsole extends JFrame
         return text;
     }
 
+    @Serial
     private static final long serialVersionUID = -5056940543411437508L;
 }

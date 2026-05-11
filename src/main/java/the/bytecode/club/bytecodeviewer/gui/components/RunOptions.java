@@ -25,6 +25,7 @@ import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serial;
 
 /**
  * The UI for File>Run aka EZ-Injection plugin.
@@ -112,12 +113,13 @@ public class RunOptions extends JFrame
         getContentPane().add(printToCommandLine);
         this.setLocationRelativeTo(null);
 
-        btnNewButton.addActionListener(arg0 ->
+        btnNewButton.addActionListener(_ ->
         {
             PluginManager.runPlugin(new EZInjection(accessModifiers.isSelected(), injectHooks.isSelected(), debugMethodCalls.isSelected(), invokeMethod.isSelected(), mainMethodFQN.getText(), false, false, debugClasses.getText(), this.socksProxy.getText(), forceProxy.isSelected(), launchReflectionKit.isSelected(), console.isSelected(), printToCommandLine.isSelected()));
             dispose();
         });
     }
 
+    @Serial
     private static final long serialVersionUID = -2662514582647810868L;
 }

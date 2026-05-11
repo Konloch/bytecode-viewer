@@ -151,7 +151,7 @@ public class HexViewer extends JPanel
         JToggleButton lineWrappingToggleButton = new JToggleButton();
         lineWrappingToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/the/bytecode/club/bytecodeviewer/gui/hexviewer/resources/bined-linewrap.png")));
         lineWrappingToggleButton.setToolTipText("Toggle line wrapping");
-        lineWrappingToggleButton.addActionListener(evt ->
+        lineWrappingToggleButton.addActionListener(_ ->
         {
             if (codeArea.getRowWrapping() == RowWrappingMode.WRAPPING)
             {
@@ -242,19 +242,15 @@ public class HexViewer extends JPanel
     {
         try
         {
-            switch (java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())
+            return switch (java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())
             {
-                case java.awt.Event.META_MASK:
-                    return KeyEvent.META_DOWN_MASK;
-                case java.awt.Event.SHIFT_MASK:
-                    return KeyEvent.SHIFT_DOWN_MASK;
-                case java.awt.Event.ALT_MASK:
-                    return KeyEvent.ALT_DOWN_MASK;
-                default:
-                    return KeyEvent.CTRL_DOWN_MASK;
-            }
+                case java.awt.Event.META_MASK -> KeyEvent.META_DOWN_MASK;
+                case java.awt.Event.SHIFT_MASK -> KeyEvent.SHIFT_DOWN_MASK;
+                case java.awt.Event.ALT_MASK -> KeyEvent.ALT_DOWN_MASK;
+                default -> KeyEvent.CTRL_DOWN_MASK;
+            };
         }
-        catch (java.awt.HeadlessException ex)
+        catch (java.awt.HeadlessException _)
         {
             return KeyEvent.CTRL_DOWN_MASK;
         }
@@ -343,7 +339,7 @@ public class HexViewer extends JPanel
         viewMenu.add(codeTypeMenu);
         JCheckBoxMenuItem showValuesPanelMenuItem = new JCheckBoxMenuItem("Show values panel");
         showValuesPanelMenuItem.setSelected(valuesPanelVisible);
-        showValuesPanelMenuItem.addActionListener((event) ->
+        showValuesPanelMenuItem.addActionListener(_ ->
         {
             setShowValuesPanel(showValuesPanelMenuItem.isSelected());
             menu.setVisible(false);
@@ -353,7 +349,7 @@ public class HexViewer extends JPanel
         DefaultCodeAreaPainter painter = (DefaultCodeAreaPainter) codeArea.getPainter();
         NonAsciiCodeAreaColorAssessor colorAssessor = (NonAsciiCodeAreaColorAssessor) painter.getColorAssessor();
         codeColorizationMenuItem.setSelected(colorAssessor.isNonAsciiHighlightingEnabled());
-        codeColorizationMenuItem.addActionListener((event) ->
+        codeColorizationMenuItem.addActionListener(_ ->
         {
             colorAssessor.setNonAsciiHighlightingEnabled(codeColorizationMenuItem.isSelected());
             menu.setVisible(false);
@@ -364,12 +360,12 @@ public class HexViewer extends JPanel
         final JMenuItem copyMenuItem = new JMenuItem("Copy");
         copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, HexViewer.getMetaMask()));
         copyMenuItem.setEnabled(codeArea.hasSelection());
-        copyMenuItem.addActionListener((ActionEvent e) -> codeArea.copy());
+        copyMenuItem.addActionListener((ActionEvent _) -> codeArea.copy());
         menu.add(copyMenuItem);
 
         final JMenuItem selectAllMenuItem = new JMenuItem("Select All");
         selectAllMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, HexViewer.getMetaMask()));
-        selectAllMenuItem.addActionListener((ActionEvent e) -> codeArea.selectAll());
+        selectAllMenuItem.addActionListener((ActionEvent _) -> codeArea.selectAll());
         menu.add(selectAllMenuItem);
         menu.addSeparator();
 

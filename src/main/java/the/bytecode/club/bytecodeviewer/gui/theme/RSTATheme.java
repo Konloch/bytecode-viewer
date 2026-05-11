@@ -93,7 +93,7 @@ public enum RSTATheme
                     break;
             }
         }
-        catch (Throwable ignored)
+        catch (Throwable _)
         {
         }
         return area;

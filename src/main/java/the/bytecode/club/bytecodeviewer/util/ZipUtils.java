@@ -61,7 +61,7 @@ public final class ZipUtils
 
                 if (!file.getCanonicalPath().startsWith(canonicalDestDir))
                 {
-                    System.out.println("Zip Slip exploit detected. Skipping entry " + entry.getName());
+                    IO.println("Zip Slip exploit detected. Skipping entry " + entry.getName());
                     continue;
                 }
 

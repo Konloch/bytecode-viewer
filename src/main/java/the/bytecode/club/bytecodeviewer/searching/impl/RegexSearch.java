@@ -102,7 +102,7 @@ public class RegexSearch implements SearchPanel
                     if (desc2.equals("null"))
                         desc2 = method.desc;
                 }
-                catch (java.lang.ArrayIndexOutOfBoundsException ignored)
+                catch (java.lang.ArrayIndexOutOfBoundsException _)
                 {
                 }
 
