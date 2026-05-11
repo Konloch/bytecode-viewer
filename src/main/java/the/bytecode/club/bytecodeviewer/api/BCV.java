@@ -34,6 +34,7 @@ import the.bytecode.club.bytecodeviewer.util.SleepUtil;
 
 import javax.swing.*;
 import java.io.File;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -122,7 +123,7 @@ public class BCV
             {
 
                 Enumeration<JarEntry> e = jarFile.entries();
-                URL[] urls = {new URL("jar:file:" + "" + f.getAbsolutePath() + "!/")};
+                URL[] urls = {URI.create("jar:file:" + "" + f.getAbsolutePath() + "!/").toURL()};
 
                 cl = URLClassLoader.newInstance(urls);
 

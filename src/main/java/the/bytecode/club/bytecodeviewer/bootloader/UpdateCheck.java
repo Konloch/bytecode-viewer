@@ -96,7 +96,7 @@ public class UpdateCheck implements Runnable
     {
         try
         {
-            HTTPRequest r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION"));
+            HTTPRequest r = new HTTPRequest(URI.create("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION").toURL());
             final Version version = Version.parseVersion(r.readSingle());
             final Version localVersion = Version.parseVersion(VERSION);
 
@@ -228,7 +228,7 @@ public class UpdateCheck implements Runnable
 
     private static boolean validURl(String url) throws Exception
     {
-        HTTPRequest request = new HTTPRequest(new URL(url));
+        HTTPRequest request = new HTTPRequest(URI.create(url).toURL());
         request.readSingle();
         return request.getLastStatusCode() == 200;
     }
@@ -239,7 +239,7 @@ public class UpdateCheck implements Runnable
         BytecodeViewer.showMessage("Downloading the jar in the background, when it's finished you will be alerted with another message box."
             + NL + NL + "Expect this to take several minutes.");
 
-        try (InputStream is = new URL(url).openConnection().getInputStream(); FileOutputStream fos = new FileOutputStream(saveTo))
+        try (InputStream is = URI.create(url).toURL().openConnection().getInputStream(); FileOutputStream fos = new FileOutputStream(saveTo))
         {
             byte[] buffer = new byte[8192];
             int len;
