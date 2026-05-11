@@ -21,16 +21,8 @@
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/api/ASMResourceUtil.java:[85,42] getLoadedClasses() in the.bytecode.club.bytecodeviewer.BytecodeViewer has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/api/ASMResourceUtil.java:[138,42] getLoadedClasses() in the.bytecode.club.bytecodeviewer.BytecodeViewer has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/api/BCV.java:[120,13] the.bytecode.club.bytecodeviewer.util.JarUtils in the.bytecode.club.bytecodeviewer.util has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/api/BCV.java:[125,31] URL(java.lang.String) in java.net.URL has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/api/BCV.java:[254,30] blindlySearchForClassNode(java.lang.String) in the.bytecode.club.bytecodeviewer.BytecodeViewer has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/api/BCV.java:[264,30] getLoadedClasses() in the.bytecode.club.bytecodeviewer.BytecodeViewer has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/bootloader/Boot.java:[123,43] URL(java.lang.String) in java.net.URL has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/bootloader/Boot.java:[298,43] URL(java.lang.String) in java.net.URL has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/bootloader/Boot.java:[409,43] URL(java.lang.String) in java.net.URL has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/bootloader/UpdateCheck.java:[99,45] URL(java.lang.String) in java.net.URL has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/bootloader/UpdateCheck.java:[231,47] URL(java.lang.String) in java.net.URL has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/bootloader/UpdateCheck.java:[242,31] URL(java.lang.String) in java.net.URL has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/bootloader/resource/jar/JarInfo.java:[99,16] URL(java.lang.String) in java.net.URL has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/cli/CommandLineInput.java:[233,13] the.bytecode.club.bytecodeviewer.util.JarUtils in the.bytecode.club.bytecodeviewer.util has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/cli/CommandLineInput.java:[233,57] getLoadedClasses() in the.bytecode.club.bytecodeviewer.BytecodeViewer has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/cli/CommandLineInput.java:[250,54] blindlySearchForClassNode(java.lang.String) in the.bytecode.club.bytecodeviewer.BytecodeViewer has been deprecated
@@ -55,11 +47,6 @@
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/gui/components/ExportJar.java:[63,17] the.bytecode.club.bytecodeviewer.util.JarUtils in the.bytecode.club.bytecodeviewer.util has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/gui/components/ExportJar.java:[63,50] getLoadedClasses() in the.bytecode.club.bytecodeviewer.BytecodeViewer has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/gui/resourceviewer/BytecodeViewPanel.java:[92,37] the.bytecode.club.bytecodeviewer.util.JarUtils in the.bytecode.club.bytecodeviewer.util has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/gui/hexviewer/HexViewer.java:[245,57] getMenuShortcutKeyMask() in java.awt.Toolkit has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/gui/hexviewer/HexViewer.java:[247,30] java.awt.Event in java.awt has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/gui/hexviewer/HexViewer.java:[249,30] java.awt.Event in java.awt has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/gui/hexviewer/HexViewer.java:[251,30] java.awt.Event in java.awt has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/gui/tabpopup/TabPopupEvent.java:[32,58] getModifiers() in java.awt.event.InputEvent has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/plugin/preinstalled/EZInjection.java:[243,47] getLoadedClasses() in the.bytecode.club.bytecodeviewer.BytecodeViewer has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/resources/ResourceDecompiling.java:[98,17] the.bytecode.club.bytecodeviewer.util.JarUtils in the.bytecode.club.bytecodeviewer.util has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/resources/ResourceDecompiling.java:[98,61] getLoadedClasses() in the.bytecode.club.bytecodeviewer.BytecodeViewer has been deprecated
@@ -73,10 +60,9 @@
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/resources/importing/impl/APKResourceImporter.java:[55,40] the.bytecode.club.bytecodeviewer.util.JarUtils in the.bytecode.club.bytecodeviewer.util has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/resources/importing/impl/ClassResourceImporter.java:[50,38] the.bytecode.club.bytecodeviewer.util.JarUtils in the.bytecode.club.bytecodeviewer.util has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/resources/importing/impl/DirectoryResourceImporter.java:[86,50] the.bytecode.club.bytecodeviewer.util.JarUtils in the.bytecode.club.bytecodeviewer.util has been deprecated
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/util/PingBack.java:[39,29] URL(java.lang.String) in java.net.URL has been deprecated
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  57.397 s
-[INFO] Finished at: 2026-05-11T07:47:49Z
+[INFO] Total time:  39.288 s
+[INFO] Finished at: 2026-05-11T07:56:37Z
 [INFO] ------------------------------------------------------------------------

@@ -21,6 +21,7 @@ package the.bytecode.club.bytecodeviewer.util;
 import com.konloch.httprequest.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.Configuration;
 
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -36,7 +37,7 @@ public class PingBack implements Runnable
     {
         try
         {
-            new HTTPRequest(new URL("https://bytecodeviewer.com/add.php")).read();
+            new HTTPRequest(new URI("https://bytecodeviewer.com/add.php").toURL()).read();
         }
         catch (Exception e)
         {
