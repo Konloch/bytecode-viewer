@@ -157,6 +157,7 @@ public class BytecodeViewer
      *
      * @param args files you want to open or CLI
      */
+    @SuppressWarnings("removal")
     public static void main(String[] args)
     {
         launchArgs = args;
