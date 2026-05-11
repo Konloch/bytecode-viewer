@@ -21,6 +21,7 @@ package the.bytecode.club.bytecodeviewer.bootloader.resource.jar;
 import java.io.File;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -96,7 +97,7 @@ public class JarInfo
                 sb.append(".jar");
         }
         sb.append("!/");
-        return new URL(sb.toString());
+        return URI.create(sb.toString()).toURL();
     }
 
     @Override
