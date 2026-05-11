@@ -31,7 +31,7 @@ public class TabPopupEvent extends MouseEvent
 
     public TabPopupEvent(MouseEvent e, Component popupOnTab)
     {
-        super(e.getComponent(), e.getID(), e.getWhen(), e.getModifiers(), e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger(), e.getButton());
+        super(e.getComponent(), e.getID(), e.getWhen(), e.getModifiersEx(), e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger(), e.getButton());
 
         this.popupOnTab = popupOnTab;
     }

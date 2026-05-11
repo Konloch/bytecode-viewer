@@ -22,6 +22,7 @@ import com.konloch.httprequest.HTTPRequest;
 import the.bytecode.club.bytecodeviewer.Configuration;
 
 import java.net.URI;
+import java.net.URL;
 
 /**
  * Pings back to bytecodeviewer.com to be added into the total running statistics
@@ -36,7 +37,7 @@ public class PingBack implements Runnable
     {
         try
         {
-            new HTTPRequest(URI.create("https://bytecodeviewer.com/add.php").toURL()).read();
+            new HTTPRequest(new URI("https://bytecodeviewer.com/add.php").toURL()).read();
         }
         catch (Exception _)
         {

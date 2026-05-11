@@ -121,7 +121,7 @@ public class Boot
                     setState("Bytecode Viewer Boot Screen - Downloading " + fileName + "...");
                     IO.println("Downloading " + fileName);
 
-                    try (InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName).openConnection().getInputStream();
+                    try (InputStream is = new URI("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName).toURL().openConnection().getInputStream();
                          FileOutputStream fos = new FileOutputStream(file))
                     {
                         IO.println("Downloading from " + s);
@@ -296,7 +296,7 @@ public class Boot
 
     public static void populateUrlList() throws Exception
     {
-        HTTPRequest req = new HTTPRequest(URI.create("https://github.com/Konloch/bytecode-viewer/tree/master/libs").toURL());
+        HTTPRequest req = new HTTPRequest(new URI("https://github.com/Konloch/bytecode-viewer/tree/master/libs").toURL());
         for (String s : req.read())
             if (s.contains("href=\"/Konloch/bytecode-viewer/blob/master/libs/"))
             {
@@ -407,7 +407,7 @@ public class Boot
                     setState("Bytecode Viewer Boot Screen - Downloading " + fileName + "...");
                     IO.println("Downloading " + fileName);
 
-                    try (InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName).openConnection().getInputStream();
+                    try (InputStream is = new URI("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName).toURL().openConnection().getInputStream();
                          FileOutputStream fos = new FileOutputStream(file))
                     {
                         IO.println("Downloading from " + s);

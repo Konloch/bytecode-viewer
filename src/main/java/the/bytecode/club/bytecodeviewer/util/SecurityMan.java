@@ -40,6 +40,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Konloch
  */
 
+@SuppressWarnings("removal")
 public class SecurityMan extends SecurityManager
 {
     private static final boolean DISABLE_EXEC_SANDBOX = true;

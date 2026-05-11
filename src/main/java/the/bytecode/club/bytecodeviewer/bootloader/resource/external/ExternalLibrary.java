@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
@@ -63,7 +64,7 @@ public class ExternalLibrary extends ExternalResource<JarContents<ClassNode>>
         {
             return jar.formattedURL();
         }
-        catch (MalformedURLException e)
+        catch (MalformedURLException | URISyntaxException e)
         {
             e.printStackTrace();
             return null;
