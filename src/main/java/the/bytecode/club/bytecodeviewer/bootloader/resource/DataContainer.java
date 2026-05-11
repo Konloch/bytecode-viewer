@@ -18,6 +18,7 @@
 
 package the.bytecode.club.bytecodeviewer.bootloader.resource;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -29,6 +30,7 @@ import java.util.Map;
 public abstract class DataContainer<T> extends ArrayList<T>
 {
 
+    @Serial
     private static final long serialVersionUID = -9022506488647444546L;
 
     public DataContainer()

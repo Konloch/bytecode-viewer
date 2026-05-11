@@ -83,7 +83,7 @@ public class Settings
     public static synchronized void addRecentFile(File f)
     {
         recentFiles.remove(f.getAbsolutePath()); // already added on the list
-        recentFiles.add(0, f.getAbsolutePath());
+        recentFiles.addFirst(f.getAbsolutePath());
         MiscUtils.deduplicateAndTrim(recentFiles, maxRecentFiles);
         saveRecentFiles();
         resetRecentFilesMenu();
@@ -115,7 +115,7 @@ public class Settings
         if (recentFiles.isEmpty())
             return null;
 
-        return recentFiles.get(0);
+        return recentFiles.getFirst();
     }
 
     /**
@@ -126,7 +126,7 @@ public class Settings
     public static synchronized void addRecentPlugin(File f)
     {
         recentPlugins.remove(f.getAbsolutePath()); // already added on the list
-        recentPlugins.add(0, f.getAbsolutePath());
+        recentPlugins.addFirst(f.getAbsolutePath());
         MiscUtils.deduplicateAndTrim(recentPlugins, maxRecentFiles);
         saveRecentPlugins();
         resetRecentFilesMenu();

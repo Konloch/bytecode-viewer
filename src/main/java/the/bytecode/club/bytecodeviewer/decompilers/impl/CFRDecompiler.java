@@ -287,7 +287,7 @@ public class CFRDecompiler extends AbstractDecompiler
                 return x -> dumpDecompiled.accept((SinkReturns.Decompiled) x);
             }
 
-            return ignore -> {};
+            return _ -> {};
         }
 
     }

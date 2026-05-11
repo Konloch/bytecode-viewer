@@ -101,14 +101,14 @@ public class CommandLineInput
 
             if (cmd.hasOption("list"))
             {
-                System.out.println("Procyon");
-                System.out.println("CFR");
-                System.out.println("FernFlower");
-                System.out.println("Krakatau");
-                System.out.println("Krakatau-Bytecode");
-                System.out.println("JD-GUI");
-                System.out.println("Smali");
-                System.out.println("ASMifier");
+                IO.println("Procyon");
+                IO.println("CFR");
+                IO.println("FernFlower");
+                IO.println("Krakatau");
+                IO.println("Krakatau-Bytecode");
+                IO.println("JD-GUI");
+                IO.println("Smali");
+                IO.println("ASMifier");
 
                 return STOP;
             }
@@ -137,7 +137,7 @@ public class CommandLineInput
                     "-o <output file>              Selects the output file",
                     "-t <target classname>         Must either be the fully qualified classname or \"all\" to decompile all as zip",
                     "-nowait                       Doesn't wait for the user to read the CLI messages"})
-                    System.out.println(s);
+                    IO.println(s);
                 return STOP;
             }
             else
@@ -188,7 +188,7 @@ public class CommandLineInput
                     && !decompiler.equalsIgnoreCase("smali")
                     && !decompiler.equalsIgnoreCase("asmifier"))
                 {
-                    System.out.println("Error, no decompiler called '" + decompiler + "' found. Type -list" + " for the list");
+                    IO.println("Error, no decompiler called '" + decompiler + "' found. Type -list" + " for the list");
                 }
 
 
@@ -218,7 +218,7 @@ public class CommandLineInput
 
             if (cmd.getOptionValue("decompiler") == null)
             {
-                System.out.println("You can define another decompiler by appending -decompiler \"name\", by default " + "procyon has been set.");
+                IO.println("You can define another decompiler by appending -decompiler \"name\", by default " + "procyon has been set.");
                 decompiler = "procyon";
             }
 
@@ -234,7 +234,7 @@ public class CommandLineInput
 
             if (decompiler.equalsIgnoreCase("procyon"))
             {
-                System.out.println("Decompiling " + input.getAbsolutePath() + " with Procyon");
+                IO.println("Decompiling " + input.getAbsolutePath() + " with Procyon");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
@@ -260,7 +260,7 @@ public class CommandLineInput
             }
             else if (decompiler.equalsIgnoreCase("cfr"))
             {
-                System.out.println("Decompiling " + input.getAbsolutePath() + " with CFR");
+                IO.println("Decompiling " + input.getAbsolutePath() + " with CFR");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
@@ -286,7 +286,7 @@ public class CommandLineInput
             }
             else if (decompiler.equalsIgnoreCase("fernflower"))
             {
-                System.out.println("Decompiling " + input.getAbsolutePath() + " with FernFlower");
+                IO.println("Decompiling " + input.getAbsolutePath() + " with FernFlower");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
@@ -312,7 +312,7 @@ public class CommandLineInput
             }
             else if (decompiler.equalsIgnoreCase("krakatau"))
             {
-                System.out.println("Decompiling " + input.getAbsolutePath() + " with Krakatau");
+                IO.println("Decompiling " + input.getAbsolutePath() + " with Krakatau");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
@@ -338,14 +338,14 @@ public class CommandLineInput
             }
             else if (decompiler.equalsIgnoreCase("krakatau-bytecode"))
             {
-                System.out.println("Decompiling " + input.getAbsolutePath() + " with Krakatau-Bytecode");
+                IO.println("Decompiling " + input.getAbsolutePath() + " with Krakatau-Bytecode");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all"))
                 {
-                    System.out.println("Coming soon.");
+                    IO.println("Coming soon.");
                     //Decompiler.krakatauDA.decompileToZip(output.getAbsolutePath());
                 }
                 else
@@ -365,14 +365,14 @@ public class CommandLineInput
             }
             else if (decompiler.equalsIgnoreCase("jd-gui"))
             {
-                System.out.println("Decompiling " + input.getAbsolutePath() + " with JD-GUI");
+                IO.println("Decompiling " + input.getAbsolutePath() + " with JD-GUI");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all"))
                 {
-                    System.out.println("Coming soon.");
+                    IO.println("Coming soon.");
                     //Decompiler.jdgui.decompileToZip(output.getAbsolutePath());
                 }
                 else
@@ -392,14 +392,14 @@ public class CommandLineInput
             }
             else if (decompiler.equalsIgnoreCase("smali"))
             {
-                System.out.println("Decompiling " + input.getAbsolutePath() + " with Smali");
+                IO.println("Decompiling " + input.getAbsolutePath() + " with Smali");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all"))
                 {
-                    System.out.println("Coming soon.");
+                    IO.println("Coming soon.");
                     //Decompiler.smali.decompileToZip(output.getAbsolutePath());
                 }
                 else
@@ -419,14 +419,14 @@ public class CommandLineInput
             }
             else if (decompiler.equalsIgnoreCase("jadx"))
             {
-                System.out.println("Decompiling " + input.getAbsolutePath() + " with JADX");
+                IO.println("Decompiling " + input.getAbsolutePath() + " with JADX");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all"))
                 {
-                    System.out.println("Coming soon.");
+                    IO.println("Coming soon.");
                     //Decompiler.smali.decompileToZip(output.getAbsolutePath());
                 }
                 else
@@ -446,14 +446,14 @@ public class CommandLineInput
             }
             else if (decompiler.equalsIgnoreCase("asmifier"))
             {
-                System.out.println("Generating ASM code for " + input.getAbsolutePath() + " with ASMifier");
+                IO.println("Generating ASM code for " + input.getAbsolutePath() + " with ASMifier");
                 BytecodeViewer.openFiles(new File[]{input}, false);
 
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all"))
                 {
-                    System.out.println("Coming soon.");
+                    IO.println("Coming soon.");
                     //Decompiler.smali.decompileToZip(output.getAbsolutePath());
                 }
                 else
@@ -472,8 +472,8 @@ public class CommandLineInput
                 }
             }
 
-            System.out.println("Finished.");
-            System.out.println("Bytecode Viewer " + VERSION + " [CLI] - Created by @Konloch - https://bytecodeviewer.com");
+            IO.println("Finished.");
+            IO.println("Bytecode Viewer " + VERSION + " [CLI] - Created by @Konloch - https://bytecodeviewer.com");
             Configuration.canExit = true;
             System.exit(0);
         }
@@ -498,7 +498,7 @@ public class CommandLineInput
                 Thread.sleep(200);
                 cn.accept(cw);
             }
-            catch (InterruptedException ignored)
+            catch (InterruptedException _)
             {
             }
         }

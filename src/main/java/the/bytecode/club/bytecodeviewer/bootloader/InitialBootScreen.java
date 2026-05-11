@@ -27,6 +27,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.io.Serial;
 
 import static the.bytecode.club.bytecodeviewer.Configuration.language;
 
@@ -101,5 +102,6 @@ public class InitialBootScreen extends JFrame
         return progressBar;
     }
 
+    @Serial
     private static final long serialVersionUID = -1098467609722393444L;
 }

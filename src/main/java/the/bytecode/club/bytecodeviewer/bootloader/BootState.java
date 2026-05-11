@@ -27,5 +27,5 @@ public enum BootState
 {
     START_UP,
     SETTINGS_LOADED,
-    GUI_SHOWING;
+    GUI_SHOWING
 }

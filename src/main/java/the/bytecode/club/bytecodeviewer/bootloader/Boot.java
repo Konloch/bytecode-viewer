@@ -35,6 +35,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,12 +119,12 @@ public class Boot
                 {
                     downloading = true;
                     setState("Bytecode Viewer Boot Screen - Downloading " + fileName + "...");
-                    System.out.println("Downloading " + fileName);
+                    IO.println("Downloading " + fileName);
 
                     try (InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName).openConnection().getInputStream();
                          FileOutputStream fos = new FileOutputStream(file))
                     {
-                        System.out.println("Downloading from " + s);
+                        IO.println("Downloading from " + s);
                         byte[] buffer = new byte[8192];
                         int len;
                         int downloaded = 0;
@@ -137,7 +138,7 @@ public class Boot
                             if (mbs % 5 == 0 && mbs != 0)
                             {
                                 if (!flag)
-                                    System.out.println("Downloaded " + mbs + "MBs so far");
+                                    IO.println("Downloaded " + mbs + "MBs so far");
                                 flag = true;
                             }
                             else
@@ -148,7 +149,7 @@ public class Boot
                     try
                     {
                         setState("Bytecode Viewer Boot Screen - Verifying " + fileName + "...");
-                        System.out.println("Verifying " + fileName + "...");
+                        IO.println("Verifying " + fileName + "...");
 
                         File f = new File(Constants.TEMP_DIRECTORY, "temp");
                         if (!f.exists())
@@ -159,13 +160,13 @@ public class Boot
                         f.delete();
 
                         LIBS_FILE_LIST.add(file.getAbsolutePath());
-                        System.out.println("Download finished!");
+                        IO.println("Download finished!");
                         passed = true;
                     }
                     catch (Exception e)
                     {
                         e.printStackTrace();
-                        System.out.println("Jar or Zip" + file.getAbsolutePath() + " is corrupt, redownloading.");
+                        IO.println("Jar or Zip" + file.getAbsolutePath() + " is corrupt, redownloading.");
                         file.delete();
                     }
                 }
@@ -174,7 +175,7 @@ public class Boot
                     try
                     {
                         setState("Bytecode Viewer Boot Screen - Verifying " + fileName + "...");
-                        System.out.println("Verifying " + fileName + "...");
+                        IO.println("Verifying " + fileName + "...");
 
                         File f = new File(Constants.TEMP_DIRECTORY, "temp");
                         ZipUtils.zipFile(file, f);
@@ -185,7 +186,7 @@ public class Boot
                     catch (Exception e)
                     {
                         e.printStackTrace();
-                        System.out.println("Jar or Zip" + file.getAbsolutePath() + " is corrupt, redownloading.");
+                        IO.println("Jar or Zip" + file.getAbsolutePath() + " is corrupt, redownloading.");
                         LIBS_FILE_LIST.remove(file.getAbsolutePath());
                         file.delete();
                     }
@@ -201,7 +202,7 @@ public class Boot
         }
 
         setState("Bytecode Viewer Boot Screen - Checking & Deleting Foreign/Outdated Libraries...");
-        System.out.println("Checking & Deleting foreign/outdated libraries");
+        IO.println("Checking & Deleting foreign/outdated libraries");
         for (String s : LIBS_FILE_LIST)
         {
             File f = new File(s);
@@ -215,12 +216,12 @@ public class Boot
             if (delete)
             {
                 f.delete();
-                System.out.println("Detected & Deleted Foreign/Outdated Jar/File: " + f.getName());
+                IO.println("Detected & Deleted Foreign/Outdated Jar/File: " + f.getName());
             }
         }
 
         setState("Bytecode Viewer Boot Screen - Loading Libraries...");
-        System.out.println("Loading libraries...");
+        IO.println("Loading libraries...");
 
         for (String s : LIBS_FILE_LIST)
         {
@@ -230,13 +231,13 @@ public class Boot
                 if (f.exists())
                 {
                     setState("Bytecode Viewer Boot Screen - Loading Library " + f.getName());
-                    System.out.println("Loading library " + f.getName());
+                    IO.println("Loading library " + f.getName());
 
                     try
                     {
                         ExternalResource res = new EmptyExternalResource<>(f.toURI().toURL());
                         loader.bind(res);
-                        System.out.println("Successfully loaded " + f.getName());
+                        IO.println("Successfully loaded " + f.getName());
                     }
                     catch (Exception e)
                     {
@@ -295,7 +296,7 @@ public class Boot
 
     public static void populateUrlList() throws Exception
     {
-        HTTPRequest req = new HTTPRequest(new URL("https://github.com/Konloch/bytecode-viewer/tree/master/libs"));
+        HTTPRequest req = new HTTPRequest(URI.create("https://github.com/Konloch/bytecode-viewer/tree/master/libs").toURL());
         for (String s : req.read())
             if (s.contains("href=\"/Konloch/bytecode-viewer/blob/master/libs/"))
             {
@@ -325,7 +326,7 @@ public class Boot
                 temp.delete();
 
             setState("Bytecode Viewer Boot Screen - Extracting Krakatau");
-            System.out.println("Extracting Krakatau");
+            IO.println("Extracting Krakatau");
 
             while (temp.exists())
                 temp.delete();
@@ -342,7 +343,7 @@ public class Boot
 
                 ZipUtils.unzipFilesToPath(temp.getAbsolutePath(), krakatauDirectory.getAbsolutePath());
                 temp.delete();
-                System.out.println("Successfully extracted Krakatau");
+                IO.println("Successfully extracted Krakatau");
             }
             catch (Exception e)
             {
@@ -363,7 +364,7 @@ public class Boot
                 temp.delete();
 
             setState("Bytecode Viewer Boot Screen - Extracting Enjarify");
-            System.out.println("Extracting Enjarify");
+            IO.println("Extracting Enjarify");
 
             while (temp.exists())
                 temp.delete();
@@ -380,7 +381,7 @@ public class Boot
 
                 ZipUtils.unzipFilesToPath(temp.getAbsolutePath(), enjarifyDirectory.getAbsolutePath());
                 temp.delete();
-                System.out.println("Successfully extracted Enjarify");
+                IO.println("Successfully extracted Enjarify");
             }
             catch (Exception e)
             {
@@ -404,12 +405,12 @@ public class Boot
                 {
                     downloading = true;
                     setState("Bytecode Viewer Boot Screen - Downloading " + fileName + "...");
-                    System.out.println("Downloading " + fileName);
+                    IO.println("Downloading " + fileName);
 
                     try (InputStream is = new URL("https://github.com/Konloch/bytecode-viewer/raw/master/libs/" + fileName).openConnection().getInputStream();
                          FileOutputStream fos = new FileOutputStream(file))
                     {
-                        System.out.println("Downloading from " + s);
+                        IO.println("Downloading from " + s);
                         byte[] buffer = new byte[8192];
                         int len;
                         int downloaded = 0;
@@ -423,7 +424,7 @@ public class Boot
                             if (mbs % 5 == 0 && mbs != 0)
                             {
                                 if (!flag)
-                                    System.out.println("Downloaded " + mbs + "MBs so far");
+                                    IO.println("Downloaded " + mbs + "MBs so far");
                                 flag = true;
                             }
                             else
@@ -438,20 +439,20 @@ public class Boot
                     try
                     {
                         setState("Bytecode Viewer Boot Screen - Verifying " + fileName + "...");
-                        System.out.println("Verifying " + fileName + "...");
+                        IO.println("Verifying " + fileName + "...");
 
                         File f = new File(Constants.TEMP_DIRECTORY, "temp");
                         ZipUtils.zipFile(file, f);
                         f.delete();
 
                         LIBS_FILE_LIST.add(file.getAbsolutePath());
-                        System.out.println("Download finished!");
+                        IO.println("Download finished!");
                         passed = true;
                     }
                     catch (Exception e)
                     {
                         e.printStackTrace();
-                        System.out.println("Jar or Zip" + file.getAbsolutePath() + " is corrupt, redownloading.");
+                        IO.println("Jar or Zip" + file.getAbsolutePath() + " is corrupt, redownloading.");
                         file.delete();
                     }
                 }
@@ -464,7 +465,7 @@ public class Boot
     public static void checkEnjarify()
     {
         setState("Bytecode Viewer Boot Screen - Checking Enjarify...");
-        System.out.println("Checking enjarify");
+        IO.println("Checking enjarify");
         File enjarifyZip = null;
         for (File f : MiscUtils.listFiles(new File(Constants.LIBS_DIRECTORY)))
         {
@@ -480,7 +481,7 @@ public class Boot
             if (f.getName().toLowerCase().startsWith("enjarify_") && !f.getName().split("_")[1].split("\\.")[0].equals(Constants.enjarifyVersion))
             {
                 setState("Bytecode Viewer Boot Screen - Removing Outdated " + f.getName() + "...");
-                System.out.println("Removing oudated " + f.getName());
+                IO.println("Removing oudated " + f.getName());
                 try
                 {
                     FileUtils.deleteDirectory(f);
@@ -500,7 +501,7 @@ public class Boot
             {
                 setState("Bytecode Viewer Boot Screen - Updating to " + enjarifyDirectory.getName() + "...");
                 ZipUtils.unzipFilesToPath(Objects.requireNonNull(enjarifyZip).getAbsolutePath(), enjarifyDirectory.getAbsolutePath());
-                System.out.println("Updated to enjarify v" + Constants.enjarifyVersion);
+                IO.println("Updated to enjarify v" + Constants.enjarifyVersion);
             }
             catch (Exception e)
             {
@@ -516,7 +517,7 @@ public class Boot
     public static void checkKrakatau()
     {
         setState("Bytecode Viewer Boot Screen - Checking Krakatau...");
-        System.out.println("Checking krakatau");
+        IO.println("Checking krakatau");
 
         File krakatauZip = null;
         for (File f : MiscUtils.listFiles(new File(Constants.LIBS_DIRECTORY)))
@@ -534,7 +535,7 @@ public class Boot
             if (f.getName().toLowerCase().startsWith("krakatau_") && !f.getName().split("_")[1].split("\\.")[0].equals(Constants.krakatauVersion))
             {
                 setState("Bytecode Viewer Boot Screen - Removing Outdated " + f.getName() + "...");
-                System.out.println("Removing oudated " + f.getName());
+                IO.println("Removing oudated " + f.getName());
                 try
                 {
                     FileUtils.deleteDirectory(f);
@@ -555,7 +556,7 @@ public class Boot
             {
                 setState("Bytecode Viewer Boot Screen - Updating to " + krakatauDirectory.getName() + "...");
                 ZipUtils.unzipFilesToPath(Objects.requireNonNull(krakatauZip).getAbsolutePath(), krakatauDirectory.getAbsolutePath());
-                System.out.println("Updated to krakatau v" + Constants.krakatauVersion);
+                IO.println("Updated to krakatau v" + Constants.krakatauVersion);
             }
             catch (Exception e)
             {

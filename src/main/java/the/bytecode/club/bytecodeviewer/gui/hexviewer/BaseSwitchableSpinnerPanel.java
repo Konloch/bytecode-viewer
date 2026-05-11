@@ -200,7 +200,7 @@ public class BaseSwitchableSpinnerPanel extends javax.swing.JPanel
         {
             spinner.commitEdit();
         }
-        catch (ParseException ex)
+        catch (ParseException _)
         {
             // Ignore parse exception
         }
@@ -350,14 +350,14 @@ public class BaseSwitchableSpinnerPanel extends javax.swing.JPanel
                 {
                     sourceSpinner.setValue(valueOfPosition(getTextField().getText()));
                 }
-                catch (IllegalArgumentException iae)
+                catch (IllegalArgumentException _)
                 {
                     // SpinnerModel didn't like new value, reset
                     try
                     {
                         sourceSpinner.setValue(lastValue);
                     }
-                    catch (IllegalArgumentException iae2)
+                    catch (IllegalArgumentException _)
                     {
                         // Still bogus, nothing else we can do, the
                         // SpinnerModel and JFormattedTextField are now out

@@ -227,9 +227,9 @@ class ParserUtil
 
     static @Nullable String findMethodOwnerFor(CompilationUnit compilationUnit, Node node)
     {
-        if (node instanceof CallableDeclaration<?>)
+        if (node instanceof CallableDeclaration<?> declaration)
         {
-            return ((CallableDeclaration<?>) node).getDeclarationAsString(false, false);
+            return declaration.getDeclarationAsString(false, false);
         }
         else if (node instanceof CatchClause)
         {
@@ -252,15 +252,15 @@ class ParserUtil
 
             return method.getDeclarationAsString(false, false);
         }
-        else if (node instanceof Statement)
+        else if (node instanceof Statement statement)
         {
-            CallableDeclaration<?> method = findMethodForStatement((Statement) node, compilationUnit);
+            CallableDeclaration<?> method = findMethodForStatement(statement, compilationUnit);
             if (method == null)
             {
-                method = findConstructorForStatement((Statement) node, compilationUnit);
+                method = findConstructorForStatement(statement, compilationUnit);
                 if (method == null)
                 {
-                    if (findInitializerForStatement((Statement) node, compilationUnit) != null)
+                    if (findInitializerForStatement(statement, compilationUnit) != null)
                         return "static";
 
                     return null;
@@ -269,15 +269,15 @@ class ParserUtil
 
             return method.getDeclarationAsString(false, false);
         }
-        else if (node instanceof Expression)
+        else if (node instanceof Expression expression)
         {
-            CallableDeclaration<?> method = findMethodForExpression((Expression) node, compilationUnit);
+            CallableDeclaration<?> method = findMethodForExpression(expression, compilationUnit);
             if (method == null)
             {
-                method = findConstructorForExpression((Expression) node, compilationUnit);
+                method = findConstructorForExpression(expression, compilationUnit);
                 if (method == null)
                 {
-                    if (findInitializerForExpression((Expression) node, compilationUnit) != null)
+                    if (findInitializerForExpression(expression, compilationUnit) != null)
                         return "static";
 
                     return null;

@@ -141,7 +141,7 @@ public class Constants
                     // Hide file by running attrib system command (on Windows)
                     Process p = new ProcessBuilder("attrib", "+H", BCV_DIR.getAbsolutePath()).start();
                 }
-                catch (Exception e)
+                catch (Exception _)
                 {
                     //ignore
                 }
