@@ -14,8 +14,6 @@
 [INFO] --- compiler:3.14.1:compile (default-compile) @ Bytecode-Viewer ---
 [INFO] Recompiling the module because of changed source code.
 [INFO] Compiling 300 source files with javac [debug deprecation target 25] to target/classes
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/BytecodeViewer.java:[175,19] setSecurityManager(java.lang.SecurityManager) in java.lang.System has been deprecated and marked for removal
-[WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/util/SecurityMan.java:[43,34] java.lang.SecurityManager in java.lang has been deprecated and marked for removal
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/GlobalHotKeys.java:[127,33] the.bytecode.club.bytecodeviewer.util.JarUtils in the.bytecode.club.bytecodeviewer.util has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/GlobalHotKeys.java:[127,66] getLoadedClasses() in the.bytecode.club.bytecodeviewer.BytecodeViewer has been deprecated
 [WARNING] /data/code/src/main/java/the/bytecode/club/bytecodeviewer/api/ASMResourceUtil.java:[37,43] getLoadedClasses() in the.bytecode.club.bytecodeviewer.BytecodeViewer has been deprecated
@@ -79,6 +77,6 @@
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  38.603 s
-[INFO] Finished at: 2026-05-11T07:38:52Z
+[INFO] Total time:  42.810 s
+[INFO] Finished at: 2026-05-11T07:41:50Z
 [INFO] ------------------------------------------------------------------------
