@@ -22,9 +22,12 @@ import com.github.weisj.darklaf.ui.tabbedpane.DarkTabbedPaneUI;
 
 import javax.swing.*;
 
+import java.io.Serial;
+
 public class DraggableTabbedPane extends JTabbedPane
 {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public DraggableTabbedPane()

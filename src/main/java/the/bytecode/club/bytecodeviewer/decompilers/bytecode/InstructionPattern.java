@@ -169,26 +169,26 @@ public class InstructionPattern implements Opcodes
      */
     public static InstructionFilter translate(AbstractInsnNode ain)
     {
-        if (ain instanceof LdcInsnNode)
-            return new LdcInstructionFilter(((LdcInsnNode) ain).cst);
-        else if (ain instanceof TypeInsnNode)
-            return new TypeInstructionFilter(ain.getOpcode(), ((TypeInsnNode) ain).desc);
-        else if (ain instanceof FieldInsnNode)
-            return new FieldInstructionFilter(ain.getOpcode(), ((FieldInsnNode) ain).owner, ((FieldInsnNode) ain).name, ((FieldInsnNode) ain).desc);
-        else if (ain instanceof MethodInsnNode)
-            return new MethodInstructionFilter(ain.getOpcode(), ((MethodInsnNode) ain).owner, ((MethodInsnNode) ain).name, ((MethodInsnNode) ain).desc);
-        else if (ain instanceof VarInsnNode)
-            return new VarInstructionFilter(ain.getOpcode(), ((VarInsnNode) ain).var);
+        if (ain instanceof LdcInsnNode node6)
+            return new LdcInstructionFilter(node6.cst);
+        else if (ain instanceof TypeInsnNode node5)
+            return new TypeInstructionFilter(ain.getOpcode(), node5.desc);
+        else if (ain instanceof FieldInsnNode node4)
+            return new FieldInstructionFilter(ain.getOpcode(), node4.owner, node4.name, node4.desc);
+        else if (ain instanceof MethodInsnNode node3)
+            return new MethodInstructionFilter(ain.getOpcode(), node3.owner, node3.name, node3.desc);
+        else if (ain instanceof VarInsnNode node2)
+            return new VarInstructionFilter(ain.getOpcode(), node2.var);
         else if (ain instanceof InsnNode)
             return new InsnInstructionFilter(ain.getOpcode());
-        else if (ain instanceof IincInsnNode)
-            return new IincInstructionFilter(((IincInsnNode) ain).incr, ((IincInsnNode) ain).var);
+        else if (ain instanceof IincInsnNode node1)
+            return new IincInstructionFilter(node1.incr, node1.var);
         else if (ain instanceof JumpInsnNode)
             return new JumpInstructionFilter(ain.getOpcode());
         else if (ain instanceof LabelNode)
             return InstructionFilter.ACCEPT_ALL;
-        else if (ain instanceof MultiANewArrayInsnNode)
-            return new MultiANewArrayInstructionFilter(((MultiANewArrayInsnNode) ain).desc, ((MultiANewArrayInsnNode) ain).dims);
+        else if (ain instanceof MultiANewArrayInsnNode node)
+            return new MultiANewArrayInstructionFilter(node.desc, node.dims);
         else
             return InstructionFilter.ACCEPT_ALL;
     }
@@ -201,7 +201,7 @@ public class InstructionPattern implements Opcodes
         for (AbstractInsnNode insnNode : abstractInsnNodes)
         {
             if (pattern.accept(insnNode))
-                System.out.println(Arrays.toString(pattern.getLastMatch()));
+                IO.println(Arrays.toString(pattern.getLastMatch()));
         }
     }
 }

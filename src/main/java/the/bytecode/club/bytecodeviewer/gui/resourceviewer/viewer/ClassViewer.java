@@ -37,6 +37,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.List;
 
@@ -133,9 +134,11 @@ public class ClassViewer extends ResourceViewer
             if (!BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()
                 && !BytecodeViewer.viewer.compileOnSave.isSelected())
             {
-                BytecodeViewer.showMessage("Make sure to compile (File>Compile or Ctrl + T) whenever you want to "
-                    + "test or export your changes.\nYou can set compile automatically on refresh or on save "
-                    + "in the settings menu.");
+                BytecodeViewer.showMessage("""
+                    Make sure to compile (File>Compile or Ctrl + T) whenever you want to \
+                    test or export your changes.
+                    You can set compile automatically on refresh or on save \
+                    in the settings menu.""");
 
                 SettingsSerializer.saveSettingsAsync();
             }
@@ -196,21 +199,16 @@ public class ClassViewer extends ResourceViewer
 
     public static void selectMethod(ClassViewer classViewer, int paneId, Method method)
     {
-        RSyntaxTextArea area = null;
-        switch (paneId)
+        RSyntaxTextArea area = switch (paneId)
         {
-            case 0:
-                area = classViewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
-                break;
+            case 0: yield classViewer.bytecodeViewPanel1.updateThread.updateUpdaterTextArea;
 
-            case 1:
-                area = classViewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
-                break;
+            case 1: yield classViewer.bytecodeViewPanel2.updateThread.updateUpdaterTextArea;
 
-            case 2:
-                area = classViewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
-                break;
-        }
+            case 2: yield classViewer.bytecodeViewPanel3.updateThread.updateUpdaterTextArea;
+            default:
+                 yield null;
+        };
 
         if (area != null)
         {
@@ -229,9 +227,8 @@ public class ClassViewer extends ResourceViewer
     {
         Container parent = area.getParent();
 
-        if (parent instanceof JViewport)
+        if (parent instanceof JViewport viewport)
         {
-            JViewport viewport = (JViewport) parent;
             int y = viewport.getViewSize().height - viewport.getExtentSize().height;
             int lineHeight = area.getLineHeight();
             return y >= lineHeight ? y / lineHeight : 0;
@@ -244,9 +241,8 @@ public class ClassViewer extends ResourceViewer
     {
         Container parent = area.getParent();
 
-        if (parent instanceof JViewport)
+        if (parent instanceof JViewport viewport)
         {
-            JViewport viewport = (JViewport) parent;
             Point point = viewport.getViewPosition();
             int lineHeight = area.getLineHeight();
             return point.y >= lineHeight ? point.y / lineHeight : 0;
@@ -259,9 +255,8 @@ public class ClassViewer extends ResourceViewer
     {
         Container parent = area.getParent();
 
-        if (parent instanceof JViewport)
+        if (parent instanceof JViewport viewport)
         {
-            JViewport viewport = (JViewport) parent;
             int maxLine = ClassViewer.getMaxViewLine(area);
             line = Math.min(line, maxLine);
             viewport.setViewPosition(new Point(0, line * area.getLineHeight()));
@@ -274,7 +269,7 @@ public class ClassViewer extends ResourceViewer
         {
             area.setCaretPosition(area.getLineStartOffset(line));
         }
-        catch (BadLocationException ignored)
+        catch (BadLocationException _)
         {
         }
     }
@@ -408,5 +403,6 @@ public class ClassViewer extends ResourceViewer
         return splitter;
     }
 
+    @Serial
     private static final long serialVersionUID = -8650495368920680024L;
 }

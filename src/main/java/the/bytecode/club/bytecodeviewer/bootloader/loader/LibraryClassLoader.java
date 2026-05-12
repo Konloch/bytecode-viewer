@@ -115,7 +115,7 @@ public class LibraryClassLoader extends ClassLoader implements ILoader<JarConten
         ClassWriter writer = new ResolvingClassWriter(tree);
         cn.accept(cn);
         byte[] bytes = writer.toByteArray();
-        return defineClass(bytes, 0, bytes.length);
+        return defineClass(null, bytes, 0, bytes.length);
     }
 
     public static class ResolvingClassWriter extends ClassWriter

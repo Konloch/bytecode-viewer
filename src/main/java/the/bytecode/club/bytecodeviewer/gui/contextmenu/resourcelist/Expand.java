@@ -34,7 +34,7 @@ public class Expand extends ContextMenuItem
 {
     public Expand()
     {
-        super(ContextMenuType.DIRECTORY, ((tree, selPath, result, menu) -> menu.add(new AbstractAction(TranslatedStrings.EXPAND.toString())
+        super(ContextMenuType.DIRECTORY, ((tree, selPath, _, menu) -> menu.add(new AbstractAction(TranslatedStrings.EXPAND.toString())
         {
             @Override
             public void actionPerformed(ActionEvent e)

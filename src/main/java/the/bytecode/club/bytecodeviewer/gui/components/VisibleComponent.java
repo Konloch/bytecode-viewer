@@ -25,6 +25,8 @@ import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import javax.swing.*;
 
+import java.io.Serial;
+
 /**
  * Used to represent all the panes inside of Bytecode Viewer.
  *
@@ -66,5 +68,6 @@ public abstract class VisibleComponent extends JInternalFrame
         }
     }
 
+    @Serial
     private static final long serialVersionUID = -6453413772343643526L;
 }

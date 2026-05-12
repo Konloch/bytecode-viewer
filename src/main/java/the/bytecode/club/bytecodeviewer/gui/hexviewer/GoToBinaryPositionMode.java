@@ -36,5 +36,5 @@ public enum GoToBinaryPositionMode
     /**
      * Count from current position of the cursor in the document.
      */
-    FROM_CURSOR;
+    FROM_CURSOR
 }

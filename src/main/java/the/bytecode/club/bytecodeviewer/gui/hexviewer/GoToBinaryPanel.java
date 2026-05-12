@@ -38,7 +38,7 @@ public class GoToBinaryPanel extends javax.swing.JPanel
         initComponents();
 
         baseSwitchableSpinnerPanel.setMinimum(0L);
-        baseSwitchableSpinnerPanel.addChangeListener((javax.swing.event.ChangeEvent evt) -> updateTargetPosition());
+        baseSwitchableSpinnerPanel.addChangeListener((javax.swing.event.ChangeEvent _) -> updateTargetPosition());
     }
 
     /**

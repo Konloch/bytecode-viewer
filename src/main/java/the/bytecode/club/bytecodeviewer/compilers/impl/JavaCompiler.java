@@ -98,7 +98,7 @@ public class JavaCompiler extends AbstractCompiler
 
                 if (process.isAlive())
                 {
-                    System.out.println("Force killing javac process, assuming it's gotten stuck");
+                    IO.println("Force killing javac process, assuming it's gotten stuck");
                     process.destroyForcibly().destroy();
                 }
             }, "Javac Fail-Safe");
@@ -128,7 +128,7 @@ public class JavaCompiler extends AbstractCompiler
             }
 
             log.append(NL).append(NL).append(TranslatedStrings.EXIT_VALUE_IS).append(" ").append(exitValue);
-            System.out.println(log);
+            IO.println(log);
 
             if (!classFile.exists())
                 throw new Exception(log.toString());

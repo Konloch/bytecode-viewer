@@ -34,7 +34,7 @@ public class QuickEdit extends ContextMenuItem
 {
     public QuickEdit()
     {
-        super(ContextMenuType.SEARCH_BOX_RESULT, ((tree, selPath, result, menu) ->
+        super(ContextMenuType.SEARCH_BOX_RESULT, ((_, _, result, menu) ->
         {
             JMenu quickOpen = new JMenu("Quick Edit");
             quickOpen.add(createMenu(TranslatedStrings.KRAKATAU.toString(), () -> BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.KRAKATAU_DISASSEMBLER, result, true)));
@@ -45,7 +45,7 @@ public class QuickEdit extends ContextMenuItem
     private static JMenuItem createMenu(String name, Runnable onClick)
     {
         JMenuItem menu = new JMenuItem(name);
-        menu.addActionListener((e) -> onClick.run());
+        menu.addActionListener(_ -> onClick.run());
         return menu;
     }
 }

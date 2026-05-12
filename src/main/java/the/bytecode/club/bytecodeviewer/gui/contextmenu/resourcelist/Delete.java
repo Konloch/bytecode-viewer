@@ -34,7 +34,7 @@ public class Delete extends ContextMenuItem
 {
     public Delete()
     {
-        super(ContextMenuType.CONTAINER, ((tree, selPath, result, menu) -> menu.add(new AbstractAction(TranslatedStrings.DELETE.toString())
+        super(ContextMenuType.CONTAINER, ((tree, selPath, _, menu) -> menu.add(new AbstractAction(TranslatedStrings.DELETE.toString())
         {
             @Override
             public void actionPerformed(ActionEvent e)

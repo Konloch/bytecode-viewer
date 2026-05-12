@@ -126,83 +126,78 @@ public class AllatoriStringDecrypter extends Plugin
         LdcInsnNode laststringldconstack = null;
         for (AbstractInsnNode i : iList.toArray())
         {
-            if (i instanceof LdcInsnNode)
-            {
-                LdcInsnNode ldcI = (LdcInsnNode) i;
-                if (ldcI.cst instanceof String)
-                    laststringldconstack = ldcI;
-                continue;
-            }
-            else if (i instanceof MethodInsnNode)
-            {
-                MethodInsnNode methodI = (MethodInsnNode) i;
-
-                // Decryption is always a static call - 0xb8 - invokestatic
-                if (laststringldconstack != null && methodI.getOpcode() == 0xb8)
-                {
-                    String decrypterClassName = methodI.owner;
-                    String decrypterMethodName = methodI.name;
-
-                    // Decrypter is always a static method of other class's inner class
-                    if (decrypterClassName.contains("$"))
+            switch (i) {
+                case LdcInsnNode ldcI -> {
+                    if (ldcI.cst instanceof String)
+                        laststringldconstack = ldcI;
+                    continue;
+                }
+                case MethodInsnNode methodI -> {
+                    // Decryption is always a static call - 0xb8 - invokestatic
+                    if (laststringldconstack != null && methodI.getOpcode() == 0xb8)
                     {
-                        byte[] decrypterFileContents = activeContainer.getFileContents(decrypterClassName + ".class");
+                        String decrypterClassName = methodI.owner;
+                        String decrypterMethodName = methodI.name;
 
-                        // We have to create new node for editing
-                        // Also, one decrypter method could be used for multiple methods in code, what gives us only part of string decrypted
-                        ClassNode decrypterClassNode = ASMUtil.bytesToNode(decrypterFileContents);
-                        MethodNode decryptermethodnode = ASMUtil.getMethodByName(decrypterClassNode, decrypterMethodName);
-
-                        if (decryptermethodnode != null)
+                        // Decrypter is always a static method of other class's inner class
+                        if (decrypterClassName.contains("$"))
                         {
-                            String keyString = (getConstantPoolSize(classNode.name) + classNode.name + methodNode.name + getConstantPoolSize(classNode.name));
+                            byte[] decrypterFileContents = activeContainer.getFileContents(decrypterClassName + ".class");
 
-                            int newHashCode = keyString.hashCode();
+                            // We have to create new node for editing
+                            // Also, one decrypter method could be used for multiple methods in code, what gives us only part of string decrypted
+                            ClassNode decrypterClassNode = ASMUtil.bytesToNode(decrypterFileContents);
+                            MethodNode decryptermethodnode = ASMUtil.getMethodByName(decrypterClassNode, decrypterMethodName);
 
-                            scanDecrypter(decryptermethodnode, newHashCode);
-
-                            try
+                            if (decryptermethodnode != null)
                             {
-                                System.out.println("Loading " + decrypterClassName);
+                                String keyString = (getConstantPoolSize(classNode.name) + classNode.name + methodNode.name + getConstantPoolSize(classNode.name));
 
-                                Class<?> decrypterClassList = BCV.loadClassIntoClassLoader(decrypterClassNode);
+                                int newHashCode = keyString.hashCode();
 
-                                String decrypted = invokeDecrypter(decrypterClassList, decrypterMethodName, (String) laststringldconstack.cst);
+                                scanDecrypter(decryptermethodnode, newHashCode);
 
-                                if (decrypted != null)
+                                try
                                 {
-                                    log("Succesfully invoked decrypter method: " + decrypted);
-                                    laststringldconstack.cst = decrypted;
-                                    iList.remove(methodI);
-                                }
-                            }
-                            catch (IndexOutOfBoundsException | ClassNotFoundException | IOException e)
-                            {
-                                e.printStackTrace();
-                                log("Could not load decrypter class: " + decrypterClassName);
-                            }
+                                    System.out.println("Loading " + decrypterClassName);
 
-                        }
-                        else
-                        {
-                            log("Could not find decrypter method (" + decrypterMethodName + ") of class " + decrypterClassName);
+                                    Class<?> decrypterClassList = BCV.loadClassIntoClassLoader(decrypterClassNode);
+
+                                    String decrypted = invokeDecrypter(decrypterClassList, decrypterMethodName, (String) laststringldconstack.cst);
+
+                                    if (decrypted != null)
+                                    {
+                                        log("Succesfully invoked decrypter method: " + decrypted);
+                                        laststringldconstack.cst = decrypted;
+                                        iList.remove(methodI);
+                                    }
+                                }
+                                catch (IndexOutOfBoundsException | ClassNotFoundException | IOException e)
+                                {
+                                    e.printStackTrace();
+                                    log("Could not load decrypter class: " + decrypterClassName);
+                                }
+
+                            }
+                            else
+                            {
+                                log("Could not find decrypter method (" + decrypterMethodName + ") of class " + decrypterClassName);
+                            }
                         }
                     }
                 }
+                case InvokeDynamicInsnNode methodi -> {
+                    if (methodi.getOpcode() == 0xba)
+                    {
+                        // TODO: Safe-reflection deobfuscator here
+                        // Allatori replaces invokeinterface and invokestatic with invokedynamic
 
-            }
-            else if (i instanceof InvokeDynamicInsnNode)
-            {
-                InvokeDynamicInsnNode methodi = (InvokeDynamicInsnNode) i;
-                if (methodi.getOpcode() == 0xba)
-                {
-                    // TODO: Safe-reflection deobfuscator here
-                    // Allatori replaces invokeinterface and invokestatic with invokedynamic
+                        //log(methodi.bsm.getOwner()+" dot "+methodi.bsm.getName());
+                        //iList.set(methodi, new MethodInsnNode(0xb8, methodi.bsm.getOwner(), methodi.bsm.getName(), methodi.bsm.getDesc(), false));
 
-                    //log(methodi.bsm.getOwner()+" dot "+methodi.bsm.getName());
-                    //iList.set(methodi, new MethodInsnNode(0xb8, methodi.bsm.getOwner(), methodi.bsm.getName(), methodi.bsm.getDesc(), false));
-
+                    }
                 }
+                case null, default -> {}
             }
 
             laststringldconstack = null;
@@ -216,9 +211,9 @@ public class AllatoriStringDecrypter extends Plugin
         AbstractInsnNode insn = null, removeInsn;
         for (AbstractInsnNode i : iList.toArray())
         {
-            if (i instanceof MethodInsnNode)
+            if (i instanceof MethodInsnNode node)
             {
-                MethodInsnNode methodi = ((MethodInsnNode) i);
+                MethodInsnNode methodi = node;
 
                 if ("currentThread".equals(methodi.name)) // find code form this instruction
                 {
@@ -233,9 +228,9 @@ public class AllatoriStringDecrypter extends Plugin
 
         while (insn != null)
         {
-            if (insn instanceof MethodInsnNode)
+            if (insn instanceof MethodInsnNode node1)
             {
-                MethodInsnNode methodi = ((MethodInsnNode) insn);
+                MethodInsnNode methodi = node1;
 
                 if ("hashCode".equals(methodi.name)) // to this instruction
                     break;
@@ -304,7 +299,7 @@ public class AllatoriStringDecrypter extends Plugin
             getContentPane().add(textField);
             textField.setColumns(10);
 
-            btnNewButton.addActionListener(arg0 ->
+            btnNewButton.addActionListener(_ ->
             {
                 PluginManager.runPlugin(new the.bytecode.club.bytecodeviewer.plugin.preinstalled.AllatoriStringDecrypter(textField.getText()));
                 dispose();
