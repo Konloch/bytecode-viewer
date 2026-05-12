@@ -120,7 +120,7 @@ public class ClassFileContainer
 
     public void putField(String key, ClassFieldLocation value)
     {
-        this.fieldMembers.computeIfAbsent(key, v -> new ArrayList<>()).add(value);
+        this.fieldMembers.computeIfAbsent(key, _ -> new ArrayList<>()).add(value);
     }
 
     public List<ClassFieldLocation> getFieldLocationsFor(String fieldName)
@@ -130,7 +130,7 @@ public class ClassFileContainer
 
     public void putParameter(String key, ClassParameterLocation value)
     {
-        this.methodParameterMembers.computeIfAbsent(key, v -> new ArrayList<>()).add(value);
+        this.methodParameterMembers.computeIfAbsent(key, _ -> new ArrayList<>()).add(value);
     }
 
     public List<ClassParameterLocation> getParameterLocationsFor(String key)
@@ -140,7 +140,7 @@ public class ClassFileContainer
 
     public void putLocalVariable(String key, ClassLocalVariableLocation value)
     {
-        this.methodLocalMembers.computeIfAbsent(key, v -> new ArrayList<>()).add(value);
+        this.methodLocalMembers.computeIfAbsent(key, _ -> new ArrayList<>()).add(value);
     }
 
     public List<ClassLocalVariableLocation> getLocalLocationsFor(String key)
@@ -150,7 +150,7 @@ public class ClassFileContainer
 
     public void putMethod(String key, ClassMethodLocation value)
     {
-        this.methodMembers.computeIfAbsent(key, v -> new ArrayList<>()).add(value);
+        this.methodMembers.computeIfAbsent(key, _ -> new ArrayList<>()).add(value);
     }
 
     public List<ClassMethodLocation> getMethodLocationsFor(String key)
@@ -160,7 +160,7 @@ public class ClassFileContainer
 
     public void putClassReference(String key, ClassReferenceLocation value)
     {
-        this.classReferences.computeIfAbsent(key, v -> new ArrayList<>()).add(value);
+        this.classReferences.computeIfAbsent(key, _ -> new ArrayList<>()).add(value);
     }
 
     public List<ClassReferenceLocation> getClassReferenceLocationsFor(String key)

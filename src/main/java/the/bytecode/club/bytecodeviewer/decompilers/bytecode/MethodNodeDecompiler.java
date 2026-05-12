@@ -95,7 +95,7 @@ public class MethodNodeDecompiler
         if (amountOfThrows > 0)
         {
             sb.append(" throws ");
-            sb.append(m.exceptions.get(0));// exceptions is list<string>
+            sb.append(m.exceptions.getFirst());// exceptions is list<string>
 
             for (int i = 1; i < amountOfThrows; i++)
             {
@@ -208,15 +208,13 @@ public class MethodNodeDecompiler
 
     private static String printAttr(Object o, InstructionPrinter insnPrinter)
     {
-        if (o instanceof LocalVariableNode)
+        if (o instanceof LocalVariableNode lvn)
         {
-            LocalVariableNode lvn = (LocalVariableNode) o;
             return "index=" + lvn.index + " , name=" + lvn.name + " , desc=" + lvn.desc + ", sig=" + lvn.signature
                 + ", start=L" + insnPrinter.resolveLabel(lvn.start) + ", end=L" + insnPrinter.resolveLabel(lvn.end);
         }
-        else if (o instanceof AnnotationNode)
+        else if (o instanceof AnnotationNode an)
         {
-            AnnotationNode an = (AnnotationNode) o;
             StringBuilder sb = new StringBuilder();
             sb.append("desc = ");
             sb.append(an.desc);
@@ -273,7 +271,7 @@ public class MethodNodeDecompiler
             return "";
 
         // hackery delimeters
-        StringBuilder sb = new StringBuilder(tokens.get(0));
+        StringBuilder sb = new StringBuilder(tokens.getFirst());
         for (int i = 1; i < tokens.size(); i++)
         {
             sb.append(" ");

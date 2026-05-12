@@ -88,7 +88,7 @@ public class APKTool
             FileUtils.deleteDirectory(smaliFolder);
 
             //save entire jar as smali files
-            System.out.println("Building!");
+            IO.println("Building!");
             brut.apktool.Main.main(new String[]{
                 "build", // MODE
                 container.APKToolContents.getAbsolutePath(), // INPUT

@@ -251,9 +251,8 @@ public class FileDrop
                     if (isDragOk(loggingStream, evt))
                     {
                         // If it's a Swing component, set its border
-                        if (dropTarget instanceof JComponent)
+                        if (dropTarget instanceof JComponent jc)
                         {
-                            final JComponent jc = (JComponent) dropTarget;
                             normalBorder = jc.getBorder();
                             log(loggingStream, "FileDrop: normal border saved.");
                             jc.setBorder(dragBorder);
@@ -359,9 +358,8 @@ public class FileDrop
                     finally
                     {
                         // If it's a Swing component, reset its border
-                        if (dropTarget instanceof JComponent)
+                        if (dropTarget instanceof JComponent jc)
                         {
-                            final JComponent jc = (JComponent) dropTarget;
                             jc.setBorder(normalBorder);
                             log(loggingStream, "FileDrop: normal border restored.");
                         }
@@ -374,9 +372,8 @@ public class FileDrop
                     log(loggingStream, "FileDrop: dragExit event.");
 
                     // If it's a Swing component, reset its border
-                    if (dropTarget instanceof JComponent)
+                    if (dropTarget instanceof JComponent jc)
                     {
-                        final JComponent jc = (JComponent) dropTarget;
                         jc.setBorder(normalBorder);
                         log(loggingStream, "FileDrop: normal border restored.");
                     }
@@ -422,7 +419,7 @@ public class FileDrop
                 final Class arbitraryDndClass = Class.forName("java.awt.dnd.DnDConstants");
                 support = true;
             }
-            catch (Throwable t)
+            catch (Throwable _)
             {
                 support = false;
             }
@@ -459,7 +456,7 @@ public class FileDrop
 
             return (File[]) list.toArray(new File[0]);
         }
-        catch (IOException ex)
+        catch (IOException _)
         {
             log(out, "FileDrop: IOException");
         }
@@ -481,7 +478,7 @@ public class FileDrop
         }
 
         // Listen for hierarchy changes and remove the drop target when the parent gets cleared out.
-        c.addHierarchyListener(evt ->
+        c.addHierarchyListener(_ ->
         {
             log(out, "FileDrop: Hierarchy changed.");
             final Component parent = c.getParent();
@@ -501,10 +498,8 @@ public class FileDrop
         if (c.getParent() != null)
             new DropTarget(c, dropListener);
 
-        if (recursive && (c instanceof Container))
+        if (recursive && (c instanceof Container cont))
         {
-            // Get the container
-            final Container cont = (Container) c;
 
             // Get its components
             final Component[] comps = cont.getComponents();
@@ -598,9 +593,9 @@ public class FileDrop
             log(out, "FileDrop: Removing drag-and-drop hooks.");
             c.setDropTarget(null);
 
-            if (recursive && (c instanceof Container))
+            if (recursive && (c instanceof Container container))
             {
-                final Component[] comps = ((Container) c).getComponents();
+                final Component[] comps = container.getComponents();
 
                 for (Component comp : comps)
                 {

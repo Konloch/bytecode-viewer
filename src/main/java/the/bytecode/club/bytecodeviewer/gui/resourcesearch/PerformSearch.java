@@ -50,7 +50,7 @@ class PerformSearch extends BackgroundSearchThread
             if (RegexSearch.searchText != null)
                 Pattern.compile(RegexInsnFinder.processRegex(RegexSearch.searchText.getText()), Pattern.MULTILINE);
         }
-        catch (PatternSyntaxException ex)
+        catch (PatternSyntaxException _)
         {
             BytecodeViewer.showMessage("You have an error in your regex syntax.");
         }

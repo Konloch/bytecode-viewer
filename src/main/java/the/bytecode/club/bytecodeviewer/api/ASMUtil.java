@@ -41,7 +41,7 @@ public class ASMUtil
         {
             cr.accept(cn, ClassReader.EXPAND_FRAMES);
         }
-        catch (Exception e)
+        catch (Exception _)
         {
             cr.accept(cn, ClassReader.SKIP_FRAMES);
         }

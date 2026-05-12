@@ -183,7 +183,7 @@ public class SearchableRSyntaxTextArea extends RSyntaxTextArea
                 return getText(start, end - start).trim();
             }
         }
-        catch (BadLocationException ignored)
+        catch (BadLocationException _)
         {
         }
         return "";

@@ -34,7 +34,7 @@ public class Open extends ContextMenuItem
 {
     public Open()
     {
-        super(ContextMenuType.RESOURCE, ((tree, selPath, result, menu) -> menu.add(new AbstractAction(TranslatedStrings.OPEN_UNSTYLED.toString())
+        super(ContextMenuType.RESOURCE, ((_, selPath, _, menu) -> menu.add(new AbstractAction(TranslatedStrings.OPEN_UNSTYLED.toString())
         {
             @Override
             public void actionPerformed(ActionEvent e)

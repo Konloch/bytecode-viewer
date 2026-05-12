@@ -57,7 +57,7 @@ public class ClassNodeDecompiler
         if (amountOfInterfaces > 0)
         {
             sb.append(" implements ");
-            sb.append(cn.interfaces.get(0));
+            sb.append(cn.interfaces.getFirst());
 
             for (int i = 1; i < amountOfInterfaces; i++)
             {
@@ -192,7 +192,7 @@ public class ClassNodeDecompiler
             tokens.add("class");
 
         // hackery delimeters
-        StringBuilder sb = new StringBuilder(tokens.get(0));
+        StringBuilder sb = new StringBuilder(tokens.getFirst());
 
         for (int i = 1; i < tokens.size(); i++)
         {

@@ -31,6 +31,6 @@ public class ListCommand extends CLICommand
             "Smali",
             "ASMifier"
         })
-            System.out.println(s);
+            IO.println(s);
     }
 }

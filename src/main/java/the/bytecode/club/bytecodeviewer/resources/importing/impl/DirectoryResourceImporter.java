@@ -30,7 +30,7 @@ import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -80,7 +80,7 @@ public class DirectoryResourceImporter implements Importer
 
                     if (fileName.endsWith(".class"))
                     {
-                        byte[] bytes = Files.readAllBytes(Paths.get(child.getAbsolutePath()));
+                        byte[] bytes = Files.readAllBytes(Path.of(child.getAbsolutePath()));
                         if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER))
                         {
                             final ClassNode cn = JarUtils.getNode(bytes);
@@ -94,7 +94,7 @@ public class DirectoryResourceImporter implements Importer
                     }
                     else //pack files into a single container
                     {
-                        allDirectoryFiles.put(trimmedPath, Files.readAllBytes(Paths.get(child.getAbsolutePath())));
+                        allDirectoryFiles.put(trimmedPath, Files.readAllBytes(Path.of(child.getAbsolutePath())));
                     }
                 }
 

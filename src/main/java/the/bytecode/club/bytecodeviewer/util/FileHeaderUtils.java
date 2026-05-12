@@ -45,6 +45,6 @@ public class FileHeaderUtils
         if (bytes == null || bytes.length < 4)
             return StringUtils.EMPTY;
 
-        return String.format("%02X%02X%02X%02X", bytes[0], bytes[1], bytes[2], bytes[3]);
+        return "%02X%02X%02X%02X".formatted(bytes[0], bytes[1], bytes[2], bytes[3]);
     }
 }
