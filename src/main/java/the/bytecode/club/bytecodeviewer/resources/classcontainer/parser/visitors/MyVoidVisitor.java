@@ -34,7 +34,17 @@ import static the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.v
  */
 public class MyVoidVisitor extends VoidVisitorAdapter<Object>
 {
-
+    /**
+     * Tracks visited type qualified names to prevent infinite recursion when traversing type references.
+     * This is necessary to avoid StackOverflowError when cyclic type references are present in bytecode.
+     *
+     * If a cycle is detected, the visitor will skip further recursion into that type.
+     *
+     * Troubleshooting:
+     *   - If you encounter incomplete type reference resolution, check for cycles in the input bytecode.
+     *   - Cycles are common in obfuscated or complex class hierarchies.
+     */
+    private final java.util.Set<String> visitedTypeReferences = new java.util.HashSet<>();
     /*
     Any issues related to JavaParser that we cannot fix:
 
@@ -320,8 +330,7 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
     public void visit(ClassOrInterfaceType n, Object arg)
     {
         super.visit(n, arg);
-        try
-        {
+        try {
             Range range = n.getName().getRange().orElse(null);
             if (range == null)
                 return;
@@ -329,40 +338,42 @@ public class MyVoidVisitor extends VoidVisitorAdapter<Object>
             Value classValue = new Value(n.getName(), range);
 
             ResolvedType resolve = n.resolve();
-
             if (!resolve.isReferenceType())
                 return;
 
             ResolvedReferenceType referenceType = resolve.asReferenceType();
-
-            // Anonymous class
             if (!referenceType.hasName())
                 return;
 
             String qualifiedName = referenceType.getQualifiedName();
+
+            // Cycle detection: skip if already visited
+            if (visitedTypeReferences.contains(qualifiedName)) {
+                if (DEBUG) System.err.println("Cycle detected for type: " + qualifiedName);
+                return;
+            }
+            visitedTypeReferences.add(qualifiedName);
+
             String packagePath = "";
             if (qualifiedName.contains("."))
                 packagePath = qualifiedName.substring(0, qualifiedName.lastIndexOf('.')).replace('.', '/');
 
             ClassOrInterfaceType classScope = n.getScope().orElse(null);
-            if (classScope == null)
-            {
+            if (classScope == null) {
                 this.classFileContainer.putClassReference(classValue.name,
                     new ClassReferenceLocation(classValue.name,
                         packagePath, "", "reference", classValue.line, classValue.columnStart,
                         classValue.columnEnd + 1));
-            }
-            else
-            {
+            } else {
                 packagePath = packagePath.substring(0, packagePath.lastIndexOf("/"));
-
                 this.classFileContainer.putClassReference(classValue.name,
                     new ClassReferenceLocation(classScope.getNameAsString(), packagePath, "", "reference",
                         classValue.line, classValue.columnStart, classValue.columnEnd + 1));
             }
-        }
-        catch (Exception e)
-        {
+
+            // Remove from visited after processing
+            visitedTypeReferences.remove(qualifiedName);
+        } catch (Exception e) {
             printException(n, e);
         }
     }
