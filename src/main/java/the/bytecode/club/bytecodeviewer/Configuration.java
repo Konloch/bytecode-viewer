@@ -126,7 +126,7 @@ public class Configuration
         {
             return new File(".").getCanonicalFile();
         }
-        catch (IOException e)
+        catch (IOException _)
         {
             return new File(".");
         }

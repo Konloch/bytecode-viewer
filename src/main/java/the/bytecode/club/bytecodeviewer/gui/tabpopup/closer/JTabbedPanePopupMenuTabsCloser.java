@@ -75,27 +75,27 @@ public class JTabbedPanePopupMenuTabsCloser extends AbstractJTabbedPanePopupMenu
 
     protected void addItemCloseTab(JPopupMenu popUpMenu, Component popupOnTab)
     {
-        addMenuItem(popUpMenu, "Close", e -> tabbedPaneCloser.removeComponent(popupOnTab));
+        addMenuItem(popUpMenu, "Close", _ -> tabbedPaneCloser.removeComponent(popupOnTab));
     }
 
     protected void addItemCloseOtherTabs(JPopupMenu popUpMenu, Component popupOnTab)
     {
-        addMenuItem(popUpMenu, "Close Others", e -> tabbedPaneCloser.removeOtherComponents(popupOnTab));
+        addMenuItem(popUpMenu, "Close Others", _ -> tabbedPaneCloser.removeOtherComponents(popupOnTab));
     }
 
     protected void addItemCloseAllTabs(JPopupMenu popUpMenu)
     {
-        addMenuItem(popUpMenu, "Close All", e -> tabbedPaneCloser.removeAllComponents());
+        addMenuItem(popUpMenu, "Close All", _ -> tabbedPaneCloser.removeAllComponents());
     }
 
     protected void addItemCloseLeftTabs(JPopupMenu popUpMenu, Component popupOnTab)
     {
-        addMenuItem(popUpMenu, "Close Lefts", e -> tabbedPaneCloser.removeLeftComponents(popupOnTab));
+        addMenuItem(popUpMenu, "Close Lefts", _ -> tabbedPaneCloser.removeLeftComponents(popupOnTab));
     }
 
     protected void addItemCloseRightTabs(JPopupMenu popUpMenu, Component popupOnTab)
     {
-        addMenuItem(popUpMenu, "Close Rights", e -> tabbedPaneCloser.removeRightComponents(popupOnTab));
+        addMenuItem(popUpMenu, "Close Rights", _ -> tabbedPaneCloser.removeRightComponents(popupOnTab));
     }
 
     protected void addMenuItem(JPopupMenu popUpMenu, String item, ActionListener listener)

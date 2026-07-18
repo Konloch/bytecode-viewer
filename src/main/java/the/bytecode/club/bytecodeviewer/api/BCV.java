@@ -122,7 +122,7 @@ public class BCV
             {
 
                 Enumeration<JarEntry> e = jarFile.entries();
-                URL[] urls = {new URL("jar:file:" + "" + f.getAbsolutePath() + "!/")};
+                URL[] urls = {new java.net.URI("jar:file:" + "" + f.getAbsolutePath() + "!/").toURL()};
 
                 cl = URLClassLoader.newInstance(urls);
 
@@ -344,7 +344,7 @@ public class BCV
     public static void log(boolean devModeOnly, String s)
     {
         if (!devModeOnly || DEV_MODE)
-            System.out.println(s);
+            IO.println(s);
     }
 
     /**

@@ -55,7 +55,7 @@ public class FileChooser
         {
             chooser.setSelectedFile(file);
         }
-        catch (Exception ignored)
+        catch (Exception _)
         {
         }
 

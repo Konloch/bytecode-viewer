@@ -34,7 +34,7 @@ public class Collapse extends ContextMenuItem
 {
     public Collapse()
     {
-        super(ContextMenuType.DIRECTORY, ((tree, selPath, result, menu) -> menu.add(new AbstractAction(TranslatedStrings.COLLAPSE.toString())
+        super(ContextMenuType.DIRECTORY, ((tree, selPath, _, menu) -> menu.add(new AbstractAction(TranslatedStrings.COLLAPSE.toString())
         {
             @Override
             public void actionPerformed(ActionEvent e)

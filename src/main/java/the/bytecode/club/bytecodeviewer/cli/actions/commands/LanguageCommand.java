@@ -103,14 +103,14 @@ public class LanguageCommand extends CLICommand
 
         if(found)
         {
-            System.out.println("Changing language to: " + language);
+            IO.println("Changing language to: " + language);
 
             Language finalLanguage = language;
             SwingUtilities.invokeLater(()-> MiscUtils.setLanguage(finalLanguage));
         }
         else
         {
-            System.out.println("Could not find supported language: " + language);
+            IO.println("Could not find supported language: " + language);
         }
     }
 }

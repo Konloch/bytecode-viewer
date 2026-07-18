@@ -34,7 +34,7 @@ public class QuickOpen extends ContextMenuItem
 {
     public QuickOpen()
     {
-        super(ContextMenuType.SEARCH_BOX_RESULT, ((tree, selPath, result, menu) ->
+        super(ContextMenuType.SEARCH_BOX_RESULT, ((_, _, result, menu) ->
         {
             JMenu quickOpen = new JMenu(TranslatedStrings.QUICK_OPEN.toString());
             quickOpen.add(createMenu(TranslatedStrings.PROCYON.toString(), () -> BytecodeViewer.viewer.searchBoxPane.quickDecompile(Decompiler.PROCYON_DECOMPILER, result, false)));
@@ -49,7 +49,7 @@ public class QuickOpen extends ContextMenuItem
     private static JMenuItem createMenu(String name, Runnable onClick)
     {
         JMenuItem menu = new JMenuItem(name);
-        menu.addActionListener((e) -> onClick.run());
+        menu.addActionListener(_ -> onClick.run());
         return menu;
     }
 }

@@ -27,6 +27,7 @@ import the.bytecode.club.bytecodeviewer.resources.IconResources;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class MaliciousCodeScannerOptions extends JFrame
         }
 
         JButton btnNewButton = new JButton("Start Scanning");
-        btnNewButton.addActionListener(arg0 ->
+        btnNewButton.addActionListener(_ ->
         {
             PluginManager.runPlugin(new MaliciousCodeScanner(checkBoxes));
             dispose();
@@ -81,5 +82,6 @@ public class MaliciousCodeScannerOptions extends JFrame
         this.setLocationRelativeTo(null);
     }
 
+    @Serial
     private static final long serialVersionUID = -2662514582647810868L;
 }

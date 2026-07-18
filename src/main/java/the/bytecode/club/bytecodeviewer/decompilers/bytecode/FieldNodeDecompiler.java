@@ -92,7 +92,7 @@ public class FieldNodeDecompiler
             return "";
 
         // hackery delimeters
-        StringBuilder sb = new StringBuilder(tokens.get(0));
+        StringBuilder sb = new StringBuilder(tokens.getFirst());
         for (int i = 1; i < tokens.size(); i++)
         {
             sb.append(" ");

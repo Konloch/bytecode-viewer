@@ -367,7 +367,7 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(new StringSelection(cursorPositionLabel.getText()), null);
         }
-        catch (IllegalStateException ex)
+        catch (IllegalStateException _)
         {
             // ignore issues with clipboard
         }
@@ -380,7 +380,7 @@ public class BinaryStatusPanel extends javax.swing.JPanel implements BinaryStatu
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(new StringSelection(documentSizeLabel.getText()), null);
         }
-        catch (IllegalStateException ex)
+        catch (IllegalStateException _)
         {
             // ignore issues with clipboard
         }

@@ -23,6 +23,7 @@ import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serial;
 
 /**
  * The export as Jar UI.
@@ -54,7 +55,7 @@ public class ExportJar extends JFrame
         scrollPane.setViewportView(manifest);
         getContentPane().add(btnNewButton);
 
-        btnNewButton.addActionListener(arg0 ->
+        btnNewButton.addActionListener(_ ->
         {
             BytecodeViewer.updateBusyStatus(true);
 
@@ -71,5 +72,6 @@ public class ExportJar extends JFrame
         this.setLocationRelativeTo(null);
     }
 
+    @Serial
     private static final long serialVersionUID = -2662514582647810868L;
 }

@@ -138,11 +138,11 @@ public class PluginWriter extends JFrame
         add(area.getScrollPane());
         add(run, BorderLayout.SOUTH);
 
-        menuOpen.addActionListener((l) -> openPlugin());
-        run.addActionListener((l) -> runPlugin());
-        menuRun.addActionListener((l) -> runPlugin());
-        menuSaveAs.addActionListener((l) -> save());
-        menuSave.addActionListener((l) -> save());
+        menuOpen.addActionListener(_ -> openPlugin());
+        run.addActionListener(_ -> runPlugin());
+        menuRun.addActionListener(_ -> runPlugin());
+        menuSaveAs.addActionListener(_ -> save());
+        menuSave.addActionListener(_ -> save());
 
         this.setLocationRelativeTo(null);
     }

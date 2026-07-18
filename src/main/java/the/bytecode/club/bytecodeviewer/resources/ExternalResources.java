@@ -349,7 +349,7 @@ public class ExternalResources
             if (readProcess(p).toLowerCase().contains(matchingText))
                 onMatch.run();
         }
-        catch (Exception ignored)
+        catch (Exception _)
         {
         } //ignore
     }
