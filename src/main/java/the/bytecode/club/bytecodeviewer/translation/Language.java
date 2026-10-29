@@ -69,6 +69,7 @@ public enum Language
     NORWEGIAN("/translations/norwegian.json", "Norsk", "English", "no"),
     POLISH("/translations/polish.json", "Polski", "English", "pl"),
     PORTUGUESE("/translations/portuguese.json", "Português", "English", "pt"),
+    PORTUGUESE_BR("/translations/portuguese-br.json", "Português (Brasil)", "English", "pt-BR", "pt_br"),
     ROMANIAN("/translations/romanian.json", "Română", "English", "ro"),
     RUSSIAN("/translations/russian.json", "русский", "English", "ru"),
     SLOVAK("/translations/slovak.json", "Slovensky", "English", "sk"),
