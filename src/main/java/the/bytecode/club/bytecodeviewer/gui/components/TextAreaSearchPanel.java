@@ -59,11 +59,11 @@ public class TextAreaSearchPanel extends JPanel
         searchPanel.add(Box.createHorizontalStrut(35));
         JButton searchNext = new JButton(IconResources.nextIcon);
         searchPanel.add(searchNext);
-        searchNext.addActionListener(arg0 -> ((SearchableRSyntaxTextArea) textArea).search(searchInput.getText(), true, caseSensitiveSearch.isSelected()));
+        searchNext.addActionListener(_ -> ((SearchableRSyntaxTextArea) textArea).search(searchInput.getText(), true, caseSensitiveSearch.isSelected()));
 
         JButton searchPrev = new JButton(IconResources.prevIcon);
         searchPanel.add(searchPrev);
-        searchPrev.addActionListener(arg0 -> ((SearchableRSyntaxTextArea) textArea).search(searchInput.getText(), false, caseSensitiveSearch.isSelected()));
+        searchPrev.addActionListener(_ -> ((SearchableRSyntaxTextArea) textArea).search(searchInput.getText(), false, caseSensitiveSearch.isSelected()));
 
         searchPanel.add(searchInput);
         searchInput.addKeyListener(new ReleaseKeyListener(keyEvent ->

@@ -88,9 +88,9 @@ public class LDCSearch implements SearchPanel
             final InsnList insnlist = method.instructions;
             for (AbstractInsnNode insnNode : insnlist)
             {
-                if (insnNode instanceof LdcInsnNode)
+                if (insnNode instanceof LdcInsnNode ldcInsnNode)
                 {
-                    final LdcInsnNode ldcObject = ((LdcInsnNode) insnNode);
+                    final LdcInsnNode ldcObject = ldcInsnNode;
                     final String ldcString = ldcObject.cst.toString();
 
                     //TODO re-add this at some point when the search pane is redone

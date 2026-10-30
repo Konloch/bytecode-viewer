@@ -41,7 +41,7 @@ public class New extends ContextMenuItem
 {
     public New()
     {
-        super(ContextMenuType.RESOURCE_LIST, ((tree, selPath, result, menu) ->
+        super(ContextMenuType.RESOURCE_LIST, ((_, selPath, _, menu) ->
         {
             JMenu quickOpen = new JMenu(TranslatedStrings.NEW.toString());
             quickOpen.add(createMenu("Class", FileType.CLASS, selPath));
@@ -68,7 +68,7 @@ public class New extends ContextMenuItem
         String path = buildPath(2, selPath.getPathCount(), selPath, separator);
         String containerName = selPath.getPathComponent(1).toString();
 
-        menu.addActionListener((e) ->
+        menu.addActionListener(_ ->
         {
             String newPath = BytecodeViewer.showInput("Name", fileType == FileType.CLASS ? "Enter the class name" : "Enter the file name", FilenameUtils.removeExtension(path));
 
@@ -168,6 +168,6 @@ public class New extends ContextMenuItem
     {
         CLASS,
         FILE,
-        DIRECTORY;
+        DIRECTORY
     }
 }

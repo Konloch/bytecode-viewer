@@ -96,7 +96,7 @@ public class UpdateCheck implements Runnable
     {
         try
         {
-            HTTPRequest r = new HTTPRequest(new URL("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION"));
+            HTTPRequest r = new HTTPRequest(new URI("https://raw.githubusercontent.com/Konloch/bytecode-viewer/master/VERSION").toURL());
             final Version version = Version.parseVersion(r.readSingle());
             final Version localVersion = Version.parseVersion(VERSION);
 
@@ -106,7 +106,7 @@ public class UpdateCheck implements Runnable
                 if (Version.compare(localVersion, version) > 0)
                     return;
             }
-            catch (Exception ignored)
+            catch (Exception _)
             {
             }
 
@@ -207,7 +207,7 @@ public class UpdateCheck implements Runnable
                 }
 
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException _)
             {
                 //ignore 404s
             }
@@ -228,7 +228,7 @@ public class UpdateCheck implements Runnable
 
     private static boolean validURl(String url) throws Exception
     {
-        HTTPRequest request = new HTTPRequest(new URL(url));
+        HTTPRequest request = new HTTPRequest(new URI(url).toURL());
         request.readSingle();
         return request.getLastStatusCode() == 200;
     }
@@ -239,7 +239,7 @@ public class UpdateCheck implements Runnable
         BytecodeViewer.showMessage("Downloading the jar in the background, when it's finished you will be alerted with another message box."
             + NL + NL + "Expect this to take several minutes.");
 
-        try (InputStream is = new URL(url).openConnection().getInputStream(); FileOutputStream fos = new FileOutputStream(saveTo))
+        try (InputStream is = new URI(url).toURL().openConnection().getInputStream(); FileOutputStream fos = new FileOutputStream(saveTo))
         {
             byte[] buffer = new byte[8192];
             int len;
@@ -256,7 +256,7 @@ public class UpdateCheck implements Runnable
                 if (mbs % 5 == 0 && mbs != 0)
                 {
                     if (!flag)
-                        System.out.println("Downloaded " + mbs + "MBs so far");
+                        IO.println("Downloaded " + mbs + "MBs so far");
                     flag = true;
                 }
                 else

@@ -81,7 +81,7 @@ public class TabComponent extends JPanel
                 closePane();
         }));
 
-        closeTab.addActionListener(e ->
+        closeTab.addActionListener(_ ->
         {
             if (pane.indexOfTabComponent(TabComponent.this) != -1)
             {
@@ -90,7 +90,7 @@ public class TabComponent extends JPanel
             }
         });
 
-        closeAllTabs.addActionListener(e ->
+        closeAllTabs.addActionListener(_ ->
         {
             while (true)
             {
@@ -135,8 +135,8 @@ public class TabComponent extends JPanel
         if(viewport != null)
         {
             for (Component component : viewport.getComponents())
-                if (component instanceof ScrollableTabPanel)
-                    return (ScrollableTabPanel) component;
+                if (component instanceof ScrollableTabPanel panel)
+                    return panel;
         }
 
         return null;
@@ -150,8 +150,8 @@ public class TabComponent extends JPanel
     private DarkScrollableTabViewport viewport()
     {
         for (Component component : pane.getComponents())
-            if (component instanceof DarkScrollableTabViewport)
-                return (DarkScrollableTabViewport) component;
+            if (component instanceof DarkScrollableTabViewport viewport)
+                return viewport;
 
         return null;
     }
@@ -165,12 +165,11 @@ public class TabComponent extends JPanel
     {
         for (Component component : pane.getComponents())
         {
-            if (component instanceof DarkScrollableTabViewport)
+            if (component instanceof DarkScrollableTabViewport viewport)
             {
-                DarkScrollableTabViewport viewport = (DarkScrollableTabViewport) component;
                 for (MouseListener mouseListener : viewport.getMouseListeners())
-                    if (mouseListener instanceof DarkScrollTabbedPaneHandler)
-                        return (DarkScrollTabbedPaneHandler) mouseListener;
+                    if (mouseListener instanceof DarkScrollTabbedPaneHandler handler)
+                        return handler;
             }
         }
 

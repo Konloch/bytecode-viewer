@@ -115,9 +115,8 @@ public class MethodCallSearch implements SearchPanel
             final InsnList insnlist = method.instructions;
             for (AbstractInsnNode insnNode : insnlist)
             {
-                if (insnNode instanceof MethodInsnNode)
+                if (insnNode instanceof MethodInsnNode min)
                 {
-                    final MethodInsnNode min = (MethodInsnNode) insnNode;
 
                     if (exact)
                     {

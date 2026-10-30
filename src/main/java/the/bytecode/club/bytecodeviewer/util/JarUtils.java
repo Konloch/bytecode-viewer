@@ -104,7 +104,7 @@ public class JarUtils
                     }
 
                 }
-                catch (java.io.EOFException | ZipException e)
+                catch (java.io.EOFException | ZipException _)
                 {
                     //ignore cause apache unzip
                 }
@@ -212,7 +212,7 @@ public class JarUtils
                         }
                         else
                         {
-                            System.out.println(jarFile + ">" + name + ": Header does not start with CAFEBABE, ignoring.");
+                            IO.println(jarFile + ">" + name + ": Header does not start with CAFEBABE, ignoring.");
                         }
                     }
 

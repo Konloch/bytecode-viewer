@@ -53,7 +53,7 @@ public class MethodsRenderer extends JLabel implements ListCellRenderer<Object>
         {
             methods = methodParsers.get(bytecodeViewPanel.decompiler.ordinal());
         }
-        catch (ArrayIndexOutOfBoundsException e)
+        catch (ArrayIndexOutOfBoundsException _)
         {
             methods = methodParsers.get(bytecodeViewPanel.panelIndex);
         }
